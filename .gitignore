@@ -26,3 +26,14 @@
 *.exe
 *.out
 *.app
+src/khunphan
+
+# Autotools files
+Makefile
+stamp-h1
+config.h.in~
+config.status
+config.log
+autom4te.cache
+libtool
+.deps

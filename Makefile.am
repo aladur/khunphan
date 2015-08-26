@@ -1,30 +1,8 @@
-####### kdevelop will overwrite this part!!! (begin)##########
+SUBDIRS = src
 
-SUBDIRS = khunphan admin 
+EXTRA_DIST = NEWS AUTHORS COPYING ChangeLog INSTALL README TODO \
+             KhunPhan.dsp KhunPhan.dsw StateDiagram.fig StateDiagram.pdf \
+             khunphan.lsm
 
-EXTRA_DIST = khunphan.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO KhunPhan.dsp KhunPhan.dsw StateDiagram.fig StateDiagram.pdf khunphan.lsm 
-
-####### kdevelop will overwrite this part!!! (end)############
-# not a GNU package. You can remove this line, if
-# have all needed files, that a GNU package needs
-AUTOMAKE_OPTIONS = foreign
-
-$(top_srcdir)/configure.in: configure.in.in $(top_srcdir)/subdirs
-	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common configure.in ;
-
-$(top_srcdir)/subdirs:
-	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common subdirs
-
-$(top_srcdir)/acinclude.m4: $(top_srcdir)/admin/acinclude.m4.in $(top_srcdir)/admin/libtool.m4.in
-	@cd $(top_srcdir) && cat admin/acinclude.m4.in admin/libtool.m4.in > acinclude.m4
-
-MAINTAINERCLEANFILES = subdirs configure.in acinclude.m4 configure.files
-
-package-messages:
-	$(MAKE) -f admin/Makefile.common package-messages
-
-dist-hook:
-	cd $(top_distdir) && perl admin/am_edit -padmin
-	cd $(top_distdir) && $(MAKE) -f admin/Makefile.common subdirs
-
+AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gzip
 
