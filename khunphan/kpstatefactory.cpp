@@ -19,6 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include <stdio.h>
+
 #include "misc1.h"
 #include "kpstatefactory.h"
 #include "kpstate.h"
@@ -40,6 +42,7 @@
 #include "kpstatetutorial3.h"
 #include "kpstatetutorial4.h"
 #include "kpstatescorelist.h"
+#include "kpstatelighttest.h"
 
 
 KPstateFactory *KPstateFactory::instance = NULL;
@@ -79,8 +82,10 @@ KPstate *KPstateFactory::CreateState(int stateID)
     case KPState_Tutorial3:       return new KPstateTutorial3;
     case KPState_Tutorial4:       return new KPstateTutorial4;
     case KPState_ScoreList:       return new KPstateScoreList;
+    case KPState_LightTest:       return new KPstateLightTest;
     case KPState_Shutdown:        return NULL; // pseudo state to shutdown the Application
   }
+  DEBUGPRINT1("*** Error in State-factory: There is no state with ID %d defined\n", stateID);
   return NULL;
 }
 

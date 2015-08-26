@@ -32,9 +32,6 @@
   #pragma warning (disable: 4786)
 #endif
 #include <vector>
-#ifdef HAVE_CONFIG_H
-  #include "config.h"
-#endif
 #include "bstring.h"
 #include "misc1.h"
 
@@ -87,7 +84,7 @@ public:
    int SoundVolume;
    int MusicVolume;
 
-   uint64_t     SavedGame;
+   QWord     SavedGame;
    unsigned int PlayTime;
    unsigned int Moves;
    unsigned int MovesWithHint;

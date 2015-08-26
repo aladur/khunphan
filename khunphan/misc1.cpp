@@ -24,11 +24,12 @@
 #include <windows.h>
 #endif
 #include <ctype.h>
-#include <stdarg.h>
+#ifdef HAVE_STDARG_H
+  #include <stdarg.h>
+#endif
 #include <stdio.h>
 #include "misc1.h"
 #include "bstring.h"
-#include "config.h"
 
 
 void message(tMsgType type, const char *format, ...)
@@ -41,9 +42,9 @@ void message(tMsgType type, const char *format, ...)
 	va_end(arg_ptr);
 #ifdef LINUX
 	switch (type) {
-	case mtError:   fprintf(stderr, msg); break;
-	case mtMessage: fprintf(stdout, msg); break;
-	case mtWarning: fprintf(stderr, msg); break;
+	case mtError:   fprintf(stderr, "%s", (const char *)msg); break;
+	case mtMessage: fprintf(stdout, "%s", (const char *)msg); break;
+	case mtWarning: fprintf(stderr, "%s", (const char *)msg); break;
 	}
 #endif
 #ifdef WIN32

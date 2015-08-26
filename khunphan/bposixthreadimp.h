@@ -1,8 +1,8 @@
 /*
-    bthreadimp.h
+    bposixthreadimp.h
 
 
-    Basic class defining a platform independent thread interface
+    Basic class for a posix thread implementation
     Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
@@ -20,24 +20,35 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef BTHREADIMP_H
-#define BTHREADIMP_H
+#ifndef BPOSIXTHREADIMP_H
+#define BPOSIXTHREADIMP_H
 
-#include "misc1.h"
-#include "bthread.h"
+#include <misc1.h>
+#ifdef HAVE_PTHREAD
+#include <pthread.h>
+#else
+#error libpthread or header file pthread.h is missing
+#endif
+#include "bthreadimp.h"
 
-// This class describes a platform independant Thread interface
-// According to the Bridge or Body/Handle Pattern
 
-class BThreadImp
+class BThread;
+
+class BPosixThreadImp : public BThreadImp
 {
 public:
-	BThreadImp();
-	virtual ~BThreadImp();
-  virtual bool Start(BThread *pThread) = 0;
-  virtual void Join() = 0;
-  virtual bool IsFinished() = 0;
-  virtual void Exit(void *retval = NULL) = 0;
+	BPosixThreadImp();
+	virtual ~BPosixThreadImp();
+  bool Start(BThread *pThread);
+  void Join();
+  bool IsFinished();
+  void Exit(void *retval = NULL);
+private:
+  static void *RunImp(BPosixThreadImp *p);
+  BThread *pThreadObj;
+  bool finished;
+  pthread_t thread;
 };
 
 #endif
+

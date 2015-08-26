@@ -118,6 +118,7 @@ public:
   friend class KPstateTutorial3;
   friend class KPstateTutorial4;
   friend class KPstateScoreList;
+  friend class KPstateLightTest;
   
   KPmenu();
   ~KPmenu();

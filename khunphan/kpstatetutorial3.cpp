@@ -102,7 +102,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext)
                 // Klicked right token, but did not move with the mouse
                 // This can only happen in Tutorial 4
                 menu.TextfeldArray[T_TUTORIAL4_MOVE  ]->Positioniere(1.25,y,0.5,A_LINKS); y -= 0.5;
-                menu.TextfeldArray[T_TUTORIAL34_AGAIN]->Positioniere(1.25,y,0.5,A_LINKS); y -= 0.5;
+                menu.TextfeldArray[T_TUTORIAL34_AGAIN]->Positioniere(1.25,y,0.5,A_LINKS);
                 break;
     case KP_TUT_STARTED:
     default:    break;
@@ -128,7 +128,7 @@ void  KPstateTutorial3::MouseClick (KPstateContext *pContext, int button, int st
 
 void  KPstateTutorial3::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
 {
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y)
+  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 
   switch (key)
   {

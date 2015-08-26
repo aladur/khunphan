@@ -40,9 +40,9 @@ KPmenu::~KPmenu()
   tTextfeldArray::iterator tit;
   tSchildArray::iterator sit;
 
-  for (tit = TextfeldArray.begin(); tit != TextfeldArray.end(); tit++ )
+  for (tit = TextfeldArray.begin(); tit != TextfeldArray.end(); ++tit)
     delete tit->second;
-  for (sit = SchildArray.begin(); sit != SchildArray.end(); sit++ )
+  for (sit = SchildArray.begin(); sit != SchildArray.end(); ++sit)
     delete sit->second;
 }
 
@@ -78,12 +78,12 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest, 
   tTextfeldArray::iterator it;  
   //int i=0;
 
-  for (it = TextfeldArray.begin(); it != TextfeldArray.end(); it++ ) {
+  for (it = TextfeldArray.begin(); it != TextfeldArray.end(); ++it) {
     it->second->GeneriereDisplayList();
     //if ((++i % 10) == 0) { printf("."); fflush(stdout); }
   }
 
-  TextfeldArray[T_FPS]->FormatText(NULL, 0);
+  UpdateFPS(0);
 
   progressBar.Initialize();
 
@@ -104,12 +104,10 @@ void KPmenu::Update(const char *TextureName, int TextureSize, bool Nearest, bool
 
 bool KPmenu::LoadLanguage(int Language)
 {
-  char wort[MAX_LINE];
   char temp[MAX_LINE];
-  int  i;
   int  index;
 
-  FILE *f;
+  FILE *f = NULL;
   BString file;
 
   if (TextfeldArray.find(Language) != TextfeldArray.end())
@@ -124,8 +122,12 @@ bool KPmenu::LoadLanguage(int Language)
   f=fopen(file, "r");
 #endif
   if (f) {
+    char wort[MAX_LINE];
+
     GLint nummer;
     while (!feof(f)) {
+      int  i;
+
       fgets(temp,MAX_LINE,f);
       i = strlen(temp);
       while (i && (temp[--i] == 0x0a || temp[i] == 0x0d || temp[i] == ' ' || temp[i] == '\t')) temp[i]=0;
@@ -180,13 +182,13 @@ void KPmenu::Draw()
 
   tSchildArray::iterator sit;
 
-  for (sit = SchildArray.begin(); sit != SchildArray.end(); sit++ )
+  for (sit = SchildArray.begin(); sit != SchildArray.end(); ++sit)
     if (sit->second != SchildArray[SHLD_SHADER])
 	  sit->second->male();
 
   tTextfeldArray::iterator tit;
 
-  for (tit = TextfeldArray.begin(); tit != TextfeldArray.end(); tit++ )
+  for (tit = TextfeldArray.begin(); tit != TextfeldArray.end(); ++tit)
     tit->second->male();
 
   glDisable(GL_TEXTURE_2D);

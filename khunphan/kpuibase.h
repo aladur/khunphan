@@ -2,7 +2,7 @@
     kpuibase.h
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Copyright (C) 2001-2004  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #ifndef KPUIBASE_H
 #define KPUIBASE_H
 
+#include "misc1.h"
 #include "KPstateContext.h"
 #include "kpmenu.h"
 #include "KPtime.h"
@@ -51,7 +52,6 @@ enum tKPSoundIDs {
   KP_SND_MAX            = 7
 };
 
-
 class KPUIBase : public KPstateContext {
 public:
   // public interface
@@ -63,6 +63,7 @@ public:
   virtual void MainLoop() = 0;
   virtual void Close() = 0;
   virtual int  GetValue(int what) const = 0;
+  virtual bool CanToggleFullScreen() const { return false; };
   
   void UpdateDataModel(KPnode *pRoot);
   bool IsInitialized();

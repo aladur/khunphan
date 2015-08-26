@@ -22,6 +22,10 @@
 #ifndef KPGLUTUSERINTERFACE_H
 #define KPGLUTUSERINTERFACE_H
 
+#include "misc1.h"
+
+#if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
+
 #include "kpuibase.h"
 #include "kpconfig.h"
 #include "kpstate.h"
@@ -37,6 +41,7 @@ public:
   void MainLoop();
   void Close();
   int  GetValue(int what) const;
+  bool CanToggleFullScreen() const;
 
 public:
   // static member functions for event handling
@@ -63,4 +68,5 @@ protected:
   int  windowID;  // ID of GLUT window
 };
 
+#endif
 #endif

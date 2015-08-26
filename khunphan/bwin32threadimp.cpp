@@ -2,8 +2,8 @@
     bwin32threadimp.cpp
 
 
-    Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Basic class for a Win32 thread implementation
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,9 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#ifdef WIN32
+#include "misc1.h"
+
 #ifdef _POSIX_
 #undef _POSIX_
 #endif
@@ -28,28 +31,42 @@
 #include "bwin32threadimp.h"
 #include "bthread.h"
 
-#ifndef THREAD_STACK_SIZE 
-#define THREAD_STACK_SIZE 16384
+#ifndef _TTHREADPROC_DEFINED_
+typedef  unsigned long ( __stdcall *tThreadProc )( void * );
+#define _TTHREADPROC_DEFINED_
 #endif
 
-typedef  void ( __cdecl *tThreadProc )( void * );
-
-BWin32ThreadImp::BWin32ThreadImp() : pThreadObj(NULL), finished(false), thread(-1)
+BWin32ThreadImp::BWin32ThreadImp() : pThreadObj(NULL), finished(false),
+	hThread(NULL), finishedEvent(NULL)
 {
+	finishedEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 }
 
 BWin32ThreadImp::~BWin32ThreadImp()
 {
+	if (finishedEvent != NULL)
+		CloseHandle(finishedEvent);
+	finishedEvent = NULL;
+	if (hThread != NULL)
+		CloseHandle(hThread);
+	hThread = NULL;
+}
+
+void BWin32ThreadImp::Join()
+{
+	if (finishedEvent != NULL)
+		WaitForSingleObject(finishedEvent, INFINITE);
 }
 
 bool BWin32ThreadImp::Start(BThread *aThreadObject)
 {
-  unsigned stackSize = THREAD_STACK_SIZE;
+  DWORD threadId; // necessary for Win95/98/ME
 
   pThreadObj = aThreadObject;
-  unsigned long thread = _beginthread((tThreadProc)BWin32ThreadImp::RunImp, stackSize, this);
+  hThread = CreateThread(NULL, 0,
+		(tThreadProc)BWin32ThreadImp::RunImp, this, 0, &threadId);
   // return true if thread successfully has been created
-  return (thread != -1);
+  return (hThread != NULL);
 }
 
 bool BWin32ThreadImp::IsFinished()
@@ -61,16 +78,24 @@ void BWin32ThreadImp::Exit(void *)
 {
   // Attention: this function call will never return!
   finished = true;
-  _endthread();  
+  ExitThread(0);
 }
 
 // this static function is the thread procedure to
 // be called with Start(...)
-void BWin32ThreadImp::RunImp(BWin32ThreadImp *p)
+unsigned int BWin32ThreadImp::RunImp(BWin32ThreadImp *p)
 {
+  if (p != NULL)
+  {
   p->finished = false;
-  if (p != NULL && p->pThreadObj != NULL)
+    if (p->pThreadObj != NULL)
     p->pThreadObj->Run();
   p->finished = true;
-  p->thread = -1;
+    if (p->finishedEvent != NULL)
+      SetEvent(p->finishedEvent);
+  }
+  return 0;
 }
+
+#endif
+

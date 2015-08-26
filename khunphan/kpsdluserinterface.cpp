@@ -2,7 +2,7 @@
     kpsdluserinterface.cpp
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Copyright (C) 2001-2004  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #endif
 #include "misc1.h"
 #ifdef HAVE_UNISTD_H
+  #include <sys/types.h>
   #include <unistd.h>  // needed for access
 #endif
 #include <limits.h>
@@ -53,6 +54,12 @@ KPSdlUserInterface::KPSdlUserInterface() : screen(NULL), sound(NULL), soundSourc
 
 KPSdlUserInterface::~KPSdlUserInterface()
 {
+  if ( screen )
+  {
+     SDL_Quit();
+     screen = NULL;
+  }
+
   if (sound != NULL)
   {
     for (int i = 0; i < KP_SND_MAX; i++)
@@ -80,9 +87,14 @@ void KPSdlUserInterface::InitializeEvents()
   // nothing to do here
 }
 
+bool KPSdlUserInterface::CanToggleFullScreen() const
+{
+  return true;
+}
+
 void KPSdlUserInterface::SetWindowMode(bool /* FullScreen */) const
 {
-  if (screen == NULL)
+  if (screen == NULL || !CanToggleFullScreen())
     return;
 
   SDL_WM_ToggleFullScreen(screen);
@@ -119,7 +131,6 @@ bool KPSdlUserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     SDL_Quit();
     return false;
   }
-  atexit(SDL_Quit);
 
   sprintf(temp, "%s V%s", PACKAGE, VERSION);
   SDL_WM_SetCaption(temp, temp);
@@ -138,6 +149,8 @@ void KPSdlUserInterface::MainLoop()
   while ( ! done )
   {
     SDL_Event event;
+
+    memset(&event, 0, sizeof(event));
 
     Idle();
     
@@ -195,63 +208,54 @@ void KPSdlUserInterface::MainLoop()
 bool KPSdlUserInterface::mapKey(int mod, int sym, unsigned char *pKey)
 {
   // this is only a hack for key mapping compatible to GLUT
-  if (sym == SDLK_LCTRL || sym == KMOD_RCTRL  || sym == KMOD_CTRL  ||
-  sym == SDLK_LSHIFT    || sym == KMOD_RSHIFT || sym == KMOD_SHIFT ||
-  sym == SDLK_LSUPER    || sym == KMOD_CAPS   || sym == KMOD_RALT  ||
-  sym == SDLK_LALT      || sym == SDLK_RSUPER )
-  {
-    return false;
-  }
-  if (mod == KMOD_LCTRL ||
-      mod == KMOD_RCTRL ||
-      mod == KMOD_CTRL)
+  if (mod & (KMOD_LCTRL | KMOD_RCTRL | KMOD_CTRL))
     {
     *pKey = (unsigned char)sym & 0x1F;
     return true;
   }
-  if (mod == KMOD_NONE  &&
-      sym >= SDLK_SPACE &&
-      sym <= SDLK_z)
-    {
-    *pKey = sym;
-    return true;
-  }
-  if ((mod == KMOD_LSHIFT ||
-      mod == KMOD_RSHIFT ||
-      mod == KMOD_SHIFT) &&
-      sym >= SDLK_a  &&
-      sym <= SDLK_z)
+  if ((mod & (KMOD_LSHIFT | KMOD_RSHIFT | KMOD_SHIFT)) &&
+       sym >= SDLK_a  && sym <= SDLK_z)
     {
     *pKey = sym - 32;
     return true;
   }
-  if (mod == KMOD_NONE &&
-      sym == SDLK_ESCAPE)
+  if (mod & (KMOD_LSHIFT | KMOD_RSHIFT | KMOD_SHIFT |
+             KMOD_LCTRL  | KMOD_RCTRL  |
+             KMOD_LALT   | KMOD_RALT))
+    return false;
+
+  if (sym == SDLK_ESCAPE)
   {
     *pKey = 0x1b;
     return true;
   }
-  if (mod == KMOD_NONE &&
-      sym == SDLK_BACKSPACE)
+  if (sym == SDLK_BACKSPACE)
   {
     *pKey = 0x08;
     return true;
   }
-  if (mod == KMOD_NONE &&
-      sym == SDLK_RETURN)
+  if (sym == SDLK_RETURN)
   {
     *pKey = 0x0D;
     return true;
   }
+  if (sym >= SDLK_SPACE && sym <= SDLK_z)
+  {
+    *pKey = sym;
   return true;
+  }
+  return false;
 }
   
 void KPSdlUserInterface::Close()
 {
+  if ( screen )
+  {
+     SDL_Quit();
   screen = NULL;
+  }
   KPConfig::Instance().WriteToFile();
-  // The Destruction of the singleton instances
-  // is done with the atexit() function
+
   exit(0);
 }
 
@@ -392,7 +396,7 @@ void KPSdlUserInterface::LoadNextMusic()
 	std::vector<BString>::iterator it = musicFiles.begin();
     while (it != musicFiles.end() && index != musicIndex)
     {
-      it++; index++;
+      ++it; ++index;
     }
     if (it == musicFiles.end())
     {

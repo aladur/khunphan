@@ -33,12 +33,13 @@
 43 Strg+O
 44 p, P
 45 1...7
+46 Strg+F
 
 50 Aktuellen Vorgang abbrechen
 51 Info zur OpenGL Schnittstelle
 52 Spiel unterbrechen oder fortsetzen
 53 Kameraposition ändern
-
+54 Umschaltung Fenster-, Vollbildmodus
 // Allgemein
 100 Zurück
 101 Übernehmen

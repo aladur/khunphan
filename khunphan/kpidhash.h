@@ -35,21 +35,21 @@ class KPIdHash {
 	friend class KPnode;
 public:
   struct KPIdHashEntry {
-    uint64_t	data;
+    QWord	data;
     KPIdHashEntry *pnext;
     void *pObject;
   };
 private:
-	tIdHash	GetHash(uint64_t d) const;
+	tIdHash	GetHash(QWord d) const;
 	KPIdHashEntry **hashTable;
 	void DeleteEntry(KPIdHashEntry *pEntry);	
 protected:
-	void *GetObjectWith(const uint64_t &d) const;
+	void *GetObjectWith(const QWord &d) const;
 public:
 	KPIdHash();
   virtual ~KPIdHash();
-	void Add(const uint64_t &d, void *pObj = NULL);
-	bool Contains(const uint64_t &d) const;
+	void Add(const QWord &d, void *pObj = NULL);
+	bool Contains(const QWord &d) const;
 	void ClearAll(void);
 	void fprintf(FILE *fp) const;
 	void Check(FILE *fp) const;

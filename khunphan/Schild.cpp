@@ -16,6 +16,7 @@
 #include <limits.h>
 #include "misc1.h"
 #ifdef HAVE_UNISTD_H
+  #include <sys/types.h>
   #include <unistd.h>  // needed for access
 #endif
 #include "kpconfig.h"
@@ -45,18 +46,23 @@ bool Schild::Initialisiere(const char     *TextureName,
   if (BTexture::GetExpToBase2(TextureSize) == -1)
     return false;
 
-  BTexture *pTexture = new BTexture;
+  BTexture *pTexture = NULL;
   BString file1, file2;
   const char *texels;
 
   file1 = pConfig->GetDirectory(KP_TEXTURE_DIR) + TextureName + PATHSEPARATORSTRING + Name + ".png";
   file2 = pConfig->GetDirectory(KP_TEXTURE_DIR) + Name + ".png";
 
-  if (!always && !access(file1, R_OK) && textureSource == 1)
+  if (!always)
+  {
+    if ((!always && !access(file1, R_OK) && textureSource == 1) ||
+        (!always && !access(file2, R_OK) && textureSource == 2))
+    {
     return true; // texture from file1 already loaded
-  if (!always && !access(file2, R_OK) && textureSource == 2)
-    return true; // texture from file2 already loaded
+    }
+  }
 
+  pTexture = new BTexture;
 
     // TEX_WITH_ALPHA
   if ((texels = pTexture->ReadTextureFromFile(file1, withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)

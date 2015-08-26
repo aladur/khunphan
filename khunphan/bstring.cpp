@@ -2,8 +2,8 @@
     bstring.cpp
 
 
-    FLEXplorer, An explorer for any FLEX file or disk container
-    Copyright (C) 1998-2000  W. Schwotzer
+    Basic class containing a string implementation
+    Copyright (C) 1998-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,14 +23,15 @@
 #include "misc1.h"
 #include <ctype.h>
 #include <stdio.h>
+#include <limits.h>
 
 #include "bstring.h"
 
 const int BString::INVALID_STR         = -1;
 const int BString::STRING_DEFAULT_SIZE = 16;
 
-#if defined (WIN32) && !defined(_MSC_VER)
-extern int vsnprintf(char *buf, size_t size, const char *format, va_list args);
+#ifdef __GNUC__
+//extern int vsnprintf(char *buf, size_t size, const char *format, va_list args);
 #endif
 
 void BString::initForChar(const char c)
@@ -198,7 +199,10 @@ void BString::upcase(void)
 
 	p = &str[0];
 	while (*p != '\0')
-		*(p++) = toupper(*p);
+	{
+		*p = toupper(*p);
+		p++;
+	}
 } 
 
 void BString::downcase(void)
@@ -207,7 +211,102 @@ void BString::downcase(void)
 	
 	p = &str[0];
 	while (*p != '\0')
-		*(p++) = tolower(*p);
+	{
+		*p = tolower(*p);
+		p++;
+	}
+} 
+
+bool BString::matches(const char *pattern, bool ignorecase /* = false */ ) const
+{
+	const char *p_pat = pattern;
+	const char *p_src = str;
+	char char_pat     = '*'; // prepare for first while loop
+	int min = 0;
+	int max = 0;
+	int notmatched =  0;
+
+	if (pattern == NULL)
+		return false;
+
+	while (*p_src != '\0')
+	{
+		char char_src = *p_src;
+		if (ignorecase)
+			char_src = tolower(char_src);
+
+		while (notmatched == 0 && char_pat != '\0')
+		{
+			char_pat = *p_pat;
+			p_pat++;
+			if (char_pat == '*')
+			{
+				// wildchard for any char
+				max = INT_MAX;
+				continue;
+			} else
+			if (char_pat == '?')
+			{
+				// wildchard for exactly one char
+				min++;
+				if (max < INT_MAX)
+					max++;
+				continue;
+			} else
+			if (char_pat != '\0')
+			{
+				// any other character
+				if (ignorecase)
+					char_pat = tolower(char_pat);
+				break;
+			}
+		}
+		if (char_src == char_pat)
+		{
+			if (notmatched < min || notmatched > max)
+				return false;
+			notmatched = 0;
+			min = max = 0;
+		} else {
+			notmatched++;
+			if (notmatched > max)
+				return false;
+		}
+		p_src++;
+	}
+	if (notmatched < min || notmatched > max)
+		return false;
+	return (char_pat == '\0' && notmatched > 0) || //pattern ends with ? or *
+		(*p_pat == '\0' && notmatched == 0); // pattern end with any char
+}
+
+bool BString::multimatches(const char *multipattern,
+			const char delimiter /* = ';'*/,
+			bool ignorecase /* = false */) const
+
+{
+	int pos;
+
+	if (multipattern == NULL)
+		return false;
+
+	pos = 0;
+	while (multipattern[pos] != '\0')
+	{
+		int begin = pos;
+		while (multipattern[pos] != '\0' && (multipattern[pos] != delimiter))
+			pos++;
+		BString *pattern = new BString(&multipattern[begin], pos - begin);
+		if (matches(*pattern, ignorecase))
+		{
+			delete pattern;
+			return true;
+		}
+		delete pattern;
+		if (multipattern[pos] == delimiter)
+			pos++;
+	}
+	return false;
 } 
 
 char BString::firstchar(void) const
@@ -246,14 +345,10 @@ int BString::printf(const char *format, ...)
 			sz = size;
 		}
 		va_start(arg_ptr, format);
-#ifdef WIN32
 #ifdef _MSC_VER
 		res = _vsnprintf(str, sz, format, arg_ptr);
-#else
-		vsprintf(str, format, arg_ptr);
-		res = 1;
 #endif
-#else
+#ifdef __GNUC__
 		res = vsnprintf(str, sz, format, arg_ptr);
 #endif
 		va_end(arg_ptr);
@@ -279,14 +374,10 @@ int BString::vsprintf(const char *format, va_list arg_ptr)
 			str = newS;
 			sz = size;
 		}
-#ifdef WIN32
 #ifdef _MSC_VER
 		res = _vsnprintf(str, sz, format, arg_ptr);
-#else
-		vsprintf(str, format, arg_ptr);
-		res = 1;
 #endif
-#else
+#ifdef __GNUC__
 		res = vsnprintf(str, sz, format, arg_ptr);
 #endif
 		if (res >= 0 && res > sz)
@@ -315,9 +406,9 @@ BString& BString::operator += (const unsigned int ui)
 
 void BString::replaceall(const char oldC, const char newC)
 {
-	if (newC == 0)
+	if (oldC == '\0' || newC == '\0')
 		return;
-	for (int i = 0; i < sz && str[i]; i++)
+	for (int i = 0; i < sz && str[i] != '\0'; i++)
 		if (str[i] == oldC)
 			str[i] = newC;
 }

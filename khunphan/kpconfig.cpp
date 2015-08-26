@@ -26,12 +26,13 @@
   #include <windows.h>
 #endif
 #include "misc1.h"
-#ifdef LINUX
+#ifdef HAVE_UNISTD_H
+  #include <sys/types.h>
+    #include <unistd.h>
+#endif
+#ifdef HAVE_SYS_STAT_H
   #include <sys/types.h>
   #include <sys/stat.h>
-  //#ifdef HAVE_UNISTD_H
-    #include <unistd.h>
-  //#endif
 #endif
 #include <stdio.h>
 #include <libxml/tree.h>
@@ -150,7 +151,7 @@ std::vector<BString> KPConfig::GetTextureNames() const
 void KPConfig::WriteToFile()
 {
     xmlDocPtr doc;
-    xmlNodePtr tree, subtree, subtree1;
+    xmlNodePtr tree, subtree;
     xmlChar buffer[128];
 
     doc = xmlNewDoc((const xmlChar *)"1.0");
@@ -160,46 +161,46 @@ void KPConfig::WriteToFile()
     // Display Settings
     tree = xmlNewChild(doc->children, NULL, (xmlChar *)"DisplaySettings", NULL );
     sprintf((char *)buffer, "%s", (const char *)TextureName);
-                                                        subtree = xmlNewChild( tree, NULL, (xmlChar *)"TextureName",      buffer );
-    sprintf((char *)buffer, "%d", TextureSize);         subtree = xmlNewChild( tree, NULL, (xmlChar *)"TextureSize",      buffer );
-    sprintf((char *)buffer, "%d", MenuTextureSize);     subtree = xmlNewChild( tree, NULL, (xmlChar *)"MenuTextureSize",  buffer );
-    sprintf((char *)buffer, "%d", Nearest ? 1 : 0);     subtree = xmlNewChild( tree, NULL, (xmlChar *)"TextureType",      buffer );
-    sprintf((char *)buffer, "%d", ScreenXResolution);   subtree = xmlNewChild( tree, NULL, (xmlChar *)"ScreenXResolution",buffer );
-    sprintf((char *)buffer, "%d", ColorDepth);          subtree = xmlNewChild( tree, NULL, (xmlChar *)"ColorDepth",       buffer );
-    sprintf((char *)buffer, "%d", Reflections ? 1 : 0); subtree = xmlNewChild( tree, NULL, (xmlChar *)"Reflections",      buffer );
-    sprintf((char *)buffer, "%d", DisplayFPS ? 1 : 0);  subtree = xmlNewChild( tree, NULL, (xmlChar *)"DisplayFPS",       buffer );
-    sprintf((char *)buffer, "%d", AmbientLight ? 1 : 0);subtree = xmlNewChild( tree, NULL, (xmlChar *)"AmbientLight",     buffer );
-    sprintf((char *)buffer, "%d", LightSources);        subtree = xmlNewChild( tree, NULL, (xmlChar *)"LightSources",     buffer );
-    sprintf((char *)buffer, "%d", Shadows ? 1 : 0);     subtree = xmlNewChild( tree, NULL, (xmlChar *)"Shadows",          buffer );
-    sprintf((char *)buffer, "%d", FullScreen ? 1 : 0);  subtree = xmlNewChild( tree, NULL, (xmlChar *)"FullScreen",       buffer );
-    sprintf((char *)buffer, "%d", UserInterface);       subtree = xmlNewChild( tree, NULL, (xmlChar *)"UserInterface",    buffer );
-    sprintf((char *)buffer, "%d", CameraPosition);      subtree = xmlNewChild( tree, NULL, (xmlChar *)"CameraPosition",   buffer );
+                                                        xmlNewChild( tree, NULL, (xmlChar *)"TextureName",      buffer );
+    sprintf((char *)buffer, "%d", TextureSize);         xmlNewChild( tree, NULL, (xmlChar *)"TextureSize",      buffer );
+    sprintf((char *)buffer, "%d", MenuTextureSize);     xmlNewChild( tree, NULL, (xmlChar *)"MenuTextureSize",  buffer );
+    sprintf((char *)buffer, "%d", Nearest ? 1 : 0);     xmlNewChild( tree, NULL, (xmlChar *)"TextureType",      buffer );
+    sprintf((char *)buffer, "%d", ScreenXResolution);   xmlNewChild( tree, NULL, (xmlChar *)"ScreenXResolution",buffer );
+    sprintf((char *)buffer, "%d", ColorDepth);          xmlNewChild( tree, NULL, (xmlChar *)"ColorDepth",       buffer );
+    sprintf((char *)buffer, "%d", Reflections ? 1 : 0); xmlNewChild( tree, NULL, (xmlChar *)"Reflections",      buffer );
+    sprintf((char *)buffer, "%d", DisplayFPS ? 1 : 0);  xmlNewChild( tree, NULL, (xmlChar *)"DisplayFPS",       buffer );
+    sprintf((char *)buffer, "%d", AmbientLight ? 1 : 0);xmlNewChild( tree, NULL, (xmlChar *)"AmbientLight",     buffer );
+    sprintf((char *)buffer, "%d", LightSources);        xmlNewChild( tree, NULL, (xmlChar *)"LightSources",     buffer );
+    sprintf((char *)buffer, "%d", Shadows ? 1 : 0);     xmlNewChild( tree, NULL, (xmlChar *)"Shadows",          buffer );
+    sprintf((char *)buffer, "%d", FullScreen ? 1 : 0);  xmlNewChild( tree, NULL, (xmlChar *)"FullScreen",       buffer );
+    sprintf((char *)buffer, "%d", UserInterface);       xmlNewChild( tree, NULL, (xmlChar *)"UserInterface",    buffer );
+    sprintf((char *)buffer, "%d", CameraPosition);      xmlNewChild( tree, NULL, (xmlChar *)"CameraPosition",   buffer );
 
     // Game Control
     tree = xmlNewChild( doc->children, NULL, (xmlChar *)"GameControl", NULL );
-    sprintf((char *)buffer, "%f", MouseSpeed);          subtree = xmlNewChild(tree, NULL, (xmlChar *)"MouseSpeed",        buffer );
-    sprintf((char *)buffer, "%d", SolutionHint);        subtree = xmlNewChild(tree, NULL, (xmlChar *)"SolutionHint",      buffer );
+    sprintf((char *)buffer, "%f", MouseSpeed);          xmlNewChild(tree, NULL, (xmlChar *)"MouseSpeed",        buffer );
+    sprintf((char *)buffer, "%d", SolutionHint);        xmlNewChild(tree, NULL, (xmlChar *)"SolutionHint",      buffer );
 
     // Audio/Music Settings
     tree = xmlNewChild( doc->children, NULL, (xmlChar *)"AudioSettings", NULL );
-    sprintf((char *)buffer, "%d", SoundVolume);         subtree = xmlNewChild(tree, NULL, (xmlChar *)"SoundVolume",       buffer );
-    sprintf((char *)buffer, "%d", MusicVolume);         subtree = xmlNewChild(tree, NULL, (xmlChar *)"MusicVolume",       buffer );
-    sprintf((char *)buffer, "%d", SoundOn ? 1 : 0);     subtree = xmlNewChild(tree, NULL, (xmlChar *)"SoundOn",           buffer );
-    sprintf((char *)buffer, "%d", MusicOn ? 1 : 0);     subtree = xmlNewChild(tree, NULL, (xmlChar *)"MusicOn",           buffer );
+    sprintf((char *)buffer, "%d", SoundVolume);         xmlNewChild(tree, NULL, (xmlChar *)"SoundVolume",       buffer );
+    sprintf((char *)buffer, "%d", MusicVolume);         xmlNewChild(tree, NULL, (xmlChar *)"MusicVolume",       buffer );
+    sprintf((char *)buffer, "%d", SoundOn ? 1 : 0);     xmlNewChild(tree, NULL, (xmlChar *)"SoundOn",           buffer );
+    sprintf((char *)buffer, "%d", MusicOn ? 1 : 0);     xmlNewChild(tree, NULL, (xmlChar *)"MusicOn",           buffer );
 
     // Language Settings
     tree = xmlNewChild( doc->children, NULL, (xmlChar *)"LanguageSettings", NULL );
-    sprintf((char *)buffer, "%d", Language);            subtree = xmlNewChild(tree, NULL, (xmlChar *)"Language",          buffer );
+    sprintf((char *)buffer, "%d", Language);            xmlNewChild(tree, NULL, (xmlChar *)"Language",          buffer );
 
     // Debug Settings
     tree = xmlNewChild( doc->children, NULL, (xmlChar *)"DebugSettings", NULL );
     if (PerformanceLog)
     {
-      sprintf((char *)buffer, "%d", PerformanceLog ? 1 : 0); subtree = xmlNewChild(tree, NULL, (xmlChar *)"PerformanceLog",    buffer );
+      sprintf((char *)buffer, "%d", PerformanceLog ? 1 : 0); xmlNewChild(tree, NULL, (xmlChar *)"PerformanceLog",    buffer );
     }
     if (SkipProgressBar)
     {
-      sprintf((char *)buffer, "%d", SkipProgressBar ? 1 : 0); subtree = xmlNewChild(tree, NULL, (xmlChar *)"SkipProgressBar",   buffer );
+      sprintf((char *)buffer, "%d", SkipProgressBar ? 1 : 0); xmlNewChild(tree, NULL, (xmlChar *)"SkipProgressBar",   buffer );
     }
 
     // Saved Game
@@ -207,11 +208,11 @@ void KPConfig::WriteToFile()
     if (SavedGame != 0) {
       subtree  = xmlNewChild( tree, NULL, (xmlChar *)"SavedGame", NULL );
 
-      sprintf((char *)buffer, FMT_UINT64, SavedGame); subtree1 = xmlNewChild(subtree, NULL, (xmlChar *)"Position",      buffer );
-      sprintf((char *)buffer, "%u",   PlayTime);      subtree1 = xmlNewChild(subtree, NULL, (xmlChar *)"PlayTime",      buffer );
-      sprintf((char *)buffer, "%u",   Moves);         subtree1 = xmlNewChild(subtree, NULL, (xmlChar *)"Moves",         buffer );
-      sprintf((char *)buffer, "%u",   MovesWithHint); subtree1 = xmlNewChild(subtree, NULL, (xmlChar *)"MovesWithHint", buffer );
-      sprintf((char *)buffer, "%u",   CheatCount);    subtree1 = xmlNewChild(subtree, NULL, (xmlChar *)"CheatCount",    buffer );
+      sprintf((char *)buffer, FMT_UINT64, SavedGame); xmlNewChild(subtree, NULL, (xmlChar *)"Position",      buffer );
+      sprintf((char *)buffer, "%u",   PlayTime);      xmlNewChild(subtree, NULL, (xmlChar *)"PlayTime",      buffer );
+      sprintf((char *)buffer, "%u",   Moves);         xmlNewChild(subtree, NULL, (xmlChar *)"Moves",         buffer );
+      sprintf((char *)buffer, "%u",   MovesWithHint); xmlNewChild(subtree, NULL, (xmlChar *)"MovesWithHint", buffer );
+      sprintf((char *)buffer, "%u",   CheatCount);    xmlNewChild(subtree, NULL, (xmlChar *)"CheatCount",    buffer );
     }
 
     xmlSaveFile ((const char *)GetFileName(), doc);
@@ -224,7 +225,6 @@ void KPConfig::ReadFromFile()
     xmlDocPtr  doc;
     xmlNodePtr cur, tree, subtree, subtree1;
     xmlNsPtr   ns = NULL;
-    xmlChar   *p;
 
     doc = xmlParseFile( GetFileName() );
     if (doc == NULL)
@@ -235,64 +235,84 @@ void KPConfig::ReadFromFile()
     {
       tree = cur->xmlChildrenNode;
       while (tree != NULL) {
+        xmlChar   *p;
+
         if ((!xmlStrcmp(tree->name, (const xmlChar *)"DisplaySettings")) && (cur->ns == ns)) {
            subtree = tree->xmlChildrenNode;
            while (subtree != NULL) {
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"TextureName")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   TextureName = (char *)p;
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"TextureSize")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   TextureSize = atoi((char *)p);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"MenuTextureSize")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   MenuTextureSize = atoi((char *)p);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"TextureType")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   Nearest = (atoi((char *)p) != 0);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"ScreenXResolution")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   ScreenXResolution = atoi((char *)p);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"ColorDepth")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   ColorDepth = atoi((char *)p);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"Reflections")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   Reflections = (atoi((char *)p) != 0);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"DisplayFPS")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   DisplayFPS = (atoi((char *)p) != 0);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"AmbientLight")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   AmbientLight = (atoi((char *)p) != 0);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"LightSources")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   LightSources = atoi((char *)p);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"Shadows")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   Shadows = (atoi((char *)p) != 0);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"FullScreen")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   FullScreen = (atoi((char *)p) != 0);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"UserInterface")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   UserInterface = atoi((char *)p);
+                  xmlFree(p);
               }
+#if !defined(HAVE_LIBGLUT) && !defined(HAVE_LIBOPENGLUT)
+              if (UserInterface == 1)
+                 UserInterface = 0;
+#endif
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"CameraPosition")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   CameraPosition = atoi((char *)p);
+                  xmlFree(p);
               }
               subtree = subtree->next;
            }
@@ -303,10 +323,12 @@ void KPConfig::ReadFromFile()
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"MouseSpeed")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   MouseSpeed = (float)atof((char *)p);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"SolutionHint")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   SolutionHint = atoi((char *)p);
+                  xmlFree(p);
               }
               subtree = subtree->next;
            }
@@ -317,18 +339,22 @@ void KPConfig::ReadFromFile()
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"SoundVolume")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   SoundVolume = atoi((char *)p);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"MusicVolume")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   MusicVolume = atoi((char *)p);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"SoundOn")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   SoundOn = (atoi((char *)p) != 0);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"MusicOn")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   MusicOn = (atoi((char *)p) != 0);
+                  xmlFree(p);
               }
               subtree = subtree->next;
            }
@@ -339,6 +365,7 @@ void KPConfig::ReadFromFile()
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"Language")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   Language = atoi((char *)p);
+                  xmlFree(p);
               }
               subtree = subtree->next;
            }
@@ -349,10 +376,12 @@ void KPConfig::ReadFromFile()
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"PerformanceLog")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   PerformanceLog = (atoi((char *)p) != 0);
+                  xmlFree(p);
               }
               if ((!xmlStrcmp(subtree->name, (const xmlChar *)"SkipProgressBar")) && (cur->ns == ns) &&
                   (p = xmlNodeListGetString(doc, subtree->xmlChildrenNode, 1))) {
                   SkipProgressBar = (atoi((char *)p) != 0);
+                  xmlFree(p);
               }
               subtree = subtree->next;
            }
@@ -366,22 +395,27 @@ void KPConfig::ReadFromFile()
                     if ((!xmlStrcmp(subtree1->name, (const xmlChar *)"Position")) && (cur->ns == ns) &&
                        (p = xmlNodeListGetString(doc, subtree1->xmlChildrenNode, 1))) {
                        sscanf((const char *)p, FMT_UINT64, &SavedGame);
+                       xmlFree(p);
                     }
                     if ((!xmlStrcmp(subtree1->name, (const xmlChar *)"PlayTime")) && (cur->ns == ns) &&
                        (p = xmlNodeListGetString(doc, subtree1->xmlChildrenNode, 1))) {
                        PlayTime = atoi((char *)p);
+                       xmlFree(p);
                     }
                     if ((!xmlStrcmp(subtree1->name, (const xmlChar *)"Moves")) && (cur->ns == ns) &&
                        (p = xmlNodeListGetString(doc, subtree1->xmlChildrenNode, 1))) {
                        Moves = atoi((char *)p);
+                       xmlFree(p);
                     }
                     if ((!xmlStrcmp(subtree1->name, (const xmlChar *)"MovesWithHint")) && (cur->ns == ns) &&
                        (p = xmlNodeListGetString(doc, subtree1->xmlChildrenNode, 1))) {
                        MovesWithHint = atoi((char *)p);
+                       xmlFree(p);
                     }
                     if ((!xmlStrcmp(subtree1->name, (const xmlChar *)"CheatCount")) && (cur->ns == ns) &&
                        (p = xmlNodeListGetString(doc, subtree1->xmlChildrenNode, 1))) {
                        CheatCount = atoi((char *)p);
+                       xmlFree(p);
                     }
                     subtree1 = subtree1->next;
                  }
@@ -524,7 +558,7 @@ void KPConfig::DebugPrint()
   DEBUGPRINT1("  SoundOn :              %s\n", SoundOn ? "On" : "Off");
   DEBUGPRINT1("  MusicOn :              %s\n", MusicOn ? "On" : "Off");
   DEBUGPRINT1("  SavedGame :            " FMT_UINT64 "\n", SavedGame);
-  DEBUGPRINT1("  PlayTime :             %d ms\n", PlayTime);
+  DEBUGPRINT1("  PlayTime :             %u ms\n", PlayTime);
   DEBUGPRINT1("  Moves :                %u\n", Moves);
   DEBUGPRINT1("  MovesWithHint :        %u\n", MovesWithHint);
   DEBUGPRINT1("  CheatCount :           %u\n", CheatCount);

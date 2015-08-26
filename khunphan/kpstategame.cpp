@@ -121,7 +121,7 @@ void  KPstateGame::KeyPressed (KPstateContext *pContext, unsigned char key, int 
     return;
   }
 
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y)
+  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 
   switch (key) {
   // Hidden feature for test purposes:
@@ -155,7 +155,7 @@ tKPMenuState KPstateGame::ESCKeyAction (KPstateContext *pContext)
   SaveGameStatus(pContext);
   pContext->GetUserInterface().SetSoundVolume(KPConfig::Instance().SoundVolume);
   pContext->GetUserInterface().PlayMusic(false);
-  return KPState_Finish;
+  return KPState_MainMenu;
 }
 
 void  KPstateGame::MouseClick (KPstateContext *pContext, int button, int state, int x, int y)

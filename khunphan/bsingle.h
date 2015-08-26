@@ -1,9 +1,8 @@
 /*
-    bthreadimp.h
+    bsingle.h
 
-
-    Basic class defining a platform independent thread interface
-    Copyright (C) 2001-2005  W. Schwotzer
+    Basic singleton template class definition
+    Copyright (C) 1997-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,24 +19,42 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef BTHREADIMP_H
-#define BTHREADIMP_H
+#ifndef _BSINGLE_H_
+#define _BSINGLE_H_
 
-#include "misc1.h"
-#include "bthread.h"
+#include "bdelete.h"
 
-// This class describes a platform independant Thread interface
-// According to the Bridge or Body/Handle Pattern
-
-class BThreadImp
+template <class T>
+class BSingleton
 {
+   //friend T; // allow BSingleton to create an instance of T
+private:
+   static T *instance;
+
+   BSingleton();
+   BSingleton(const BSingleton &);
+   BSingleton &operator=(const BSingleton &);
 public:
-	BThreadImp();
-	virtual ~BThreadImp();
-  virtual bool Start(BThread *pThread) = 0;
-  virtual void Join() = 0;
-  virtual bool IsFinished() = 0;
-  virtual void Exit(void *retval = NULL) = 0;
+   static T &Instance();
+   virtual ~BSingleton();
 };
 
+template <class T>
+T &BSingleton<T>::Instance()
+{
+   if (instance == NULL)
+   {
+      instance = new T;
+      static BDeleter<T> deleter(instance);
+   }
+   return *instance;
+}
+
+template <class T>
+BSingleton<T>::~BSingleton()
+{
+   delete instance;
+   instance = NULL;
+}
 #endif
+

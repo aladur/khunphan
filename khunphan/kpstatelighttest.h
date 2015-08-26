@@ -1,9 +1,8 @@
 /*
-    blinuxthreadimp.h
-
+    kpstatelighttest.h
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Copyright (C) 2006  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,27 +19,27 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef BLINUXTHREADIMP_H
-#define BLINUXTHREADIMP_H
+#ifndef KPSTATELIGHTTEST_H
+#define KPSTATELIGHTTEST_H
 
-#include <pthread.h>
-#include "bthreadimp.h"
+#include "kpstate.h"
+//#include "kpuibase.h"
 
-class BThread;
 
-class BLinuxThreadImp : public BThreadImp
+class KPstateLightTest : public KPstate
 {
+
 public:
-	BLinuxThreadImp();
-	virtual ~BLinuxThreadImp();
-  bool Start(BThread *pThread);
-  bool IsFinished();
-  void Exit(void *retval = NULL);
-private:
-  static void *RunImp(BLinuxThreadImp *p);
-  BThread *pThreadObj;
-  bool finished;
-  pthread_t thread;
+  KPstateLightTest();
+  tKPMenuState GetId() const { return KPState_LightTest; };
+  void Initialize (KPstateContext *pContext, const KPstate *pOldState);
+  void MouseClick (KPstateContext *pContext, int button, int state, int x, int y);
+  void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
+  void UpdateDisplay(KPstateContext *pContext);
+  tKPMenuState ESCKeyAction (KPstateContext *);
+protected:
+  void HandleMouseClick (KPstateContext *pContext, int button, int state, int x, int y);
+
 };
 
 #endif

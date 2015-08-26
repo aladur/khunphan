@@ -47,6 +47,7 @@ enum tKPMenuState
   KPState_Tutorial3       = 16,
   KPState_Tutorial4       = 17,
   KPState_ScoreList       = 18,
+  KPState_LightTest       = 19,
   KPState_Shutdown        = 99
 };
 

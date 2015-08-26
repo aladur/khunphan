@@ -38,7 +38,8 @@
 #endif
 
 
-KPstate::KPstate() : AnimationTime(0), InAnimation(false), menuLocked(false)
+KPstate::KPstate() : AnimationTime(0), InAnimation(false), menuLocked(false),
+                     oldStateId(KPState_Invalid)
 {
 }
 
@@ -84,7 +85,7 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
 
     menu.TextfeldArray[T_GL_VENDOR  ]->Positioniere(0.1, y, 0.3, A_LINKS); y -= 0.3;
     menu.TextfeldArray[T_GL_RENDERER]->Positioniere(0.1, y, 0.3, A_LINKS); y -= 0.3;
-    menu.TextfeldArray[T_GL_VERSION ]->Positioniere(0.1, y, 0.3, A_LINKS); y -= 0.3;
+    menu.TextfeldArray[T_GL_VERSION ]->Positioniere(0.1, y, 0.3, A_LINKS);
   }
 }
 
@@ -92,9 +93,10 @@ void KPstate::Update(KPstateContext *pContext, int factor)
 {
   KPmenu &menu = pContext->GetMenu();
 
-  unsigned int i;
 
   if (InAnimation) {
+    unsigned int i;
+
     AnimationTime += factor;
     if (AnimationTime >= TOTAL_ANIMATIONTIME) {
       AnimationTime = TOTAL_ANIMATIONTIME;
@@ -107,7 +109,7 @@ void KPstate::Update(KPstateContext *pContext, int factor)
 
     tTextfeldArray::iterator it;
 
-    for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); it++ )
+    for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
         it->second->Animiere(factor);
   }
 
@@ -157,7 +159,7 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, int button, int state
 
   tTextfeldArray::iterator it;
 
-  for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); it++ )
+  for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
   {
     if (Signal) break;
     Signal = it->second->Maustaste(button,state,x,y,pContext->GetUserInterface());
@@ -175,7 +177,7 @@ bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key, i
 
   tTextfeldArray::iterator it;
 
-  for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); it++ )
+  for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
   {
     if (action) break;
     action = it->second->Zeichen(key);

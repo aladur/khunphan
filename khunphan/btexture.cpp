@@ -1,8 +1,8 @@
 /*
     btexture.cpp
 
-    Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Basic class for using textures
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,7 +36,9 @@
 // the envelope/letter pattern
 // (Each different file reader has a different "letter" class)
 
-BTexture::BTexture() : texels(NULL)
+BTexture::BTexture() : texels(NULL), width(0), height(0), channels(0),
+   rowbytes(0), bit_depth(0), color_type(0), interlace_type(0),
+   compression_type(0), filter_type(0)
 {
 }
 
@@ -261,9 +263,11 @@ const char *BTexture::CopyAlphaChannel(int format)
   if (texels == NULL)
     return NULL;
 
-  unsigned int i;
   
   if (format & TEX_MODIFY_ALPHA)
+  {
+    unsigned int i;
+
     for (i = 0; i < rowbytes * height; i += channels)
     {
       if ((format & TEX_MODIFY_ALPHA) == TEX_USE_RED_FOR_ALPHA)
@@ -273,6 +277,7 @@ const char *BTexture::CopyAlphaChannel(int format)
       if (channels > 2 && (format & TEX_MODIFY_ALPHA) == TEX_USE_BLUE_FOR_ALPHA)
         texels[i+channels-1] = texels[i+2];
     }
+  }
   return texels;
 }
 
@@ -281,9 +286,10 @@ const char *BTexture::CopyColor(int format)
   if (texels == NULL)
     return NULL;
 
+  if (format & TEX_COPY_COLOR)
+  {
   unsigned int i;
 
-  if (format & TEX_COPY_COLOR)
     for (i = 0; i < rowbytes * height; i += channels)
     {
       if (channels > 1 && (format & TEX_COPY_COLOR) == TEX_COPY_RED_TO_GREEN)
@@ -299,6 +305,7 @@ const char *BTexture::CopyColor(int format)
       if (channels > 2 && (format & TEX_COPY_COLOR) == TEX_COPY_BLUE_TO_GREEN)
         texels[i+1] = texels[i+2];
     }
+  }
   return texels;
 }
 
@@ -307,9 +314,11 @@ const char *BTexture::SetColors(int format, int red, int green, int blue)
   if (texels == NULL)
     return NULL;
 
-  unsigned int i;
 
   if (format & TEX_SET_COLORS)
+  {
+    unsigned int i;
+
     for (i = 0; i < rowbytes * height; i += channels)
     {
       if ((format & TEX_SET_COLOR_RED) == TEX_SET_COLOR_RED)
@@ -319,6 +328,7 @@ const char *BTexture::SetColors(int format, int red, int green, int blue)
       if (channels > 2 && (format & TEX_SET_COLOR_BLUE)  == TEX_SET_COLOR_BLUE)
         texels[i+2] = blue;
     }
+  }
   return texels;
 }
 
@@ -367,15 +377,15 @@ void BTexture::fprintInfo(FILE *fp)
   }
     
   fprintf(fp, "Info about png-file:\n");
-  fprintf(fp, "   Width:            %d\n", width);
-  fprintf(fp, "   Height:           %d\n", height);
+  fprintf(fp, "   Width:            %u\n", width);
+  fprintf(fp, "   Height:           %u\n", height);
   fprintf(fp, "   bit_depth:        %d\n", bit_depth);
   fprintf(fp, "   color_type:       %s\n", pColorType);
   fprintf(fp, "   interlace_type:   %s\n", pInterlaceType);
   fprintf(fp, "   compression_type: %s\n", pCompressionType);
   fprintf(fp, "   filter_type:      %d\n", filter_type);
-  fprintf(fp, "   channels:         %d\n", channels);
-  fprintf(fp, "   rowbytes:         %d\n", rowbytes);
+  fprintf(fp, "   channels:         %u\n", channels);
+  fprintf(fp, "   rowbytes:         %u\n", rowbytes);
   fprintf(fp, "\n");
 }
 
@@ -516,14 +526,13 @@ const char *BTexture::Rescale(int exp, int format)
       unsigned short c;
       const char *pOldTexel  = NULL;
       const char *pOldTexel0 = NULL; // address of upper left texel in old texture
-      char          *pRow;
       unsigned int  *pBuffer = new unsigned int[GetChannels()]; // buffer for one texel
       int            shift   = 2*exp;
       unsigned int   fChannels = factor * GetChannels();
 
       for (y = 0; y < GetHeight(); y++)
       {
-         pRow = &texels[ y * GetRowBytes()];
+         char *pRow = &texels[ y * GetRowBytes()];
          pOldTexel0 = &oldTexels[(y * GetRowBytes()) << shift];
          for(x = 0; x < GetWidth(); x++)
          {

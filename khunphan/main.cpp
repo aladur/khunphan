@@ -25,10 +25,10 @@
 #endif
 #include <signal.h>
 #include <stdio.h>
-#ifdef LINUX
+#include "misc1.h"
+#ifdef HAVE_MCHECK_H
   #include <mcheck.h>
 #endif
-#include "misc1.h"
 #include "kpconfig.h"
 #include "KhunPhan.h"
 
@@ -46,7 +46,7 @@ extern "C" RETSIGTYPE _interrupt(int)
 {
   DEBUGPRINT(PACKAGE " aborted by user\n");
   exit(0);
-};
+}
 //#endif
 
 #ifdef WIN32
@@ -72,8 +72,10 @@ int main (int argc, char **argv)
 {
   int returnCode = EXIT_FAILURE;
 
-#ifdef CHECK_MEMORY_LEAKS
+#ifdef HAVE_MCHECK_H
+  #ifdef CHECK_MEMORY_LEAKS
   mtrace();
+  #endif
 #endif
 
 #ifdef SIGINT

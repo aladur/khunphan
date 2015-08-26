@@ -2,8 +2,8 @@
     bthread.h
 
 
-    Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Basic class providing a platform independent thread implementation
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ public:
 	BThread(bool autoStart = true);
 	virtual ~BThread();
   bool Start();     // Explicitly start the thread if not started yet
+  void Join();      // Wait from another thread until this thread has terminated
   bool IsFinished(); // Check if thread has finished
   virtual void Run();  // entry point when starting the thread. To be reimplemented
 

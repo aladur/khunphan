@@ -1,9 +1,8 @@
 /*
-    bthreadimp.h
+    bdelete.h
 
-
-    Basic class defining a platform independent thread interface
-    Copyright (C) 2001-2005  W. Schwotzer
+    Basic class for automatic instance destruction
+    Copyright (C) 1997-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,24 +19,35 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef BTHREADIMP_H
-#define BTHREADIMP_H
+#ifndef _BDELETE_H_
+#define _BDELETE_H_
 
-#include "misc1.h"
-#include "bthread.h"
 
-// This class describes a platform independant Thread interface
-// According to the Bridge or Body/Handle Pattern
-
-class BThreadImp
+template <class T>
+class BDeleter
 {
+private:
+   T *object;
+
+   BDeleter();
+   BDeleter(const BDeleter &);
+   BDeleter &operator=(const BDeleter &);
 public:
-	BThreadImp();
-	virtual ~BThreadImp();
-  virtual bool Start(BThread *pThread) = 0;
-  virtual void Join() = 0;
-  virtual bool IsFinished() = 0;
-  virtual void Exit(void *retval = NULL) = 0;
+   BDeleter(T *anObject);
+   virtual ~BDeleter();
 };
 
+template <class T>
+BDeleter<T>::BDeleter(T *anObject) : object(NULL)
+{
+   object = anObject;
+}
+
+template <class T>
+BDeleter<T>::~BDeleter()
+{
+   delete object;
+   object = NULL;
+}
 #endif
+

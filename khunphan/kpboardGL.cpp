@@ -2,7 +2,7 @@
     kpboardGL.cpp
 
 
-    Copyright (C) 2002  W. Schwotzer
+    Copyright (C) 2002-2006  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,11 @@
 #include <GL/gl.h>
 #include <math.h>
 #include <limits.h>
-#include <stdlib.h>
+#ifdef HAVE_STDLIB_H
+  /* on some systems stdio.h is a prerequisite to stdlib.h */
+  #include <stdio.h>
+  #include <stdlib.h>
+#endif
 #include "misc1.h"   // needed for memset and NULL
 #include "kpconfig.h"
 #include "kpboardGL.h"
@@ -93,7 +97,7 @@ void KPboardView::ResetBoard()
   current = *dynamic_cast<KPboard *>(pSolveTree);
 }
 
-uint64_t KPboardView::GetBoardId()
+QWord KPboardView::GetBoardId()
 {
   return current.GetID();
 }
@@ -103,7 +107,7 @@ void KPboardView::SetBoard(KPnode *n)
   current = *dynamic_cast<KPboard *>(n);
 }
 
-void KPboardView::SetBoard(uint64_t id)
+void KPboardView::SetBoard(QWord id)
 {
   const KPnode *pn = KPnode::GetNodeFor(id);
   if (pn == NULL)
@@ -200,10 +204,10 @@ bool KPboardView::Initialize(const char *TextureName, unsigned int TextureSize /
 
   glNewList(callList + BRONZE_MATERIAL, GL_COMPILE);
   {
-    GLfloat mat_ambient[]  = {0.21,0.13,0.05,1.0};
-    GLfloat mat_diffuse[]  = {0.71,0.43,0.18,1.0};
-    GLfloat mat_specular[] = {0.39,0.27,0.17,1.0};
-    GLfloat mat_shininess  = 26.0;
+    GLfloat mat_ambient[]  = {0.50,0.50,0.50,1.0};
+    GLfloat mat_diffuse[]  = {0.60,0.60,0.60,1.0};
+    GLfloat mat_specular[] = {0.15,0.15,0.15,1.0};
+    GLfloat mat_shininess  = 20.0;
 
     glDisable(GL_TEXTURE_2D);
 
@@ -357,7 +361,7 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
 					glNormal3fv(nv); if (WithTexture) glTexCoord2f(tdx, tdy); glVertex3f( x0 + dx, y0 + dy, z0 + dz);
 					glNormal3fv(nv); if (WithTexture) glTexCoord2f(tx0, tdy); glVertex3f( x0 + dx, y0,      z0 + dz);
 
-/* The bottom face is never displayed. It increases performance not to draw it.
+  /* The bottom face is never displayed. It increases performance not to draw it.
 					// Bottom Face
           tx0 = getRnd(); ty0 = getRnd();
           tdx = tx0 + dy / DT; tdy = ty0 + dx / DT;
@@ -393,6 +397,9 @@ void KPboardView::Draw(bool render /* = true */) const
 
   GLfloat    x0, y0;
   tKPTokenID i;
+
+  // set material
+  glCallList(callList + BRONZE_MATERIAL);
 
   ///////////////////////////////////////////////////////////////////////
   // Draw all Tokens
@@ -445,7 +452,10 @@ void KPboardView::Draw(bool render /* = true */) const
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-  if (render) glCallList(callList + BOARD);
+  if (render)
+  {
+    glCallList(callList + BOARD);
+  }
 
   ////////////////////////////////////////////////////////////
   // Draw emphasized token separatey with depth buffer set to
@@ -459,7 +469,7 @@ void KPboardView::Draw(bool render /* = true */) const
     glLoadName(i); // needed for Token Selection
 
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
-    GLfloat color[] = {0.6 + 0.4*mat_value,0.0,0.0,1.0};
+    GLfloat color[] = {static_cast<GLfloat>(0.6 + 0.4*mat_value),0.0,0.0,1.0};
     glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, color);
     DrawToken(i);
 
@@ -567,7 +577,7 @@ void KPboardView::DrawCuboid(float deltaAngle) const// Only for test purposes
 	  glRotatef(rquad,1.0f,1.0f,1.0f);			// Rotate The Cube On X, Y & Z
   }
 
-  glCallList(callList + CUBOID_1X1);
+  glCallList(callList + CUBOID_1X1_1);
 
   if (without_camera) {
     rquad -= deltaAngle;						// Decrease The Rotation Variable For The Quad

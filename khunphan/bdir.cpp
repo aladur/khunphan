@@ -3,7 +3,7 @@
 
 
     Basic class used for directory functions
-    Copyright (C) 1999-2003  W. Schwotzer
+    Copyright (C) 1999-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,11 +28,16 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #ifdef HAVE_UNISTD_H
+  #include <sys/types.h>
   #include <unistd.h>
 #endif
-#ifdef LINUX
+#ifdef HAVE_DIRENT_H
   #include <sys/types.h>
   #include <dirent.h>
+  #define NAMLEN(dirent) strlen((dirent)->d_name)
+#else
+  #define dirent direct
+  #define NAMLEN(dirent) (dirent)->d_namlen
 #endif
 
 #ifdef WIN32
@@ -68,31 +73,29 @@ bool BDirectory::Exists(const BString &aPath)
 
 bool BDirectory::Remove(const BString &aPath)
 {
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW32)
 	return _rmdir(aPath) >= 0;
-#else
+#endif
+#if defined(UNIX) || defined(__CYGWIN32)
 	return rmdir(aPath) >= 0;
 #endif
 }
 
 bool BDirectory::Create(const BString &aPath, int mode /* = 0x0755 */)
 {
-#ifdef WIN32
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW32)
 	return _mkdir(aPath) >= 0;
-#else
-	return mkdir(aPath, mode) >= 0;
 #endif
-#else        
+#if defined(UNIX) || defined(__CYGWIN32)
 	return mkdir(aPath, mode) >= 0;
 #endif
 }
 
+#ifdef WIN32
 bool BDirectory::RemoveRecursive(const BString &aPath)
 {
 	BString         basePath;
 	BString         dirEntry;
-#ifdef WIN32
 	HANDLE          hdl;
 	WIN32_FIND_DATA pentry;
 
@@ -112,15 +115,22 @@ bool BDirectory::RemoveRecursive(const BString &aPath)
 		FindClose(hdl);
 	}
 	BDirectory::Remove(basePath);
+	return true;
+}
 #else
+bool BDirectory::RemoveRecursive(const BString &aPath)
+{
+	BString         basePath;
+	BString         dirEntry;
 	DIR             *pd;
-	struct dirent   *pentry;
 	struct stat     sbuf;
 
 	basePath = aPath;
 	if (basePath.lastchar() == PATHSEPARATOR)
 		basePath.at(0, basePath.length() - 1, basePath);
 	if ((pd = opendir(basePath)) != NULL) {
+		struct dirent   *pentry;
+
 		while ((pentry = readdir(pd)) != NULL) {
 			dirEntry = basePath + PATHSEPARATORSTRING +
 				pentry->d_name;
@@ -134,16 +144,16 @@ bool BDirectory::RemoveRecursive(const BString &aPath)
 		closedir(pd);
 	}
 	BDirectory::Remove(basePath);
-#endif
 	return true;
 }
+#endif
 
+#ifdef WIN32
 tPathList BDirectory::GetSubDirectories(const BString &aPath)
 {
 	std::vector<BString> subDirList;
 
 	BString         basePath;
-#ifdef WIN32
 	HANDLE          hdl;
 	WIN32_FIND_DATA pentry;
 
@@ -159,16 +169,24 @@ tPathList BDirectory::GetSubDirectories(const BString &aPath)
     } while (FindNextFile(hdl, &pentry) != 0);
 		FindClose(hdl);
 	}
+  return subDirList;
+}
 #else
+tPathList BDirectory::GetSubDirectories(const BString &aPath)
+{
+  std::vector<BString> subDirList;
+
+	BString         basePath;
   BString         dirEntry;
   DIR             *pd;
-	struct dirent   *pentry;
 	struct stat     sbuf;
 
 	basePath = aPath;
 	if (basePath.lastchar() == PATHSEPARATOR)
 		basePath.at(0, basePath.length() - 1, basePath);
 	if ((pd = opendir(basePath)) != NULL) {
+		struct dirent   *pentry;
+
 		while ((pentry = readdir(pd)) != NULL) {
       dirEntry = basePath + PATHSEPARATORSTRING + pentry->d_name;
 			if (stat(dirEntry, &sbuf) == 0 &&
@@ -178,9 +196,9 @@ tPathList BDirectory::GetSubDirectories(const BString &aPath)
 		} // while
 		closedir(pd);
 	}
-#endif
   return subDirList;
 }
+#endif
 
 tPathList BDirectory::GetFiles(const BString &aPath)
 {
@@ -207,13 +225,14 @@ tPathList BDirectory::GetFiles(const BString &aPath)
 #else
   BString         dirEntry;
   DIR             *pd;
-	struct dirent   *pentry;
 	struct stat     sbuf;
 
 	basePath = aPath;
 	if (basePath.lastchar() == PATHSEPARATOR)
 		basePath.at(0, basePath.length() - 1, basePath);
 	if ((pd = opendir(basePath)) != NULL) {
+		struct dirent   *pentry;
+
 		while ((pentry = readdir(pd)) != NULL) {
       dirEntry = basePath + PATHSEPARATORSTRING + pentry->d_name;
 			if (stat(dirEntry, &sbuf) == 0 && S_ISREG(sbuf.st_mode))

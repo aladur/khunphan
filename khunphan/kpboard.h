@@ -30,7 +30,7 @@
 
 class KPboard {
 private:
-	mutable uint64_t id;
+	mutable QWord id;
 	unsigned short token[TOKEN_MAX];
 	unsigned char  tokenID[HORIZONTAL_MAX][VERTICAL_MAX];
 
@@ -42,15 +42,15 @@ public:
 
 	bool operator == (const KPboard &b) const;
 	KPboard& operator = (const KPboard &b);
-	VIRTUAL void Init();
+	virtual void Init();
 	bool IsMemberOf(void);
-	VIRTUAL void fprintf(FILE *fp) const;
+	virtual void fprintf(FILE *fp) const;
   bool InitializeToken (tKPTokenID id, const char * color, int x, int y, int xExtend, int yExtend);
 	inline void SetPosition(tKPTokenID id, int x, int y, int xExtend, int yExtend);
 	bool Move(tKPTokenID id, tKPDirection d);
   bool CanMove(tKPTokenID aTokenID, tKPDirection d) const;
-	VIRTUAL void CopyFrom(const KPboard& src);
-	inline uint64_t GetID() const;
+	virtual void CopyFrom(const KPboard& src);
+	QWord GetID() const;
 	static KPIdHash idHash;
 	bool IsSolved(void) const;
   int GetX(tKPTokenID aTokenID) const;

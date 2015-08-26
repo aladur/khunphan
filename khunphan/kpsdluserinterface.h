@@ -2,7 +2,7 @@
     kpsdluserinterface.h
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Copyright (C) 2001-2004  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ public:
   void MainLoop();
   void Close();
   int  GetValue(int what) const;
+  bool CanToggleFullScreen() const;
 
 protected:
   // member functions for event handling

@@ -1,8 +1,9 @@
 /*
     btime.cpp
 
-    Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+
+    Basic class for platform independent high resolution time support
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,13 +21,10 @@
 */
 
 #ifdef WIN32
+#include "misc1.h"
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
-#ifdef LINUX
-#include <sys/time.h>
-#endif
-#include "misc1.h"
 #include "btime.h"
 
 // This class could also be realized as a envelope/letter pattern
@@ -56,11 +54,11 @@ unsigned long BTime::GetTimeMsl()
 }
 
 
-#ifdef LINUX
-uint64_t BTime::GetRelativeTimeUsll(bool reset /*= false*/)
+#ifdef UNIX
+QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 {
-  uint64_t currentTime = GetTimeUsll();
-  uint64_t result = currentTime - lapTime;
+  QWord currentTime = GetTimeUsll();
+  QWord result = currentTime - lapTime;
   if (reset) lapTime = currentTime;
 
   return result;
@@ -68,7 +66,7 @@ uint64_t BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 
 double BTime::GetRelativeTimeUsf(bool  reset /*= false*/)
 {
-  uint64_t currentTime = GetTimeUsll();
+  QWord currentTime = GetTimeUsll();
   double result = (double)(currentTime - lapTime);
   if (reset) lapTime = currentTime;
 
@@ -76,12 +74,12 @@ double BTime::GetRelativeTimeUsf(bool  reset /*= false*/)
 }
 
 // return time in us as a unsigned int 64 Bit value
-uint64_t BTime::GetTimeUsll()
+QWord BTime::GetTimeUsll()
 {
   struct timeval tv;
 
   gettimeofday(&tv, NULL);
-  return ((uint64_t)tv.tv_sec * 1000000 + tv.tv_usec);
+  return ((QWord)tv.tv_sec * 1000000 + tv.tv_usec);
 }
 
 // return time in us as a double value
@@ -95,10 +93,10 @@ double BTime::GetTimeUsf()
 #endif
 
 #ifdef WIN32
-uint64_t BTime::GetRelativeTimeUsll(bool reset /*= false*/)
+QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 {
-  uint64_t currentTime = GetTimeUsll();
-  uint64_t result = currentTime - lapTime;
+  QWord currentTime = GetTimeUsll();
+  QWord result = currentTime - lapTime;
   if (reset) lapTime = currentTime;
 
   return result;
@@ -106,21 +104,21 @@ uint64_t BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 
 double BTime::GetRelativeTimeUsf(bool  reset /*= false*/)
 {
-  uint64_t currentTime = GetTimeUsll();
-  double result = (double)(int64_t)(currentTime - lapTime);
+  QWord currentTime = GetTimeUsll();
+  double result = (double)(SQWord)(currentTime - lapTime);
   if (reset) lapTime = currentTime;
 
   return result;
 }
 
 // return time in us as a unsigned int 64 Bit value
-uint64_t BTime::GetTimeUsll()
+QWord BTime::GetTimeUsll()
 {
   LARGE_INTEGER count, freq;
 
   if (QueryPerformanceCounter(&count)) {
     QueryPerformanceFrequency(&freq);
-    return (uint64_t)count.QuadPart * 1000000 / (uint64_t)freq.QuadPart;
+    return (QWord)count.QuadPart * 1000000 / (QWord)freq.QuadPart;
   } else
     return 0;
 

@@ -3,7 +3,7 @@
 
 
     Basic class used for directory functions
-    Copyright (C) 1999-2003  W. Schwotzer
+    Copyright (C) 1999-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,11 +23,11 @@
 #ifndef __bdir_h__
 #define __bdir_h__
 
+#include "misc1.h"
 #ifdef WIN32
   #pragma warning (disable: 4786)
 #endif
 #include <vector>
-#include "misc1.h"
 #include "bstring.h"
 
 

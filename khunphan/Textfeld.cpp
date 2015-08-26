@@ -15,12 +15,12 @@
 #include <stdio.h>
 #include "misc1.h"
 #ifdef HAVE_UNISTD_H
+  #include <sys/types.h>
   #include <unistd.h>  // needed for access
 #endif
 #include "bstring.h"
 #include "btexture.h"
 #include "Textfeld.h"
-#include "config.h"
 #include "kpuibase.h"
 
 
@@ -89,7 +89,7 @@ void Textfeld::DeactivateAll()
 {
   tActivated::iterator it;
 
-  for (it = activated.begin(); it != activated.end(); it++)
+  for (it = activated.begin(); it != activated.end(); ++it)
     (*it)->Desaktiviere();
 
   Textfeld::activated.clear();
@@ -101,7 +101,8 @@ void Textfeld::SetActive(Textfeld *pTextfeld)
     activated.insert(pTextfeld);
 }
 
-void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize, bool Nearest, const KPConfig *pConfig, bool always /*= true*/)
+void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize,
+     bool Nearest, const KPConfig *pConfig, bool always /*= true*/)
 {
   BTexture *pTexture = new BTexture;
   BString file1, file2;
@@ -110,10 +111,15 @@ void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize, 
   file1 = pConfig->GetDirectory(KP_TEXTURE_DIR) + TextureName + PATHSEPARATORSTRING + "characters.png";
   file2 = pConfig->GetDirectory(KP_TEXTURE_DIR) + "characters.png";
 
-  if (!always && !access(file1, R_OK) && textureSource == 1)
-    return; // texture from file1 already loaded
-  if (!always && !access(file2, R_OK) && textureSource == 2)
-    return; // texture from file2 already loaded
+  if (!always)
+  {
+    if ((!access(file1, R_OK) && textureSource == 1) ||
+        (!access(file2, R_OK) && textureSource == 2))
+    {
+      delete pTexture;
+      return; // texture from file1 or file2 already loaded
+    }
+  }
 
   if((texels = pTexture->ReadTextureFromFile(file1, TEX_WITH_ALPHA)) == NULL)
   {
@@ -229,6 +235,18 @@ void Textfeld::Positioniere(float X,float Y,float H,int A){
   StarteAnimation();
 }
 
+void Textfeld::SetzeFormat(const char *srcString /* = NULL */)
+{
+   if (srcString == NULL)
+   {
+      delete [] pFormat;
+      pFormat = NULL;
+   } else {
+      delete [] pFormat;
+      pFormat = new char [strlen(srcString)+1];
+      strcpy(pFormat, srcString);
+   }
+}
 
 void Textfeld::CheckValidString(int min_size, const char *srcString /*= NULL */)
 {
@@ -253,12 +271,14 @@ void Textfeld::CheckValidString(int min_size, const char *srcString /*= NULL */)
 void Textfeld::SetzeText(const char TextZ[])
 {
   SetzeTextKDL(TextZ);
+  SetzeFormat(pString);
   GeneriereDisplayList();
 }
 
 void Textfeld::SetzeTextKDL(const char TextZ[])
 {
   CheckValidString(strlen(TextZ) + 1, TextZ);
+  SetzeFormat(pString);
 }
 
 // Sw: Create a string based on a given format
@@ -266,7 +286,7 @@ void Textfeld::SetzeTextKDL(const char TextZ[])
 // formatString
 int Textfeld::FormatText(const char *format, ...)
 {
-  int result;
+  int result = 0;
 
   va_list arg_ptr;
 
@@ -298,7 +318,6 @@ int Textfeld::FormatTextKDL(const char *format, ...)
 #define MAX_SSIZE   (2000)
 int Textfeld::vsprintf(const char *format, va_list arg_ptr)
 {
-	int  res;
   const char *pf;
 
   if (pString == NULL)
@@ -319,13 +338,12 @@ int Textfeld::vsprintf(const char *format, va_list arg_ptr)
 
 #ifdef WIN32
 #ifdef _MSC_VER
-	res = _vsnprintf(pString, MAX_SSIZE-1, pf, arg_ptr);
+	_vsnprintf(pString, MAX_SSIZE-1, pf, arg_ptr);
 #else
 	vsprintf(pString, pf, arg_ptr);
-	res = 1;
 #endif
 #else
-	res = vsnprintf(pString, MAX_SSIZE-1, pf, arg_ptr);
+	vsnprintf(pString, MAX_SSIZE-1, pf, arg_ptr);
 #endif
   return strlen(pString);
 }
@@ -334,12 +352,14 @@ bool Textfeld::Zeichen(char Taste){
   if (hasInputFocus)
   {
     CheckValidString(strlen(pString) + 2, pString);
-    if (Taste>=32 &&
-        Taste!=8  && Taste!=127 &&
-        Taste!=12 && Taste!=10 ) {// Add character
+    if (Taste>=32 && Taste<127) {// Add character
+      size_t size;
+
       if (strlen(pString) >= MaxCharacters)
         return true;
-      sprintf(pString,"%s%c",pString,Taste);
+      size = strlen(pString);
+      pString[size] = Taste;
+      pString[size+1] = '\0';
       GeneriereDisplayList();
       return true;
     } else if (Taste==8 || Taste==127) { // Delete last character
@@ -480,7 +500,6 @@ void Textfeld::GeneriereDisplayList()
  
   if (maxWidth) {
     Aspekt=0.0;
-    lineCount = 1;
     
     GLint  start     = 0;
     GLuint character = 0;

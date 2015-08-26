@@ -99,9 +99,10 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
 {
   appName = argv[0];
   DEBUGPRINT(PACKAGE " V" VERSION "\n");
-  DEBUGPRINT("Copyright (C) 2002,2003 Wolfgang Schwotzer\n");
-  DEBUGPRINT("This is free software; see the source for copying conditions.  There is NO\n");
-  DEBUGPRINT("warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n");
+  DEBUGPRINT("Copyright (C) 2002-2005 Wolfgang Schwotzer\n");
+  DEBUGPRINT("This is free software; see the source for copying conditions\n");
+  DEBUGPRINT("There is NO warranty; not even for MERCHANTABILITY or FITNESS\n");
+  DEBUGPRINT("FOR A PARTICULAR PURPOSE.\n");
   for (int i = 1; i < argc; i++)
     if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0)
     {
@@ -117,10 +118,13 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
 
 bool KhunPhanApp::Run(int argc, char **argv)
 {
+
   switch (KPConfig::Instance().UserInterface)
   {
     case 0: userInterface = new KPSdlUserInterface();  break;
+#if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
     case 1: userInterface = new KPGlutUserInterface(); break;
+#endif
     default: userInterface = NULL;
   }
   

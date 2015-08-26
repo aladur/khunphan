@@ -52,8 +52,6 @@ class BString;
 
 class KPboardView
 {
-private:
-
 public:
   KPboardView(void);
   virtual ~KPboardView();
@@ -63,9 +61,9 @@ public:
   void Draw(bool render = true) const;
   void SetSolveTree(KPnode *n);
   void ResetBoard();
-  uint64_t GetBoardId();
+  QWord GetBoardId();
   void SetBoard(KPnode *n);
-  void SetBoard(uint64_t id);
+  void SetBoard(QWord id);
   short GetMovesToSolve() const;
   tKPTokenID Selection(const Kamera *pCamera, int x, int y) const;
   bool Move(tKPTokenID id, tKPDirection d);

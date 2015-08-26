@@ -21,14 +21,19 @@
 
 #include "misc1.h"
 #ifdef HAVE_UNISTD_H
+  #include <sys/types.h>
   #include <unistd.h>  // needed for sleep
+#endif
+#ifdef HAVE_STDLIB_H
+  /* on some systems stdio.h is a prerequisite to stdlib.h */
+  #include <stdio.h>
+  #include <stdlib.h>
 #endif
 #ifdef WIN32
   #define WIN32_LEAN_AND_MEAN
   #include <windows.h>
 #endif
 #include <limits.h>
-#include "misc1.h"
 #include "kpnode.h"
 
 
@@ -104,16 +109,17 @@ inline bool KPnode::AddNextMoves()
   static unsigned int no = 0;
 	unsigned short i = 0;
 	tKPTokenID id = TK_GREEN1;
-	tKPDirection direction;
 
   do {
+	tKPDirection direction;
+
   	direction = MOVE_UP;
 		do {
 			b.CopyFrom(*this);
 			if (b.Move(id, direction)) {
         if (!b.IsMemberOf()) {
           if (i >= MOVES_MAX)
-            DEBUGPRINT1("KPnode::AddNextMoves: Too much moves in one node: %d\n", i);
+            DEBUGPRINT1("KPnode::AddNextMoves: Too much moves in one node: %u\n", i);
           pn = new KPnode(b);
           pchild[i++] = pn;
           pn->pparent[pn->GetNextFreeParentIdx()] = this;
@@ -121,7 +127,7 @@ inline bool KPnode::AddNextMoves()
           KPnode::LLAddLast(*pn);
           KPboard::idHash.Add(pn->GetID(), pn);
 #ifdef DEBUG_OUTPUT
-          ::fprintf(stdout, "%d. New:\n", no);
+          ::fprintf(stdout, "%u. New:\n", no);
           pn->fprintf(stdout);
 #endif
         } else {
@@ -157,7 +163,7 @@ KPnode *KPnode::GetNodeFor(const KPboard &b)
   return (KPnode *)KPboard::idHash.GetObjectWith(b.GetID());
 }
 
-KPnode *KPnode::GetNodeFor(uint64_t id)
+KPnode *KPnode::GetNodeFor(QWord id)
 {
   return (KPnode *)KPboard::idHash.GetObjectWith(id);
 }
@@ -237,7 +243,6 @@ void KPnode::CreateSolveTree(KPnode &n)
 
 	InitializeRoot(n);
 	LLInitialize(n);
-
 	while (!LLIsEmpty()) {
     if (!LLGetFirst().IsSolved())
       LLGetFirst().AddNextMoves();
@@ -313,7 +318,6 @@ void KPnode::ModifySolveCount(short n) const
 
 void KPnode::PrintSolveCount(FILE *fp)
 {
-  const KPnode *n;
 
   if (!IsSolveCountAvailable()) {
     ::fprintf(fp, "KPnode: Solve count not yet available!\n");
@@ -321,7 +325,7 @@ void KPnode::PrintSolveCount(FILE *fp)
   } else {
     KPnode::LLSetFirstToRoot();
     while (!KPnode::LLIsEmpty()) {
-      n = &LLGetFirst();
+      const KPnode *n = &LLGetFirst();
       ::fprintf(fp, " %d\n", n->GetMovesToSolve());
       LLSkipFirst();
     }

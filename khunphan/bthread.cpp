@@ -2,8 +2,8 @@
     bthread.cpp
 
 
-    Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Basic class providing a platform independent thread implementation
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ class BThreadImp;
 
 BThread::BThread(bool autoStart /* = true */) : imp(NULL)
 {
-  imp = BThreadFactory::Instance().CreateBThreadImp();
+  imp = SThreadFactory::Instance().CreateBThreadImp();
   if (imp != NULL && autoStart)
     imp->Start(this);
 }
@@ -45,6 +45,12 @@ bool BThread::Start()
 {
   if (imp == NULL) return false;
   return imp->Start(this);
+}
+  
+void BThread::Join()
+{
+  if (imp != NULL)
+  	imp->Join();
 }
   
 bool BThread::IsFinished()

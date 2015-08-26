@@ -60,7 +60,7 @@ KPIdHash::~KPIdHash()
 	hashTable = NULL;
 }
 
-void KPIdHash::Add(const uint64_t &d, void *pObj /* = NULL */)
+void KPIdHash::Add(const QWord &d, void *pObj /* = NULL */)
 {
 	KPIdHashEntry *p, *n, *newE;
 
@@ -69,6 +69,7 @@ void KPIdHash::Add(const uint64_t &d, void *pObj /* = NULL */)
 	newE->pnext   = NULL;
 	newE->pObject = pObj;
 	tIdHash hash = GetHash(d);
+
 	if ((p = hashTable[hash]) == NULL) {
 		// add the first hash value to the beginning of the linked list
 		hashTable[hash] = newE;
@@ -88,15 +89,17 @@ void KPIdHash::Add(const uint64_t &d, void *pObj /* = NULL */)
 			return;
 		}
 		// hash value already part of hash table: ignore it
-		if (d == n->data)
+		if (d == n->data) {
+			delete newE;
 			return;
+		}
 		p = p->pnext;
 	}
 	// add a larger hash value to the end of the linked list
 	p->pnext = newE;
 }
 
-bool KPIdHash::Contains(const uint64_t &d) const
+bool KPIdHash::Contains(const QWord &d) const
 {
 	KPIdHashEntry *e = hashTable[GetHash(d)];
 	while (e != NULL) {
@@ -109,7 +112,7 @@ bool KPIdHash::Contains(const uint64_t &d) const
 	return false;
 }
 
-void *KPIdHash::GetObjectWith(const uint64_t &d) const
+void *KPIdHash::GetObjectWith(const QWord &d) const
 {
 	KPIdHashEntry *e = hashTable[GetHash(d)];
 	while (e != NULL) {
@@ -122,7 +125,7 @@ void *KPIdHash::GetObjectWith(const uint64_t &d) const
 	return NULL;
 }
 
-tIdHash	KPIdHash::GetHash(uint64_t d) const
+tIdHash	KPIdHash::GetHash(QWord d) const
 {
 	return (tIdHash)
 		((d &  CONST_0XFFF) ^
@@ -139,13 +142,13 @@ tIdHash	KPIdHash::GetHash(uint64_t d) const
 
 void KPIdHash::fprintf(FILE *fp) const
 {
-	unsigned int i, n, sum;
+	unsigned int i, sum;
 	KPIdHashEntry *e;
 
 	sum = 0;
 	::fprintf(fp, "KpIdHash:\n");
 	for (i = 0; i < HASHTABLE_SIZE; i++) {
-		n = 0;
+		unsigned int n = 0;
 		e = hashTable[i];
 		while (e != NULL) {
 			n++;

@@ -73,7 +73,7 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext)
 
 void KPstateTutorial2::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
 {
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y)
+  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 
   switch (key)
   {

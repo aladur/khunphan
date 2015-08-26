@@ -2,7 +2,7 @@
     kpglutuserinterface.cpp
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,13 +19,34 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
-#include <GL/glut.h>
-#include "kpglutuserinterface.h"
+#include <stdio.h>
 
+#include "misc1.h"
+
+/* If either GLUT or freeglut is available use it */
+/* otherwise check for OpenGLUT                   */
+#ifdef HAVE_LIBGLUT
+ #ifdef WIN32
+  #define WIN32_LEAN_AND_MEAN
+  #include <windows.h>
+ #endif
+ #include <GL/glut.h>
+ #ifdef FREEGLUT
+  #include <GL/freeglut_ext.h>
+ #endif
+#else
+ #ifdef HAVE_LIBOPENGLUT
+  #ifdef WIN32
+   #define WIN32_LEAN_AND_MEAN
+   #include <windows.h>
+  #endif
+  #include <GL/openglut.h>
+ #endif
+#endif
+
+#if defined(HAVE_LIBOPENGLUT) || defined(HAVE_LIBGLUT) 
+
+#include "kpglutuserinterface.h"
  
 KPGlutUserInterface::KPGlutUserInterface() : windowID(0)
 {
@@ -55,38 +76,74 @@ void KPGlutUserInterface::InitializeEvents()
 //  glutTimerFunc     (10, KPGlutUserInterface::TimerEvent, 10); // Timer event every 10 millisec.
 }
 
-void KPGlutUserInterface::SetWindowMode(bool /* FullScreen */) const
+bool KPGlutUserInterface::CanToggleFullScreen() const
 {
-/*
-  Sw: unfinished
-  if (windowID == 0)
+#if defined(FREEGLUT) || defined(OPENGLUT)
+  return true;
+#else
+  return false;
+#endif
+}
+
+#if defined(FREEGLUT) || defined(OPENGLUT)
+void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
+{
+
+  if (windowID == 0 || !CanToggleFullScreen())
     return;
 
   if (FullScreen) {
-    //sprintf(temp,"%ix%i:%i",KPConfig::Instance().ScreenXResolution,(KPConfig::Instance().ScreenXResolution*3)/4,
-    //  KPConfig::Instance().ColorDepth);
-    //glutGameModeString(temp);
-    //if (!glutGameModeGet(GLUT_GAME_MODE_POSSIBLE))
-    //  printf ("  No Game Mode possible!\n\n");
+    char temp[64];
+
+    sprintf(temp,"%ix%i:%i",
+      KPConfig::Instance().ScreenXResolution,
+      (KPConfig::Instance().ScreenXResolution*3)/4,
+      KPConfig::Instance().ColorDepth);
+    glutGameModeString(temp);
+    if (!glutGameModeGet(GLUT_GAME_MODE_POSSIBLE))
+      printf ("  No Game Mode possible!\n\n");
     glutFullScreen();
   } else {
-    //sprintf(temp, "%s V%s", PACKAGE, VERSION);
-    //windowID = glutCreateWindow (temp);
     glutReshapeWindow(KPConfig::Instance().ScreenXResolution,
                      (KPConfig::Instance().ScreenXResolution*3)/4);
+    glutPositionWindow(1, 0);
+    glutPositionWindow(0, 0);
   }
-*/
 }
+#else
+void KPGlutUserInterface::SetWindowMode(bool /* FullScreen */) const
+{
+}
+#endif
 
 bool KPGlutUserInterface::OpenWindow(int argc, char **argv)
 {
   char temp[64];
 
-  DEBUGPRINT("GLUT UserInterface initialization\n");
-  DEBUGPRINT2("GLUT API Version %d, GLUT XLIB Implementation #%d\n",
-	           GLUT_API_VERSION, GLUT_XLIB_IMPLEMENTATION);
-  // Open OpenGL Window with GLUT
   glutInit(&argc, argv);
+  DEBUGPRINT("GLUT UserInterface initialization\n");
+#ifdef GLUT_API_VERSION
+  DEBUGPRINT1("GLUT API Version %d\n", GLUT_API_VERSION);
+#endif
+#ifdef GLUT_XLIB_IMPLEMENTATION
+  DEBUGPRINT1("GLUT XLIB Implementation #%d\n", GLUT_XLIB_IMPLEMENTATION);
+#endif
+#ifdef FREEGLUT
+  int glutVersion = glutGet(GLUT_VERSION);
+  DEBUGPRINT3("FREEGLUT Version %d.%d.%d\n",
+    (glutVersion / 10000) % 100,
+    (glutVersion /   100) % 100,
+     glutVersion          % 100);
+#endif
+#ifdef OPENGLUT
+  int glutVersion = glutGet(GLUT_VERSION);
+  DEBUGPRINT3("OPENGLUT Version %d.%d.%d\n",
+    (glutVersion / 10000) % 100,
+    (glutVersion /   100) % 100,
+     glutVersion          % 100);
+#endif
+
+  // Open OpenGL Window with GLUT
   glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
   glutInitWindowSize (KPConfig::Instance().ScreenXResolution,(KPConfig::Instance().ScreenXResolution*3)/4);
   //glutInitWindowPosition (10, 10);
@@ -216,3 +273,5 @@ void KPGlutUserInterface::MouseClick( int button, int state, int x, int y )
   }
   pState->MouseClick(this, kpButton, kpState, x, y);
 }
+#endif
+

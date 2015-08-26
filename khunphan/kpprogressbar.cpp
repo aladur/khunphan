@@ -19,13 +19,18 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include "misc1.h"
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
 #include <GL/gl.h>
 #include <math.h>
-#include "misc1.h"
+#ifdef HAVE_STDLIB_H
+  /* on some systems stdio.h is a prerequisite to stdlib.h */
+  #include <stdio.h>
+  #include <stdlib.h>
+#endif
 #include "kpprogressbar.h"
 
 #define PROGRESS_MARGIN (0.1f)

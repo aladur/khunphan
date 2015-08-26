@@ -40,7 +40,7 @@ class ex : public std::exception
 
 class KPnode;
 
-class KPnode : VIRTUAL public KPboard {
+class KPnode : virtual public KPboard {
 private:
 	KPnode *pchild[MOVES_MAX];
   KPnode *pparent[MOVES_MAX];
@@ -62,7 +62,7 @@ public:
 	KPnode(const KPboard &b);
 	virtual ~KPnode();
 
-	VIRTUAL void CopyFrom(const KPnode& src);
+	virtual void CopyFrom(const KPnode& src);
 	KPnode& operator= (const KPnode &n);
   inline short GetMovesToSolve(void) const { return movesToSolve; };
   inline void  SetMovesToSolve(short m) const { movesToSolve = m; };
@@ -72,7 +72,7 @@ public:
 
   static void finalize();
   static KPnode *GetNodeFor(const KPboard &b);
-  static KPnode *GetNodeFor(uint64_t id);
+  static KPnode *GetNodeFor(QWord id);
 	static void InitializeRoot(KPnode &n);
 	static void LLInitialize(KPnode &n);
   static void LLAddLast(KPnode &n);

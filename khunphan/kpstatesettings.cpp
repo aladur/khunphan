@@ -56,7 +56,7 @@ void KPstateSettings::UpdateDisplay(KPstateContext *pContext)
   menu.TextfeldArray[T_AUDIO    ]->Positioniere(8,y,1,A_MITTE); y -= 1.0;
   menu.TextfeldArray[T_AUDIO    ]->SetzeSignal(S_AUDIO_SETTINGS);
 
-  menu.TextfeldArray[T_SPRACHE  ]->Positioniere(8,y,1,A_MITTE); y -= 1.0;
+  menu.TextfeldArray[T_SPRACHE  ]->Positioniere(8,y,1,A_MITTE);
   menu.TextfeldArray[T_SPRACHE  ]->SetzeSignal(S_SELECT_LANGUAGE);
 
   menu.TextfeldArray[T_ZURUECK  ]->Positioniere(8,1,1,A_MITTE);
@@ -80,7 +80,7 @@ void  KPstateSettings::MouseClick (KPstateContext *pContext, int button, int sta
 
 void KPstateSettings::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
 {
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y)
+  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
 tKPMenuState KPstateSettings::ESCKeyAction (KPstateContext *pContext)

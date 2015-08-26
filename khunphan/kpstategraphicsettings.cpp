@@ -168,8 +168,10 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     menu.TextfeldArray[T_AMBIENTESLICHT]->SetzeSignal(S_TOGGLE_AMBIENT_LIGHT);
     menu.TextfeldArray[T_TISCHLAMPEN   ]->Positioniere(8,y,.6,A_RECHTS);  y -= dy;
     menu.TextfeldArray[T_TISCHLAMPEN   ]->SetzeSignal(S_TOGGLE_LAMPS);
+#if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
     menu.TextfeldArray[T_USERINTERFACE ]->Positioniere(8,y,.6,A_RECHTS);  y -= dy;
     menu.TextfeldArray[T_USERINTERFACE ]->SetzeSignal(S_TOGGLE_USER_INTERFACE);
+#endif
     menu.TextfeldArray[T_FRAMERATE     ]->Positioniere(8,y,.6,A_RECHTS);  y -= dy;
     menu.TextfeldArray[T_FRAMERATE     ]->SetzeSignal(S_TOGGLE_FPS);
 
@@ -344,6 +346,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     } break;
     }
 
+#if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
     y -= dy;
     switch (E_UserInterface) {
     case 0: {
@@ -355,6 +358,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
       menu.TextfeldArray[T_USERINTERFACE1]->SetzeSignal(S_TOGGLE_USER_INTERFACE);
     } break;
     }
+#endif
 
     y -= dy;
     if (KPConfig::Instance().DisplayFPS)
@@ -389,7 +393,9 @@ void  KPstateGraphicSettings::MouseClick (KPstateContext *pContext, int button, 
     case S_TOGGLE_MENUTEXTURES:         ToggleMenuTextures(pContext);        UpdateDisplay(pContext); break;
     case S_TOGGLE_TEXTURENAME:          ToggleTextureName(pContext);         UpdateDisplay(pContext); break;
     case S_TOGGLE_AMBIENT_LIGHT:        ToggleAmbientLight(pContext);        UpdateDisplay(pContext); break;
+#if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
     case S_TOGGLE_USER_INTERFACE:       ToggleUserInterface(pContext);       UpdateDisplay(pContext); break;
+#endif
     case S_TOGGLE_QUALITY:              ToggleQuality(pContext);             UpdateDisplay(pContext); break;
 
     case S_BACK:                        {
@@ -400,7 +406,7 @@ void  KPstateGraphicSettings::MouseClick (KPstateContext *pContext, int button, 
 
 void KPstateGraphicSettings::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
 {
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y)
+  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
 tKPMenuState KPstateGraphicSettings::ESCKeyAction (KPstateContext *pContext)

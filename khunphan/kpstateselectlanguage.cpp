@@ -67,8 +67,6 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext)
 
 void  KPstateSelectLanguage::MouseClick (KPstateContext *pContext, int button, int state, int x, int y)
 {
-  KPmenu &menu = pContext->GetMenu();
-
   int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
 
   switch (Signal) {
@@ -79,27 +77,39 @@ void  KPstateSelectLanguage::MouseClick (KPstateContext *pContext, int button, i
 
   if (Signal >= T_LANGUAGE1 && Signal <= T_LANGUAGE_MAX)
   {
-    menu.LoadLanguage(Signal);
-    tTextfeldArray::iterator it;
-
-    for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); it++ )
-    {
-      it->second->GeneriereDisplayList();
-    }
-
-    KPConfig::Instance().Language = Signal;
-    KPConfig::Instance().WriteToFile();
+    SetLanguage(pContext, Signal);
     pContext->ChangeState(KPState_MainMenu);
   }
 }
 
 void KPstateSelectLanguage::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
 {
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y)
+  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
-tKPMenuState KPstateSelectLanguage::ESCKeyAction (KPstateContext *)
+tKPMenuState KPstateSelectLanguage::ESCKeyAction (KPstateContext *pContext)
 {
-  return KPState_Invalid;
+  if (KPConfig::Instance().Language) {
+     return (tKPMenuState)pContext->GetMenu().RestoreLastStateId();
+  } else {
+    // Default: Set Language to "English"
+    SetLanguage(pContext, T_LANGUAGE1 + 1);
+    return KPState_MainMenu;
+  }
+}
+
+void KPstateSelectLanguage::SetLanguage (KPstateContext *pContext, int Language)
+{
+  pContext->GetMenu().LoadLanguage(Language);
+  tTextfeldArray::iterator it;
+
+  for (it = pContext->GetMenu().TextfeldArray.begin(); it !=
+               pContext->GetMenu().TextfeldArray.end(); ++it)
+  {
+    it->second->GeneriereDisplayList();
+  }
+
+  KPConfig::Instance().Language = Language;
+  KPConfig::Instance().WriteToFile();
 }
 

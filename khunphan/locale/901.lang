@@ -33,11 +33,13 @@ OpenGL Interface Info
 43 Ctrl+O
 44 p, P
 45 1...7
+46 Ctrl+F
 
 50 Abort current activity
 51 Info on OpenGL Interface
 52 Pause or continue Game
 53 Change Camera Position
+54 Toogle Window and Fullscreen mode
 
 //General
 100 Back

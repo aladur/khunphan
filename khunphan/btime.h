@@ -1,8 +1,9 @@
 /*
-    bitme.h
+    btime.h
 
-    Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+   
+    Basic class for platform independent high resolution time support 
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,15 +32,15 @@ public:
   BTime();
   virtual ~BTime();
   void     ResetRelativeTime();
-  uint64_t GetRelativeTimeUsll(bool reset = false);
+  QWord    GetRelativeTimeUsll(bool reset = false);
   double   GetRelativeTimeUsf(bool  reset = false);
   unsigned long GetRelativeTimeMsl(bool reset = false);
-  uint64_t GetTimeUsll();
+  QWord    GetTimeUsll();
   double   GetTimeUsf();
   unsigned long GetTimeMsl();
 
 private:
-  uint64_t lapTime;
+  QWord    lapTime;
 };
 
 #endif

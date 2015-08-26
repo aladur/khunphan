@@ -2,8 +2,8 @@
     bthreadfactory.cpp
 
 
-    Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Basic class for platform independent thread creation
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,34 +22,24 @@
 
 #include "misc1.h"
 #include "bthreadfactory.h"
-#ifdef LINUX
-#include "blinuxthreadimp.h"
+#ifdef UNIX
+#include "bposixthreadimp.h"
 #endif
 #ifdef WIN32
 #include "bwin32threadimp.h"
 #endif
 
-BThreadFactory *BThreadFactory::instance = NULL;
-
-BThreadFactory &BThreadFactory::Instance()
-{
-   if (instance == NULL)
-   {
-      instance = new BThreadFactory;
-      atexit ( BThreadFactory::finalize );
-   }
-   return *instance;
-};
+template <> BThreadFactory *SThreadFactory::instance = NULL;
 
 BThreadImp *BThreadFactory::CreateBThreadImp()
 {
 #ifdef WIN32
   return new BWin32ThreadImp;
 #else
-  #ifdef LINUX
-  return new BLinuxThreadImp();
+  #ifdef UNIX
+  return new BPosixThreadImp();
   #else
     return NULL; // Sw: Which other platforms to support ???
   #endif
 #endif
-};
+}

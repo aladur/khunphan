@@ -29,7 +29,8 @@
 #include "kpuibase.h"
 
 
-KPstateGameSolved::KPstateGameSolved() : addToScoreList(false)
+KPstateGameSolved::KPstateGameSolved() : addToScoreList(false),
+    tf_index(T_SOLVED2_1)
 {
 }
  
@@ -115,7 +116,7 @@ void KPstateGameSolved::KeyPressed (KPstateContext *pContext, unsigned char key,
     else
       SaveScoreAndChangeState(pContext);
   } else {
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y)
+    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
   }
 }
 

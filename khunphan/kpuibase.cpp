@@ -19,8 +19,16 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifdef LINUX
-#include <sys/time.h>
+#include "misc1.h"
+#ifdef TIME_WITH_SYS_TIME
+  #include <sys/time.h>
+  #include <time.h>
+#else
+  #ifdef HAVE_SYS_TIME_H
+    #include <sys/time.h>
+  #else
+    #include <time.h>
+  #endif
 #endif
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -28,7 +36,6 @@
 #endif
 #include <GL/gl.h>
 #include <GL/glu.h> // needed for GLU version
-#include "misc1.h"
 #include "kpuibase.h"
 #include "kpstatefactory.h"
 #include "kpboardGL.h"
@@ -39,9 +46,14 @@
 #include "kpstatistics.h"
 #include "btime.h"
 
+// Uncomment the following line to 
+// compile for a specific light test version
+// #define DEBUG_LIGHT_TEST
+
+
 KPUIBase *KPUIBase::instance = NULL;
 
-KPUIBase::KPUIBase() : pBoardView(NULL), pCamera(NULL), pLight(NULL),
+KPUIBase::KPUIBase() : proot(NULL), pBoardView(NULL), pCamera(NULL), pLight(NULL),
                        pMenu(NULL),  pStatistics(NULL), pState(NULL),
                        lastFrameTimestamp(0)
                        
@@ -108,7 +120,11 @@ bool KPUIBase::InitializeAfterOpen()
                          KPConfig::Instance().Language))
   return false;
 
+#ifdef DEBUG_LIGHT_TEST
+  ChangeState(KPState_LightTest);
+#else
   ChangeState(KPState_StartUp);
+#endif
 
   InitializeEvents();
 
@@ -183,7 +199,9 @@ void KPUIBase::Display()
 
 void KPUIBase::Reshape(int x, int y)
 {
-  glViewport(0, 0, x, y);
+  glViewport(0, 0, (GLsizei)x, (GLsizei)y);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
   GetCamera().SetAspekt(x / (GLfloat)y);
 }
 

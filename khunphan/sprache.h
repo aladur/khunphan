@@ -40,11 +40,13 @@
 #define T_H_OPENGL_KEY    43
 #define T_H_PAUSE_KEY     44
 #define T_H_CAMERA_KEY    45
+#define T_H_FULLSCREEN_KEY 46
 
 #define T_H_ESC           50
 #define T_H_OPENGL        51
 #define T_H_PAUSE         52
 #define T_H_CAMERA        53
+#define T_H_FULLSCREEN    54
 
 //Allgemein
 #define T_ZURUECK        100

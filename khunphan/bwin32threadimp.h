@@ -1,9 +1,9 @@
 /*
-    blinuxthreadimp.h
+    bwin32threadimp.h
 
 
-    Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Basic class for a Win32 thread implementation
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+
+#ifdef WIN32
 
 #ifndef _BWIN32THREADIMP_H_
 #define _BWIN32THREADIMP_H_
@@ -36,13 +38,16 @@ public:
 	BWin32ThreadImp();
 	virtual ~BWin32ThreadImp();
   bool Start(BThread *pThread);
+  void Join();
   bool IsFinished();
   void Exit(void *retval = NULL);
 private:
-  static void RunImp(BWin32ThreadImp *p);
+  static unsigned int RunImp(BWin32ThreadImp *p);
   BThread *pThreadObj;
   bool finished;
-  unsigned long thread;
+  HANDLE hThread;
+  HANDLE finishedEvent;
 };
 
+#endif
 #endif

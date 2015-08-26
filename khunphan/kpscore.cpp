@@ -24,7 +24,6 @@
 #include <libxml/tree.h>
 #include "misc1.h"
 #include "kpscore.h"
-#include "config.h"
 
 
 KPscore *KPscore::instance = NULL;
@@ -161,7 +160,7 @@ void KPscore::WriteToFile()
     return;
 
   xmlDocPtr  doc;
-  xmlNodePtr tree, subtree, subtree1;
+  xmlNodePtr tree, subtree;
   xmlChar    buffer[128];
   int        i;
 
@@ -175,10 +174,10 @@ void KPscore::WriteToFile()
     {
       // Score
       subtree  = xmlNewChild( tree, NULL, (xmlChar *)"Score", NULL );
-      sprintf((char *)buffer, "%s", (const char *)pScore[i].Name); subtree1 = xmlNewChild(subtree, NULL, (xmlChar *)"Name",      buffer );
-      sprintf((char *)buffer, "%u", pScore[i].PlayTime);           subtree1 = xmlNewChild(subtree, NULL, (xmlChar *)"PlayTime",  buffer );
-      sprintf((char *)buffer, "%u", pScore[i].Moves);              subtree1 = xmlNewChild(subtree, NULL, (xmlChar *)"Moves",     buffer );
-      sprintf((char *)buffer, "%d", (int)pScore[i].Timestamp);     subtree1 = xmlNewChild(subtree, NULL, (xmlChar *)"Timestamp", buffer );
+      sprintf((char *)buffer, "%s", (const char *)pScore[i].Name); xmlNewChild(subtree, NULL, (xmlChar *)"Name",      buffer );
+      sprintf((char *)buffer, "%u", pScore[i].PlayTime);           xmlNewChild(subtree, NULL, (xmlChar *)"PlayTime",  buffer );
+      sprintf((char *)buffer, "%u", pScore[i].Moves);              xmlNewChild(subtree, NULL, (xmlChar *)"Moves",     buffer );
+      sprintf((char *)buffer, "%d", (int)pScore[i].Timestamp);     xmlNewChild(subtree, NULL, (xmlChar *)"Timestamp", buffer );
     }
 
   xmlSaveFile ((const char *)GetFileName(), doc);
@@ -191,11 +190,8 @@ void KPscore::ReadFromFile()
   xmlDocPtr  doc;
   xmlNodePtr cur, tree, subtree, subtree1;
   xmlNsPtr   ns = NULL;
-  xmlChar    *p;
 
   BString      Name;
-  unsigned int PlayTime;
-  unsigned int Moves;
   time_t       Timestamp;
 
   if ((doc = xmlParseFile( GetFileName() )) != NULL) {
@@ -207,9 +203,14 @@ void KPscore::ReadFromFile()
            subtree = tree->xmlChildrenNode;
            while (subtree != NULL) {
               if ((!strcmp((char *)subtree->name, "Score")) && (cur->ns == ns)) {
+                 unsigned int PlayTime;
+                 unsigned int Moves;
+
                  subtree1 = subtree->xmlChildrenNode;
                  Name = ""; PlayTime = 0; Moves = 0; Timestamp = 0;
                  while (subtree1 != NULL) {
+                    xmlChar *p;
+
                     if ((!strcmp((char *)subtree1->name, "Name")) && (cur->ns == ns) &&
                        (p = xmlNodeListGetString(doc, subtree1->xmlChildrenNode, 1))) {
                        Name.printf("%s", (const char *)p);

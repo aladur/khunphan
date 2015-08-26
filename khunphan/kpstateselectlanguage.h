@@ -36,6 +36,8 @@ public:
   void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
   void UpdateDisplay(KPstateContext *pContext);
   tKPMenuState ESCKeyAction (KPstateContext *);
+private:
+  void SetLanguage(KPstateContext *pContext, int Language);
 };
 
 #endif

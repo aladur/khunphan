@@ -1,9 +1,9 @@
 /*
-    blinuxthreadimp.cpp
+    bposixthreadimp.cpp
 
 
-    Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Basic class for a posix thread implementation
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,37 +20,52 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "blinuxthreadimp.h"
-#include "bthread.h"
+#include "bposixthreadimp.h"
+
+#ifdef HAVE_PTHREAD
+#include <bthread.h>
 
 typedef  void *(*tThreadProc)(void *);
 
-BLinuxThreadImp::BLinuxThreadImp() : pThreadObj(NULL), finished(false), thread(0)
+BPosixThreadImp::BPosixThreadImp() : pThreadObj(NULL), finished(false), thread(0)
 {
 }
 
-BLinuxThreadImp::~BLinuxThreadImp()
+BPosixThreadImp::~BPosixThreadImp()
 {
 }
 
-bool BLinuxThreadImp::Start(BThread *aThreadObject)
+bool BPosixThreadImp::Start(BThread *aThreadObject)
 {
   // pthread_create returns 0 if thread is successfully created
   // the thread identifier is stored in the 'thread'
+  pthread_attr_t attr;
+  int ret;
+
+  ret = pthread_attr_init (&attr);
+  //ret =  pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
   pThreadObj = aThreadObject;
-  int result = pthread_create(&thread, NULL, (tThreadProc)BLinuxThreadImp::RunImp, this);
-  if (result == 0)
+  ret = pthread_create(&thread, &attr, (tThreadProc)BPosixThreadImp::RunImp, this);
+  if (ret == 0)
     // detach thread to avoid memory leaks
     pthread_detach(thread);
-  return (result == 0);
+
+  return (ret == 0);
 }
 
-bool BLinuxThreadImp::IsFinished()
+// Another thread can wait, until thread with id "thread" has terminated
+void BPosixThreadImp::Join()
+{
+   if (!finished)
+      pthread_join(thread, NULL);
+}
+
+bool BPosixThreadImp::IsFinished()
 {
   return finished;
 }
 
-void BLinuxThreadImp::Exit(void *retval)
+void BPosixThreadImp::Exit(void *retval)
 {
   // Attention: this function call will never return!
   finished = true;
@@ -59,7 +74,7 @@ void BLinuxThreadImp::Exit(void *retval)
 
 // this static function is the thread procedure to
 // be called with Start(...)
-void *BLinuxThreadImp::RunImp(BLinuxThreadImp *p)
+void *BPosixThreadImp::RunImp(BPosixThreadImp *p)
 {
   void *result = NULL;
 
@@ -69,3 +84,5 @@ void *BLinuxThreadImp::RunImp(BLinuxThreadImp *p)
   p->finished = true;
   return result;
 }
+#endif
+

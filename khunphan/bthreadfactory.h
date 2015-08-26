@@ -2,8 +2,8 @@
     bthreadfactory.h
 
 
-    Automatic solution finder for KhunPhan game
-    Copyright (C) 2001,2002,2003  W. Schwotzer
+    Basic class for thread creation
+    Copyright (C) 2001-2005  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,20 +24,26 @@
 #define BTHREADFACTORY_H
 
 #include "misc1.h" // needed for NULL
+#include "bsingle.h"
 
 // Thread factory creating platform dependant Thread classes
 
 class BThreadImp;
+class BThreadFactory;
+
+typedef BSingleton<BThreadFactory> SThreadFactory;
 
 class BThreadFactory {
+
+friend BThreadFactory &SThreadFactory::Instance();
+
 public:
-   static BThreadFactory &Instance();
-   static void finalize() { delete instance; instance = NULL; };
    BThreadImp *CreateBThreadImp();
-protected:
-   BThreadFactory() { };
+   virtual ~BThreadFactory() { };
 private:
-   static BThreadFactory *instance;
+   BThreadFactory() { };
+
 };
 
 #endif
+

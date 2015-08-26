@@ -12,7 +12,9 @@
   #pragma warning (disable:4786)
 #endif
 #include <set>
-#include <stdarg.h>
+#ifdef HAVE_STDARG_H
+  #include <stdarg.h>
+#endif
 #include "kpconfig.h"
 #include "misc1.h"  // needed for NULL
 
@@ -71,6 +73,7 @@ class Textfeld {
   static tActivated activated;
   static unsigned int texture;
  
+  void SetzeFormat(const char *); 
   void StarteAnimation();
   void CheckValidString(int min_size, const char *srcString = NULL);
   char *pFormat;

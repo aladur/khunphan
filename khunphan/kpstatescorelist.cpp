@@ -106,7 +106,7 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
 
 void KPstateScoreList::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
 {
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y)
+  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
 void  KPstateScoreList::MouseClick (KPstateContext *pContext, int button, int state, int x, int y)
@@ -122,7 +122,7 @@ void  KPstateScoreList::MouseClick (KPstateContext *pContext, int button, int st
   }
 }
 
-tKPMenuState KPstateScoreList::ESCKeyAction (KPstateContext *)
+tKPMenuState KPstateScoreList::ESCKeyAction (KPstateContext *pContext)
 {
-  return KPState_Finish;
+  return (tKPMenuState)pContext->GetMenu().RestoreLastStateId();
 }

@@ -2,7 +2,7 @@
     misc1.h
  
  
-    Copyright (C) 2001,2002  W. Schwotzer
+    Copyright (C) 2001-2005  W. Schwotzer
  
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,57 +28,51 @@
 //  <string(s)>.h
 //  <stdlib.h>
 
-#include "config.h"
+#ifndef WIN32
+  #include "config.h"
+#endif
+
+#if HAVE_INTTYPES_H
+# include <inttypes.h>
+#else
+# if HAVE_STDINT_H
+#  include <stdint.h>
+# endif
+#endif
+
+/* time */
+#if TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# if HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
+#endif
 
 #ifdef WIN32
-#ifdef  HAVE_DLFCN_H
-  #undef  HAVE_DLFCN_H
-#endif
-#ifdef  HAVE_INTTYPES_H
-  #undef  HAVE_INTTYPES_H
-#endif
-#ifdef  HAVE_MEMORY_H
-  #undef  HAVE_MEMORY_H
-#endif
-#ifdef  HAVE_STDINT_H
-  #undef  HAVE_STDINT_H
-#endif
-#ifdef  HAVE_STDLIB_H
-  #undef  HAVE_STDLIB_H
-#endif
-#ifdef  HAVE_STRINGS_H
-  #undef  HAVE_STRINGS_H 
-#endif
-#ifdef  HAVE_STRING_H
-  #undef  HAVE_STRING_H
-#endif
-#ifdef  HAVE_SYS_STAT_H
-  #undef  HAVE_SYS_STAT_H
-#endif
-#ifdef  HAVE_SYS_TYPES_H
-  #undef  HAVE_SYS_TYPES_H
-#endif
-#ifdef  HAVE_TEMPLATE_REPOSITORY
-  #undef  HAVE_TEMPLATE_REPOSITORY
-#endif
-#ifdef  HAVE_UNISTD_H
-  #undef  HAVE_UNISTD_H
-#endif
+/* Name of package */
+#define PACKAGE "khunphan"
 
-/*
-#define HAVE_DLFCN_H     1
-#define HAVE_INTTYPES_H  1
-#define HAVE_MEMORY_H    1
-#define HAVE_STDINT_H    1
-#define HAVE_STRINGS_H   1
-#define HAVE_UNISTD_H    1
-#define HAVE_TEMPLATE_REPOSITORY 1
-*/
+/* Version number of package */
+#define VERSION "0.56"
+
+#define HAVE_LIBGLUT     1
+//#define HAVE_LIBOPENGLUT 1
 #define HAVE_STRING_H    1
 #define HAVE_SYS_STAT_H  1
 #define HAVE_SYS_TYPES_H 1
 #define HAVE_STDLIB_H    1
+#define HAVE_STDARG_H    1
 #endif // #ifdef WIN32
+
+#ifndef UNIX
+  #if defined(LINUX) || defined(__LINUX) || defined(__BSD) || defined(__SOLARIS)
+  #define UNIX
+  #endif
+#endif
 
 #ifdef HAVE_STRING_H
   #include <string.h>
@@ -102,23 +96,28 @@ const char PATHSEPARATOR = '/';
 #define PATHSEPARATORSTRING "/"
 #endif
 
-#ifdef WIN32
-   #ifndef uint64_t
-      typedef unsigned __int64 uint64_t;
-   #endif
-   #ifndef int64_t
-      typedef __int64 int64_t;
-   #endif
+#ifdef _MSC_VER
+  typedef unsigned __int64 QWord;
+  typedef __int64 SQWord;
 #else
-   #ifndef uint64_t
-      typedef unsigned long long int uint64_t;
+  #if defined(HAVE_INTTYPES_H) || defined(HAVE_STDINT_H)
+    typedef uint64_t                QWord;
+    typedef int64_t                 SQWord;
+  #else
+    #if (SIZEOF_LONG == 8)
+      typedef unsigned long         QWord;
+      typedef long                  SQWord;
+    #else
+      #if (SIZEOF_LONG_LONG == 8)
+        typedef unsigned long long  QWord;
+        typedef long long           SQWord;
+      #else
+     /* a class with opterator overloading could help here */
+        #error No data type of size 8 found
    #endif
-   #ifndef int64_t
-      typedef long long int int64_t;
    #endif
-#endif
-
-#define VIRTUAL  virtual
+  #endif
+#endif /* #ifdef _MSC_VER */
 
 #ifdef LINUX
   int stricmp(const char *string1, const char *string2);

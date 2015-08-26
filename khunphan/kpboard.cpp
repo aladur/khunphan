@@ -76,9 +76,8 @@ inline void KPboard::SetPosition(tKPTokenID aTokenId, int x, int y, int xExtend,
 			tokenID[x+i][y+j] = aTokenId;
 }
 
-bool KPboard::InitializeToken (tKPTokenID aTokenId, const char * color, int x, int y, int xExtend, int yExtend)
+bool KPboard::InitializeToken (tKPTokenID aTokenId, const char *, int x, int y, int xExtend, int yExtend)
 {
-  color = color;  // avoid compiler warning
 	if (aTokenId == TK_EMPTY)
 		return false;
 	token[aTokenId] = (xExtend << 12) | (yExtend << 8) | (x << 3) | y;
@@ -226,11 +225,11 @@ void KPboard::fprintf(FILE *fp) const
 		}
 		::fprintf(fp, "\n");
 	}
-  uint64_t anID = GetID();
+  QWord anID = GetID();
   ::fprintf(fp, "%llx\n", anID);
 }
 
-inline uint64_t KPboard::GetID() const
+QWord KPboard::GetID() const
 {
 	// internal caching: if id is zero it first has to be calculated
 
