@@ -1,0 +1,242 @@
+// Titel
+1 Design und Entwicklung
+4 Musik 
+9 KhunPhan beinhaltet keinerlei Gewährleistung
+
+//Hauptmenu
+10 Hauptmenu                        
+11 Einstellungen
+12 Tastenbelegungen
+13 Beenden
+14 Anleitung
+15 Weiter
+
+// Einstellungen
+20 Steuerung
+21 Grafik
+22 Audio
+23 Sprache
+
+//OpenGL Interface Info
+30 OpenGL Hersteller : %s
+31 OpenGL Renderer : %s
+32 OpenGL Version : %s
+
+// Anzeige FPS
+35 %d fps (%1.1f ms)
+
+// Tastenbelegung
+40 Allgemein
+41 Im Spiel
+
+42 ESC, Strg+Q
+43 Strg+O
+44 p, P
+45 1...7
+
+50 Aktuellen Vorgang abbrechen
+51 Info zur OpenGL Schnittstelle
+52 Spiel unterbrechen oder fortsetzen
+53 Kameraposition ändern
+
+// Allgemein
+100 Zurück
+101 Übernehmen
+102 OK
+103 Abbrechen
+104 Pause
+105 Spiel Beenden
+
+// Im Spiel
+170 Weiterspielen
+
+171 Du hast das Spiel mit %u Zügen nach %s Minuten erfolgreich gelöst.
+
+172 Gratulation!
+173
+174
+
+175 Bei %u Zügen hast Du die Lösungshilfe benutzt.
+176 Für ein Übungsspiel nicht schlecht.
+177
+
+178 Leider ist dieses Spiel ungültig, Du hast geschummelt!
+179
+180
+
+181 Bitte gib Deinen Namen ein:
+
+192 Neues Spiel
+193 Zeit : %s
+194 Noch min. %d Züge
+195 Zug : %u
+
+// Einstellungen - Bedienung
+200 Mausgeschwindigkeit :
+201 Langsam
+202 Standard
+203 Schnell
+204 Sehr Schnell
+
+205 Lösungshilfe :
+206 An
+207 Aus
+
+230 Menu Texturen :
+231 Standard
+232 Hoch
+
+250 Texturen :
+251 Sehr niedrig
+252 Niedrig
+253 Standard
+254 Hoch
+
+260 Reflektionen :
+261 Aus
+262 Ein
+
+270 Bildschirmauflösung :
+271 640x480
+272 800x600
+273 1024x768
+274 1280x1024
+275 1600x1200
+
+280 Farbtiefe :
+281 16 Bit
+282 24 Bit
+283 32 Bit
+
+290 Schatten :
+291 Aus
+292 Ein
+
+295 Texturinterpolation :
+296 Aus
+297 Linear
+
+300 Qualität :
+301 Sehr schnell
+302 Schnell
+303 Standard
+304 Hoch
+305 Sehr hoch
+306 Benutzerdefiniert
+
+310 Hinweis
+311 Die neue Bildschirmauflösung, Farbtiefe oder
+312 Graphik-Schnitstelle wird erst beim nächsten
+313 Start von KhunPhan übernommen
+
+320 Umgebungslicht :
+321 Ein
+322 Aus
+
+325 Spielfeld Beleuchtung :
+326 1 Lampe
+327 2 Lampen
+328 3 Lampen
+
+335 Anzeige FPS :
+336 Ein
+337 Aus
+
+341 Bildschirm Modus :
+342 Vollbild
+343 Fenster
+
+345 Graphik- und Audio-Schnittstelle
+346 SDL (Simple Direct Media Layer)
+347 GLUT (Nur Graphik) 
+
+// Einstellungen - Audio
+350 Effekt-Lautstärke
+351 Aus
+352 10%
+353 20%
+354 30%
+355 40%
+356 50%
+357 60%
+358 70%
+359 80%
+360 90%
+361 100%
+
+370 Musik-Lautstärke
+371 Aus
+372 10%
+373 20%
+374 30%
+375 40%
+376 50%
+377 60%
+378 70%
+379 80%
+380 90%
+381 100%
+
+382 Thema :
+383 Blasen
+384 Marmor
+385 Metall
+386 Gemälde
+387 Stein
+388 Smily
+389 Holz
+
+// Einstellungen - Sprache
+400 Sprache / Language
+401
+402
+
+// Score List
+500 Bestenliste
+501 Name
+502 Spielzeit
+503 Summe der Züge
+
+// Tutorial
+710 Anleitung 1 von 4
+711 Herzlich Willkommen bei KhunPhan. 
+712 Khun Phan war eine führende Person in der Thailändischen Legende. Aufgrund
+713 einer Gefangenschaft versuchte er zu fliehen. Er war jedoch von 9 Wachposten umgeben.
+714 Khun Phan wird durch den großen Spielstein dargestellt, hier rot blinkend. Die 9
+715 Wachposten sind die andern Spielsteine. Du siehst hier die Ausgangsposition des Spiels.
+716 Du kannst diese Anleitung jederzeit mit der Escape-Taste oder einen Klick auf das
+717 KhunPhan Logo abbrechen.
+718
+719
+
+720 Anleitung 2 von 4
+721 Hier siehst Du Khun Phan auf der Flucht. Ziel des Spiels ist es, in möglichst kurzer
+722 Zeit diese Position zu erreichen. Der große Spielstein befindet sich dabei in der
+723 unteren Mittelposition. Khun Phan kann durch die Öffnung am unteren Spielfeldrand
+724 entfliehen. Die Anordnung der anderen Spielsteine spielt dabei keine Rolle.
+725
+
+730 Anleitung 3 von 4
+731 Sehr gut, fahre nun fort mit Klick auf 'Weiter'
+732 Wie werden nun die Spielsteine bewegt? Meist läßt sich ein Stein nur in eine Richtung
+733 bewegen. In diesem Fall kannst Du den Spielstein bewegen, indem Du ihn einfach mit der
+734 linken Maustaste anklickst.
+735 Versuche es nun mit dem rot blinkenden Stein!
+736
+737
+
+750 Anleitung 4 von 4
+751 Du bist nun bestens vorbereitet für das Spiel. Viel Spaß beim Spielen mit KhunPhan!
+752 Manchmal läßt sich ein Stein in zwei Richtungen bewegen. In diesem Fall bewegst Du
+753 die Maus auf den Stein und drückst die linke Maustaste. Schiebe die Maus ein
+754 Stück in die gewünschte Richtung und lasse dabei die Maustaste gedrückt. Anschließend
+755 lasse die Maustaste wieder los.
+756 Versuche es nun mit dem rot blinkenden Stein!
+757
+
+770 Das war schon ganz gut.
+771 Dieser Stein läßt sich nicht bewegen.
+772 Außerhalb des Spielfeldes kannst Du Khun Phan nicht befreien.
+773 Versuche es nun noch einmal mit dem rot blinkenden Stein.
+774 Das war der richtige Stein. Gib auch durch die Mausbewegung die Richtung vor.
+

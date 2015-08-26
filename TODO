@@ -1,0 +1,7 @@
+- Replace Texture Text display with Font support?
+- Improve animation after successfully solving the game
+- When in idle loop (camera turns around) solve game move by move
+- Create OpenGL widgets with Textfeld, Schild and ProgressBar
+  with a common interface. Read their parametrization from XML file
+- Use a different font
+- Fill background with a blur picture or sky ...

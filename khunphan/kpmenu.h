@@ -1,0 +1,148 @@
+/*
+    KPmenu.h
+
+    Automatic solution finder for KhunPhan game
+    Copyright (C) 2001,2002,2003  W. Schwotzer
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
+
+#ifndef KPMENU_H
+#define KPMENU_H
+
+#ifdef WIN32
+  #define WIN32_LEAN_AND_MEAN
+  #include <windows.h>
+  #pragma warning (disable: 4786)
+#endif
+#include <map>
+#include "Schild.h"
+#include "Textfeld.h"
+#include "kpprogressbar.h"
+#include "sprache.h"
+
+
+typedef std::map<int,Textfeld *> tTextfeldArray;
+typedef std::map<int,Schild *>   tSchildArray;
+
+#define MAX_LINE     2000
+#define MAX_FILENAME 1000
+
+typedef enum {
+  SHLD_MENUBACKGROUND = 0,
+  SHLD_LOGO           = 1,
+  SHLD_SOUND_ON       = 2,
+  SHLD_SOUND_OFF      = 3,
+  SHLD_MUSIC_ON       = 4,
+  SHLD_MUSIC_OFF      = 5,
+  SHLD_SHADER         = 6, // should be always the last one
+  MAX_SHLD            = 10
+} tSchild;
+
+typedef enum {
+  S_INVALID                     = -1,
+  S_LOGO                        = 100,
+  S_BACK                        = 101,
+  S_SAVECHANGES                 = 102,
+  S_CONTINUE                    = 103,
+
+  S_NEW_GAME                    = 110,
+  S_TUTORIAL                    = 111,
+  S_SETTINGS                    = 112,
+  S_FINISH                      = 113,
+  S_SELECT_LANGUAGE             = 114,
+  S_GRAPHIC_SETTINGS            = 115,
+  S_CONTROL_SETTINGS            = 116,
+  S_AUDIO_SETTINGS              = 117,
+  S_KEYBOARD_HELP               = 118,
+  S_SCORELIST                   = 119,
+
+  S_TOGGLE_LAMPS                = 130,
+  S_TOGGLE_TEXTURENAME          = 131,
+  S_TOGGLE_REFLECTIONS          = 132,
+  S_TOGGLE_RESOLUTION           = 133,
+  S_TOGGLE_COLORDEPTH           = 134,
+  S_TOGGLE_SHADOWS              = 135,
+  S_TOGGLE_TEXTUREINTERPOLATION = 136,
+  S_TOGGLE_MENUTEXTURES         = 137,
+  S_TOGGLE_TEXTURES             = 138,
+  S_TOGGLE_QUALITY              = 139,
+  S_TOGGLE_FPS                  = 140,
+  S_TOGGLE_SOLUTION_HINT        = 141,
+  S_TOGGLE_MOUSE_SPEED          = 142,
+  S_TOGGLE_AMBIENT_LIGHT        = 143,
+  S_TOGGLE_SCREENMODE           = 144,
+  S_TOGGLE_SOUND_VOLUME         = 145,
+  S_TOGGLE_MUSIC_VOLUME         = 146,
+  S_TOGGLE_USER_INTERFACE       = 147,
+
+  S_PLAYTIME                    = 150,
+  S_MOVES                       = 151,
+
+  S_TOGGLE_SOUND_ON             = 160,
+  S_TOGGLE_MUSIC_ON             = 161
+} tSignal;
+
+class KPstate;
+
+class KPmenu {
+public: 
+  friend class KPstate;
+  friend class KPstateStartUp;
+  friend class KPstateMainMenu;
+  friend class KPstateFinish;
+  friend class KPstateSettings;
+  friend class KPstateControlSettings;
+  friend class KPstateGraphicSettings;
+  friend class KPstateGraphicHint;
+  friend class KPstateAudioSettings;
+  friend class KPstateHelp;
+  friend class KPstateKeyboardHelp;
+  friend class KPstateGame;
+  friend class KPstateSelectLanguage;
+  friend class KPstateGameSolved;
+  friend class KPstateTutorial1;
+  friend class KPstateTutorial2;
+  friend class KPstateTutorial3;
+  friend class KPstateTutorial4;
+  friend class KPstateScoreList;
+  
+  KPmenu();
+  ~KPmenu();
+
+  bool Initialize(const char *TextureName, int TextureSize, bool Nearest, int Language = 0);
+  void Update(const char *TextureName, int TextureSize, bool Nearest, bool always = true);
+  void Draw();
+  void Update(int factor);
+  void UpdateFPS(int fps, float renderTime = 0.0);
+  void SaveLastStateId(int stateId) { lastState = stateId; };
+  int  RestoreLastStateId(void) const { return lastState; };
+  bool IsDisplayOpenGLInfo;
+
+protected:
+  bool LoadLanguage(int Language) ;
+  void AddTextField(int number, char word[]);
+  void DeactivateAllLabels();
+  void DeactivateAllTextFields();
+
+  KPprogressBar progressBar;
+
+  tSchildArray   SchildArray;
+  tTextfeldArray TextfeldArray;
+
+  int lastState;
+};
+
+#endif

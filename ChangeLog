@@ -1,0 +1,77 @@
+KhunPhan V0.55
+- Set back max. volume of music to the full range
+- Graphic settings: Changes get into effect immediately
+- Control settings: Changes get into effect immediately
+- Audio settings: Music is on. Changes get into effect immediately
+- Bugfix: After Game solved "Resume Game" is disabled
+- Bugfix: After switching off music avoid music playing again
+  after some minutes
+- Save camera position in config
+- Save music on/off and sound on/off in config
+
+KhunPhan V0.50
+- Increased volume range of WAV sound files
+- Support multiple textures for each theme
+- Added theme: Metal and Smile
+- Improved textures for theme: Wood and Marble
+- Changed sound interface to support OGG files
+  (SDL_mixer has to be compiled with ogg-vorbis support)
+- Replaced WAV sound files by OGG
+- Temporarily switch on/off sound or music during game
+- Improved avaliable camera positions
+- Improved Debug Output interface: On Win32 use OutputDebugString
+- Improved Debug Output messages for better error diagnosis
+
+KhunPhan V0.32
+- Generalized directory structure of Textures, Sound, Music and locale
+- Suppress further token movement after game is solved
+- Bugfix when returning from State Settings
+- Reduced max. volume of music to the half
+
+KhunPhan V0.31
+- Bugfix in class light in glNewList/glDeleteLists
+  (thanks to bernhard.kaindl@gmx.de)
+
+KhunPhan V0.30
+
+- Included support for SDL lib as an alternative to GLUT
+- Added Sound and music support (SDL only)
+- Introduced STL containers for dynamic arrays
+- Reduced dependancies to OpenGL header files
+- Eliminated global variables
+
+KhunPhan V0.29
+
+- First version released to the public (created homepage)
+- Removed Memory leaks when accessing libxml2
+- Improved Rescale algorithm for low texture resolution
+- Display rendertime also on Win32 (platform independant BTime class)
+
+KhunPhan V0.28
+
+- Support PNG image files with alpha channel
+- Only one image file per texture necessary,
+  Downscaling is done internally
+- Added Render time to FPS display
+- Red blinking token combined with texture
+- Using Texture objects instead of CallLists for Texture display
+- Only one Texture for all characters
+- Improved performance: Sufficient for graphic cards without 3D support
+- Optional time measurement for BoardView and Menu
+- Optional skipping Progress bar possible
+
+KhunPhan V0.27
+
+- Use PNG file format for texture import
+- Win32: added Icon, Version resource
+
+KhunPhan V0.26
+
+- Removed Memory leaks
+- Restructured the State interface
+- Updated english translation
+
+KhunPhan V0.25
+
+- First Version
+

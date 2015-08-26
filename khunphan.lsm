@@ -1,0 +1,19 @@
+Begin4
+Title:          KhunPhan 
+Version:        0.55
+Entered-date:   2003-05-20
+Description:    KhunPhan is a strategic puzzle game. There are 
+ten tokens on a board and the goal of the game is to move the
+biggest token from the upper middle position to the lower middle
+position. The game has a nice 3-dimensional user interface based
+on OpenGL.
+Keywords:       KhunPhan board game puzzle OpenGL
+Author:         woschwot@gmx.net (Wolfgang Schwotzer)
+Maintainer:     woschwot@gmx.net (Wolfgang Schwotzer)
+Primary-site:   http://www.ibiblio.org/ /pub/Linux/games/strategy/
+                7369K khunphan-0.55.tar.gz
+Alternate-site: http://geocities.com/khunphangame
+Platforms:      Linux and other Unices, Win32
+Copying-policy: GNU Public License
+End
+

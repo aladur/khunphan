@@ -1,0 +1,238 @@
+// Titel
+1 Design and Development
+4 Music
+9 KhunPhan comes with absolutely no warranty
+
+//Main Menu
+10 Main Menu                        
+11 Setup
+12 Keyboard Help
+13 Quit
+14 Tutorial
+15 Continue
+
+// Setup
+20 Controls
+21 Video
+22 Audio
+23 Language
+
+OpenGL Interface Info
+30 OpenGL Vendor : %s
+31 OpenGL Renderer : %s
+32 OpenGL Version : %s
+
+// Display FPS
+35 %d fps
+
+// Keyboard Help
+40 General
+41 Within Game
+
+42 ESC, Ctrl+Q
+43 Ctrl+O
+44 p, P
+45 1...7
+
+50 Abort current activity
+51 Info on OpenGL Interface
+52 Pause or continue Game
+53 Change Camera Position
+
+//General
+100 Back
+101 Apply
+102 OK
+103 Cancel
+104 Paused
+105 Quit the Game
+
+//Witin Game
+170 Resume Game
+
+171 You have successfully solved the Game with %u Moves after %s Minutes
+172 Congratulation!
+173
+174
+
+175 During %u Moves You have used the solution hint.
+176 That's not bad for a training Game.
+177
+
+178 Sorry but this game is invalid, You have cheated!
+179
+180
+
+181 Please enter your Name:
+
+192 New Game
+193 Time : %s
+194 Min. %d Moves to take
+195 Move : %u
+
+// Setup - Controls
+200 Mouse Speed :
+201 Slow
+202 Standard
+203 Fast
+204 Very Fast
+
+205 Solution Hint : 
+206 Yes
+207 No
+
+230 Menu Textures :
+231 Standard
+232 High
+
+250 Textures :
+251 Very Low
+252 Low
+253 Standard
+254 High
+
+260 Reflections :
+261 Off
+262 On
+
+270 Screen Resolutions :
+271 640x480
+272 800x600
+273 1024x768
+274 1280x1024
+275 1600x1200
+
+280 Color Depth :
+281 16 Bit
+282 24 Bit
+283 32 Bit
+
+290 Shadows :
+291 Off
+292 On
+
+295 Texture Interpolation :
+296 Off
+297 Linear
+
+300 Quality :
+301 Very Fast
+302 Fast
+303 Standard
+304 High
+305 Very High
+306 User Defined
+
+310 Hint
+311 The new screen resolution, color depth or
+312 graphics interface will be applied next time
+313 KhunPhan is started
+
+320 Ambient Light :
+321 On
+322 Off
+
+325 Field Illumination :
+326 1 Lamp
+327 2 Lamps
+328 3 Lamps
+
+335 FPS Display :
+336 On
+337 Off
+
+341 Screen Mode :
+342 Fullscreen
+343 Window
+
+345 Graphics- and Audio-Interface
+346 SDL (Simple Direct Media Layer)
+347 GLUT (Graphics Only) 
+
+// Setup - Audio
+350 Effects Volume
+351 Off
+352 10%
+353 20%
+354 30%
+355 40%
+356 50%
+357 60%
+358 70%
+359 80%
+360 90%
+361 100%
+
+370 Music Volume
+371 Off
+372 10%
+373 20%
+374 30%
+375 40%
+376 50%
+377 60%
+378 70%
+379 80%
+380 90%
+381 100%
+
+382 Theme :
+383 Bubbles
+384 Marble
+385 Metal
+386 Painting
+387 Rock
+388 Smily
+389 Wood
+
+// Setup - Language
+400 Language / Sprache
+401
+402
+
+// Highscore List
+500 Highscore List
+501 Name
+502 Playtime
+503 Sum of Moves
+
+// Tutorial
+710 Tutorial 1 of 4
+711 Welcome at KhunPhan.
+712 Khun Phan was a leading character in the Thai Legend. Because he was
+713 imprisoned he tried to escape. However he was surrounded by 9 sentries.
+714 Khun Phan is represented by the large game token, blinking in red.
+715 The 9 sentries are the other game tokens. Here You can see the starting
+716 position of the game. You can always abort this tutorial by pressing
+717 the ESC key or by klicking the KhunPhan Logo.  
+718
+719
+
+720 Tutorial 2 of 4
+721 Here You can see Khun Phan on the run. The goal of the game is to reach
+722 this position in shortest possible time. The large game token is located at
+723 the lower middle position. Khun Phan can escape through the gap at the lower edge
+724 of the playing field. The position of the other game tokens are irrelevant.
+725
+
+730 Tutorial 3 of 4
+731 Very good, please continue with klicking 'Continue'
+732 How to move the game tokens? Usually a token can only be moved in one
+733 direction. In these cases, You can move the token just by klicking on it
+734 with the left mouse button.
+735 Try it now with the red blinking token!  
+
+750 Tutorial 4 of 4
+751 You are now best prepared for the Game. Have fun playing with KhunPhan!
+752 Sometimes a token can be moved in two directions. In these cases,
+753 position the mouse over the token and press the left mouse key. Move the
+754 mouse into the desired direction and keep the mouse button pressed.
+755 After that release the mouse button.
+756 Try it now with the red blinking token!
+
+770 That was quite good.
+771 This token cannot be moved.
+772 Outside the playing field, you cannot free Khun Phan.
+773 Try it now once again with the red blinking token.
+774 That was the right token. Give it a direction through the mouse movement.  
+

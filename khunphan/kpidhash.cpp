@@ -1,0 +1,177 @@
+/*
+    kpidhash.cpp
+
+
+    Copyright (C) 2002  W. Schwotzer
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
+
+#include <stdio.h>
+#include "kpidhash.h"
+
+#ifdef WIN32
+   #define CONST_0XFFF 0xFFF
+#else
+   #define CONST_0XFFF 0xFFFLL
+#endif
+
+KPIdHash::KPIdHash()
+{
+	hashTable = new KPIdHashEntry *[HASHTABLE_SIZE];
+	memset(hashTable, 0, sizeof(KPIdHashEntry *) * HASHTABLE_SIZE);
+	//for (int i = 0; i < HASHTABLE_SIZE; i++)
+	//	hashTable[i] = (KPIdHashEntry *)NULL;
+}
+
+void KPIdHash::DeleteEntry(KPIdHashEntry *pEntry)
+{
+	// recursively delete the linear list of entries
+	if (pEntry == NULL) return;
+	if (pEntry->pnext)
+		DeleteEntry(pEntry->pnext);
+	delete pEntry;
+}
+
+void KPIdHash::ClearAll(void)
+{
+	for (int i = 0; i < HASHTABLE_SIZE; i++) {
+		DeleteEntry(hashTable[i]);
+		hashTable[i] = NULL;
+	}	
+}
+
+KPIdHash::~KPIdHash()
+{
+	ClearAll();
+	delete[] hashTable;
+	hashTable = NULL;
+}
+
+void KPIdHash::Add(const uint64_t &d, void *pObj /* = NULL */)
+{
+	KPIdHashEntry *p, *n, *newE;
+
+	newE = new KPIdHashEntry;
+	newE->data    = d;
+	newE->pnext   = NULL;
+	newE->pObject = pObj;
+	tIdHash hash = GetHash(d);
+	if ((p = hashTable[hash]) == NULL) {
+		// add the first hash value to the beginning of the linked list
+		hashTable[hash] = newE;
+		return;
+	}
+	if (d < p->data) {
+		// add a smaller hash value to the beginning of the linked list
+		hashTable[hash] = newE;
+		newE->pnext = p;
+		return;
+	}
+	while ((n = p->pnext) != NULL) {
+		if (d < n->data) {
+			// add a new hash value in the midth of the linked list
+			p->pnext = newE;
+			newE->pnext = n;
+			return;
+		}
+		// hash value already part of hash table: ignore it
+		if (d == n->data)
+			return;
+		p = p->pnext;
+	}
+	// add a larger hash value to the end of the linked list
+	p->pnext = newE;
+}
+
+bool KPIdHash::Contains(const uint64_t &d) const
+{
+	KPIdHashEntry *e = hashTable[GetHash(d)];
+	while (e != NULL) {
+		if (d < e->data)
+			return false;
+		if (e->data == d)
+			return true;
+		e = e->pnext;
+	}
+	return false;
+}
+
+void *KPIdHash::GetObjectWith(const uint64_t &d) const
+{
+	KPIdHashEntry *e = hashTable[GetHash(d)];
+	while (e != NULL) {
+		if (d < e->data)
+			return NULL;
+		if (e->data == d)
+			return e->pObject;
+		e = e->pnext;
+	}
+	return NULL;
+}
+
+tIdHash	KPIdHash::GetHash(uint64_t d) const
+{
+	return (tIdHash)
+		((d &  CONST_0XFFF) ^
+		((d & (CONST_0XFFF << 12)) >> 12) ^
+		((d & (CONST_0XFFF << 24)) >> 24) ^
+		((d & (CONST_0XFFF << 36)) >> 36)) % HASHTABLE_SIZE;	
+/*
+	return
+		((d & 0xFFFFLL) ^
+		((d & (0xFFFFLL << 16)) >> 16) ^
+		((d & (0xFFFFLL << 32)) >> 32)) % HASHTABLE_SIZE;	
+*/
+}
+
+void KPIdHash::fprintf(FILE *fp) const
+{
+	unsigned int i, n, sum;
+	KPIdHashEntry *e;
+
+	sum = 0;
+	::fprintf(fp, "KpIdHash:\n");
+	for (i = 0; i < HASHTABLE_SIZE; i++) {
+		n = 0;
+		e = hashTable[i];
+		while (e != NULL) {
+			n++;
+			e = e->pnext;
+		}
+		sum += n;
+		::fprintf(fp, "  Hash %u, %u entries\n", i, n);
+	}
+	::fprintf(fp, "  Total: %u entries\n", sum);
+}
+
+void KPIdHash::Check(FILE *fp) const
+{
+	int i;
+	KPIdHashEntry *p, *n;
+
+	::fprintf(fp, "Checking KpIdHash\n");
+	for (i = 0; i < HASHTABLE_SIZE; i++) {
+		if ((p = hashTable[i]) == NULL)
+			continue;
+		while ((n = p->pnext) != NULL) {
+			if (p->data == n->data)
+				::fprintf(fp, "Hash id %d: same data: %llx\n", i, p->data);
+			if (p->data > n->data)
+				::fprintf(fp, "Hash id %d: wrong order: %llx, %llx\n", i, p->data, n->data);
+			p = p->pnext;
+		}
+	}
+}
