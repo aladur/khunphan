@@ -99,18 +99,22 @@ const char PATHSEPARATOR = '/';
 #ifdef _MSC_VER
   typedef unsigned __int64 QWord;
   typedef __int64 SQWord;
+  #define FMT_UINT64x "%I64x"
 #else
   #if defined(HAVE_INTTYPES_H) || defined(HAVE_STDINT_H)
     typedef uint64_t                QWord;
     typedef int64_t                 SQWord;
+    #define FMT_UINT64x "%" PRIx64
   #else
     #if (SIZEOF_LONG == 8)
       typedef unsigned long         QWord;
       typedef long                  SQWord;
+      #define FMT_UINT64x "%lx"
     #else
       #if (SIZEOF_LONG_LONG == 8)
         typedef unsigned long long  QWord;
         typedef long long           SQWord;
+        #define FMT_UINT64x "%llx"
       #else
      /* a class with opterator overloading could help here */
         #error No data type of size 8 found
@@ -121,13 +125,6 @@ const char PATHSEPARATOR = '/';
 
 #ifdef LINUX
   int stricmp(const char *string1, const char *string2);
-#endif
-
-#ifdef LINUX
-#define FMT_UINT64 "%llx"
-#endif
-#ifdef WIN32
-#define FMT_UINT64 "%I64x"
 #endif
 
 #ifdef _MSC_VER

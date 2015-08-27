@@ -25,7 +25,7 @@
 #ifdef WIN32
    #define CONST_0XFFF 0xFFF
 #else
-   #define CONST_0XFFF 0xFFFLL
+   #define CONST_0XFFF 0xFFFL
 #endif
 
 KPIdHash::KPIdHash()
@@ -171,9 +171,12 @@ void KPIdHash::Check(FILE *fp) const
 			continue;
 		while ((n = p->pnext) != NULL) {
 			if (p->data == n->data)
-				::fprintf(fp, "Hash id %d: same data: %llx\n", i, p->data);
+				::fprintf(fp, "Hash id %d: same data: "
+                                          FMT_UINT64x "\n", i, p->data);
 			if (p->data > n->data)
-				::fprintf(fp, "Hash id %d: wrong order: %llx, %llx\n", i, p->data, n->data);
+				::fprintf(fp, "Hash id %d: wrong order: "
+                                          FMT_UINT64x ", " FMT_UINT64x "\n",
+                                          i, p->data, n->data);
 			p = p->pnext;
 		}
 	}

@@ -208,7 +208,7 @@ void KPConfig::WriteToFile()
     if (SavedGame != 0) {
       subtree  = xmlNewChild( tree, NULL, (xmlChar *)"SavedGame", NULL );
 
-      sprintf((char *)buffer, FMT_UINT64, SavedGame); xmlNewChild(subtree, NULL, (xmlChar *)"Position",      buffer );
+      sprintf((char *)buffer, FMT_UINT64x, SavedGame); xmlNewChild(subtree, NULL, (xmlChar *)"Position",      buffer );
       sprintf((char *)buffer, "%u",   PlayTime);      xmlNewChild(subtree, NULL, (xmlChar *)"PlayTime",      buffer );
       sprintf((char *)buffer, "%u",   Moves);         xmlNewChild(subtree, NULL, (xmlChar *)"Moves",         buffer );
       sprintf((char *)buffer, "%u",   MovesWithHint); xmlNewChild(subtree, NULL, (xmlChar *)"MovesWithHint", buffer );
@@ -394,7 +394,7 @@ void KPConfig::ReadFromFile()
                  while (subtree1 != NULL) {
                     if ((!xmlStrcmp(subtree1->name, (const xmlChar *)"Position")) && (cur->ns == ns) &&
                        (p = xmlNodeListGetString(doc, subtree1->xmlChildrenNode, 1))) {
-                       sscanf((const char *)p, FMT_UINT64, &SavedGame);
+                       sscanf((const char *)p, FMT_UINT64x, &SavedGame);
                        xmlFree(p);
                     }
                     if ((!xmlStrcmp(subtree1->name, (const xmlChar *)"PlayTime")) && (cur->ns == ns) &&
@@ -557,7 +557,7 @@ void KPConfig::DebugPrint()
   DEBUGPRINT1("  MusicVolume :          %d\n", MusicVolume);
   DEBUGPRINT1("  SoundOn :              %s\n", SoundOn ? "On" : "Off");
   DEBUGPRINT1("  MusicOn :              %s\n", MusicOn ? "On" : "Off");
-  DEBUGPRINT1("  SavedGame :            " FMT_UINT64 "\n", SavedGame);
+  DEBUGPRINT1("  SavedGame :            " FMT_UINT64x "\n", SavedGame);
   DEBUGPRINT1("  PlayTime :             %u ms\n", PlayTime);
   DEBUGPRINT1("  Moves :                %u\n", Moves);
   DEBUGPRINT1("  MovesWithHint :        %u\n", MovesWithHint);

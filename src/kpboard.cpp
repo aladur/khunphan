@@ -226,7 +226,7 @@ void KPboard::fprintf(FILE *fp) const
 		::fprintf(fp, "\n");
 	}
   QWord anID = GetID();
-  ::fprintf(fp, "%llx\n", anID);
+  ::fprintf(fp, FMT_UINT64x "\n", anID);
 }
 
 QWord KPboard::GetID() const
