@@ -50,7 +50,6 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,  const KPstate *pOldSt
     pContext->GetMenu().TextfeldArray[T_COPYRIGHT6] = new Textfeld();
 
   pContext->GetMenu().TextfeldArray[T_COPYRIGHT2]->SetzeText("© 2002-2006 Wolfgang Schwotzer");
-  pContext->GetMenu().TextfeldArray[T_COPYRIGHT3]->SetzeText("http://www.geocities.com/khunphangame/");
   pContext->GetMenu().TextfeldArray[T_COPYRIGHT5]->SetzeText("© 2001-2006 Nicklas Nygren");
   pContext->GetMenu().TextfeldArray[T_COPYRIGHT6]->SetzeText("http://nifflas.ni2.se/");
 
