@@ -32,6 +32,7 @@ src/khunphan
 Makefile
 stamp-h1
 config.h.in~
+config.h
 config.status
 config.log
 autom4te.cache
