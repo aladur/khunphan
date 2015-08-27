@@ -2,6 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([khunphan],0.56)
 AC_CONFIG_SRCDIR([src/main.cpp])
+AC_CONFIG_AUX_DIR([config])
 AC_CANONICAL_TARGET
 AC_ARG_PROGRAM dnl Perform program name transformation
 AM_INIT_AUTOMAKE
