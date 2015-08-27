@@ -4,9 +4,6 @@
 /* Use the Apple OpenGL framework. */
 /* #undef HAVE_APPLE_OPENGL_FRAMEWORK */
 
-/* define if the compiler supports basic C++11 syntax */
-/* #undef HAVE_CXX11 */
-
 /* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
    */
 #define HAVE_DIRENT_H 1

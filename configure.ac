@@ -15,8 +15,6 @@ AC_PROG_CXXCPP
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
-AX_CXX_COMPILE_STDCXX_11([noext])
-
 dnl check for OpenGL and GLU
 AX_CHECK_GLU
 if test "x$no_glu" = "xyes"; then
