@@ -1,3 +1,8 @@
+KhunPhan V0.56
+- Update autotool files
+- compile with gcc-4.9.2
+- minor code improvements
+- make c++98 compliant
 KhunPhan V0.55
 - Set back max. volume of music to the full range
 - Graphic settings: Changes get into effect immediately

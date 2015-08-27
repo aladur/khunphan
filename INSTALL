@@ -4,6 +4,8 @@ Basic Installation
 1. Win32
 ========
 
+ATTENTION: Windows is currently (Aug. 2015) not maintained.
+
 To build the KhunPhan executable on Win32 MSVC V6 is necessary.
 A DSW/DSP file is available.
 
@@ -14,10 +16,7 @@ libraries (incl. headers) are necessary:
    libpng       (http://www.libpng.org)
    libSDL       (http://www.libsdl.org)
    libSDL_mixer (http://libsdl.org/projects/SDL_mixer/)
-   libglut      (http://www.opengl.org/developers/documentation/glut/index.html)
-
-For the convenience of the Win32 users a ready-to-run installation
-executable is available.
+   freeglut     (http://freeglut.sourceforge.net/) is optional
 
 Hints:
 ------
@@ -46,24 +45,29 @@ In short:
 
    (make install-strip to strip debug information from the binary file)
 
-   Necessary libraries for the installation:
+   Needed libraries for the installation:
 
    libxml2      (http://xmlsoft.org)
    libpng       (http://www.libpng.org)
    libSDL       (http://www.libsdl.org)
    libSDL_mixer (http://libsdl.org/projects/SDL_mixer/)
-   libglut      (http://www.opengl.org/developers/documentation/glut/index.html)
+   freeglut     (http://freeglut.sourceforge.net/) is optional
 
    Either install them from a source distribution or by the package
    manager of your Linux distribution. Don't forget to also install
-   the -devel package.
+   the -dev/-devel package.
 
-   (e. g. in the SuSE Distribution there is a package
+   SuSE Distribution packages:
+
    libxml2-x.y.z.rpm/libxml2-devel.x.y.z.rpm)
    libpng-x.y.z.rpm/libpng-devel-x.y.z.rpm and
    SDL-x.y.z.rpm/SDL-devel-x.y.z.rpm and
    SDL_mixer-x.y.z.rpm and
    mesaglut-x.y.z.rpm/mesaglut-devel-x.y.z.rpm
+
+   install Debian / Ubuntu / Mint packages:
+
+   sudo apt-get install libglu1-mesa-dev libxml2-dev libpng12-dev libsdl1.2-dev libsdl-mixer1.2-dev freeglut3-dev
 
 More detailed:
 --------------
