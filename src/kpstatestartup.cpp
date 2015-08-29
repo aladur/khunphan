@@ -2,7 +2,7 @@
     kpstatestartup.cpp
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2001-2005  W. Schwotzer
+    Copyright (C) 2001-2015  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,  const KPstate *pOldSt
   if (pContext->GetMenu().TextfeldArray[T_COPYRIGHT6] == NULL)
     pContext->GetMenu().TextfeldArray[T_COPYRIGHT6] = new Textfeld();
 
-  pContext->GetMenu().TextfeldArray[T_COPYRIGHT2]->SetzeText("© 2002-2006 Wolfgang Schwotzer");
+  pContext->GetMenu().TextfeldArray[T_COPYRIGHT2]->SetzeText("© 2002-2015 Wolfgang Schwotzer");
   pContext->GetMenu().TextfeldArray[T_COPYRIGHT5]->SetzeText("© 2001-2006 Nicklas Nygren");
   pContext->GetMenu().TextfeldArray[T_COPYRIGHT6]->SetzeText("http://nifflas.ni2.se/");
 

@@ -3,7 +3,7 @@
 
 
     Basic class containing a string implementation
-    Copyright (C) 1998-2005  W. Schwotzer
+    Copyright (C) 1998-2015  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

@@ -1,7 +1,7 @@
 /**********************************************************************************
 **
 **  Textfeld.cpp   Copyright (C) 2001 by Stefan Disch, Tobias Nopper, Martina Welte
-**                 Modified 2002,2003 for KhunPhan by W. Schwotzer
+**                 Modified 2002-2015 for KhunPhan by W. Schwotzer
 **
 ***********************************************************************************/
 
