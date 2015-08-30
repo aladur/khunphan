@@ -1,6 +1,7 @@
 bin_PROGRAMS = khunphan
 
 khunphan_SOURCES = bdir.cpp kpsdluserinterface.cpp kpglutuserinterface.cpp \
+        kpsdl2userinterface.cpp \
 	kpuibase.cpp btime.cpp kpstatescorelist.cpp kpscore.cpp btexture.cpp \
 	kpstatistics.cpp kpprogressbar.cpp kpthreadsolvecount.cpp \
 	bposixthreadimp.cpp bwin32threadimp.cpp bthreadimp.cpp \
@@ -30,8 +31,8 @@ EXTRA_DIST = config.h bstring.h KhunPhan.h kpboard.h misc1.h kpnode.h \
 	bthreadfactory.h bthreadimp.h bposixthreadimp.h kpthreadsolvecount.h \
 	kpprogressbar.h KPtime.h kpstatistics.h btexture.h kpscore.h \
 	kpstatescorelist.h btime.h kpuibase.h kpglutuserinterface.h \
-	kpsdluserinterface.h bdir.h bwin32threadimp.h resource.h \
-	bdelete.h bsingle.h kpstatelighttest.h \
+	kpsdluserinterface.h kpsdl2userinterface.h bdir.h bwin32threadimp.h \
+        resource.h bdelete.h bsingle.h kpstatelighttest.h \
 	KhunPhan.rc icon.ico
 
 AM_CPPFLAGS= $(all_includes) -DLINUX -DDATADIR=\"$(datadir)\"

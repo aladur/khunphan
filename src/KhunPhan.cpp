@@ -29,6 +29,7 @@
 #include "kpconfig.h"
 #include "bthread.h"
 #include "kpsdluserinterface.h"
+#include "kpsdl2userinterface.h"
 #include "kpglutuserinterface.h"
 
 
@@ -121,7 +122,14 @@ bool KhunPhanApp::Run(int argc, char **argv)
 
   switch (KPConfig::Instance().UserInterface)
   {
+#ifdef HAVE_SDL2
+    case 0: userInterface = new KPSdl2UserInterface();  break;
+#else
+#ifdef HAVE_SDL
     case 0: userInterface = new KPSdlUserInterface();  break;
+#endif
+#endif
+
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
     case 1: userInterface = new KPGlutUserInterface(); break;
 #endif

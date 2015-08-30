@@ -22,6 +22,12 @@
 /* Define if you have POSIX threads libraries and header files. */
 #undef HAVE_PTHREAD
 
+/* Define to 1 if library and header file for libsdl is available. */
+#undef HAVE_SDL
+
+/* Define to 1 if library and header file for libsdl2 is available. */
+#undef HAVE_SDL2
+
 /* Define to 1 if you have the <stdarg.h> header file. */
 #undef HAVE_STDARG_H
 

@@ -20,7 +20,8 @@
 */
 
 #include "config.h"
-#ifdef HAVE_SDL
+
+#ifdef HAVE_SDL2
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -33,12 +34,12 @@
   #include <unistd.h>  // needed for access
 #endif
 #include <limits.h>
-#include "kpsdluserinterface.h"
+#include "kpsdl2userinterface.h"
 #include "btime.h"
 #include "bdir.h"
 
 
-const char *KPSdlUserInterface::soundFile[KP_SND_MAX+1] =
+const char *KPSdl2UserInterface::soundFile[KP_SND_MAX+1] =
 {
   "openmenu.ogg",      // KP_SND_OPENMENU
   "quitgame.ogg",      // KP_SND_QUITGAME
@@ -50,19 +51,22 @@ const char *KPSdlUserInterface::soundFile[KP_SND_MAX+1] =
   NULL
 };
   
-KPSdlUserInterface::KPSdlUserInterface() : screen(NULL), sound(NULL), soundSource(NULL),
+KPSdl2UserInterface::KPSdl2UserInterface() : window(NULL), sound(NULL), soundSource(NULL),
                                            music(NULL), rate(22050), musicIndex(0)
 {
 }
 
-KPSdlUserInterface::~KPSdlUserInterface()
+KPSdl2UserInterface::~KPSdl2UserInterface()
 {
-  if ( screen )
+  if (window != NULL)
   {
+     window = NULL;
+     SDL_DestroyRenderer(renderer);
+     SDL_DestroyWindow(window);
      SDL_Quit();
-     screen = NULL;
   }
 
+  /*
   if (sound != NULL)
   {
     for (int i = 0; i < KP_SND_MAX; i++)
@@ -79,39 +83,50 @@ KPSdlUserInterface::~KPSdlUserInterface()
   if (music != NULL)
      Mix_FreeMusic(music);
   music = NULL;
+  */
 }
 
 /////////////////////////////////////////////////////////////////////
 // Public Interface
 /////////////////////////////////////////////////////////////////////
 
-void KPSdlUserInterface::InitializeEvents()
+void KPSdl2UserInterface::InitializeEvents()
 {
   // nothing to do here
 }
 
-bool KPSdlUserInterface::CanToggleFullScreen() const
+bool KPSdl2UserInterface::CanToggleFullScreen() const
 {
   return true;
 }
 
-void KPSdlUserInterface::SetWindowMode(bool /* FullScreen */) const
+void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
 {
-  if (screen == NULL || !CanToggleFullScreen())
+  if (window == NULL || !CanToggleFullScreen())
+  {
     return;
+  }
 
-  SDL_WM_ToggleFullScreen(screen);
+  SDL_SetWindowFullscreen(window,
+                          isfullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
 }
 
-bool KPSdlUserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
+bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
-  char temp[64];
-  int flags = SDL_OPENGL | SDL_RESIZABLE;
+  char title[64];
+  int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+  SDL_version compiled;
+  SDL_version linked;
   const SDL_version *pVersion;
 
+  SDL_VERSION(&compiled);
+  SDL_GetVersion(&linked);
+
   DEBUGPRINT("SDL UserInterface initialization\n");
-  pVersion = SDL_Linked_Version();
-  DEBUGPRINT3("SDL Linked version: %d.%d.%d\n", pVersion->major, pVersion->minor, pVersion->patch);
+  DEBUGPRINT3("SDL linked version: %d.%d.%d\n",
+              linked.major, linked.minor, linked.patch);
+  DEBUGPRINT3("SDL compiled version: %d.%d.%d\n",
+              compiled.major, compiled.minor, compiled.patch);
   DEBUGPRINT3("SDL Header version: %d.%d.%d\n", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
   pVersion = Mix_Linked_Version();
   DEBUGPRINT3("SDL_mixer Linked version: %d.%d.%d\n", pVersion->major, pVersion->minor, pVersion->patch);
@@ -119,31 +134,47 @@ bool KPSdlUserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
   // Open OpenGL Window with SDL
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE) < 0)
+  {
     return false;
+  }
 
   if (KPConfig::Instance().FullScreen)
-    flags |= SDL_FULLSCREEN;
+  {
+    flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+  }
 
-  screen = SDL_SetVideoMode(
+  sprintf(title, "%s V%s", PACKAGE, VERSION);
+
+  window = SDL_CreateWindow(
+         title,
+         SDL_WINDOWPOS_UNDEFINED,
+         SDL_WINDOWPOS_UNDEFINED,
          KPConfig::Instance().ScreenXResolution,
          (KPConfig::Instance().ScreenXResolution*3)/4,
-         KPConfig::Instance().ColorDepth,
          flags);
-  if (screen == NULL)
+
+  if (window == NULL)
   {
+    printf("*** SDL_CreateWindow Error: %s\n", SDL_GetError());
     SDL_Quit();
     return false;
   }
 
-  sprintf(temp, "%s V%s", PACKAGE, VERSION);
-  SDL_WM_SetCaption(temp, temp);
+  renderer = SDL_CreateRenderer(window, -1, 0);
+  if (renderer == NULL)
+  {
+    printf("*** SDL_CreateRenderer Error: %s\n", SDL_GetError());
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    return false;
+  }
 
   DebugPrintOpenGLVersion();
   InitializeAudio(KPConfig::Instance().TextureName);
   return InitializeAfterOpen();
 }
 
-void KPSdlUserInterface::MainLoop()
+void KPSdl2UserInterface::MainLoop()
 {
   // This is the event loop
   bool done = 0;
@@ -161,17 +192,14 @@ void KPSdlUserInterface::MainLoop()
     {
       switch(event.type)
       {
-        case SDL_VIDEORESIZE:
-          screen = SDL_SetVideoMode(event.resize.w, event.resize.h,
-                                    KPConfig::Instance().ColorDepth,
-                                    SDL_OPENGL | SDL_RESIZABLE);
-          if ( screen ) {
-            Reshape(screen->w, screen->h);
-          } else {
-            // unable to set video mode -> Quit
-            done = 1;
-          }
-          break;
+        case SDL_WINDOWEVENT:
+        switch (event.window.event)
+        {
+          case SDL_WINDOWEVENT_SIZE_CHANGED:
+            Reshape(event.window.data1, event.window.data2);
+            break;
+        }
+        break;
         case SDL_QUIT:
           done = 1;
           break;
@@ -208,7 +236,7 @@ void KPSdlUserInterface::MainLoop()
   } // main loop
 }
 
-bool KPSdlUserInterface::mapKey(int mod, int sym, unsigned char *pKey)
+bool KPSdl2UserInterface::mapKey(int mod, int sym, unsigned char *pKey)
 {
   // this is only a hack for key mapping compatible to GLUT
   if (mod & (KMOD_LCTRL | KMOD_RCTRL | KMOD_CTRL))
@@ -250,25 +278,36 @@ bool KPSdlUserInterface::mapKey(int mod, int sym, unsigned char *pKey)
   return false;
 }
   
-void KPSdlUserInterface::Close()
+void KPSdl2UserInterface::Close()
 {
-  if ( screen )
+  if (window != NULL)
   {
+     SDL_DestroyRenderer(renderer);
+     SDL_DestroyWindow(window);
+     window = NULL;
      SDL_Quit();
-  screen = NULL;
   }
   KPConfig::Instance().WriteToFile();
 
   exit(0);
 }
 
-int KPSdlUserInterface::GetValue(int what) const
+int KPSdl2UserInterface::GetValue(int what) const
 {
-  switch (what)
+  if (window != NULL)
   {
-    case KP_WINDOW_WIDTH:  return (screen != NULL ? screen->w : 0);
-    case KP_WINDOW_HEIGHT: return (screen != NULL ? screen->h : 0);
+    int width;
+    int height;
+
+    SDL_GetWindowSize(window, &width, &height);
+
+    switch (what)
+    {
+      case KP_WINDOW_WIDTH:  return width;
+      case KP_WINDOW_HEIGHT: return height;
+    }
   }
+
   return 0;
 }
 
@@ -277,22 +316,25 @@ int KPSdlUserInterface::GetValue(int what) const
 // Event Handling
 /////////////////////////////////////////////////////////////////////
 
-void KPSdlUserInterface::SwapBuffers()
+void KPSdl2UserInterface::SwapBuffers()
 {
-  SDL_GL_SwapBuffers();
+  if (window != NULL)
+  {
+     SDL_GL_SwapWindow(window);
+  }
 }
 
-void KPSdlUserInterface::Timer(int)
+void KPSdl2UserInterface::Timer(int)
 {
   // unused
 }
 
-void KPSdlUserInterface::PostWindowRedisplay()
+void KPSdl2UserInterface::PostWindowRedisplay()
 {
   // Is there something to do here?
 }
 
-void KPSdlUserInterface::MouseClick( int button, int state, int x, int y )
+void KPSdl2UserInterface::MouseClick( int button, int state, int x, int y )
 {
   int kpState, kpButton;
 
@@ -316,7 +358,7 @@ void KPSdlUserInterface::MouseClick( int button, int state, int x, int y )
 // Audio/Music Interface
 /////////////////////////////////////////////////////////////////////
 
-bool KPSdlUserInterface::InitializeAudio(const char *textureName, bool reInitialize /* = false */)
+bool KPSdl2UserInterface::InitializeAudio(const char *textureName, bool reInitialize /* = false */)
 {
   if(!reInitialize) DEBUGPRINT("Audio and Music initialization\n");
   
@@ -382,7 +424,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName, bool reInitial
   return true;
 }
 
-void KPSdlUserInterface::LoadNextMusic()
+void KPSdl2UserInterface::LoadNextMusic()
 {
   if (music != NULL)
   {
@@ -424,7 +466,7 @@ void KPSdlUserInterface::LoadNextMusic()
   }
 }
   
-void KPSdlUserInterface::PlayAudio(int soundId) const
+void KPSdl2UserInterface::PlayAudio(int soundId) const
 {
   if (sound == NULL || soundId < 0 || soundId >= KP_SND_MAX)
     return;
@@ -443,19 +485,19 @@ void KPSdlUserInterface::PlayAudio(int soundId) const
     Mix_PlayChannel(-1, sound[soundId], 0);
 }
 
-void KPSdlUserInterface::SetSoundVolume(int volume) const
+void KPSdl2UserInterface::SetSoundVolume(int volume) const
 {
   if (sound != NULL)
     Mix_Volume(-1, MIX_MAX_VOLUME * volume / 100);
 }
 
-void KPSdlUserInterface::SetMusicVolume(int volume) const
+void KPSdl2UserInterface::SetMusicVolume(int volume) const
 {
   if (music != NULL)
     Mix_VolumeMusic(MIX_MAX_VOLUME * volume / 100);
 }
 
-void KPSdlUserInterface::PlayMusic(bool On, bool resetPos)
+void KPSdl2UserInterface::PlayMusic(bool On, bool resetPos)
 {
   static double pos = 0.0;
   static BTime time;
@@ -481,7 +523,7 @@ void KPSdlUserInterface::PlayMusic(bool On, bool resetPos)
     pos = 0.0;
 }
 
-void KPSdlUserInterface::StopMusicCallback()
+void KPSdl2UserInterface::StopMusicCallback()
 {
   if (music != NULL)
   {
@@ -491,10 +533,11 @@ void KPSdlUserInterface::StopMusicCallback()
   PlayMusic(true, true);
 }
   
-void KPSdlUserInterface::stopMusicCallback()
+void KPSdl2UserInterface::stopMusicCallback()
 {
-  if (KPSdlUserInterface::instance != NULL)
-    KPSdlUserInterface::instance->StopMusicCallback();  
+  if (KPSdl2UserInterface::instance != NULL)
+    KPSdl2UserInterface::instance->StopMusicCallback();  
 }
 
-#endif //#ifdef HAVE_SDL
+#endif //#ifdef HAVE_SDL2
+

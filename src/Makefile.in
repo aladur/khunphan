@@ -91,7 +91,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/ax_check_glu.m4 \
 	$(top_srcdir)/m4/ax_check_glut.m4 \
 	$(top_srcdir)/m4/ax_lang_compiler_ms.m4 \
-	$(top_srcdir)/m4/libpng.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/libpng.m4 $(top_srcdir)/m4/libxml2.m4 \
+	$(top_srcdir)/m4/sdl2.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -103,6 +104,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-kpsdluserinterface.$(OBJEXT) \
 	khunphan-kpglutuserinterface.$(OBJEXT) \
+	khunphan-kpsdl2userinterface.$(OBJEXT) \
 	khunphan-kpuibase.$(OBJEXT) khunphan-btime.$(OBJEXT) \
 	khunphan-kpstatescorelist.$(OBJEXT) khunphan-kpscore.$(OBJEXT) \
 	khunphan-btexture.$(OBJEXT) khunphan-kpstatistics.$(OBJEXT) \
@@ -286,9 +288,13 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
+PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
+PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 PTHREAD_CC = @PTHREAD_CC@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
+SDL2_CONFIG = @SDL2_CONFIG@
 SDL_CFLAGS = @SDL_CFLAGS@
 SDL_CONFIG = @SDL_CONFIG@
 SDL_LIBS = @SDL_LIBS@
@@ -361,6 +367,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 khunphan_SOURCES = bdir.cpp kpsdluserinterface.cpp kpglutuserinterface.cpp \
+        kpsdl2userinterface.cpp \
 	kpuibase.cpp btime.cpp kpstatescorelist.cpp kpscore.cpp btexture.cpp \
 	kpstatistics.cpp kpprogressbar.cpp kpthreadsolvecount.cpp \
 	bposixthreadimp.cpp bwin32threadimp.cpp bthreadimp.cpp \
@@ -389,8 +396,8 @@ EXTRA_DIST = config.h bstring.h KhunPhan.h kpboard.h misc1.h kpnode.h \
 	bthreadfactory.h bthreadimp.h bposixthreadimp.h kpthreadsolvecount.h \
 	kpprogressbar.h KPtime.h kpstatistics.h btexture.h kpscore.h \
 	kpstatescorelist.h btime.h kpuibase.h kpglutuserinterface.h \
-	kpsdluserinterface.h bdir.h bwin32threadimp.h resource.h \
-	bdelete.h bsingle.h kpstatelighttest.h \
+	kpsdluserinterface.h kpsdl2userinterface.h bdir.h bwin32threadimp.h \
+        resource.h bdelete.h bsingle.h kpstatelighttest.h \
 	KhunPhan.rc icon.ico
 
 AM_CPPFLAGS = $(all_includes) -DLINUX -DDATADIR=\"$(datadir)\"
@@ -552,6 +559,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpnode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpprogressbar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpscore.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpsdl2userinterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpsdluserinterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstateaudiosettings.Po@am__quote@
@@ -636,6 +644,20 @@ khunphan-kpglutuserinterface.obj: kpglutuserinterface.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpglutuserinterface.cpp' object='khunphan-kpglutuserinterface.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpglutuserinterface.obj `if test -f 'kpglutuserinterface.cpp'; then $(CYGPATH_W) 'kpglutuserinterface.cpp'; else $(CYGPATH_W) '$(srcdir)/kpglutuserinterface.cpp'; fi`
+
+khunphan-kpsdl2userinterface.o: kpsdl2userinterface.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpsdl2userinterface.o -MD -MP -MF $(DEPDIR)/khunphan-kpsdl2userinterface.Tpo -c -o khunphan-kpsdl2userinterface.o `test -f 'kpsdl2userinterface.cpp' || echo '$(srcdir)/'`kpsdl2userinterface.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpsdl2userinterface.Tpo $(DEPDIR)/khunphan-kpsdl2userinterface.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpsdl2userinterface.cpp' object='khunphan-kpsdl2userinterface.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpsdl2userinterface.o `test -f 'kpsdl2userinterface.cpp' || echo '$(srcdir)/'`kpsdl2userinterface.cpp
+
+khunphan-kpsdl2userinterface.obj: kpsdl2userinterface.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpsdl2userinterface.obj -MD -MP -MF $(DEPDIR)/khunphan-kpsdl2userinterface.Tpo -c -o khunphan-kpsdl2userinterface.obj `if test -f 'kpsdl2userinterface.cpp'; then $(CYGPATH_W) 'kpsdl2userinterface.cpp'; else $(CYGPATH_W) '$(srcdir)/kpsdl2userinterface.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpsdl2userinterface.Tpo $(DEPDIR)/khunphan-kpsdl2userinterface.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpsdl2userinterface.cpp' object='khunphan-kpsdl2userinterface.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpsdl2userinterface.obj `if test -f 'kpsdl2userinterface.cpp'; then $(CYGPATH_W) 'kpsdl2userinterface.cpp'; else $(CYGPATH_W) '$(srcdir)/kpsdl2userinterface.cpp'; fi`
 
 khunphan-kpuibase.o: kpuibase.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpuibase.o -MD -MP -MF $(DEPDIR)/khunphan-kpuibase.Tpo -c -o khunphan-kpuibase.o `test -f 'kpuibase.cpp' || echo '$(srcdir)/'`kpuibase.cpp

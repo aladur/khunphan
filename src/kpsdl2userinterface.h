@@ -19,11 +19,12 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef KPSDLUSERINTERFACE_H
-#define KPSDLUSERINTERFACE_H
+#ifndef KPSDL2USERINTERFACE_H
+#define KPSDL2USERINTERFACE_H
 
 #include "config.h"
-#ifdef HAVE_SDL
+
+#ifdef HAVE_SDL2
 
 #ifdef WIN32
   #pragma warning (disable: 4786)
@@ -37,11 +38,11 @@
 #include "kpstate.h"
 
 
-class KPSdlUserInterface : public KPUIBase {
+class KPSdl2UserInterface : public KPUIBase {
 public:
   // public interface
-  KPSdlUserInterface();
-  virtual ~KPSdlUserInterface();
+  KPSdl2UserInterface();
+  virtual ~KPSdl2UserInterface();
 
   bool OpenWindow(int argc, char **argv);
   void SetWindowMode(bool FullScreen) const;
@@ -64,7 +65,8 @@ protected:
 
   static void stopMusicCallback();
 
-  SDL_Surface  *screen;  // SDL Screen ID
+  SDL_Window   *window;  // SDL Window ID
+  SDL_Renderer *renderer;
   Mix_Chunk    **sound;
   BString      *soundSource;
   Mix_Music    *music;
@@ -85,5 +87,5 @@ private:
   static const char *soundFile[KP_SND_MAX+1];
 };
 
-#endif //#ifdef HAVE_SDL
+#endif //#ifdef HAVE_SDL2
 #endif
