@@ -22,7 +22,7 @@
 #ifndef KPSDLUSERINTERFACE_H
 #define KPSDLUSERINTERFACE_H
 
-#include "config.h"
+#include "misc1.h"
 #ifdef HAVE_SDL
 
 #ifdef WIN32

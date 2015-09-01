@@ -22,8 +22,7 @@
 #ifndef KPSDL2USERINTERFACE_H
 #define KPSDL2USERINTERFACE_H
 
-#include "config.h"
-
+#include "misc1.h"
 #ifdef HAVE_SDL2
 
 #ifdef WIN32

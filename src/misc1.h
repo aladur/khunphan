@@ -59,6 +59,7 @@
 /* Version number of package */
 #define VERSION "0.56"
 
+#define HAVE_SDL2        1
 #define HAVE_LIBGLUT     1
 //#define HAVE_LIBOPENGLUT 1
 #define HAVE_STRING_H    1

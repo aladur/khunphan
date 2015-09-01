@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{50F2839D-A630-409D-8A01-16F9582BA37A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\iconv\include;..\libxml2\include\libxml2;..\libSDL2\include;..\libpng\include;..\freeglut\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\libpng\projects\visualc71\Win32_DLL_Debug;..\freeglut\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>freeglut.lib;libxml2.lib;libpng.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\bdir.cpp" />
+    <ClCompile Include="src\bposixthreadimp.cpp" />
+    <ClCompile Include="src\bstring.cpp" />
+    <ClCompile Include="src\btexture.cpp" />
+    <ClCompile Include="src\bthread.cpp" />
+    <ClCompile Include="src\bthreadfactory.cpp" />
+    <ClCompile Include="src\bthreadimp.cpp" />
+    <ClCompile Include="src\btime.cpp" />
+    <ClCompile Include="src\bwin32threadimp.cpp" />
+    <ClCompile Include="src\Kamera.cpp" />
+    <ClCompile Include="src\KhunPhan.cpp" />
+    <ClCompile Include="src\kpboard.cpp" />
+    <ClCompile Include="src\kpboardGL.cpp" />
+    <ClCompile Include="src\kpconfig.cpp" />
+    <ClCompile Include="src\kpglutuserinterface.cpp" />
+    <ClCompile Include="src\kpidhash.cpp" />
+    <ClCompile Include="src\kpmenu.cpp" />
+    <ClCompile Include="src\kpnode.cpp" />
+    <ClCompile Include="src\kpprogressbar.cpp" />
+    <ClCompile Include="src\kpscore.cpp" />
+    <ClCompile Include="src\kpsdl2userinterface.cpp" />
+    <ClCompile Include="src\kpsdluserinterface.cpp" />
+    <ClCompile Include="src\kpstate.cpp" />
+    <ClCompile Include="src\kpstateaudiosettings.cpp" />
+    <ClCompile Include="src\kpstatecontrolsettings.cpp" />
+    <ClCompile Include="src\kpstatefactory.cpp" />
+    <ClCompile Include="src\kpstatefinish.cpp" />
+    <ClCompile Include="src\kpstategame.cpp" />
+    <ClCompile Include="src\kpstategamesolved.cpp" />
+    <ClCompile Include="src\kpstategraphichint.cpp" />
+    <ClCompile Include="src\kpstategraphicsettings.cpp" />
+    <ClCompile Include="src\kpstatekeyboardhelp.cpp" />
+    <ClCompile Include="src\kpstatelighttest.cpp" />
+    <ClCompile Include="src\kpstatemeinmenu.cpp" />
+    <ClCompile Include="src\kpstatemovetoken.cpp" />
+    <ClCompile Include="src\kpstatescorelist.cpp" />
+    <ClCompile Include="src\kpstateselectlanguage.cpp" />
+    <ClCompile Include="src\kpstatesettings.cpp" />
+    <ClCompile Include="src\kpstatestartup.cpp" />
+    <ClCompile Include="src\kpstatetutorial1.cpp" />
+    <ClCompile Include="src\kpstatetutorial2.cpp" />
+    <ClCompile Include="src\kpstatetutorial3.cpp" />
+    <ClCompile Include="src\kpstatetutorial4.cpp" />
+    <ClCompile Include="src\kpstatistics.cpp" />
+    <ClCompile Include="src\kpthreadsolvecount.cpp" />
+    <ClCompile Include="src\kpuibase.cpp" />
+    <ClCompile Include="src\light.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\misc1.cpp" />
+    <ClCompile Include="src\Schild.cpp" />
+    <ClCompile Include="src\Textfeld.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\bdelete.h" />
+    <ClInclude Include="src\bdir.h" />
+    <ClInclude Include="src\bposixthreadimp.h" />
+    <ClInclude Include="src\bsingle.h" />
+    <ClInclude Include="src\bstring.h" />
+    <ClInclude Include="src\btexture.h" />
+    <ClInclude Include="src\bthread.h" />
+    <ClInclude Include="src\bthreadfactory.h" />
+    <ClInclude Include="src\bthreadimp.h" />
+    <ClInclude Include="src\btime.h" />
+    <ClInclude Include="src\bwin32threadimp.h" />
+    <ClInclude Include="src\confdefs.h" />
+    <ClInclude Include="src\Kamera.h" />
+    <ClInclude Include="src\KhunPhan.h" />
+    <ClInclude Include="src\kpboard.h" />
+    <ClInclude Include="src\kpboardGL.h" />
+    <ClInclude Include="src\kpconfig.h" />
+    <ClInclude Include="src\kpglutuserinterface.h" />
+    <ClInclude Include="src\kpidhash.h" />
+    <ClInclude Include="src\kpmenu.h" />
+    <ClInclude Include="src\kpnode.h" />
+    <ClInclude Include="src\kpprogressbar.h" />
+    <ClInclude Include="src\kpscore.h" />
+    <ClInclude Include="src\kpsdl2userinterface.h" />
+    <ClInclude Include="src\kpsdluserinterface.h" />
+    <ClInclude Include="src\kpstate.h" />
+    <ClInclude Include="src\kpstateaudiosettings.h" />
+    <ClInclude Include="src\KPstateContext.h" />
+    <ClInclude Include="src\kpstatecontrolsettings.h" />
+    <ClInclude Include="src\kpstatefactory.h" />
+    <ClInclude Include="src\kpstatefinish.h" />
+    <ClInclude Include="src\kpstategame.h" />
+    <ClInclude Include="src\kpstategamesolved.h" />
+    <ClInclude Include="src\kpstategraphichint.h" />
+    <ClInclude Include="src\kpstategraphicsettings.h" />
+    <ClInclude Include="src\kpstatekeyboardhelp.h" />
+    <ClInclude Include="src\kpstatelighttest.h" />
+    <ClInclude Include="src\kpstatemeinmenu.h" />
+    <ClInclude Include="src\kpstatemovetoken.h" />
+    <ClInclude Include="src\kpstatescorelist.h" />
+    <ClInclude Include="src\kpstateselectlanguage.h" />
+    <ClInclude Include="src\kpstatesettings.h" />
+    <ClInclude Include="src\kpstatestartup.h" />
+    <ClInclude Include="src\kpstatetutorial1.h" />
+    <ClInclude Include="src\kpstatetutorial2.h" />
+    <ClInclude Include="src\kpstatetutorial3.h" />
+    <ClInclude Include="src\kpstatetutorial4.h" />
+    <ClInclude Include="src\kpstatistics.h" />
+    <ClInclude Include="src\kpthreadsolvecount.h" />
+    <ClInclude Include="src\KPtime.h" />
+    <ClInclude Include="src\kpuibase.h" />
+    <ClInclude Include="src\light.h" />
+    <ClInclude Include="src\misc1.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Schild.h" />
+    <ClInclude Include="src\sprache.h" />
+    <ClInclude Include="src\Textfeld.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\KhunPhan.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

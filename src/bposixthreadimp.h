@@ -23,7 +23,9 @@
 #ifndef BPOSIXTHREADIMP_H
 #define BPOSIXTHREADIMP_H
 
-#include <misc1.h>
+#ifndef WIN32
+#include "misc1.h"
+
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
 #else
@@ -50,5 +52,6 @@ private:
   pthread_t thread;
 };
 
+#endif //#ifndef WIN32
 #endif
 

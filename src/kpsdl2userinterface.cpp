@@ -19,7 +19,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "config.h"
+#include "misc1.h"
 
 #ifdef HAVE_SDL2
 

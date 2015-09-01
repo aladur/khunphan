@@ -23,7 +23,7 @@
 #include "kpidhash.h"
 
 #ifdef WIN32
-   #define CONST_0XFFF 0xFFF
+   #define CONST_0XFFF 0xFFFui64
 #else
    #define CONST_0XFFF 0xFFFL
 #endif

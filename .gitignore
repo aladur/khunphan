@@ -38,3 +38,12 @@ config.log
 autom4te.cache
 libtool
 .deps
+
+# Visual Studio files
+.vs/
+Debug*/
+Release*/
+*.sdf
+*.opensdf
+*.user
+
