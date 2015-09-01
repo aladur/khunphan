@@ -156,10 +156,13 @@ void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize,
   glPixelStorei(GL_UNPACK_ALIGNMENT,1);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Nearest ? GL_NEAREST : GL_LINEAR);
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Nearest ? GL_NEAREST : GL_LINEAR);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                  static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                  static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texels);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+               GL_UNSIGNED_BYTE, texels);
 
   glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -208,7 +211,7 @@ void Textfeld::Positioniere(float X,float Y,float H,int A){
 
   switch (Ausrichtung) {
   case A_LINKS: { soll_x = X; } break;
-  case A_MITTE: { soll_x = X-.5*Aspekt*H; } break;
+  case A_MITTE: { soll_x = X-0.5f*Aspekt*H; } break;
   case A_RECHTS:{ soll_x = X-Aspekt*H; } break;
   }
 
@@ -218,9 +221,9 @@ void Textfeld::Positioniere(float X,float Y,float H,int A){
 
   if (Alpha == MOD_AUSGEBLENDET) {
     
-    x=((soll_x-8)/1.5)+8;
-    y=((soll_y-6)/1.5)+6;
-    Hoehe=soll_Hoehe/1.5;
+    x=((soll_x-8)/1.5f)+8;
+    y=((soll_y-6)/1.5f)+6;
+    Hoehe=soll_Hoehe/1.5f;
     
     /*
       ax=((24.0*rand())/RAND_MAX)-4;
@@ -387,9 +390,9 @@ bool Textfeld::IsDeactivated() const
 void Textfeld::Desaktiviere(){
   soll_Alpha = MOD_AUSGEBLENDET;
   
-  soll_x=((x-8)*1.5)+8;
-  soll_y=((y-6)*1.5)+6;
-  soll_Hoehe=Hoehe*1.5;
+  soll_x=((x-8)*1.5f)+8;
+  soll_y=((y-6)*1.5f)+6;
+  soll_Hoehe=Hoehe*1.5f;
 
   hasInputFocus = false;
   
@@ -434,7 +437,8 @@ int Textfeld::Animiere(int Faktor){
     InAnimation=false;
     return 1;
   } else {
-    GLfloat Faktor=(.5-.5*cos(M_PI*Zeit/TOTAL_ANIMATIONTIME));
+    GLfloat Faktor=
+            static_cast<GLfloat>(0.5-0.5*cos(M_PI*Zeit/TOTAL_ANIMATIONTIME));
     x=(soll_x-alt_x)*Faktor+alt_x;
     y=(soll_y-alt_y)*Faktor+alt_y;
     Hoehe=(soll_Hoehe-alt_Hoehe)*Faktor+alt_Hoehe;
@@ -479,8 +483,8 @@ void Textfeld::GeneriereDisplayList()
     p=0;
     while ((c = (unsigned char)pString[p++]) != '\0')
     {
-      Aspekt+=(rechts[c]-links[c]+4)/64.0; // Sw: added
-      glTranslatef(-links[c]/64.0,0,0);
+      Aspekt+=(rechts[c]-links[c]+4)/64.0f; // Sw: added
+      glTranslatef(-links[c]/64.0f,0,0);
       glBindTexture(GL_TEXTURE_2D, texture);
       glBegin(GL_QUADS);
       x = c % 16;
@@ -490,7 +494,7 @@ void Textfeld::GeneriereDisplayList()
       glTexCoord2f(w*(x+1), w*(y+1)); glVertex2f(1.0,1.0);
       glTexCoord2f(w*x,     w*(y+1)); glVertex2f(0.0,1.0);
       glEnd();
-      glTranslatef((rechts[c]+4)/64.0,0,0);
+      glTranslatef((rechts[c]+4)/64.0f,0,0);
     }
     glPopMatrix();
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -525,19 +529,19 @@ void Textfeld::GeneriereDisplayList()
           lastSpace = Pos;
           spaceCount++;
         }
-        lineWidth += (rechts[character]-links[character]+4)/64.0;
+        lineWidth += (rechts[character]-links[character]+4)/64.0f;
         Pos++;
       }
 
       if (pString[Pos]) { // noch nicht am Ende: Blocksatz
-        GLfloat delta=(maxWidth - lineWidthUntilLastSpace)/(spaceCount - 1.0);
+        GLfloat delta=(maxWidth - lineWidthUntilLastSpace)/(spaceCount - 1.0f);
         GLuint c;
         glPushMatrix();
-        glTranslatef(0, -lineCount * 0.7, 0);
+        glTranslatef(0, -lineCount * 0.7f, 0);
         Pos=start;
         while ((c=(unsigned char)pString[Pos++])&& Pos <= lastSpace)
         {
-          glTranslatef(-links[c]/64.0,0,0);
+          glTranslatef(-links[c]/64.0f,0,0);
           glBindTexture(GL_TEXTURE_2D, texture);
           glBegin(GL_QUADS);
           x = c % 16;
@@ -547,7 +551,7 @@ void Textfeld::GeneriereDisplayList()
           glTexCoord2f(w*(x+1), w*(y+1)); glVertex2f(1.0,1.0);
           glTexCoord2f(w*x,     w*(y+1)); glVertex2f(0.0,1.0);
           glEnd();
-          glTranslatef((rechts[c]+4)/64.0,0,0);
+          glTranslatef((rechts[c]+4)/64.0f,0,0);
           if (c==32) glTranslatef(delta,0,0);
         }
         glPopMatrix();
@@ -555,10 +559,10 @@ void Textfeld::GeneriereDisplayList()
       } else { // am Ende: Linksbuendig
         GLfloat delta=0;
         if (lineWidth > maxWidth)
-          delta=(maxWidth- lineWidth)/(spaceCount + 0.0);
+          delta=(maxWidth- lineWidth)/(spaceCount + 0.0f);
         GLuint c;
         glPushMatrix();
-        glTranslatef(0, -lineCount * 0.7, 0);
+        glTranslatef(0, -lineCount * 0.7f, 0);
         Pos=start;
         while ((c = (unsigned char)pString[Pos++]))
         {
@@ -572,7 +576,7 @@ void Textfeld::GeneriereDisplayList()
           glTexCoord2f(w*(x+1), w*(y+1)); glVertex2f(1.0,1.0);
           glTexCoord2f(w*x,     w*(y+1)); glVertex2f(0.0,1.0);
           glEnd();
-          glTranslatef((rechts[c]+4)/64.0,0,0);
+          glTranslatef((rechts[c]+4)/64.0f,0,0);
           if (c==32) glTranslatef(delta,0,0);
         }
         glPopMatrix();
@@ -587,8 +591,8 @@ void Textfeld::GeneriereDisplayList()
 
 int Textfeld::Maustaste(int Taste,int Richtung,int x_,int y_, KPUIBase &ui)
 {
-  GLfloat xf=16.0*x_/ ui.GetValue(KP_WINDOW_WIDTH);
-  GLfloat yf=12.0-12.0*y_/ ui.GetValue(KP_WINDOW_HEIGHT);
+  GLfloat xf=16.0f*x_/ ui.GetValue(KP_WINDOW_WIDTH);
+  GLfloat yf=12.0f-12.0f*y_/ ui.GetValue(KP_WINDOW_HEIGHT);
   if (soll_Alpha>0.0 &&\
       Signal!=0 &&\
       x<=xf && xf<=x+Hoehe*Aspekt && y<=yf && yf<=y+Hoehe) {
@@ -609,7 +613,7 @@ int Textfeld::Maustaste(int Taste,int Richtung,int x_,int y_, KPUIBase &ui)
 
 float Textfeld::TextfeldHoehe()
 {
-  return 0.7 * lineCount;
+  return 0.7f * lineCount;
 }
 
 

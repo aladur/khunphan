@@ -53,8 +53,8 @@ void Light::Update(bool AmbientLight, int aLightSources /*= 1*/, bool Reflection
   glDisable(GL_LIGHT2);
   glDisable(GL_LIGHT3);
 
-  float x =posX+100.0;
-  float y =posY-150.0;
+  float x =posX+100.0f;
+  float y =posY-150.0f;
   
   if (LightSources >= 2) {
     //Middle Light:

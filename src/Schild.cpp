@@ -95,10 +95,13 @@ bool Schild::Initialisiere(const char     *TextureName,
   glPixelStorei(GL_UNPACK_ALIGNMENT,1);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Nearest ? GL_NEAREST : GL_LINEAR);
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Nearest ? GL_NEAREST : GL_LINEAR);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                  static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                  static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, texels);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
+               withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, texels);
 
   glNewList(SchildIndex,GL_COMPILE);
   glBindTexture(GL_TEXTURE_2D, texture);
@@ -112,7 +115,7 @@ bool Schild::Initialisiere(const char     *TextureName,
   glEndList();
   //glBindTexture(GL_TEXTURE_2D, 0);
 
-  Aspekt=(width+1.0)/(height+1.0);
+  Aspekt=(width+1.0f)/(height+1.0f);
 
   SchildTyp=1;
   delete pTexture;
@@ -184,9 +187,9 @@ void Schild::male(){
 void Schild::Positioniere(float ax_,float ay_,float bx_,float by_) {
     // Korrigiere Aspekt
     if (Aspekt!=0.0 && Aspekt!=(bx_-ax_)/(by_-ay_)) {
-      GLfloat cx=(ax_+bx_)*.5;
-      ax_=cx-Aspekt*(by_-ay_)*.5;
-      bx_=cx+Aspekt*(by_-ay_)*.5;
+      GLfloat cx=(ax_+bx_)*0.5f;
+      ax_=cx-Aspekt*(by_-ay_)*0.5f;
+      bx_=cx+Aspekt*(by_-ay_)*0.5f;
     }
     
     soll_ax=ax_;
@@ -202,10 +205,10 @@ void Schild::Positioniere(float ax_,float ay_,float bx_,float by_) {
     
     if (Alpha==MOD_AUSGEBLENDET) {
       
-      ax=((soll_ax-8)/1.5)+8;
-      ay=((soll_ay-6)/1.5)+6;
-      bx=((soll_bx-8)/1.5)+8;
-      by=((soll_by-6)/1.5)+6;
+      ax=((soll_ax-8)/1.5f)+8;
+      ay=((soll_ay-6)/1.5f)+6;
+      bx=((soll_bx-8)/1.5f)+8;
+      by=((soll_by-6)/1.5f)+6;
       
       /*
 	ax=((24.0*rand())/RAND_MAX)-4;
@@ -223,10 +226,10 @@ void Schild::Positioniere(float ax_,float ay_,float bx_,float by_) {
 void Schild::Desaktiviere() {
   soll_Alpha=MOD_AUSGEBLENDET;
   
-  soll_ax=((ax-8)*1.5)+8;
-  soll_ay=((ay-6)*1.5)+6;
-  soll_bx=((bx-8)*1.5)+8;
-  soll_by=((by-6)*1.5)+6;
+  soll_ax=((ax-8)*1.5f)+8;
+  soll_ay=((ay-6)*1.5f)+6;
+  soll_bx=((bx-8)*1.5f)+8;
+  soll_by=((by-6)*1.5f)+6;
   
   /*  
       soll_ax=((24.0*rand())/RAND_MAX)-4;
@@ -275,7 +278,8 @@ int Schild::Animiere(int Faktor){
     InAnimation=0;
     return 1;
   } else {
-    GLfloat Faktor=(.5-.5*cos(M_PI*Zeit/TOTAL_ANIMATIONTIME));
+    GLfloat Faktor=
+            static_cast<GLfloat>(0.5-0.5*cos(M_PI*Zeit/TOTAL_ANIMATIONTIME));
     ax=(soll_ax-alt_ax)*Faktor+alt_ax;
     ay=(soll_ay-alt_ay)*Faktor+alt_ay;
     bx=(soll_bx-alt_bx)*Faktor+alt_bx;
@@ -286,8 +290,8 @@ int Schild::Animiere(int Faktor){
 }
 
 int Schild::Maustaste(int Taste,int Richtung,int x,int y, KPUIBase &ui) {
-  GLfloat xf=16.0*x/ ui.GetValue(KP_WINDOW_WIDTH);
-  GLfloat yf=12.0-12.0*y/ ui.GetValue(KP_WINDOW_HEIGHT);
+  GLfloat xf=16.0f*x/ ui.GetValue(KP_WINDOW_WIDTH);
+  GLfloat yf=12.0f-12.0f*y/ ui.GetValue(KP_WINDOW_HEIGHT);
 
   if (soll_Alpha>0.0 &&\
       Signal!=0 &&\

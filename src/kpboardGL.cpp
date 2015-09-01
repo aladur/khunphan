@@ -49,7 +49,7 @@
 #define   DY    25.0f
 #define   DX    25.0f
 #define   DZ    12.0f
-#define   DT    (4.0 * 25.0f)
+#define   DT    (4.0f * 25.0f)
 #define   DGAP  1.0f
 #define   DBOXH (DZ + 3.0f)
 #define   DBOXW 5.0f
@@ -151,10 +151,13 @@ bool KPboardView::CreateTexture(unsigned int TextureSize, const char *pFile, boo
 
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Nearest ? GL_NEAREST : GL_LINEAR);
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Nearest ? GL_NEAREST : GL_LINEAR);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                  static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                  static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_PRIORITY,   1.0);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, texels);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
+               GL_UNSIGNED_BYTE, texels);
   // Avoid to bind the texture by another glTexImage2D:
   glBindTexture(GL_TEXTURE_2D, 0);
   delete pTexture;
@@ -204,10 +207,10 @@ bool KPboardView::Initialize(const char *TextureName, unsigned int TextureSize /
 
   glNewList(callList + BRONZE_MATERIAL, GL_COMPILE);
   {
-    GLfloat mat_ambient[]  = {0.50,0.50,0.50,1.0};
-    GLfloat mat_diffuse[]  = {0.60,0.60,0.60,1.0};
-    GLfloat mat_specular[] = {0.15,0.15,0.15,1.0};
-    GLfloat mat_shininess  = 20.0;
+    GLfloat mat_ambient[]  = {0.50f,0.50f,0.50f,1.0f};
+    GLfloat mat_diffuse[]  = {0.60f,0.60f,0.60f,1.0f};
+    GLfloat mat_specular[] = {0.15f,0.15f,0.15f,1.0f};
+    GLfloat mat_shininess  = 20.0f;
 
     glDisable(GL_TEXTURE_2D);
 
@@ -500,12 +503,12 @@ void KPboardView::DrawToken(const tKPTokenID i) const
       break;
   }
 }
-
+ 
 void KPboardView::Animate(int Factor)
 {
-  xValue +=  Factor * 2 * M_PI / TOTAL_ANIMATIONTIME;
+  xValue +=  static_cast<GLfloat>(Factor * 2 * M_PI / TOTAL_ANIMATIONTIME);
   if (xValue >= 2 * M_PI)
-    xValue -= 2 * M_PI;
+    xValue -= static_cast<GLfloat>(2 * M_PI);
   mat_value = 0.5 * sin(xValue) + 0.5;
     
   if (animatedToken == TK_EMPTY) return;
@@ -514,7 +517,8 @@ void KPboardView::Animate(int Factor)
   if ( Time >= TOTAL_ANIMATIONTIME ) {
     animatedToken = TK_EMPTY;
   } else {
-    GLfloat Factor=(0.5 - 0.5 * cos(M_PI * Time / TOTAL_ANIMATIONTIME));
+    GLfloat Factor=
+       static_cast<GLfloat>(0.5 - 0.5 * cos(M_PI * Time / TOTAL_ANIMATIONTIME));
     ax = (new_x - old_x) * Factor + old_x;
     ay = (new_y - old_y) * Factor + old_y;
   }
