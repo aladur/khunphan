@@ -68,26 +68,26 @@ bool BDirectory::Exists(const BString &aPath)
 {
 	struct stat sbuf;
 
-	return !stat(aPath, &sbuf) && (S_ISDIR(sbuf.st_mode));
+	return !stat(aPath.c_str(), &sbuf) && (S_ISDIR(sbuf.st_mode));
 }
 
 bool BDirectory::Remove(const BString &aPath)
 {
 #if defined(_MSC_VER) || defined(__MINGW32)
-	return _rmdir(aPath) >= 0;
+	return _rmdir(aPath.c_str()) >= 0;
 #endif
 #if defined(UNIX) || defined(__CYGWIN32)
-	return rmdir(aPath) >= 0;
+	return rmdir(aPath.c_str()) >= 0;
 #endif
 }
 
 bool BDirectory::Create(const BString &aPath, int mode /* = 0x0755 */)
 {
 #if defined(_MSC_VER) || defined(__MINGW32)
-	return _mkdir(aPath) >= 0;
+	return _mkdir(aPath.c_str()) >= 0;
 #endif
 #if defined(UNIX) || defined(__CYGWIN32)
-	return mkdir(aPath, mode) >= 0;
+	return mkdir(aPath.c_str(), mode) >= 0;
 #endif
 }
 
@@ -128,14 +128,15 @@ bool BDirectory::RemoveRecursive(const BString &aPath)
 	basePath = aPath;
 	if (basePath.lastchar() == PATHSEPARATOR)
 		basePath.at(0, basePath.length() - 1, basePath);
-	if ((pd = opendir(basePath)) != NULL) {
+	if ((pd = opendir(basePath.c_str())) != NULL) {
 		struct dirent   *pentry;
 
 		while ((pentry = readdir(pd)) != NULL) {
 			dirEntry = basePath + PATHSEPARATORSTRING +
 				pentry->d_name;
-			if (!stat(dirEntry, &sbuf) && (S_ISREG(sbuf.st_mode))) {
-				remove(dirEntry);
+			if (!stat(dirEntry.c_str(), &sbuf) &&
+                            (S_ISREG(sbuf.st_mode))) {
+				remove(dirEntry.c_str());
 			} else
 			if (S_ISDIR(sbuf.st_mode) && pentry->d_name[0] != '.') {
 				RemoveRecursive(dirEntry);
@@ -184,12 +185,12 @@ tPathList BDirectory::GetSubDirectories(const BString &aPath)
 	basePath = aPath;
 	if (basePath.lastchar() == PATHSEPARATOR)
 		basePath.at(0, basePath.length() - 1, basePath);
-	if ((pd = opendir(basePath)) != NULL) {
+	if ((pd = opendir(basePath.c_str())) != NULL) {
 		struct dirent   *pentry;
 
 		while ((pentry = readdir(pd)) != NULL) {
       dirEntry = basePath + PATHSEPARATORSTRING + pentry->d_name;
-			if (stat(dirEntry, &sbuf) == 0 &&
+			if (stat(dirEntry.c_str(), &sbuf) == 0 &&
           S_ISDIR(sbuf.st_mode)      &&
           pentry->d_name[0] != '.')
         subDirList.push_back(pentry->d_name);
@@ -230,12 +231,13 @@ tPathList BDirectory::GetFiles(const BString &aPath)
 	basePath = aPath;
 	if (basePath.lastchar() == PATHSEPARATOR)
 		basePath.at(0, basePath.length() - 1, basePath);
-	if ((pd = opendir(basePath)) != NULL) {
+	if ((pd = opendir(basePath.c_str())) != NULL) {
 		struct dirent   *pentry;
 
 		while ((pentry = readdir(pd)) != NULL) {
       dirEntry = basePath + PATHSEPARATORSTRING + pentry->d_name;
-			if (stat(dirEntry, &sbuf) == 0 && S_ISREG(sbuf.st_mode))
+			if (stat(dirEntry.c_str(), &sbuf) == 0 &&
+                            S_ISREG(sbuf.st_mode))
         fileList.push_back(pentry->d_name);
 		} // while
 		closedir(pd);

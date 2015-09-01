@@ -122,7 +122,8 @@ BString KPConfig::GetDirectory(tKPDir directoryID) const
     case KP_LOCALE_DIR:  dir = "locale/";   break;
     default: dir = "";
   }
-  if (!dir.empty() && access(dir, F_OK) == 0 && stat(dir, &sStat) == 0 && S_ISDIR(sStat.st_mode))
+  if (!dir.empty() && access(dir.c_str(), F_OK) == 0 &&
+      stat(dir.c_str(), &sStat) == 0 && S_ISDIR(sStat.st_mode))
   {
     return dir;
   }
@@ -135,7 +136,8 @@ BString KPConfig::GetDirectory(tKPDir directoryID) const
     case KP_MUSIC_DIR:   dir += "Music/";    break;
     case KP_LOCALE_DIR:  dir += "locale/";   break;
   }
-  if (access(dir, F_OK) < 0 || stat(dir, &sStat) < 0 || !S_ISDIR(sStat.st_mode))
+  if (access(dir.c_str(), F_OK) < 0 || stat(dir.c_str(), &sStat) < 0 ||
+      !S_ISDIR(sStat.st_mode))
     dir = "";
 
   return dir;
@@ -160,7 +162,7 @@ void KPConfig::WriteToFile()
 
     // Display Settings
     tree = xmlNewChild(doc->children, NULL, (xmlChar *)"DisplaySettings", NULL );
-    sprintf((char *)buffer, "%s", (const char *)TextureName);
+    sprintf((char *)buffer, "%s", TextureName.c_str());
                                                         xmlNewChild( tree, NULL, (xmlChar *)"TextureName",      buffer );
     sprintf((char *)buffer, "%d", TextureSize);         xmlNewChild( tree, NULL, (xmlChar *)"TextureSize",      buffer );
     sprintf((char *)buffer, "%d", MenuTextureSize);     xmlNewChild( tree, NULL, (xmlChar *)"MenuTextureSize",  buffer );
@@ -215,7 +217,7 @@ void KPConfig::WriteToFile()
       sprintf((char *)buffer, "%u",   CheatCount);    xmlNewChild(subtree, NULL, (xmlChar *)"CheatCount",    buffer );
     }
 
-    xmlSaveFile ((const char *)GetFileName(), doc);
+    xmlSaveFile (GetFileName().c_str(), doc);
 
     xmlFreeDoc(doc);
 }
@@ -226,7 +228,7 @@ void KPConfig::ReadFromFile()
     xmlNodePtr cur, tree, subtree, subtree1;
     xmlNsPtr   ns = NULL;
 
-    doc = xmlParseFile( GetFileName() );
+    doc = xmlParseFile( GetFileName().c_str() );
     if (doc == NULL)
       return;
 
@@ -537,7 +539,7 @@ void KPConfig::DebugPrint()
 {
   DEBUGPRINT("Current KhunPhan Configuration:\n");
   DEBUGPRINT1("  UserInterface :        %s\n", GetUserInterfaceName(UserInterface));
-  DEBUGPRINT1("  TextureName :          %s\n", (const char *)TextureName);
+  DEBUGPRINT1("  TextureName :          %s\n", TextureName.c_str());
   DEBUGPRINT1("  TextureSize :          %d\n", TextureSize);
   DEBUGPRINT1("  MenuTextureSize :      %d\n", MenuTextureSize);
   DEBUGPRINT1("  Shadows :              %s\n", Shadows ? "On" : "Off");

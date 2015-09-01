@@ -433,7 +433,7 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *)
 
     DEBUGPRINT("Changed Graphic Settings\n");
     DEBUGPRINT1("  UserInterface :        %s\n", KPConfig::GetUserInterfaceName(E_UserInterface));
-    DEBUGPRINT1("  TextureName :          %s\n", (const char *)KPConfig::Instance().TextureName);
+    DEBUGPRINT1("  TextureName :          %s\n", KPConfig::Instance().TextureName.c_str());
     DEBUGPRINT1("  TextureSize :          %d\n", KPConfig::Instance().TextureSize);
     DEBUGPRINT1("  MenuTextureSize :      %d\n", KPConfig::Instance().MenuTextureSize);
     DEBUGPRINT1("  Shadows :              %s\n", KPConfig::Instance().Shadows ? "On" : "Off");
@@ -510,7 +510,7 @@ void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
     case 8: KPConfig::Instance().TextureSize  = 1; break;
     default: KPConfig::Instance().TextureSize = 1; break;
     }
-    pContext->GetBoardView().InitializeTextures( KPConfig::Instance().TextureName,
+    pContext->GetBoardView().InitializeTextures( KPConfig::Instance().TextureName.c_str(),
                                                  KPConfig::Instance().TextureSize,
                                                  KPConfig::Instance().Nearest );
 }
@@ -532,16 +532,16 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext)
     }
     KPConfig::Instance().TextureName = *it;
     textureIndex = GetTextureIndex(KPConfig::Instance().TextureName);
-    pContext->GetBoardView().InitializeTextures( KPConfig::Instance().TextureName,
+    pContext->GetBoardView().InitializeTextures( KPConfig::Instance().TextureName.c_str(),
                                                  KPConfig::Instance().TextureSize,
                                                  KPConfig::Instance().Nearest,
                                                  false );
 
-    pContext->GetMenu().Update( KPConfig::Instance().TextureName,
+    pContext->GetMenu().Update( KPConfig::Instance().TextureName.c_str(),
                                 KPConfig::Instance().MenuTextureSize,
                                 KPConfig::Instance().Nearest,
                                 false );
-    pContext->GetUserInterface().InitializeAudio(KPConfig::Instance().TextureName, true);
+    pContext->GetUserInterface().InitializeAudio(KPConfig::Instance().TextureName.c_str(), true);
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
   }
@@ -599,7 +599,7 @@ void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
     case 2:  KPConfig::Instance().MenuTextureSize = 1; break;
     default: KPConfig::Instance().MenuTextureSize = 1; break;
   }
-  pContext->GetMenu().Update( KPConfig::Instance().TextureName,
+  pContext->GetMenu().Update( KPConfig::Instance().TextureName.c_str(),
                               KPConfig::Instance().MenuTextureSize,
                               KPConfig::Instance().Nearest );
 }
@@ -608,10 +608,10 @@ void KPstateGraphicSettings::ToggleTextureInterpolation(KPstateContext *pContext
 {
   pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
   KPConfig::Instance().Nearest = !KPConfig::Instance().Nearest;
-  pContext->GetMenu().Update( KPConfig::Instance().TextureName,
+  pContext->GetMenu().Update( KPConfig::Instance().TextureName.c_str(),
                               KPConfig::Instance().MenuTextureSize,
                               KPConfig::Instance().Nearest );
-  pContext->GetBoardView().InitializeTextures( KPConfig::Instance().TextureName,
+  pContext->GetBoardView().InitializeTextures( KPConfig::Instance().TextureName.c_str(),
                                                KPConfig::Instance().TextureSize,
                                                KPConfig::Instance().Nearest );
 }
@@ -690,10 +690,10 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
   pContext->GetLight().Update(KPConfig::Instance().AmbientLight,
                               KPConfig::Instance().LightSources,
                               KPConfig::Instance().Reflections);
-  pContext->GetMenu().Update( KPConfig::Instance().TextureName,
+  pContext->GetMenu().Update( KPConfig::Instance().TextureName.c_str(),
                               KPConfig::Instance().MenuTextureSize,
                               KPConfig::Instance().Nearest );
-  pContext->GetBoardView().InitializeTextures( KPConfig::Instance().TextureName,
+  pContext->GetBoardView().InitializeTextures( KPConfig::Instance().TextureName.c_str(),
                                                KPConfig::Instance().TextureSize,
                                                KPConfig::Instance().Nearest );
 }

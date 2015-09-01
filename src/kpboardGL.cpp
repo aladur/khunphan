@@ -184,15 +184,15 @@ void KPboardView::InitializeTextures(const char  *TextureName,
     if (!always && file == textureSource[i])
       continue;
 
-    if (!CreateTexture(TextureSize, file, Nearest, &textureId[i]))
+    if (!CreateTexture(TextureSize, file.c_str(), Nearest, &textureId[i]))
     {
       file = KPConfig::Instance().GetDirectory(KP_TEXTURE_DIR) + textureFile[i];
       if (!always && file == textureSource[i])
         continue;
 
-      if (!CreateTexture(TextureSize, file, Nearest, &textureId[i]))
+      if (!CreateTexture(TextureSize, file.c_str(), Nearest, &textureId[i]))
       {
-        message(mtError, "*** Error creating texture from image file '%s'\n", (const char *)file);
+        message(mtError, "*** Error creating texture from image file '%s'\n", file.c_str());
         exit(1);
       }
     }

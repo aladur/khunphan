@@ -81,7 +81,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
   float y = 7.5;
   menu.TextfeldArray[T_SOLVED1]->FormatText(NULL,
                                   statistics.GetEventCounter(MOVE_COUNTER),
-                                  (const char *)statistics.GetTotalTime(RTIME_MM_ss));
+                                  statistics.GetTotalTime(RTIME_MM_ss).c_str());
   menu.TextfeldArray[T_SOLVED1]->Positioniere(8,y,0.6f,A_MITTE); y-= 0.6f;
 
   if (menu.TextfeldArray[tf_index  ] != NULL) {

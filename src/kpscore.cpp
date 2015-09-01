@@ -174,13 +174,13 @@ void KPscore::WriteToFile()
     {
       // Score
       subtree  = xmlNewChild( tree, NULL, (xmlChar *)"Score", NULL );
-      sprintf((char *)buffer, "%s", (const char *)pScore[i].Name); xmlNewChild(subtree, NULL, (xmlChar *)"Name",      buffer );
+      sprintf((char *)buffer, "%s", pScore[i].Name.c_str());       xmlNewChild(subtree, NULL, (xmlChar *)"Name",      buffer );
       sprintf((char *)buffer, "%u", pScore[i].PlayTime);           xmlNewChild(subtree, NULL, (xmlChar *)"PlayTime",  buffer );
       sprintf((char *)buffer, "%u", pScore[i].Moves);              xmlNewChild(subtree, NULL, (xmlChar *)"Moves",     buffer );
       sprintf((char *)buffer, "%d", (int)pScore[i].Timestamp);     xmlNewChild(subtree, NULL, (xmlChar *)"Timestamp", buffer );
     }
 
-  xmlSaveFile ((const char *)GetFileName(), doc);
+  xmlSaveFile (GetFileName().c_str(), doc);
 }
 
 void KPscore::ReadFromFile()
@@ -194,7 +194,7 @@ void KPscore::ReadFromFile()
   BString      Name;
   time_t       Timestamp;
 
-  if ((doc = xmlParseFile( GetFileName() )) != NULL) {
+  if ((doc = xmlParseFile( GetFileName().c_str() )) != NULL) {
     cur = doc->xmlChildrenNode;
     if (cur != NULL && (!strcmp((char *)cur->name, "KhunPhan"))) {
       tree = cur->xmlChildrenNode;
@@ -229,7 +229,7 @@ void KPscore::ReadFromFile()
                     }
                     subtree1 = subtree1->next;
                  } // while
-                 Add(Name, PlayTime, Moves, Timestamp);
+                 Add(Name.c_str(), PlayTime, Moves, Timestamp);
               }    // if subtree "Scores"
               subtree = subtree->next;
            } // while
@@ -251,7 +251,7 @@ void KPscore::PrintTo(FILE *fp)
     for (int i = 0; i < GetEntryCount(); i++)
     {
       fprintf(fp, "   Name: '%s' PlayTime: %d ms Moves: %d Time: %s",
-         (const char *)pScore[i].Name, pScore[i].PlayTime, pScore[i].Moves, ctime(&pScore[i].Timestamp));
+         pScore[i].Name.c_str(), pScore[i].PlayTime, pScore[i].Moves, ctime(&pScore[i].Timestamp));
     }
     fprintf(fp, "\n");
   }

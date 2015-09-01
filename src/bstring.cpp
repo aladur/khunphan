@@ -82,7 +82,7 @@ BString::BString(const char *s, int maxlen) : str(NULL), sz(0)
 
 BString::BString(const BString& s, int maxlen) : str(NULL), sz(0)
 {
-	init(s.chars(), maxlen);
+	init(s.c_str(), maxlen);
 }
 
 BString::~BString(void)
@@ -129,7 +129,7 @@ int BString::index(const char *s, int startpos) const
   int i1, i2, l1, l2;
 	const char *p1, *p2;
 
-	p1 = chars();
+	p1 = c_str();
 	p2 = s;
 	l1 = strlen(p1);
 	l2 = strlen(p2);
@@ -296,13 +296,11 @@ bool BString::multimatches(const char *multipattern,
 		int begin = pos;
 		while (multipattern[pos] != '\0' && (multipattern[pos] != delimiter))
 			pos++;
-		BString *pattern = new BString(&multipattern[begin], pos - begin);
-		if (matches(*pattern, ignorecase))
+		BString pattern(&multipattern[begin], pos - begin);
+		if (matches(pattern.c_str(), ignorecase))
 		{
-			delete pattern;
 			return true;
 		}
-		delete pattern;
 		if (multipattern[pos] == delimiter)
 			pos++;
 	}

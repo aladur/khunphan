@@ -84,7 +84,7 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
 
     KPscore::Instance().Get(i, Name, &PlayTime, &Moves);
 
-    menu.TextfeldArray[T_S_NAME1     + i]->FormatText("%s", (const char *)Name);
+    menu.TextfeldArray[T_S_NAME1     + i]->FormatText("%s", Name.c_str());
     menu.TextfeldArray[T_S_PLAYTIME1 + i]->FormatText("%d:%02d:%02d",
       PlayTime / 3600000, (PlayTime % 3600000) / 60000, (PlayTime % 60000) / 1000 );
     menu.TextfeldArray[T_S_MOVES1    + i]->FormatText("%u", Moves);

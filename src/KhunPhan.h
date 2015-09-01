@@ -42,7 +42,7 @@ public:
   void InitializeSolutionTree();
   bool Run(int argc, char **argv);
   void Shutdown();
-  const char *GetAppName() { return (const char *)appName; };
+  const char *GetAppName() { return appName.c_str(); };
 
   KPnode *proot;
   

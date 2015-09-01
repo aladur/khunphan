@@ -113,19 +113,19 @@ void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize,
 
   if (!always)
   {
-    if ((!access(file1, R_OK) && textureSource == 1) ||
-        (!access(file2, R_OK) && textureSource == 2))
+    if ((!access(file1.c_str(), R_OK) && textureSource == 1) ||
+        (!access(file2.c_str(), R_OK) && textureSource == 2))
     {
       delete pTexture;
       return; // texture from file1 or file2 already loaded
     }
   }
 
-  if((texels = pTexture->ReadTextureFromFile(file1, TEX_WITH_ALPHA)) == NULL)
+  if((texels = pTexture->ReadTextureFromFile(file1.c_str(), TEX_WITH_ALPHA)) == NULL)
   {
-    if ((texels = pTexture->ReadTextureFromFile(file2, TEX_WITH_ALPHA)) == NULL)
+    if ((texels = pTexture->ReadTextureFromFile(file2.c_str(), TEX_WITH_ALPHA)) == NULL)
     {
-      message(mtError, "*** Error reading texture from file '%s'\n", (const char *)file2);
+      message(mtError, "*** Error reading texture from file '%s'\n", file2.c_str());
       delete pTexture;
       exit(1);
     } else
@@ -135,7 +135,7 @@ void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize,
 
   if (BTexture::GetExpToBase2(TextureSize) == -1)
   {
-    message(mtError, " *** Error scaling texture %s. Program aborted\n", (const char *)file2);
+    message(mtError, " *** Error scaling texture %s. Program aborted\n", file2.c_str());
     delete pTexture;
     exit(1);
   }
@@ -146,7 +146,7 @@ void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize,
   unsigned int height = pTexture->GetHeight();
 
   if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
-     message(mtWarning, "*** Warning: width or height of '%s' is not a power of 2\n", (const char *)file2);
+     message(mtWarning, "*** Warning: width or height of '%s' is not a power of 2\n", file2.c_str());
 
   if (texture == 0) glGenTextures(1, &texture);
 

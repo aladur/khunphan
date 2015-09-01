@@ -99,7 +99,7 @@ bool KPUIBase::InitializeAfterOpen()
   pStatistics = new KPStatistics();
 
   pBoardView = new KPboardView();
-  if (!pBoardView->Initialize(KPConfig::Instance().TextureName,
+  if (!pBoardView->Initialize(KPConfig::Instance().TextureName.c_str(),
                               KPConfig::Instance().TextureSize,
                               KPConfig::Instance().Nearest))
     return false;
@@ -114,7 +114,7 @@ bool KPUIBase::InitializeAfterOpen()
 
   DEBUGPRINT("Menu initialization\n");
 
-  if (!pMenu->Initialize(KPConfig::Instance().TextureName,
+  if (!pMenu->Initialize(KPConfig::Instance().TextureName.c_str(),
                          KPConfig::Instance().MenuTextureSize,
                          KPConfig::Instance().Nearest,
                          KPConfig::Instance().Language))

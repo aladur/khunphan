@@ -47,7 +47,7 @@ public:
 
 	unsigned int length(void) const;
 	bool          empty(void) const;
-	const char   *chars(void) const;
+	const char   *c_str(void) const;
 	int          allocation(void) const;
 
 	void cat(const char *s1, const char *s2, BString& s3);
@@ -110,9 +110,6 @@ public:
 	char firstchar(void) const;
 	char lastchar(void) const;
 
-	// implicit type conversions !
-	operator const char *() const ;
-
 	int printf(const char *format, ...);
 	int vsprintf(const char *format, va_list arg_ptr);
 
@@ -130,34 +127,32 @@ public:
 void FScat(const char *s1, const char *s2, BString& s3);
 
 inline bool BString::empty(void) const { return str[0] == '\0'; }
-inline const char *BString::chars(void) const { return &str[0]; }
+inline const char *BString::c_str(void) const { return &str[0]; }
 inline int BString::allocation(void) const { return sz; }
 
-inline void cat(BString& s1, BString& s2, BString& s3) { FScat(s1.chars(), s2.chars(), s3); }
-inline void cat(const char *s1, BString& s2, BString& s3) { FScat(s1, s2.chars(), s3); }
-inline void cat(BString& s1, const char *s2, BString& s3) { FScat(s1.chars(), s2, s3); }
+inline void cat(BString& s1, BString& s2, BString& s3) { FScat(s1.c_str(), s2.c_str(), s3); }
+inline void cat(const char *s1, BString& s2, BString& s3) { FScat(s1, s2.c_str(), s3); }
+inline void cat(BString& s1, const char *s2, BString& s3) { FScat(s1.c_str(), s2, s3); }
 inline void cat(const char *s1, const char *s2, BString& s3) { FScat(s1, s2, s3); }
 
-inline BString& BString::operator = (const BString& s) { alloc(s.chars()); return *this; }
+inline BString& BString::operator = (const BString& s) { alloc(s.c_str()); return *this; }
 inline BString& BString::operator = (const char *_s) { alloc(_s); return *this; }
 inline BString& BString::operator = (const char c) { char _s[2]; _s[0] = c; _s[1] = '\0'; alloc(_s); return *this; }
 
-inline BString& BString::operator += (const BString& s) { FSadd(s.chars()); return *this; }
+inline BString& BString::operator += (const BString& s) { FSadd(s.c_str()); return *this; }
 inline BString& BString::operator += (const char *s) { FSadd(s); return *this; }
 inline BString& BString::operator += (const char c) { char s[2]; s[0] = c; s[1] = '\0'; FSadd(s); return *this; }
 
-inline BString BString::operator + (const BString& s) const  { BString r(this->chars()); r.FSadd(s.chars()); return r; }
-inline BString BString::operator + (const char *s) const { BString r(this->chars()); r.FSadd(s); return r; }
-inline BString BString::operator + (const char c) const { char s[2]; s[0] = c; s[1] = '\0'; BString r(this->chars()); r.FSadd(s); return r; }
+inline BString BString::operator + (const BString& s) const  { BString r(this->c_str()); r.FSadd(s.c_str()); return r; }
+inline BString BString::operator + (const char *s) const { BString r(this->c_str()); r.FSadd(s); return r; }
+inline BString BString::operator + (const char c) const { char s[2]; s[0] = c; s[1] = '\0'; BString r(this->c_str()); r.FSadd(s); return r; }
 
-inline int BString::index (const BString& _s, int startpos) const { return index(_s.chars(), startpos); }
+inline int BString::index (const BString& _s, int startpos) const { return index(_s.c_str(), startpos); }
 inline int BString::index (const char c, int startpos) const { char s[2]; s[0] = c; s[1] = '\0';  return this->index(s, startpos); }
 
-inline bool BString::contains (const BString& _s) const { return index(_s.chars()) >= 0; }
+inline bool BString::contains (const BString& _s) const { return index(_s.c_str()) >= 0; }
 inline bool BString::contains (const char *_s) const { return index(_s) >= 0; }
 inline bool BString::contains (const char c) const { char _s[2]; _s[0] = c; _s[1] = '\0'; return index(_s) >= 0; }
-
-inline BString::operator const char *() const { return chars(); }
 
 #endif // #ifndef __bstring_h__
 

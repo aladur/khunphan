@@ -113,13 +113,13 @@ bool KPmenu::LoadLanguage(int Language)
   if (TextfeldArray.find(Language) != TextfeldArray.end())
     DEBUGPRINT1(" %s\n", TextfeldArray[Language]->Text());
 
-  file.printf("%s%d.lang",(const char *)KPConfig::Instance().GetDirectory(KP_LOCALE_DIR), Language);
+  file.printf("%s%d.lang", KPConfig::Instance().GetDirectory(KP_LOCALE_DIR).c_str(), Language);
 
 #ifdef WIN32
-  f=fopen(file, "rb");
+  f=fopen(file.c_str(), "rb");
 #endif
 #ifdef LINUX
-  f=fopen(file, "r");
+  f=fopen(file.c_str(), "r");
 #endif
   if (f) {
     char wort[MAX_LINE];

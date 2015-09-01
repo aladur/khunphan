@@ -55,8 +55,8 @@ bool Schild::Initialisiere(const char     *TextureName,
 
   if (!always)
   {
-    if ((!always && !access(file1, R_OK) && textureSource == 1) ||
-        (!always && !access(file2, R_OK) && textureSource == 2))
+    if ((!always && !access(file1.c_str(), R_OK) && textureSource == 1) ||
+        (!always && !access(file2.c_str(), R_OK) && textureSource == 2))
     {
     return true; // texture from file1 already loaded
     }
@@ -65,11 +65,11 @@ bool Schild::Initialisiere(const char     *TextureName,
   pTexture = new BTexture;
 
     // TEX_WITH_ALPHA
-  if ((texels = pTexture->ReadTextureFromFile(file1, withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+  if ((texels = pTexture->ReadTextureFromFile(file1.c_str(), withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
   {
-    if ((texels = pTexture->ReadTextureFromFile(file2, withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+    if ((texels = pTexture->ReadTextureFromFile(file2.c_str(), withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
     {
-      message(mtError, "*** Error reading texture from file '%s'\n", (const char *)file2);
+      message(mtError, "*** Error reading texture from file '%s'\n", file2.c_str());
       delete pTexture;
       exit(1);
     } else
@@ -84,7 +84,7 @@ bool Schild::Initialisiere(const char     *TextureName,
   unsigned int height = pTexture->GetHeight();
 
   if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
-     message(mtWarning, "*** Warning: width or height of '%s' is not a power of 2\n", (const char *)file2);
+     message(mtWarning, "*** Warning: width or height of '%s' is not a power of 2\n", file2.c_str());
   
   if (SchildIndex == 0) SchildIndex=glGenLists(1);
   if (texture == 0) glGenTextures(1, &texture);

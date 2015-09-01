@@ -170,7 +170,7 @@ bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
   }
 
   DebugPrintOpenGLVersion();
-  InitializeAudio(KPConfig::Instance().TextureName);
+  InitializeAudio(KPConfig::Instance().TextureName.c_str());
   return InitializeAfterOpen();
 }
 
@@ -390,7 +390,8 @@ bool KPSdl2UserInterface::InitializeAudio(const char *textureName, bool reInitia
                                 PATHSEPARATORSTRING + soundFile[i];
     file2 = KPConfig::Instance().GetDirectory(KP_SOUND_DIR) + soundFile[i];
 
-    if (soundSource[i] == file1 || (access(file1, R_OK) && soundSource[i] == file2))
+    if (soundSource[i] == file1 ||
+        (access(file1.c_str(), R_OK) && soundSource[i] == file2))
       { i++; continue; }; // right file already prepared to be used
       
     if (sound[i] != NULL)
@@ -400,10 +401,10 @@ bool KPSdl2UserInterface::InitializeAudio(const char *textureName, bool reInitia
     }
     soundSource[i] = "";
 
-    if (!access(file1, R_OK))
+    if (!access(file1.c_str(), R_OK))
       soundSource[i] = file1;
     else
-      if(!access(file2, R_OK))
+      if(!access(file2.c_str(), R_OK))
         soundSource[i] = file2;
       else
         DEBUGPRINT1("*** Warning: No sound file available for sound '%s'\n", soundFile[i]);
@@ -450,15 +451,16 @@ void KPSdl2UserInterface::LoadNextMusic()
     }
 
     BString file = KPConfig::Instance().GetDirectory(KP_MUSIC_DIR) + *it;
-    if ((music = Mix_LoadMUS(file)) == NULL)
+    if ((music = Mix_LoadMUS(file.c_str())) == NULL)
     {
-      DEBUGPRINT2("*** Error in Mix_LoadMUS(\"%s\"): %s\n", (const char *)file, Mix_GetError());
+      DEBUGPRINT2("*** Error in Mix_LoadMUS(\"%s\"): %s\n",
+                  file.c_str(), Mix_GetError());
       musicFiles.erase(it);
       continue;
     }
     else
     {
-      DEBUGPRINT1("Loading '%s'\n", (const char *)file);
+      DEBUGPRINT1("Loading '%s'\n", file.c_str());
       musicIndex = index + 1;
       SetMusicVolume(KPConfig::Instance().MusicVolume);
       break;
@@ -474,11 +476,14 @@ void KPSdl2UserInterface::PlayAudio(int soundId) const
   // Lazy initialization: Load the sound when playing first time
   if (sound[soundId] == NULL && soundSource != NULL && !soundSource[soundId].empty())
   {
-    if ((sound[soundId] = Mix_LoadWAV_RW(SDL_RWFromFile(soundSource[soundId], "rb"), 1)) == NULL)
+    if ((sound[soundId] = Mix_LoadWAV_RW(
+        SDL_RWFromFile(soundSource[soundId].c_str(), "rb"), 1)) == NULL)
     {
-       DEBUGPRINT2("*** Error opening Audio file '%s' [%s]\n", (const char *)soundSource[soundId], Mix_GetError());
+       DEBUGPRINT2("*** Error opening Audio file '%s' [%s]\n",
+          soundSource[soundId].c_str(), Mix_GetError());
     }
-    if (sound[soundId] != NULL) DEBUGPRINT1("Reading '%s'\n", (const char *)soundSource[soundId]);
+    if (sound[soundId] != NULL)
+       DEBUGPRINT1("Reading '%s'\n", soundSource[soundId].c_str());
   }
 
   if (sound[soundId] != NULL)
