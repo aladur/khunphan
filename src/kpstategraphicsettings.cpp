@@ -28,13 +28,6 @@
 #include "kpuibase.h"
 
 
-#ifdef WIN32
-#ifndef WARN_TRUNC_DOUBLE_FLOAT
-#pragma warning (disable:4305)  /* Disable warning to truncate from double to float */
-#endif
-#endif
-
-
 void KPstateGraphicSettings::Initialize(KPstateContext *pContext,  const KPstate *pOldState)
 {
   KPstate::Initialize(pContext, pOldState);

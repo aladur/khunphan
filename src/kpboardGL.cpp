@@ -39,13 +39,6 @@
 #include "btexture.h"
 
 
-#ifdef WIN32
-#ifndef WARN_TRUNC_DOUBLE_FLOAT
-#pragma warning (disable:4305)  /* Disable warning to convert from double to float */
-#endif
-#endif
-
-
 #define   DY    25.0f
 #define   DX    25.0f
 #define   DZ    12.0f

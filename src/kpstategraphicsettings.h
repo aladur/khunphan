@@ -22,9 +22,6 @@
 #ifndef KPSTATEGRAPHICSETTINGS_H
 #define KPSTATEGRAPHICSETTINGS_H
 
-#ifdef WIN32
-  #pragma warning (disable: 4786)
-#endif
 #include <vector>
 #include "kpstate.h"
 #include "bstring.h"

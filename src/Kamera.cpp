@@ -15,12 +15,6 @@
 #include "Kamera.h"
 #include "misc1.h"
 
-#ifdef WIN32
-#ifndef WARN_TRUNC_DOUBLE_FLOAT
-#pragma warning (disable:4305)  /* Disable warning to truncate from double to float */
-#pragma warning (disable:4244)  /* Disable warning to convert  from double to float */
-#endif
-#endif
 
 float Kamera::BewegFaktor = 0.3;
 float Kamera::DrehFaktor  = 0.3;

@@ -25,9 +25,6 @@
 #include "misc1.h"
 #ifdef HAVE_SDL2
 
-#ifdef WIN32
-  #pragma warning (disable: 4786)
-#endif
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <algorithm>

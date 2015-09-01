@@ -8,9 +8,6 @@
 #ifndef __TEXTFELD_H__
 #define __TEXTFELD_H__
 
-#ifdef WIN32
-  #pragma warning (disable:4786)
-#endif
 #include <set>
 #ifdef HAVE_STDARG_H
   #include <stdarg.h>

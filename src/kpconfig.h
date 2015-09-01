@@ -28,9 +28,6 @@
 #ifndef KPCONFIG_H
 #define KPCONFIG_H
 
-#ifdef WIN32
-  #pragma warning (disable: 4786)
-#endif
 #include <vector>
 #include "bstring.h"
 #include "misc1.h"

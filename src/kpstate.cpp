@@ -31,12 +31,6 @@
 #include "sprache.h"
 #include "btime.h"
 
-#ifdef WIN32
-#ifndef WARN_TRUNC_DOUBLE_FLOAT
-#pragma warning (disable:4305)  /* Disable warning to convert from double to float */
-#endif
-#endif
-
 
 KPstate::KPstate() : AnimationTime(0), InAnimation(false), menuLocked(false),
                      oldStateId(KPState_Invalid)
