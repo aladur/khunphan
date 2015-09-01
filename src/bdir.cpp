@@ -100,7 +100,7 @@ bool BDirectory::RemoveRecursive(const BString &aPath)
 	WIN32_FIND_DATA pentry;
 
 	basePath = aPath;
-	if (basePath.lastchar() != PATHSEPARATOR) {
+	if (basePath[basePath.length()-1] != PATHSEPARATOR) {
 		basePath += PATHSEPARATOR;
 	}
         BString pattern = basePath + "*.*";
@@ -127,8 +127,8 @@ bool BDirectory::RemoveRecursive(const BString &aPath)
 	struct stat     sbuf;
 
 	basePath = aPath;
-	if (basePath.lastchar() == PATHSEPARATOR)
-		basePath.at(0, basePath.length() - 1, basePath);
+	if (basePath[basePath.length()-1] == PATHSEPARATOR)
+		basePath = basePath.substr(0, basePath.length() - 1);
 	if ((pd = opendir(basePath.c_str())) != NULL) {
 		struct dirent   *pentry;
 
@@ -160,7 +160,7 @@ tPathList BDirectory::GetSubDirectories(const BString &aPath)
 	WIN32_FIND_DATA pentry;
 
 	basePath = aPath;
-	if (basePath.lastchar() != PATHSEPARATOR) {
+	if (basePath[basePath.length()-1] != PATHSEPARATOR) {
 		basePath += PATHSEPARATOR;
 	}
         BString pattern = basePath + "*.*";
@@ -185,8 +185,9 @@ tPathList BDirectory::GetSubDirectories(const BString &aPath)
 	struct stat     sbuf;
 
 	basePath = aPath;
-	if (basePath.lastchar() == PATHSEPARATOR)
-		basePath.at(0, basePath.length() - 1, basePath);
+	if (basePath[basePath.length()-1] == PATHSEPARATOR)
+		basePath = basePath.substr(0, basePath.length() - 1);
+
 	if ((pd = opendir(basePath.c_str())) != NULL) {
 		struct dirent   *pentry;
 
@@ -213,7 +214,7 @@ tPathList BDirectory::GetFiles(const BString &aPath)
 	WIN32_FIND_DATA pentry;
 
 	basePath = aPath;
-	if (basePath.lastchar() != PATHSEPARATOR) {
+	if (basePath[basePath.length()-1] != PATHSEPARATOR) {
 		basePath += PATHSEPARATOR;
 	}
         BString pattern = basePath + "*.*";
@@ -232,8 +233,8 @@ tPathList BDirectory::GetFiles(const BString &aPath)
 	struct stat     sbuf;
 
 	basePath = aPath;
-	if (basePath.lastchar() == PATHSEPARATOR)
-		basePath.at(0, basePath.length() - 1, basePath);
+	if (basePath[basePath.length()-1] == PATHSEPARATOR)
+		basePath = basePath.substr(0, basePath.length() - 1);
 	if ((pd = opendir(basePath.c_str())) != NULL) {
 		struct dirent   *pentry;
 

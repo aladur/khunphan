@@ -146,7 +146,8 @@ void KPscore::SetFileName(const char *aFileName)
   else
   {
 #ifdef LINUX
-    fileName.printf("%s/.KhunPhanScores.xml", getenv("HOME"));
+    fileName = getenv("HOME");
+    fileName += "/.KhunPhanScores.xml";
 #endif
 #ifdef WIN32
     fileName.printf("KhunPhanScores.xml");
@@ -213,7 +214,7 @@ void KPscore::ReadFromFile()
 
                     if ((!strcmp((char *)subtree1->name, "Name")) && (cur->ns == ns) &&
                        (p = xmlNodeListGetString(doc, subtree1->xmlChildrenNode, 1))) {
-                       Name.printf("%s", (const char *)p);
+                       Name = (const char *)p;
                     }
                     if ((!strcmp((char *)subtree1->name, "PlayTime")) && (cur->ns == ns) &&
                        (p = xmlNodeListGetString(doc, subtree1->xmlChildrenNode, 1))) {

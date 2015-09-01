@@ -27,8 +27,6 @@
 
 #include "bstring.h"
 
-const int BString::INVALID_STR         = -1;
-const int BString::STRING_DEFAULT_SIZE = 16;
 
 #ifdef __GNUC__
 //extern int vsnprintf(char *buf, size_t size, const char *format, va_list args);
@@ -91,26 +89,12 @@ BString::~BString(void)
 	sz = 0;
 }
 
-void FScat(const char *s1, const char *s2, BString& s3)
-{
-  if (s1 == NULL || s2 == NULL) return;
-
-  int size;
-
-	size = strlen(s1) + strlen(s2) + 1;
-	char *newS = new char[size];
-	strcpy(newS, s1);
-	strcat(newS, s2);
-	s3 = BString(newS);
-	delete [] newS;
-}
-
 void BString::FSadd(const char *s1)
 {
   if (s1 == NULL) return;
 
   int size = length() + strlen(s1) + 1;
-	if (size <= allocation())
+	if (size <= capacity())
 		strcat(str, s1);
 	else {
 		char *newS = new char[size];
@@ -122,29 +106,7 @@ void BString::FSadd(const char *s1)
 	}
 }
 
-int BString::index(const char *s, int startpos) const
-{
-  if (s == NULL) return -1;
-
-  int i1, i2, l1, l2;
-	const char *p1, *p2;
-
-	p1 = c_str();
-	p2 = s;
-	l1 = strlen(p1);
-	l2 = strlen(p2);
-	for (i1 = startpos; i1 < l1; i1++) {
-		for (i2 = 0; i2 < l2; i2++) {
-			if (*(p1+i1+i2) != *(p2+i2))
-				break;
-		};
-		if (i2 >= l2)
-			return i1;
-	}
-	return -1;
-}
-
-void BString::alloc(int s)
+void BString::reserve(int s)
 {
 	if (s > sz) {
 		sz = s;
@@ -154,7 +116,37 @@ void BString::alloc(int s)
 		str = newS;
 	}
 }
-void BString::alloc(const char *s)
+
+BString BString::substr(int pos, int count) const
+{
+   int l = count;
+
+   if (pos + count >= length())
+   {
+      count = length() - pos;
+   }
+
+   BString result(&this->str[pos], count);
+
+   return result;
+}
+
+void BString::assign(const BString &s)
+{
+  int size;
+
+	size = s.length() + 1;
+	if (size > sz) {
+		sz = size;
+		char *newS = new char[size];
+		strcpy(newS, s.c_str());
+		delete [] str;
+		str = newS;
+	} else
+		strcpy(str, s.c_str());
+}
+
+void BString::assign(const char *s)
 {
   if (s == NULL) return;
 
@@ -169,160 +161,6 @@ void BString::alloc(const char *s)
 		str = newS;
 	} else
 		strcpy(str, s);
-}
-
-void BString::reverse(void)
-{
-	int i;
-	char *p1, c;
-
-	i = 1;
-	if (this->length() % 2 == 1) {
-		// odd number of characters
-		p1 = &str[0] + this->length() / 2;
-		while(*(p1+i) != '\0') {
-			c = *(p1+i); *(p1+i) = *(p1-i); *(p1-i) = c; i++;
-		};
-	} else {
-		// even number of characters
-		p1 = &str[0] + this->length() / 2 - 1;
-		while(*(p1+i) != '\0') {
-			c = *(p1+i); *(p1+i) = *(p1-i+1); *(p1-i+1) = c; i++;
-		};
-	}
-
-} 
-
-void BString::upcase(void)
-{
-	char *p;
-
-	p = &str[0];
-	while (*p != '\0')
-	{
-		*p = toupper(*p);
-		p++;
-	}
-} 
-
-void BString::downcase(void)
-{
-	char *p;
-	
-	p = &str[0];
-	while (*p != '\0')
-	{
-		*p = tolower(*p);
-		p++;
-	}
-} 
-
-bool BString::matches(const char *pattern, bool ignorecase /* = false */ ) const
-{
-	const char *p_pat = pattern;
-	const char *p_src = str;
-	char char_pat     = '*'; // prepare for first while loop
-	int min = 0;
-	int max = 0;
-	int notmatched =  0;
-
-	if (pattern == NULL)
-		return false;
-
-	while (*p_src != '\0')
-	{
-		char char_src = *p_src;
-		if (ignorecase)
-			char_src = tolower(char_src);
-
-		while (notmatched == 0 && char_pat != '\0')
-		{
-			char_pat = *p_pat;
-			p_pat++;
-			if (char_pat == '*')
-			{
-				// wildchard for any char
-				max = INT_MAX;
-				continue;
-			} else
-			if (char_pat == '?')
-			{
-				// wildchard for exactly one char
-				min++;
-				if (max < INT_MAX)
-					max++;
-				continue;
-			} else
-			if (char_pat != '\0')
-			{
-				// any other character
-				if (ignorecase)
-					char_pat = tolower(char_pat);
-				break;
-			}
-		}
-		if (char_src == char_pat)
-		{
-			if (notmatched < min || notmatched > max)
-				return false;
-			notmatched = 0;
-			min = max = 0;
-		} else {
-			notmatched++;
-			if (notmatched > max)
-				return false;
-		}
-		p_src++;
-	}
-	if (notmatched < min || notmatched > max)
-		return false;
-	return (char_pat == '\0' && notmatched > 0) || //pattern ends with ? or *
-		(*p_pat == '\0' && notmatched == 0); // pattern end with any char
-}
-
-bool BString::multimatches(const char *multipattern,
-			const char delimiter /* = ';'*/,
-			bool ignorecase /* = false */) const
-
-{
-	int pos;
-
-	if (multipattern == NULL)
-		return false;
-
-	pos = 0;
-	while (multipattern[pos] != '\0')
-	{
-		int begin = pos;
-		while (multipattern[pos] != '\0' && (multipattern[pos] != delimiter))
-			pos++;
-		BString pattern(&multipattern[begin], pos - begin);
-		if (matches(pattern.c_str(), ignorecase))
-		{
-			return true;
-		}
-		if (multipattern[pos] == delimiter)
-			pos++;
-	}
-	return false;
-} 
-
-char BString::firstchar(void) const
-{
-	return str[0];
-}
-
-char BString::lastchar(void) const
-{
-	return str[strlen(str)-1];
-}
-
-void BString::at(unsigned int pos, int len, BString& s)
-{
-	if (pos >= strlen(str))
-		s = "";
-	else
-		s = BString(&str[pos], len);
 }
 
 int BString::printf(const char *format, ...)
@@ -384,66 +222,6 @@ int BString::vsprintf(const char *format, va_list arg_ptr)
 	return length();
 }
 
-BString& BString::operator += (const int i)
-{
-	char s[16];
-
-	sprintf((char *)s, "%d", i);
-	FSadd((char *)s);
-	return *this;
-}
-
-BString& BString::operator += (const unsigned int ui)
-{
-	char s[16];
-
-	sprintf((char *)s, "%ud", ui);
-	FSadd((char *)s);
-	return *this;
-}
-
-void BString::replaceall(const char oldC, const char newC)
-{
-	if (oldC == '\0' || newC == '\0')
-		return;
-	for (int i = 0; i < sz && str[i] != '\0'; i++)
-		if (str[i] == oldC)
-			str[i] = newC;
-}
-
-BString BString::beforeLast(const char c) const
-{
-	BString result;
-	int i;
-
-	result = *this;
-	for (i = strlen(str)-1; i >= 0; i--)
-		if (str[i] == c)
-			break;
-	if (i >= 0)
-		result.str[i] = '\0';
-	return result;
-}
-
-BString BString::afterLast(const char c) const
-{
-	BString result;
-	int i;
-
-	result = *this;
-	for (i = strlen(str)-1; i >= 0; i--)
-		if (str[i] == c)
-			break;
-	if (i >= 0)
-		result = (char *)&str[i];
-	return result;
-}
-
-int BString::comparenocase(const BString &s)
-{
-	return stricmp(str, s.str);
-}
-
 bool BString::operator <  (const BString &s) const
 {
 	return strcmp(str, s.str)  < 0;
@@ -459,23 +237,9 @@ bool BString::operator == (const BString &s) const
 	return strcmp(str, s.str)  == 0;
 }
 
-bool BString::operator == (const char *s) const
-{
-  if (s == NULL) return false;
-
-  return strcmp(str, s)  == 0;
-}
-
 bool BString::operator != (const BString &s) const
 {
 	return strcmp(str, s.str)  != 0;
-}
-
-bool BString::operator != (const char *s) const
-{
-  if (s == NULL) return false;
-
-  return strcmp(str, s)  != 0;
 }
 
 bool BString::operator >= (const BString &s) const
