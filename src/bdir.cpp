@@ -103,14 +103,15 @@ bool BDirectory::RemoveRecursive(const BString &aPath)
 	if (basePath.lastchar() != PATHSEPARATOR) {
 		basePath += PATHSEPARATOR;
 	}
-	if ((hdl = FindFirstFile(basePath + "*.*", &pentry)) != INVALID_HANDLE_VALUE) {
+        BString pattern = basePath + "*.*";
+	if ((hdl = FindFirstFile(pattern.c_str(), &pentry)) != INVALID_HANDLE_VALUE) {
 		do {
 			dirEntry = basePath + pentry.cFileName;
 			if (pentry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 				if (pentry.cFileName[0] != '.')
 					RemoveRecursive(dirEntry);
 			} else
-				remove(dirEntry);
+				remove(dirEntry.c_str());
 		} while (FindNextFile(hdl, &pentry) != 0);
 		FindClose(hdl);
 	}
@@ -162,7 +163,8 @@ tPathList BDirectory::GetSubDirectories(const BString &aPath)
 	if (basePath.lastchar() != PATHSEPARATOR) {
 		basePath += PATHSEPARATOR;
 	}
-	if ((hdl = FindFirstFile(basePath + "*.*", &pentry)) != INVALID_HANDLE_VALUE) {
+        BString pattern = basePath + "*.*";
+	if ((hdl = FindFirstFile(pattern.c_str(), &pentry)) != INVALID_HANDLE_VALUE) {
 		do {
 			if (pentry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY &&
                 pentry.cFileName[0] != '.')
@@ -214,7 +216,8 @@ tPathList BDirectory::GetFiles(const BString &aPath)
 	if (basePath.lastchar() != PATHSEPARATOR) {
 		basePath += PATHSEPARATOR;
 	}
-	if ((hdl = FindFirstFile(basePath + "*.*", &pentry)) != INVALID_HANDLE_VALUE) {
+        BString pattern = basePath + "*.*";
+	if ((hdl = FindFirstFile(pattern.c_str(), &pentry)) != INVALID_HANDLE_VALUE) {
 		do {
 			if ((pentry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0 &&
 				(pentry.dwFileAttributes & FILE_ATTRIBUTE_OFFLINE  ) == 0 && 

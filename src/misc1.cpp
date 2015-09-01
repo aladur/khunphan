@@ -50,11 +50,11 @@ void message(tMsgType type, const char *format, ...)
 #ifdef WIN32
 	BString msg1;
 	msg1.printf("[%s] %s\n", PACKAGE, msg);
-	OutputDebugString(msg1);
+	OutputDebugString(msg1.c_str());
 	switch (type) {
-	case mtError:   MessageBox(NULL, (LPCTSTR)msg, PACKAGE, MB_OK | MB_ICONERROR); break;
-	case mtMessage: MessageBox(NULL, (LPCTSTR)msg, PACKAGE, MB_OK); break;
-	case mtWarning: MessageBox(NULL, (LPCTSTR)msg, PACKAGE, MB_OK | MB_ICONEXCLAMATION); break;
+	case mtError:   MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK | MB_ICONERROR); break;
+	case mtMessage: MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK); break;
+	case mtWarning: MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK | MB_ICONEXCLAMATION); break;
 	}
 #endif
 }
