@@ -509,7 +509,7 @@ void KPboardView::Animate(int Factor)
   xValue +=  static_cast<GLfloat>(Factor * 2 * M_PI / TOTAL_ANIMATIONTIME);
   if (xValue >= 2 * M_PI)
     xValue -= static_cast<GLfloat>(2 * M_PI);
-  mat_value = 0.5 * sin(xValue) + 0.5;
+  mat_value = static_cast<float>(0.5 * sin(xValue) + 0.5);
     
   if (animatedToken == TK_EMPTY) return;
 

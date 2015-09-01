@@ -566,7 +566,7 @@ void Textfeld::GeneriereDisplayList()
         Pos=start;
         while ((c = (unsigned char)pString[Pos++]))
         {
-          glTranslatef(-links[c]/64.0,0,0);
+          glTranslatef(-links[c]/64.0f,0,0);
           glBindTexture(GL_TEXTURE_2D, texture);
           glBegin(GL_QUADS);
           x = c % 16;
