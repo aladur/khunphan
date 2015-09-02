@@ -121,8 +121,8 @@ bool BDirectory::RemoveRecursive(const std::string &aPath)
 #else
 bool BDirectory::RemoveRecursive(const std::string &aPath)
 {
-	std::string         basePath;
-	std::string         dirEntry;
+	std::string     basePath;
+	std::string     dirEntry;
 	DIR             *pd;
 	struct stat     sbuf;
 
@@ -179,10 +179,10 @@ tPathList BDirectory::GetSubDirectories(const std::string &aPath)
 {
   std::vector<std::string> subDirList;
 
-	std::string         basePath;
-  std::string         dirEntry;
-  DIR             *pd;
-	struct stat     sbuf;
+  std::string   basePath;
+  std::string   dirEntry;
+  DIR          *pd;
+  struct stat   sbuf;
 
 	basePath = aPath;
 	if (basePath[basePath.length()-1] == PATHSEPARATOR)
