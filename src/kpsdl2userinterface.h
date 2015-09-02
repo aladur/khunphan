@@ -64,7 +64,7 @@ protected:
   SDL_Window   *window;  // SDL Window ID
   SDL_Renderer *renderer;
   Mix_Chunk    **sound;
-  BString      *soundSource;
+  std::string  *soundSource;
   Mix_Music    *music;
 
 // Audio/Music Interface
@@ -79,7 +79,7 @@ public:
 private:
   unsigned int rate;
   int musicIndex;
-  std::vector<BString> musicFiles;
+  std::vector<std::string> musicFiles;
   static const char *soundFile[KP_SND_MAX+1];
 };
 

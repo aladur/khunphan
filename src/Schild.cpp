@@ -47,7 +47,7 @@ bool Schild::Initialisiere(const char     *TextureName,
     return false;
 
   BTexture *pTexture = NULL;
-  BString file1, file2;
+  std::string file1, file2;
   const char *texels;
 
   file1 = pConfig->GetDirectory(KP_TEXTURE_DIR) + TextureName + PATHSEPARATORSTRING + Name + ".png";

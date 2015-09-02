@@ -64,14 +64,14 @@ BDirectory::~BDirectory()
  static functions
 ********************************************/
 
-bool BDirectory::Exists(const BString &aPath)
+bool BDirectory::Exists(const std::string &aPath)
 {
 	struct stat sbuf;
 
 	return !stat(aPath.c_str(), &sbuf) && (S_ISDIR(sbuf.st_mode));
 }
 
-bool BDirectory::Remove(const BString &aPath)
+bool BDirectory::Remove(const std::string &aPath)
 {
 #if defined(_MSC_VER) || defined(__MINGW32)
 	return _rmdir(aPath.c_str()) >= 0;
@@ -81,7 +81,7 @@ bool BDirectory::Remove(const BString &aPath)
 #endif
 }
 
-bool BDirectory::Create(const BString &aPath, int mode /* = 0x0755 */)
+bool BDirectory::Create(const std::string &aPath, int mode /* = 0x0755 */)
 {
 #if defined(_MSC_VER) || defined(__MINGW32)
 	return _mkdir(aPath.c_str()) >= 0;
@@ -92,10 +92,10 @@ bool BDirectory::Create(const BString &aPath, int mode /* = 0x0755 */)
 }
 
 #ifdef WIN32
-bool BDirectory::RemoveRecursive(const BString &aPath)
+bool BDirectory::RemoveRecursive(const std::string &aPath)
 {
-	BString         basePath;
-	BString         dirEntry;
+	std::string     basePath;
+	std::string     dirEntry;
 	HANDLE          hdl;
 	WIN32_FIND_DATA pentry;
 
@@ -103,7 +103,7 @@ bool BDirectory::RemoveRecursive(const BString &aPath)
 	if (basePath[basePath.length()-1] != PATHSEPARATOR) {
 		basePath += PATHSEPARATOR;
 	}
-        BString pattern = basePath + "*.*";
+        std::string pattern = basePath + "*.*";
 	if ((hdl = FindFirstFile(pattern.c_str(), &pentry)) != INVALID_HANDLE_VALUE) {
 		do {
 			dirEntry = basePath + pentry.cFileName;
@@ -119,10 +119,10 @@ bool BDirectory::RemoveRecursive(const BString &aPath)
 	return true;
 }
 #else
-bool BDirectory::RemoveRecursive(const BString &aPath)
+bool BDirectory::RemoveRecursive(const std::string &aPath)
 {
-	BString         basePath;
-	BString         dirEntry;
+	std::string         basePath;
+	std::string         dirEntry;
 	DIR             *pd;
 	struct stat     sbuf;
 
@@ -151,11 +151,11 @@ bool BDirectory::RemoveRecursive(const BString &aPath)
 #endif
 
 #ifdef WIN32
-tPathList BDirectory::GetSubDirectories(const BString &aPath)
+tPathList BDirectory::GetSubDirectories(const std::string &aPath)
 {
-	std::vector<BString> subDirList;
+	std::vector<std::string> subDirList;
 
-	BString         basePath;
+	std::string     basePath;
 	HANDLE          hdl;
 	WIN32_FIND_DATA pentry;
 
@@ -163,7 +163,7 @@ tPathList BDirectory::GetSubDirectories(const BString &aPath)
 	if (basePath[basePath.length()-1] != PATHSEPARATOR) {
 		basePath += PATHSEPARATOR;
 	}
-        BString pattern = basePath + "*.*";
+        std::string pattern = basePath + "*.*";
 	if ((hdl = FindFirstFile(pattern.c_str(), &pentry)) != INVALID_HANDLE_VALUE) {
 		do {
 			if (pentry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY &&
@@ -175,12 +175,12 @@ tPathList BDirectory::GetSubDirectories(const BString &aPath)
   return subDirList;
 }
 #else
-tPathList BDirectory::GetSubDirectories(const BString &aPath)
+tPathList BDirectory::GetSubDirectories(const std::string &aPath)
 {
-  std::vector<BString> subDirList;
+  std::vector<std::string> subDirList;
 
-	BString         basePath;
-  BString         dirEntry;
+	std::string         basePath;
+  std::string         dirEntry;
   DIR             *pd;
 	struct stat     sbuf;
 
@@ -204,11 +204,11 @@ tPathList BDirectory::GetSubDirectories(const BString &aPath)
 }
 #endif
 
-tPathList BDirectory::GetFiles(const BString &aPath)
+tPathList BDirectory::GetFiles(const std::string &aPath)
 {
-	std::vector<BString> fileList;
+	std::vector<std::string> fileList;
 
-	BString         basePath;
+	std::string     basePath;
 #ifdef WIN32
 	HANDLE          hdl;
 	WIN32_FIND_DATA pentry;
@@ -217,7 +217,7 @@ tPathList BDirectory::GetFiles(const BString &aPath)
 	if (basePath[basePath.length()-1] != PATHSEPARATOR) {
 		basePath += PATHSEPARATOR;
 	}
-        BString pattern = basePath + "*.*";
+        std::string pattern = basePath + "*.*";
 	if ((hdl = FindFirstFile(pattern.c_str(), &pentry)) != INVALID_HANDLE_VALUE) {
 		do {
 			if ((pentry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0 &&
@@ -228,9 +228,9 @@ tPathList BDirectory::GetFiles(const BString &aPath)
 		FindClose(hdl);
 	}
 #else
-  BString         dirEntry;
+  std::string     dirEntry;
   DIR             *pd;
-	struct stat     sbuf;
+  struct stat     sbuf;
 
 	basePath = aPath;
 	if (basePath[basePath.length()-1] == PATHSEPARATOR)

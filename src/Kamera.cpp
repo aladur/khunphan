@@ -117,14 +117,7 @@ void Kamera::neuePosition(SPosition &position) {
 
 //gibt die aktuelle Kameraposition zur"uck
 SPosition Kamera::Position() {
-  SPosition position = {
-     Pos_x,
-     Pos_y,
-     Pos_z,
-     Alpha,
-     Beta,
-     FOV
-  };
+  SPosition position(Pos_x, Pos_y, Pos_z, Alpha, Beta, FOV);
 
   return position;
 }

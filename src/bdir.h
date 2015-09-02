@@ -25,30 +25,30 @@
 
 #include "misc1.h"
 #include <vector>
-#include "bstring.h"
+#include <string>
 
 
-typedef std::vector<BString> tPathList;
+typedef std::vector<std::string> tPathList;
 
 class BDirectory  
 {
 private:
-	BString m_path;
+	std::string m_path;
 
 public:
-	static bool Exists(const BString &aPath);
-	static bool Remove(const BString &aPath);
-	static bool Create(const BString &aPath, int mode = 0x0755);
-	static bool RemoveRecursive(const BString &aPath);
-  static tPathList GetSubDirectories(const BString &aPath);
-  static tPathList GetFiles(const BString &aPath);
+	static bool Exists(const std::string &aPath);
+	static bool Remove(const std::string &aPath);
+	static bool Create(const std::string &aPath, int mode = 0x0755);
+	static bool RemoveRecursive(const std::string &aPath);
+  static tPathList GetSubDirectories(const std::string &aPath);
+  static tPathList GetFiles(const std::string &aPath);
 
 	BDirectory();
-	BDirectory(BString &path) : m_path(path) { };
+	BDirectory(std::string &path) : m_path(path) { };
 	virtual ~BDirectory();
 
-	inline void SetPath(BString &path) { m_path = path; };
-	inline const BString &GetPath(void) const { return m_path; };
+	inline void SetPath(std::string &path) { m_path = path; };
+	inline const std::string &GetPath(void) const { return m_path; };
 	bool Exists(void) const;
 	bool Remove(void) const;
 	bool Create(int mode = 0x0755) const;

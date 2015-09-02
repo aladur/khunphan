@@ -29,7 +29,7 @@
 #define KPCONFIG_H
 
 #include <vector>
-#include "bstring.h"
+#include <string>
 #include "misc1.h"
 
 
@@ -52,9 +52,9 @@ public:
    void ReadFromFile();
    void WriteToFile();
    void DebugPrint();
-   BString GetFileName();
-   BString GetDirectory(tKPDir directoryID) const;
-   std::vector<BString> GetTextureNames() const;
+   std::string GetFileName();
+   std::string GetDirectory(tKPDir directoryID) const;
+   std::vector<std::string> GetTextureNames() const;
    void SetFileName(const char *fileName);
 
    bool FullScreen;
@@ -87,7 +87,7 @@ public:
    unsigned int MovesWithHint;
    unsigned int CheatCount;
 
-   BString TextureName;
+   std::string TextureName;
 
    // only for debugging:
    bool PerformanceLog;
@@ -95,7 +95,7 @@ public:
 
 protected:
    KPConfig();
-   BString fileName;
+   std::string fileName;
    
 private:
    static KPConfig *instance;

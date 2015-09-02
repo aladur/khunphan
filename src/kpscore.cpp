@@ -94,7 +94,7 @@ void KPscore::ClearAll()
   entryCount = 0;
 }
 
-bool KPscore::Get(int i, BString &pName, unsigned int *pPlayTime, unsigned int *pMoves, time_t *pTimestamp)
+bool KPscore::Get(int i, std::string &pName, unsigned int *pPlayTime, unsigned int *pMoves, time_t *pTimestamp)
 {
   if (i < 0 || i >= GetEntryCount())
     return false;
@@ -129,7 +129,7 @@ int KPscore::PositionToInsert(const char *, unsigned int aPlayTime, unsigned int
 // File interface
 //////////////////////////////////////////////////////////////////////////////////////////
 
-BString KPscore::GetFileName()
+std::string KPscore::GetFileName()
 {
   // Lazy initialization
   if ( fileName.length() == 0 )
@@ -192,7 +192,7 @@ void KPscore::ReadFromFile()
   xmlNodePtr cur, tree, subtree, subtree1;
   xmlNsPtr   ns = NULL;
 
-  BString      Name;
+  std::string  Name;
   time_t       Timestamp;
 
   if ((doc = xmlParseFile( GetFileName().c_str() )) != NULL) {

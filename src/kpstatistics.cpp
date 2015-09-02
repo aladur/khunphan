@@ -23,6 +23,7 @@
 #include "misc1.h"
 #include "kpstatistics.h"
 #include "btime.h"
+#include "fprinter.h"
 
 
 KPStatistics::KPStatistics() : pTime(NULL), time(0), stopWatchActive(false)
@@ -105,41 +106,42 @@ void KPStatistics::ResetEventCounter(unsigned short i)
     counter[i] = 0;
 }
 
-BString KPStatistics::GetTotalTime(tTimeFormat formatID)
+std::string KPStatistics::GetTotalTime(tTimeFormat formatID)
 {
     return FormatTime(formatID, GetTotalTime());
 }
 
-BString KPStatistics::FormatTime(tTimeFormat formatID, unsigned int t)
+std::string KPStatistics::FormatTime(tTimeFormat formatID, unsigned int t)
 {
-  BString timeStr;
+  std::string timeStr;
 
   switch (formatID)
   {
-    case RTIME_HH_mm:      timeStr.printf("%02u.%02u",
+    case RTIME_HH_mm:      fprinter::sprintf(timeStr, "%02u.%02u",
                             t / 3600000,
                            (t % 3600000) * 100 / 3600000 ); break;
-    case RTIME_HH_mmmm:    timeStr.printf("%02u.%03u",
+    case RTIME_HH_mmmm:    fprinter::sprintf(timeStr, "%02u.%03u",
                             t / 3600000,
                            (t % 3600000) * 10000 / 3600000 ); break;
-    case RTIME_HHMM_ss:    timeStr.printf("%02u:%02u.%02u",
+    case RTIME_HHMM_ss:    fprinter::sprintf(timeStr, "%02u:%02u.%02u",
                             t / 3600000,
                            (t % 3600000) / 60000,
                            (t % 60000) * 100 / 60000 ); break;
-    case RTIME_HHMMSS_mmm: timeStr.printf("%02u:%02u:%02u.%03u",
+    case RTIME_HHMMSS_mmm: fprinter::sprintf(timeStr, "%02u:%02u:%02u.%03u",
                             t / 3600000,
                            (t % 3600000) / 60000,
                            (t % 60000)   / 1000,
                             t % 1000                 ); break;
-    case RTIME_HHMMSS:     timeStr.printf("%02u:%02u:%02u",
+    case RTIME_HHMMSS:     fprinter::sprintf(timeStr, "%02u:%02u:%02u",
                             t / 3600000,
                            (t % 3600000) / 60000,
                            (t % 60000)   / 1000      ); break;
-    case RTIME_MM_ss:      timeStr.printf("%02u.%02u",
+    case RTIME_MM_ss:      fprinter::sprintf(timeStr, "%02u.%02u",
                             t / 60000,
                            (t % 60000) * 100 / 60000 ); break;
     case RTIME_msec:
-    default:               timeStr.printf("%u", t); break;
+    default:               fprinter::sprintf(timeStr, "%u", t); break;
   }
+
   return timeStr;
 }

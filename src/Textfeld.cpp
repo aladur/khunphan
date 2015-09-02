@@ -18,7 +18,7 @@
   #include <sys/types.h>
   #include <unistd.h>  // needed for access
 #endif
-#include "bstring.h"
+#include <string>
 #include "btexture.h"
 #include "Textfeld.h"
 #include "kpuibase.h"
@@ -105,7 +105,7 @@ void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize,
      bool Nearest, const KPConfig *pConfig, bool always /*= true*/)
 {
   BTexture *pTexture = new BTexture;
-  BString file1, file2;
+  std::string file1, file2;
   const char *texels;
 
   file1 = pConfig->GetDirectory(KP_TEXTURE_DIR) + TextureName + PATHSEPARATORSTRING + "characters.png";

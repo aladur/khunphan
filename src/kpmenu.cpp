@@ -29,6 +29,7 @@
 #include "misc1.h"
 #include "kpmenu.h"
 #include "kpconfig.h"
+#include "fprinter.h"
 
 
 KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(0)
@@ -108,13 +109,14 @@ bool KPmenu::LoadLanguage(int Language)
   int  index;
 
   FILE *f = NULL;
-  BString file;
+  std::string file;
 
   if (TextfeldArray.find(Language) != TextfeldArray.end())
     DEBUGPRINT1(" %s\n", TextfeldArray[Language]->Text());
-
-  file.printf("%s%d.lang", KPConfig::Instance().GetDirectory(KP_LOCALE_DIR).c_str(), Language);
-
+  fprinter::sprintf(file,
+                    "%s%d.lang",
+                    KPConfig::Instance().GetDirectory(KP_LOCALE_DIR).c_str(),
+                    Language);
 #ifdef WIN32
   f=fopen(file.c_str(), "rb");
 #endif

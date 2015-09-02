@@ -138,8 +138,9 @@ am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-Textfeld.$(OBJEXT) khunphan-Schild.$(OBJEXT) \
 	khunphan-kpidhash.$(OBJEXT) khunphan-kpnode.$(OBJEXT) \
 	khunphan-misc1.$(OBJEXT) khunphan-kpboard.$(OBJEXT) \
-	khunphan-KhunPhan.$(OBJEXT) khunphan-bstring.$(OBJEXT) \
-	khunphan-kpstatelighttest.$(OBJEXT)
+	khunphan-KhunPhan.$(OBJEXT) \
+	khunphan-kpstatelighttest.$(OBJEXT) \
+	khunphan-fprinter.$(OBJEXT)
 khunphan_OBJECTS = $(am_khunphan_OBJECTS)
 khunphan_DEPENDENCIES =
 khunphan_LINK = $(CXXLD) $(khunphan_CXXFLAGS) $(CXXFLAGS) \
@@ -366,47 +367,132 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-khunphan_SOURCES = bdir.cpp kpsdluserinterface.cpp kpglutuserinterface.cpp \
+khunphan_SOURCES = \
+        bdir.cpp \
+        kpsdluserinterface.cpp \
+        kpglutuserinterface.cpp \
         kpsdl2userinterface.cpp \
-	kpuibase.cpp btime.cpp kpstatescorelist.cpp kpscore.cpp btexture.cpp \
-	kpstatistics.cpp kpprogressbar.cpp kpthreadsolvecount.cpp \
-	bposixthreadimp.cpp bwin32threadimp.cpp bthreadimp.cpp \
-	bthreadfactory.cpp bthread.cpp kpstatemovetoken.cpp \
-	kpstatetutorial4.cpp kpstatetutorial3.cpp kpstatetutorial2.cpp \
-	kpstatetutorial1.cpp kpstategamesolved.cpp kpstateselectlanguage.cpp \
-	kpstategame.cpp kpstatekeyboardhelp.cpp kpstateaudiosettings.cpp \
-	kpstategraphichint.cpp kpstategraphicsettings.cpp \
-	kpstatecontrolsettings.cpp kpstatesettings.cpp kpstatefinish.cpp \
-	kpstatemeinmenu.cpp kpstatefactory.cpp kpstatestartup.cpp kpmenu.cpp \
-	kpstate.cpp light.cpp main.cpp kpconfig.cpp kpboardGL.cpp Kamera.cpp \
-	Textfeld.cpp Schild.cpp kpidhash.cpp kpnode.cpp misc1.cpp \
-	kpboard.cpp KhunPhan.cpp bstring.cpp kpstatelighttest.cpp
+	kpuibase.cpp \
+        btime.cpp \
+        kpstatescorelist.cpp \
+        kpscore.cpp \
+        btexture.cpp \
+	kpstatistics.cpp \
+        kpprogressbar.cpp \
+        kpthreadsolvecount.cpp \
+	bposixthreadimp.cpp \
+        bwin32threadimp.cpp \
+        bthreadimp.cpp \
+	bthreadfactory.cpp \
+        bthread.cpp \
+        kpstatemovetoken.cpp \
+	kpstatetutorial4.cpp \
+        kpstatetutorial3.cpp \
+        kpstatetutorial2.cpp \
+	kpstatetutorial1.cpp \
+        kpstategamesolved.cpp \
+        kpstateselectlanguage.cpp \
+	kpstategame.cpp \
+        kpstatekeyboardhelp.cpp \
+        kpstateaudiosettings.cpp \
+	kpstategraphichint.cpp \
+        kpstategraphicsettings.cpp \
+	kpstatecontrolsettings.cpp \
+        kpstatesettings.cpp \
+        kpstatefinish.cpp \
+	kpstatemeinmenu.cpp \
+        kpstatefactory.cpp \
+        kpstatestartup.cpp \
+        kpmenu.cpp \
+	kpstate.cpp \
+        light.cpp \
+        main.cpp \
+        kpconfig.cpp \
+        kpboardGL.cpp \
+        Kamera.cpp \
+	Textfeld.cpp \
+        Schild.cpp \
+        kpidhash.cpp \
+        kpnode.cpp \
+        misc1.cpp \
+	kpboard.cpp \
+        KhunPhan.cpp \
+        kpstatelighttest.cpp \
+        fprinter.cpp
 
 khunphan_CXXFLAGS = @GLU_CFLAGS@ @GLUT_CFLAGS@ @XML_CPPFLAGS@ @LIBPNG_CFLAGS@
 khunphan_LDADD = @GLU_LIBS@ @GLUT_LIBS@ @XML_LIBS@ @LIBPNG_LIBS@
-EXTRA_DIST = config.h bstring.h KhunPhan.h kpboard.h misc1.h kpnode.h \
-	kpidhash.h Schild.h sprache.h Textfeld.h Kamera.h kpboardGL.h \
-	kpconfig.h  light.h KPstateContext.h kpstate.h kpmenu.h \
-	kpstatestartup.h kpstatefactory.h kpstatemeinmenu.h \
-	kpstatefinish.h kpstatesettings.h kpstatecontrolsettings.h \
-	kpstategraphicsettings.h kpstategraphichint.h kpstateaudiosettings.h \
-	kpstatekeyboardhelp.h kpstategame.h kpstateselectlanguage.h \
-	kpstategamesolved.h kpstatetutorial1.h kpstatetutorial2.h \
-	kpstatetutorial3.h kpstatetutorial4.h kpstatemovetoken.h bthread.h \
-	bthreadfactory.h bthreadimp.h bposixthreadimp.h kpthreadsolvecount.h \
-	kpprogressbar.h KPtime.h kpstatistics.h btexture.h kpscore.h \
-	kpstatescorelist.h btime.h kpuibase.h kpglutuserinterface.h \
-	kpsdluserinterface.h kpsdl2userinterface.h bdir.h bwin32threadimp.h \
-        resource.h bdelete.h bsingle.h kpstatelighttest.h \
-	KhunPhan.rc icon.ico
+EXTRA_DIST = \
+        config.h \
+        KhunPhan.h \
+        kpboard.h \
+        misc1.h \
+        kpnode.h \
+	kpidhash.h \
+        Schild.h \
+        sprache.h \
+        Textfeld.h \
+        Kamera.h \
+        kpboardGL.h \
+	kpconfig.h \
+        light.h \
+        KPstateContext.h \
+        kpstate.h kpmenu.h \
+	kpstatestartup.h \
+        kpstatefactory.h \
+        kpstatemeinmenu.h \
+	kpstatefinish.h \
+        kpstatesettings.h \
+        kpstatecontrolsettings.h \
+	kpstategraphicsettings.h \
+        kpstategraphichint.h \
+        kpstateaudiosettings.h \
+	kpstatekeyboardhelp.h \
+        kpstategame.h \
+        kpstateselectlanguage.h \
+	kpstategamesolved.h \
+        kpstatetutorial1.h \
+        kpstatetutorial2.h \
+	kpstatetutorial3.h \
+        kpstatetutorial4.h \
+        kpstatemovetoken.h \
+        bthread.h \
+	bthreadfactory.h \
+        bthreadimp.h \
+        bposixthreadimp.h \
+        kpthreadsolvecount.h \
+	kpprogressbar.h \
+        KPtime.h \
+        kpstatistics.h \
+        btexture.h \
+        kpscore.h \
+	kpstatescorelist.h \
+        btime.h \
+        kpuibase.h \
+        kpglutuserinterface.h \
+	kpsdluserinterface.h \
+        psdl2userinterface.h \
+        bdir.h \
+        bwin32threadimp.h \
+        resource.h \
+        bdelete.h \
+        bsingle.h \
+        kpstatelighttest.h \
+        fprinter.h \
+	KhunPhan.rc \
+        icon.ico
 
 AM_CPPFLAGS = $(all_includes) -DLINUX -DDATADIR=\"$(datadir)\"
 #khunphan_LDFLAGS = $(all_libraries) 
 nobase_dist_pkgdata_DATA = \
-	Music/Cymbals.ogg Music/Earth.ogg Music/Mystery.ogg \
-	Sounds/changesetting.ogg Sounds/gamesolved.ogg \
-	Sounds/movetoken.ogg Sounds/opengame.ogg \
-	Sounds/openmenu.ogg Sounds/quitgame.ogg \
+	Music/Cymbals.ogg \
+        Music/Earth.ogg Music/Mystery.ogg \
+	Sounds/changesetting.ogg \
+        Sounds/gamesolved.ogg \
+	Sounds/movetoken.ogg \
+        Sounds/opengame.ogg \
+	Sounds/openmenu.ogg \
+        Sounds/quitgame.ogg \
 	Sounds/tutorialnext.ogg \
 	Sounds/bubbles/movetoken.ogg \
 	Sounds/marble/movetoken.ogg \
@@ -415,24 +501,42 @@ nobase_dist_pkgdata_DATA = \
 	Sounds/rock/movetoken.ogg \
 	Sounds/smily/movetoken.ogg \
 	Sounds/wood/movetoken.ogg \
-	Textures/characters.png Textures/logo.png \
-	Textures/music_on.png Textures/soundmusic_off.png \
+	Textures/characters.png \
+        Textures/logo.png \
+	Textures/music_on.png \
+        Textures/soundmusic_off.png \
 	Textures/sound_on.png \
-	Textures/bubbles/board.png Textures/bubbles/texture1.png \
-	Textures/bubbles/texture2.png Textures/bubbles/texture3.png \
-	Textures/marble/board.png Textures/marble/texture1.png \
-	Textures/marble/texture2.png Textures/marble/texture3.png \
-	Textures/metal/board.png Textures/metal/texture1.png \
-	Textures/metal/texture2.png Textures/metal/texture3.png \
-	Textures/painting/board.png Textures/painting/texture1.png \
-	Textures/painting/texture2.png Textures/painting/texture3.png \
-	Textures/rock/board.png Textures/rock/texture1.png \
-	Textures/rock/texture2.png Textures/rock/texture3.png \
-	Textures/smily/board.png Textures/smily/texture1.png \
-	Textures/smily/texture2.png Textures/smily/texture3.png \
-	Textures/wood/board.png Textures/wood/texture1.png \
-	Textures/wood/texture2.png Textures/wood/texture3.png \
-	locale/900.lang locale/901.lang locale/999.lang
+	Textures/bubbles/board.png \
+        Textures/bubbles/texture1.png \
+	Textures/bubbles/texture2.png \
+        Textures/bubbles/texture3.png \
+	Textures/marble/board.png \
+        Textures/marble/texture1.png \
+	Textures/marble/texture2.png \
+        Textures/marble/texture3.png \
+	Textures/metal/board.png \
+        Textures/metal/texture1.png \
+	Textures/metal/texture2.png \
+        Textures/metal/texture3.png \
+	Textures/painting/board.png \
+        Textures/painting/texture1.png \
+	Textures/painting/texture2.png \
+        Textures/painting/texture3.png \
+	Textures/rock/board.png \
+        Textures/rock/texture1.png \
+	Textures/rock/texture2.png \
+        Textures/rock/texture3.png \
+	Textures/smily/board.png \
+        Textures/smily/texture1.png \
+	Textures/smily/texture2.png \
+        Textures/smily/texture3.png \
+	Textures/wood/board.png \
+        Textures/wood/texture1.png \
+	Textures/wood/texture2.png \
+        Textures/wood/texture3.png \
+	locale/900.lang \
+        locale/901.lang \
+        locale/999.lang
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -543,13 +647,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-Textfeld.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bdir.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bposixthreadimp.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bstring.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-btexture.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bthread.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bthreadfactory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bthreadimp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-btime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bwin32threadimp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-fprinter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpboardGL.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpconfig.Po@am__quote@
@@ -1289,20 +1393,6 @@ khunphan-KhunPhan.obj: KhunPhan.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-KhunPhan.obj `if test -f 'KhunPhan.cpp'; then $(CYGPATH_W) 'KhunPhan.cpp'; else $(CYGPATH_W) '$(srcdir)/KhunPhan.cpp'; fi`
 
-khunphan-bstring.o: bstring.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bstring.o -MD -MP -MF $(DEPDIR)/khunphan-bstring.Tpo -c -o khunphan-bstring.o `test -f 'bstring.cpp' || echo '$(srcdir)/'`bstring.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bstring.Tpo $(DEPDIR)/khunphan-bstring.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bstring.cpp' object='khunphan-bstring.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bstring.o `test -f 'bstring.cpp' || echo '$(srcdir)/'`bstring.cpp
-
-khunphan-bstring.obj: bstring.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bstring.obj -MD -MP -MF $(DEPDIR)/khunphan-bstring.Tpo -c -o khunphan-bstring.obj `if test -f 'bstring.cpp'; then $(CYGPATH_W) 'bstring.cpp'; else $(CYGPATH_W) '$(srcdir)/bstring.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bstring.Tpo $(DEPDIR)/khunphan-bstring.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bstring.cpp' object='khunphan-bstring.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bstring.obj `if test -f 'bstring.cpp'; then $(CYGPATH_W) 'bstring.cpp'; else $(CYGPATH_W) '$(srcdir)/bstring.cpp'; fi`
-
 khunphan-kpstatelighttest.o: kpstatelighttest.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpstatelighttest.o -MD -MP -MF $(DEPDIR)/khunphan-kpstatelighttest.Tpo -c -o khunphan-kpstatelighttest.o `test -f 'kpstatelighttest.cpp' || echo '$(srcdir)/'`kpstatelighttest.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpstatelighttest.Tpo $(DEPDIR)/khunphan-kpstatelighttest.Po
@@ -1316,6 +1406,20 @@ khunphan-kpstatelighttest.obj: kpstatelighttest.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpstatelighttest.cpp' object='khunphan-kpstatelighttest.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpstatelighttest.obj `if test -f 'kpstatelighttest.cpp'; then $(CYGPATH_W) 'kpstatelighttest.cpp'; else $(CYGPATH_W) '$(srcdir)/kpstatelighttest.cpp'; fi`
+
+khunphan-fprinter.o: fprinter.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-fprinter.o -MD -MP -MF $(DEPDIR)/khunphan-fprinter.Tpo -c -o khunphan-fprinter.o `test -f 'fprinter.cpp' || echo '$(srcdir)/'`fprinter.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-fprinter.Tpo $(DEPDIR)/khunphan-fprinter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fprinter.cpp' object='khunphan-fprinter.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-fprinter.o `test -f 'fprinter.cpp' || echo '$(srcdir)/'`fprinter.cpp
+
+khunphan-fprinter.obj: fprinter.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-fprinter.obj -MD -MP -MF $(DEPDIR)/khunphan-fprinter.Tpo -c -o khunphan-fprinter.obj `if test -f 'fprinter.cpp'; then $(CYGPATH_W) 'fprinter.cpp'; else $(CYGPATH_W) '$(srcdir)/fprinter.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-fprinter.Tpo $(DEPDIR)/khunphan-fprinter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fprinter.cpp' object='khunphan-fprinter.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-fprinter.obj `if test -f 'fprinter.cpp'; then $(CYGPATH_W) 'fprinter.cpp'; else $(CYGPATH_W) '$(srcdir)/fprinter.cpp'; fi`
 install-nobase_dist_pkgdataDATA: $(nobase_dist_pkgdata_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(nobase_dist_pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \

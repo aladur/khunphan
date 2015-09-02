@@ -23,7 +23,7 @@
 #ifndef __khunphan_h__
 #define __khunphan_h__
 
-#include "bstring.h"
+#include <string>
 #include "kpthreadsolvecount.h"
 
 class KPnode;
@@ -49,7 +49,7 @@ public:
 private:
   KhunPhanApp();
   virtual ~KhunPhanApp();
-  BString appName;
+  std::string appName;
   KPThreadSolveCount thread;
   KPUIBase *userInterface;
   

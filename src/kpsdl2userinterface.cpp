@@ -368,14 +368,14 @@ bool KPSdl2UserInterface::InitializeAudio(const char *textureName, bool reInitia
     return false;
   }
 
-  BString file1, file2;
+  std::string file1, file2;
   int     i;
 
   if (sound == NULL)
   {
     // Initialize sound management variables
     sound            = new Mix_Chunk *[KP_SND_MAX];
-    soundSource      = new BString [KP_SND_MAX];
+    soundSource      = new std::string [KP_SND_MAX];
     for (i = 0; i < KP_SND_MAX; i++)
       sound[i] = NULL;
   }
@@ -439,7 +439,7 @@ void KPSdl2UserInterface::LoadNextMusic()
       return;
 
     int index = 0;
-	std::vector<BString>::iterator it = musicFiles.begin();
+	std::vector<std::string>::iterator it = musicFiles.begin();
     while (it != musicFiles.end() && index != musicIndex)
     {
       ++it; ++index;
@@ -450,7 +450,7 @@ void KPSdl2UserInterface::LoadNextMusic()
       it = musicFiles.begin();
     }
 
-    BString file = KPConfig::Instance().GetDirectory(KP_MUSIC_DIR) + *it;
+    std::string file = KPConfig::Instance().GetDirectory(KP_MUSIC_DIR) + *it;
     if ((music = Mix_LoadMUS(file.c_str())) == NULL)
     {
       DEBUGPRINT2("*** Error in Mix_LoadMUS(\"%s\"): %s\n",

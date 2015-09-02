@@ -169,9 +169,9 @@ void KPboardView::InitializeTextures(const char  *TextureName,
     glGenTextures(MAX_BOARD_TEXTURES, &textureId[0]);
 
   if (textureSource == NULL)
-    textureSource = new BString[MAX_BOARD_TEXTURES];
+    textureSource = new std::string[MAX_BOARD_TEXTURES];
     
-  BString file;
+  std::string file;
   while (TextureSize && textureFile[i] != NULL) {
     file = KPConfig::Instance().GetDirectory(KP_TEXTURE_DIR) + TextureName + PATHSEPARATORSTRING + textureFile[i];
     if (!always && file == textureSource[i])

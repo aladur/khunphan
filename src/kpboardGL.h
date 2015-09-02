@@ -22,6 +22,7 @@
 #ifndef _KPBOARD_H__
 #define _KPBOARD_H__
 
+#include <string>
 #include "kpnode.h"
 
 
@@ -45,7 +46,6 @@
 
 class Kamera;
 class Light;
-class BString;
 
 #define MAX_BOARD_TEXTURES  4
 
@@ -90,7 +90,7 @@ private:
   tKPTokenID animatedToken;
   float old_x, old_y, new_x, new_y, ax, ay, Time;
   unsigned int textureId[MAX_BOARD_TEXTURES];
-  BString *textureSource;
+  std::string *textureSource;
   int callList;
 };
 

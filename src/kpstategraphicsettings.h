@@ -24,7 +24,7 @@
 
 #include <vector>
 #include "kpstate.h"
-#include "bstring.h"
+#include <string>
 
 
 
@@ -39,7 +39,7 @@ public:
   tKPMenuState ESCKeyAction(KPstateContext *pContext);
 
 protected:
-  int  GetTextureIndex(BString &TextureName);
+  int  GetTextureIndex(std::string &TextureName);
   tKPMenuState SaveChanges(KPstateContext *pContext);
   void ToggleFPS(KPstateContext *pContext);
   void ToggleTextures(KPstateContext *pContext);
@@ -65,7 +65,7 @@ protected:
 
   bool firstTexture;
   int  textureIndex;
-  std::vector<BString> textureNameList;
+  std::vector<std::string> textureNameList;
 };
 
 #endif

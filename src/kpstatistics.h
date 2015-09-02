@@ -22,7 +22,7 @@
 #ifndef _KPSTATISTICS_H_
 #define _KPSTATISTICS_H_
 
-#include "bstring.h"
+#include <string>
 
 // Time display formats:
 // +HH:  two (or more) digit hours
@@ -61,7 +61,7 @@ public:
   void Stop();                  // Stop capturing time
   void SetTime(unsigned long t) { time = t; };
   unsigned long GetTotalTime(); // Returns the total elapsed time in milliseconds
-  BString GetTotalTime(tTimeFormat formatID); // Return a formatted time string
+  std::string GetTotalTime(tTimeFormat formatID); // Return a formatted time string
 
   void SetEventCounter(unsigned short i, unsigned int n);     // sets the current value of event counter i to n
   int  GetEventCounter(unsigned short i);                     // returns the current value of event counter i
@@ -69,7 +69,7 @@ public:
   void DecEventCounter(unsigned short i, unsigned int n = 1); // decrement event counter i by n
   void ResetEventCounter(unsigned short i);                   // Reset event counter i
 protected:
-  BString FormatTime(tTimeFormat formatID, unsigned int t);
+  std::string FormatTime(tTimeFormat formatID, unsigned int t);
 
 private:
   BTime *pTime;

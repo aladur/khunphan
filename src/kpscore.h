@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "misc1.h" // Needed for NULL
-#include "bstring.h"
+#include <string>
 
 #define MAX_SCORE_ENTRIES 10
 
@@ -36,7 +36,7 @@ class KPscore
 protected:
   typedef struct
   {
-    BString      Name;
+    std::string  Name;
     unsigned int PlayTime;
     unsigned int Moves;
     time_t       Timestamp;
@@ -51,12 +51,12 @@ public:
   void ReadFromFile();
   void WriteToFile();
   void PrintTo(FILE *fp);
-  BString GetFileName();
+  std::string GetFileName();
   void SetFileName(const char *fileName);
   bool Add   (const char *aName, unsigned int aPlayTime, unsigned int aMoves, time_t aTime = 0);
   bool CanAdd(const char *aName, unsigned int aPlayTime, unsigned int aMoves, time_t aTime = 0);
   void ClearAll();
-  bool Get(int index, BString &aName, unsigned int *aPlayTime = NULL, unsigned int *aMoves = NULL, time_t *aTime = NULL);
+  bool Get(int index, std::string &aName, unsigned int *aPlayTime = NULL, unsigned int *aMoves = NULL, time_t *aTime = NULL);
   // CheckPlayTime = true:  Use PlayTime for the highscore
   // CheckPlayTime = false: Use Moves    for the highscore
   void CheckPlayTime(bool state) { checkPlayTime = state; };
@@ -65,7 +65,7 @@ protected:
   KPscore();
   virtual ~KPscore();
   int PositionToInsert(const char *aName, unsigned int aPlayTime, unsigned int aMoves, time_t aTime = 0);
-  BString fileName;
+  std::string fileName;
   int     entryCount;
   bool    checkPlayTime;
   tKpScoreStruct *pScore;

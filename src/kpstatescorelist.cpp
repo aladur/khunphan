@@ -40,7 +40,7 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
   KPmenu &menu = pContext->GetMenu();
 
   int          i, max;
-  BString      Name;
+  std::string  Name;
   unsigned int PlayTime;
   unsigned int Moves;
 

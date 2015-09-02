@@ -8,19 +8,19 @@
 #ifndef __TEXTFELD_H__
 #define __TEXTFELD_H__
 
+#include "misc1.h"
+
 #include <set>
 #ifdef HAVE_STDARG_H
   #include <stdarg.h>
 #endif
 #include "kpconfig.h"
-#include "misc1.h"  // needed for NULL
 
 
 
 class Textfeld;
 class KPConfig;
 class KPUIBase;
-class BString;
 
 typedef std::set<Textfeld *> tActivated;
 

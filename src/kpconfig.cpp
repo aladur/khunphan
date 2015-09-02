@@ -73,7 +73,7 @@ KPConfig &KPConfig::Instance()
    return *instance;
 }
 
-BString KPConfig::GetFileName()
+std::string KPConfig::GetFileName()
 {
   // Lazy initialization
   if ( fileName.length() == 0 )
@@ -90,15 +90,17 @@ void KPConfig::SetFileName(const char *aFileName)
   else
   {
 #ifdef LINUX
-    fileName.printf("%s/.KhunPhan.xml", getenv("HOME"));
+    fileName = getenv("HOME");
+    fileName += "/.KhunPhan.xml";
 #endif
 #ifdef WIN32
-    fileName.printf("KhunPhan.xml");
+    /* TODO: Use user specific directory */
+    fileName = "KhunPhan.xml";
 #endif
   }    
 }
 
-BString KPConfig::GetDirectory(tKPDir directoryID) const
+std::string KPConfig::GetDirectory(tKPDir directoryID) const
 {
 #ifdef WIN32
   switch (directoryID)
@@ -111,7 +113,7 @@ BString KPConfig::GetDirectory(tKPDir directoryID) const
   }
 #endif
 #ifdef LINUX
-  BString dir;
+  std::string dir;
   struct stat sStat;
   
   switch (directoryID)
@@ -144,7 +146,7 @@ BString KPConfig::GetDirectory(tKPDir directoryID) const
 #endif  
 }
 
-std::vector<BString> KPConfig::GetTextureNames() const
+std::vector<std::string> KPConfig::GetTextureNames() const
 {
   return BDirectory::GetSubDirectories( GetDirectory(KP_TEXTURE_DIR) );
 }

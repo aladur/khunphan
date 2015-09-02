@@ -19,6 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */                                                                              
 
+#include "misc1.h"
+
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -28,17 +30,17 @@
   #include <stdarg.h>
 #endif
 #include <stdio.h>
-#include "misc1.h"
-#include "bstring.h"
+#include <string>
+#include "fprinter.h"
 
 
 void message(tMsgType type, const char *format, ...)
 {
 	va_list arg_ptr;
-	BString msg;
+	std::string msg;
 
 	va_start(arg_ptr, format);
-	msg.vsprintf(format, arg_ptr);
+	fprinter::vsprintf(msg, format, arg_ptr);
 	va_end(arg_ptr);
 #ifdef LINUX
 	switch (type) {
@@ -48,7 +50,7 @@ void message(tMsgType type, const char *format, ...)
 	}
 #endif
 #ifdef WIN32
-	BString msg1;
+	std::string msg1;
 	msg1.printf("[%s] %s\n", PACKAGE, msg);
 	OutputDebugString(msg1.c_str());
 	switch (type) {

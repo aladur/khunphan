@@ -512,7 +512,7 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext)
 {
   if (textureNameList.size() > 1)
   {
-	  std::vector<BString>::const_iterator it;
+	  std::vector<std::string>::const_iterator it;
 
     it = std::find(textureNameList.begin(), textureNameList.end(), KPConfig::Instance().TextureName);
     if (it == textureNameList.end())
@@ -691,11 +691,11 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
                                                KPConfig::Instance().Nearest );
 }
 
-int KPstateGraphicSettings::GetTextureIndex(BString &TextureName)
+int KPstateGraphicSettings::GetTextureIndex(std::string &TextureName)
 {
   int index = 0;
   
-  std::vector<BString>::const_iterator it = textureNameList.begin();
+  std::vector<std::string>::const_iterator it = textureNameList.begin();
 
   while (it != textureNameList.end() && *it != TextureName)
   {
