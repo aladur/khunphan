@@ -55,11 +55,8 @@ class Kamera {
   void Schwenk_Hoch(float,float,float);
   void Schwenk_Runter(float,float,float);
   void Verfolge(int);
-  void BlickeAuf(float[2]);
   void BlickeAuf(float,float);
-  void BlickeAuf2(float[2]);
   void BlickeAuf2(float,float);
-  void BlickeAuf3(float[2]);
   void BlickeAuf3(float,float);
   void Fahrt(int);
   void Rundflug(int);

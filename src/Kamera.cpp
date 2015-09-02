@@ -367,10 +367,6 @@ void Kamera::setzeSollPosition(float SollPosx,float SollPosy,float SollPosz,\
   IsRundflug = false;
 }
 
-void Kamera::BlickeAuf(float Blickpunkt[2]) {
-  BlickeAuf(Blickpunkt[0],Blickpunkt[1]);
-}
-
 void Kamera::BlickeAuf(float Blickpunkt_x,float Blickpunkt_y) {
   GLfloat SollPosx=50*(Pos_x-Blickpunkt_x)/\
     sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+\
@@ -390,10 +386,6 @@ void Kamera::BlickeAuf(float Blickpunkt_x,float Blickpunkt_y) {
   IsRundflug = false;
 }
 
-void Kamera::BlickeAuf2(float Blickpunkt[2]) {
-  BlickeAuf2(Blickpunkt[0],Blickpunkt[1]);
-}
-
 void Kamera::BlickeAuf2(float Blickpunkt_x,float Blickpunkt_y) {
   GLfloat SollPosx=80*(Pos_x-Blickpunkt_x)/\
     sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+\
@@ -411,10 +403,6 @@ void Kamera::BlickeAuf2(float Blickpunkt_x,float Blickpunkt_y) {
 
   setzeSollPosition(SollPosx,SollPosy,SollPosz,SollAlpha,SollBeta,SollFOV);
   IsRundflug = false;
-}
-
-void Kamera::BlickeAuf3(float Blickpunkt[2]) {
-  BlickeAuf3(Blickpunkt[0],Blickpunkt[1]);
 }
 
 void Kamera::BlickeAuf3(float Blickpunkt_x,float Blickpunkt_y) {
