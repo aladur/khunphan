@@ -16,62 +16,43 @@
 #include "misc1.h"
 
 
-float Kamera::BewegFaktor = 0.3;
-float Kamera::DrehFaktor  = 0.3;
-float Kamera::Positionen[12][6];
-
 /* --------- Konstruktor ---------- */
 Kamera::Kamera() : Aspekt(0.0),
                    Pos_x(0.0),      Pos_y(0.0),      Pos_z(0.0),
                    Alpha(0.0),      Beta(0.0),       FOV(0.0),
                    Soll_Pos_x(0.0), Soll_Pos_y(0.0), Soll_Pos_z(0.0),
-				   Soll_Alpha(0.0), Soll_Beta(0.0),  Soll_FOV(0.0),
+                   Soll_Alpha(0.0), Soll_Beta(0.0),  Soll_FOV(0.0),
                    d_Pos_x(0.0),    d_Pos_y(0.0),    d_Pos_z(0.0),
-				   d_Alpha(0.0),    d_Beta(0.0),     d_FOV(0.0),
+                   d_Alpha(0.0),    d_Beta(0.0),     d_FOV(0.0),
                    Nah(0.0),        Fern(0.0),       KameraNummer(0), 
-                   IsRundflug(0)
+                   IsRundflug(0),   BewegFaktor(0.3),DrehFaktor(0.3)
 {
-  // Generieren der vordefinierten Kamerapositionen
-  Alpha=60.0;Beta=60.0;
-  Pos_x=-100.0;Pos_y=-50.0;Pos_z=50.0;
-  FOV=38.6;
-  speicherePosition(0);
+  // Initialize default camera positions with the parameter list:
+  //   Pos_x, Pos_y, Pos_z, Alpha, Beta, FOV
 
-  Alpha=60;Beta=180;
-  Pos_x=0;Pos_y=160;Pos_z=80;
-  FOV=38.6;
-  speicherePosition(1);
+  // Position with index 0
+  Positionen.push_back(SPosition(-100.0, -50.0, 50.0, 60.0, 60.0, 38.6));
 
-  Alpha=45;Beta=180;
-  Pos_x=0;Pos_y=140;Pos_z=120;
-  FOV=38.6;
-  speicherePosition(2);
+  // Position with index 1
+  Positionen.push_back(SPosition(0.0, 160.0, 80.0, 60.0, 180.0, 38.6));
 
-  Alpha=30;Beta=180;
-  Pos_x=0;Pos_y=115;Pos_z=180;
-  FOV=38.6;
-  speicherePosition(3);
+  // Position with index 2
+  Positionen.push_back(SPosition(0.0, 140.0, 120.0, 45.0, 180.0, 38.6));
 
-  Alpha=0;Beta=180;
-  Pos_x=0;Pos_y=0;Pos_z=220;
-  FOV=38.6;
-  speicherePosition(4);
+  // Position with index 3
+  Positionen.push_back(SPosition(0.0, 115.0, 180.0, 30.0, 180.0, 38.6));
 
+  // Position with index 4
+  Positionen.push_back(SPosition(0.0, 0.0, 220.0, 0.0, 180.0, 38.6));
 
-  Alpha=0;Beta=180;
-  Pos_x=0;Pos_y=0;Pos_z=300;
-  FOV=38.6;
-  speicherePosition(5);
+  // Position with index 5
+  Positionen.push_back(SPosition(0.0, 0.0, 300.0, 0.0, 180.0, 38.6));
 
-  Alpha=45;Beta=155;
-  Pos_x=-60;Pos_y=160;Pos_z=140;
-  FOV=38.6;
-  speicherePosition(6); 
+  // Position with index 6
+  Positionen.push_back(SPosition(-60.0, 160.0, 140.0, 45.0, 155.0, 38.6));
 
-  Alpha=45;Beta=205;
-  Pos_x=60;Pos_y=160;Pos_z=140;
-  FOV=38.6;
-  speicherePosition(7); 
+  // Position with index 7
+  Positionen.push_back(SPosition(60.0, 160.0, 140.0, 45.0, 205.0, 38.6));
 
   Soll_Pos_x=-60;
   Soll_Pos_y=-30;
@@ -85,7 +66,6 @@ Kamera::Kamera() : Aspekt(0.0),
   Aspekt= 4.0 / 3.0;
 
   IsRundflug = false;
-
 }
 
 void Kamera::SetAspekt(float a)
@@ -124,21 +104,29 @@ void Kamera::male(int x /* = -1 */, int y /* = -1 */) const
 }
 
 //setzt die Kamera an eine neue Position
-void Kamera::neuePosition(float Position[]) {
-  Soll_Pos_x = Position[0];
-  Soll_Pos_y = Position[1];
-  Soll_Pos_z = Position[2];
-  Soll_Alpha = Position[3];
-  Soll_Beta  = Position[4];
-  Soll_FOV   = Position[5];
+void Kamera::neuePosition(SPosition &position) {
+  Soll_Pos_x = position.Pos_x;
+  Soll_Pos_y = position.Pos_y;
+  Soll_Pos_z = position.Pos_z;
+  Soll_Alpha = position.Alpha;
+  Soll_Beta  = position.Beta;
+  Soll_FOV   = position.FOV;
   BlickTiefeNeuBestimmen();
   IsRundflug = false;
 }
 
 //gibt die aktuelle Kameraposition zur"uck
-float* Kamera::Position() {
-  static GLfloat temp[] ={Soll_Pos_x,Soll_Pos_y,Soll_Pos_z,Soll_Alpha,Soll_Beta,Soll_FOV};
-  return temp;
+SPosition Kamera::Position() {
+  SPosition position = {
+     Pos_x,
+     Pos_y,
+     Pos_z,
+     Alpha,
+     Beta,
+     FOV
+  };
+
+  return position;
 }
 
 float Kamera::Pos_xCM() {
@@ -153,19 +141,9 @@ float Kamera::Pos_zCM() {
   return Pos_z;
 }
 
-//schreibt die aktuelle Kameraposition in die Tabelle ab
-void Kamera::speicherePosition(int Platz) {
-  Positionen[Platz][0]=Pos_x;
-  Positionen[Platz][1]=Pos_y;
-  Positionen[Platz][2]=Pos_z;
-  Positionen[Platz][3]=Alpha;
-  Positionen[Platz][4]=Beta;
-  Positionen[Platz][5]=FOV;
-}
-
 // l"adt eine Kameraposition aus der Tabelle
 void Kamera::ladePosition(int Platz) {
-  setzeSollPosition(Positionen[Platz]);
+  setzeSollPosition(Positionen.at(Platz));
   IsRundflug = false;
 }
 
@@ -355,13 +333,13 @@ void Kamera::Schwenk_Runter(float Faktor, float Mitte_x, float Mitte_y) {
   IsRundflug = false;
 }
 
-void Kamera::setzeSollPosition(float Soll_Pos[6]) {
-  Soll_Pos_x = Soll_Pos[0];
-  Soll_Pos_y = Soll_Pos[1];
-  Soll_Pos_z = Soll_Pos[2];
-  Soll_Alpha = Soll_Pos[3];
-  Soll_Beta  = Soll_Pos[4];
-  Soll_FOV   = Soll_Pos[5];
+void Kamera::setzeSollPosition(SPosition &Soll_Pos) {
+  Soll_Pos_x = Soll_Pos.Pos_x;
+  Soll_Pos_y = Soll_Pos.Pos_y;
+  Soll_Pos_z = Soll_Pos.Pos_z;
+  Soll_Alpha = Soll_Pos.Alpha;
+  Soll_Beta  = Soll_Pos.Beta;
+  Soll_FOV   = Soll_Pos.FOV;
 
   Beta=fmod(Beta,360);
   Soll_Beta=fmod(Soll_Beta,360);

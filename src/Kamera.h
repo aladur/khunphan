@@ -8,14 +8,31 @@
 #ifndef __kamera_h__
 #define __kamera_h__
 
+#include <vector>
+
+
+struct SPosition
+{
+  SPosition() { Pos_x = Pos_y = Pos_z = Alpha = Beta = FOV = 0.0; };
+  SPosition(float _Pos_x, float _Pos_y, float _Pos_z,
+            float _Alpha, float _Beta,  float _FOV) :
+            Pos_x(_Pos_x), Pos_y(_Pos_y), Pos_z(_Pos_z),
+            Alpha(_Alpha), Beta(_Beta),   FOV(_FOV)
+            { };
+  float Pos_x;
+  float Pos_y;
+  float Pos_z;
+  float Alpha;
+  float Beta;
+  float FOV;
+};
 
 class Kamera {
  public:
   Kamera();
   void male(int x=-1, int y=-1) const;
-  void neuePosition(float[5]);
-  float* Position();
-  void speicherePosition(int);
+  void neuePosition(SPosition &position);
+  SPosition Position();
   void ladePosition(int);
   void Beweg_Vor(float);
   void Beweg_Zurueck(float);
@@ -46,7 +63,7 @@ class Kamera {
   void BlickeAuf3(float,float);
   void Fahrt(int);
   void Rundflug(int);
-  void setzeSollPosition(float[6]);
+  void setzeSollPosition(SPosition &soll_position);
   void setzeSollPosition(float,float,float,float,float,float);
   void BlickTiefeNeuBestimmen();
   void SetzeRundflug(bool r = true) { IsRundflug = r; };
@@ -64,9 +81,9 @@ class Kamera {
   int KameraNummer;
   bool IsRundflug;  
 
-  static float BewegFaktor;
-  static float DrehFaktor;
-  static float Positionen[12][6]; // Array zum Abspeichern der Kamerapositionen
+  const float BewegFaktor;
+  const float DrehFaktor;
+  std::vector<SPosition> Positionen; // vector zum Abspeichern der Kamerapositionen
 };
 
 #endif
