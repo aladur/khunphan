@@ -441,7 +441,7 @@ void KPSdlUserInterface::PlayAudio(int soundId) const
                    soundSource[soundId].c_str(), Mix_GetError());
     }
     if (sound[soundId] != NULL) DEBUGPRINT1("Reading '%s'\n",
-        soundSource[soundId]).c_str();
+        soundSource[soundId].c_str());
   }
 
   if (sound[soundId] != NULL)
