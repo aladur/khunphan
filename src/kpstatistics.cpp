@@ -23,7 +23,7 @@
 #include "misc1.h"
 #include "kpstatistics.h"
 #include "btime.h"
-#include "fprinter.h"
+#include "sprinter.h"
 
 
 KPStatistics::KPStatistics() : pTime(NULL), time(0), stopWatchActive(false)
@@ -117,30 +117,30 @@ std::string KPStatistics::FormatTime(tTimeFormat formatID, unsigned int t)
 
   switch (formatID)
   {
-    case RTIME_HH_mm:      fprinter::sprintf(timeStr, "%02u.%02u",
+    case RTIME_HH_mm:      sprinter::sprintf(timeStr, "%02u.%02u",
                             t / 3600000,
                            (t % 3600000) * 100 / 3600000 ); break;
-    case RTIME_HH_mmmm:    fprinter::sprintf(timeStr, "%02u.%03u",
+    case RTIME_HH_mmmm:    sprinter::sprintf(timeStr, "%02u.%03u",
                             t / 3600000,
                            (t % 3600000) * 10000 / 3600000 ); break;
-    case RTIME_HHMM_ss:    fprinter::sprintf(timeStr, "%02u:%02u.%02u",
+    case RTIME_HHMM_ss:    sprinter::sprintf(timeStr, "%02u:%02u.%02u",
                             t / 3600000,
                            (t % 3600000) / 60000,
                            (t % 60000) * 100 / 60000 ); break;
-    case RTIME_HHMMSS_mmm: fprinter::sprintf(timeStr, "%02u:%02u:%02u.%03u",
+    case RTIME_HHMMSS_mmm: sprinter::sprintf(timeStr, "%02u:%02u:%02u.%03u",
                             t / 3600000,
                            (t % 3600000) / 60000,
                            (t % 60000)   / 1000,
                             t % 1000                 ); break;
-    case RTIME_HHMMSS:     fprinter::sprintf(timeStr, "%02u:%02u:%02u",
+    case RTIME_HHMMSS:     sprinter::sprintf(timeStr, "%02u:%02u:%02u",
                             t / 3600000,
                            (t % 3600000) / 60000,
                            (t % 60000)   / 1000      ); break;
-    case RTIME_MM_ss:      fprinter::sprintf(timeStr, "%02u.%02u",
+    case RTIME_MM_ss:      sprinter::sprintf(timeStr, "%02u.%02u",
                             t / 60000,
                            (t % 60000) * 100 / 60000 ); break;
     case RTIME_msec:
-    default:               fprinter::sprintf(timeStr, "%u", t); break;
+    default:               sprinter::sprintf(timeStr, "%u", t); break;
   }
 
   return timeStr;

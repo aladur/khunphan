@@ -140,7 +140,7 @@ am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-misc1.$(OBJEXT) khunphan-kpboard.$(OBJEXT) \
 	khunphan-KhunPhan.$(OBJEXT) \
 	khunphan-kpstatelighttest.$(OBJEXT) \
-	khunphan-fprinter.$(OBJEXT)
+	khunphan-sprinter.$(OBJEXT)
 khunphan_OBJECTS = $(am_khunphan_OBJECTS)
 khunphan_DEPENDENCIES =
 khunphan_LINK = $(CXXLD) $(khunphan_CXXFLAGS) $(CXXFLAGS) \
@@ -418,7 +418,7 @@ khunphan_SOURCES = \
 	kpboard.cpp \
         KhunPhan.cpp \
         kpstatelighttest.cpp \
-        fprinter.cpp
+        sprinter.cpp
 
 khunphan_CXXFLAGS = @GLU_CFLAGS@ @GLUT_CFLAGS@ @XML_CPPFLAGS@ @LIBPNG_CFLAGS@
 khunphan_LDADD = @GLU_LIBS@ @GLUT_LIBS@ @XML_LIBS@ @LIBPNG_LIBS@
@@ -478,7 +478,7 @@ EXTRA_DIST = \
         bdelete.h \
         bsingle.h \
         kpstatelighttest.h \
-        fprinter.h \
+        sprinter.h \
 	KhunPhan.rc \
         icon.ico
 
@@ -653,7 +653,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bthreadimp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-btime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bwin32threadimp.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-fprinter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpboardGL.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpconfig.Po@am__quote@
@@ -692,6 +691,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-light.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-misc1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-sprinter.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -1407,19 +1407,19 @@ khunphan-kpstatelighttest.obj: kpstatelighttest.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpstatelighttest.obj `if test -f 'kpstatelighttest.cpp'; then $(CYGPATH_W) 'kpstatelighttest.cpp'; else $(CYGPATH_W) '$(srcdir)/kpstatelighttest.cpp'; fi`
 
-khunphan-fprinter.o: fprinter.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-fprinter.o -MD -MP -MF $(DEPDIR)/khunphan-fprinter.Tpo -c -o khunphan-fprinter.o `test -f 'fprinter.cpp' || echo '$(srcdir)/'`fprinter.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-fprinter.Tpo $(DEPDIR)/khunphan-fprinter.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fprinter.cpp' object='khunphan-fprinter.o' libtool=no @AMDEPBACKSLASH@
+khunphan-sprinter.o: sprinter.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-sprinter.o -MD -MP -MF $(DEPDIR)/khunphan-sprinter.Tpo -c -o khunphan-sprinter.o `test -f 'sprinter.cpp' || echo '$(srcdir)/'`sprinter.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-sprinter.Tpo $(DEPDIR)/khunphan-sprinter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='sprinter.cpp' object='khunphan-sprinter.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-fprinter.o `test -f 'fprinter.cpp' || echo '$(srcdir)/'`fprinter.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-sprinter.o `test -f 'sprinter.cpp' || echo '$(srcdir)/'`sprinter.cpp
 
-khunphan-fprinter.obj: fprinter.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-fprinter.obj -MD -MP -MF $(DEPDIR)/khunphan-fprinter.Tpo -c -o khunphan-fprinter.obj `if test -f 'fprinter.cpp'; then $(CYGPATH_W) 'fprinter.cpp'; else $(CYGPATH_W) '$(srcdir)/fprinter.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-fprinter.Tpo $(DEPDIR)/khunphan-fprinter.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fprinter.cpp' object='khunphan-fprinter.obj' libtool=no @AMDEPBACKSLASH@
+khunphan-sprinter.obj: sprinter.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-sprinter.obj -MD -MP -MF $(DEPDIR)/khunphan-sprinter.Tpo -c -o khunphan-sprinter.obj `if test -f 'sprinter.cpp'; then $(CYGPATH_W) 'sprinter.cpp'; else $(CYGPATH_W) '$(srcdir)/sprinter.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-sprinter.Tpo $(DEPDIR)/khunphan-sprinter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='sprinter.cpp' object='khunphan-sprinter.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-fprinter.obj `if test -f 'fprinter.cpp'; then $(CYGPATH_W) 'fprinter.cpp'; else $(CYGPATH_W) '$(srcdir)/fprinter.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-sprinter.obj `if test -f 'sprinter.cpp'; then $(CYGPATH_W) 'sprinter.cpp'; else $(CYGPATH_W) '$(srcdir)/sprinter.cpp'; fi`
 install-nobase_dist_pkgdataDATA: $(nobase_dist_pkgdata_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(nobase_dist_pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \

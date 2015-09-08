@@ -31,7 +31,7 @@
 #endif
 #include <stdio.h>
 #include <string>
-#include "fprinter.h"
+#include "sprinter.h"
 
 
 void message(tMsgType type, const char *format, ...)
@@ -40,7 +40,7 @@ void message(tMsgType type, const char *format, ...)
 	std::string msg;
 
 	va_start(arg_ptr, format);
-	fprinter::vsprintf(msg, format, arg_ptr);
+	sprinter::vsprintf(msg, format, arg_ptr);
 	va_end(arg_ptr);
 #ifdef LINUX
 	switch (type) {

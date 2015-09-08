@@ -1,5 +1,5 @@
 /*
-    fprinter.h
+    sprinter.h
 
 
     Copyright (C) 2015  W. Schwotzer
@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __FPRINTER_H__
-#define __FPRINTER_H__
+#ifndef __SPRINTER_H__
+#define __SPRINTER_H__
 
 
 #include "misc1.h"
@@ -30,7 +30,7 @@
 #endif
 #include <string>
 
-class fprinter {
+class sprinter {
 public:
    static int sprintf(std::string &s, const char *format, ...);
    static int vsprintf(std::string &s, const char *format, va_list arg_ptr);

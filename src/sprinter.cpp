@@ -1,5 +1,5 @@
 /*
-    fprinter.cpp
+    sprinter.cpp
 
 
     Copyright (C) 2015  W. Schwotzer
@@ -22,7 +22,7 @@
 
 #include <stdio.h>
 #include <stdexcept>
-#include "fprinter.h"
+#include "sprinter.h"
 
 #define MAX_BUFFER_SIZE   (2048)
 
@@ -40,7 +40,7 @@
 // In c++11 this can be implemented in a type safe way using
 // variadic templates.
 
-int fprinter::sprintf(std::string &s, const char *format, ...) 
+int sprinter::sprintf(std::string &s, const char *format, ...) 
 {
     va_list arg_ptr;
     char buffer[MAX_BUFFER_SIZE];
@@ -64,7 +64,7 @@ int fprinter::sprintf(std::string &s, const char *format, ...)
 
     if (res < 0 || (res >= MAX_BUFFER_SIZE))
     {
-       throw std::length_error("fprinter::fprint buffer too short.");
+       throw std::length_error("sprinter::sprintf buffer too short.");
     }
 
     s = p;
@@ -72,7 +72,7 @@ int fprinter::sprintf(std::string &s, const char *format, ...)
     return res;
 }
 
-int fprinter::vsprintf(std::string &s, const char *format, va_list arg_ptr) 
+int sprinter::vsprintf(std::string &s, const char *format, va_list arg_ptr) 
 {
     char buffer[MAX_BUFFER_SIZE];
     char *p = static_cast<char *>(buffer);
@@ -93,7 +93,7 @@ int fprinter::vsprintf(std::string &s, const char *format, va_list arg_ptr)
 
     if (res < 0 || (res >= MAX_BUFFER_SIZE))
     {
-       throw std::length_error("fprinter::fprint buffer too short.");
+       throw std::length_error("sprinter::vsprintf buffer too short.");
     }
 
     s = p;
