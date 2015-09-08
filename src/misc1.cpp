@@ -51,7 +51,7 @@ void message(tMsgType type, const char *format, ...)
 #endif
 #ifdef WIN32
 	std::string msg1;
-	msg1.printf("[%s] %s\n", PACKAGE, msg);
+	sprinter::sprintf(msg1, "[%s] %s\n", PACKAGE, msg.c_str());
 	OutputDebugString(msg1.c_str());
 	switch (type) {
 	case mtError:   MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK | MB_ICONERROR); break;

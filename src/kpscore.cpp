@@ -24,6 +24,11 @@
 #include <libxml/tree.h>
 #include "misc1.h"
 #include "kpscore.h"
+#ifdef WIN32
+#include <shlwapi.h>
+#pragma comment(lib,"shlwapi.lib")
+#include "shlobj.h"
+#endif
 
 
 KPscore *KPscore::instance = NULL;
@@ -150,7 +155,22 @@ void KPscore::SetFileName(const char *aFileName)
     fileName += "/.KhunPhanScores.xml";
 #endif
 #ifdef WIN32
-    fileName.printf("KhunPhanScores.xml");
+    PWSTR pwszPath;
+    char pszPath[MAX_PATH] = "";
+
+    if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_LocalAppData, KF_FLAG_CREATE, NULL, &pwszPath)))
+    {
+        WideCharToMultiByte(CP_ACP, 0, pwszPath, -1, pszPath, MAX_PATH, NULL, NULL);
+        CoTaskMemFree(pwszPath);
+        PathAppend(pszPath, "KhunPhan");
+        PathAddBackslash(pszPath);
+        if (!PathFileExists(pszPath))
+        {
+            SHCreateDirectoryEx(NULL, pszPath, NULL);
+        }
+    }
+    fileName = pszPath;
+    fileName += "KhunPhanScores.xml";
 #endif
   }
 }

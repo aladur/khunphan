@@ -24,6 +24,9 @@
 #ifdef WIN32
   #define WIN32_LEAN_AND_MEAN
   #include <windows.h>
+  #include <shlwapi.h>
+  #pragma comment(lib,"shlwapi.lib")
+  #include "shlobj.h"
 #endif
 #include "misc1.h"
 #ifdef HAVE_UNISTD_H
@@ -94,8 +97,22 @@ void KPConfig::SetFileName(const char *aFileName)
     fileName += "/.KhunPhan.xml";
 #endif
 #ifdef WIN32
-    /* TODO: Use user specific directory */
-    fileName = "KhunPhan.xml";
+    PWSTR pwszPath;
+    char pszPath[MAX_PATH] = "";
+
+    if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_LocalAppData, KF_FLAG_CREATE, NULL, &pwszPath)))
+    {
+        WideCharToMultiByte(CP_ACP, 0, pwszPath, -1, pszPath, MAX_PATH, NULL, NULL);
+        CoTaskMemFree(pwszPath);
+        PathAppend(pszPath, "KhunPhan");
+        PathAddBackslash(pszPath);
+        if (!PathFileExists(pszPath))
+        {
+            SHCreateDirectoryEx(NULL, pszPath, NULL);
+        }
+    }
+    fileName = pszPath;
+    fileName += "KhunPhan.xml";
 #endif
   }    
 }
