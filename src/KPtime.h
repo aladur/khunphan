@@ -28,7 +28,7 @@
 class KPtime
 {
 public:
-  virtual int GetRelativeTime() = 0;
+    virtual int GetRelativeTime() = 0;
 };
 
 #endif

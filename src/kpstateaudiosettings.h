@@ -28,20 +28,25 @@
 class KPstateAudioSettings : public KPstate
 {
 public:
-  tKPMenuState GetId() const { return KPState_AudioSettings; };
-  void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-  void MouseClick (KPstateContext *pContext, int button, int state, int x, int y);
-  void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-  void UpdateDisplay(KPstateContext *pContext);
-  tKPMenuState ESCKeyAction (KPstateContext *pContext);
+    tKPMenuState GetId() const
+    {
+        return KPState_AudioSettings;
+    };
+    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick (KPstateContext *pContext, int button, int state,
+                     int x, int y);
+    void KeyPressed (KPstateContext *pContext, unsigned char key,
+                     int x, int y);
+    void UpdateDisplay(KPstateContext *pContext);
+    tKPMenuState ESCKeyAction (KPstateContext *pContext);
 
 protected:
-  void SaveChanges(KPstateContext *pContext);
-  void ToggleMusicVolume(KPstateContext *pContext);
-  void ToggleSoundVolume(KPstateContext *pContext);
+    void SaveChanges(KPstateContext *pContext);
+    void ToggleMusicVolume(KPstateContext *pContext);
+    void ToggleSoundVolume(KPstateContext *pContext);
 
-  int  E_MusicVolume;
-  int  E_SoundVolume;
+    int  E_MusicVolume;
+    int  E_SoundVolume;
 };
 
 #endif

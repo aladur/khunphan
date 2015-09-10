@@ -207,7 +207,7 @@
 #define T_S_PLAYTIME1    520
 #define T_S_MOVES1       530
 
-// Tutorial                
+// Tutorial
 #define T_TUTORIAL1        710
 #define T_TUTORIAL1_01     711
 #define T_TUTORIAL1_02     712

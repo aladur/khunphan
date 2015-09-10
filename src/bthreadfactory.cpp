@@ -34,12 +34,12 @@ template <> BThreadFactory *SThreadFactory::instance = NULL;
 BThreadImp *BThreadFactory::CreateBThreadImp()
 {
 #ifdef WIN32
-  return new BWin32ThreadImp;
+    return new BWin32ThreadImp;
 #else
-  #ifdef UNIX
-  return new BPosixThreadImp();
-  #else
+#ifdef UNIX
+    return new BPosixThreadImp();
+#else
     return NULL; // Sw: Which other platforms to support ???
-  #endif
+#endif
 #endif
 }

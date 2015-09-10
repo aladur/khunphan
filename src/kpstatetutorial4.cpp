@@ -27,45 +27,48 @@
 #include "kpuibase.h"
 
 
-void KPstateTutorial4::ContinueWithNextState(KPstateContext *pContext, bool valid /* = true */)
+void KPstateTutorial4::ContinueWithNextState(KPstateContext *pContext,
+        bool valid /* = true */)
 {
-  if (!valid)
-    return;
+    if (!valid)
+    {
+        return;
+    }
 
-  pContext->GetCamera().SetzeRundflug(true);
-  pContext->GetBoardView().EmphasizeToken( TK_EMPTY );
-  pContext->ChangeState( pContext->GetMenu().RestoreLastStateId() );
+    pContext->GetCamera().SetzeRundflug(true);
+    pContext->GetBoardView().EmphasizeToken( TK_EMPTY );
+    pContext->ChangeState( pContext->GetMenu().RestoreLastStateId() );
 }
-  
+
 int KPstateTutorial4::GetTextOffset()
 {
-  return T_TUTORIAL4;
+    return T_TUTORIAL4;
 }
 
 tKPTokenID KPstateTutorial4::GetEmphasizedTokenId()
 {
-  return TK_GREEN4;
+    return TK_GREEN4;
 }
 
 void KPstateTutorial4::InitializeBoardWithTokens(KPstateContext *pContext)
 {
-  KPnode n;
+    KPnode n;
 
-  n.InitializeToken(TK_GREEN1, "green", 1, 4, 1, 1);
-  n.InitializeToken(TK_GREEN2, "green", 0, 4, 1, 1);
-  n.InitializeToken(TK_GREEN3, "green", 1, 3, 1, 1);
-  n.InitializeToken(TK_GREEN4, "green", 2, 4, 1, 1);
-  n.InitializeToken(TK_WHITE1, "white", 0, 0, 1, 2);
-  n.InitializeToken(TK_WHITE2, "white", 3, 0, 1, 2);
-  n.InitializeToken(TK_WHITE3, "white", 0, 2, 1, 2);
-  n.InitializeToken(TK_WHITE4, "white", 3, 2, 1, 2);
-  n.InitializeToken(TK_WHITE5, "white", 1, 2, 2, 1);
-  n.InitializeToken(TK_RED1,   "red",   1, 0, 2, 2);
+    n.InitializeToken(TK_GREEN1, "green", 1, 4, 1, 1);
+    n.InitializeToken(TK_GREEN2, "green", 0, 4, 1, 1);
+    n.InitializeToken(TK_GREEN3, "green", 1, 3, 1, 1);
+    n.InitializeToken(TK_GREEN4, "green", 2, 4, 1, 1);
+    n.InitializeToken(TK_WHITE1, "white", 0, 0, 1, 2);
+    n.InitializeToken(TK_WHITE2, "white", 3, 0, 1, 2);
+    n.InitializeToken(TK_WHITE3, "white", 0, 2, 1, 2);
+    n.InitializeToken(TK_WHITE4, "white", 3, 2, 1, 2);
+    n.InitializeToken(TK_WHITE5, "white", 1, 2, 2, 1);
+    n.InitializeToken(TK_RED1,   "red",   1, 0, 2, 2);
 
-  pContext->GetBoardView().SetBoard(&n);
+    pContext->GetBoardView().SetBoard(&n);
 }
 
 void KPstateTutorial4::PlayAudioForInitialize(KPstateContext *pContext)
 {
-  pContext->GetUserInterface().PlayAudio(KP_SND_TUTORIALNEXT);
+    pContext->GetUserInterface().PlayAudio(KP_SND_TUTORIALNEXT);
 }

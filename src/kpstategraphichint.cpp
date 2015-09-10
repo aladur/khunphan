@@ -23,56 +23,63 @@
 #include "kpmenu.h"
 
 
-void KPstateGraphicHint::Initialize(KPstateContext *pContext,  const KPstate *pOldState)
+void KPstateGraphicHint::Initialize(KPstateContext *pContext,
+                                    const KPstate *pOldState)
 {
-  KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pOldState);
 
-  // Do some initialization stuff here:
+    // Do some initialization stuff here:
 
-  UpdateDisplay(pContext);
+    UpdateDisplay(pContext);
 }
 
 void KPstateGraphicHint::UpdateDisplay(KPstateContext *pContext)
 {
-  KPstate::UpdateDisplay(pContext);
+    KPstate::UpdateDisplay(pContext);
 
-  KPmenu &menu = pContext->GetMenu();
+    KPmenu &menu = pContext->GetMenu();
 
-  menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(2,3.5,15,8.5);
+    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(2,3.5,15,8.5);
 
-  menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
-  menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
+    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
 
-  menu.TextfeldArray[T_HINWEIS]->Positioniere(8,8,1,A_MITTE);
-  menu.TextfeldArray[T_HINWEIS]->VollSichtbar();
+    menu.TextfeldArray[T_HINWEIS]->Positioniere(8,8,1,A_MITTE);
+    menu.TextfeldArray[T_HINWEIS]->VollSichtbar();
 
-  menu.TextfeldArray[T_HINWEIS1]->Positioniere(8,6.0,0.7f,A_MITTE);
-  menu.TextfeldArray[T_HINWEIS2]->Positioniere(8,5.5,0.7f,A_MITTE);
-  if (menu.TextfeldArray.find(T_HINWEIS3) != menu.TextfeldArray.end())
-    menu.TextfeldArray[T_HINWEIS3]->Positioniere(8,5.0,0.7f,A_MITTE);
+    menu.TextfeldArray[T_HINWEIS1]->Positioniere(8,6.0,0.7f,A_MITTE);
+    menu.TextfeldArray[T_HINWEIS2]->Positioniere(8,5.5,0.7f,A_MITTE);
+    if (menu.TextfeldArray.find(T_HINWEIS3) != menu.TextfeldArray.end())
+    {
+        menu.TextfeldArray[T_HINWEIS3]->Positioniere(8,5.0,0.7f,A_MITTE);
+    }
 
-  menu.TextfeldArray[T_OK]->Positioniere(8,1,1,A_MITTE);
-  menu.TextfeldArray[T_OK]->SetzeSignal(S_BACK);
+    menu.TextfeldArray[T_OK]->Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_OK]->SetzeSignal(S_BACK);
 
-  StartAnimation();
+    StartAnimation();
 }
 
-void KPstateGraphicHint::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
+void KPstateGraphicHint::KeyPressed (KPstateContext *pContext,
+                                     unsigned char key, int x, int y)
 {
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
+    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
 
-void  KPstateGraphicHint::MouseClick (KPstateContext *pContext, int button, int state, int x, int y)
+void  KPstateGraphicHint::MouseClick (KPstateContext *pContext, int button,
+                                      int state, int x, int y)
 {
-  int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
+    int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
 
-  switch (Signal) {
-    case S_BACK: pContext->ChangeState(KPState_Settings);
-  }
+    switch (Signal)
+    {
+        case S_BACK:
+            pContext->ChangeState(KPState_Settings);
+    }
 }
 
 tKPMenuState KPstateGraphicHint::ESCKeyAction (KPstateContext *)
 {
-  return KPState_Settings;
+    return KPState_Settings;
 }

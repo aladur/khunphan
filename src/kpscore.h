@@ -34,44 +34,61 @@
 class KPscore
 {
 protected:
-  typedef struct
-  {
-    std::string  Name;
-    unsigned int PlayTime;
-    unsigned int Moves;
-    time_t       Timestamp;
-  } tKpScoreStruct;
-  
+    typedef struct
+    {
+        std::string  Name;
+        unsigned int PlayTime;
+        unsigned int Moves;
+        time_t       Timestamp;
+    } tKpScoreStruct;
+
 public:
-  static KPscore &Instance();
-  static void finalize() { delete instance; instance = NULL; };
+    static KPscore &Instance();
+    static void finalize()
+    {
+        delete instance;
+        instance = NULL;
+    };
 
-  int  GetMaxEntries() { return MAX_SCORE_ENTRIES; };
-  int  GetEntryCount() { return entryCount; };
-  void ReadFromFile();
-  void WriteToFile();
-  void PrintTo(FILE *fp);
-  std::string GetFileName();
-  void SetFileName(const char *fileName);
-  bool Add   (const char *aName, unsigned int aPlayTime, unsigned int aMoves, time_t aTime = 0);
-  bool CanAdd(const char *aName, unsigned int aPlayTime, unsigned int aMoves, time_t aTime = 0);
-  void ClearAll();
-  bool Get(int index, std::string &aName, unsigned int *aPlayTime = NULL, unsigned int *aMoves = NULL, time_t *aTime = NULL);
-  // CheckPlayTime = true:  Use PlayTime for the highscore
-  // CheckPlayTime = false: Use Moves    for the highscore
-  void CheckPlayTime(bool state) { checkPlayTime = state; };
+    int  GetMaxEntries()
+    {
+        return MAX_SCORE_ENTRIES;
+    };
+    int  GetEntryCount()
+    {
+        return entryCount;
+    };
+    void ReadFromFile();
+    void WriteToFile();
+    void PrintTo(FILE *fp);
+    std::string GetFileName();
+    void SetFileName(const char *fileName);
+    bool Add   (const char *aName, unsigned int aPlayTime, unsigned int aMoves,
+                time_t aTime = 0);
+    bool CanAdd(const char *aName, unsigned int aPlayTime, unsigned int aMoves,
+                time_t aTime = 0);
+    void ClearAll();
+    bool Get(int index, std::string &aName, unsigned int *aPlayTime = NULL,
+             unsigned int *aMoves = NULL, time_t *aTime = NULL);
+    // CheckPlayTime = true:  Use PlayTime for the highscore
+    // CheckPlayTime = false: Use Moves    for the highscore
+    void CheckPlayTime(bool state)
+    {
+        checkPlayTime = state;
+    };
 
-protected: 
-  KPscore();
-  virtual ~KPscore();
-  int PositionToInsert(const char *aName, unsigned int aPlayTime, unsigned int aMoves, time_t aTime = 0);
-  std::string fileName;
-  int     entryCount;
-  bool    checkPlayTime;
-  tKpScoreStruct *pScore;
+protected:
+    KPscore();
+    virtual ~KPscore();
+    int PositionToInsert(const char *aName, unsigned int aPlayTime,
+                         unsigned int aMoves, time_t aTime = 0);
+    std::string fileName;
+    int     entryCount;
+    bool    checkPlayTime;
+    tKpScoreStruct *pScore;
 
 private:
-  static KPscore *instance;
+    static KPscore *instance;
 };
 
 #endif

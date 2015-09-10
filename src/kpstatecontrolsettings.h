@@ -28,20 +28,24 @@
 class KPstateControlSettings : public KPstate
 {
 public:
-  tKPMenuState GetId() const { return KPState_ControlSettings; };
-  void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-  void MouseClick (KPstateContext *pContext, int button, int state, int x, int y);
-  void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-  void UpdateDisplay(KPstateContext *pContext);
-  tKPMenuState ESCKeyAction (KPstateContext *pContext);
+    tKPMenuState GetId() const
+    {
+        return KPState_ControlSettings;
+    };
+    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick (KPstateContext *pContext, int button, int state,
+                     int x, int y);
+    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
+    void UpdateDisplay(KPstateContext *pContext);
+    tKPMenuState ESCKeyAction (KPstateContext *pContext);
 
 protected:
-  void SaveChanges(KPstateContext *pContext);
-  void ToggleMouseSpeed(KPstateContext *pContext);
-  void ToggleSolutionHint(KPstateContext *pContext);
+    void SaveChanges(KPstateContext *pContext);
+    void ToggleMouseSpeed(KPstateContext *pContext);
+    void ToggleSolutionHint(KPstateContext *pContext);
 
-  float  E_MouseSpeed;
-  int    E_SolutionHint;
+    float  E_MouseSpeed;
+    int    E_SolutionHint;
 };
 
 #endif

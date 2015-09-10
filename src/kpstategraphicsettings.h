@@ -31,41 +31,45 @@
 class KPstateGraphicSettings : public KPstate
 {
 public:
-  tKPMenuState GetId() const { return KPState_GraphicSettings; };
-  void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-  void MouseClick (KPstateContext *pContext, int button, int state, int x, int y);
-  void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-  void UpdateDisplay(KPstateContext *pContext);
-  tKPMenuState ESCKeyAction(KPstateContext *pContext);
+    tKPMenuState GetId() const
+    {
+        return KPState_GraphicSettings;
+    };
+    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick (KPstateContext *pContext, int button, int state,
+                     int x, int y);
+    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
+    void UpdateDisplay(KPstateContext *pContext);
+    tKPMenuState ESCKeyAction(KPstateContext *pContext);
 
 protected:
-  int  GetTextureIndex(std::string &TextureName);
-  tKPMenuState SaveChanges(KPstateContext *pContext);
-  void ToggleFPS(KPstateContext *pContext);
-  void ToggleTextures(KPstateContext *pContext);
-  void ToggleMenuTextures(KPstateContext *pContext);
-  void ToggleScreenMode(KPstateContext *pContext);
-  void ToggleResolution(KPstateContext *pContext);
-  void ToggleColorDepth(KPstateContext *pContext);
-  void ToggleReflections(KPstateContext *pContext);
-  void ToggleShadows(KPstateContext *pContext);
-  void ToggleTextureInterpolation(KPstateContext *pContext);
-  void ToggleAmbientLight(KPstateContext *pContext);
-  void ToggleLamps(KPstateContext *pContext);
-  void ToggleUserInterface(KPstateContext *pContext);
-  void ToggleQuality(KPstateContext *pContext);
-  void ToggleTextureName(KPstateContext *pContext);
+    int  GetTextureIndex(std::string &TextureName);
+    tKPMenuState SaveChanges(KPstateContext *pContext);
+    void ToggleFPS(KPstateContext *pContext);
+    void ToggleTextures(KPstateContext *pContext);
+    void ToggleMenuTextures(KPstateContext *pContext);
+    void ToggleScreenMode(KPstateContext *pContext);
+    void ToggleResolution(KPstateContext *pContext);
+    void ToggleColorDepth(KPstateContext *pContext);
+    void ToggleReflections(KPstateContext *pContext);
+    void ToggleShadows(KPstateContext *pContext);
+    void ToggleTextureInterpolation(KPstateContext *pContext);
+    void ToggleAmbientLight(KPstateContext *pContext);
+    void ToggleLamps(KPstateContext *pContext);
+    void ToggleUserInterface(KPstateContext *pContext);
+    void ToggleQuality(KPstateContext *pContext);
+    void ToggleTextureName(KPstateContext *pContext);
 
-  int Quality;
+    int Quality;
 
-  int  E_ScreenXResolution;
-  bool E_FullScreen;
-  int  E_ColorDepth;
-  int  E_UserInterface;
+    int  E_ScreenXResolution;
+    bool E_FullScreen;
+    int  E_ColorDepth;
+    int  E_UserInterface;
 
-  bool firstTexture;
-  int  textureIndex;
-  std::vector<std::string> textureNameList;
+    bool firstTexture;
+    int  textureIndex;
+    std::vector<std::string> textureNameList;
 };
 
 #endif

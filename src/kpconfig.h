@@ -20,8 +20,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-// The class KPConfig is implemented as Singleton and it can be accessed system wide
-// with the static member function:
+// The class KPConfig is implemented as Singleton and it can be accessed
+// system wide with the static member function:
 //
 // KPConfig::Instance()
 //
@@ -35,71 +35,76 @@
 
 enum tKPDir
 {
-  KP_TEXTURE_DIR = 26,
-  KP_SOUND_DIR   = 27,
-  KP_MUSIC_DIR   = 28,
-  KP_LOCALE_DIR  = 29
+    KP_TEXTURE_DIR = 26,
+    KP_SOUND_DIR   = 27,
+    KP_MUSIC_DIR   = 28,
+    KP_LOCALE_DIR  = 29
 };
 
-class KPConfig {
+class KPConfig
+{
 public:
-   static KPConfig &Instance();
-   static void finalize() { delete instance; instance = NULL; };
-   static const char *GetUserInterfaceName(int ui);
+    static KPConfig &Instance();
+    static void finalize()
+    {
+        delete instance;
+        instance = NULL;
+    };
+    static const char *GetUserInterfaceName(int ui);
 
-   void SetDefaultValues();
-   void ReadCommandLineParams(int argc, char **argv);
-   void ReadFromFile();
-   void WriteToFile();
-   void DebugPrint();
-   std::string GetFileName();
-   std::string GetDirectory(tKPDir directoryID) const;
-   std::vector<std::string> GetTextureNames() const;
-   void SetFileName(const char *fileName);
+    void SetDefaultValues();
+    void ReadCommandLineParams(int argc, char **argv);
+    void ReadFromFile();
+    void WriteToFile();
+    void DebugPrint();
+    std::string GetFileName();
+    std::string GetDirectory(tKPDir directoryID) const;
+    std::vector<std::string> GetTextureNames() const;
+    void SetFileName(const char *fileName);
 
-   bool FullScreen;
-   bool Nearest;
-   bool AmbientLight;
-   bool Reflections;
-   bool Shadows;
-   bool DisplayFPS;
-   bool SoundOn;
-   bool MusicOn;
+    bool FullScreen;
+    bool Nearest;
+    bool AmbientLight;
+    bool Reflections;
+    bool Shadows;
+    bool DisplayFPS;
+    bool SoundOn;
+    bool MusicOn;
 
-   int ScreenXResolution;
-   int ColorDepth;
-   int TextureSize;
-   int MenuTextureSize;
-   int LightSources;
-   int Language;
-   int UserInterface;
-   int CameraPosition;
+    int ScreenXResolution;
+    int ColorDepth;
+    int TextureSize;
+    int MenuTextureSize;
+    int LightSources;
+    int Language;
+    int UserInterface;
+    int CameraPosition;
 
-   int   SolutionHint;
-   float MouseSpeed;
+    int   SolutionHint;
+    float MouseSpeed;
 
-   int SoundVolume;
-   int MusicVolume;
+    int SoundVolume;
+    int MusicVolume;
 
-   QWord     SavedGame;
-   unsigned int PlayTime;
-   unsigned int Moves;
-   unsigned int MovesWithHint;
-   unsigned int CheatCount;
+    QWord     SavedGame;
+    unsigned int PlayTime;
+    unsigned int Moves;
+    unsigned int MovesWithHint;
+    unsigned int CheatCount;
 
-   std::string TextureName;
+    std::string TextureName;
 
-   // only for debugging:
-   bool PerformanceLog;
-   bool SkipProgressBar;
+    // only for debugging:
+    bool PerformanceLog;
+    bool SkipProgressBar;
 
 protected:
-   KPConfig();
-   std::string fileName;
-   
+    KPConfig();
+    std::string fileName;
+
 private:
-   static KPConfig *instance;
-   virtual ~KPConfig();
+    static KPConfig *instance;
+    virtual ~KPConfig();
 };
 
 #endif

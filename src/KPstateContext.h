@@ -34,12 +34,12 @@ class KPUIBase;
 class KPstateContext
 {
 public:
-  virtual void ChangeState( int stateID )     = 0;
-  virtual KPboardView     &GetBoardView()     = 0;
-  virtual Kamera          &GetCamera()        = 0;
-  virtual Light           &GetLight()         = 0;
-  virtual KPmenu          &GetMenu()          = 0;
-  virtual KPStatistics    &GetStatistics()    = 0;
-  virtual KPUIBase        &GetUserInterface() = 0;
+    virtual void ChangeState( int stateID )     = 0;
+    virtual KPboardView     &GetBoardView()     = 0;
+    virtual Kamera          &GetCamera()        = 0;
+    virtual Light           &GetLight()         = 0;
+    virtual KPmenu          &GetMenu()          = 0;
+    virtual KPStatistics    &GetStatistics()    = 0;
+    virtual KPUIBase        &GetUserInterface() = 0;
 };
 #endif

@@ -33,68 +33,84 @@ using std::exception;
 
 class ex : public std::exception
 {
-  const char *what() const throw() { return NULL; };
+    const char *what() const throw()
+    {
+        return NULL;
+    };
 };
 
-  static ex e;
+static ex e;
 
 class KPnode;
 
-class KPnode : virtual public KPboard {
+class KPnode : virtual public KPboard
+{
 private:
-	KPnode *pchild[MOVES_MAX];
-  KPnode *pparent[MOVES_MAX];
-	KPnode *pnext;
-  mutable short movesToSolve;
-  static bool finalizeInProgress;
+    KPnode *pchild[MOVES_MAX];
+    KPnode *pparent[MOVES_MAX];
+    KPnode *pnext;
+    mutable short movesToSolve;
+    static bool finalizeInProgress;
 
-	static KPnode *proot;
-	static KPnode *pfirst;
-	static KPnode *plast;
-	static unsigned int LLSize;
-  static int    iterationCount;
-  static bool   solveCountAvailable;
+    static KPnode *proot;
+    static KPnode *pfirst;
+    static KPnode *plast;
+    static unsigned int LLSize;
+    static int    iterationCount;
+    static bool   solveCountAvailable;
 
 public:
 
-	KPnode();
-	KPnode(const KPnode  &n);
-	KPnode(const KPboard &b);
-	virtual ~KPnode();
+    KPnode();
+    KPnode(const KPnode  &n);
+    KPnode(const KPboard &b);
+    virtual ~KPnode();
 
-	virtual void CopyFrom(const KPnode& src);
-	KPnode& operator= (const KPnode &n);
-  inline short GetMovesToSolve(void) const { return movesToSolve; };
-  inline void  SetMovesToSolve(short m) const { movesToSolve = m; };
-  inline bool  AddNextMoves(void);
-	inline const KPnode &GetNext(void) const;
-	void fprintfr(FILE *) const;
+    virtual void CopyFrom(const KPnode &src);
+    KPnode &operator= (const KPnode &n);
+    inline short GetMovesToSolve(void) const
+    {
+        return movesToSolve;
+    };
+    inline void  SetMovesToSolve(short m) const
+    {
+        movesToSolve = m;
+    };
+    inline bool  AddNextMoves(void);
+    inline const KPnode &GetNext(void) const;
+    void fprintfr(FILE *) const;
 
-  static void finalize();
-  static KPnode *GetNodeFor(const KPboard &b);
-  static KPnode *GetNodeFor(QWord id);
-	static void InitializeRoot(KPnode &n);
-	static void LLInitialize(KPnode &n);
-  static void LLAddLast(KPnode &n);
-  static bool LLIsEmpty(void);
-	static void LLSkipFirst(void);
-	static unsigned int LLSetFirstToRoot(void);
-	static KPnode &LLGetFirst(void);
-	static KPnode &LLGetLast(void);
-	static unsigned int LLGetSize(void);
-	static void CreateSolveTree(KPnode &n);
-  static void SetSolveCount(void);
-  // this is a hack to get a percentage value (1 .. 100) how long it will take
-  // to finish the calculation of function SetSolveCount()
-  static int SetSolveCountPercentFinished() { return iterationCount * 10 / 4333923; };
-  static void PrintSolveCount(FILE *fp);
-  static int  GetSolutionsCount(void);
-  static bool IsSolveCountAvailable(void) { return solveCountAvailable; };
+    static void finalize();
+    static KPnode *GetNodeFor(const KPboard &b);
+    static KPnode *GetNodeFor(QWord id);
+    static void InitializeRoot(KPnode &n);
+    static void LLInitialize(KPnode &n);
+    static void LLAddLast(KPnode &n);
+    static bool LLIsEmpty(void);
+    static void LLSkipFirst(void);
+    static unsigned int LLSetFirstToRoot(void);
+    static KPnode &LLGetFirst(void);
+    static KPnode &LLGetLast(void);
+    static unsigned int LLGetSize(void);
+    static void CreateSolveTree(KPnode &n);
+    static void SetSolveCount(void);
+    // this is a hack to get a percentage value (1 .. 100) how long it will take
+    // to finish the calculation of function SetSolveCount()
+    static int SetSolveCountPercentFinished()
+    {
+        return iterationCount * 10 / 4333923;
+    };
+    static void PrintSolveCount(FILE *fp);
+    static int  GetSolutionsCount(void);
+    static bool IsSolveCountAvailable(void)
+    {
+        return solveCountAvailable;
+    };
 
 
 private:
-  int GetNextFreeParentIdx(void) const;
-  void ModifySolveCount(short i) const;
+    int GetNextFreeParentIdx(void) const;
+    void ModifySolveCount(short i) const;
 };
 
 #endif

@@ -28,13 +28,16 @@
 class KPstateTutorial4 : public KPstateTutorial3
 {
 public:
-  tKPMenuState GetId() const { return KPState_Tutorial4; };
+    tKPMenuState GetId() const
+    {
+        return KPState_Tutorial4;
+    };
 protected:
-  void InitializeBoardWithTokens(KPstateContext *pContext);
-  int  GetTextOffset();
-  tKPTokenID GetEmphasizedTokenId();
-  void ContinueWithNextState(KPstateContext *pContext, bool valid = true);
-  void PlayAudioForInitialize(KPstateContext *pContext);
+    void InitializeBoardWithTokens(KPstateContext *pContext);
+    int  GetTextOffset();
+    tKPTokenID GetEmphasizedTokenId();
+    void ContinueWithNextState(KPstateContext *pContext, bool valid = true);
+    void PlayAudioForInitialize(KPstateContext *pContext);
 };
 
 #endif

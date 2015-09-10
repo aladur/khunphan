@@ -24,72 +24,89 @@
 #include "kpconfig.h"
 
 
-void KPstateSettings::Initialize(KPstateContext *pContext,  const KPstate *pOldState)
+void KPstateSettings::Initialize(KPstateContext *pContext,
+                                 const KPstate *pOldState)
 {
-  KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pOldState);
 
-  // Do some initialization stuff here:
+    // Do some initialization stuff here:
 
-  UpdateDisplay(pContext);
+    UpdateDisplay(pContext);
 }
 
 void KPstateSettings::UpdateDisplay(KPstateContext *pContext)
 {
-  KPstate::UpdateDisplay(pContext);
+    KPstate::UpdateDisplay(pContext);
 
-  KPmenu &menu = pContext->GetMenu();
+    KPmenu &menu = pContext->GetMenu();
 
-  menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(4,2.5,12,8.5);
-  menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
-  menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(4,2.5,12,8.5);
+    menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
+    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
 
-  menu.TextfeldArray[T_EINSTELLUNGEN]->Positioniere(8,8,1,A_MITTE);
-  menu.TextfeldArray[T_EINSTELLUNGEN]->VollSichtbar();
+    menu.TextfeldArray[T_EINSTELLUNGEN]->Positioniere(8,8,1,A_MITTE);
+    menu.TextfeldArray[T_EINSTELLUNGEN]->VollSichtbar();
 
-  float y = 6.5;
-  menu.TextfeldArray[T_STEUERUNG]->Positioniere(8,y,1,A_MITTE); y -= 1.0;
-  menu.TextfeldArray[T_STEUERUNG]->SetzeSignal(S_CONTROL_SETTINGS);
+    float y = 6.5;
+    menu.TextfeldArray[T_STEUERUNG]->Positioniere(8,y,1,A_MITTE);
+    y -= 1.0;
+    menu.TextfeldArray[T_STEUERUNG]->SetzeSignal(S_CONTROL_SETTINGS);
 
-  menu.TextfeldArray[T_GRAFIK   ]->Positioniere(8,y,1,A_MITTE); y -= 1.0;
-  menu.TextfeldArray[T_GRAFIK   ]->SetzeSignal(S_GRAPHIC_SETTINGS);
+    menu.TextfeldArray[T_GRAFIK   ]->Positioniere(8,y,1,A_MITTE);
+    y -= 1.0;
+    menu.TextfeldArray[T_GRAFIK   ]->SetzeSignal(S_GRAPHIC_SETTINGS);
 
-  menu.TextfeldArray[T_AUDIO    ]->Positioniere(8,y,1,A_MITTE); y -= 1.0;
-  menu.TextfeldArray[T_AUDIO    ]->SetzeSignal(S_AUDIO_SETTINGS);
+    menu.TextfeldArray[T_AUDIO    ]->Positioniere(8,y,1,A_MITTE);
+    y -= 1.0;
+    menu.TextfeldArray[T_AUDIO    ]->SetzeSignal(S_AUDIO_SETTINGS);
 
-  menu.TextfeldArray[T_SPRACHE  ]->Positioniere(8,y,1,A_MITTE);
-  menu.TextfeldArray[T_SPRACHE  ]->SetzeSignal(S_SELECT_LANGUAGE);
+    menu.TextfeldArray[T_SPRACHE  ]->Positioniere(8,y,1,A_MITTE);
+    menu.TextfeldArray[T_SPRACHE  ]->SetzeSignal(S_SELECT_LANGUAGE);
 
-  menu.TextfeldArray[T_ZURUECK  ]->Positioniere(8,1,1,A_MITTE);
-  menu.TextfeldArray[T_ZURUECK  ]->SetzeSignal(S_BACK);
+    menu.TextfeldArray[T_ZURUECK  ]->Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_ZURUECK  ]->SetzeSignal(S_BACK);
 
-  StartAnimation();
+    StartAnimation();
 }
 
-void  KPstateSettings::MouseClick (KPstateContext *pContext, int button, int state, int x, int y)
+void  KPstateSettings::MouseClick (KPstateContext *pContext, int button,
+                                   int state, int x, int y)
 {
-  int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
+    int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
 
-  switch (Signal) {
-    case S_CONTROL_SETTINGS:  pContext->ChangeState(KPState_ControlSettings); break;
-    case S_GRAPHIC_SETTINGS:  pContext->ChangeState(KPState_GraphicSettings); break;
-    case S_AUDIO_SETTINGS:    pContext->ChangeState(KPState_AudioSettings);   break;
-    case S_SELECT_LANGUAGE:   pContext->ChangeState(KPState_SelectLanguage);  break;
-    case S_BACK:              pContext->ChangeState(ESCKeyAction(pContext));  break;
-  }
+    switch (Signal)
+    {
+        case S_CONTROL_SETTINGS:
+            pContext->ChangeState(KPState_ControlSettings);
+            break;
+        case S_GRAPHIC_SETTINGS:
+            pContext->ChangeState(KPState_GraphicSettings);
+            break;
+        case S_AUDIO_SETTINGS:
+            pContext->ChangeState(KPState_AudioSettings);
+            break;
+        case S_SELECT_LANGUAGE:
+            pContext->ChangeState(KPState_SelectLanguage);
+            break;
+        case S_BACK:
+            pContext->ChangeState(ESCKeyAction(pContext));
+            break;
+    }
 }
 
-void KPstateSettings::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
+void KPstateSettings::KeyPressed (KPstateContext *pContext, unsigned char key,
+                                  int x, int y)
 {
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
+    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
 tKPMenuState KPstateSettings::ESCKeyAction (KPstateContext *pContext)
 {
-/*  if (KPConfig::Instance().SavedGame != 0)
-    return KPState_Game;
-  else
-    return KPState_MainMenu;
-*/
-  return (tKPMenuState)pContext->GetMenu().RestoreLastStateId();
-  //return (tKPMenuState)oldStateId;
+    /*  if (KPConfig::Instance().SavedGame != 0)
+        return KPState_Game;
+      else
+        return KPState_MainMenu;
+    */
+    return (tKPMenuState)pContext->GetMenu().RestoreLastStateId();
+    //return (tKPMenuState)oldStateId;
 }

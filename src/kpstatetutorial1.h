@@ -30,16 +30,20 @@
 class KPstateTutorial1 : public KPstate
 {
 public:
-  tKPMenuState GetId() const { return KPState_Tutorial1; };
-  void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-  void MouseClick (KPstateContext *pContext, int button, int state, int x, int y);
-  void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-  void UpdateDisplay(KPstateContext *pContext);
-  tKPMenuState ESCKeyAction (KPstateContext *);
+    tKPMenuState GetId() const
+    {
+        return KPState_Tutorial1;
+    };
+    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick (KPstateContext *pContext, int button, int state,
+                     int x, int y);
+    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
+    void UpdateDisplay(KPstateContext *pContext);
+    tKPMenuState ESCKeyAction (KPstateContext *);
 
 protected:
-  void InitializeBoardWithTokens(KPstateContext *pContext);
-  void PlayAudioForInitialize(KPstateContext *pContext);
+    void InitializeBoardWithTokens(KPstateContext *pContext);
+    void PlayAudioForInitialize(KPstateContext *pContext);
 };
 
 #endif

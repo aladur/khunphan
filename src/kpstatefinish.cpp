@@ -24,52 +24,60 @@
 #include "kpuibase.h"
 
 
-void KPstateFinish::Initialize(KPstateContext *pContext,  const KPstate *pOldState)
+void KPstateFinish::Initialize(KPstateContext *pContext,
+                               const KPstate *pOldState)
 {
-  KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pOldState);
 
-  // Do some initialization stuff here:
+    // Do some initialization stuff here:
 
-  UpdateDisplay(pContext);
+    UpdateDisplay(pContext);
 }
 
 void KPstateFinish::UpdateDisplay(KPstateContext *pContext)
 {
-  KPstate::UpdateDisplay(pContext);
+    KPstate::UpdateDisplay(pContext);
 
-  KPmenu &menu = pContext->GetMenu();
+    KPmenu &menu = pContext->GetMenu();
 
-  menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(4.5,4.5,11.5,8.5);
+    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(4.5,4.5,11.5,8.5);
 
-  menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
-  menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
+    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
 
-  menu.TextfeldArray[T_BEENDEN  ]->Positioniere(8,8,1,A_MITTE);
-  menu.TextfeldArray[T_BEENDEN  ]->VollSichtbar();
-  menu.TextfeldArray[T_JABEENDEN]->Positioniere(8,6,1,A_MITTE);
-  menu.TextfeldArray[T_JABEENDEN]->SetzeSignal(S_FINISH);
-  menu.TextfeldArray[T_ZURUECK  ]->Positioniere(8,1,1,A_MITTE);
-  menu.TextfeldArray[T_ZURUECK  ]->SetzeSignal(S_BACK);
+    menu.TextfeldArray[T_BEENDEN  ]->Positioniere(8,8,1,A_MITTE);
+    menu.TextfeldArray[T_BEENDEN  ]->VollSichtbar();
+    menu.TextfeldArray[T_JABEENDEN]->Positioniere(8,6,1,A_MITTE);
+    menu.TextfeldArray[T_JABEENDEN]->SetzeSignal(S_FINISH);
+    menu.TextfeldArray[T_ZURUECK  ]->Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_ZURUECK  ]->SetzeSignal(S_BACK);
 
-  StartAnimation();
+    StartAnimation();
 }
 
-void KPstateFinish::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
+void KPstateFinish::KeyPressed (KPstateContext *pContext, unsigned char key,
+                                int x, int y)
 {
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
+    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
-void  KPstateFinish::MouseClick (KPstateContext *pContext, int button, int state, int x, int y)
+void  KPstateFinish::MouseClick (KPstateContext *pContext, int button,
+                                 int state, int x, int y)
 {
-  int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
+    int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
 
-  switch (Signal) {
-    case S_FINISH: pContext->ChangeState(KPState_Shutdown); break;
-    case S_BACK:   pContext->ChangeState(oldStateId);       break;
-  }
+    switch (Signal)
+    {
+        case S_FINISH:
+            pContext->ChangeState(KPState_Shutdown);
+            break;
+        case S_BACK:
+            pContext->ChangeState(oldStateId);
+            break;
+    }
 }
 
 void KPstateFinish::PlayAudioForInitialize(KPstateContext *pContext)
 {
-  pContext->GetUserInterface().PlayAudio(KP_SND_QUITGAME);
+    pContext->GetUserInterface().PlayAudio(KP_SND_QUITGAME);
 }

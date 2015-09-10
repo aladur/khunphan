@@ -39,17 +39,17 @@ class BThread;
 class BPosixThreadImp : public BThreadImp
 {
 public:
-	BPosixThreadImp();
-	virtual ~BPosixThreadImp();
-  bool Start(BThread *pThread);
-  void Join();
-  bool IsFinished();
-  void Exit(void *retval = NULL);
+    BPosixThreadImp();
+    virtual ~BPosixThreadImp();
+    bool Start(BThread *pThread);
+    void Join();
+    bool IsFinished();
+    void Exit(void *retval = NULL);
 private:
-  static void *RunImp(BPosixThreadImp *p);
-  BThread *pThreadObj;
-  bool finished;
-  pthread_t thread;
+    static void *RunImp(BPosixThreadImp *p);
+    BThread *pThreadObj;
+    bool finished;
+    pthread_t thread;
 };
 
 #endif //#ifndef WIN32

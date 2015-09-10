@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include "misc1.h"
 #ifdef HAVE_MCHECK_H
-  #include <mcheck.h>
+#include <mcheck.h>
 #endif
 #include "kpconfig.h"
 #include "KhunPhan.h"
@@ -44,110 +44,129 @@
 
 extern "C" RETSIGTYPE _interrupt(int)
 {
-  DEBUGPRINT(PACKAGE " aborted by user\n");
-  exit(0);
+    DEBUGPRINT(PACKAGE " aborted by user\n");
+    exit(0);
 }
 //#endif
 
 #ifdef WIN32
 // Extenstion for Win32: Scan command line parameters based
 // on a static command line parameter string
-static void scanCmdLine(LPSTR lpCmdLine, int *argc, char **argv) {
-	*argc = 1;
-	*(argv + 0) = PACKAGE;
-	while (*lpCmdLine) {
-		*(argv + *argc) = lpCmdLine;
-		while (*lpCmdLine && *lpCmdLine != ' ' && *lpCmdLine != '\t')
-			lpCmdLine++;
-		if (*lpCmdLine)
-			*(lpCmdLine++) = '\0';
-		while (*lpCmdLine && (*lpCmdLine == ' ' || *lpCmdLine == '\t'))
-			lpCmdLine++;
-		(*argc)++;
-	}
+static void scanCmdLine(LPSTR lpCmdLine, int *argc, char **argv)
+{
+    *argc = 1;
+    *(argv + 0) = PACKAGE;
+    while (*lpCmdLine)
+    {
+        *(argv + *argc) = lpCmdLine;
+        while (*lpCmdLine && *lpCmdLine != ' ' && *lpCmdLine != '\t')
+        {
+            lpCmdLine++;
+        }
+        if (*lpCmdLine)
+        {
+            *(lpCmdLine++) = '\0';
+        }
+        while (*lpCmdLine && (*lpCmdLine == ' ' || *lpCmdLine == '\t'))
+        {
+            lpCmdLine++;
+        }
+        (*argc)++;
+    }
 } // scanCmdLine
 #endif
 
 int main (int argc, char **argv)
 {
-  int returnCode = EXIT_FAILURE;
+    int returnCode = EXIT_FAILURE;
 
 #ifdef HAVE_MCHECK_H
-  #ifdef CHECK_MEMORY_LEAKS
-  mtrace();
-  #endif
+#ifdef CHECK_MEMORY_LEAKS
+    mtrace();
+#endif
 #endif
 
 #ifdef SIGINT
-  (void)signal(SIGINT, _interrupt);
+    (void)signal(SIGINT, _interrupt);
 #endif
 
-  if ( !KhunPhanApp::Instance().Initialize(argc, argv) ) {
+    if ( !KhunPhanApp::Instance().Initialize(argc, argv) )
+    {
+        KPConfig::Instance().finalize();
+        return returnCode;
+    }
+    KhunPhanApp::Instance().InitializeSolutionTree();
+    if (!KhunPhanApp::Instance().Run(argc, argv))
+    {
+        KPConfig::Instance().finalize();
+        return returnCode;
+    }
+
+    KhunPhanApp::Instance().Shutdown();
+
     KPConfig::Instance().finalize();
+
+    /*
+      BTexture in, ina, in1, out;
+
+      const char *texels  = in.ReadTextureFromFile(
+                                          "/home/spock/tmp/characters.png",
+                                          TEX_WITH_ALPHA);
+      const char *texelsa = ina.ReadTextureFromFile(
+                                          "/home/spock/tmp/charactersalpha.png",
+                                          TEX_WITH_ALPHA);
+      if (texels != NULL && texelsa != NULL)
+      {
+        char *texels1 = (char *)new char [in.GetWidth() * in.GetHeight() * 2];
+        unsigned int i;
+
+        for (i = 0; i < in.GetWidth() * in.GetHeight(); i++)
+        {
+          texels1[2*i]   = texels[4*i];
+          texels1[2*i+1] = (texels[4*i] != 0) ? 255 : texelsa[4*i];
+        }
+
+        out.SetTexels (texels1, in.GetWidth(), in.GetHeight(), 2,
+                       TEX_ILLUMINANCE_ALPHA);
+        if ( out.WriteTextureToFile("/home/spock/tmp/characters1.png") )
+        {
+            fprintf(stdout, "Write was successfull\n");
+            in1.ReadTextureFromFile("/home/spock/tmp/characters1.png",
+                                    TEX_WITH_ALPHA);
+        }
+
+        delete [] texels1;
+      }
+
+      //////////////////////////////////////////////////////////////////////////
+      BTexture in, in1, out;
+
+      const char *texels  = in.ReadTextureFromFile("/home/spock/tmp/logo.png",
+                                                   TEX_WITH_ALPHA);
+      if (texels != NULL)
+      {
+        char *texels1 = (char *)new char [in.GetWidth() * in.GetHeight() * 2];
+        unsigned int i;
+
+        for (i = 0; i < in.GetWidth() * in.GetHeight(); i++)
+        {
+          texels1[2*i+1] = texels[4*i];  // use red for alpha
+          texels1[2*i]   = texels[4*i+1]; // use green for gray scale
+        }
+
+        out.SetTexels (texels1, in.GetWidth(), in.GetHeight(), 2,
+                       TEX_ILLUMINANCE_ALPHA);
+        if ( out.WriteTextureToFile("/home/spock/tmp/logo1.png") )
+        {
+            fprintf(stdout, "Write was successfull\n");
+            in1.ReadTextureFromFile("/home/spock/tmp/logo1.png",
+                                    TEX_WITH_ALPHA);
+        }
+
+        delete [] texels1;
+      }
+    */
     return returnCode;
-  }
-  KhunPhanApp::Instance().InitializeSolutionTree();
-  if (!KhunPhanApp::Instance().Run(argc, argv)) {
-    KPConfig::Instance().finalize();
-    return returnCode;
-  }
-
-  KhunPhanApp::Instance().Shutdown();
-
-  KPConfig::Instance().finalize();
-
-/*
-  BTexture in, ina, in1, out;
-
-  const char *texels  = in.ReadTextureFromFile("/home/spock/tmp/characters.png", TEX_WITH_ALPHA);
-  const char *texelsa = ina.ReadTextureFromFile("/home/spock/tmp/charactersalpha.png", TEX_WITH_ALPHA);
-  if (texels != NULL && texelsa != NULL)
-  {
-    char *texels1 = (char *)new char [in.GetWidth() * in.GetHeight() * 2];
-    unsigned int i;
-
-    for (i = 0; i < in.GetWidth() * in.GetHeight(); i++)
-    {
-      texels1[2*i]   = texels[4*i];
-      texels1[2*i+1] = (texels[4*i] != 0) ? 255 : texelsa[4*i];
-    }
-      
-    out.SetTexels (texels1, in.GetWidth(), in.GetHeight(), 2, TEX_ILLUMINANCE_ALPHA);
-    if ( out.WriteTextureToFile("/home/spock/tmp/characters1.png") )
-    {
-        fprintf(stdout, "Write was successfull\n");
-        in1.ReadTextureFromFile("/home/spock/tmp/characters1.png", TEX_WITH_ALPHA);
-    }
-    
-    delete [] texels1;
-  }
-  
-  //////////////////////////////////////////////////////////////////////////////////
-  BTexture in, in1, out;
-
-  const char *texels  = in.ReadTextureFromFile("/home/spock/tmp/logo.png", TEX_WITH_ALPHA);
-  if (texels != NULL)
-  {
-    char *texels1 = (char *)new char [in.GetWidth() * in.GetHeight() * 2];
-    unsigned int i;
-
-    for (i = 0; i < in.GetWidth() * in.GetHeight(); i++)
-    {
-      texels1[2*i+1] = texels[4*i];  // use red for alpha
-      texels1[2*i]   = texels[4*i+1]; // use green for gray scale
-    }
-
-    out.SetTexels (texels1, in.GetWidth(), in.GetHeight(), 2, TEX_ILLUMINANCE_ALPHA);
-    if ( out.WriteTextureToFile("/home/spock/tmp/logo1.png") )
-    {
-        fprintf(stdout, "Write was successfull\n");
-        in1.ReadTextureFromFile("/home/spock/tmp/logo1.png", TEX_WITH_ALPHA);
-    }
-
-    delete [] texels1;
-  }
-*/
-  return returnCode;
 }
 
 #ifdef WIN32
@@ -156,10 +175,10 @@ int APIENTRY WinMain(HINSTANCE hInstance,
                      LPSTR     lpCmdLine,
                      int       nCmdShow)
 {
-  int   argc;
-  char  *argv[50];
+    int   argc;
+    char  *argv[50];
 
-  scanCmdLine(lpCmdLine, &argc, (char **)argv);
-  return main(argc, argv);
+    scanCmdLine(lpCmdLine, &argc, (char **)argv);
+    return main(argc, argv);
 }
 #endif

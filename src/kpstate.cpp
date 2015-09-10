@@ -33,7 +33,7 @@
 
 
 KPstate::KPstate() : AnimationTime(0), InAnimation(false), menuLocked(false),
-                     oldStateId(KPState_Invalid)
+    oldStateId(KPState_Invalid)
 {
 }
 
@@ -43,190 +43,238 @@ KPstate::~KPstate()
 
 void KPstate::Initialize(KPstateContext *pContext, const KPstate *pOldState)
 {
-  KPmenu &menu = pContext->GetMenu();
+    KPmenu &menu = pContext->GetMenu();
 
-  oldStateId = KPState_Invalid;
-  if (pOldState != NULL)
-    oldStateId = pOldState->GetId();
+    oldStateId = KPState_Invalid;
+    if (pOldState != NULL)
+    {
+        oldStateId = pOldState->GetId();
+    }
 
-  // Sw: unfinished. Should be enough in UpdateDisplay
-  menu.DeactivateAllLabels();
-  menu.DeactivateAllTextFields();
-  PlayAudioForInitialize(pContext);
+    // Sw: unfinished. Should be enough in UpdateDisplay
+    menu.DeactivateAllLabels();
+    menu.DeactivateAllTextFields();
+    PlayAudioForInitialize(pContext);
 }
 
 void KPstate::UpdateDisplay(KPstateContext *pContext)
 {
-  KPmenu   &menu          = pContext->GetMenu();
-  KPUIBase &userInterface = pContext->GetUserInterface();
+    KPmenu   &menu          = pContext->GetMenu();
+    KPUIBase &userInterface = pContext->GetUserInterface();
 
-  // by default deactivate all drawing primitives
+    // by default deactivate all drawing primitives
 
-  menu.DeactivateAllLabels();
-  menu.DeactivateAllTextFields();
-  menu.progressBar.Deactivate();
+    menu.DeactivateAllLabels();
+    menu.DeactivateAllTextFields();
+    menu.progressBar.Deactivate();
 
-  float y = 11.7;
+    float y = 11.7;
 
-  if (KPConfig::Instance().DisplayFPS)
-    menu.TextfeldArray[T_FPS]->Positioniere(0.1, y, 0.3, A_LINKS); y -= 0.6;
+    if (KPConfig::Instance().DisplayFPS)
+    {
+        menu.TextfeldArray[T_FPS]->Positioniere(0.1, y, 0.3);
+    }
+    y -= 0.6;
 
-  if (menu.IsDisplayOpenGLInfo)
-  {
-    menu.TextfeldArray[T_GL_VENDOR  ]->FormatText(NULL, userInterface.GetOpenGLVendor()  );
-    menu.TextfeldArray[T_GL_RENDERER]->FormatText(NULL, userInterface.GetOpenGLRenderer());
-    menu.TextfeldArray[T_GL_VERSION ]->FormatText(NULL, userInterface.GetOpenGLVersion() );
+    if (menu.IsDisplayOpenGLInfo)
+    {
+        menu.TextfeldArray[T_GL_VENDOR  ]->FormatText(NULL,
+                userInterface.GetOpenGLVendor());
+        menu.TextfeldArray[T_GL_RENDERER]->FormatText(NULL,
+                userInterface.GetOpenGLRenderer());
+        menu.TextfeldArray[T_GL_VERSION ]->FormatText(NULL,
+                userInterface.GetOpenGLVersion());
 
-    menu.TextfeldArray[T_GL_VENDOR  ]->Positioniere(0.1, y, 0.3, A_LINKS); y -= 0.3;
-    menu.TextfeldArray[T_GL_RENDERER]->Positioniere(0.1, y, 0.3, A_LINKS); y -= 0.3;
-    menu.TextfeldArray[T_GL_VERSION ]->Positioniere(0.1, y, 0.3, A_LINKS);
-  }
+        menu.TextfeldArray[T_GL_VENDOR  ]->Positioniere(0.1, y, 0.3);
+        y -= 0.3;
+        menu.TextfeldArray[T_GL_RENDERER]->Positioniere(0.1, y, 0.3);
+        y -= 0.3;
+        menu.TextfeldArray[T_GL_VERSION ]->Positioniere(0.1, y, 0.3);
+    }
 }
 
 void KPstate::Update(KPstateContext *pContext, int factor)
 {
-  KPmenu &menu = pContext->GetMenu();
+    KPmenu &menu = pContext->GetMenu();
 
 
-  if (InAnimation) {
-    unsigned int i;
+    if (InAnimation)
+    {
+        unsigned int i;
 
-    AnimationTime += factor;
-    if (AnimationTime >= TOTAL_ANIMATIONTIME) {
-      AnimationTime = TOTAL_ANIMATIONTIME;
-      InAnimation = false;
-      HookAfterAnimationFinished(pContext);
+        AnimationTime += factor;
+        if (AnimationTime >= TOTAL_ANIMATIONTIME)
+        {
+            AnimationTime = TOTAL_ANIMATIONTIME;
+            InAnimation = false;
+            HookAfterAnimationFinished(pContext);
+        }
+
+        for (i = 0; i < menu.SchildArray.size(); i++)
+        {
+            menu.SchildArray[i]->Animiere(factor);
+        }
+
+        tTextfeldArray::iterator it;
+
+        for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end();
+             ++it)
+        {
+            it->second->Animiere(factor);
+        }
     }
 
-    for (i = 0; i < menu.SchildArray.size(); i++)
-      menu.SchildArray[i]->Animiere(factor);
+    menu.progressBar.Animate(factor);
 
-    tTextfeldArray::iterator it;
+    pContext->GetBoardView().Animate(factor);
 
-    for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
-        it->second->Animiere(factor);
-  }
-
-  menu.progressBar.Animate(factor);
-
-  pContext->GetBoardView().Animate(factor);
-
-  pContext->GetCamera().Fahrt(factor);
+    pContext->GetCamera().Fahrt(factor);
 }
 
 void KPstate::Draw(KPstateContext *pContext)
 {
-  double t[2];
-  BTime *pTime = NULL;
+    double t[2];
+    BTime *pTime = NULL;
 
-  if (KPConfig::Instance().PerformanceLog != 0) pTime = new BTime();
+    if (KPConfig::Instance().PerformanceLog != 0)
+    {
+        pTime = new BTime();
+    }
 
-  pContext->GetLight().Draw();
+    pContext->GetLight().Draw();
 
-  pContext->GetCamera().male();
+    pContext->GetCamera().male();
 
-  if (pTime != NULL) pTime->ResetRelativeTime();
+    if (pTime != NULL)
+    {
+        pTime->ResetRelativeTime();
+    }
 
-  pContext->GetBoardView().Draw();
+    pContext->GetBoardView().Draw();
 
-  if (pTime != NULL) t[0] = pTime->GetRelativeTimeUsf(true);
+    if (pTime != NULL)
+    {
+        t[0] = pTime->GetRelativeTimeUsf(true);
+    }
 
-  pContext->GetMenu().Draw();
+    pContext->GetMenu().Draw();
 
-  if (pTime != NULL) t[1] = pTime->GetRelativeTimeUsf(true);
+    if (pTime != NULL)
+    {
+        t[1] = pTime->GetRelativeTimeUsf(true);
+    }
 
-  if (pTime != NULL)
-    DEBUGPRINT3("BoardView: %.1f ms Menu: %.1f ms Sum: %.1f ms\n", t[0]/1000, t[1]/1000, (t[0] + t[1])/1000);
+    if (pTime != NULL)
+    {
+        DEBUGPRINT3("BoardView: %.1f ms Menu: %.1f ms Sum: %.1f ms\n",
+                    t[0]/1000, t[1]/1000, (t[0] + t[1])/1000);
+    }
 
-  delete pTime;
+    delete pTime;
 }
 
-int  KPstate::EvaluateMouseClick(KPstateContext *pContext, int button, int state, int x, int y)
+int  KPstate::EvaluateMouseClick(KPstateContext *pContext, int button,
+                                 int state, int x, int y)
 {
-  KPmenu &menu = pContext->GetMenu();
+    KPmenu &menu = pContext->GetMenu();
 
-  int Signal = 0;
-  unsigned int i = 0;
+    int Signal = 0;
+    unsigned int i = 0;
 
-  while (!Signal && i < menu.SchildArray.size())
-    Signal = menu.SchildArray[i++]->Maustaste(button,state,x,y,pContext->GetUserInterface());
+    while (!Signal && i < menu.SchildArray.size())
+    {
+        Signal = menu.SchildArray[i++]->Maustaste(button,state,x,y,
+                 pContext->GetUserInterface());
+    }
 
-  tTextfeldArray::iterator it;
+    tTextfeldArray::iterator it;
 
-  for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
-  {
-    if (Signal) break;
-    Signal = it->second->Maustaste(button,state,x,y,pContext->GetUserInterface());
-  }
+    for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
+    {
+        if (Signal)
+        {
+            break;
+        }
+        Signal = it->second->Maustaste(button, state, x, y,
+                                       pContext->GetUserInterface());
+    }
 
-  return Signal;
+    return Signal;
 }
 
-bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key, int, int)
+bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
+                                  int, int)
 {
-  // returns true if key has been evaluated
-  KPmenu &menu = pContext->GetMenu();
+    // returns true if key has been evaluated
+    KPmenu &menu = pContext->GetMenu();
 
-  bool action = false;
+    bool action = false;
 
-  tTextfeldArray::iterator it;
+    tTextfeldArray::iterator it;
 
-  for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
-  {
-    if (action) break;
-    action = it->second->Zeichen(key);
-  }
-  return action;
+    for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
+    {
+        if (action)
+        {
+            break;
+        }
+        action = it->second->Zeichen(key);
+    }
+    return action;
 }
 
 void KPstate::StartAnimation()
 {
-  InAnimation   = true;
-  AnimationTime = 0;
+    InAnimation   = true;
+    AnimationTime = 0;
 }
 
-tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext, unsigned char key, int, int)
+tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
+                                        unsigned char key, int, int)
 {
-  // Default key handling which can be used in every state
-  switch (key)
-  {
-    case 'Q' - 'A' + 1:
-    case 27:  return ESCKeyAction(pContext);
-    case 'O' - 'A' + 1:
-              pContext->GetMenu().IsDisplayOpenGLInfo = !pContext->GetMenu().IsDisplayOpenGLInfo;
-              UpdateDisplay(pContext);
-              break;
-    case 'D' - 'A' + 1:
-              KPConfig::Instance().DisplayFPS = !KPConfig::Instance().DisplayFPS;
-              UpdateDisplay(pContext);
-              break;
-    case 'F' - 'A' + 1:
-              KPConfig::Instance().FullScreen = !KPConfig::Instance().FullScreen;
-              pContext->GetUserInterface().SetWindowMode(KPConfig::Instance().FullScreen != 0);
-              //UpdateDisplay(pContext);
-              break;
-  }
-  return KPState_Invalid;
+    // Default key handling which can be used in every state
+    switch (key)
+    {
+        case 'Q' - 'A' + 1:
+        case 27:
+            return ESCKeyAction(pContext);
+        case 'O' - 'A' + 1:
+            pContext->GetMenu().IsDisplayOpenGLInfo =
+                !pContext->GetMenu().IsDisplayOpenGLInfo;
+            UpdateDisplay(pContext);
+            break;
+        case 'D' - 'A' + 1:
+            KPConfig::Instance().DisplayFPS = !KPConfig::Instance().DisplayFPS;
+            UpdateDisplay(pContext);
+            break;
+        case 'F' - 'A' + 1:
+            KPConfig::Instance().FullScreen = !KPConfig::Instance().FullScreen;
+            pContext->GetUserInterface().SetWindowMode(
+                         KPConfig::Instance().FullScreen != 0);
+            //UpdateDisplay(pContext);
+            break;
+    }
+    return KPState_Invalid;
 }
-  
+
 
 void KPstate::HookAfterAnimationFinished(KPstateContext *)
 {
-  // to be reimplemented in subclass
+    // to be reimplemented in subclass
 }
 
 tKPMenuState KPstate::ESCKeyAction (KPstateContext *)
 {
-  // This is the default behaviour. To be
-  // reimplemented in subclass if state has
-  // to be changed return the next
-  // state otherwise return KPState_Invalid
-  return (tKPMenuState)oldStateId;
+    // This is the default behaviour. To be
+    // reimplemented in subclass if state has
+    // to be changed return the next
+    // state otherwise return KPState_Invalid
+    return (tKPMenuState)oldStateId;
 }
 
 void KPstate::PlayAudioForInitialize(KPstateContext *pContext)
 {
-  pContext->GetUserInterface().PlayAudio(KP_SND_OPENMENU);
+    pContext->GetUserInterface().PlayAudio(KP_SND_OPENMENU);
 }
 
 /////////////////////////////////////////////////////////////////////

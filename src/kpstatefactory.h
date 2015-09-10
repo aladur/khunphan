@@ -24,15 +24,20 @@
 
 class KPstate;
 
-class KPstateFactory {
+class KPstateFactory
+{
 public:
-  static KPstateFactory &Instance();
-  static void finalize() { delete instance; instance = NULL; };
-  KPstate *CreateState(int stateID);
-private: 
-	KPstateFactory();
-	~KPstateFactory();
-  static KPstateFactory *instance;
+    static KPstateFactory &Instance();
+    static void finalize()
+    {
+        delete instance;
+        instance = NULL;
+    };
+    KPstate *CreateState(int stateID);
+private:
+    KPstateFactory();
+    ~KPstateFactory();
+    static KPstateFactory *instance;
 };
 
 #endif

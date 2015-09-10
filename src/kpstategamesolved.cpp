@@ -33,124 +33,159 @@ KPstateGameSolved::KPstateGameSolved() : addToScoreList(false),
     tf_index(T_SOLVED2_1)
 {
 }
- 
-void KPstateGameSolved::Initialize(KPstateContext *pContext,  const KPstate *pOldState)
+
+void KPstateGameSolved::Initialize(KPstateContext *pContext,
+                                   const KPstate *pOldState)
 {
-  KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pOldState);
 
-  KPmenu &menu             = pContext->GetMenu();
-  KPStatistics &statistics = pContext->GetStatistics();
+    KPmenu &menu             = pContext->GetMenu();
+    KPStatistics &statistics = pContext->GetStatistics();
 
-  // Do some initialization stuff here:
-  KPscore::Instance().ReadFromFile();
+    // Do some initialization stuff here:
+    KPscore::Instance().ReadFromFile();
 
-  KPConfig::Instance().SavedGame = 0;
+    KPConfig::Instance().SavedGame = 0;
 
-  if (menu.TextfeldArray[T_NAME_FIELD] == NULL)
-     menu.TextfeldArray[T_NAME_FIELD] = new Textfeld();
-  menu.TextfeldArray[T_NAME_FIELD]->Initialisiere("");
+    if (menu.TextfeldArray[T_NAME_FIELD] == NULL)
+    {
+        menu.TextfeldArray[T_NAME_FIELD] = new Textfeld();
+    }
+    menu.TextfeldArray[T_NAME_FIELD]->Initialisiere("");
 
-  if (statistics.GetEventCounter(USED_CHEATS_CNT) != 0)
-    // Game solved but cheats used
-    tf_index = T_SOLVED2_3;
-  else if (statistics.GetEventCounter(MOVE_WITH_HELP_CNT) != 0)
-    // Game solved with solution hint
-    tf_index = T_SOLVED2_2;
-  else {
-    // Game solved without any help
-    tf_index = T_SOLVED2_1;
-    if ( KPscore::Instance().CanAdd("", statistics.GetTotalTime(), statistics.GetEventCounter(MOVE_COUNTER)) )
-      addToScoreList = true;
-  }
+    if (statistics.GetEventCounter(USED_CHEATS_CNT) != 0)
+        // Game solved but cheats used
+    {
+        tf_index = T_SOLVED2_3;
+    }
+    else if (statistics.GetEventCounter(MOVE_WITH_HELP_CNT) != 0)
+        // Game solved with solution hint
+    {
+        tf_index = T_SOLVED2_2;
+    }
+    else
+    {
+        // Game solved without any help
+        tf_index = T_SOLVED2_1;
+        if(KPscore::Instance().CanAdd("", statistics.GetTotalTime(),
+                                      statistics.GetEventCounter(MOVE_COUNTER)))
+        {
+            addToScoreList = true;
+        }
+    }
 
-  UpdateDisplay(pContext);
+    UpdateDisplay(pContext);
 }
 
 void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
 {
-  KPstate::UpdateDisplay(pContext);
+    KPstate::UpdateDisplay(pContext);
 
-  KPmenu &menu             = pContext->GetMenu();
-  KPStatistics &statistics = pContext->GetStatistics();
+    KPmenu &menu             = pContext->GetMenu();
+    KPStatistics &statistics = pContext->GetStatistics();
 
-  menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(1,3.0,15,8.5);
+    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(1,3.0,15,8.5);
 
-  menu.SchildArray[SHLD_LOGO]->Positioniere(5,9,11,11);
-  menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_LOGO]->Positioniere(5,9,11,11);
+    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
 
-  float y = 7.5;
-  menu.TextfeldArray[T_SOLVED1]->FormatText(NULL,
-                                  statistics.GetEventCounter(MOVE_COUNTER),
-                                  statistics.GetTotalTime(RTIME_MM_ss).c_str());
-  menu.TextfeldArray[T_SOLVED1]->Positioniere(8,y,0.6f,A_MITTE); y-= 0.6f;
+    float y = 7.5;
+    menu.TextfeldArray[T_SOLVED1]->FormatText(NULL,
+            statistics.GetEventCounter(MOVE_COUNTER),
+            statistics.GetTotalTime(RTIME_MM_ss).c_str());
+    menu.TextfeldArray[T_SOLVED1]->Positioniere(8,y,0.6f,A_MITTE);
+    y-= 0.6f;
 
-  if (menu.TextfeldArray[tf_index  ] != NULL) {
-      menu.TextfeldArray[tf_index  ]->FormatText(NULL, statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
-      menu.TextfeldArray[tf_index  ]->Positioniere(8,y,0.6f,A_MITTE); y-= 0.6f;
-  }
-  if (menu.TextfeldArray[tf_index+1] != NULL)
-      menu.TextfeldArray[tf_index+1]->Positioniere(8,y,0.6f,A_MITTE); y-= 0.6f;
-  if (menu.TextfeldArray[tf_index+2] != NULL)
-      menu.TextfeldArray[tf_index+2]->Positioniere(8,y,0.6f,A_MITTE); y-= 1.0;
+    if (menu.TextfeldArray[tf_index  ] != NULL)
+    {
+        menu.TextfeldArray[tf_index  ]->FormatText(NULL,
+                statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
+        menu.TextfeldArray[tf_index  ]->Positioniere(8,y,0.6f,A_MITTE);
+        y-= 0.6f;
+    }
+    if (menu.TextfeldArray[tf_index+1] != NULL)
+    {
+        menu.TextfeldArray[tf_index+1]->Positioniere(8,y,0.6f,A_MITTE);
+    }
+    y-= 0.6f;
+    if (menu.TextfeldArray[tf_index+2] != NULL)
+    {
+        menu.TextfeldArray[tf_index+2]->Positioniere(8,y,0.6f,A_MITTE);
+    }
+    y-= 1.0;
 
-  if (addToScoreList)
-  {
-    menu.TextfeldArray[T_INPUT_NAME]->Positioniere(8,y,1,A_MITTE); y -= 1.0;
-    menu.TextfeldArray[T_NAME_FIELD]->Positioniere(8,y,1, A_MITTE);
-    menu.TextfeldArray[T_NAME_FIELD]->SetMaxCharacters(24);
-    menu.TextfeldArray[T_NAME_FIELD]->SetInputFocus(addToScoreList);
-  }
-  
-  menu.TextfeldArray[T_WEITER]->Positioniere(8,1,1,A_MITTE);
-  menu.TextfeldArray[T_WEITER]->SetzeSignal(S_CONTINUE);
+    if (addToScoreList)
+    {
+        menu.TextfeldArray[T_INPUT_NAME]->Positioniere(8,y,1,A_MITTE);
+        y -= 1.0;
+        menu.TextfeldArray[T_NAME_FIELD]->Positioniere(8,y,1, A_MITTE);
+        menu.TextfeldArray[T_NAME_FIELD]->SetMaxCharacters(24);
+        menu.TextfeldArray[T_NAME_FIELD]->SetInputFocus(addToScoreList);
+    }
 
-  StartAnimation();
+    menu.TextfeldArray[T_WEITER]->Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_WEITER]->SetzeSignal(S_CONTINUE);
+
+    StartAnimation();
 }
 
-void KPstateGameSolved::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
+void KPstateGameSolved::KeyPressed (KPstateContext *pContext, unsigned char key,
+                                    int x, int y)
 {
-  if (EvaluateKeyPressed(pContext, key, x, y))
-  {
-    if (pContext->GetMenu().TextfeldArray[T_NAME_FIELD]->HasInputFocus())
-      UpdateDisplay(pContext);
+    if (EvaluateKeyPressed(pContext, key, x, y))
+    {
+        if (pContext->GetMenu().TextfeldArray[T_NAME_FIELD]->HasInputFocus())
+        {
+            UpdateDisplay(pContext);
+        }
+        else
+        {
+            SaveScoreAndChangeState(pContext);
+        }
+    }
     else
-      SaveScoreAndChangeState(pContext);
-  } else {
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
-  }
+    {
+        CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
+    }
 }
 
 tKPMenuState KPstateGameSolved::ESCKeyAction (KPstateContext *pContext)
 {
-  pContext->GetCamera().SetzeRundflug(true);
-  return KPState_Finish;
+    pContext->GetCamera().SetzeRundflug(true);
+    return KPState_Finish;
 }
 
-void KPstateGameSolved::MouseClick (KPstateContext *pContext, int button, int state, int x, int y)
+void KPstateGameSolved::MouseClick (KPstateContext *pContext, int button,
+                                    int state, int x, int y)
 {
-  int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
+    int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
 
-  switch (Signal) {
-    case S_CONTINUE: SaveScoreAndChangeState(pContext); break;
-  }
+    switch (Signal)
+    {
+        case S_CONTINUE:
+            SaveScoreAndChangeState(pContext);
+            break;
+    }
 }
 
 void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext)
 {
-  tKPMenuState newState = KPState_MainMenu;
+    tKPMenuState newState = KPState_MainMenu;
 
-  if (addToScoreList)
-  {
-    KPscore::Instance().Add(pContext->GetMenu().TextfeldArray[T_NAME_FIELD]->Text(),
-                            pContext->GetStatistics().GetTotalTime(),
-                            pContext->GetStatistics().GetEventCounter(MOVE_COUNTER), 0);
-    KPscore::Instance().WriteToFile();
-    pContext->GetCamera().SetzeRundflug(true);
-    newState = KPState_ScoreList;
-  }
-  pContext->ChangeState(newState);
+    if (addToScoreList)
+    {
+        KPscore::Instance().Add(pContext->GetMenu()
+                                   .TextfeldArray[T_NAME_FIELD]->Text(),
+                                pContext->GetStatistics().GetTotalTime(),
+                                pContext->GetStatistics()
+                                   .GetEventCounter(MOVE_COUNTER), 0);
+        KPscore::Instance().WriteToFile();
+        pContext->GetCamera().SetzeRundflug(true);
+        newState = KPState_ScoreList;
+    }
+    pContext->ChangeState(newState);
 }
 void KPstateGameSolved::PlayAudioForInitialize(KPstateContext *pContext)
 {
-  pContext->GetUserInterface().PlayAudio(KP_SND_GAMESOLVED);
+    pContext->GetUserInterface().PlayAudio(KP_SND_GAMESOLVED);
 }

@@ -28,35 +28,38 @@
 #include "kpidhash.h"
 
 
-class KPboard {
+class KPboard
+{
 private:
-	mutable QWord id;
-	unsigned short token[TOKEN_MAX];
-	unsigned char  tokenID[HORIZONTAL_MAX][VERTICAL_MAX];
+    mutable QWord id;
+    unsigned short token[TOKEN_MAX];
+    unsigned char  tokenID[HORIZONTAL_MAX][VERTICAL_MAX];
 
 public:
 
-	KPboard();
-	KPboard(const KPboard &b);
-	virtual ~KPboard();
+    KPboard();
+    KPboard(const KPboard &b);
+    virtual ~KPboard();
 
-	bool operator == (const KPboard &b) const;
-	KPboard& operator = (const KPboard &b);
-	virtual void Init();
-	bool IsMemberOf(void);
-	virtual void fprintf(FILE *fp) const;
-  bool InitializeToken (tKPTokenID id, const char * color, int x, int y, int xExtend, int yExtend);
-	inline void SetPosition(tKPTokenID id, int x, int y, int xExtend, int yExtend);
-	bool Move(tKPTokenID id, tKPDirection d);
-  bool CanMove(tKPTokenID aTokenID, tKPDirection d) const;
-	virtual void CopyFrom(const KPboard& src);
-	QWord GetID() const;
-	static KPIdHash idHash;
-	bool IsSolved(void) const;
-  int GetX(tKPTokenID aTokenID) const;
-  int GetY(tKPTokenID aTokenID) const;
-  inline int GetXExtend(tKPTokenID aTokenID) const;
-  inline int GetYExtend(tKPTokenID aTokenID) const;
+    bool operator == (const KPboard &b) const;
+    KPboard &operator = (const KPboard &b);
+    virtual void Init();
+    bool IsMemberOf(void);
+    virtual void fprintf(FILE *fp) const;
+    bool InitializeToken (tKPTokenID id, const char *color, int x, int y,
+                          int xExtend, int yExtend);
+    inline void SetPosition(tKPTokenID id, int x, int y, int xExtend,
+                            int yExtend);
+    bool Move(tKPTokenID id, tKPDirection d);
+    bool CanMove(tKPTokenID aTokenID, tKPDirection d) const;
+    virtual void CopyFrom(const KPboard &src);
+    QWord GetID() const;
+    static KPIdHash idHash;
+    bool IsSolved(void) const;
+    int GetX(tKPTokenID aTokenID) const;
+    int GetY(tKPTokenID aTokenID) const;
+    inline int GetXExtend(tKPTokenID aTokenID) const;
+    inline int GetYExtend(tKPTokenID aTokenID) const;
 };
 
 #endif

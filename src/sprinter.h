@@ -26,14 +26,15 @@
 #include "misc1.h"
 
 #ifdef HAVE_STDARG_H
-  #include <stdarg.h>
+#include <stdarg.h>
 #endif
 #include <string>
 
-class sprinter {
+class sprinter
+{
 public:
-   static int sprintf(std::string &s, const char *format, ...);
-   static int vsprintf(std::string &s, const char *format, va_list arg_ptr);
+    static int sprintf(std::string &s, const char *format, ...);
+    static int vsprintf(std::string &s, const char *format, va_list arg_ptr);
 };
 
 #endif

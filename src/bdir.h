@@ -30,31 +30,37 @@
 
 typedef std::vector<std::string> tPathList;
 
-class BDirectory  
+class BDirectory
 {
 private:
-	std::string m_path;
+    std::string m_path;
 
 public:
-	static bool Exists(const std::string &aPath);
-	static bool Remove(const std::string &aPath);
-	static bool Create(const std::string &aPath, int mode = 0x0755);
-	static bool RemoveRecursive(const std::string &aPath);
-  static tPathList GetSubDirectories(const std::string &aPath);
-  static tPathList GetFiles(const std::string &aPath);
+    static bool Exists(const std::string &aPath);
+    static bool Remove(const std::string &aPath);
+    static bool Create(const std::string &aPath, int mode = 0x0755);
+    static bool RemoveRecursive(const std::string &aPath);
+    static tPathList GetSubDirectories(const std::string &aPath);
+    static tPathList GetFiles(const std::string &aPath);
 
-	BDirectory();
-	BDirectory(std::string &path) : m_path(path) { };
-	virtual ~BDirectory();
+    BDirectory();
+    BDirectory(std::string &path) : m_path(path) { };
+    virtual ~BDirectory();
 
-	inline void SetPath(std::string &path) { m_path = path; };
-	inline const std::string &GetPath(void) const { return m_path; };
-	bool Exists(void) const;
-	bool Remove(void) const;
-	bool Create(int mode = 0x0755) const;
-	bool RemoveRecursive(void) const;
-  tPathList GetSubDirectories() const;
-  tPathList GetFiles() const;
+    inline void SetPath(std::string &path)
+    {
+        m_path = path;
+    };
+    inline const std::string &GetPath(void) const
+    {
+        return m_path;
+    };
+    bool Exists(void) const;
+    bool Remove(void) const;
+    bool Create(int mode = 0x0755) const;
+    bool RemoveRecursive(void) const;
+    tPathList GetSubDirectories() const;
+    tPathList GetFiles() const;
 };
 
 #endif // #ifndef __bdir_h__

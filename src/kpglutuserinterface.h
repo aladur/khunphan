@@ -30,42 +30,43 @@
 #include "kpconfig.h"
 #include "kpstate.h"
 
-class KPGlutUserInterface : public KPUIBase {
+class KPGlutUserInterface : public KPUIBase
+{
 public:
-  // public interface
-  KPGlutUserInterface();
-  virtual ~KPGlutUserInterface();
+    // public interface
+    KPGlutUserInterface();
+    virtual ~KPGlutUserInterface();
 
-  bool OpenWindow(int argc, char **argv);
-  void SetWindowMode(bool FullScreen) const;
-  void MainLoop();
-  void Close();
-  int  GetValue(int what) const;
-  bool CanToggleFullScreen() const;
+    bool OpenWindow(int argc, char **argv);
+    void SetWindowMode(bool FullScreen) const;
+    void MainLoop();
+    void Close();
+    int  GetValue(int what) const;
+    bool CanToggleFullScreen() const;
 
 public:
-  // static member functions for event handling
-  // necessary for event handling
-  static void MouseClickEvent(int button, int state, int x, int y);
-  static void MouseMotionEvent(int x, int y);
-  static void KeyPressedEvent ( unsigned char keyPressed,  int x, int y );
-  static void KeyReleasedEvent( unsigned char keyReleased, int x, int y );
-  static void IdleEvent();
-  static void VisibleEvent (int vis);
-  static void DisplayEvent();
-  static void ReshapeEvent(int x, int y);
-  static void TimerEvent(int value);
+    // static member functions for event handling
+    // necessary for event handling
+    static void MouseClickEvent(int button, int state, int x, int y);
+    static void MouseMotionEvent(int x, int y);
+    static void KeyPressedEvent ( unsigned char keyPressed,  int x, int y );
+    static void KeyReleasedEvent( unsigned char keyReleased, int x, int y );
+    static void IdleEvent();
+    static void VisibleEvent (int vis);
+    static void DisplayEvent();
+    static void ReshapeEvent(int x, int y);
+    static void TimerEvent(int value);
 
-  // member functions for event handling
-  void Timer(int value);
-  void MouseClick(int button, int state, int x, int y);
+    // member functions for event handling
+    void Timer(int value);
+    void MouseClick(int button, int state, int x, int y);
 
 protected:
-  void InitializeEvents();
-  void SwapBuffers();
-  void PostWindowRedisplay();
+    void InitializeEvents();
+    void SwapBuffers();
+    void PostWindowRedisplay();
 
-  int  windowID;  // ID of GLUT window
+    int  windowID;  // ID of GLUT window
 };
 
 #endif

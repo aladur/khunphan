@@ -40,7 +40,7 @@
 // In c++11 this can be implemented in a type safe way using
 // variadic templates.
 
-int sprinter::sprintf(std::string &s, const char *format, ...) 
+int sprinter::sprintf(std::string &s, const char *format, ...)
 {
     va_list arg_ptr;
     char buffer[MAX_BUFFER_SIZE];
@@ -49,8 +49,8 @@ int sprinter::sprintf(std::string &s, const char *format, ...)
 
     if (format == NULL)
     {
-       s.clear();
-       return 0;
+        s.clear();
+        return 0;
     }
 
     va_start(arg_ptr, format);
@@ -64,7 +64,7 @@ int sprinter::sprintf(std::string &s, const char *format, ...)
 
     if (res < 0 || (res >= MAX_BUFFER_SIZE))
     {
-       throw std::length_error("sprinter::sprintf buffer too short.");
+        throw std::length_error("sprinter::sprintf buffer too short.");
     }
 
     s = p;
@@ -72,7 +72,7 @@ int sprinter::sprintf(std::string &s, const char *format, ...)
     return res;
 }
 
-int sprinter::vsprintf(std::string &s, const char *format, va_list arg_ptr) 
+int sprinter::vsprintf(std::string &s, const char *format, va_list arg_ptr)
 {
     char buffer[MAX_BUFFER_SIZE];
     char *p = static_cast<char *>(buffer);
@@ -80,8 +80,8 @@ int sprinter::vsprintf(std::string &s, const char *format, va_list arg_ptr)
 
     if (format == NULL)
     {
-       s.clear();
-       return 0;
+        s.clear();
+        return 0;
     }
 
 #ifdef _MSC_VER
@@ -93,7 +93,7 @@ int sprinter::vsprintf(std::string &s, const char *format, va_list arg_ptr)
 
     if (res < 0 || (res >= MAX_BUFFER_SIZE))
     {
-       throw std::length_error("sprinter::vsprintf buffer too short.");
+        throw std::length_error("sprinter::vsprintf buffer too short.");
     }
 
     s = p;

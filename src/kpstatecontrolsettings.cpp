@@ -25,90 +25,112 @@
 #include "kpuibase.h"
 
 
-void KPstateControlSettings::Initialize(KPstateContext *pContext,  const KPstate *pOldState)
+void KPstateControlSettings::Initialize(KPstateContext *pContext,
+                                        const KPstate *pOldState)
 {
-  KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pOldState);
 
-  // Do some initialization stuff here:
+    // Do some initialization stuff here:
 
-  E_MouseSpeed   = KPConfig::Instance().MouseSpeed;
-  E_SolutionHint = KPConfig::Instance().SolutionHint;
+    E_MouseSpeed   = KPConfig::Instance().MouseSpeed;
+    E_SolutionHint = KPConfig::Instance().SolutionHint;
 
-  UpdateDisplay(pContext);
+    UpdateDisplay(pContext);
 }
 
 void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext)
 {
-  KPstate::UpdateDisplay(pContext);
+    KPstate::UpdateDisplay(pContext);
 
-  KPmenu &menu = pContext->GetMenu();
+    KPmenu &menu = pContext->GetMenu();
 
-  float y;
-  float dy = 0.6;
-  
-  menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(2,3.5,14,8.5);
+    float y;
+    float dy = 0.6;
 
-  menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
-  menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(2,3.5,14,8.5);
 
-  menu.TextfeldArray[T_EINSTELLUNGEN]->Positioniere(4,8,1,A_LINKS);
-  menu.TextfeldArray[T_EINSTELLUNGEN]->VollSichtbar();
-  menu.TextfeldArray[T_STEUERUNG]->Positioniere(12,8,1,A_RECHTS);
-  menu.TextfeldArray[T_STEUERUNG]->VollSichtbar();
+    menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
+    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
 
-  y = 6.0;
-  menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT]->Positioniere(8,y,.71,A_RECHTS);
-  menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+    menu.TextfeldArray[T_EINSTELLUNGEN]->Positioniere(4,8,1);
+    menu.TextfeldArray[T_EINSTELLUNGEN]->VollSichtbar();
+    menu.TextfeldArray[T_STEUERUNG]->Positioniere(12,8,1,A_RECHTS);
+    menu.TextfeldArray[T_STEUERUNG]->VollSichtbar();
 
-  if (E_MouseSpeed<=.293) {
-    menu.TextfeldArray[T_MG_LANGSAM]->Positioniere(8.2,y,.71,A_LINKS);
-    menu.TextfeldArray[T_MG_LANGSAM]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
-  } else if (E_MouseSpeed<=.41) {
-    menu.TextfeldArray[T_MG_NORMAL]->Positioniere(8.2,y,.71,A_LINKS);
-    menu.TextfeldArray[T_MG_NORMAL]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
-  } else if (E_MouseSpeed<=.575) {
-    menu.TextfeldArray[T_MG_SCHNELL]->Positioniere(8.2,y,.71,A_LINKS);
-    menu.TextfeldArray[T_MG_SCHNELL]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
-  } else {
-    menu.TextfeldArray[T_MG_SEHRSCHNELL]->Positioniere(8.2,y,.71,A_LINKS);
-    menu.TextfeldArray[T_MG_SEHRSCHNELL]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
-  }
+    y = 6.0;
+    menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT]->Positioniere(8,y,.71,A_RECHTS);
+    menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT]->SetzeSignal(
+                                                    S_TOGGLE_MOUSE_SPEED);
 
-  y -= dy;
-  menu.TextfeldArray[T_SOLUTIONHINT]->Positioniere(8,y,.71,A_RECHTS);
-  menu.TextfeldArray[T_SOLUTIONHINT]->SetzeSignal(S_TOGGLE_SOLUTION_HINT);
+    if (E_MouseSpeed<=.293)
+    {
+        menu.TextfeldArray[T_MG_LANGSAM]->Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_LANGSAM]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+    }
+    else if (E_MouseSpeed<=.41)
+    {
+        menu.TextfeldArray[T_MG_NORMAL]->Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_NORMAL]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+    }
+    else if (E_MouseSpeed<=.575)
+    {
+        menu.TextfeldArray[T_MG_SCHNELL]->Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_SCHNELL]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+    }
+    else
+    {
+        menu.TextfeldArray[T_MG_SEHRSCHNELL]->Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_SEHRSCHNELL]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+    }
 
-  if (E_SolutionHint) {
-    menu.TextfeldArray[T_SH_ON]->Positioniere(8.2,y,.71,A_LINKS);
-    menu.TextfeldArray[T_SH_ON]->SetzeSignal(S_TOGGLE_SOLUTION_HINT);
-  } else {
-    menu.TextfeldArray[T_SH_OFF]->Positioniere(8.2,y,.71,A_LINKS);
-    menu.TextfeldArray[T_SH_OFF]->SetzeSignal(S_TOGGLE_SOLUTION_HINT);
-  }
+    y -= dy;
+    menu.TextfeldArray[T_SOLUTIONHINT]->Positioniere(8,y,.71,A_RECHTS);
+    menu.TextfeldArray[T_SOLUTIONHINT]->SetzeSignal(S_TOGGLE_SOLUTION_HINT);
 
-  menu.TextfeldArray[T_ZURUECK]->Positioniere(8,1,1,A_MITTE);
-  menu.TextfeldArray[T_ZURUECK]->SetzeSignal(S_BACK);
+    if (E_SolutionHint)
+    {
+        menu.TextfeldArray[T_SH_ON]->Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_SH_ON]->SetzeSignal(S_TOGGLE_SOLUTION_HINT);
+    }
+    else
+    {
+        menu.TextfeldArray[T_SH_OFF]->Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_SH_OFF]->SetzeSignal(S_TOGGLE_SOLUTION_HINT);
+    }
 
-  StartAnimation();
+    menu.TextfeldArray[T_ZURUECK]->Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_ZURUECK]->SetzeSignal(S_BACK);
+
+    StartAnimation();
 }
 
-void KPstateControlSettings::KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y)
+void KPstateControlSettings::KeyPressed (KPstateContext *pContext,
+        unsigned char key, int x, int y)
 {
-  CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
+    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
-void  KPstateControlSettings::MouseClick (KPstateContext *pContext, int button, int state, int x, int y)
+void  KPstateControlSettings::MouseClick (KPstateContext *pContext, int button,
+        int state, int x, int y)
 {
-  int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
+    int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
 
-  switch (Signal) {
-    case S_TOGGLE_SOLUTION_HINT: ToggleSolutionHint(pContext); UpdateDisplay(pContext); break;
-    case S_TOGGLE_MOUSE_SPEED:   ToggleMouseSpeed(pContext);   UpdateDisplay(pContext); break;
+    switch (Signal)
+    {
+        case S_TOGGLE_SOLUTION_HINT:
+            ToggleSolutionHint(pContext);
+            UpdateDisplay(pContext);
+            break;
+        case S_TOGGLE_MOUSE_SPEED:
+            ToggleMouseSpeed(pContext);
+            UpdateDisplay(pContext);
+            break;
 
-    case S_BACK:                 SaveChanges(pContext);
-                                 pContext->ChangeState(oldStateId);
-                                 break;
-  }
+        case S_BACK:
+            SaveChanges(pContext);
+            pContext->ChangeState(oldStateId);
+            break;
+    }
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -117,36 +139,45 @@ void  KPstateControlSettings::MouseClick (KPstateContext *pContext, int button, 
 
 void  KPstateControlSettings::ToggleMouseSpeed(KPstateContext *pContext)
 {
-  pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
-  if (E_MouseSpeed<=.21) {
-    E_MouseSpeed=.8;
-  } else if (E_MouseSpeed<=.29) {
-    E_MouseSpeed=.8;
-  } else if (E_MouseSpeed<=.41) {
-    E_MouseSpeed=.28;
-  } else if (E_MouseSpeed<=.575) {
-    E_MouseSpeed=.4;
-  } else {
-    E_MouseSpeed=.565;
-  }
+    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    if (E_MouseSpeed<=.21)
+    {
+        E_MouseSpeed=.8;
+    }
+    else if (E_MouseSpeed<=.29)
+    {
+        E_MouseSpeed=.8;
+    }
+    else if (E_MouseSpeed<=.41)
+    {
+        E_MouseSpeed=.28;
+    }
+    else if (E_MouseSpeed<=.575)
+    {
+        E_MouseSpeed=.4;
+    }
+    else
+    {
+        E_MouseSpeed=.565;
+    }
 }
 
 void  KPstateControlSettings::ToggleSolutionHint(KPstateContext *pContext)
 {
-  pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
-  E_SolutionHint = E_SolutionHint ? 0 : 1;
+    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    E_SolutionHint = E_SolutionHint ? 0 : 1;
 }
 
 tKPMenuState KPstateControlSettings::ESCKeyAction (KPstateContext *pContext)
 {
-  SaveChanges(pContext);
-  return (tKPMenuState)oldStateId;
+    SaveChanges(pContext);
+    return (tKPMenuState)oldStateId;
 }
 
 void KPstateControlSettings::SaveChanges(KPstateContext *)
 {
-  KPConfig::Instance().MouseSpeed   = E_MouseSpeed;
-  KPConfig::Instance().SolutionHint = E_SolutionHint;
+    KPConfig::Instance().MouseSpeed   = E_MouseSpeed;
+    KPConfig::Instance().SolutionHint = E_SolutionHint;
 
-  KPConfig::Instance().WriteToFile();
+    KPConfig::Instance().WriteToFile();
 }

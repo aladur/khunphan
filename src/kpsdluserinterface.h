@@ -34,52 +34,53 @@
 #include "kpstate.h"
 
 
-class KPSdlUserInterface : public KPUIBase {
+class KPSdlUserInterface : public KPUIBase
+{
 public:
-  // public interface
-  KPSdlUserInterface();
-  virtual ~KPSdlUserInterface();
+    // public interface
+    KPSdlUserInterface();
+    virtual ~KPSdlUserInterface();
 
-  bool OpenWindow(int argc, char **argv);
-  void SetWindowMode(bool FullScreen) const;
-  void MainLoop();
-  void Close();
-  int  GetValue(int what) const;
-  bool CanToggleFullScreen() const;
+    bool OpenWindow(int argc, char **argv);
+    void SetWindowMode(bool FullScreen) const;
+    void MainLoop();
+    void Close();
+    int  GetValue(int what) const;
+    bool CanToggleFullScreen() const;
 
 protected:
-  // member functions for event handling
-  void Timer(int value);
-  void MouseClick(int button, int state, int x, int y);
+    // member functions for event handling
+    void Timer(int value);
+    void MouseClick(int button, int state, int x, int y);
 
-  void InitializeEvents();
-  void SwapBuffers();
-  void PostWindowRedisplay();
-  bool mapKey(int mod, int sym, unsigned char *pKey);
-  Mix_Chunk *LoadSoundFile(const char *pFile);
-  void StopMusicCallback();
+    void InitializeEvents();
+    void SwapBuffers();
+    void PostWindowRedisplay();
+    bool mapKey(int mod, int sym, unsigned char *pKey);
+    Mix_Chunk *LoadSoundFile(const char *pFile);
+    void StopMusicCallback();
 
-  static void stopMusicCallback();
+    static void stopMusicCallback();
 
-  SDL_Surface  *screen;  // SDL Screen ID
-  Mix_Chunk    **sound;
-  std::string  *soundSource;
-  Mix_Music    *music;
+    SDL_Surface  *screen;  // SDL Screen ID
+    Mix_Chunk    **sound;
+    std::string  *soundSource;
+    Mix_Music    *music;
 
 // Audio/Music Interface
 public:
-  bool InitializeAudio(const char *textureName, bool reInitialize = false);
-  void SetSoundVolume(int volume) const;
-  void SetMusicVolume(int volume) const;
-  void PlayAudio(int soundId) const;
-  void PlayMusic(bool On, bool resetPos = false);
-  void LoadNextMusic();
+    bool InitializeAudio(const char *textureName, bool reInitialize = false);
+    void SetSoundVolume(int volume) const;
+    void SetMusicVolume(int volume) const;
+    void PlayAudio(int soundId) const;
+    void PlayMusic(bool On, bool resetPos = false);
+    void LoadNextMusic();
 
 private:
-  unsigned int rate;
-  int musicIndex;
-  std::vector<std::string> musicFiles;
-  static const char *soundFile[KP_SND_MAX+1];
+    unsigned int rate;
+    int musicIndex;
+    std::vector<std::string> musicFiles;
+    static const char *soundFile[KP_SND_MAX+1];
 };
 
 #endif //#ifdef HAVE_SDL

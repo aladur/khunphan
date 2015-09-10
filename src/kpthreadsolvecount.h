@@ -27,8 +27,8 @@
 
 class KPThreadSolveCount : public BThread
 {
-public: 
-  void Run();
+public:
+    void Run();
 };
 
 #endif

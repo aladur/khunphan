@@ -28,82 +28,109 @@
 
 KPStatistics::KPStatistics() : pTime(NULL), time(0), stopWatchActive(false)
 {
-  for (unsigned short i = 0; i < MAX_COUNTER; i++)
-    ResetEventCounter(i);
+    for (unsigned short i = 0; i < MAX_COUNTER; i++)
+    {
+        ResetEventCounter(i);
+    }
 }
 
 KPStatistics::~KPStatistics()
 {
-  delete pTime;
-  pTime = NULL;
+    delete pTime;
+    pTime = NULL;
 }
 
 void KPStatistics::Reset()
 {
-  time            = 0;
-  stopWatchActive = false;
-  for (unsigned short i = 0; i < MAX_COUNTER; i++)
-    ResetEventCounter(i);
+    time            = 0;
+    stopWatchActive = false;
+    for (unsigned short i = 0; i < MAX_COUNTER; i++)
+    {
+        ResetEventCounter(i);
+    }
 }
 
 void KPStatistics::Start()
 {
-  if (pTime == NULL) pTime = new BTime();
+    if (pTime == NULL)
+    {
+        pTime = new BTime();
+    }
 
-  pTime->ResetRelativeTime();
-  stopWatchActive = true;
+    pTime->ResetRelativeTime();
+    stopWatchActive = true;
 }
 
 void KPStatistics::Stop()
 {
-  if (pTime == NULL) pTime = new BTime();
+    if (pTime == NULL)
+    {
+        pTime = new BTime();
+    }
 
-  if (stopWatchActive)
-  {
-    time            += pTime->GetRelativeTimeMsl();
-    stopWatchActive  = false;
-  }
+    if (stopWatchActive)
+    {
+        time            += pTime->GetRelativeTimeMsl();
+        stopWatchActive  = false;
+    }
 }
 
 unsigned long KPStatistics::GetTotalTime()
 {
-  if (pTime == NULL) pTime = new BTime();
+    if (pTime == NULL)
+    {
+        pTime = new BTime();
+    }
 
-  if (stopWatchActive)
-    return time + pTime->GetRelativeTimeMsl();
-  else
-    return time;
+    if (stopWatchActive)
+    {
+        return time + pTime->GetRelativeTimeMsl();
+    }
+    else
+    {
+        return time;
+    }
 }
 
 int KPStatistics::GetEventCounter(unsigned short i)
 {
-  if (i < MAX_COUNTER)
-    return counter[i];
-  return 0;
+    if (i < MAX_COUNTER)
+    {
+        return counter[i];
+    }
+    return 0;
 }
 
 void KPStatistics::SetEventCounter(unsigned short i, unsigned int n)
 {
-  if (i < MAX_COUNTER)
-    counter[i] = n;
+    if (i < MAX_COUNTER)
+    {
+        counter[i] = n;
+    }
 }
 
 void KPStatistics::IncEventCounter(unsigned short i, unsigned int n /*= 1*/)
 {
-  if (i < MAX_COUNTER)
-    counter[i] += n;
+    if (i < MAX_COUNTER)
+    {
+        counter[i] += n;
+    }
 }
 
 void KPStatistics::DecEventCounter(unsigned short i, unsigned int n /*= 1*/)
 {
-  if (i < MAX_COUNTER)
-    counter[i] -= n;
+    if (i < MAX_COUNTER)
+    {
+        counter[i] -= n;
+    }
 }
 
 void KPStatistics::ResetEventCounter(unsigned short i)
 {
-  if (i < MAX_COUNTER)
-    counter[i] = 0;
+    if (i < MAX_COUNTER)
+    {
+        counter[i] = 0;
+    }
 }
 
 std::string KPStatistics::GetTotalTime(tTimeFormat formatID)
@@ -113,35 +140,49 @@ std::string KPStatistics::GetTotalTime(tTimeFormat formatID)
 
 std::string KPStatistics::FormatTime(tTimeFormat formatID, unsigned int t)
 {
-  std::string timeStr;
+    std::string timeStr;
 
-  switch (formatID)
-  {
-    case RTIME_HH_mm:      sprinter::sprintf(timeStr, "%02u.%02u",
-                            t / 3600000,
-                           (t % 3600000) * 100 / 3600000 ); break;
-    case RTIME_HH_mmmm:    sprinter::sprintf(timeStr, "%02u.%03u",
-                            t / 3600000,
-                           (t % 3600000) * 10000 / 3600000 ); break;
-    case RTIME_HHMM_ss:    sprinter::sprintf(timeStr, "%02u:%02u.%02u",
-                            t / 3600000,
-                           (t % 3600000) / 60000,
-                           (t % 60000) * 100 / 60000 ); break;
-    case RTIME_HHMMSS_mmm: sprinter::sprintf(timeStr, "%02u:%02u:%02u.%03u",
-                            t / 3600000,
-                           (t % 3600000) / 60000,
-                           (t % 60000)   / 1000,
-                            t % 1000                 ); break;
-    case RTIME_HHMMSS:     sprinter::sprintf(timeStr, "%02u:%02u:%02u",
-                            t / 3600000,
-                           (t % 3600000) / 60000,
-                           (t % 60000)   / 1000      ); break;
-    case RTIME_MM_ss:      sprinter::sprintf(timeStr, "%02u.%02u",
-                            t / 60000,
-                           (t % 60000) * 100 / 60000 ); break;
-    case RTIME_msec:
-    default:               sprinter::sprintf(timeStr, "%u", t); break;
-  }
+    switch (formatID)
+    {
+        case RTIME_HH_mm:
+            sprinter::sprintf(timeStr, "%02u.%02u",
+                              t / 3600000,
+                              (t % 3600000) * 100 / 3600000 );
+            break;
+        case RTIME_HH_mmmm:
+            sprinter::sprintf(timeStr, "%02u.%03u",
+                              t / 3600000,
+                              (t % 3600000) * 10000 / 3600000 );
+            break;
+        case RTIME_HHMM_ss:
+            sprinter::sprintf(timeStr, "%02u:%02u.%02u",
+                              t / 3600000,
+                              (t % 3600000) / 60000,
+                              (t % 60000) * 100 / 60000 );
+            break;
+        case RTIME_HHMMSS_mmm:
+            sprinter::sprintf(timeStr, "%02u:%02u:%02u.%03u",
+                              t / 3600000,
+                              (t % 3600000) / 60000,
+                              (t % 60000)   / 1000,
+                              t % 1000                 );
+            break;
+        case RTIME_HHMMSS:
+            sprinter::sprintf(timeStr, "%02u:%02u:%02u",
+                              t / 3600000,
+                              (t % 3600000) / 60000,
+                              (t % 60000)   / 1000      );
+            break;
+        case RTIME_MM_ss:
+            sprinter::sprintf(timeStr, "%02u.%02u",
+                              t / 60000,
+                              (t % 60000) * 100 / 60000 );
+            break;
+        case RTIME_msec:
+        default:
+            sprinter::sprintf(timeStr, "%u", t);
+            break;
+    }
 
-  return timeStr;
+    return timeStr;
 }

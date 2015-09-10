@@ -27,59 +27,70 @@
 
 // returns true if event has been processed
 
-bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext, int button, int state, int x, int y)
+bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext, int button,
+                                      int state, int x, int y)
 {
-  static tKPTokenID token = TK_EMPTY;
-  static int mouse_x=0, mouse_y=0;
+    static tKPTokenID token = TK_EMPTY;
+    static int mouse_x=0, mouse_y=0;
 
-  if (button == KP_LEFT_MB && state == KP_BUTTON_PRESS)
-  {
-      // Pressing left menu button: remind token
-      token = pContext->GetBoardView().Selection(&pContext->GetCamera(), x, y);
-      mouse_x = x; // save current mouse position
-      mouse_y = y;
-      return true;
-  }
-  else if (button == KP_LEFT_MB && state == KP_BUTTON_RELEASE)
-  {
-    // Releasing left mouse button: move token
-    if ( token != TK_EMPTY )
+    if (button == KP_LEFT_MB && state == KP_BUTTON_PRESS)
     {
-      // calculate mouse direction
-      tKPDirection mouseDirection = MOVE_NO;
-      int diff_x = x - mouse_x;
-      int diff_y = y - mouse_y;
+        // Pressing left menu button: remind token
+        token = pContext->GetBoardView().Selection(&pContext->GetCamera(),
+                                                   x, y);
+        mouse_x = x; // save current mouse position
+        mouse_y = y;
+        return true;
+    }
+    else if (button == KP_LEFT_MB && state == KP_BUTTON_RELEASE)
+    {
+        // Releasing left mouse button: move token
+        if ( token != TK_EMPTY )
+        {
+            // calculate mouse direction
+            tKPDirection mouseDirection = MOVE_NO;
+            int diff_x = x - mouse_x;
+            int diff_y = y - mouse_y;
 
-      if ( abs(diff_x) - abs(diff_y) > 1 ) {
-        // Move left or right
-        mouseDirection = ( diff_x > 0 ) ? MOVE_LEFT : MOVE_RIGHT;
-      } else if ( abs(diff_y) - abs(diff_x) > 1 ) {
-        // Move up or down
-        mouseDirection = ( diff_y > 0 ) ? MOVE_DOWN : MOVE_UP;
-      }
-      if (HookDoTheMove(pContext, token, mouseDirection))
-      {
-        bool result = pContext->GetBoardView().Move(token, mouseDirection);
+            if ( abs(diff_x) - abs(diff_y) > 1 )
+            {
+                // Move left or right
+                mouseDirection = ( diff_x > 0 ) ? MOVE_LEFT : MOVE_RIGHT;
+            }
+            else if ( abs(diff_y) - abs(diff_x) > 1 )
+            {
+                // Move up or down
+                mouseDirection = ( diff_y > 0 ) ? MOVE_DOWN : MOVE_UP;
+            }
+            if (HookDoTheMove(pContext, token, mouseDirection))
+            {
+                bool result = pContext->GetBoardView().Move(token,
+                                                            mouseDirection);
 
-        HookAfterTokenMoved(pContext, token, mouseDirection, result);
-      }
-    } else
-      HookAfterTokenMoved(pContext, TK_EMPTY, MOVE_NO, false);
-    return true;
-  } else {
-    token = TK_EMPTY;
-    return false;
-  }
+                HookAfterTokenMoved(pContext, token, mouseDirection, result);
+            }
+        }
+        else
+        {
+            HookAfterTokenMoved(pContext, TK_EMPTY, MOVE_NO, false);
+        }
+        return true;
+    }
+    else
+    {
+        token = TK_EMPTY;
+        return false;
+    }
 }
 
 bool KPstateMoveToken::HookDoTheMove(KPstateContext *, tKPTokenID, tKPDirection)
 {
-  // default: always do the move
-  return true;
+    // default: always do the move
+    return true;
 }
 
 void KPstateMoveToken::HookAfterTokenMoved(KPstateContext *, tKPTokenID,
-                                           tKPDirection, bool)
+        tKPDirection, bool)
 {
-  // default: do nothing
+    // default: do nothing
 }

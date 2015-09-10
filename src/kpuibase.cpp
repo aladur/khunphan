@@ -21,14 +21,14 @@
 
 #include "misc1.h"
 #ifdef TIME_WITH_SYS_TIME
-  #include <sys/time.h>
-  #include <time.h>
+#include <sys/time.h>
+#include <time.h>
 #else
-  #ifdef HAVE_SYS_TIME_H
-    #include <sys/time.h>
-  #else
-    #include <time.h>
-  #endif
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#else
+#include <time.h>
+#endif
 #endif
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -46,32 +46,40 @@
 #include "kpstatistics.h"
 #include "btime.h"
 
-// Uncomment the following line to 
+// Uncomment the following line to
 // compile for a specific light test version
 // #define DEBUG_LIGHT_TEST
 
 
 KPUIBase *KPUIBase::instance = NULL;
 
-KPUIBase::KPUIBase() : proot(NULL), pBoardView(NULL), pCamera(NULL), pLight(NULL),
-                       pMenu(NULL),  pStatistics(NULL), pState(NULL),
-                       lastFrameTimestamp(0)
-                       
+KPUIBase::KPUIBase() : proot(NULL), pBoardView(NULL), pCamera(NULL),
+    pLight(NULL),
+    pMenu(NULL),  pStatistics(NULL), pState(NULL),
+    lastFrameTimestamp(0)
+
 {
-  instance = this;
-  pTime    = new BTime;
+    instance = this;
+    pTime    = new BTime;
 }
 
 KPUIBase::~KPUIBase()
 {
-  delete pBoardView;  pBoardView  = NULL;
-  delete pCamera;     pCamera     = NULL;
-  delete pLight;      pLight      = NULL;
-  delete pMenu;       pMenu       = NULL;
-  delete pState;      pState      = NULL;
-  delete pStatistics; pStatistics = NULL;
-  delete pTime;       pTime       = NULL;
-  instance = NULL;
+    delete pBoardView;
+    pBoardView  = NULL;
+    delete pCamera;
+    pCamera     = NULL;
+    delete pLight;
+    pLight      = NULL;
+    delete pMenu;
+    pMenu       = NULL;
+    delete pState;
+    pState      = NULL;
+    delete pStatistics;
+    pStatistics = NULL;
+    delete pTime;
+    pTime       = NULL;
+    instance = NULL;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -80,97 +88,101 @@ KPUIBase::~KPUIBase()
 
 bool KPUIBase::IsInitialized()
 {
- return instance != NULL;
+    return instance != NULL;
 }
 
 bool KPUIBase::InitializeAfterOpen()
 {
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_NORMALIZE);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_NORMALIZE);
 
-  glShadeModel(GL_SMOOTH);
-  glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-  glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glShadeModel(GL_SMOOTH);
+    glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-  glClearColor(0,0,0,0);
-  glClearDepth(1.0);
-  glDepthFunc(GL_LESS);
+    glClearColor(0,0,0,0);
+    glClearDepth(1.0);
+    glDepthFunc(GL_LESS);
 
-  pStatistics = new KPStatistics();
+    pStatistics = new KPStatistics();
 
-  pBoardView = new KPboardView();
-  if (!pBoardView->Initialize(KPConfig::Instance().TextureName.c_str(),
-                              KPConfig::Instance().TextureSize,
-                              KPConfig::Instance().Nearest))
-    return false;
+    pBoardView = new KPboardView();
+    if (!pBoardView->Initialize(KPConfig::Instance().TextureName.c_str(),
+                                KPConfig::Instance().TextureSize,
+                                KPConfig::Instance().Nearest))
+    {
+        return false;
+    }
 
-  pLight = new Light(KPConfig::Instance().AmbientLight,
-                     KPConfig::Instance().LightSources,
-                     KPConfig::Instance().Reflections);
+    pLight = new Light(KPConfig::Instance().AmbientLight,
+                       KPConfig::Instance().LightSources,
+                       KPConfig::Instance().Reflections);
 
-  pCamera = new Kamera();
+    pCamera = new Kamera();
 
-  pMenu = new KPmenu();
+    pMenu = new KPmenu();
 
-  DEBUGPRINT("Menu initialization\n");
+    DEBUGPRINT("Menu initialization\n");
 
-  if (!pMenu->Initialize(KPConfig::Instance().TextureName.c_str(),
-                         KPConfig::Instance().MenuTextureSize,
-                         KPConfig::Instance().Nearest,
-                         KPConfig::Instance().Language))
-  return false;
+    if (!pMenu->Initialize(KPConfig::Instance().TextureName.c_str(),
+                           KPConfig::Instance().MenuTextureSize,
+                           KPConfig::Instance().Nearest,
+                           KPConfig::Instance().Language))
+    {
+        return false;
+    }
 
 #ifdef DEBUG_LIGHT_TEST
-  ChangeState(KPState_LightTest);
+    ChangeState(KPState_LightTest);
 #else
-  ChangeState(KPState_StartUp);
+    ChangeState(KPState_StartUp);
 #endif
 
-  InitializeEvents();
+    InitializeEvents();
 
-  return true;
+    return true;
 }
 
 void KPUIBase::UpdateDataModel(KPnode *pRoot)
 {
-  pBoardView->SetSolveTree(pRoot);
+    pBoardView->SetSolveTree(pRoot);
 }
 
 const char *KPUIBase::GetOpenGLVendor() const
 {
-  return (const char *)glGetString(GL_VENDOR);
+    return (const char *)glGetString(GL_VENDOR);
 }
 
 const char *KPUIBase::GetOpenGLRenderer() const
 {
-  return (const char *)glGetString(GL_RENDERER);
+    return (const char *)glGetString(GL_RENDERER);
 }
 
 const char *KPUIBase::GetOpenGLVersion() const
 {
-  return (const char *)glGetString(GL_VERSION);
+    return (const char *)glGetString(GL_VERSION);
 }
 
 void KPUIBase::DebugPrintOpenGLVersion() const
 {
-  DEBUGPRINT1("OpenGL Vendor:   %s\n", GetOpenGLVendor()  );
-  DEBUGPRINT1("OpenGL Renderer: %s\n", GetOpenGLRenderer());
-  DEBUGPRINT1("OpenGL Version:  %s\n", GetOpenGLVersion() );
+    DEBUGPRINT1("OpenGL Vendor:   %s\n", GetOpenGLVendor()  );
+    DEBUGPRINT1("OpenGL Renderer: %s\n", GetOpenGLRenderer());
+    DEBUGPRINT1("OpenGL Version:  %s\n", GetOpenGLVersion() );
 #ifdef GLU_VERSION_1_3
-  DEBUGPRINT("GLU Header Version 1.3\n");
+    DEBUGPRINT("GLU Header Version 1.3\n");
 #else
-  #ifdef GLU_VERSION_1_2
+#ifdef GLU_VERSION_1_2
     DEBUGPRINT("GLU Header Version 1.2\n");
-  #else
-    #ifdef GLU_VERSION_1_1
-      DEBUGPRINT("GLU Header Version 1.1\n");
-    #else
-      DEBUGPRINT("GLU Header Version 1.0\n");
-    #endif
-  #endif
+#else
+#ifdef GLU_VERSION_1_1
+    DEBUGPRINT("GLU Header Version 1.1\n");
+#else
+    DEBUGPRINT("GLU Header Version 1.0\n");
+#endif
+#endif
 #endif
 #ifdef GLU_VERSION_1_1
-  DEBUGPRINT1("GLU Linked Version %s\n", gluGetString(GLU_VERSION));
+    DEBUGPRINT1("GLU Linked Version %s\n", gluGetString(GLU_VERSION));
 #endif
 }
 
@@ -180,91 +192,96 @@ void KPUIBase::DebugPrintOpenGLVersion() const
 
 void KPUIBase::Display()
 {
-  static double renderTime = 0.0;
+    static double renderTime = 0.0;
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  pTime->ResetRelativeTime();
+    pTime->ResetRelativeTime();
 
-  if (KPConfig::Instance().DisplayFPS)
-    DisplayFPS(renderTime);
+    if (KPConfig::Instance().DisplayFPS)
+    {
+        DisplayFPS(renderTime);
+    }
 
-  pState->Draw(this);  // Drawing is delegated to KPstate
-  glFinish();
+    pState->Draw(this);  // Drawing is delegated to KPstate
+    glFinish();
 
-  renderTime = pTime->GetRelativeTimeUsf() / 1000.0; // Get RenderTime in ms
+    renderTime = pTime->GetRelativeTimeUsf() / 1000.0; // Get RenderTime in ms
 
-  SwapBuffers();
+    SwapBuffers();
 }
 
 void KPUIBase::Reshape(int x, int y)
 {
-  glViewport(0, 0, (GLsizei)x, (GLsizei)y);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  GetCamera().SetAspekt(x / (GLfloat)y);
+    glViewport(0, 0, (GLsizei)x, (GLsizei)y);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    GetCamera().SetAspekt(x / (GLfloat)y);
 }
 
 void KPUIBase::Idle()
 {
-  if (!pState)  // Is Closing in progress?
-    return;
+    if (!pState)  // Is Closing in progress?
+    {
+        return;
+    }
 
-  if (lastFrameTimestamp == 0)
-  {
-    // first time initialization
-    lastFrameTimestamp = pTime->GetTimeMsl();
-    return;
-  }
+    if (lastFrameTimestamp == 0)
+    {
+        // first time initialization
+        lastFrameTimestamp = pTime->GetTimeMsl();
+        return;
+    }
 
-  unsigned long frameTimestamp = pTime->GetTimeMsl();
-  unsigned long factor = frameTimestamp - lastFrameTimestamp;
+    unsigned long frameTimestamp = pTime->GetTimeMsl();
+    unsigned long factor = frameTimestamp - lastFrameTimestamp;
 
-  if (factor >= 10) {
+    if (factor >= 10)
+    {
 
-    pState->Update(this, factor / 10);  // Updating is delegated to KPstate
+        pState->Update(this, factor / 10);  // Updating is delegated to KPstate
 
-    lastFrameTimestamp = frameTimestamp;
+        lastFrameTimestamp = frameTimestamp;
 
-    PostWindowRedisplay();
-  }
+        PostWindowRedisplay();
+    }
 }
 
 void KPUIBase::DisplayFPS(float renderTime)
 {
-  static unsigned long t0     = 0;
-  static unsigned int  Frames = 0;
+    static unsigned long t0     = 0;
+    static unsigned int  Frames = 0;
 
-  unsigned long t = pTime->GetTimeMsl();
-  Frames++;
-  if (t - t0 > 2000)  // update every 2 seconds
-  {
-     pMenu->UpdateFPS( Frames / 2, renderTime );
-     t0     = t;
-     Frames = 0;
-  }
+    unsigned long t = pTime->GetTimeMsl();
+    Frames++;
+    if (t - t0 > 2000)  // update every 2 seconds
+    {
+        pMenu->UpdateFPS( Frames / 2, renderTime );
+        t0     = t;
+        Frames = 0;
+    }
 }
 
 void KPUIBase::Visible (int /* vis */) const
 {
-  // unfinished
+    // unfinished
 //  if (vis == GLUT_VISIBLE)
 //    ;
 }
 
 void KPUIBase::MouseMotion( int x, int y )
 {
-  pState->MouseMotion(this, x, y);
+    pState->MouseMotion(this, x, y);
 }
 
 void KPUIBase::KeyPressed( unsigned char keyPressed, int x, int y )
 {
-  pState->KeyPressed(this, keyPressed, x, y);
+    pState->KeyPressed(this, keyPressed, x, y);
 }
 
 void KPUIBase::KeyReleased( unsigned char keyReleased, int x, int y )
 {
-  pState->KeyReleased(this, keyReleased, x, y);
+    pState->KeyReleased(this, keyReleased, x, y);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -273,30 +290,57 @@ void KPUIBase::KeyReleased( unsigned char keyReleased, int x, int y )
 
 void KPUIBase::ChangeState( int stateID )
 {
-  KPstate *pOldState = pState;
-  pState = KPstateFactory::Instance().CreateState( stateID );
-  if (pState)
-    pState->Initialize(this, pOldState);
-  delete pOldState;
-  if (pState == NULL)
-  {
-    delete pBoardView;  pBoardView  = NULL;
-    delete pCamera;     pCamera     = NULL;
-    delete pLight;      pLight      = NULL;
-    delete pMenu;       pMenu       = NULL;
-    delete pState;      pState      = NULL;
-    delete pStatistics; pStatistics = NULL;
-    delete pTime;       pTime       = NULL;
-    Close();
-  }
+    KPstate *pOldState = pState;
+    pState = KPstateFactory::Instance().CreateState( stateID );
+    if (pState)
+    {
+        pState->Initialize(this, pOldState);
+    }
+    delete pOldState;
+    if (pState == NULL)
+    {
+        delete pBoardView;
+        pBoardView  = NULL;
+        delete pCamera;
+        pCamera     = NULL;
+        delete pLight;
+        pLight      = NULL;
+        delete pMenu;
+        pMenu       = NULL;
+        delete pState;
+        pState      = NULL;
+        delete pStatistics;
+        pStatistics = NULL;
+        delete pTime;
+        pTime       = NULL;
+        Close();
+    }
 }
 
-KPboardView     &KPUIBase::GetBoardView()     { return *pBoardView;  }
-Kamera          &KPUIBase::GetCamera()        { return *pCamera;     }
-Light           &KPUIBase::GetLight()         { return *pLight;      }
-KPmenu          &KPUIBase::GetMenu()          { return *pMenu;       }
-KPStatistics    &KPUIBase::GetStatistics()    { return *pStatistics; }
-KPUIBase        &KPUIBase::GetUserInterface() { return *instance;    }
+KPboardView     &KPUIBase::GetBoardView()
+{
+    return *pBoardView;
+}
+Kamera          &KPUIBase::GetCamera()
+{
+    return *pCamera;
+}
+Light           &KPUIBase::GetLight()
+{
+    return *pLight;
+}
+KPmenu          &KPUIBase::GetMenu()
+{
+    return *pMenu;
+}
+KPStatistics    &KPUIBase::GetStatistics()
+{
+    return *pStatistics;
+}
+KPUIBase        &KPUIBase::GetUserInterface()
+{
+    return *instance;
+}
 
 /////////////////////////////////////////////////////////////////////
 // Implementation of Audio interface
@@ -304,8 +348,8 @@ KPUIBase        &KPUIBase::GetUserInterface() { return *instance;    }
 
 bool KPUIBase::InitializeAudio(const char *, bool)
 {
-  // default implementation: No Audio support, no error
-  return true;
+    // default implementation: No Audio support, no error
+    return true;
 }
 
 void KPUIBase::PlayAudio(int /* soundId */) const

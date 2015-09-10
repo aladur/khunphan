@@ -28,17 +28,21 @@
 class KPstateStartUp : public KPstate
 {
 public:
-  KPstateStartUp();
-  tKPMenuState GetId() const { return KPState_StartUp; };
-  void Initialize(KPstateContext *pContext, const KPstate *pOldState);
-  void Update(KPstateContext *pContext, int factor);
-  void Draw(KPstateContext *pContext);
-  void MouseClick (KPstateContext *pContext, int button, int state, int x, int y);
-  void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-  tKPMenuState ESCKeyAction (KPstateContext *);
-  void UpdateDisplay(KPstateContext *pContext);
+    KPstateStartUp();
+    tKPMenuState GetId() const
+    {
+        return KPState_StartUp;
+    };
+    void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    void Update(KPstateContext *pContext, int factor);
+    void Draw(KPstateContext *pContext);
+    void MouseClick (KPstateContext *pContext, int button, int state,
+                     int x, int y);
+    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
+    tKPMenuState ESCKeyAction (KPstateContext *);
+    void UpdateDisplay(KPstateContext *pContext);
 private:
-  bool fullInitialized;
+    bool fullInitialized;
 };
 
 #endif

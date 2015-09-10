@@ -35,47 +35,61 @@
 // ss:   decimal seconds (0..99)
 // mmm:  decimal milliseconds (0..999)
 
-enum tTimeFormat {
-  RTIME_msec       = 0,    // Format:   +mmm
-  RTIME_HH_mm      = 321,  // Format:   +HH.mm
-  RTIME_HH_mmmm    = 322,  // Format:   +HH.mmmm
-  RTIME_HHMM_ss    = 323,  // Format:   +HH:MM.ss
-  RTIME_HHMMSS_mmm = 324,  // Format:   +HH:MM:SS.mmm
-  RTIME_HHMMSS     = 325,  // Format:   +HH:MM:SS
-  RTIME_MM_ss      = 326   // Format:   +MM.ss  
+enum tTimeFormat
+{
+    RTIME_msec       = 0,    // Format:   +mmm
+    RTIME_HH_mm      = 321,  // Format:   +HH.mm
+    RTIME_HH_mmmm    = 322,  // Format:   +HH.mmmm
+    RTIME_HHMM_ss    = 323,  // Format:   +HH:MM.ss
+    RTIME_HHMMSS_mmm = 324,  // Format:   +HH:MM:SS.mmm
+    RTIME_HHMMSS     = 325,  // Format:   +HH:MM:SS
+    RTIME_MM_ss      = 326   // Format:   +MM.ss
 };
-  
+
 #define MAX_COUNTER 8
 
 
 class BTime;
 
-class KPStatistics {
-public: 
-	KPStatistics();
-	virtual ~KPStatistics();
+class KPStatistics
+{
+public:
+    KPStatistics();
+    virtual ~KPStatistics();
 
-  void Reset(); // Stop capturing time, reset all statistic values
+    void Reset(); // Stop capturing time, reset all statistic values
 
-  void Start();                 // Start capturing time
-  void Stop();                  // Stop capturing time
-  void SetTime(unsigned long t) { time = t; };
-  unsigned long GetTotalTime(); // Returns the total elapsed time in milliseconds
-  std::string GetTotalTime(tTimeFormat formatID); // Return a formatted time string
+    void Start();                 // Start capturing time
+    void Stop();                  // Stop capturing time
+    void SetTime(unsigned long t)
+    {
+        time = t;
+    };
+    unsigned long GetTotalTime();             // Returns the total elapsed time
+                                              // in milliseconds
+    std::string GetTotalTime(tTimeFormat
+                             formatID);       // Return a formatted time string
 
-  void SetEventCounter(unsigned short i, unsigned int n);     // sets the current value of event counter i to n
-  int  GetEventCounter(unsigned short i);                     // returns the current value of event counter i
-  void IncEventCounter(unsigned short i, unsigned int n = 1); // increment event counter i by n
-  void DecEventCounter(unsigned short i, unsigned int n = 1); // decrement event counter i by n
-  void ResetEventCounter(unsigned short i);                   // Reset event counter i
+    void SetEventCounter(unsigned short i,
+                         unsigned int n);     // sets the current value of
+                                              // event counter i to n
+    int  GetEventCounter(unsigned short
+                         i);                  // returns the current value of
+                                              // event counter i
+    void IncEventCounter(unsigned short i,
+                         unsigned int n = 1); // increment event counter i by n
+    void DecEventCounter(unsigned short i,
+                         unsigned int n = 1); // decrement event counter i by n
+    void ResetEventCounter(unsigned short
+                           i);                // Reset event counter i
 protected:
-  std::string FormatTime(tTimeFormat formatID, unsigned int t);
+    std::string FormatTime(tTimeFormat formatID, unsigned int t);
 
 private:
-  BTime *pTime;
-  unsigned int counter[MAX_COUNTER];
-  unsigned long  time;
-  bool stopWatchActive;
+    BTime *pTime;
+    unsigned int counter[MAX_COUNTER];
+    unsigned long  time;
+    bool stopWatchActive;
 };
 
 #endif

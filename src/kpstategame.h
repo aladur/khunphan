@@ -28,33 +28,37 @@
 
 class KPstateGame : public KPstateMoveToken
 {
-typedef void (KPstateGame::*tCallbackFct)(KPstateContext *);
+    typedef void (KPstateGame::*tCallbackFct)(KPstateContext *);
 
 public:
-  KPstateGame();
-  tKPMenuState GetId() const { return KPState_Game; };
-  void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-  void MouseClick (KPstateContext *pContext, int button, int state, int x, int y);
-  void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-  void Update(KPstateContext *pContext, int factor);
-  void UpdateDisplay(KPstateContext *pContext);
-  tKPMenuState ESCKeyAction (KPstateContext *);
+    KPstateGame();
+    tKPMenuState GetId() const
+    {
+        return KPState_Game;
+    };
+    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick (KPstateContext *pContext, int button, int state,
+                     int x, int y);
+    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
+    void Update(KPstateContext *pContext, int factor);
+    void UpdateDisplay(KPstateContext *pContext);
+    tKPMenuState ESCKeyAction (KPstateContext *);
 
 protected:
-  virtual void HookAfterAnimationFinished(KPstateContext *);
-  void UpdateMoveCount(KPstateContext *pContext);
-  void Pause(KPstateContext *pContext, bool On = true);
-  void GameIsSolved(KPstateContext *pContext);
-  void Cheat1(KPstateContext *pContext);
-  void SaveGameStatus(KPstateContext *pContext);
-  tCallbackFct animationFinishedCallback;
-  void PlayAudioForInitialize(KPstateContext *pContext);
+    virtual void HookAfterAnimationFinished(KPstateContext *);
+    void UpdateMoveCount(KPstateContext *pContext);
+    void Pause(KPstateContext *pContext, bool On = true);
+    void GameIsSolved(KPstateContext *pContext);
+    void Cheat1(KPstateContext *pContext);
+    void SaveGameStatus(KPstateContext *pContext);
+    tCallbackFct animationFinishedCallback;
+    void PlayAudioForInitialize(KPstateContext *pContext);
 // KPstateMoveToken interface
-  void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
-                           tKPDirection direction, bool SuccessfullyMoved);
+    void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
+                             tKPDirection direction, bool SuccessfullyMoved);
 
-  bool bIsPause;
-  bool bGameIsSolved;
+    bool bIsPause;
+    bool bGameIsSolved;
 };
 
 #endif

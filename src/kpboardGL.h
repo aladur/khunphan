@@ -53,45 +53,54 @@ class Light;
 class KPboardView
 {
 public:
-  KPboardView(void);
-  virtual ~KPboardView();
+    KPboardView(void);
+    virtual ~KPboardView();
 
-  bool Initialize(const char *TextureName, unsigned int TextureSize = 1, bool Nearest = true);
-  void InitializeTextures(const char *TextureName, unsigned int TextureSize = 1, bool Nearest =true, bool always = true);
-  void Draw(bool render = true) const;
-  void SetSolveTree(KPnode *n);
-  void ResetBoard();
-  QWord GetBoardId();
-  void SetBoard(KPnode *n);
-  void SetBoard(QWord id);
-  short GetMovesToSolve() const;
-  tKPTokenID Selection(const Kamera *pCamera, int x, int y) const;
-  bool Move(tKPTokenID id, tKPDirection d);
-  bool CanMove(tKPTokenID id, tKPDirection d);
-  void Animate(int Factor);
-  void EmphasizeToken(tKPTokenID id = TK_EMPTY) { emphasizedToken = id; };
-  bool IsSolved();
+    bool Initialize(const char *TextureName, unsigned int TextureSize = 1,
+                    bool Nearest = true);
+    void InitializeTextures(const char *TextureName,
+                            unsigned int TextureSize = 1,
+                            bool Nearest = true, bool always = true);
+    void Draw(bool render = true) const;
+    void SetSolveTree(KPnode *n);
+    void ResetBoard();
+    QWord GetBoardId();
+    void SetBoard(KPnode *n);
+    void SetBoard(QWord id);
+    short GetMovesToSolve() const;
+    tKPTokenID Selection(const Kamera *pCamera, int x, int y) const;
+    bool Move(tKPTokenID id, tKPDirection d);
+    bool CanMove(tKPTokenID id, tKPDirection d);
+    void Animate(int Factor);
+    void EmphasizeToken(tKPTokenID id = TK_EMPTY)
+    {
+        emphasizedToken = id;
+    };
+    bool IsSolved();
 
 private:
-  void DrawToken(const tKPTokenID i) const;
-  void DrawCuboid(float deltaAngle) const; // Only for test purposes
-  void CreateCuboid(float dx, float dy, float dz, float x0, float y0, float z0, bool WithTexture = true) const;
-  bool CreateTexture(unsigned int TextureSize, const char *pFile, bool Nearest, unsigned int *pId);
-  void GetTokenCoordinates(tKPTokenID i, float *x, float *y) const;
-  float getRnd(void) const;
+    void DrawToken(const tKPTokenID i) const;
+    void DrawCuboid(float deltaAngle) const; // Only for test purposes
+    void CreateCuboid(float dx, float dy, float dz,
+                      float x0, float y0, float z0,
+                      bool WithTexture = true) const;
+    bool CreateTexture(unsigned int TextureSize, const char *pFile,
+                       bool Nearest, unsigned int *pId);
+    void GetTokenCoordinates(tKPTokenID i, float *x, float *y) const;
+    float getRnd(void) const;
 
-  KPnode *pSolveTree; // Pointer to game model
-  KPboard current;
-  static const char *textureFile[MAX_BOARD_TEXTURES + 1];
+    KPnode *pSolveTree; // Pointer to game model
+    KPboard current;
+    static const char *textureFile[MAX_BOARD_TEXTURES + 1];
 
-// variables for token animation:
-  float mat_value, xValue;
-  tKPTokenID emphasizedToken;
-  tKPTokenID animatedToken;
-  float old_x, old_y, new_x, new_y, ax, ay, Time;
-  unsigned int textureId[MAX_BOARD_TEXTURES];
-  std::string *textureSource;
-  int callList;
+    // variables for token animation:
+    float mat_value, xValue;
+    tKPTokenID emphasizedToken;
+    tKPTokenID animatedToken;
+    float old_x, old_y, new_x, new_y, ax, ay, Time;
+    unsigned int textureId[MAX_BOARD_TEXTURES];
+    std::string *textureSource;
+    int callList;
 };
 
 #endif

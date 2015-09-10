@@ -31,10 +31,13 @@ class KPstateContext;
 class KPstateMoveToken : public KPstate
 {
 protected:
-  bool MouseMoveToken(KPstateContext *pContext, int button, int state, int x, int y);
-  virtual bool HookDoTheMove(KPstateContext *pContext, tKPTokenID token, tKPDirection direction);
-  virtual void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
-                           tKPDirection direction, bool successfullyMoved);
+    bool MouseMoveToken(KPstateContext *pContext, int button, int state,
+                        int x, int y);
+    virtual bool HookDoTheMove(KPstateContext *pContext, tKPTokenID token,
+                               tKPDirection direction);
+    virtual void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
+                                     tKPDirection direction,
+                                     bool successfullyMoved);
 };
 
 #endif

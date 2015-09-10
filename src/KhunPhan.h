@@ -33,27 +33,34 @@ class KPUIBase;
 class KhunPhanApp
 {
 public:
-  // static member function for singleton pattern
-  static KhunPhanApp &Instance();
-  static void finalize() { delete instance; instance = NULL; };
+    // static member function for singleton pattern
+    static KhunPhanApp &Instance();
+    static void finalize()
+    {
+        delete instance;
+        instance = NULL;
+    };
 
-  // public interface
-  bool Initialize(int argc, char **argv);
-  void InitializeSolutionTree();
-  bool Run(int argc, char **argv);
-  void Shutdown();
-  const char *GetAppName() { return appName.c_str(); };
+    // public interface
+    bool Initialize(int argc, char **argv);
+    void InitializeSolutionTree();
+    bool Run(int argc, char **argv);
+    void Shutdown();
+    const char *GetAppName()
+    {
+        return appName.c_str();
+    };
 
-  KPnode *proot;
-  
+    KPnode *proot;
+
 private:
-  KhunPhanApp();
-  virtual ~KhunPhanApp();
-  std::string appName;
-  KPThreadSolveCount thread;
-  KPUIBase *userInterface;
-  
-  static KhunPhanApp *instance;
+    KhunPhanApp();
+    virtual ~KhunPhanApp();
+    std::string appName;
+    KPThreadSolveCount thread;
+    KPUIBase *userInterface;
+
+    static KhunPhanApp *instance;
 };
 
 #endif

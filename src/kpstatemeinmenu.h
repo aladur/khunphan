@@ -27,13 +27,17 @@
 
 class KPstateMainMenu : public KPstate
 {
-public: 
-  tKPMenuState GetId() const { return KPState_MainMenu; };
-  void Initialize(KPstateContext *pContext, const KPstate *pOldState);
-  void MouseClick (KPstateContext *pContext, int button, int state, int x, int y);
-  void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-  tKPMenuState ESCKeyAction (KPstateContext *pContext);
-  void UpdateDisplay(KPstateContext *pContext);
+public:
+    tKPMenuState GetId() const
+    {
+        return KPState_MainMenu;
+    };
+    void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick (KPstateContext *pContext, int button, int state,
+                     int x, int y);
+    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
+    tKPMenuState ESCKeyAction (KPstateContext *pContext);
+    void UpdateDisplay(KPstateContext *pContext);
 };
 
 #endif

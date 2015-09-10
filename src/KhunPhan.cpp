@@ -42,114 +42,127 @@ KhunPhanApp *KhunPhanApp::instance = NULL;
 KhunPhanApp::KhunPhanApp() : proot(NULL), userInterface(NULL)
 {
 }
-  
+
 KhunPhanApp::~KhunPhanApp()
 {
-  delete userInterface;
-  userInterface = NULL;
-  proot    = NULL;
-  instance = NULL;
+    delete userInterface;
+    userInterface = NULL;
+    proot    = NULL;
+    instance = NULL;
 }
 
 KhunPhanApp &KhunPhanApp::Instance()
 {
-  if (instance == NULL)
-  {
-    instance = new KhunPhanApp();
-    atexit ( KhunPhanApp::finalize );
-  }
-  return *instance;
+    if (instance == NULL)
+    {
+        instance = new KhunPhanApp();
+        atexit ( KhunPhanApp::finalize );
+    }
+    return *instance;
 }
-  
-void KhunPhanApp::InitializeSolutionTree() {
-  proot = new KPnode;
 
-  // initialize all the tokens
-  proot->InitializeToken(TK_GREEN1, "green", 1, 3, 1, 1);
-  proot->InitializeToken(TK_GREEN2, "green", 2, 3, 1, 1);
-  proot->InitializeToken(TK_GREEN3, "green", 1, 4, 1, 1);
-  proot->InitializeToken(TK_GREEN4, "green", 2, 4, 1, 1);
-  proot->InitializeToken(TK_WHITE1, "white", 0, 0, 1, 2);
-  proot->InitializeToken(TK_WHITE2, "white", 3, 0, 1, 2);
-  proot->InitializeToken(TK_WHITE3, "white", 0, 3, 1, 2);
-  proot->InitializeToken(TK_WHITE4, "white", 3, 3, 1, 2);
-  proot->InitializeToken(TK_WHITE5, "white", 1, 2, 2, 1);
-  proot->InitializeToken(TK_RED1,   "red",   1, 0, 2, 2);
+void KhunPhanApp::InitializeSolutionTree()
+{
+    proot = new KPnode;
 
-  KPnode::CreateSolveTree(*proot);
-  // The solve count will be calculated in a separate thread
-  // because it takes some time (~16 sec with AMD Athlon 900 MHz)
-  // there is a static function KPnode::IsSolveCountAvailable()
-  // which can be check for the result available
-  if (!thread.Start())
-  {
-    // if starting Thread fails start the procedure sequentially 
-    // and inform user
-    message(mtWarning, " Could not start Thread. Please wait...\n");
-    thread.Run();
-  }
+    // initialize all the tokens
+    proot->InitializeToken(TK_GREEN1, "green", 1, 3, 1, 1);
+    proot->InitializeToken(TK_GREEN2, "green", 2, 3, 1, 1);
+    proot->InitializeToken(TK_GREEN3, "green", 1, 4, 1, 1);
+    proot->InitializeToken(TK_GREEN4, "green", 2, 4, 1, 1);
+    proot->InitializeToken(TK_WHITE1, "white", 0, 0, 1, 2);
+    proot->InitializeToken(TK_WHITE2, "white", 3, 0, 1, 2);
+    proot->InitializeToken(TK_WHITE3, "white", 0, 3, 1, 2);
+    proot->InitializeToken(TK_WHITE4, "white", 3, 3, 1, 2);
+    proot->InitializeToken(TK_WHITE5, "white", 1, 2, 2, 1);
+    proot->InitializeToken(TK_RED1,   "red",   1, 0, 2, 2);
 
-  // several checks:
-  //KPboard::idHash.Check(stdout);
-  //KPboard::idHash.fprintf(stdout);
-  DEBUGPRINT1("Total positions found: %d\n", KPnode::LLSetFirstToRoot());
-  DEBUGPRINT1("Total solutions found: %d\n", KPnode::GetSolutionsCount());
+    KPnode::CreateSolveTree(*proot);
+    // The solve count will be calculated in a separate thread
+    // because it takes some time (~16 sec with AMD Athlon 900 MHz)
+    // there is a static function KPnode::IsSolveCountAvailable()
+    // which can be check for the result available
+    if (!thread.Start())
+    {
+        // if starting Thread fails start the procedure sequentially
+        // and inform user
+        message(mtWarning, " Could not start Thread. Please wait...\n");
+        thread.Run();
+    }
+
+    // several checks:
+    //KPboard::idHash.Check(stdout);
+    //KPboard::idHash.fprintf(stdout);
+    DEBUGPRINT1("Total positions found: %d\n", KPnode::LLSetFirstToRoot());
+    DEBUGPRINT1("Total solutions found: %d\n", KPnode::GetSolutionsCount());
 }
 
 bool KhunPhanApp::Initialize(int argc, char **argv)
 {
-  appName = argv[0];
-  DEBUGPRINT(PACKAGE " V" VERSION "\n");
-  DEBUGPRINT("Copyright (C) 2002-2015 Wolfgang Schwotzer\n");
-  DEBUGPRINT("This is free software; see the source for copying conditions\n");
-  DEBUGPRINT("There is NO warranty; not even for MERCHANTABILITY or FITNESS\n");
-  DEBUGPRINT("FOR A PARTICULAR PURPOSE.\n");
-  for (int i = 1; i < argc; i++)
-    if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0)
-    {
-      return false;
-    }
-  KPConfig::Instance().SetDefaultValues();
-  KPConfig::Instance().ReadCommandLineParams(argc, argv);
-  KPConfig::Instance().ReadFromFile();
-  KPConfig::Instance().DebugPrint();
+    appName = argv[0];
+    DEBUGPRINT(PACKAGE " V" VERSION "\n");
+    DEBUGPRINT("Copyright (C) 2002-2015 Wolfgang Schwotzer\n");
+    DEBUGPRINT("This is free software; see the source for copying conditions"
+               "\n");
+    DEBUGPRINT("There is NO warranty; not even for MERCHANTABILITY or FITNESS"
+               "\n");
+    DEBUGPRINT("FOR A PARTICULAR PURPOSE.\n");
+    for (int i = 1; i < argc; i++)
+        if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0)
+        {
+            return false;
+        }
+    KPConfig::Instance().SetDefaultValues();
+    KPConfig::Instance().ReadCommandLineParams(argc, argv);
+    KPConfig::Instance().ReadFromFile();
+    KPConfig::Instance().DebugPrint();
 
-  return true;
+    return true;
 }
 
 bool KhunPhanApp::Run(int argc, char **argv)
 {
 
-  switch (KPConfig::Instance().UserInterface)
-  {
+    switch (KPConfig::Instance().UserInterface)
+    {
 #ifdef HAVE_SDL2
-    case 0: userInterface = new KPSdl2UserInterface();  break;
+        case 0:
+            userInterface = new KPSdl2UserInterface();
+            break;
 #else
 #ifdef HAVE_SDL
-    case 0: userInterface = new KPSdlUserInterface();  break;
+        case 0:
+            userInterface = new KPSdlUserInterface();
+            break;
 #endif
 #endif
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
-    case 1: userInterface = new KPGlutUserInterface(); break;
+        case 1:
+            userInterface = new KPGlutUserInterface();
+            break;
 #endif
-    default: userInterface = NULL;
-  }
-  
-  if ( userInterface == NULL || !userInterface->OpenWindow(argc, argv) )
-    return false;
+        default:
+            userInterface = NULL;
+    }
 
-  userInterface->UpdateDataModel(proot);
-  userInterface->MainLoop();
+    if ( userInterface == NULL || !userInterface->OpenWindow(argc, argv) )
+    {
+        return false;
+    }
 
-  return true;
+    userInterface->UpdateDataModel(proot);
+    userInterface->MainLoop();
+
+    return true;
 }
 
 void KhunPhanApp::Shutdown()
 {
-  if (userInterface->IsInitialized()) {
-    userInterface->Close();
-  }
-  delete this;
+    if (userInterface->IsInitialized())
+    {
+        userInterface->Close();
+    }
+    delete this;
 }
 

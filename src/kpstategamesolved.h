@@ -29,18 +29,22 @@
 class KPstateGameSolved : public KPstate
 {
 public:
-  KPstateGameSolved();
-  tKPMenuState GetId() const { return KPState_GameSolved; };
-  void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-  void MouseClick (KPstateContext *pContext, int button, int state, int x, int y);
-  void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-  void UpdateDisplay(KPstateContext *pContext);
-  tKPMenuState ESCKeyAction (KPstateContext *);
+    KPstateGameSolved();
+    tKPMenuState GetId() const
+    {
+        return KPState_GameSolved;
+    };
+    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick (KPstateContext *pContext, int button, int state,
+                     int x, int y);
+    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
+    void UpdateDisplay(KPstateContext *pContext);
+    tKPMenuState ESCKeyAction (KPstateContext *);
 protected:
-  void SaveScoreAndChangeState(KPstateContext *pContext);
-  void PlayAudioForInitialize(KPstateContext *pContext);
-  bool addToScoreList;
-  int  tf_index;
+    void SaveScoreAndChangeState(KPstateContext *pContext);
+    void PlayAudioForInitialize(KPstateContext *pContext);
+    bool addToScoreList;
+    int  tf_index;
 };
 
 #endif

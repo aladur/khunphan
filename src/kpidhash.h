@@ -31,28 +31,30 @@ class KPnode;
 
 typedef unsigned short tIdHash;
 
-class KPIdHash {
-	friend class KPnode;
+class KPIdHash
+{
+    friend class KPnode;
 public:
-  struct KPIdHashEntry {
-    QWord	data;
-    KPIdHashEntry *pnext;
-    void *pObject;
-  };
+    struct KPIdHashEntry
+    {
+        QWord   data;
+        KPIdHashEntry *pnext;
+        void *pObject;
+    };
 private:
-	tIdHash	GetHash(QWord d) const;
-	KPIdHashEntry **hashTable;
-	void DeleteEntry(KPIdHashEntry *pEntry);	
+    tIdHash GetHash(QWord d) const;
+    KPIdHashEntry **hashTable;
+    void DeleteEntry(KPIdHashEntry *pEntry);
 protected:
-	void *GetObjectWith(const QWord &d) const;
+    void *GetObjectWith(const QWord &d) const;
 public:
-	KPIdHash();
-  virtual ~KPIdHash();
-	void Add(const QWord &d, void *pObj = NULL);
-	bool Contains(const QWord &d) const;
-	void ClearAll(void);
-	void fprintf(FILE *fp) const;
-	void Check(FILE *fp) const;
+    KPIdHash();
+    virtual ~KPIdHash();
+    void Add(const QWord &d, void *pObj = NULL);
+    bool Contains(const QWord &d) const;
+    void ClearAll(void);
+    void fprintf(FILE *fp) const;
+    void Check(FILE *fp) const;
 };
 
 #endif  // __ kpidhash_h__
