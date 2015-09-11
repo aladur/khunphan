@@ -9,6 +9,8 @@
 #define __SCHILD_H__
 
 
+#include "misc1.h"
+
 class KPUIBase;
 class KPConfig;
 
@@ -28,7 +30,7 @@ public:
     void VollSichtbar();
     void StarteAnimation();
     int Animiere(int);
-    int Maustaste(int,int,int,int, KPUIBase &);
+    int Maustaste(tMouseButton,tMouseEvent,int,int, KPUIBase &);
     void SetzeZielZustand(int);
     void SetzeSignal(int);
     void KopieVon(Schild);

@@ -34,7 +34,7 @@ public:
     void Blended();
     void FullVisible();
     void SetPosition(float X, float Y, float Width, float Height,
-                     int Alignment);
+                     tKPAlignment Alignment);
     void SetPercentage(int Percent);
     bool Animate(int factor);
     void StartAnimation();

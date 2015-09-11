@@ -756,29 +756,29 @@ bool KPboardView::CanMove(tKPTokenID id, tKPDirection d)
 
 bool KPboardView::Move(tKPTokenID id, tKPDirection d)
 {
-    if ( animatedToken != TK_EMPTY )
+    if (animatedToken != TK_EMPTY)
     {
         return false;    // Ignore if Animation in progress
     }
     short int i = 0;
     tKPDirection direction = MOVE_NO;
     // count the possibilities token id can move to in i
-    if ( current.CanMove(id, MOVE_UP  )  )
+    if ( current.CanMove(id, MOVE_UP))
     {
         i++;
         direction = MOVE_UP;
     }
-    if ( current.CanMove(id, MOVE_DOWN)  )
+    if ( current.CanMove(id, MOVE_DOWN))
     {
         i++;
         direction = MOVE_DOWN;
     }
-    if ( current.CanMove(id, MOVE_LEFT)  )
+    if ( current.CanMove(id, MOVE_LEFT))
     {
         i++;
         direction = MOVE_LEFT;
     }
-    if ( current.CanMove(id, MOVE_RIGHT) )
+    if ( current.CanMove(id, MOVE_RIGHT))
     {
         i++;
         direction = MOVE_RIGHT;
@@ -789,15 +789,15 @@ bool KPboardView::Move(tKPTokenID id, tKPDirection d)
     }
     if ( i >= 2 )
     {
-        direction =
-            d;           // more than one possibility: use mouse motion to get
+                         // more than one possibility: use mouse motion to get
                          // direction
+        direction = d;
     }
-    if ( direction == MOVE_NO )
+    if (direction == MOVE_NO)
     {
         return false;    // no direction given. No move possible
     }
-    if ( !current.CanMove(id, direction) )
+    if (!current.CanMove(id, direction))
     {
         return false;    // Ignore if token id can not be moved in direction d
     }

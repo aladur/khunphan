@@ -46,7 +46,7 @@ enum tTimeFormat
     RTIME_MM_ss      = 326   // Format:   +MM.ss
 };
 
-#define MAX_COUNTER 8
+#define MAX_COUNTER (sizeof(tEventCounter) / sizeof(MOVE_COUNTER))
 
 
 class BTime;
@@ -67,21 +67,17 @@ public:
     };
     unsigned long GetTotalTime();             // Returns the total elapsed time
                                               // in milliseconds
-    std::string GetTotalTime(tTimeFormat
-                             formatID);       // Return a formatted time string
-
-    void SetEventCounter(unsigned short i,
-                         unsigned int n);     // sets the current value of
-                                              // event counter i to n
-    int  GetEventCounter(unsigned short
-                         i);                  // returns the current value of
+    std::string GetTotalTime(tTimeFormat      // Return a formatted time string
+                             formatID);
+    void SetEventCounter(tEventCounter i,     // sets the current value of
+                         unsigned int n);     // event counter i to n
+    int  GetEventCounter(tEventCounter i);    // returns the current value of
                                               // event counter i
-    void IncEventCounter(unsigned short i,
+    void IncEventCounter(tEventCounter i,
                          unsigned int n = 1); // increment event counter i by n
-    void DecEventCounter(unsigned short i,
+    void DecEventCounter(tEventCounter i,
                          unsigned int n = 1); // decrement event counter i by n
-    void ResetEventCounter(unsigned short
-                           i);                // Reset event counter i
+    void ResetEventCounter(tEventCounter i);  // Reset event counter i
 protected:
     std::string FormatTime(tTimeFormat formatID, unsigned int t);
 

@@ -346,7 +346,9 @@ void KPSdl2UserInterface::PostWindowRedisplay()
 
 void KPSdl2UserInterface::MouseClick( int button, int state, int x, int y )
 {
-    int kpState, kpButton;
+    tMouseEvent  kpEvent;
+    tMouseButton kpButton;
+    bool isValid = true;
 
     switch (button)
     {
@@ -360,20 +362,27 @@ void KPSdl2UserInterface::MouseClick( int button, int state, int x, int y )
             kpButton = KP_RIGHT_MB;
             break;
         default:
-            kpButton = 0;
+            isValid = false;
+            break;
     }
+
     switch (state)
     {
         case SDL_PRESSED:
-            kpState = KP_BUTTON_PRESS;
+            kpEvent = KP_BUTTON_PRESS;
             break;
         case SDL_RELEASED:
-            kpState = KP_BUTTON_RELEASE;
+            kpEvent = KP_BUTTON_RELEASE;
             break;
         default:
-            kpState = 0;
+            isValid = false;
+            break;
     }
-    pState->MouseClick(this, kpButton, kpState, x, y);
+
+    if (isValid)
+    {
+        pState->MouseClick(this, kpButton, kpEvent, x, y);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////

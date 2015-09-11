@@ -173,8 +173,8 @@ void KPstate::Draw(KPstateContext *pContext)
     delete pTime;
 }
 
-int  KPstate::EvaluateMouseClick(KPstateContext *pContext, int button,
-                                 int state, int x, int y)
+int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
+                                 tMouseEvent event, int x, int y)
 {
     KPmenu &menu = pContext->GetMenu();
 
@@ -183,7 +183,7 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, int button,
 
     while (!Signal && i < menu.SchildArray.size())
     {
-        Signal = menu.SchildArray[i++]->Maustaste(button,state,x,y,
+        Signal = menu.SchildArray[i++]->Maustaste(button,event,x,y,
                  pContext->GetUserInterface());
     }
 
@@ -195,7 +195,7 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, int button,
         {
             break;
         }
-        Signal = it->second->Maustaste(button, state, x, y,
+        Signal = it->second->Maustaste(button, event, x, y,
                                        pContext->GetUserInterface());
     }
 
@@ -281,7 +281,7 @@ void KPstate::PlayAudioForInitialize(KPstateContext *pContext)
 // Event Handling
 /////////////////////////////////////////////////////////////////////
 
-void KPstate::MouseClick(KPstateContext *, int, int, int, int)
+void KPstate::MouseClick(KPstateContext *, tMouseButton, tMouseEvent, int, int)
 {
 }
 

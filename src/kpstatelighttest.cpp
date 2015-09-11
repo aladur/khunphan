@@ -81,10 +81,11 @@ tKPMenuState KPstateLightTest::ESCKeyAction (KPstateContext *pContext)
     return KPState_Shutdown;
 }
 
-void  KPstateLightTest::MouseClick (KPstateContext *pContext, int button,
-                                    int state, int x, int y)
+void  KPstateLightTest::MouseClick (KPstateContext *pContext,
+                                    tMouseButton button, tMouseEvent event,
+                                    int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
+    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {
@@ -92,23 +93,24 @@ void  KPstateLightTest::MouseClick (KPstateContext *pContext, int button,
             pContext->ChangeState(KPState_Shutdown);
             break;
         default:
-            HandleMouseClick(pContext, button, state, x, y);
+            HandleMouseClick(pContext, button, event, x, y);
             break;
     }
 }
 
-void  KPstateLightTest::HandleMouseClick (KPstateContext *pContext, int button,
-                                          int state, int x, int y)
+void KPstateLightTest::HandleMouseClick(KPstateContext *pContext,
+                                        tMouseButton button, tMouseEvent event,
+                                        int x, int y)
 {
     static int mouse_x=0, mouse_y=0;
     float lx, ly, lz;
 
-    if (button == KP_LEFT_MB && state == KP_BUTTON_PRESS)
+    if (button == KP_LEFT_MB && event == KP_BUTTON_PRESS)
     {
         mouse_x = x; // save current mouse position
         mouse_y = y;
     }
-    else if (button == KP_LEFT_MB && state == KP_BUTTON_RELEASE)
+    else if (button == KP_LEFT_MB && event == KP_BUTTON_RELEASE)
     {
         // calculate mouse direction
         int diff_x = x - mouse_x;
@@ -119,12 +121,12 @@ void  KPstateLightTest::HandleMouseClick (KPstateContext *pContext, int button,
         pContext->GetLight().SetPosition(lx, ly, lz);
         DEBUGPRINT3("Light position x=%f y=%f z=%f\n", lx, ly, lz);
     }
-    else if (button == KP_RIGHT_MB && state == KP_BUTTON_PRESS)
+    else if (button == KP_RIGHT_MB && event == KP_BUTTON_PRESS)
     {
         mouse_x = x; // save current mouse position
         mouse_y = y;
     }
-    else if (button == KP_RIGHT_MB && state == KP_BUTTON_RELEASE)
+    else if (button == KP_RIGHT_MB && event == KP_BUTTON_RELEASE)
     {
         // calculate mouse direction
         int diff_y = -(y - mouse_y);

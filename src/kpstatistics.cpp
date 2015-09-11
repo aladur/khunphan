@@ -28,10 +28,7 @@
 
 KPStatistics::KPStatistics() : pTime(NULL), time(0), stopWatchActive(false)
 {
-    for (unsigned short i = 0; i < MAX_COUNTER; i++)
-    {
-        ResetEventCounter(i);
-    }
+    Reset();
 }
 
 KPStatistics::~KPStatistics()
@@ -44,10 +41,9 @@ void KPStatistics::Reset()
 {
     time            = 0;
     stopWatchActive = false;
-    for (unsigned short i = 0; i < MAX_COUNTER; i++)
-    {
-        ResetEventCounter(i);
-    }
+    ResetEventCounter(MOVE_COUNTER);
+    ResetEventCounter(MOVE_WITH_HELP_CNT);
+    ResetEventCounter(USED_CHEATS_CNT);
 }
 
 void KPStatistics::Start()
@@ -92,7 +88,7 @@ unsigned long KPStatistics::GetTotalTime()
     }
 }
 
-int KPStatistics::GetEventCounter(unsigned short i)
+int KPStatistics::GetEventCounter(tEventCounter i)
 {
     if (i < MAX_COUNTER)
     {
@@ -101,7 +97,7 @@ int KPStatistics::GetEventCounter(unsigned short i)
     return 0;
 }
 
-void KPStatistics::SetEventCounter(unsigned short i, unsigned int n)
+void KPStatistics::SetEventCounter(tEventCounter i, unsigned int n)
 {
     if (i < MAX_COUNTER)
     {
@@ -109,7 +105,7 @@ void KPStatistics::SetEventCounter(unsigned short i, unsigned int n)
     }
 }
 
-void KPStatistics::IncEventCounter(unsigned short i, unsigned int n /*= 1*/)
+void KPStatistics::IncEventCounter(tEventCounter i, unsigned int n /*= 1*/)
 {
     if (i < MAX_COUNTER)
     {
@@ -117,7 +113,7 @@ void KPStatistics::IncEventCounter(unsigned short i, unsigned int n /*= 1*/)
     }
 }
 
-void KPStatistics::DecEventCounter(unsigned short i, unsigned int n /*= 1*/)
+void KPStatistics::DecEventCounter(tEventCounter i, unsigned int n /*= 1*/)
 {
     if (i < MAX_COUNTER)
     {
@@ -125,7 +121,7 @@ void KPStatistics::DecEventCounter(unsigned short i, unsigned int n /*= 1*/)
     }
 }
 
-void KPStatistics::ResetEventCounter(unsigned short i)
+void KPStatistics::ResetEventCounter(tEventCounter i)
 {
     if (i < MAX_COUNTER)
     {

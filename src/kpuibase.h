@@ -86,7 +86,8 @@ public:
     void Display();
     void Reshape(int x, int y);
     virtual void Timer(int value) = 0;
-    virtual void MouseClick(int button, int state, int x, int y) = 0;
+    virtual void MouseClick(int button, int state,
+                            int x, int y) = 0;
 
 protected:
     void DisplayFPS(float renderTime);

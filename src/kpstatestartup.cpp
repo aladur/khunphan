@@ -120,10 +120,11 @@ void KPstateStartUp::KeyPressed (KPstateContext *pContext, unsigned char key,
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
-void KPstateStartUp::MouseClick (KPstateContext *pContext, int, int state,
+void KPstateStartUp::MouseClick (KPstateContext *pContext,
+                                 tMouseButton, tMouseEvent event,
                                  int, int)
 {
-    if (fullInitialized && state == KP_BUTTON_RELEASE)
+    if (fullInitialized && event == KP_BUTTON_RELEASE)
     {
         if (KPConfig::Instance().Language)
         {

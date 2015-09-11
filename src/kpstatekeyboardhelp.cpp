@@ -96,10 +96,11 @@ void KPstateKeyboardHelp::KeyPressed (KPstateContext *pContext,
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
-void  KPstateKeyboardHelp::MouseClick (KPstateContext *pContext, int button,
-                                       int state, int x, int y)
+void  KPstateKeyboardHelp::MouseClick (KPstateContext *pContext,
+                                       tMouseButton button, tMouseEvent event,
+                                       int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
+    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {

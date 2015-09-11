@@ -27,13 +27,14 @@
 
 // returns true if event has been processed
 
-bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext, int button,
-                                      int state, int x, int y)
+bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
+                                      tMouseButton button, tMouseEvent event,
+                                      int x, int y)
 {
     static tKPTokenID token = TK_EMPTY;
     static int mouse_x=0, mouse_y=0;
 
-    if (button == KP_LEFT_MB && state == KP_BUTTON_PRESS)
+    if (button == KP_LEFT_MB && event == KP_BUTTON_PRESS)
     {
         // Pressing left menu button: remind token
         token = pContext->GetBoardView().Selection(&pContext->GetCamera(),
@@ -42,7 +43,7 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext, int button,
         mouse_y = y;
         return true;
     }
-    else if (button == KP_LEFT_MB && state == KP_BUTTON_RELEASE)
+    else if (button == KP_LEFT_MB && event == KP_BUTTON_RELEASE)
     {
         // Releasing left mouse button: move token
         if ( token != TK_EMPTY )

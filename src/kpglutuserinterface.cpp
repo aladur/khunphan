@@ -273,9 +273,11 @@ void KPGlutUserInterface::PostWindowRedisplay()
     glutPostWindowRedisplay( windowID );
 }
 
-void KPGlutUserInterface::MouseClick( int button, int state, int x, int y )
+void KPGlutUserInterface::MouseClick(int button, int state, int x, int y )
 {
-    int kpState, kpButton;
+    tMouseEvent  kpEvent;
+    tMouseButton kpButton;
+    bool isValid = true;
 
     switch (button)
     {
@@ -289,20 +291,25 @@ void KPGlutUserInterface::MouseClick( int button, int state, int x, int y )
             kpButton = KP_RIGHT_MB;
             break;
         default:
-            kpButton = 0;
+            isValid = false;
     }
+
     switch (state)
     {
         case GLUT_DOWN:
-            kpState = KP_BUTTON_PRESS;
+            kpEvent = KP_BUTTON_PRESS;
             break;
         case GLUT_UP:
-            kpState = KP_BUTTON_RELEASE;
+            kpEvent = KP_BUTTON_RELEASE;
             break;
         default:
-            kpState = 0;
+            isValid = false;
     }
-    pState->MouseClick(this, kpButton, kpState, x, y);
+
+    if (isValid)
+    {
+        pState->MouseClick(this, kpButton, kpEvent, x, y);
+    }
 }
 #endif
 

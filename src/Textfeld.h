@@ -38,7 +38,7 @@ public:
     void Initialisiere(const char[]);
     void InitialisiereKDL(const char[]);
     void male();
-    void Positioniere(float,float,float,int pos = A_LINKS);
+    void Positioniere(float,float,float,tKPAlignment pos = A_LINKS);
     void SetzeText(const char[]);
     void SetzeTextKDL(const char[]);
     int  FormatText(const char *format, ...);
@@ -70,7 +70,7 @@ public:
     {
         return Signal;
     };
-    int Maustaste(int,int,int,int, KPUIBase &);
+    int Maustaste(tMouseButton,tMouseEvent,int,int, KPUIBase &);
 
     void SetzeMaxBreite(float);
 

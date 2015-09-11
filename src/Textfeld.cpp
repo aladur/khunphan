@@ -234,10 +234,10 @@ void Textfeld::male()
     }
 }
 
-void Textfeld::Positioniere(float X,float Y,float H,int A)
+void Textfeld::Positioniere(float X, float Y, float H, tKPAlignment A)
 {
 
-    if (A)
+    if (A != A_EGAL)
     {
         Ausrichtung=A;
     }
@@ -726,7 +726,8 @@ void Textfeld::GeneriereDisplayList()
     }
 }
 
-int Textfeld::Maustaste(int Taste,int Richtung,int x_,int y_, KPUIBase &ui)
+int Textfeld::Maustaste(tMouseButton button, tMouseEvent event,
+                        int x_, int y_, KPUIBase &ui)
 {
     GLfloat xf=16.0f*x_/ ui.GetValue(KP_WINDOW_WIDTH);
     GLfloat yf=12.0f-12.0f*y_/ ui.GetValue(KP_WINDOW_HEIGHT);
@@ -734,9 +735,9 @@ int Textfeld::Maustaste(int Taste,int Richtung,int x_,int y_, KPUIBase &ui)
         Signal!=0 &&
         x<=xf && xf<=x+Hoehe*Aspekt && y<=yf && yf<=y+Hoehe)
     {
-        if (Taste==KP_LEFT_MB)
+        if (button == KP_LEFT_MB)
         {
-            if (Richtung==KP_BUTTON_PRESS)
+            if (event == KP_BUTTON_PRESS)
             {
                 Angewaehlt();
                 return -1;

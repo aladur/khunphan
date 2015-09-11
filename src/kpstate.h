@@ -24,6 +24,7 @@
 
 #include "KPstateContext.h"
 #include "sprache.h"
+#include "misc1.h"
 
 
 enum tKPMenuState
@@ -73,8 +74,9 @@ public:
     virtual void Initialize(KPstateContext *pContext, const KPstate *pOldState);
     virtual void Update(KPstateContext *pContext, int factor);
     virtual void Draw(KPstateContext *pContext);
-    virtual void MouseClick           (KPstateContext *pContext, int button,
-                                       int state, int x, int y);
+    virtual void MouseClick           (KPstateContext *pContext,
+                                       tMouseButton button, tMouseEvent event,
+                                       int x, int y);
     virtual void MouseMotion          (KPstateContext *pContext, int x, int y);
     virtual void KeyPressed           (KPstateContext *pContext,
                                        unsigned char key, int x, int y);
@@ -87,8 +89,8 @@ protected:
     virtual void UpdateDisplay(KPstateContext *pContext);
     virtual void PlayAudioForInitialize(KPstateContext *pContext);
 
-    int  EvaluateMouseClick(KPstateContext *pContext, int button, int state,
-                            int x, int y);
+    int  EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
+                            tMouseEvent event, int x, int y);
     bool EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
                              int x, int y);
     tKPMenuState DefaultKeyPressed(KPstateContext *pContext, unsigned char key,

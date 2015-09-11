@@ -35,8 +35,8 @@ public:
         return KPState_Tutorial1;
     };
     void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-    void MouseClick (KPstateContext *pContext, int button, int state,
-                     int x, int y);
+    void MouseClick (KPstateContext *pContext, tMouseButton button,
+                     tMouseEvent event, int x, int y);
     void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
     void UpdateDisplay(KPstateContext *pContext);
     tKPMenuState ESCKeyAction (KPstateContext *);

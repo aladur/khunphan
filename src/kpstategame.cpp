@@ -183,10 +183,11 @@ tKPMenuState KPstateGame::ESCKeyAction (KPstateContext *pContext)
     return KPState_MainMenu;
 }
 
-void  KPstateGame::MouseClick (KPstateContext *pContext, int button, int state,
+void  KPstateGame::MouseClick (KPstateContext *pContext,
+                               tMouseButton button, tMouseEvent event,
                                int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
+    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     if (!bIsPause && !bGameIsSolved)
     {
@@ -212,7 +213,7 @@ void  KPstateGame::MouseClick (KPstateContext *pContext, int button, int state,
                 UpdateDisplay(pContext);
                 break;
             default:
-                MouseMoveToken(pContext, button, state, x, y);
+                MouseMoveToken(pContext, button, event, x, y);
                 break;
         }
     }

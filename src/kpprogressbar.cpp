@@ -92,7 +92,7 @@ void KPprogressBar::StartAnimation()
 }
 
 void KPprogressBar::SetPosition(float X, float Y, float Width, float Height,
-                                int Alignment)
+                                tKPAlignment Alignment)
 {
     switch (Alignment)
     {

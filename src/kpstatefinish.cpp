@@ -61,10 +61,10 @@ void KPstateFinish::KeyPressed (KPstateContext *pContext, unsigned char key,
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
-void  KPstateFinish::MouseClick (KPstateContext *pContext, int button,
-                                 int state, int x, int y)
+void  KPstateFinish::MouseClick (KPstateContext *pContext, tMouseButton button,
+                                 tMouseEvent event, int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
+    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {

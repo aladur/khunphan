@@ -211,23 +211,27 @@ enum tKPDirection
 
 enum tKPAlignment
 {
-    A_EGAL   = 0,
-    A_LINKS  = 1,
-    A_MITTE  = 2,
-    A_RECHTS = 3
+    A_EGAL,
+    A_LINKS,
+    A_MITTE,
+    A_RECHTS
 };
 
 enum tEventCounter
 {
-    MOVE_COUNTER       = 0,
-    MOVE_WITH_HELP_CNT = 1,
-    USED_CHEATS_CNT    = 2
+    MOVE_COUNTER,
+    MOVE_WITH_HELP_CNT,
+    USED_CHEATS_CNT
 };
 
-enum tMouseEvents
+enum tMouseEvent
 {
     KP_BUTTON_RELEASE  = 44,
     KP_BUTTON_PRESS    = 45,
+};
+
+enum tMouseButton
+{
     KP_LEFT_MB         = 46,
     KP_MIDDLE_MB       = 47,
     KP_RIGHT_MB        = 48

@@ -353,7 +353,8 @@ int Schild::Animiere(int Faktor)
     }
 }
 
-int Schild::Maustaste(int Taste,int Richtung,int x,int y, KPUIBase &ui)
+int Schild::Maustaste(tMouseButton button, tMouseEvent event,
+                      int x, int y, KPUIBase &ui)
 {
     GLfloat xf=16.0f*x/ ui.GetValue(KP_WINDOW_WIDTH);
     GLfloat yf=12.0f-12.0f*y/ ui.GetValue(KP_WINDOW_HEIGHT);
@@ -362,9 +363,9 @@ int Schild::Maustaste(int Taste,int Richtung,int x,int y, KPUIBase &ui)
         Signal!=0 &&
         ax<=xf && xf<=bx && ay<=yf && yf<=by)
     {
-        if (Taste==KP_LEFT_MB)
+        if (button == KP_LEFT_MB)
         {
-            if (Richtung==KP_BUTTON_PRESS)
+            if (event == KP_BUTTON_PRESS)
             {
                 Angewaehlt();
                 return -1;

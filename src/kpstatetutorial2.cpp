@@ -105,10 +105,11 @@ tKPMenuState KPstateTutorial2::ESCKeyAction (KPstateContext *pContext)
     return (tKPMenuState)pContext->GetMenu().RestoreLastStateId();
 }
 
-void  KPstateTutorial2::MouseClick (KPstateContext *pContext, int button,
-                                    int state, int x, int y)
+void  KPstateTutorial2::MouseClick (KPstateContext *pContext,
+                                    tMouseButton button, tMouseEvent event,
+                                    int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, state, x, y);
+    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {
