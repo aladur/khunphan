@@ -40,9 +40,9 @@ void KPstateSettings::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(4,2.5,12,8.5);
-    menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
-    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(4,2.5,12,8.5);
+    menu.SchildArray[SHLD_LOGO].Positioniere(4,9,12,11);
+    menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
     menu.TextfeldArray[T_EINSTELLUNGEN]->Positioniere(8,8,1,A_MITTE);
     menu.TextfeldArray[T_EINSTELLUNGEN]->VollSichtbar();

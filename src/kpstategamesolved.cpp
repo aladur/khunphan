@@ -84,10 +84,10 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
     KPmenu &menu             = pContext->GetMenu();
     KPStatistics &statistics = pContext->GetStatistics();
 
-    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(1,3.0,15,8.5);
+    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(1,3.0,15,8.5);
 
-    menu.SchildArray[SHLD_LOGO]->Positioniere(5,9,11,11);
-    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_LOGO].Positioniere(5,9,11,11);
+    menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
     float y = 7.5;
     menu.TextfeldArray[T_SOLVED1]->FormatText(NULL,
@@ -186,6 +186,7 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext)
     }
     pContext->ChangeState(newState);
 }
+
 void KPstateGameSolved::PlayAudioForInitialize(KPstateContext *pContext)
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_GAMESOLVED);

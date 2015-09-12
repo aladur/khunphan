@@ -40,30 +40,26 @@ KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(KPState_Invalid)
 KPmenu::~KPmenu()
 {
     tTextfeldArray::iterator tit;
-    tSchildArray::iterator sit;
 
     for (tit = TextfeldArray.begin(); tit != TextfeldArray.end(); ++tit)
     {
         delete tit->second;
-    }
-    for (sit = SchildArray.begin(); sit != SchildArray.end(); ++sit)
-    {
-        delete sit->second;
     }
 }
 
 bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
                         int Language /* = 0*/)
 {
-    SchildArray[SHLD_MENUBACKGROUND] = new Schild;
-    SchildArray[SHLD_SHADER        ] = new Schild;
-    SchildArray[SHLD_LOGO          ] = new Schild;
-    SchildArray[SHLD_SOUND_ON      ] = new Schild;
-    SchildArray[SHLD_SOUND_OFF     ] = new Schild;
-    SchildArray[SHLD_MUSIC_ON      ] = new Schild;
-    SchildArray[SHLD_MUSIC_OFF     ] = new Schild;
-    SchildArray[SHLD_MENUBACKGROUND]->Initialisiere(0.7f,0.7f,0.7f);
-    SchildArray[SHLD_SHADER        ]->Initialisiere(0.0, 0.0, 0.0);
+    SchildArray[SHLD_MENUBACKGROUND] = Schild();
+    SchildArray[SHLD_SHADER        ] = Schild();
+    SchildArray[SHLD_LOGO          ] = Schild();
+    SchildArray[SHLD_SOUND_ON      ] = Schild();
+    SchildArray[SHLD_SOUND_OFF     ] = Schild();
+    SchildArray[SHLD_MUSIC_ON      ] = Schild();
+    SchildArray[SHLD_MUSIC_OFF     ] = Schild();
+
+    SchildArray[SHLD_MENUBACKGROUND].Initialisiere(0.7f,0.7f,0.7f);
+    SchildArray[SHLD_SHADER        ].Initialisiere(0.0, 0.0, 0.0);
 
     Update(TextureName, TextureSize, Nearest);
 
@@ -86,12 +82,10 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
     DEBUGPRINT("Generating Menu Display Lists\n");
 
     tTextfeldArray::iterator it;
-    //int i=0;
 
     for (it = TextfeldArray.begin(); it != TextfeldArray.end(); ++it)
     {
         it->second->GeneriereDisplayList();
-        //if ((++i % 10) == 0) { printf("."); fflush(stdout); }
     }
 
     UpdateFPS(0);
@@ -108,15 +102,16 @@ void KPmenu::Update(const char *TextureName, int TextureSize, bool Nearest,
     Textfeld::PreInitialize(TextureName, TextureSize, Nearest,
                             &KPConfig::Instance(), always);
 
-    SchildArray[SHLD_LOGO]->Initialisiere(TextureName, TextureSize, Nearest,
-                                          true, "logo", &KPConfig::Instance(), always);
-    SchildArray[SHLD_SOUND_ON]->Initialisiere(TextureName, TextureSize, Nearest,
+    SchildArray[SHLD_LOGO].Initialisiere(TextureName, TextureSize, Nearest,
+                                         true, "logo", &KPConfig::Instance(),
+                                         always);
+    SchildArray[SHLD_SOUND_ON].Initialisiere(TextureName, TextureSize, Nearest,
             true, "sound_on", &KPConfig::Instance(), always);
-    SchildArray[SHLD_SOUND_OFF]->Initialisiere(TextureName, TextureSize,
+    SchildArray[SHLD_SOUND_OFF].Initialisiere(TextureName, TextureSize,
             Nearest, true, "soundmusic_off", &KPConfig::Instance(), always);
-    SchildArray[SHLD_MUSIC_ON]->Initialisiere(TextureName, TextureSize, Nearest,
+    SchildArray[SHLD_MUSIC_ON].Initialisiere(TextureName, TextureSize, Nearest,
             true, "music_on", &KPConfig::Instance(), always);
-    SchildArray[SHLD_MUSIC_OFF]->Initialisiere(TextureName, TextureSize,
+    SchildArray[SHLD_MUSIC_OFF].Initialisiere(TextureName, TextureSize,
             Nearest, true, "soundmusic_off", &KPConfig::Instance(), always);
 }
 
@@ -193,9 +188,13 @@ void KPmenu::AddTextField(int number, char word[])
 
 void KPmenu::DeactivateAllLabels()
 {
-    for (unsigned int i=0; i < SchildArray.size(); i++)
+    tSchildArray::iterator it;
+
+    UpdateFPS(0);
+
+    for (it = SchildArray.begin(); it != SchildArray.end(); ++it)
     {
-        SchildArray[i]->Desaktiviere();
+        it->second.Desaktiviere();
     }
 }
 
@@ -219,10 +218,12 @@ void KPmenu::Draw()
     tSchildArray::iterator sit;
 
     for (sit = SchildArray.begin(); sit != SchildArray.end(); ++sit)
-        if (sit->second != SchildArray[SHLD_SHADER])
+    {
+        if (sit->first != SHLD_SHADER)
         {
-            sit->second->male();
+            sit->second.male();
         }
+    }
 
     tTextfeldArray::iterator tit;
 
@@ -237,7 +238,7 @@ void KPmenu::Draw()
 
     // This should always be the last one because it
     // should shade all other drawing primitives
-    SchildArray[SHLD_SHADER]->male();
+    SchildArray[SHLD_SHADER].male();
 
     glDisable(GL_BLEND);
     glEnable(GL_LIGHTING);

@@ -41,10 +41,10 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(2,2.5,14,8.5);
+    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(2,2.5,14,8.5);
 
-    menu.SchildArray[SHLD_LOGO]->Positioniere(5,9,11,11);
-    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_LOGO].Positioniere(5,9,11,11);
+    menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
     menu.TextfeldArray[T_SPRACHAUSWAHL]->Positioniere(8,8,1,A_MITTE);
     menu.TextfeldArray[T_SPRACHAUSWAHL]->VollSichtbar();

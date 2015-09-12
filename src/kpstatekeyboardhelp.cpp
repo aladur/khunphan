@@ -40,10 +40,10 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(2,2.5,14,9.0);
+    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(2,2.5,14,9.0);
 
-    menu.SchildArray[SHLD_LOGO]->Positioniere(5,9,11,11);
-    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_LOGO].Positioniere(5,9,11,11);
+    menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
     bool fullScreen = pContext->GetUserInterface().CanToggleFullScreen();
 

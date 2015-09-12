@@ -53,10 +53,10 @@ void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext)
     // every thing which should be permanently be visible within this
     // state should be listed here:
 
-    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(2,2.5,14,8.5);
+    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(2,2.5,14,8.5);
 
-    menu.SchildArray[SHLD_LOGO]->Positioniere(5,9,11,11);
-    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_LOGO].Positioniere(5,9,11,11);
+    menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
     menu.TextfeldArray[T_HAUPTMENU     ]->Positioniere(8,8,1,A_MITTE);
     menu.TextfeldArray[T_HAUPTMENU     ]->VollSichtbar();

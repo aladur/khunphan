@@ -47,3 +47,5 @@ Release*/
 *.opensdf
 *.user
 
+# vi swap file
+*.swp

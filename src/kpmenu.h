@@ -34,22 +34,18 @@
 #include "kpstate.h"
 
 
-typedef std::map<int,Textfeld *> tTextfeldArray;
-typedef std::map<int,Schild *>   tSchildArray;
-
 #define MAX_LINE     2000
 #define MAX_FILENAME 1000
 
 typedef enum
 {
-    SHLD_MENUBACKGROUND = 0,
-    SHLD_LOGO           = 1,
-    SHLD_SOUND_ON       = 2,
-    SHLD_SOUND_OFF      = 3,
-    SHLD_MUSIC_ON       = 4,
-    SHLD_MUSIC_OFF      = 5,
-    SHLD_SHADER         = 6, // should be always the last one
-    MAX_SHLD            = 10
+    SHLD_MENUBACKGROUND,
+    SHLD_LOGO,
+    SHLD_SOUND_ON,
+    SHLD_SOUND_OFF,
+    SHLD_MUSIC_ON,
+    SHLD_MUSIC_OFF,
+    SHLD_SHADER, // should be always the last one
 } tSchild;
 
 typedef enum
@@ -96,6 +92,9 @@ typedef enum
     S_TOGGLE_SOUND_ON             = 160,
     S_TOGGLE_MUSIC_ON             = 161
 } tSignal;
+
+typedef std::map<int,Textfeld *>  tTextfeldArray;
+typedef std::map<tSchild, Schild> tSchildArray;
 
 class KPstate;
 

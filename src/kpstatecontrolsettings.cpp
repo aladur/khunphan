@@ -47,10 +47,10 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext)
     float y;
     float dy = 0.6;
 
-    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(2,3.5,14,8.5);
+    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(2,3.5,14,8.5);
 
-    menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
-    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_LOGO].Positioniere(4,9,12,11);
+    menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
     menu.TextfeldArray[T_EINSTELLUNGEN]->Positioniere(4,8,1);
     menu.TextfeldArray[T_EINSTELLUNGEN]->VollSichtbar();

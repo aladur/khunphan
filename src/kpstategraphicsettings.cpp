@@ -143,10 +143,10 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
         Quality=0;
     }
 
-    menu.SchildArray[SHLD_MENUBACKGROUND]->Positioniere(2,1.7,14,9.5);
+    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(2,1.7,14,9.5);
 
-    menu.SchildArray[SHLD_LOGO]->Positioniere(4,10,12,12);
-    menu.SchildArray[SHLD_LOGO]->VollSichtbar();
+    menu.SchildArray[SHLD_LOGO].Positioniere(4,10,12,12);
+    menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
     menu.TextfeldArray[T_EINSTELLUNGEN ]->Positioniere(4,9,1);
     menu.TextfeldArray[T_EINSTELLUNGEN ]->VollSichtbar();

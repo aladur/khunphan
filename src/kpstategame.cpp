@@ -76,8 +76,8 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
             KPConfig::Instance().SoundVolume : 0);
     pContext->GetUserInterface().PlayMusic(KPConfig::Instance().MusicOn, false);
 
-    menu.SchildArray[SHLD_LOGO]->Positioniere(0,11,4,12);
-    menu.SchildArray[SHLD_LOGO]->SetzeSignal(S_LOGO);
+    menu.SchildArray[SHLD_LOGO].Positioniere(0,11,4,12);
+    menu.SchildArray[SHLD_LOGO].SetzeSignal(S_LOGO);
 
     pContext->GetMenu().TextfeldArray[T_MINMOVECOUNT]->FormatText(NULL,
             pContext->GetBoardView().GetMovesToSolve());
@@ -96,27 +96,27 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
     {
         if (KPConfig::Instance().SoundOn)
         {
-            menu.SchildArray[SHLD_SOUND_ON]->Positioniere(0.3f,0.1f,1,0.5);
-            menu.SchildArray[SHLD_SOUND_ON]->SetzeSignal(S_TOGGLE_SOUND_ON);
-            menu.SchildArray[SHLD_SOUND_ON]->VollSichtbar();
+            menu.SchildArray[SHLD_SOUND_ON].Positioniere(0.3f,0.1f,1,0.5);
+            menu.SchildArray[SHLD_SOUND_ON].SetzeSignal(S_TOGGLE_SOUND_ON);
+            menu.SchildArray[SHLD_SOUND_ON].VollSichtbar();
         }
         else
         {
-            menu.SchildArray[SHLD_SOUND_OFF]->Positioniere(0.3f,0.1f,1,0.5);
-            menu.SchildArray[SHLD_SOUND_OFF]->SetzeSignal(S_TOGGLE_SOUND_ON);
-            menu.SchildArray[SHLD_SOUND_OFF]->VollSichtbar();
+            menu.SchildArray[SHLD_SOUND_OFF].Positioniere(0.3f,0.1f,1,0.5);
+            menu.SchildArray[SHLD_SOUND_OFF].SetzeSignal(S_TOGGLE_SOUND_ON);
+            menu.SchildArray[SHLD_SOUND_OFF].VollSichtbar();
         }
         if (KPConfig::Instance().MusicOn)
         {
-            menu.SchildArray[SHLD_MUSIC_ON]->Positioniere(1.0f,0.1f,1.6f,0.5);
-            menu.SchildArray[SHLD_MUSIC_ON]->SetzeSignal(S_TOGGLE_MUSIC_ON);
-            menu.SchildArray[SHLD_MUSIC_ON]->VollSichtbar();
+            menu.SchildArray[SHLD_MUSIC_ON].Positioniere(1.0f,0.1f,1.6f,0.5);
+            menu.SchildArray[SHLD_MUSIC_ON].SetzeSignal(S_TOGGLE_MUSIC_ON);
+            menu.SchildArray[SHLD_MUSIC_ON].VollSichtbar();
         }
         else
         {
-            menu.SchildArray[SHLD_MUSIC_OFF]->Positioniere(1.0f,0.1f,1.6f,0.5);
-            menu.SchildArray[SHLD_MUSIC_OFF]->SetzeSignal(S_TOGGLE_MUSIC_ON);
-            menu.SchildArray[SHLD_MUSIC_OFF]->VollSichtbar();
+            menu.SchildArray[SHLD_MUSIC_OFF].Positioniere(1.0f,0.1f,1.6f,0.5);
+            menu.SchildArray[SHLD_MUSIC_OFF].SetzeSignal(S_TOGGLE_MUSIC_ON);
+            menu.SchildArray[SHLD_MUSIC_OFF].VollSichtbar();
         }
     }
 
@@ -278,17 +278,17 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */)
 
     if (bIsPause)
     {
-        menu.SchildArray[SHLD_LOGO]->Positioniere(4,9,12,11);
-        menu.SchildArray[SHLD_SHADER]->Positioniere(0,0,16,12);
-        menu.SchildArray[SHLD_SHADER]->Eingeblendet();
+        menu.SchildArray[SHLD_LOGO].Positioniere(4,9,12,11);
+        menu.SchildArray[SHLD_SHADER].Positioniere(0,0,16,12);
+        menu.SchildArray[SHLD_SHADER].Eingeblendet();
         menu.TextfeldArray[T_PAUSE]->Positioniere(8,6,3,A_MITTE);
         menu.TextfeldArray[T_PAUSE]->VollSichtbar();
     }
     else
     {
-        menu.SchildArray[SHLD_LOGO]->Positioniere(0,11,4,12);
-        menu.SchildArray[SHLD_LOGO]->SetzeSignal(S_LOGO);
-        menu.SchildArray[SHLD_SHADER]->Desaktiviere();
+        menu.SchildArray[SHLD_LOGO].Positioniere(0,11,4,12);
+        menu.SchildArray[SHLD_LOGO].SetzeSignal(S_LOGO);
+        menu.SchildArray[SHLD_SHADER].Desaktiviere();
         menu.TextfeldArray[T_PAUSE]->Desaktiviere();
     }
     StartAnimation();

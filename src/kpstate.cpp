@@ -110,17 +110,20 @@ void KPstate::Update(KPstateContext *pContext, int factor)
             HookAfterAnimationFinished(pContext);
         }
 
-        for (i = 0; i < menu.SchildArray.size(); i++)
+        tSchildArray::iterator sit;
+
+        for (sit = menu.SchildArray.begin(); sit != menu.SchildArray.end();
+             ++sit)
         {
-            menu.SchildArray[i]->Animiere(factor);
+            sit->second.Animiere(factor);
         }
 
-        tTextfeldArray::iterator it;
+        tTextfeldArray::iterator tit;
 
-        for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end();
-             ++it)
+        for (tit = menu.TextfeldArray.begin(); tit != menu.TextfeldArray.end();
+             ++tit)
         {
-            it->second->Animiere(factor);
+            tit->second->Animiere(factor);
         }
     }
 
@@ -181,22 +184,31 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
     int Signal = 0;
     unsigned int i = 0;
 
-    while (!Signal && i < menu.SchildArray.size())
+    tSchildArray::iterator sit;
+
+    for (sit = menu.SchildArray.begin(); sit != menu.SchildArray.end(); ++sit)
     {
-        Signal = menu.SchildArray[i++]->Maustaste(button,event,x,y,
+        Signal = sit->second.Maustaste(button,event,x,y,
                  pContext->GetUserInterface());
+
+        if (Signal)
+        {
+            return Signal;
+        }
     }
 
-    tTextfeldArray::iterator it;
+    tTextfeldArray::iterator tit;
 
-    for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
+    for (tit = menu.TextfeldArray.begin(); tit != menu.TextfeldArray.end();
+         ++tit)
     {
         if (Signal)
         {
             break;
         }
-        Signal = it->second->Maustaste(button, event, x, y,
-                                       pContext->GetUserInterface());
+
+        Signal = tit->second->Maustaste(button, event, x, y,
+                                        pContext->GetUserInterface());
     }
 
     return Signal;

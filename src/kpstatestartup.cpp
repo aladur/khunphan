@@ -82,7 +82,7 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
     // every thing which should be permanently be visible within this
     // state should be listed here:
 
-    menu.SchildArray[SHLD_LOGO]->Positioniere(5,9,11,11);
+    menu.SchildArray[SHLD_LOGO].Positioniere(5,9,11,11);
 
     if (!fullInitialized)
     {
