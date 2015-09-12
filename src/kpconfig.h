@@ -58,6 +58,7 @@ public:
     void WriteToFile();
     void DebugPrint();
     std::string GetFileName();
+    std::string GetFileVersion();
     std::string GetDirectory(tKPDir directoryID) const;
     std::vector<std::string> GetTextureNames() const;
     void SetFileName(const char *fileName);
@@ -101,6 +102,7 @@ public:
 protected:
     KPConfig();
     std::string fileName;
+    std::string fileVersion;
 
 private:
     static KPConfig *instance;

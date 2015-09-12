@@ -30,9 +30,10 @@
 #include "kpmenu.h"
 #include "kpconfig.h"
 #include "sprinter.h"
+#include "kpstate.h"
 
 
-KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(0)
+KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(KPState_Invalid)
 {
 }
 
@@ -245,5 +246,5 @@ void KPmenu::Draw()
 
 void KPmenu::UpdateFPS(int fps, float renderTime)
 {
-    TextfeldArray[T_FPS]->FormatText(NULL, fps, (float)renderTime);
+    TextfeldArray[T_FPS]->FormatText(NULL, fps, renderTime);
 }

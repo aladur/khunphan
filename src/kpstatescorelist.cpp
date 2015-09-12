@@ -142,5 +142,5 @@ void  KPstateScoreList::MouseClick (KPstateContext *pContext,
 
 tKPMenuState KPstateScoreList::ESCKeyAction (KPstateContext *pContext)
 {
-    return (tKPMenuState)pContext->GetMenu().RestoreLastStateId();
+    return pContext->GetMenu().RestoreLastStateId();
 }

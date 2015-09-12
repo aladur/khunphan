@@ -102,7 +102,7 @@ tKPMenuState KPstateTutorial2::ESCKeyAction (KPstateContext *pContext)
 {
     pContext->GetCamera().SetzeRundflug(true);
     pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
-    return (tKPMenuState)pContext->GetMenu().RestoreLastStateId();
+    return pContext->GetMenu().RestoreLastStateId();
 }
 
 void  KPstateTutorial2::MouseClick (KPstateContext *pContext,

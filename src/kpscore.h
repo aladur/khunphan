@@ -48,16 +48,20 @@ public:
     {
         delete instance;
         instance = NULL;
-    };
+    }
 
     int  GetMaxEntries()
     {
         return MAX_SCORE_ENTRIES;
-    };
+    }
     int  GetEntryCount()
     {
         return entryCount;
-    };
+    }
+    std::string GetFileVersion()
+    {
+        return fileVersion;
+    }
     void ReadFromFile();
     void WriteToFile();
     void PrintTo(FILE *fp);
@@ -75,7 +79,7 @@ public:
     void CheckPlayTime(bool state)
     {
         checkPlayTime = state;
-    };
+    }
 
 protected:
     KPscore();
@@ -83,6 +87,7 @@ protected:
     int PositionToInsert(const char *aName, unsigned int aPlayTime,
                          unsigned int aMoves, time_t aTime = 0);
     std::string fileName;
+    std::string fileVersion;
     int     entryCount;
     bool    checkPlayTime;
     tKpScoreStruct *pScore;

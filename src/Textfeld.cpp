@@ -590,7 +590,7 @@ void Textfeld::GeneriereDisplayList()
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glPushMatrix();
         p=0;
-        while ((c = (unsigned char)pString[p++]) != '\0')
+        while ((c = static_cast<unsigned char>(pString[p++])) != '\0')
         {
             Aspekt+=(rechts[c]-links[c]+4)/64.0f; // Sw: added
             glTranslatef(-links[c]/64.0f,0,0);
@@ -637,7 +637,7 @@ void Textfeld::GeneriereDisplayList()
             lastSpace  = 0;
             lineWidth  = 0.0;
 
-            while ((character = (unsigned char)pString[Pos]) &&
+            while ((character = static_cast<unsigned char>(pString[Pos])) &&
                    (lineWidth < maxWidth * 1.05))
             {
                 if (character==32)
@@ -658,7 +658,8 @@ void Textfeld::GeneriereDisplayList()
                 glPushMatrix();
                 glTranslatef(0, -lineCount * 0.7f, 0);
                 Pos=start;
-                while ((c=(unsigned char)pString[Pos++])&& Pos <= lastSpace)
+                while ((c = static_cast<unsigned char>(pString[Pos++])) &&
+                       Pos <= lastSpace)
                 {
                     glTranslatef(-links[c]/64.0f,0,0);
                     glBindTexture(GL_TEXTURE_2D, texture);
@@ -694,7 +695,7 @@ void Textfeld::GeneriereDisplayList()
                 glPushMatrix();
                 glTranslatef(0, -lineCount * 0.7f, 0);
                 Pos=start;
-                while ((c = (unsigned char)pString[Pos++]))
+                while ((c = static_cast<unsigned char>(pString[Pos++])))
                 {
                     glTranslatef(-links[c]/64.0f,0,0);
                     glBindTexture(GL_TEXTURE_2D, texture);

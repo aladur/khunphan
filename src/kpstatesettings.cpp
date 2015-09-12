@@ -108,6 +108,6 @@ tKPMenuState KPstateSettings::ESCKeyAction (KPstateContext *pContext)
       else
         return KPState_MainMenu;
     */
-    return (tKPMenuState)pContext->GetMenu().RestoreLastStateId();
-    //return (tKPMenuState)oldStateId;
+    return pContext->GetMenu().RestoreLastStateId();
+    //return oldStateId;
 }

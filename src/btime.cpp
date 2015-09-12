@@ -45,12 +45,12 @@ void BTime::ResetRelativeTime()
 
 unsigned long BTime::GetRelativeTimeMsl(bool reset /*= false*/)
 {
-    return (unsigned long)(GetRelativeTimeUsll(reset) / 1000);
+    return static_cast<unsigned long>(GetRelativeTimeUsll(reset) / 1000);
 }
 
 unsigned long BTime::GetTimeMsl()
 {
-    return (unsigned long)(GetTimeUsll() / 1000);
+    return static_cast<unsigned long>(GetTimeUsll() / 1000);
 }
 
 
@@ -70,7 +70,7 @@ QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 double BTime::GetRelativeTimeUsf(bool  reset /*= false*/)
 {
     QWord currentTime = GetTimeUsll();
-    double result = (double)(currentTime - lapTime);
+    double result = static_cast<double>(currentTime - lapTime);
     if (reset)
     {
         lapTime = currentTime;
@@ -85,7 +85,7 @@ QWord BTime::GetTimeUsll()
     struct timeval tv;
 
     gettimeofday(&tv, NULL);
-    return ((QWord)tv.tv_sec * 1000000 + tv.tv_usec);
+    return (static_cast<QWord>(tv.tv_sec) * 1000000 + tv.tv_usec);
 }
 
 // return time in us as a double value
@@ -94,7 +94,7 @@ double BTime::GetTimeUsf()
     struct timeval tv;
 
     gettimeofday(&tv, NULL);
-    return ((double)tv.tv_sec * 1000000.0 + tv.tv_usec);
+    return (static_cast<double>(tv.tv_sec) * 1000000.0 + tv.tv_usec);
 }
 #endif
 

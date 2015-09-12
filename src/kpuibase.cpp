@@ -148,26 +148,26 @@ void KPUIBase::UpdateDataModel(KPnode *pRoot)
     pBoardView->SetSolveTree(pRoot);
 }
 
-const char *KPUIBase::GetOpenGLVendor() const
+const std::string KPUIBase::GetOpenGLVendor() const
 {
-    return (const char *)glGetString(GL_VENDOR);
+    return reinterpret_cast<const char *>(glGetString(GL_VENDOR));
 }
 
-const char *KPUIBase::GetOpenGLRenderer() const
+const std::string KPUIBase::GetOpenGLRenderer() const
 {
-    return (const char *)glGetString(GL_RENDERER);
+    return reinterpret_cast<const char *>(glGetString(GL_RENDERER));
 }
 
-const char *KPUIBase::GetOpenGLVersion() const
+const std::string KPUIBase::GetOpenGLVersion() const
 {
-    return (const char *)glGetString(GL_VERSION);
+    return reinterpret_cast<const char *>(glGetString(GL_VERSION));
 }
 
 void KPUIBase::DebugPrintOpenGLVersion() const
 {
-    DEBUGPRINT1("OpenGL Vendor:   %s\n", GetOpenGLVendor()  );
-    DEBUGPRINT1("OpenGL Renderer: %s\n", GetOpenGLRenderer());
-    DEBUGPRINT1("OpenGL Version:  %s\n", GetOpenGLVersion() );
+    DEBUGPRINT1("OpenGL Vendor:   %s\n", GetOpenGLVendor().c_str()  );
+    DEBUGPRINT1("OpenGL Renderer: %s\n", GetOpenGLRenderer().c_str());
+    DEBUGPRINT1("OpenGL Version:  %s\n", GetOpenGLVersion().c_str() );
 #ifdef GLU_VERSION_1_3
     DEBUGPRINT("GLU Header Version 1.3\n");
 #else
@@ -213,10 +213,10 @@ void KPUIBase::Display()
 
 void KPUIBase::Reshape(int x, int y)
 {
-    glViewport(0, 0, (GLsizei)x, (GLsizei)y);
+    glViewport(0, 0, x, y);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    GetCamera().SetAspekt(x / (GLfloat)y);
+    GetCamera().SetAspekt(x / static_cast<GLfloat>(y));
 }
 
 void KPUIBase::Idle()

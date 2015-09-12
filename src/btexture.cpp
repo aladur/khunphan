@@ -106,7 +106,7 @@ const char *BTexture::ReadTextureFromFile(const char *pFile, int flags)
     const char *texels = ReadTextureFromFile(fp, flags);
     fclose(fp);
 
-    return texels;
+    return static_cast<const char *>(texels);
 }
 
 const char *BTexture::ReadTextureFromFile(FILE *fp, int flags)
@@ -179,7 +179,8 @@ const char *BTexture::ReadTextureFromPngFile(FILE *fp, int flags)
     png_read_info(png_ptr, info_ptr);
 
     png_get_IHDR(png_ptr, info_ptr,
-                 (png_uint_32 *)&width, (png_uint_32 *)&height,
+                 static_cast<png_uint_32 *>(&width),
+                 static_cast<png_uint_32 *>(&height),
                  &bit_depth, &color_type, &interlace_type,
                  &compression_type, &filter_type);
 
@@ -266,11 +267,12 @@ const char *BTexture::ReadTextureFromPngFile(FILE *fp, int flags)
 
     png_bytepp row_pointers;
 
-    texels =       (char *)    new char [height * rowbytes];
-    row_pointers = (png_bytepp)new char [height * sizeof(char *)];
+    texels =       new unsigned char [height * rowbytes];
+    row_pointers = new unsigned char *[height];
+
     for (unsigned int i = 0; i < height; i++)
     {
-        row_pointers[height - i - 1] = (png_bytep)&texels[rowbytes * i];
+        row_pointers[height - i - 1] = &texels[rowbytes * i];
     }
 
     // and finally read the image
@@ -281,7 +283,7 @@ const char *BTexture::ReadTextureFromPngFile(FILE *fp, int flags)
     // cleanup
     png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 
-    return texels;
+    return reinterpret_cast<const char *>(texels);
 }
 
 const char *BTexture::SetAlphaChannel(int value)
@@ -298,7 +300,7 @@ const char *BTexture::SetAlphaChannel(int value)
         texels[i+channels-1] = value;
     }
 
-    return texels;
+    return reinterpret_cast<const char *>(texels);
 }
 
 const char *BTexture::CopyAlphaChannel(int format)
@@ -331,7 +333,8 @@ const char *BTexture::CopyAlphaChannel(int format)
             }
         }
     }
-    return texels;
+
+    return reinterpret_cast<const char *>(texels);
 }
 
 const char *BTexture::CopyColor(int format)
@@ -379,7 +382,8 @@ const char *BTexture::CopyColor(int format)
             }
         }
     }
-    return texels;
+
+    return reinterpret_cast<const char *>(texels);
 }
 
 const char *BTexture::SetColors(int format, int red, int green, int blue)
@@ -412,7 +416,8 @@ const char *BTexture::SetColors(int format, int red, int green, int blue)
             }
         }
     }
-    return texels;
+
+    return reinterpret_cast<const char *>(texels);
 }
 
 bool BTexture::CreateSubImage(int x, int y, int w, int h, char *subTexels)
@@ -436,51 +441,53 @@ bool BTexture::CreateSubImage(int x, int y, int w, int h, char *subTexels)
 
 void BTexture::fprintInfo(FILE *fp)
 {
-    char *pColorType;
-    char *pInterlaceType;
-    char *pCompressionType;
+    const char *pColorType;
+    const char *pInterlaceType;
+    const char *pCompressionType;
 
     switch (color_type)
     {
         case PNG_COLOR_TYPE_GRAY:
-            pColorType = (char *)"PNG_COLOR_TYPE_GRAY";
+            pColorType = static_cast<const char *>("PNG_COLOR_TYPE_GRAY");
             break;
         case PNG_COLOR_TYPE_PALETTE:
-            pColorType = (char *)"PNG_COLOR_TYPE_PALETTE";
+            pColorType = static_cast<const char *>("PNG_COLOR_TYPE_PALETTE");
             break;
         case PNG_COLOR_TYPE_RGB:
-            pColorType = (char *)"PNG_COLOR_TYPE_RGB";
+            pColorType = static_cast<const char *>("PNG_COLOR_TYPE_RGB");
             break;
         case PNG_COLOR_TYPE_RGB_ALPHA:
-            pColorType = (char *)"PNG_COLOR_TYPE_RGB_ALPHA";
+            pColorType = static_cast<const char *>("PNG_COLOR_TYPE_RGB_ALPHA");
             break;
         case PNG_COLOR_TYPE_GRAY_ALPHA:
-            pColorType = (char *)"PNG_COLOR_TYPE_GRAY_ALPHA";
+            pColorType = static_cast<const char *>("PNG_COLOR_TYPE_GRAY_ALPHA");
             break;
         default:
-            pColorType = (char *)"???";
+            pColorType = static_cast<const char *>("???");
     }
     switch (interlace_type)
     {
         case PNG_INTERLACE_NONE:
-            pInterlaceType = (char *)"PNG_INTERLACE_NONE";
+            pInterlaceType = static_cast<const char *>("PNG_INTERLACE_NONE");
             break;
         case PNG_INTERLACE_ADAM7:
-            pInterlaceType = (char *)"PNG_INTERLACE_ADAM7";
+            pInterlaceType = static_cast<const char *>("PNG_INTERLACE_ADAM7");
             break;
         case PNG_INTERLACE_LAST:
-            pInterlaceType = (char *)"PNG_INTERLACE_LAST";
+            pInterlaceType = static_cast<const char *>("PNG_INTERLACE_LAST");
             break;
         default:
-            pInterlaceType = (char *)"???";
+            pInterlaceType = static_cast<const char *>("???");
     }
+    
     switch (compression_type)
     {
         case PNG_COMPRESSION_TYPE_BASE:
-            pCompressionType = (char *)"PNG_COMPRESSION_TYPE_BASE";
+            pCompressionType =
+                        static_cast<const char *>("PNG_COMPRESSION_TYPE_BASE");
             break;
         default:
-            pCompressionType = (char *)"???";
+            pCompressionType = static_cast<const char *>("???");
     }
 
     fprintf(fp, "Info about png-file:\n");
@@ -533,7 +540,7 @@ bool BTexture::SetTexels(const char *pTexels, unsigned int aWidth,
     rowbytes = width * channels;
     bit_depth= 8;
 
-    texels = (char *)new char [rowbytes * height];
+    texels = new unsigned char [rowbytes * height];
     memcpy(texels, pTexels, rowbytes * height);
 
     switch (format)
@@ -603,10 +610,12 @@ bool BTexture::WriteTextureToPngFile (FILE *fp, int)
 
     png_bytepp row_pointers;
 
-    row_pointers = (png_bytepp)new char [height * sizeof(char *)];
+    row_pointers = static_cast<png_bytepp>(new unsigned char *[height]);
+
     for (unsigned int i = 0; i < height; i++)
     {
-        row_pointers[height - i - 1] = (png_bytep)&texels[rowbytes * i];
+        row_pointers[height - i - 1] =
+                    reinterpret_cast<png_bytep>(&texels[rowbytes * i]);
     }
 
     // and finally write the image
@@ -626,7 +635,7 @@ const char *BTexture::Rescale(int exp, int format)
 {
     if (exp == 0)
     {
-        return texels;
+        return reinterpret_cast<const char *>(texels);
     }
 
     unsigned int factor = 1 << exp;
@@ -645,11 +654,11 @@ const char *BTexture::Rescale(int exp, int format)
             return NULL;
         }
 
-        char *oldTexels = texels;
+        unsigned char *oldTexels = texels;
 
         SetWidth (GetWidth()  >> exp);
         SetHeight(GetHeight() >> exp);
-        texels = (char *)new char[GetHeight() * GetRowBytes()];
+        texels = new unsigned char[GetHeight() * GetRowBytes()];
 
         unsigned int   x, y;
 
@@ -659,17 +668,17 @@ const char *BTexture::Rescale(int exp, int format)
             // is the average of all source texels
             unsigned short ox, oy;
             unsigned short c;
-            const char *pOldTexel  = NULL;
-            const char *pOldTexel0 = NULL; // address of upper left texel in
-                                           // old texture
-            unsigned int  *pBuffer = new unsigned
-            int[GetChannels()];            // buffer for one texel
+            const unsigned char *pOldTexel  = NULL;
+            const unsigned char *pOldTexel0 = NULL; // address of upper left
+                                                    // texel in old texture
+            unsigned int  *pBuffer = new unsigned int[GetChannels()];
+                                                    // buffer for one texel
             int            shift   = 2*exp;
             unsigned int   fChannels = factor * GetChannels();
 
             for (y = 0; y < GetHeight(); y++)
             {
-                char *pRow = &texels[ y * GetRowBytes()];
+                unsigned char *pRow = &texels[ y * GetRowBytes()];
                 pOldTexel0 = &oldTexels[(y * GetRowBytes()) << shift];
                 for(x = 0; x < GetWidth(); x++)
                 {
@@ -680,7 +689,7 @@ const char *BTexture::Rescale(int exp, int format)
                         pOldTexel = pOldTexel0 + (oy * (GetRowBytes() << exp));
                         for (ox = 0; ox < fChannels; ox++)
                         {
-                            pBuffer[c] += (unsigned char)*(pOldTexel++);
+                            pBuffer[c] += *(pOldTexel++);
                             if (++c == GetChannels())
                             {
                                 c = 0;
@@ -724,8 +733,9 @@ const char *BTexture::Rescale(int exp, int format)
             // color and alpha value of the upper left texel (is faster)
             for (y = 0; y < GetHeight(); y++)
             {
-                char       *pRow    = &texels   [ y * GetRowBytes()];
-                const char *pOldRow = &oldTexels[(y * GetRowBytes()) <<(2*exp)];
+                unsigned char       *pRow    = &texels   [ y * GetRowBytes()];
+                const unsigned char *pOldRow = &oldTexels[(y * GetRowBytes())
+                                                 <<(2*exp)];
 
                 for(x = 0; x < GetWidth(); x++)
                 {
@@ -737,7 +747,7 @@ const char *BTexture::Rescale(int exp, int format)
         }
         delete [] oldTexels;
 
-        return texels;
+        return reinterpret_cast<const char *>(texels);
     }
     return NULL;
 }

@@ -125,9 +125,9 @@ protected:
     bool        WriteTextureToPngFile (FILE *fp, int flags = 0);
     const char *ReadTextureFromPngFile(FILE *fp, int flags);
 
-    char  *texels;
-    unsigned int width;
-    unsigned int height;
+    unsigned char *texels;
+    unsigned long width;
+    unsigned long height;
     unsigned int channels;
     unsigned int rowbytes;
     int bit_depth;

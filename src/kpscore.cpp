@@ -20,7 +20,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <stdio.h>
+#include <sstream>
 #include <libxml/tree.h>
 #include "misc1.h"
 #include "kpscore.h"
@@ -30,6 +30,8 @@
 #include "shlobj.h"
 #endif
 
+#define _TO(type)   reinterpret_cast<const xmlChar *>(type)
+#define _FROM(type) reinterpret_cast<const char *>(type)
 
 KPscore *KPscore::instance = NULL;
 
@@ -69,8 +71,8 @@ bool KPscore::Add(const char *aName, unsigned int aPlayTime,
     }
 
     j = (GetEntryCount() >= GetMaxEntries()) ? GetEntryCount() - 2 :
-                                               GetEntryCount()
-        - 1;
+        GetEntryCount() - 1;
+
     while ( j >= i)
     {
         pScore[j+1].Name      = pScore[j].Name;
@@ -106,7 +108,8 @@ bool KPscore::CanAdd(const char *aName, unsigned int aPlayTime,
 
 void KPscore::ClearAll()
 {
-    entryCount = 0;
+    entryCount  = 0;
+    fileVersion = "";
 }
 
 bool KPscore::Get(int i, std::string &pName, unsigned int *pPlayTime,
@@ -117,7 +120,7 @@ bool KPscore::Get(int i, std::string &pName, unsigned int *pPlayTime,
         return false;
     }
 
-    pName                               = pScore[i].Name;
+    pName           = pScore[i].Name;
     if (pPlayTime  != NULL)
     {
         *pPlayTime  = pScore[i].PlayTime;
@@ -218,115 +221,133 @@ void KPscore::WriteToFile()
         return;
     }
 
-    xmlDocPtr  doc;
-    xmlNodePtr tree, subtree;
-    xmlChar    buffer[128];
-    int        i;
+    xmlNsPtr ns = NULL;
+    xmlDocPtr doc = xmlNewDoc(_TO("1.0"));
+    doc->children = xmlNewDocNode(doc, ns, _TO("KhunPhan"), NULL);
+    xmlSetProp(doc->children, _TO("Version"), _TO(VERSION));
 
-    doc = xmlNewDoc((xmlChar *)"1.0");
-    doc->children = xmlNewDocNode( doc, NULL, (xmlChar *)"KhunPhan", NULL );
-    xmlSetProp( doc->children, (xmlChar *)"Version", (xmlChar *)VERSION );
+    xmlNodePtr tree = xmlNewChild(doc->children, ns, _TO("Scores"), NULL);
 
-    // Scores
-    tree = xmlNewChild( doc->children, NULL, (xmlChar *)"Scores", NULL );
-    for (i = 0; i < GetEntryCount(); i++)
+    for (int i = 0; i < GetEntryCount(); i++)
     {
-        // Score
-        subtree  = xmlNewChild( tree, NULL, (xmlChar *)"Score", NULL );
-        sprintf((char *)buffer, "%s", pScore[i].Name.c_str());
-        xmlNewChild(subtree, NULL, (xmlChar *)"Name",      buffer );
-        sprintf((char *)buffer, "%u", pScore[i].PlayTime);
-        xmlNewChild(subtree, NULL, (xmlChar *)"PlayTime",  buffer );
-        sprintf((char *)buffer, "%u", pScore[i].Moves);
-        xmlNewChild(subtree, NULL, (xmlChar *)"Moves",     buffer );
-        sprintf((char *)buffer, "%d", (int)pScore[i].Timestamp);
-        xmlNewChild(subtree, NULL, (xmlChar *)"Timestamp", buffer );
+        xmlNodePtr subtree = xmlNewChild(tree, ns, _TO("Score"), NULL);
+
+        xmlNewTextChild(subtree, ns, _TO("Name"), _TO(pScore[i].Name.c_str()));
+
+        std::ostringstream iss1;
+        iss1 << pScore[i].PlayTime;
+        xmlNewChild(subtree, ns, _TO("PlayTime"), _TO(iss1.str().c_str()));
+
+        std::ostringstream iss2;
+        iss2 << pScore[i].Moves;
+        xmlNewChild(subtree, ns, _TO("Moves"), _TO(iss2.str().c_str()));
+
+        std::ostringstream iss3;
+        iss3 << pScore[i].Timestamp;
+        xmlNewChild(subtree, ns, _TO("Timestamp"), _TO(iss3.str().c_str()));
     }
 
-    xmlSaveFile (GetFileName().c_str(), doc);
+    xmlSaveFormatFile(GetFileName().c_str(), doc, 1);
+
+    xmlFreeDoc(doc);
 }
 
 void KPscore::ReadFromFile()
 {
     ClearAll();
 
-    xmlDocPtr  doc;
-    xmlNodePtr cur, tree, subtree, subtree1;
-    xmlNsPtr   ns = NULL;
+    xmlDocPtr doc = xmlParseFile(GetFileName().c_str());
 
-    std::string  Name;
-    time_t       Timestamp;
-
-    if ((doc = xmlParseFile( GetFileName().c_str() )) != NULL)
+    if (doc == NULL)
     {
-        cur = doc->xmlChildrenNode;
-        if (cur != NULL && (!strcmp((char *)cur->name, "KhunPhan")))
+        return;
+    }
+
+    xmlNodePtr cur = doc->xmlChildrenNode;
+
+    if (cur == NULL || (cur->ns != NULL) ||
+        xmlStrcmp(cur->name, _TO("KhunPhan")))
+    {
+        xmlFreeDoc(doc);
+        return;
+    }
+
+    xmlChar *version = xmlGetProp(cur, _TO("Version"));
+    if (version != NULL)
+    {
+       fileVersion = _FROM(version);
+    }
+
+    xmlNodePtr tree = cur->xmlChildrenNode;
+
+    while (tree != NULL)
+    {
+        if (xmlStrcmp(tree->name, _TO("Scores")))
         {
-            tree = cur->xmlChildrenNode;
-            while (tree != NULL)
+            tree = tree->next;
+            continue;
+        }
+
+        xmlNodePtr subtree = tree->xmlChildrenNode;
+
+        while (subtree != NULL)
+        {
+            std::string  Name;
+            time_t       Timestamp = 0;
+            unsigned int PlayTime  = 0;
+            unsigned int Moves     = 0;
+
+            if (xmlStrcmp(subtree->name, _TO("Score")))
             {
-                if ((!strcmp((char *)tree->name, "Scores")) && (cur->ns == ns))
+                subtree = subtree->next;
+                continue;
+            }
+
+            xmlNodePtr subtree1 = subtree->xmlChildrenNode;
+
+            while (subtree1 != NULL)
+            {
+                const xmlChar *tag = subtree1->name;
+                xmlNodePtr node    = subtree1->xmlChildrenNode;
+                xmlChar *key;
+
+                if (!xmlStrcmp(tag, _TO("Name")))
                 {
-                    subtree = tree->xmlChildrenNode;
-                    while (subtree != NULL)
-                    {
-                        if ((!strcmp((char *)subtree->name, "Score")) &&
-                            (cur->ns == ns))
-                        {
-                            unsigned int PlayTime;
-                            unsigned int Moves;
+                    key  = xmlNodeListGetString(doc, node, 1);
+                    Name = _FROM(key);
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("PlayTime")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> PlayTime;
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("Moves")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> Moves;
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("Timestamp")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> Timestamp;
+                    xmlFree(key);
+                }
 
-                            subtree1 = subtree->xmlChildrenNode;
-                            Name = "";
-                            PlayTime = 0;
-                            Moves = 0;
-                            Timestamp = 0;
-                            while (subtree1 != NULL)
-                            {
-                                xmlChar *p;
+                subtree1 = subtree1->next;
+            }
 
-                                if ((!strcmp((char *)subtree1->name, "Name")) &&
-                                    (cur->ns == ns) &&
-                                    (p = xmlNodeListGetString(doc,
-                                                subtree1->xmlChildrenNode, 1)))
-                                {
-                                    Name = (const char *)p;
-                                }
-                                if ((!strcmp((char *)subtree1->name,
-                                             "PlayTime")) &&
-                                    (cur->ns == ns) &&
-                                    (p = xmlNodeListGetString(doc,
-                                                subtree1->xmlChildrenNode, 1)))
-                                {
-                                    PlayTime = strtoul((char *)p, NULL, 10);
-                                }
-                                if ((!strcmp((char *)subtree1->name,
-                                             "Moves")) &&
-                                    (cur->ns == ns) &&
-                                    (p = xmlNodeListGetString(doc,
-                                                subtree1->xmlChildrenNode, 1)))
-                                {
-                                    Moves = strtoul((char *)p, NULL, 10);
-                                }
-                                if ((!strcmp((char *)subtree1->name,
-                                             "Timestamp")) &&
-                                    (cur->ns == ns) &&
-                                    (p = xmlNodeListGetString(doc,
-                                                subtree1->xmlChildrenNode, 1)))
-                                {
-                                    Timestamp = strtol((char *)p, NULL, 10);
-                                }
-                                subtree1 = subtree1->next;
-                            } // while
-                            Add(Name.c_str(), PlayTime, Moves, Timestamp);
-                        }    // if subtree "Scores"
-                        subtree = subtree->next;
-                    } // while
-                }    // if subtree "Scores"
-                tree = tree->next;
-            } // while
-        }   // if subtree "KhunPhan"
-    } // if
+            Add(Name.c_str(), PlayTime, Moves, Timestamp);
+            subtree = subtree->next;
+        }
+
+        tree = tree->next;
+    }
 }
 
 void KPscore::PrintTo(FILE *fp)

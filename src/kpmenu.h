@@ -31,6 +31,7 @@
 #include "Textfeld.h"
 #include "kpprogressbar.h"
 #include "sprache.h"
+#include "kpstate.h"
 
 
 typedef std::map<int,Textfeld *> tTextfeldArray;
@@ -132,11 +133,11 @@ public:
     void Draw();
     void Update(int factor);
     void UpdateFPS(int fps, float renderTime = 0.0);
-    void SaveLastStateId(int stateId)
+    void SaveLastStateId(tKPMenuState stateId)
     {
         lastState = stateId;
     };
-    int  RestoreLastStateId(void) const
+    tKPMenuState RestoreLastStateId(void) const
     {
         return lastState;
     };
@@ -153,7 +154,7 @@ protected:
     tSchildArray   SchildArray;
     tTextfeldArray TextfeldArray;
 
-    int lastState;
+    tKPMenuState lastState;
 };
 
 #endif

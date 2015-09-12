@@ -233,7 +233,7 @@ bool KPSdlUserInterface::mapKey(int mod, int sym, unsigned char *pKey)
     // this is only a hack for key mapping compatible to GLUT
     if (mod & (KMOD_LCTRL | KMOD_RCTRL | KMOD_CTRL))
     {
-        *pKey = (unsigned char)sym & 0x1F;
+        *pKey = static_cast<unsigned char>(sym) & 0x1F;
         return true;
     }
     if ((mod & (KMOD_LSHIFT | KMOD_RSHIFT | KMOD_SHIFT)) &&

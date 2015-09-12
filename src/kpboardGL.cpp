@@ -333,7 +333,7 @@ bool KPboardView::Initialize(const char *TextureName,
 
 float KPboardView::getRnd(void) const
 {
-    return (float)rand() / RAND_MAX;
+    return rand() / RAND_MAX;
 }
 
 void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
@@ -565,13 +565,13 @@ void KPboardView::GetTokenCoordinates(tKPTokenID i, float *x, float *y) const
     {
         if (x != NULL)
         {
-            *x = ((DX + DGAP) * (GLfloat)current.GetX(i) - ((HORIZONTAL_MAX *
-                  (DX + DGAP) - DGAP) / 2));
+            *x = ((DX + DGAP) * static_cast<float>(current.GetX(i)) -
+                  ((HORIZONTAL_MAX * (DX + DGAP) - DGAP) / 2));
         }
         if (y != NULL)
         {
-            *y = ((DY + DGAP) * (GLfloat)current.GetY(i) - ((VERTICAL_MAX   *
-                  (DY + DGAP) - DGAP) / 2));
+            *y = ((DY + DGAP) * static_cast<float>(current.GetY(i)) -
+                  ((VERTICAL_MAX   * (DY + DGAP) - DGAP) / 2));
         }
     }
 }
@@ -804,17 +804,17 @@ bool KPboardView::Move(tKPTokenID id, tKPDirection d)
 
     animatedToken = id;
     Time = 0;
-    ax = old_x = ((DX + DGAP) * (GLfloat)current.GetX(id) - ((HORIZONTAL_MAX *
-                  (DX + DGAP) - DGAP) / 2));
-    ay = old_y = ((DY + DGAP) * (GLfloat)current.GetY(id) - ((VERTICAL_MAX   *
-                  (DY + DGAP) - DGAP) / 2));
+    ax = old_x = ((DX + DGAP) * static_cast<float>(current.GetX(id)) -
+                  ((HORIZONTAL_MAX * (DX + DGAP) - DGAP) / 2));
+    ay = old_y = ((DY + DGAP) * static_cast<float>(current.GetY(id)) -
+                  ((VERTICAL_MAX   * (DY + DGAP) - DGAP) / 2));
 
     current.Move(id, direction); // do the move
 
-    new_x = ((DX + DGAP) * (GLfloat)current.GetX(id) - ((HORIZONTAL_MAX *
-             (DX + DGAP) - DGAP) / 2));
-    new_y = ((DY + DGAP) * (GLfloat)current.GetY(id) - ((VERTICAL_MAX   *
-             (DY + DGAP) - DGAP) / 2));
+    new_x = ((DX + DGAP) * static_cast<float>(current.GetX(id)) -
+             ((HORIZONTAL_MAX * (DX + DGAP) - DGAP) / 2));
+    new_y = ((DY + DGAP) * static_cast<float>(current.GetY(id)) -
+             ((VERTICAL_MAX   * (DY + DGAP) - DGAP) / 2));
 
     return true;
 }
@@ -883,14 +883,14 @@ tKPTokenID KPboardView::Selection(const Kamera *pCamera, int x, int y) const
 
     if (hits > 0)
     {
-        choose = (tKPTokenID)buffer[3];
+        choose = static_cast<tKPTokenID>(buffer[3]);
         int depth = buffer[1];
 
         for (int loop = 1; loop < hits; loop++)
         {
             if (buffer[loop*4+1] < GLuint(depth))   // store the closest object
             {
-                choose = (tKPTokenID)buffer[loop*4+3];
+                choose = static_cast<tKPTokenID>(buffer[loop*4+3]);
                 depth  = buffer[loop*4+1];
             }
         }

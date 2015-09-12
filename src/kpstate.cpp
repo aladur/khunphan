@@ -79,11 +79,11 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
     if (menu.IsDisplayOpenGLInfo)
     {
         menu.TextfeldArray[T_GL_VENDOR  ]->FormatText(NULL,
-                userInterface.GetOpenGLVendor());
+                userInterface.GetOpenGLVendor().c_str());
         menu.TextfeldArray[T_GL_RENDERER]->FormatText(NULL,
-                userInterface.GetOpenGLRenderer());
+                userInterface.GetOpenGLRenderer().c_str());
         menu.TextfeldArray[T_GL_VERSION ]->FormatText(NULL,
-                userInterface.GetOpenGLVersion());
+                userInterface.GetOpenGLVersion().c_str());
 
         menu.TextfeldArray[T_GL_VENDOR  ]->Positioniere(0.1, y, 0.3);
         y -= 0.3;
@@ -269,7 +269,7 @@ tKPMenuState KPstate::ESCKeyAction (KPstateContext *)
     // reimplemented in subclass if state has
     // to be changed return the next
     // state otherwise return KPState_Invalid
-    return (tKPMenuState)oldStateId;
+    return oldStateId;
 }
 
 void KPstate::PlayAudioForInitialize(KPstateContext *pContext)

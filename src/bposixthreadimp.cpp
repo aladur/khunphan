@@ -46,7 +46,8 @@ bool BPosixThreadImp::Start(BThread *aThreadObject)
     ret = pthread_attr_init (&attr);
     //ret =  pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
     pThreadObj = aThreadObject;
-    ret = pthread_create(&thread, &attr, (tThreadProc)BPosixThreadImp::RunImp,
+    ret = pthread_create(&thread, &attr,
+                         reinterpret_cast<tThreadProc>(BPosixThreadImp::RunImp),
                          this);
     if (ret == 0)
         // detach thread to avoid memory leaks

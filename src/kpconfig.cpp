@@ -37,11 +37,14 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #endif
+#include <sstream>
 #include <stdio.h>
 #include <libxml/tree.h>
 #include "kpconfig.h"
 #include "bdir.h"
 
+#define _TO(type)   reinterpret_cast<const xmlChar *>(type)
+#define _FROM(type) reinterpret_cast<const char *>(type)
 
 KPConfig *KPConfig::instance = NULL;
 
@@ -85,6 +88,11 @@ std::string KPConfig::GetFileName()
     }
 
     return fileName;
+}
+
+std::string KPConfig::GetFileVersion()
+{
+    return fileVersion;
 }
 
 // if aFileName is NULL initialize it to the default
@@ -202,453 +210,473 @@ std::vector<std::string> KPConfig::GetTextureNames() const
 
 void KPConfig::WriteToFile()
 {
-    xmlDocPtr doc;
-    xmlNodePtr tree, subtree;
-    xmlChar buffer[128];
+    xmlNsPtr ns = NULL;
+    xmlDocPtr doc  = xmlNewDoc(_TO("1.0"));
+    doc->children  = xmlNewDocNode(doc, ns, _TO("KhunPhan"), NULL);
+    xmlSetProp(doc->children, _TO("Version"), _TO(VERSION));
 
-    doc = xmlNewDoc((const xmlChar *)"1.0");
-    doc->children = xmlNewDocNode(doc, NULL, (const xmlChar *)"KhunPhan",
+    /******************** DisplaySettings *******************/
+    xmlNodePtr tree = xmlNewChild(doc->children, ns, _TO("DisplaySettings"),
                                   NULL);
-    xmlSetProp(doc->children, (const xmlChar *)"Version",
-               (const xmlChar *)VERSION);
 
-    // Display Settings
-    tree = xmlNewChild(doc->children, NULL, (xmlChar *)"DisplaySettings", NULL);
-    sprintf((char *)buffer, "%s", TextureName.c_str());
-    xmlNewChild(tree, NULL, (xmlChar *)"TextureName", buffer);
-    sprintf((char *)buffer, "%d", TextureSize);
-    xmlNewChild(tree, NULL, (xmlChar *)"TextureSize", buffer);
-    sprintf((char *)buffer, "%d", MenuTextureSize);
-    xmlNewChild(tree, NULL, (xmlChar *)"MenuTextureSize", buffer);
-    sprintf((char *)buffer, "%d", Nearest ? 1 : 0);
-    xmlNewChild(tree, NULL, (xmlChar *)"TextureType", buffer);
-    sprintf((char *)buffer, "%d", ScreenXResolution);
-    xmlNewChild(tree, NULL, (xmlChar *)"ScreenXResolution",buffer);
-    sprintf((char *)buffer, "%d", ColorDepth);
-    xmlNewChild(tree, NULL, (xmlChar *)"ColorDepth", buffer);
-    sprintf((char *)buffer, "%d", Reflections ? 1 : 0);
-    xmlNewChild(tree, NULL, (xmlChar *)"Reflections", buffer);
-    sprintf((char *)buffer, "%d", DisplayFPS ? 1 : 0);
-    xmlNewChild(tree, NULL, (xmlChar *)"DisplayFPS", buffer);
-    sprintf((char *)buffer, "%d", AmbientLight ? 1 : 0);
-    xmlNewChild(tree, NULL, (xmlChar *)"AmbientLight", buffer);
-    sprintf((char *)buffer, "%d", LightSources);
-    xmlNewChild(tree, NULL, (xmlChar *)"LightSources", buffer);
-    sprintf((char *)buffer, "%d", Shadows ? 1 : 0);
-    xmlNewChild(tree, NULL, (xmlChar *)"Shadows", buffer);
-    sprintf((char *)buffer, "%d", FullScreen ? 1 : 0);
-    xmlNewChild(tree, NULL, (xmlChar *)"FullScreen", buffer);
-    sprintf((char *)buffer, "%d", UserInterface);
-    xmlNewChild(tree, NULL, (xmlChar *)"UserInterface", buffer);
-    sprintf((char *)buffer, "%d", CameraPosition);
-    xmlNewChild(tree, NULL, (xmlChar *)"CameraPosition", buffer);
+    xmlNewTextChild(tree, ns, _TO("TextureName"), _TO(TextureName.c_str()));
 
-    // Game Control
-    tree = xmlNewChild(doc->children, NULL, (xmlChar *)"GameControl", NULL);
-    sprintf((char *)buffer, "%f", MouseSpeed);
-    xmlNewChild(tree, NULL, (xmlChar *)"MouseSpeed", buffer);
-    sprintf((char *)buffer, "%d", SolutionHint);
-    xmlNewChild(tree, NULL, (xmlChar *)"SolutionHint", buffer);
+    std::ostringstream iss1;
+    iss1 << TextureSize;
+    xmlNewChild(tree, ns, _TO("TextureSize"), _TO(iss1.str().c_str()));
 
-    // Audio/Music Settings
-    tree = xmlNewChild(doc->children, NULL, (xmlChar *)"AudioSettings", NULL);
-    sprintf((char *)buffer, "%d", SoundVolume);
-    xmlNewChild(tree, NULL, (xmlChar *)"SoundVolume", buffer);
-    sprintf((char *)buffer, "%d", MusicVolume);
-    xmlNewChild(tree, NULL, (xmlChar *)"MusicVolume", buffer);
-    sprintf((char *)buffer, "%d", SoundOn ? 1 : 0);
-    xmlNewChild(tree, NULL, (xmlChar *)"SoundOn", buffer);
-    sprintf((char *)buffer, "%d", MusicOn ? 1 : 0);
-    xmlNewChild(tree, NULL, (xmlChar *)"MusicOn", buffer);
+    std::ostringstream iss2;
+    iss2 << MenuTextureSize;
+    xmlNewChild(tree, ns, _TO("MenuTextureSize"), _TO(iss2.str().c_str()));
 
-    // Language Settings
-    tree = xmlNewChild(doc->children, NULL, (xmlChar *)"LanguageSettings",
-                        NULL);
-    sprintf((char *)buffer, "%d", Language);
-    xmlNewChild(tree, NULL, (xmlChar *)"Language", buffer);
+    xmlNewChild(tree, ns, _TO("TextureType"), _TO(Nearest ? "1" : "0"));
 
-    // Debug Settings
-    tree = xmlNewChild(doc->children, NULL, (xmlChar *)"DebugSettings", NULL);
+    std::ostringstream iss3;
+    iss3 << ScreenXResolution;
+    xmlNewChild(tree, ns, _TO("ScreenXResolution"), _TO(iss3.str().c_str()));
+
+    std::ostringstream iss4;
+    iss4 << ColorDepth;
+    xmlNewChild(tree, ns, _TO("ColorDepth"), _TO(iss4.str().c_str()));
+
+    xmlNewChild(tree, ns, _TO("Reflections"), _TO(Reflections ? "1" : "0"));
+
+    xmlNewChild(tree, ns, _TO("DisplayFPS"), _TO(DisplayFPS ? "1" : "0"));
+
+    xmlNewChild(tree, ns, _TO("AmbientLight"), _TO(AmbientLight ? "1" : "0"));
+
+    std::ostringstream iss5;
+    iss5 << LightSources;
+    xmlNewChild(tree, ns, _TO("LightSources"), _TO(iss5.str().c_str()));
+
+    xmlNewChild(tree, ns, _TO("Shadows"), _TO(Shadows ? "1" : "0"));
+
+    xmlNewChild(tree, ns, _TO("FullScreen"), _TO(FullScreen ? "1" : "0"));
+
+    std::ostringstream iss6;
+    iss6 << UserInterface;
+    xmlNewChild(tree, ns, _TO("UserInterface"), _TO(iss6.str().c_str()));
+
+    std::ostringstream iss7;
+    iss7 << CameraPosition;
+    xmlNewChild(tree, ns, _TO("CameraPosition"), _TO(iss7.str().c_str()));
+
+    /******************** Game Control *******************/
+    tree = xmlNewChild(doc->children, ns, _TO("GameControl"), NULL);
+
+    std::ostringstream iss8;
+    iss8 << MouseSpeed;
+    xmlNewChild(tree, ns, _TO("MouseSpeed"), _TO(iss8.str().c_str()));
+
+    std::ostringstream iss9;
+    iss9 << SolutionHint;
+    xmlNewChild(tree, ns, _TO("SolutionHint"), _TO(iss9.str().c_str()));
+
+    /******************** Audio/Music Settings  *******************/
+    tree = xmlNewChild(doc->children, ns, _TO("AudioSettings"), NULL);
+
+    std::ostringstream iss10;
+    iss10 << SoundVolume;
+    xmlNewChild(tree, ns, _TO("SoundVolume"), _TO(iss10.str().c_str()));
+
+    std::ostringstream iss11;
+    iss11 << MusicVolume;
+    xmlNewChild(tree, ns, _TO("MusicVolume"), _TO(iss11.str().c_str()));
+
+    xmlNewChild(tree, ns, _TO("SoundOn"), _TO(SoundOn ? "1" : "0"));
+
+    xmlNewChild(tree, ns, _TO("MusicOn"), _TO(MusicOn ? "1" : "0"));
+
+    /******************** Language Settings  *******************/
+    tree = xmlNewChild(doc->children, NULL, _TO("LanguageSettings"), NULL);
+
+    std::ostringstream iss12;
+    iss12 << Language;
+    xmlNewChild(tree, ns, _TO("Language"), _TO(iss12.str().c_str()));
+
+    /******************** Debug Settings  *******************/
+    tree = xmlNewChild(doc->children, ns, _TO("DebugSettings"), NULL);
+
     if (PerformanceLog)
     {
-        sprintf((char *)buffer, "%d", PerformanceLog ? 1 : 0);
-        xmlNewChild(tree, NULL, (xmlChar *)"PerformanceLog", buffer);
+        xmlNewChild(tree, ns, _TO("PerformanceLog"),
+                    _TO(PerformanceLog ? "1" : "0"));
     }
     if (SkipProgressBar)
     {
-        sprintf((char *)buffer, "%d", SkipProgressBar ? 1 : 0);
-        xmlNewChild(tree, NULL, (xmlChar *)"SkipProgressBar", buffer);
+        xmlNewChild(tree, ns, _TO("SkipProgressBar"),
+                    _TO(SkipProgressBar ? "1" : "0"));
     }
 
-    // Saved Game
-    tree = xmlNewChild(doc->children, NULL, (xmlChar *)"SavedGames", NULL);
+    /******************** Saved Game *******************/
+    tree = xmlNewChild(doc->children, ns, _TO("SavedGames"), NULL);
+
     if (SavedGame != 0)
     {
-        subtree  = xmlNewChild(tree, NULL, (xmlChar *)"SavedGame", NULL);
+        xmlNodePtr subtree = xmlNewChild(tree, ns, _TO("SavedGame"), NULL);
 
-        sprintf((char *)buffer, FMT_UINT64x, SavedGame);
-        xmlNewChild(subtree, NULL, (xmlChar *)"Position", buffer);
-        sprintf((char *)buffer, "%u", PlayTime);
-        xmlNewChild(subtree, NULL, (xmlChar *)"PlayTime", buffer);
-        sprintf((char *)buffer, "%u", Moves);
-        xmlNewChild(subtree, NULL, (xmlChar *)"Moves", buffer);
-        sprintf((char *)buffer, "%u", MovesWithHint);
-        xmlNewChild(subtree, NULL, (xmlChar *)"MovesWithHint", buffer);
-        sprintf((char *)buffer, "%u", CheatCount);
-        xmlNewChild(subtree, NULL, (xmlChar *)"CheatCount", buffer);
+        std::ostringstream iss1;
+        iss1 << SavedGame;
+        xmlNewChild(subtree, ns, _TO("Position"), _TO(iss1.str().c_str()));
+
+        std::ostringstream iss2;
+        iss2 << PlayTime;
+        xmlNewChild(subtree, ns, _TO("PlayTime"), _TO(iss2.str().c_str()));
+
+        std::ostringstream iss3;
+        iss3 << Moves;
+        xmlNewChild(subtree, ns, _TO("Moves"), _TO(iss3.str().c_str()));
+
+        std::ostringstream iss4;
+        iss4 << MovesWithHint;
+        xmlNewChild(subtree, ns, _TO("MovesWithHint"), _TO(iss4.str().c_str()));
+
+        std::ostringstream iss5;
+        iss5 << CheatCount;
+        xmlNewChild(subtree, ns, _TO("CheatCount"), _TO(iss5.str().c_str()));
     }
 
-    xmlSaveFile (GetFileName().c_str(), doc);
+    xmlSaveFormatFile(GetFileName().c_str(), doc, 1);
 
     xmlFreeDoc(doc);
 }
 
 void KPConfig::ReadFromFile()
 {
-    xmlDocPtr  doc;
-    xmlNodePtr cur, tree, subtree, subtree1;
-    xmlNsPtr   ns = NULL;
+    xmlDocPtr doc = xmlParseFile(GetFileName().c_str());
 
-    doc = xmlParseFile(GetFileName().c_str());
     if (doc == NULL)
     {
         return;
     }
 
-    cur = doc->xmlChildrenNode;
-    if (cur)
-    {
-        tree = cur->xmlChildrenNode;
-        while (tree != NULL)
-        {
-            xmlChar   *p;
+    xmlNodePtr cur = doc->xmlChildrenNode;
 
-            if ((!xmlStrcmp(tree->name, (const xmlChar *)"DisplaySettings")) &&
-                (cur->ns == ns))
+    if (cur == NULL || (cur->ns != NULL) ||
+        xmlStrcmp(cur->name, _TO("KhunPhan")))
+    {
+        xmlFreeDoc(doc);
+        return;
+    }
+
+    xmlChar *version = xmlGetProp(cur, _TO("Version"));
+    if (version != NULL)
+    {
+        fileVersion = _FROM(version);
+    }
+
+    xmlNodePtr tree = cur->xmlChildrenNode;
+
+    while (tree != NULL)
+    {
+        if (!xmlStrcmp(tree->name, _TO("DisplaySettings")))
+        {
+            xmlNodePtr subtree = tree->xmlChildrenNode;
+
+            while (subtree != NULL)
             {
-                subtree = tree->xmlChildrenNode;
-                while (subtree != NULL)
+                const xmlChar *tag = subtree->name;
+                xmlNodePtr node    = subtree->xmlChildrenNode;
+                xmlChar *key;
+                int tmp;
+
+                if (!xmlStrcmp(tag, _TO("TextureName")))
                 {
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"TextureName")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        TextureName = (char *)p;
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"TextureSize")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        TextureSize = atoi((char *)p);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"MenuTextureSize")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        MenuTextureSize = atoi((char *)p);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"TextureType")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        Nearest = (atoi((char *)p) != 0);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"ScreenXResolution")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        ScreenXResolution = atoi((char *)p);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"ColorDepth")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        ColorDepth = atoi((char *)p);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"Reflections")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        Reflections = (atoi((char *)p) != 0);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"DisplayFPS")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        DisplayFPS = (atoi((char *)p) != 0);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"AmbientLight")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        AmbientLight = (atoi((char *)p) != 0);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"LightSources")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        LightSources = atoi((char *)p);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"Shadows")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        Shadows = (atoi((char *)p) != 0);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"FullScreen")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        FullScreen = (atoi((char *)p) != 0);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"UserInterface")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        UserInterface = atoi((char *)p);
-                        xmlFree(p);
-                    }
+                    key = xmlNodeListGetString(doc, node, 1);
+                    TextureName = _FROM(key);
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("TextureSize")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> TextureSize;
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("MenuTextureSize")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> MenuTextureSize;
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("TextureType")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> tmp;
+                    Nearest = (tmp != 0);
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("ScreenXResolution")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> ScreenXResolution;
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("ColorDepth")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> ColorDepth;
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("Reflections")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> tmp;
+                    Reflections = (tmp != 0);
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("DisplayFPS")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> tmp;
+                    DisplayFPS = (tmp != 0);
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("AmbientLight")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> tmp;
+                    AmbientLight = (tmp != 0);
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("LightSources")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> LightSources;
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("Shadows")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> tmp;
+                    Shadows = (tmp != 0);
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("FullScreen")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> tmp;
+                    FullScreen = (tmp != 0);
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("UserInterface")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> UserInterface;
+                    xmlFree(key);
 #if !defined(HAVE_LIBGLUT) && !defined(HAVE_LIBOPENGLUT)
                     if (UserInterface == 1)
                     {
                         UserInterface = 0;
                     }
 #endif
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"CameraPosition")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        CameraPosition = atoi((char *)p);
-                        xmlFree(p);
-                    }
-                    subtree = subtree->next;
                 }
-            }
-            if ((!xmlStrcmp(tree->name, (const xmlChar *)"GameControl")) &&
-                (cur->ns == ns))
-            {
-                subtree = tree->xmlChildrenNode;
-                while (subtree != NULL)
+                else if (!xmlStrcmp(tag, _TO("CameraPosition")))
                 {
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"MouseSpeed")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        MouseSpeed = (float)atof((char *)p);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"SolutionHint")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        SolutionHint = atoi((char *)p);
-                        xmlFree(p);
-                    }
-                    subtree = subtree->next;
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> CameraPosition;
+                    xmlFree(key);
                 }
+
+                subtree = subtree->next;
             }
-            if ((!xmlStrcmp(tree->name, (const xmlChar *)"AudioSettings")) &&
-                (cur->ns == ns))
-            {
-                subtree = tree->xmlChildrenNode;
-                while (subtree != NULL)
-                {
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"SoundVolume")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        SoundVolume = atoi((char *)p);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"MusicVolume")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        MusicVolume = atoi((char *)p);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"SoundOn")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        SoundOn = (atoi((char *)p) != 0);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"MusicOn")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        MusicOn = (atoi((char *)p) != 0);
-                        xmlFree(p);
-                    }
-                    subtree = subtree->next;
-                }
-            }
-            if ((!xmlStrcmp(tree->name, (const xmlChar *)"LanguageSettings")) &&
-                (cur->ns == ns))
-            {
-                subtree = tree->xmlChildrenNode;
-                while (subtree != NULL)
-                {
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"Language")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        Language = atoi((char *)p);
-                        xmlFree(p);
-                    }
-                    subtree = subtree->next;
-                }
-            }
-            if ((!xmlStrcmp(tree->name, (const xmlChar *)"DebugSettings")) &&
-                (cur->ns == ns))
-            {
-                subtree = tree->xmlChildrenNode;
-                while (subtree != NULL)
-                {
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"PerformanceLog")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        PerformanceLog = (atoi((char *)p) != 0);
-                        xmlFree(p);
-                    }
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"SkipProgressBar")) &&
-                        (cur->ns == ns) &&
-                        (p = xmlNodeListGetString(doc,
-                                                  subtree->xmlChildrenNode, 1)))
-                    {
-                        SkipProgressBar = (atoi((char *)p) != 0);
-                        xmlFree(p);
-                    }
-                    subtree = subtree->next;
-                }
-            }
-            if ((!xmlStrcmp(tree->name,
-                            (const xmlChar *)"SavedGames")) && (cur->ns == ns))
-            {
-                subtree = tree->xmlChildrenNode;
-                while (subtree != NULL)
-                {
-                    if ((!xmlStrcmp(subtree->name,
-                                    (const xmlChar *)"SavedGame")) &&
-                        (cur->ns == ns))
-                    {
-                        subtree1 = subtree->xmlChildrenNode;
-                        while (subtree1 != NULL)
-                        {
-                            if ((!xmlStrcmp(subtree1->name,
-                                            (const xmlChar *)"Position")) &&
-                                (cur->ns == ns) &&
-                                (p = xmlNodeListGetString(doc,
-                                                 subtree1->xmlChildrenNode, 1)))
-                            {
-                                sscanf((const char *)p, FMT_UINT64x,
-                                       &SavedGame);
-                                xmlFree(p);
-                            }
-                            if ((!xmlStrcmp(subtree1->name,
-                                            (const xmlChar *)"PlayTime")) &&
-                                (cur->ns == ns) &&
-                                (p = xmlNodeListGetString(doc,
-                                                 subtree1->xmlChildrenNode, 1)))
-                            {
-                                PlayTime = atoi((char *)p);
-                                xmlFree(p);
-                            }
-                            if ((!xmlStrcmp(subtree1->name,
-                                            (const xmlChar *)"Moves")) &&
-                                (cur->ns == ns) &&
-                                (p = xmlNodeListGetString(doc,
-                                                 subtree1->xmlChildrenNode, 1)))
-                            {
-                                Moves = atoi((char *)p);
-                                xmlFree(p);
-                            }
-                            if ((!xmlStrcmp(subtree1->name,
-                                           (const xmlChar *)"MovesWithHint")) &&
-                                (cur->ns == ns) &&
-                                (p = xmlNodeListGetString(doc,
-                                                 subtree1->xmlChildrenNode, 1)))
-                            {
-                                MovesWithHint = atoi((char *)p);
-                                xmlFree(p);
-                            }
-                            if ((!xmlStrcmp(subtree1->name,
-                                              (const xmlChar *)"CheatCount")) &&
-                                (cur->ns == ns) &&
-                                (p = xmlNodeListGetString(doc,
-                                                 subtree1->xmlChildrenNode, 1)))
-                            {
-                                CheatCount = atoi((char *)p);
-                                xmlFree(p);
-                            }
-                            subtree1 = subtree1->next;
-                        }
-                    }
-                    subtree = subtree->next;
-                }
-            }
-            tree = tree->next;
         }
+        else if (!xmlStrcmp(tree->name, _TO("GameControl")))
+        {
+            xmlNodePtr subtree = tree->xmlChildrenNode;
+
+            while (subtree != NULL)
+            {
+                const xmlChar *tag = subtree->name;
+                xmlNodePtr node    = subtree->xmlChildrenNode;
+                xmlChar *key;
+
+                if (!xmlStrcmp(tag, _TO("MouseSpeed")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> MouseSpeed;
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("SolutionHint")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> SolutionHint;
+                    xmlFree(key);
+                }
+
+                subtree = subtree->next;
+            }
+        }
+        else if (!xmlStrcmp(tree->name, _TO("AudioSettings")))
+        {
+            xmlNodePtr subtree = tree->xmlChildrenNode;
+
+            while (subtree != NULL)
+            {
+                const xmlChar *tag = subtree->name;
+                xmlNodePtr node    = subtree->xmlChildrenNode;
+                xmlChar *key;
+                int tmp;
+
+                if (!xmlStrcmp(tag, _TO("SoundVolume")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> SoundVolume;
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("MusicVolume")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> MusicVolume;
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("SoundOn")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> tmp;
+                    SoundOn = (tmp != 0);
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(tag, _TO("MusicOn")))
+                {
+                    key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> tmp;
+                    MusicOn = (tmp != 0);
+                    xmlFree(key);
+                }
+
+                subtree = subtree->next;
+            }
+        }
+        if (!xmlStrcmp(tree->name, _TO("LanguageSettings")))
+        {
+            xmlNodePtr subtree = tree->xmlChildrenNode;
+
+            while (subtree != NULL)
+            {
+                xmlNodePtr node = subtree->xmlChildrenNode;
+
+                if (!xmlStrcmp(subtree->name, _TO("Language")))
+                {
+                    xmlChar *key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> Language;
+                    xmlFree(key);
+                }
+                subtree = subtree->next;
+            }
+        }
+        if (!xmlStrcmp(tree->name, _TO("DebugSettings")))
+        {
+            xmlNodePtr subtree = tree->xmlChildrenNode;
+
+            while (subtree != NULL)
+            {
+                xmlNodePtr node = subtree->xmlChildrenNode;
+                xmlChar *key;
+                int tmp;
+
+                if (!xmlStrcmp(subtree->name, _TO("PerformanceLog")))
+                {
+                    xmlChar *key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> tmp;
+                    PerformanceLog = (tmp != 0);
+                    xmlFree(key);
+                }
+                else if (!xmlStrcmp(subtree->name, _TO("SkipProgressBar")))
+                {
+                    xmlChar *key = xmlNodeListGetString(doc, node, 1);
+                    std::istringstream iss(_FROM(key));
+                    iss >> tmp;
+                    SkipProgressBar = (tmp != 0);
+                    xmlFree(key);
+                }
+
+                subtree = subtree->next;
+            }
+        }
+        else if (!xmlStrcmp(tree->name, _TO("SavedGames")))
+        {
+            xmlNodePtr subtree = tree->xmlChildrenNode;
+
+            while (subtree != NULL)
+            {
+                if (!xmlStrcmp(subtree->name, _TO("SavedGame")))
+                {
+                    xmlNodePtr subtree1 = subtree->xmlChildrenNode;
+
+                    while (subtree1 != NULL)
+                    {
+                        const xmlChar *tag = subtree1->name;
+                        xmlNodePtr node    = subtree1->xmlChildrenNode;
+                        xmlChar *key;
+
+                        if (!xmlStrcmp(tag, _TO("Position")))
+                        {
+                            key = xmlNodeListGetString(doc, node, 1);
+                            std::istringstream iss(_FROM(key));
+                            iss >> SavedGame;
+                            xmlFree(key);
+                        }
+                        else if (!xmlStrcmp(tag, _TO("PlayTime")))
+                        {
+                            key = xmlNodeListGetString(doc, node, 1);
+                            std::istringstream iss(_FROM(key));
+                            iss >> PlayTime;
+                            xmlFree(key);
+                        }
+                        else if (!xmlStrcmp(tag, _TO("Moves")))
+                        {
+                            key = xmlNodeListGetString(doc, node, 1);
+                            std::istringstream iss(_FROM(key));
+                            iss >> Moves;
+                            xmlFree(key);
+                        }
+                        else if (!xmlStrcmp(tag, _TO("MovesWithHint")))
+                        {
+                            key = xmlNodeListGetString(doc, node, 1);
+                            std::istringstream iss(_FROM(key));
+                            iss >> MovesWithHint;
+                            xmlFree(key);
+                        }
+                        else if (!xmlStrcmp(tag, _TO("CheatCount")))
+                        {
+                            key = xmlNodeListGetString(doc, node, 1);
+                            std::istringstream iss(_FROM(key));
+                            iss >> CheatCount;
+                            xmlFree(key);
+                        }
+
+                        subtree1 = subtree1->next;
+                    }
+                }
+
+                subtree = subtree->next;
+            }
+        }
+
+        tree = tree->next;
     }
+
     xmlFreeDoc(doc);
 }
 
@@ -776,7 +804,10 @@ void KPConfig::ReadCommandLineParams(int argc,char **argv)
         else if (!strcmp(argv[i],"-m")||!strcmp(argv[i],"-mousespeed"))
         {
             i++;
-            MouseSpeed = (float)atof(argv[i]);
+
+            std::istringstream iss(argv[i]);
+
+            iss >> MouseSpeed;
         }
 
         i++;
@@ -828,6 +859,6 @@ void KPConfig::DebugPrint()
     DEBUGPRINT1("  CheatCount :           %u\n", CheatCount);
     DEBUGPRINT1("  PerformanceLog :       %s\n", PerformanceLog ? "On" : "Off");
     DEBUGPRINT1("  SkipProgressBar :      %s\n", SkipProgressBar ?
-                                                 "On" : "Off");
+                                                     "On" : "Off");
 }
 

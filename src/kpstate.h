@@ -95,7 +95,7 @@ protected:
                              int x, int y);
     tKPMenuState DefaultKeyPressed(KPstateContext *pContext, unsigned char key,
                                    int x, int y);
-    void ChangeState( KPstateContext *pContext, int stateID );
+    void ChangeState( KPstateContext *pContext, tKPMenuState stateID );
     void StartAnimation();
 
     int  AnimationTime;
@@ -104,7 +104,7 @@ protected:
     tKPMenuState oldStateId;
 };
 
-inline void KPstate::ChangeState( KPstateContext *pContext, int stateID )
+inline void KPstate::ChangeState( KPstateContext *pContext, tKPMenuState stateID )
 {
     if (pContext)
     {

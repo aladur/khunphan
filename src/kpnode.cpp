@@ -193,12 +193,12 @@ void KPnode::fprintfr(FILE *fp) const
 
 KPnode *KPnode::GetNodeFor(const KPboard &b)
 {
-    return (KPnode *)KPboard::idHash.GetObjectWith(b.GetID());
+    return static_cast<KPnode *>(KPboard::idHash.GetObjectWith(b.GetID()));
 }
 
 KPnode *KPnode::GetNodeFor(QWord id)
 {
-    return (KPnode *)KPboard::idHash.GetObjectWith(id);
+    return static_cast<KPnode *>(KPboard::idHash.GetObjectWith(id));
 }
 
 inline const KPnode &KPnode::GetNext(void) const

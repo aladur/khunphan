@@ -101,7 +101,7 @@ tKPMenuState KPstateSelectLanguage::ESCKeyAction (KPstateContext *pContext)
 {
     if (KPConfig::Instance().Language)
     {
-        return (tKPMenuState)pContext->GetMenu().RestoreLastStateId();
+        return pContext->GetMenu().RestoreLastStateId();
     }
     else
     {

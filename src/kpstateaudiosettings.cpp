@@ -200,7 +200,7 @@ void  KPstateAudioSettings::MouseClick (KPstateContext *pContext,
 tKPMenuState KPstateAudioSettings::ESCKeyAction (KPstateContext *pContext)
 {
     SaveChanges(pContext);
-    return (tKPMenuState)oldStateId;
+    return oldStateId;
 }
 
 void KPstateAudioSettings::SaveChanges(KPstateContext *pContext)

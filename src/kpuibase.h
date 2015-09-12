@@ -22,6 +22,7 @@
 #ifndef KPUIBASE_H
 #define KPUIBASE_H
 
+#include <string>
 #include "misc1.h"
 #include "KPstateContext.h"
 #include "kpmenu.h"
@@ -73,9 +74,9 @@ public:
     void UpdateDataModel(KPnode *pRoot);
     bool IsInitialized();
     void DebugPrintOpenGLVersion()  const;
-    const char *GetOpenGLVendor()   const;
-    const char *GetOpenGLRenderer() const;
-    const char *GetOpenGLVersion()  const;
+    const std::string GetOpenGLVendor()   const;
+    const std::string GetOpenGLRenderer() const;
+    const std::string GetOpenGLVersion()  const;
 
     // member functions for event handling
     void MouseMotion(int x, int y);

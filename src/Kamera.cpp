@@ -94,8 +94,7 @@ void Kamera::male(int x /* = -1 */, int y /* = -1 */) const
         GLint   viewport[4];
 
         glGetIntegerv(GL_VIEWPORT, viewport);
-        gluPickMatrix((GLdouble) x, (GLdouble) (viewport[3]- y), 1.0f, 1.0f,
-                      viewport);
+        gluPickMatrix(x, (viewport[3]- y), 1.0f, 1.0f, viewport);
     }
     gluPerspective(FOV,Aspekt,Nah,Fern);
 

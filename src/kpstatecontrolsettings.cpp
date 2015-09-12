@@ -172,7 +172,7 @@ void  KPstateControlSettings::ToggleSolutionHint(KPstateContext *pContext)
 tKPMenuState KPstateControlSettings::ESCKeyAction (KPstateContext *pContext)
 {
     SaveChanges(pContext);
-    return (tKPMenuState)oldStateId;
+    return oldStateId;
 }
 
 void KPstateControlSettings::SaveChanges(KPstateContext *)
