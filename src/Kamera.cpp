@@ -102,7 +102,7 @@ void Kamera::male(int x /* = -1 */, int y /* = -1 */) const
     glLoadIdentity();            // Kamera an den Ursprung setzen
 
     glRotatef(Alpha,-1,0,0);     // um Alpha nach oben und Beta nach Rechts
-                                 // drehen
+    // drehen
     glRotatef(Beta,0,0,1);
     // an die gewuenschte Position setzen
     glTranslatef(-Pos_x,-Pos_y,-Pos_z);
@@ -505,7 +505,7 @@ void Kamera::BlickeAuf2(float Blickpunkt_x,float Blickpunkt_y)
     GLfloat SollPosx=80*(Pos_x-Blickpunkt_x)/
                      sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
                           (Blickpunkt_y-Pos_y)*(Blickpunkt_y-Pos_y))+
-                          Blickpunkt_x;
+                     Blickpunkt_x;
     GLfloat SollPosy=80*(Pos_y-Blickpunkt_y)/
                      sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
                           (Blickpunkt_y-Pos_y)*(Blickpunkt_y-Pos_y))+
@@ -513,7 +513,7 @@ void Kamera::BlickeAuf2(float Blickpunkt_x,float Blickpunkt_y)
     GLfloat SollPosz=50;
     GLfloat SollAlpha=72;
     GLfloat SollBeta=atan((Blickpunkt_x-SollPosx)/(Blickpunkt_y-SollPosy))*
-                          degprad;
+                     degprad;
     if (SollPosy>Blickpunkt_y)
     {
         SollBeta-=180;

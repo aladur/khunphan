@@ -859,6 +859,6 @@ void KPConfig::DebugPrint()
     DEBUGPRINT1("  CheatCount :           %u\n", CheatCount);
     DEBUGPRINT1("  PerformanceLog :       %s\n", PerformanceLog ? "On" : "Off");
     DEBUGPRINT1("  SkipProgressBar :      %s\n", SkipProgressBar ?
-                                                     "On" : "Off");
+                "On" : "Off");
 }
 

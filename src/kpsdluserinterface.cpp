@@ -504,7 +504,7 @@ void KPSdlUserInterface::PlayAudio(int soundId) const
     {
         if ((sound[soundId] = Mix_LoadWAV_RW(
                                   SDL_RWFromFile(soundSource[soundId].c_str(),
-                                                 "rb"), 1)) == NULL)
+                                          "rb"), 1)) == NULL)
         {
             DEBUGPRINT2("*** Error opening Audio file '%s' [%s]\n",
                         soundSource[soundId].c_str(), Mix_GetError());

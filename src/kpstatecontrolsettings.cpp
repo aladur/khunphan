@@ -60,7 +60,7 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext)
     y = 6.0;
     menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT]->Positioniere(8,y,.71,A_RECHTS);
     menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT]->SetzeSignal(
-                                                    S_TOGGLE_MOUSE_SPEED);
+        S_TOGGLE_MOUSE_SPEED);
 
     if (E_MouseSpeed<=.293)
     {
@@ -111,8 +111,8 @@ void KPstateControlSettings::KeyPressed (KPstateContext *pContext,
 }
 
 void KPstateControlSettings::MouseClick (KPstateContext *pContext,
-                                         tMouseButton button, tMouseEvent event,
-                                         int x, int y)
+        tMouseButton button, tMouseEvent event,
+        int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 

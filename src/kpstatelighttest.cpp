@@ -71,7 +71,7 @@ void  KPstateLightTest::KeyPressed (KPstateContext *pContext, unsigned char key,
         case '7':
             KPConfig::Instance().CameraPosition = key - '1' + 1;
             pContext->GetCamera().ladePosition(
-                                      KPConfig::Instance().CameraPosition);
+                KPConfig::Instance().CameraPosition);
             break;
     }
 }

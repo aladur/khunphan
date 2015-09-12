@@ -74,7 +74,7 @@ void KPGlutUserInterface::InitializeEvents()
     glutDisplayFunc   (KPGlutUserInterface::DisplayEvent);
     glutReshapeFunc   (KPGlutUserInterface::ReshapeEvent);
 //  glutTimerFunc     (10, KPGlutUserInterface::TimerEvent, 10); // Timer event
-                                                                 // every 10 ms
+    // every 10 ms
 }
 
 bool KPGlutUserInterface::CanToggleFullScreen() const

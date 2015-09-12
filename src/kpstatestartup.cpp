@@ -62,11 +62,11 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     }
 
     pContext->GetMenu().TextfeldArray[T_COPYRIGHT2]->SetzeText(
-                                             "© 2002-2015 Wolfgang Schwotzer");
+        "© 2002-2015 Wolfgang Schwotzer");
     pContext->GetMenu().TextfeldArray[T_COPYRIGHT5]->SetzeText(
-                                             "© 2001-2006 Nicklas Nygren");
+        "© 2001-2006 Nicklas Nygren");
     pContext->GetMenu().TextfeldArray[T_COPYRIGHT6]->SetzeText(
-                                             "http://nifflas.ni2.se/");
+        "http://nifflas.ni2.se/");
 
     UpdateDisplay(pContext);
 

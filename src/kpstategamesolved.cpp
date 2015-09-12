@@ -176,10 +176,10 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext)
     if (addToScoreList)
     {
         KPscore::Instance().Add(pContext->GetMenu()
-                                   .TextfeldArray[T_NAME_FIELD]->Text(),
+                                .TextfeldArray[T_NAME_FIELD]->Text(),
                                 pContext->GetStatistics().GetTotalTime(),
                                 pContext->GetStatistics()
-                                   .GetEventCounter(MOVE_COUNTER), 0);
+                                .GetEventCounter(MOVE_COUNTER), 0);
         KPscore::Instance().WriteToFile();
         pContext->GetCamera().SetzeRundflug(true);
         newState = KPState_ScoreList;

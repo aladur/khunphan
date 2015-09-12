@@ -66,13 +66,13 @@ public:
         time = t;
     };
     unsigned long GetTotalTime();             // Returns the total elapsed time
-                                              // in milliseconds
+    // in milliseconds
     std::string GetTotalTime(tTimeFormat      // Return a formatted time string
                              formatID);
     void SetEventCounter(tEventCounter i,     // sets the current value of
                          unsigned int n);     // event counter i to n
     int  GetEventCounter(tEventCounter i);    // returns the current value of
-                                              // event counter i
+    // event counter i
     void IncEventCounter(tEventCounter i,
                          unsigned int n = 1); // increment event counter i by n
     void DecEventCounter(tEventCounter i,

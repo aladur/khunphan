@@ -275,7 +275,7 @@ void KPscore::ReadFromFile()
     xmlChar *version = xmlGetProp(cur, _TO("Version"));
     if (version != NULL)
     {
-       fileVersion = _FROM(version);
+        fileVersion = _FROM(version);
     }
 
     xmlNodePtr tree = cur->xmlChildrenNode;

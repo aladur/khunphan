@@ -109,7 +109,7 @@ void KPmenu::Update(const char *TextureName, int TextureSize, bool Nearest,
                             &KPConfig::Instance(), always);
 
     SchildArray[SHLD_LOGO]->Initialisiere(TextureName, TextureSize, Nearest,
-            true, "logo", &KPConfig::Instance(), always);
+                                          true, "logo", &KPConfig::Instance(), always);
     SchildArray[SHLD_SOUND_ON]->Initialisiere(TextureName, TextureSize, Nearest,
             true, "sound_on", &KPConfig::Instance(), always);
     SchildArray[SHLD_SOUND_OFF]->Initialisiere(TextureName, TextureSize,

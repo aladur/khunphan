@@ -53,7 +53,7 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
             pContext->GetMenu().TextfeldArray.end())
         {
             message(mtError, "*** Error: Not enough Language entries for %d "
-                             "Textures\n",
+                    "Textures\n",
                     textureNameList.size());
             exit(1);
         }
@@ -254,35 +254,35 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
             {
                 menu.TextfeldArray[T_AUF_640x480]->Positioniere(8.2, y, 0.6);
                 menu.TextfeldArray[T_AUF_640x480]->SetzeSignal(
-                                                        S_TOGGLE_RESOLUTION);
+                    S_TOGGLE_RESOLUTION);
             }
             break;
             case 1024:
             {
                 menu.TextfeldArray[T_AUF_1024x768]->Positioniere(8.2, y, 0.6);
                 menu.TextfeldArray[T_AUF_1024x768]->SetzeSignal(
-                                                         S_TOGGLE_RESOLUTION);
+                    S_TOGGLE_RESOLUTION);
             }
             break;
             case 1280:
             {
                 menu.TextfeldArray[T_AUF_1280x960]->Positioniere(8.2, y, .6);
                 menu.TextfeldArray[T_AUF_1280x960]->SetzeSignal(
-                                                         S_TOGGLE_RESOLUTION);
+                    S_TOGGLE_RESOLUTION);
             }
             break;
             case 1600:
             {
                 menu.TextfeldArray[T_AUF_1600x1200]->Positioniere(8.2, y, .6);
                 menu.TextfeldArray[T_AUF_1600x1200]->SetzeSignal(
-                                                          S_TOGGLE_RESOLUTION);
+                    S_TOGGLE_RESOLUTION);
             }
             break;
             default:
             {
                 menu.TextfeldArray[T_AUF_800x600]->Positioniere(8.2, y, .6);
                 menu.TextfeldArray[T_AUF_800x600]->SetzeSignal(
-                                                        S_TOGGLE_RESOLUTION);
+                    S_TOGGLE_RESOLUTION);
             }
             break;
         }
@@ -399,13 +399,13 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     {
         menu.TextfeldArray[T_TI_AUS]->Positioniere(8.2, y, .6);
         menu.TextfeldArray[T_TI_AUS]->SetzeSignal(
-                                           S_TOGGLE_TEXTUREINTERPOLATION);
+            S_TOGGLE_TEXTUREINTERPOLATION);
     }
     else
     {
         menu.TextfeldArray[T_TI_EIN]->Positioniere(8.2, y, .6);
         menu.TextfeldArray[T_TI_EIN]->SetzeSignal(
-                                           S_TOGGLE_TEXTUREINTERPOLATION);
+            S_TOGGLE_TEXTUREINTERPOLATION);
     }
 
     y -= dy;
@@ -413,13 +413,13 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     {
         menu.TextfeldArray[T_AMBIENTESLICHTEIN]->Positioniere(8.2, y, .6);
         menu.TextfeldArray[T_AMBIENTESLICHTEIN]->SetzeSignal(
-                                                      S_TOGGLE_AMBIENT_LIGHT);
+            S_TOGGLE_AMBIENT_LIGHT);
     }
     else
     {
         menu.TextfeldArray[T_AMBIENTESLICHTAUS]->Positioniere(8.2, y, .6);
         menu.TextfeldArray[T_AMBIENTESLICHTAUS]->SetzeSignal(
-                                                      S_TOGGLE_AMBIENT_LIGHT);
+            S_TOGGLE_AMBIENT_LIGHT);
 
     }
 
@@ -454,14 +454,14 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
         {
             menu.TextfeldArray[T_USERINTERFACE0]->Positioniere(8.2,y,.6);
             menu.TextfeldArray[T_USERINTERFACE0]->SetzeSignal(
-                                                       S_TOGGLE_USER_INTERFACE);
+                S_TOGGLE_USER_INTERFACE);
         }
         break;
         case 1:
         {
             menu.TextfeldArray[T_USERINTERFACE1]->Positioniere(8.2,y,.6);
             menu.TextfeldArray[T_USERINTERFACE1]->SetzeSignal(
-                                                       S_TOGGLE_USER_INTERFACE);
+                S_TOGGLE_USER_INTERFACE);
         }
         break;
     }
@@ -596,7 +596,7 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *)
     DEBUGPRINT1("  TextureName :          %s\n",
                 KPConfig::Instance().TextureName.c_str());
     DEBUGPRINT1("  TextureSize :          %d\n", KPConfig::Instance()
-                                                    .TextureSize);
+                .TextureSize);
     DEBUGPRINT1("  MenuTextureSize :      %d\n",
                 KPConfig::Instance().MenuTextureSize);
     DEBUGPRINT1("  Shadows :              %s\n",
@@ -610,7 +610,7 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *)
     DEBUGPRINT1("  AmbientLight :         %s\n",
                 KPConfig::Instance().AmbientLight ? "On" : "Off");
     DEBUGPRINT1("  LightSources :         %d\n", KPConfig::Instance()
-                                                    .LightSources);
+                .LightSources);
     DEBUGPRINT1("  FullScreen :           %s\n", E_FullScreen ? "On" : "Off");
 
     KPConfig::Instance().ColorDepth        = E_ColorDepth;

@@ -150,9 +150,9 @@ tIdHash KPIdHash::GetHash(QWord d) const
 {
     return static_cast<tIdHash>
            (((d &  CONST_0XFFF) ^
-            ((d & (CONST_0XFFF << 12)) >> 12) ^
-            ((d & (CONST_0XFFF << 24)) >> 24) ^
-            ((d & (CONST_0XFFF << 36)) >> 36)) % HASHTABLE_SIZE);
+             ((d & (CONST_0XFFF << 12)) >> 12) ^
+             ((d & (CONST_0XFFF << 24)) >> 24) ^
+             ((d & (CONST_0XFFF << 36)) >> 36)) % HASHTABLE_SIZE);
     /*
         return
             ((d & 0xFFFFLL) ^

@@ -479,12 +479,12 @@ void BTexture::fprintInfo(FILE *fp)
         default:
             pInterlaceType = static_cast<const char *>("???");
     }
-    
+
     switch (compression_type)
     {
         case PNG_COMPRESSION_TYPE_BASE:
             pCompressionType =
-                        static_cast<const char *>("PNG_COMPRESSION_TYPE_BASE");
+                static_cast<const char *>("PNG_COMPRESSION_TYPE_BASE");
             break;
         default:
             pCompressionType = static_cast<const char *>("???");
@@ -615,7 +615,7 @@ bool BTexture::WriteTextureToPngFile (FILE *fp, int)
     for (unsigned int i = 0; i < height; i++)
     {
         row_pointers[height - i - 1] =
-                    reinterpret_cast<png_bytep>(&texels[rowbytes * i]);
+            reinterpret_cast<png_bytep>(&texels[rowbytes * i]);
     }
 
     // and finally write the image
@@ -670,9 +670,9 @@ const char *BTexture::Rescale(int exp, int format)
             unsigned short c;
             const unsigned char *pOldTexel  = NULL;
             const unsigned char *pOldTexel0 = NULL; // address of upper left
-                                                    // texel in old texture
+            // texel in old texture
             unsigned int  *pBuffer = new unsigned int[GetChannels()];
-                                                    // buffer for one texel
+            // buffer for one texel
             int            shift   = 2*exp;
             unsigned int   fChannels = factor * GetChannels();
 
@@ -735,7 +735,7 @@ const char *BTexture::Rescale(int exp, int format)
             {
                 unsigned char       *pRow    = &texels   [ y * GetRowBytes()];
                 const unsigned char *pOldRow = &oldTexels[(y * GetRowBytes())
-                                                 <<(2*exp)];
+                                               <<(2*exp)];
 
                 for(x = 0; x < GetWidth(); x++)
                 {

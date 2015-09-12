@@ -59,9 +59,9 @@ KPnode::KPnode(const KPnode &src) : KPboard (src), pnext(NULL),
     for (int i = 0; i < MOVES_MAX; i++)
     {
         ( src.pchild[i]  != NULL ) ? pchild[i]  = new KPnode(*src.pchild[i]) :
-                                     pchild[i]  = NULL;
+        pchild[i]  = NULL;
         ( src.pparent[i] != NULL ) ? pparent[i] = new KPnode(*src.pparent[i]) :
-                                     pparent[i] = NULL;
+        pparent[i] = NULL;
     }
 }
 
@@ -88,9 +88,9 @@ void KPnode::CopyFrom(const KPnode &src)
             delete pparent[i];
         }
         ( src.pchild[i]  != NULL ) ? pchild[i]  = new KPnode(*src.pchild[i]) :
-                                     pchild[i]  = NULL;
+        pchild[i]  = NULL;
         ( src.pparent[i] != NULL ) ? pparent[i] = new KPnode(*src.pparent[i]) :
-                                     pparent[i] = NULL;
+        pparent[i] = NULL;
     }
 }
 

@@ -104,7 +104,8 @@ protected:
     tKPMenuState oldStateId;
 };
 
-inline void KPstate::ChangeState( KPstateContext *pContext, tKPMenuState stateID )
+inline void KPstate::ChangeState( KPstateContext *pContext,
+                                  tKPMenuState stateID )
 {
     if (pContext)
     {

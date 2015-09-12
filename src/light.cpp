@@ -16,7 +16,7 @@
 
 Light::Light(bool AmbientLight /* = true*/, int LightSources /*= 1*/,
              bool Reflections /*= true*/) : posX (100.0), posY (180.0),
-                                            posZ (50.0)
+    posZ (50.0)
 {
     Update(AmbientLight, LightSources, Reflections);
 }

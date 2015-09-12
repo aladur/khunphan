@@ -98,9 +98,9 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
 
         menu.TextfeldArray[T_S_NAME1     + i]->Positioniere(2, y, 0.6f);
         menu.TextfeldArray[T_S_PLAYTIME1 + i]->Positioniere(9, y, 0.6f,
-                                                            A_MITTE);
+                A_MITTE);
         menu.TextfeldArray[T_S_MOVES1    + i]->Positioniere(12,y, 0.6f,
-                                                            A_MITTE);
+                A_MITTE);
 
         y -= 0.5f;
     }

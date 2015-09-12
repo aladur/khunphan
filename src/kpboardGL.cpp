@@ -519,7 +519,7 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
     tdy = ty0 + dx / DT;
     nv[0] = 0;
     nv[1] = 0;
-   nv[2] = -1;
+    nv[2] = -1;
     glNormal3fv(nv);
     if (WithTexture)
     {
@@ -527,7 +527,7 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
     }
     glVertex3f(x0, y0, z0);
     glNormal3fv(nv);
-   if (WithTexture)
+    if (WithTexture)
     {
         glTexCoord2f(tdx, ty0);
     }
@@ -666,9 +666,10 @@ void KPboardView::Draw(bool render /* = true */) const
         glLoadName(i); // needed for Token Selection
 
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
-        GLfloat color[] = {
-                        static_cast<GLfloat>(0.6 + 0.4*mat_value),0.0,0.0,1.0
-                          };
+        GLfloat color[] =
+        {
+            static_cast<GLfloat>(0.6 + 0.4*mat_value),0.0,0.0,1.0
+        };
         glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, color);
         DrawToken(i);
 
@@ -743,7 +744,7 @@ void KPboardView::Animate(int Factor)
     {
         GLfloat Factor=
             static_cast<GLfloat>(0.5 - 0.5 *
-            cos(M_PI * Time / TOTAL_ANIMATIONTIME));
+                                 cos(M_PI * Time / TOTAL_ANIMATIONTIME));
         ax = (new_x - old_x) * Factor + old_x;
         ay = (new_y - old_y) * Factor + old_y;
     }
@@ -789,8 +790,8 @@ bool KPboardView::Move(tKPTokenID id, tKPDirection d)
     }
     if ( i >= 2 )
     {
-                         // more than one possibility: use mouse motion to get
-                         // direction
+        // more than one possibility: use mouse motion to get
+        // direction
         direction = d;
     }
     if (direction == MOVE_NO)
@@ -829,7 +830,7 @@ void KPboardView::DrawCuboid(float deltaAngle) const// Only for test purposes
 {
     static GLfloat rquad = 0;
     GLint without_camera = 0;  // switch to 1 to test without any camera
-                               // properties
+    // properties
 
     glPushMatrix();
     //glDisable(GL_LIGHTING);
@@ -850,7 +851,7 @@ void KPboardView::DrawCuboid(float deltaAngle) const// Only for test purposes
     if (without_camera)
     {
         rquad -= deltaAngle;                   // Decrease The Rotation Variable
-                                               // For The Quad
+        // For The Quad
     }
     glPopMatrix();
 }

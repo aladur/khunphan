@@ -161,7 +161,7 @@ void  KPstateGame::KeyPressed (KPstateContext *pContext, unsigned char key,
             KPConfig::Instance().CameraPosition = key - '1' + 1;
             KPConfig::Instance().WriteToFile();
             pContext->GetCamera().ladePosition(
-                                      KPConfig::Instance().CameraPosition);
+                KPConfig::Instance().CameraPosition);
             break;
         case 'P':
         case 'p':
@@ -178,7 +178,7 @@ tKPMenuState KPstateGame::ESCKeyAction (KPstateContext *pContext)
     pContext->GetStatistics().Stop();
     SaveGameStatus(pContext);
     pContext->GetUserInterface().SetSoundVolume(
-                                    KPConfig::Instance().SoundVolume);
+        KPConfig::Instance().SoundVolume);
     pContext->GetUserInterface().PlayMusic(false);
     return KPState_MainMenu;
 }
@@ -198,7 +198,7 @@ void  KPstateGame::MouseClick (KPstateContext *pContext,
                 pContext->GetStatistics().Stop();
                 SaveGameStatus(pContext);
                 pContext->GetUserInterface().SetSoundVolume(
-                                              KPConfig::Instance().SoundVolume);
+                    KPConfig::Instance().SoundVolume);
                 pContext->GetUserInterface().PlayMusic(false);
                 pContext->ChangeState(KPState_MainMenu);
                 break;
@@ -265,7 +265,7 @@ void KPstateGame::GameIsSolved(KPstateContext *pContext)
 {
     animationFinishedCallback = NULL;
     pContext->GetUserInterface().SetSoundVolume(
-                                         KPConfig::Instance().SoundVolume);
+        KPConfig::Instance().SoundVolume);
     pContext->GetUserInterface().PlayMusic(false);
     pContext->ChangeState(KPState_GameSolved);
 }
@@ -329,11 +329,11 @@ void KPstateGame::SaveGameStatus(KPstateContext *pContext)
     KPConfig::Instance().SavedGame = pContext->GetBoardView().GetBoardId();
     KPConfig::Instance().PlayTime = pContext->GetStatistics().GetTotalTime();
     KPConfig::Instance().Moves =
-                 pContext->GetStatistics().GetEventCounter(MOVE_COUNTER);
+        pContext->GetStatistics().GetEventCounter(MOVE_COUNTER);
     KPConfig::Instance().MovesWithHint =
-                 pContext->GetStatistics().GetEventCounter(MOVE_WITH_HELP_CNT);
+        pContext->GetStatistics().GetEventCounter(MOVE_WITH_HELP_CNT);
     KPConfig::Instance().CheatCount =
-                 pContext->GetStatistics().GetEventCounter(USED_CHEATS_CNT);
+        pContext->GetStatistics().GetEventCounter(USED_CHEATS_CNT);
 }
 
 void KPstateGame::PlayAudioForInitialize(KPstateContext *pContext)

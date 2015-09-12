@@ -250,7 +250,7 @@ tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
         case 'F' - 'A' + 1:
             KPConfig::Instance().FullScreen = !KPConfig::Instance().FullScreen;
             pContext->GetUserInterface().SetWindowMode(
-                         KPConfig::Instance().FullScreen != 0);
+                KPConfig::Instance().FullScreen != 0);
             //UpdateDisplay(pContext);
             break;
     }
