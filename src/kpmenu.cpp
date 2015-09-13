@@ -190,8 +190,6 @@ void KPmenu::DeactivateAllLabels()
 {
     tSchildArray::iterator it;
 
-    UpdateFPS(0);
-
     for (it = SchildArray.begin(); it != SchildArray.end(); ++it)
     {
         it->second.Desaktiviere();
