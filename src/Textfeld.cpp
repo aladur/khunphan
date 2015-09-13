@@ -71,7 +71,7 @@ short        Textfeld::textureSource = 0;
 
 tActivated Textfeld::activated;
 
-Textfeld::Textfeld() : pFormat(NULL), pString(NULL), size(0),
+Textfeld::Textfeld() : pString(NULL), size(0),
     x(0), y(0),
     Hoehe(0), Aspekt(0), Alpha(0),
     alt_x(0),  alt_y(0),  alt_Hoehe(0),  alt_Alpha(0),
@@ -84,7 +84,6 @@ Textfeld::Textfeld() : pFormat(NULL), pString(NULL), size(0),
 
 Textfeld::~Textfeld()
 {
-    delete [] pFormat;
     delete [] pString;
 }
 
@@ -289,14 +288,11 @@ void Textfeld::SetzeFormat(const char *srcString /* = NULL */)
 {
     if (srcString == NULL)
     {
-        delete [] pFormat;
-        pFormat = NULL;
+        format.clear();
     }
     else
     {
-        delete [] pFormat;
-        pFormat = new char [strlen(srcString)+1];
-        strcpy(pFormat, srcString);
+        format = srcString;
     }
 }
 
@@ -373,40 +369,40 @@ int Textfeld::FormatTextKDL(const char *format, ...)
 
 // Sw: In vsprintf we still have a size limit for the string
 #define MAX_SSIZE   (2000)
-int Textfeld::vsprintf(const char *format, va_list arg_ptr)
+int Textfeld::vsprintf(const char *_format, va_list arg_ptr)
 {
-    const char *pf;
+    std::string fmt;
 
     if (pString == NULL)
     {
         return -1;
     }
 
-    if (format == NULL)
+    if (_format == NULL)
     {
-        if (pFormat == NULL)
+        if (format.empty())
         {
-            pFormat = new char [strlen(pString)+1];
-            strcpy(pFormat, pString);
+            format = pString;
         }
-        pf = pFormat;
+        fmt = format;
     }
     else
     {
-        pf = format;
+        fmt = _format;
     }
 
     CheckValidString(MAX_SSIZE);
 
 #ifdef WIN32
 #ifdef _MSC_VER
-    _vsnprintf(pString, MAX_SSIZE-1, pf, arg_ptr);
+    _vsnprintf(pString, MAX_SSIZE-1, fmt.c_str(), arg_ptr);
 #else
-    vsprintf(pString, pf, arg_ptr);
+    vsprintf(pString, fmt.c_str(), arg_ptr);
 #endif
 #else
-    vsnprintf(pString, MAX_SSIZE-1, pf, arg_ptr);
+    vsnprintf(pString, MAX_SSIZE-1, fmt.c_str(), arg_ptr);
 #endif
+
     return strlen(pString);
 }
 

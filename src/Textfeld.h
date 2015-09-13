@@ -14,6 +14,7 @@
 #ifdef HAVE_STDARG_H
 #include <stdarg.h>
 #endif
+#include <string>
 #include "kpconfig.h"
 
 
@@ -87,7 +88,7 @@ private:
     void SetzeFormat(const char *);
     void StarteAnimation();
     void CheckValidString(int min_size, const char *srcString = NULL);
-    char *pFormat;
+    std::string format;
     char *pString;
     int   size;
     float x,y,Hoehe,Aspekt,Alpha;
