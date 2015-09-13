@@ -44,7 +44,6 @@
 #include "kpconfig.h"
 #include "kpstate.h"
 #include "kpstatistics.h"
-#include "btime.h"
 
 // Uncomment the following line to
 // compile for a specific light test version
@@ -60,7 +59,6 @@ KPUIBase::KPUIBase() : proot(NULL), pBoardView(NULL), pCamera(NULL),
 
 {
     instance = this;
-    pTime    = new BTime;
 }
 
 KPUIBase::~KPUIBase()
@@ -77,8 +75,6 @@ KPUIBase::~KPUIBase()
     pState      = NULL;
     delete pStatistics;
     pStatistics = NULL;
-    delete pTime;
-    pTime       = NULL;
     instance = NULL;
 }
 
@@ -196,7 +192,7 @@ void KPUIBase::Display()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    pTime->ResetRelativeTime();
+    timer.ResetRelativeTime();
 
     if (KPConfig::Instance().DisplayFPS)
     {
@@ -206,7 +202,7 @@ void KPUIBase::Display()
     pState->Draw(this);  // Drawing is delegated to KPstate
     glFinish();
 
-    renderTime = pTime->GetRelativeTimeUsf() / 1000.0; // Get RenderTime in ms
+    renderTime = timer.GetRelativeTimeUsf() / 1000.0; // Get RenderTime in ms
 
     SwapBuffers();
 }
@@ -229,11 +225,11 @@ void KPUIBase::Idle()
     if (lastFrameTimestamp == 0)
     {
         // first time initialization
-        lastFrameTimestamp = pTime->GetTimeMsl();
+        lastFrameTimestamp = timer.GetTimeMsl();
         return;
     }
 
-    unsigned long frameTimestamp = pTime->GetTimeMsl();
+    unsigned long frameTimestamp = timer.GetTimeMsl();
     unsigned long factor = frameTimestamp - lastFrameTimestamp;
 
     if (factor >= 10)
@@ -252,7 +248,7 @@ void KPUIBase::DisplayFPS(float renderTime)
     static unsigned long t0     = 0;
     static unsigned int  Frames = 0;
 
-    unsigned long t = pTime->GetTimeMsl();
+    unsigned long t = timer.GetTimeMsl();
     Frames++;
     if (t - t0 > 2000)  // update every 2 seconds
     {
@@ -311,8 +307,6 @@ void KPUIBase::ChangeState( int stateID )
         pState      = NULL;
         delete pStatistics;
         pStatistics = NULL;
-        delete pTime;
-        pTime       = NULL;
         Close();
     }
 }

@@ -27,6 +27,7 @@
 #include "KPstateContext.h"
 #include "kpmenu.h"
 #include "KPtime.h"
+#include "btime.h"
 
 
 class KPnode;
@@ -99,7 +100,7 @@ protected:
     virtual void PostWindowRedisplay() = 0;
 
     KPnode *proot;  // unfinished
-    BTime  *pTime;
+    BTime   timer;
 
 // Sw: unfinished: should be protected
 public:
