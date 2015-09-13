@@ -48,44 +48,44 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext)
     bool fullScreen = pContext->GetUserInterface().CanToggleFullScreen();
 
     float y = 8.5;
-    menu.TextfeldArray[T_H_KEYBOARDHELP  ]->Positioniere(8,y,1,A_MITTE);
+    menu.TextfeldArray[T_H_KEYBOARDHELP  ].Positioniere(8,y,1,A_MITTE);
     y -= 1.0f;
-    menu.TextfeldArray[T_H_KEYBOARDHELP  ]->VollSichtbar();
+    menu.TextfeldArray[T_H_KEYBOARDHELP  ].VollSichtbar();
 
-    menu.TextfeldArray[T_H_GENERAL     ]->Positioniere(8,y,1,A_MITTE);
+    menu.TextfeldArray[T_H_GENERAL     ].Positioniere(8,y,1,A_MITTE);
     y -= 1.0f;
-    menu.TextfeldArray[T_H_ESC_KEY     ]->Positioniere(3,y,0.6f);
+    menu.TextfeldArray[T_H_ESC_KEY     ].Positioniere(3,y,0.6f);
     y -= 0.6f;
-    menu.TextfeldArray[T_H_OPENGL_KEY    ]->Positioniere(3,y,0.6f);
+    menu.TextfeldArray[T_H_OPENGL_KEY    ].Positioniere(3,y,0.6f);
     y -= (fullScreen ? 0.6f : 1.0f);
     if (fullScreen)
     {
-        menu.TextfeldArray[T_H_FULLSCREEN_KEY]->Positioniere(3,y,0.6f);
+        menu.TextfeldArray[T_H_FULLSCREEN_KEY].Positioniere(3,y,0.6f);
         y -= 1.0f;
     }
-    menu.TextfeldArray[T_H_IN_GAME     ]->Positioniere(8,y,1,A_MITTE);
+    menu.TextfeldArray[T_H_IN_GAME     ].Positioniere(8,y,1,A_MITTE);
     y -= 1.0f;
-    menu.TextfeldArray[T_H_PAUSE_KEY   ]->Positioniere(3,y,0.6f);
+    menu.TextfeldArray[T_H_PAUSE_KEY   ].Positioniere(3,y,0.6f);
     y -= 0.6f;
-    menu.TextfeldArray[T_H_CAMERA_KEY  ]->Positioniere(3,y,0.6f);
+    menu.TextfeldArray[T_H_CAMERA_KEY  ].Positioniere(3,y,0.6f);
     y -= 0.6f;
 
     y = 6.5f;
-    menu.TextfeldArray[T_H_ESC   ]->Positioniere(6,y,0.6f);
+    menu.TextfeldArray[T_H_ESC   ].Positioniere(6,y,0.6f);
     y -= 0.6f;
-    menu.TextfeldArray[T_H_OPENGL    ]->Positioniere(6,y,0.6f);
+    menu.TextfeldArray[T_H_OPENGL    ].Positioniere(6,y,0.6f);
     y -= (fullScreen ? 0.6f : 2.0f);
     if (fullScreen)
     {
-        menu.TextfeldArray[T_H_FULLSCREEN]->Positioniere(6,y,0.6f);
+        menu.TextfeldArray[T_H_FULLSCREEN].Positioniere(6,y,0.6f);
         y -= 2.0f;
     }
-    menu.TextfeldArray[T_H_PAUSE ]->Positioniere(6,y,0.6f);
+    menu.TextfeldArray[T_H_PAUSE ].Positioniere(6,y,0.6f);
     y -= 0.6f;
-    menu.TextfeldArray[T_H_CAMERA    ]->Positioniere(6,y,0.6f);
+    menu.TextfeldArray[T_H_CAMERA    ].Positioniere(6,y,0.6f);
 
-    menu.TextfeldArray[T_ZURUECK ]->Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_ZURUECK ]->SetzeSignal(S_BACK);
+    menu.TextfeldArray[T_ZURUECK ].Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_ZURUECK ].SetzeSignal(S_BACK);
 
     StartAnimation();
 }

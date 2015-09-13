@@ -45,7 +45,7 @@ void KPstateTutorial1::Initialize(KPstateContext *pContext,
     {
         if (menu.TextfeldArray.find(i) != menu.TextfeldArray.end())
         {
-            menu.TextfeldArray[i]->SetzeMaxBreite(31);
+            menu.TextfeldArray[i].SetzeMaxBreite(31);
         }
     }
 
@@ -67,51 +67,51 @@ void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext)
     menu.SchildArray[SHLD_LOGO].SetzeSignal(S_BACK);
     menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_TUTORIAL1]->Positioniere(8,10.5,1.0,A_MITTE);
-    menu.TextfeldArray[T_TUTORIAL1]->VollSichtbar();
+    menu.TextfeldArray[T_TUTORIAL1].Positioniere(8,10.5,1.0,A_MITTE);
+    menu.TextfeldArray[T_TUTORIAL1].VollSichtbar();
 
     float y = 9.5;
-    menu.TextfeldArray[T_TUTORIAL1_01]->Positioniere(1.25,y,0.7f);
+    menu.TextfeldArray[T_TUTORIAL1_01].Positioniere(1.25,y,0.7f);
     y -= 1.0;
-    menu.TextfeldArray[T_TUTORIAL1_02]->Positioniere(1.25,y,0.5);
+    menu.TextfeldArray[T_TUTORIAL1_02].Positioniere(1.25,y,0.5);
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL1_03) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_03]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL1_03].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL1_04) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_04]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL1_04].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL1_05) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_05]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL1_05].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL1_06) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_06]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL1_06].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL1_07) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_07]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL1_07].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL1_08) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_08]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL1_08].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL1_09) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_09]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL1_09].Positioniere(1.25,y,0.5);
     }
 
-    menu.TextfeldArray[T_WEITER]->Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_WEITER]->SetzeSignal(S_CONTINUE);
+    menu.TextfeldArray[T_WEITER].Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_WEITER].SetzeSignal(S_CONTINUE);
 
     StartAnimation();
 }

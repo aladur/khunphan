@@ -36,6 +36,8 @@ KPstateStartUp::KPstateStartUp() : fullInitialized(false)
 void KPstateStartUp::Initialize(KPstateContext *pContext,
                                 const KPstate *pOldState)
 {
+    tTextfeldArray::iterator it;
+
     KPstate::Initialize(pContext, pOldState);
 
     // Do some initialization stuff here:
@@ -44,29 +46,35 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
         fullInitialized = true;
     }
 
-    if (pContext->GetMenu().TextfeldArray[T_COPYRIGHT2] == NULL)
+    it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT2);
+    if (it == pContext->GetMenu().TextfeldArray.end())
     {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT2] = new Textfeld();
-    }
-    if (pContext->GetMenu().TextfeldArray[T_COPYRIGHT3] == NULL)
-    {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT3] = new Textfeld();
-    }
-    if (pContext->GetMenu().TextfeldArray[T_COPYRIGHT5] == NULL)
-    {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT5] = new Textfeld();
-    }
-    if (pContext->GetMenu().TextfeldArray[T_COPYRIGHT6] == NULL)
-    {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT6] = new Textfeld();
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT2] = Textfeld();
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT2].SetzeText(
+            "© 2002-2015 Wolfgang Schwotzer");
     }
 
-    pContext->GetMenu().TextfeldArray[T_COPYRIGHT2]->SetzeText(
-        "© 2002-2015 Wolfgang Schwotzer");
-    pContext->GetMenu().TextfeldArray[T_COPYRIGHT5]->SetzeText(
-        "© 2001-2006 Nicklas Nygren");
-    pContext->GetMenu().TextfeldArray[T_COPYRIGHT6]->SetzeText(
-        "http://nifflas.ni2.se/");
+    it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT3);
+    if (it == pContext->GetMenu().TextfeldArray.end())
+    {
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT3] = Textfeld();
+    }
+
+    it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT5);
+    if (it == pContext->GetMenu().TextfeldArray.end())
+    {
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT5] = Textfeld();
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT5].SetzeText(
+            "© 2001-2006 Nicklas Nygren");
+    }
+
+    it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT6);
+    if (it == pContext->GetMenu().TextfeldArray.end())
+    {
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT6] = Textfeld();
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT6].SetzeText(
+            "http://nifflas.ni2.se/");
+    }
 
     UpdateDisplay(pContext);
 
@@ -91,20 +99,20 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
     }
 
     float y = 3.0f;
-    menu.TextfeldArray[T_COPYRIGHT1]->Positioniere(8, y, 0.4f, A_MITTE);
+    menu.TextfeldArray[T_COPYRIGHT1].Positioniere(8, y, 0.4f, A_MITTE);
     y -= 0.4f;
-    menu.TextfeldArray[T_COPYRIGHT2]->Positioniere(8, y, 0.4f, A_MITTE);
+    menu.TextfeldArray[T_COPYRIGHT2].Positioniere(8, y, 0.4f, A_MITTE);
     y -= 0.4f;
-    menu.TextfeldArray[T_COPYRIGHT3]->Positioniere(8, y, 0.4f, A_MITTE);
+    menu.TextfeldArray[T_COPYRIGHT3].Positioniere(8, y, 0.4f, A_MITTE);
     y -= 0.8f;
-    menu.TextfeldArray[T_COPYRIGHT4]->Positioniere(8, y, 0.4f, A_MITTE);
+    menu.TextfeldArray[T_COPYRIGHT4].Positioniere(8, y, 0.4f, A_MITTE);
     y -= 0.4f;
-    menu.TextfeldArray[T_COPYRIGHT5]->Positioniere(8, y, 0.4f, A_MITTE);
+    menu.TextfeldArray[T_COPYRIGHT5].Positioniere(8, y, 0.4f, A_MITTE);
     y -= 0.4f;
-    menu.TextfeldArray[T_COPYRIGHT6]->Positioniere(8, y, 0.4f, A_MITTE);
+    menu.TextfeldArray[T_COPYRIGHT6].Positioniere(8, y, 0.4f, A_MITTE);
 
-    menu.TextfeldArray[T_NOWARRANTY]->Positioniere(8,    0,   0.5, A_MITTE);
-    menu.TextfeldArray[T_VERSION   ]->Positioniere(0.1f, 0,   0.5);
+    menu.TextfeldArray[T_NOWARRANTY].Positioniere(8,    0,   0.5, A_MITTE);
+    menu.TextfeldArray[T_VERSION   ].Positioniere(0.1f, 0,   0.5);
 
     StartAnimation();
 }

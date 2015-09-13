@@ -37,6 +37,8 @@ KPstateGameSolved::KPstateGameSolved() : addToScoreList(false),
 void KPstateGameSolved::Initialize(KPstateContext *pContext,
                                    const KPstate *pOldState)
 {
+    tTextfeldArray::iterator it;
+
     KPstate::Initialize(pContext, pOldState);
 
     KPmenu &menu             = pContext->GetMenu();
@@ -47,11 +49,13 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
 
     KPConfig::Instance().SavedGame = 0;
 
-    if (menu.TextfeldArray[T_NAME_FIELD] == NULL)
+    it = menu.TextfeldArray.find(T_NAME_FIELD);
+    if (it == menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_NAME_FIELD] = new Textfeld();
+        menu.TextfeldArray[T_NAME_FIELD] = Textfeld();
     }
-    menu.TextfeldArray[T_NAME_FIELD]->Initialisiere("");
+
+    menu.TextfeldArray[T_NAME_FIELD].Initialisiere("");
 
     if (statistics.GetEventCounter(USED_CHEATS_CNT) != 0)
         // Game solved but cheats used
@@ -79,6 +83,8 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
 
 void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
 {
+    tTextfeldArray::iterator it;
+
     KPstate::UpdateDisplay(pContext);
 
     KPmenu &menu             = pContext->GetMenu();
@@ -90,41 +96,46 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
     menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
     float y = 7.5;
-    menu.TextfeldArray[T_SOLVED1]->FormatText(NULL,
+    menu.TextfeldArray[T_SOLVED1].FormatText(NULL,
             statistics.GetEventCounter(MOVE_COUNTER),
             statistics.GetTotalTime(RTIME_MM_ss).c_str());
-    menu.TextfeldArray[T_SOLVED1]->Positioniere(8,y,0.6f,A_MITTE);
+    menu.TextfeldArray[T_SOLVED1].Positioniere(8,y,0.6f,A_MITTE);
     y-= 0.6f;
 
-    if (menu.TextfeldArray[tf_index  ] != NULL)
+    it = menu.TextfeldArray.find(tf_index);
+    if (it != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[tf_index  ]->FormatText(NULL,
+        menu.TextfeldArray[tf_index].FormatText(NULL,
                 statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
-        menu.TextfeldArray[tf_index  ]->Positioniere(8,y,0.6f,A_MITTE);
+        menu.TextfeldArray[tf_index  ].Positioniere(8,y,0.6f,A_MITTE);
         y-= 0.6f;
     }
-    if (menu.TextfeldArray[tf_index+1] != NULL)
+
+    it = menu.TextfeldArray.find(tf_index+1);
+    if (it != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[tf_index+1]->Positioniere(8,y,0.6f,A_MITTE);
+        menu.TextfeldArray[tf_index+1].Positioniere(8,y,0.6f,A_MITTE);
     }
+
     y-= 0.6f;
-    if (menu.TextfeldArray[tf_index+2] != NULL)
+    it = menu.TextfeldArray.find(tf_index+2);
+    if (it != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[tf_index+2]->Positioniere(8,y,0.6f,A_MITTE);
+        menu.TextfeldArray[tf_index+2].Positioniere(8,y,0.6f,A_MITTE);
     }
     y-= 1.0;
 
     if (addToScoreList)
     {
-        menu.TextfeldArray[T_INPUT_NAME]->Positioniere(8,y,1,A_MITTE);
+        menu.TextfeldArray[T_INPUT_NAME].Positioniere(8,y,1,A_MITTE);
         y -= 1.0;
-        menu.TextfeldArray[T_NAME_FIELD]->Positioniere(8,y,1, A_MITTE);
-        menu.TextfeldArray[T_NAME_FIELD]->SetMaxCharacters(24);
-        menu.TextfeldArray[T_NAME_FIELD]->SetInputFocus(addToScoreList);
+        menu.TextfeldArray[T_NAME_FIELD].Positioniere(8,y,1, A_MITTE);
+        menu.TextfeldArray[T_NAME_FIELD].SetMaxCharacters(24);
+        menu.TextfeldArray[T_NAME_FIELD].SetInputFocus(addToScoreList);
     }
 
-    menu.TextfeldArray[T_WEITER]->Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_WEITER]->SetzeSignal(S_CONTINUE);
+    menu.TextfeldArray[T_WEITER].Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_WEITER].SetzeSignal(S_CONTINUE);
 
     StartAnimation();
 }
@@ -134,7 +145,7 @@ void KPstateGameSolved::KeyPressed (KPstateContext *pContext, unsigned char key,
 {
     if (EvaluateKeyPressed(pContext, key, x, y))
     {
-        if (pContext->GetMenu().TextfeldArray[T_NAME_FIELD]->HasInputFocus())
+        if (pContext->GetMenu().TextfeldArray[T_NAME_FIELD].HasInputFocus())
         {
             UpdateDisplay(pContext);
         }
@@ -176,7 +187,7 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext)
     if (addToScoreList)
     {
         KPscore::Instance().Add(pContext->GetMenu()
-                                .TextfeldArray[T_NAME_FIELD]->Text(),
+                                .TextfeldArray[T_NAME_FIELD].Text(),
                                 pContext->GetStatistics().GetTotalTime(),
                                 pContext->GetStatistics()
                                 .GetEventCounter(MOVE_COUNTER), 0);

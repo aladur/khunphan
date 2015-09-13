@@ -58,32 +58,32 @@ void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext)
     menu.SchildArray[SHLD_LOGO].Positioniere(5,9,11,11);
     menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_HAUPTMENU     ]->Positioniere(8,8,1,A_MITTE);
-    menu.TextfeldArray[T_HAUPTMENU     ]->VollSichtbar();
+    menu.TextfeldArray[T_HAUPTMENU     ].Positioniere(8,8,1,A_MITTE);
+    menu.TextfeldArray[T_HAUPTMENU     ].VollSichtbar();
 
-    menu.TextfeldArray[T_TUTORIAL      ]->Positioniere(5.5,6.5,1,A_MITTE);
-    menu.TextfeldArray[T_TUTORIAL      ]->SetzeSignal(S_TUTORIAL);
+    menu.TextfeldArray[T_TUTORIAL      ].Positioniere(5.5,6.5,1,A_MITTE);
+    menu.TextfeldArray[T_TUTORIAL      ].SetzeSignal(S_TUTORIAL);
 
-    menu.TextfeldArray[T_H_KEYBOARDHELP]->Positioniere(5.5,5,1,A_MITTE);
-    menu.TextfeldArray[T_H_KEYBOARDHELP]->SetzeSignal(S_KEYBOARD_HELP);
+    menu.TextfeldArray[T_H_KEYBOARDHELP].Positioniere(5.5,5,1,A_MITTE);
+    menu.TextfeldArray[T_H_KEYBOARDHELP].SetzeSignal(S_KEYBOARD_HELP);
 
-    menu.TextfeldArray[T_SCORELIST     ]->Positioniere(5.5,3.5,1,A_MITTE);
-    menu.TextfeldArray[T_SCORELIST     ]->SetzeSignal(S_SCORELIST);
+    menu.TextfeldArray[T_SCORELIST     ].Positioniere(5.5,3.5,1,A_MITTE);
+    menu.TextfeldArray[T_SCORELIST     ].SetzeSignal(S_SCORELIST);
 
-    menu.TextfeldArray[T_NEUESSPIEL    ]->Positioniere(10.5,6.5,1,A_MITTE);
-    menu.TextfeldArray[T_NEUESSPIEL    ]->SetzeSignal(S_NEW_GAME);
+    menu.TextfeldArray[T_NEUESSPIEL    ].Positioniere(10.5,6.5,1,A_MITTE);
+    menu.TextfeldArray[T_NEUESSPIEL    ].SetzeSignal(S_NEW_GAME);
 
-    menu.TextfeldArray[T_EINSTELLUNGEN ]->Positioniere(10.5,5,1,A_MITTE);
-    menu.TextfeldArray[T_EINSTELLUNGEN ]->SetzeSignal(S_SETTINGS);
+    menu.TextfeldArray[T_EINSTELLUNGEN ].Positioniere(10.5,5,1,A_MITTE);
+    menu.TextfeldArray[T_EINSTELLUNGEN ].SetzeSignal(S_SETTINGS);
 
     if (KPConfig::Instance().SavedGame != 0)
     {
-        menu.TextfeldArray[T_WEITERSPIELEN]->Positioniere(10.5,3.5,1,A_MITTE);
-        menu.TextfeldArray[T_WEITERSPIELEN]->SetzeSignal(S_CONTINUE);
+        menu.TextfeldArray[T_WEITERSPIELEN].Positioniere(10.5,3.5,1,A_MITTE);
+        menu.TextfeldArray[T_WEITERSPIELEN].SetzeSignal(S_CONTINUE);
     }
 
-    menu.TextfeldArray[T_BEENDEN       ]->Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_BEENDEN       ]->SetzeSignal(S_FINISH);
+    menu.TextfeldArray[T_BEENDEN       ].Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_BEENDEN       ].SetzeSignal(S_FINISH);
 
     StartAnimation();
 }

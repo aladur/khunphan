@@ -52,34 +52,34 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext)
     menu.SchildArray[SHLD_LOGO].SetzeSignal(S_BACK);
     menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_TUTORIAL2]->Positioniere(8,10.5,1.0,A_MITTE);
-    menu.TextfeldArray[T_TUTORIAL2]->VollSichtbar();
+    menu.TextfeldArray[T_TUTORIAL2].Positioniere(8,10.5,1.0,A_MITTE);
+    menu.TextfeldArray[T_TUTORIAL2].VollSichtbar();
 
     float y = 9.5;
-    menu.TextfeldArray[T_TUTORIAL2_01]->Positioniere(1.25,y,0.5);
+    menu.TextfeldArray[T_TUTORIAL2_01].Positioniere(1.25,y,0.5);
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL2_02) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL2_02]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL2_02].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL2_03) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL2_03]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL2_03].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL2_04) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL2_04]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL2_04].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.TextfeldArray.find(T_TUTORIAL2_05) != menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_TUTORIAL2_05]->Positioniere(1.25,y,0.5);
+        menu.TextfeldArray[T_TUTORIAL2_05].Positioniere(1.25,y,0.5);
     }
 
-    menu.TextfeldArray[T_WEITER]->Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_WEITER]->SetzeSignal(S_CONTINUE);
+    menu.TextfeldArray[T_WEITER].Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_WEITER].SetzeSignal(S_CONTINUE);
 
     StartAnimation();
 }

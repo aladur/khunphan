@@ -52,54 +52,54 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext)
     menu.SchildArray[SHLD_LOGO].Positioniere(4,9,12,11);
     menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_EINSTELLUNGEN]->Positioniere(4,8,1);
-    menu.TextfeldArray[T_EINSTELLUNGEN]->VollSichtbar();
-    menu.TextfeldArray[T_STEUERUNG]->Positioniere(12,8,1,A_RECHTS);
-    menu.TextfeldArray[T_STEUERUNG]->VollSichtbar();
+    menu.TextfeldArray[T_EINSTELLUNGEN].Positioniere(4,8,1);
+    menu.TextfeldArray[T_EINSTELLUNGEN].VollSichtbar();
+    menu.TextfeldArray[T_STEUERUNG].Positioniere(12,8,1,A_RECHTS);
+    menu.TextfeldArray[T_STEUERUNG].VollSichtbar();
 
     y = 6.0;
-    menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT]->Positioniere(8,y,.71,A_RECHTS);
-    menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT]->SetzeSignal(
+    menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT].Positioniere(8,y,.71,A_RECHTS);
+    menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT].SetzeSignal(
         S_TOGGLE_MOUSE_SPEED);
 
     if (E_MouseSpeed<=.293)
     {
-        menu.TextfeldArray[T_MG_LANGSAM]->Positioniere(8.2,y,.71);
-        menu.TextfeldArray[T_MG_LANGSAM]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.TextfeldArray[T_MG_LANGSAM].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_LANGSAM].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else if (E_MouseSpeed<=.41)
     {
-        menu.TextfeldArray[T_MG_NORMAL]->Positioniere(8.2,y,.71);
-        menu.TextfeldArray[T_MG_NORMAL]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.TextfeldArray[T_MG_NORMAL].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_NORMAL].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else if (E_MouseSpeed<=.575)
     {
-        menu.TextfeldArray[T_MG_SCHNELL]->Positioniere(8.2,y,.71);
-        menu.TextfeldArray[T_MG_SCHNELL]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.TextfeldArray[T_MG_SCHNELL].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_SCHNELL].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else
     {
-        menu.TextfeldArray[T_MG_SEHRSCHNELL]->Positioniere(8.2,y,.71);
-        menu.TextfeldArray[T_MG_SEHRSCHNELL]->SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.TextfeldArray[T_MG_SEHRSCHNELL].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_SEHRSCHNELL].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
 
     y -= dy;
-    menu.TextfeldArray[T_SOLUTIONHINT]->Positioniere(8,y,.71,A_RECHTS);
-    menu.TextfeldArray[T_SOLUTIONHINT]->SetzeSignal(S_TOGGLE_SOLUTION_HINT);
+    menu.TextfeldArray[T_SOLUTIONHINT].Positioniere(8,y,.71,A_RECHTS);
+    menu.TextfeldArray[T_SOLUTIONHINT].SetzeSignal(S_TOGGLE_SOLUTION_HINT);
 
     if (E_SolutionHint)
     {
-        menu.TextfeldArray[T_SH_ON]->Positioniere(8.2,y,.71);
-        menu.TextfeldArray[T_SH_ON]->SetzeSignal(S_TOGGLE_SOLUTION_HINT);
+        menu.TextfeldArray[T_SH_ON].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_SH_ON].SetzeSignal(S_TOGGLE_SOLUTION_HINT);
     }
     else
     {
-        menu.TextfeldArray[T_SH_OFF]->Positioniere(8.2,y,.71);
-        menu.TextfeldArray[T_SH_OFF]->SetzeSignal(S_TOGGLE_SOLUTION_HINT);
+        menu.TextfeldArray[T_SH_OFF].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_SH_OFF].SetzeSignal(S_TOGGLE_SOLUTION_HINT);
     }
 
-    menu.TextfeldArray[T_ZURUECK]->Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_ZURUECK]->SetzeSignal(S_BACK);
+    menu.TextfeldArray[T_ZURUECK].Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_ZURUECK].SetzeSignal(S_BACK);
 
     StartAnimation();
 }

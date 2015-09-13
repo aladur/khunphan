@@ -45,12 +45,12 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext)
     menu.SchildArray[SHLD_LOGO].Positioniere(4,9,12,11);
     menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_BEENDEN  ]->Positioniere(8,8,1,A_MITTE);
-    menu.TextfeldArray[T_BEENDEN  ]->VollSichtbar();
-    menu.TextfeldArray[T_JABEENDEN]->Positioniere(8,6,1,A_MITTE);
-    menu.TextfeldArray[T_JABEENDEN]->SetzeSignal(S_FINISH);
-    menu.TextfeldArray[T_ZURUECK  ]->Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_ZURUECK  ]->SetzeSignal(S_BACK);
+    menu.TextfeldArray[T_BEENDEN  ].Positioniere(8,8,1,A_MITTE);
+    menu.TextfeldArray[T_BEENDEN  ].VollSichtbar();
+    menu.TextfeldArray[T_JABEENDEN].Positioniere(8,6,1,A_MITTE);
+    menu.TextfeldArray[T_JABEENDEN].SetzeSignal(S_FINISH);
+    menu.TextfeldArray[T_ZURUECK  ].Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_ZURUECK  ].SetzeSignal(S_BACK);
 
     StartAnimation();
 }

@@ -93,7 +93,7 @@ typedef enum
     S_TOGGLE_MUSIC_ON             = 161
 } tSignal;
 
-typedef std::map<int,Textfeld *>  tTextfeldArray;
+typedef std::map<int,Textfeld>    tTextfeldArray;
 typedef std::map<tSchild, Schild> tSchildArray;
 
 class KPstate;
@@ -123,7 +123,6 @@ public:
     friend class KPstateLightTest;
 
     KPmenu();
-    ~KPmenu();
 
     bool Initialize(const char *TextureName, int TextureSize, bool Nearest,
                     int Language = 0);

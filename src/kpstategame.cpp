@@ -79,18 +79,18 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
     menu.SchildArray[SHLD_LOGO].Positioniere(0,11,4,12);
     menu.SchildArray[SHLD_LOGO].SetzeSignal(S_LOGO);
 
-    pContext->GetMenu().TextfeldArray[T_MINMOVECOUNT]->FormatText(NULL,
+    pContext->GetMenu().TextfeldArray[T_MINMOVECOUNT].FormatText(NULL,
             pContext->GetBoardView().GetMovesToSolve());
-    pContext->GetMenu().TextfeldArray[T_MOVECOUNT   ]->FormatText(NULL,
+    pContext->GetMenu().TextfeldArray[T_MOVECOUNT   ].FormatText(NULL,
             pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
 
     if (KPConfig::Instance().SolutionHint)
     {
-        menu.TextfeldArray[T_MINMOVECOUNT]->Positioniere(7,0.1f,0.6f);
+        menu.TextfeldArray[T_MINMOVECOUNT].Positioniere(7,0.1f,0.6f);
     }
 
-    menu.TextfeldArray[T_MOVECOUNT]->Positioniere(4,0.1f,0.6f);
-    menu.TextfeldArray[T_TIME     ]->Positioniere(12.5,0.1f,0.6f);
+    menu.TextfeldArray[T_MOVECOUNT].Positioniere(4,0.1f,0.6f);
+    menu.TextfeldArray[T_TIME     ].Positioniere(12.5,0.1f,0.6f);
 
     if (KPConfig::Instance().UserInterface == 0)
     {
@@ -256,7 +256,7 @@ void KPstateGame::Update(KPstateContext *pContext, int factor)
     {
         // update approx. every second
         counter -= TOTAL_ANIMATIONTIME;
-        pContext->GetMenu().TextfeldArray[T_TIME]->FormatText(NULL,
+        pContext->GetMenu().TextfeldArray[T_TIME].FormatText(NULL,
                 pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS).c_str());
     }
 }
@@ -281,15 +281,15 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */)
         menu.SchildArray[SHLD_LOGO].Positioniere(4,9,12,11);
         menu.SchildArray[SHLD_SHADER].Positioniere(0,0,16,12);
         menu.SchildArray[SHLD_SHADER].Eingeblendet();
-        menu.TextfeldArray[T_PAUSE]->Positioniere(8,6,3,A_MITTE);
-        menu.TextfeldArray[T_PAUSE]->VollSichtbar();
+        menu.TextfeldArray[T_PAUSE].Positioniere(8,6,3,A_MITTE);
+        menu.TextfeldArray[T_PAUSE].VollSichtbar();
     }
     else
     {
         menu.SchildArray[SHLD_LOGO].Positioniere(0,11,4,12);
         menu.SchildArray[SHLD_LOGO].SetzeSignal(S_LOGO);
         menu.SchildArray[SHLD_SHADER].Desaktiviere();
-        menu.TextfeldArray[T_PAUSE]->Desaktiviere();
+        menu.TextfeldArray[T_PAUSE].Desaktiviere();
     }
     StartAnimation();
 }

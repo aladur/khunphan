@@ -72,24 +72,24 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
 
     if (KPConfig::Instance().DisplayFPS)
     {
-        menu.TextfeldArray[T_FPS]->Positioniere(0.1, y, 0.3);
+        menu.TextfeldArray[T_FPS].Positioniere(0.1, y, 0.3);
     }
     y -= 0.6;
 
     if (menu.IsDisplayOpenGLInfo)
     {
-        menu.TextfeldArray[T_GL_VENDOR  ]->FormatText(NULL,
+        menu.TextfeldArray[T_GL_VENDOR  ].FormatText(NULL,
                 userInterface.GetOpenGLVendor().c_str());
-        menu.TextfeldArray[T_GL_RENDERER]->FormatText(NULL,
+        menu.TextfeldArray[T_GL_RENDERER].FormatText(NULL,
                 userInterface.GetOpenGLRenderer().c_str());
-        menu.TextfeldArray[T_GL_VERSION ]->FormatText(NULL,
+        menu.TextfeldArray[T_GL_VERSION ].FormatText(NULL,
                 userInterface.GetOpenGLVersion().c_str());
 
-        menu.TextfeldArray[T_GL_VENDOR  ]->Positioniere(0.1, y, 0.3);
+        menu.TextfeldArray[T_GL_VENDOR  ].Positioniere(0.1, y, 0.3);
         y -= 0.3;
-        menu.TextfeldArray[T_GL_RENDERER]->Positioniere(0.1, y, 0.3);
+        menu.TextfeldArray[T_GL_RENDERER].Positioniere(0.1, y, 0.3);
         y -= 0.3;
-        menu.TextfeldArray[T_GL_VERSION ]->Positioniere(0.1, y, 0.3);
+        menu.TextfeldArray[T_GL_VERSION ].Positioniere(0.1, y, 0.3);
     }
 }
 
@@ -123,7 +123,7 @@ void KPstate::Update(KPstateContext *pContext, int factor)
         for (tit = menu.TextfeldArray.begin(); tit != menu.TextfeldArray.end();
              ++tit)
         {
-            tit->second->Animiere(factor);
+            tit->second.Animiere(factor);
         }
     }
 
@@ -207,8 +207,8 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
             break;
         }
 
-        Signal = tit->second->Maustaste(button, event, x, y,
-                                        pContext->GetUserInterface());
+        Signal = tit->second.Maustaste(button, event, x, y,
+                                       pContext->GetUserInterface());
     }
 
     return Signal;
@@ -230,7 +230,7 @@ bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
         {
             break;
         }
-        action = it->second->Zeichen(key);
+        action = it->second.Zeichen(key);
     }
     return action;
 }

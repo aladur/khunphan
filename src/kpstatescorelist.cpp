@@ -57,57 +57,65 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
     menu.SchildArray[SHLD_LOGO].Positioniere(5,9,11,11);
     menu.SchildArray[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_SCORELIST ]->Positioniere(8, 8.5, 1, A_MITTE);
-    menu.TextfeldArray[T_SCORELIST ]->VollSichtbar();
+    menu.TextfeldArray[T_SCORELIST ].Positioniere(8, 8.5, 1, A_MITTE);
+    menu.TextfeldArray[T_SCORELIST ].VollSichtbar();
 
     float y = 7.5;
-    menu.TextfeldArray[T_S_NAME    ]->Positioniere(2, y, 0.7f);
-    menu.TextfeldArray[T_S_PLAYTIME]->Positioniere(8, y, 0.7f);
-    menu.TextfeldArray[T_S_PLAYTIME]->SetzeSignal(S_PLAYTIME);
-    menu.TextfeldArray[T_S_MOVES   ]->Positioniere(11,y, 0.7f);
-    menu.TextfeldArray[T_S_MOVES   ]->SetzeSignal(S_MOVES);
+    menu.TextfeldArray[T_S_NAME    ].Positioniere(2, y, 0.7f);
+    menu.TextfeldArray[T_S_PLAYTIME].Positioniere(8, y, 0.7f);
+    menu.TextfeldArray[T_S_PLAYTIME].SetzeSignal(S_PLAYTIME);
+    menu.TextfeldArray[T_S_MOVES   ].Positioniere(11,y, 0.7f);
+    menu.TextfeldArray[T_S_MOVES   ].SetzeSignal(S_MOVES);
 
     y -= 0.7f;
     for (i = 0; i < max; i++)
     {
-        if (menu.TextfeldArray[T_S_NAME1 + i] == NULL)
+        tTextfeldArray::iterator it;
+
+        it = menu.TextfeldArray.find(T_S_NAME1 + i);
+        if (it == menu.TextfeldArray.end())
         {
-            menu.TextfeldArray[T_S_NAME1   + i] = new Textfeld();
-            menu.TextfeldArray[T_S_NAME1   + i]->Initialisiere("");
+            menu.TextfeldArray[T_S_NAME1 + i] = Textfeld();
+            menu.TextfeldArray[T_S_NAME1 + i].Initialisiere("");
         }
-        if (menu.TextfeldArray[T_S_PLAYTIME1 + i] == NULL)
+
+        it = menu.TextfeldArray.find(T_S_PLAYTIME1 + i);
+        if (it == menu.TextfeldArray.end())
         {
-            menu.TextfeldArray[T_S_PLAYTIME1   + i] = new Textfeld();
-            menu.TextfeldArray[T_S_PLAYTIME1   + i]->Initialisiere("");
+            menu.TextfeldArray[T_S_PLAYTIME1 + i] = Textfeld();
+            menu.TextfeldArray[T_S_PLAYTIME1 + i].Initialisiere("");
         }
-        if (menu.TextfeldArray[T_S_MOVES1 + i] == NULL)
+
+        it = menu.TextfeldArray.find(T_S_MOVES1 + i);
+        if (it == menu.TextfeldArray.end())
         {
-            menu.TextfeldArray[T_S_MOVES1   + i] = new Textfeld();
-            menu.TextfeldArray[T_S_MOVES1   + i]->Initialisiere("");
+            menu.TextfeldArray[T_S_MOVES1 + i] = Textfeld();
+            menu.TextfeldArray[T_S_MOVES1 + i].Initialisiere("");
         }
 
         KPscore::Instance().Get(i, Name, &PlayTime, &Moves);
 
-        menu.TextfeldArray[T_S_NAME1     + i]->FormatText("%s", Name.c_str());
-        menu.TextfeldArray[T_S_PLAYTIME1 + i]->FormatText("%d:%02d:%02d",
+        menu.TextfeldArray[T_S_NAME1 + i].FormatText("%s", Name.c_str());
+        menu.TextfeldArray[T_S_PLAYTIME1 + i].FormatText("%d:%02d:%02d",
                 PlayTime / 3600000,
                 (PlayTime % 3600000) / 60000,
                 (PlayTime % 60000) / 1000 );
-        menu.TextfeldArray[T_S_MOVES1    + i]->FormatText("%u", Moves);
+        menu.TextfeldArray[T_S_MOVES1 + i].FormatText("%u", Moves);
 
 
-        menu.TextfeldArray[T_S_NAME1     + i]->Positioniere(2, y, 0.6f);
-        menu.TextfeldArray[T_S_PLAYTIME1 + i]->Positioniere(9, y, 0.6f,
+        menu.TextfeldArray[T_S_NAME1 + i].Positioniere(2, y, 0.6f);
+        menu.TextfeldArray[T_S_PLAYTIME1 + i].Positioniere(9, y, 0.6f,
                 A_MITTE);
-        menu.TextfeldArray[T_S_MOVES1    + i]->Positioniere(12,y, 0.6f,
+        menu.TextfeldArray[T_S_MOVES1 + i].Positioniere(12,y, 0.6f,
                 A_MITTE);
 
         y -= 0.5f;
     }
+
     KPscore::Instance().CheckPlayTime(true);
 
-    menu.TextfeldArray[T_WEITER]->Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_WEITER]->SetzeSignal(S_CONTINUE);
+    menu.TextfeldArray[T_WEITER].Positioniere(8,1,1,A_MITTE);
+    menu.TextfeldArray[T_WEITER].SetzeSignal(S_CONTINUE);
 
     StartAnimation();
 }

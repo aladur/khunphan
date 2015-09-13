@@ -37,16 +37,6 @@ KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(KPState_Invalid)
 {
 }
 
-KPmenu::~KPmenu()
-{
-    tTextfeldArray::iterator tit;
-
-    for (tit = TextfeldArray.begin(); tit != TextfeldArray.end(); ++tit)
-    {
-        delete tit->second;
-    }
-}
-
 bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
                         int Language /* = 0*/)
 {
@@ -85,7 +75,7 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
 
     for (it = TextfeldArray.begin(); it != TextfeldArray.end(); ++it)
     {
-        it->second->GeneriereDisplayList();
+        it->second.GeneriereDisplayList();
     }
 
     UpdateFPS(0);
@@ -125,7 +115,7 @@ bool KPmenu::LoadLanguage(int Language)
 
     if (TextfeldArray.find(Language) != TextfeldArray.end())
     {
-        DEBUGPRINT1(" %s\n", TextfeldArray[Language]->Text());
+        DEBUGPRINT1(" %s\n", TextfeldArray[Language].Text());
     }
     sprinter::sprintf(file,
                       "%s%d.lang",
@@ -176,12 +166,12 @@ void KPmenu::AddTextField(int number, char word[])
     {
         if (TextfeldArray.find(number) != TextfeldArray.end())
         {
-            TextfeldArray[number]->SetzeTextKDL(word);
+            TextfeldArray[number].SetzeTextKDL(word);
         }
         else
         {
-            TextfeldArray[number] = new Textfeld();
-            TextfeldArray[number]->InitialisiereKDL(word);
+            TextfeldArray[number] = Textfeld();
+            TextfeldArray[number].InitialisiereKDL(word);
         }
     }
 }
@@ -227,7 +217,7 @@ void KPmenu::Draw()
 
     for (tit = TextfeldArray.begin(); tit != TextfeldArray.end(); ++tit)
     {
-        tit->second->male();
+        tit->second.male();
     }
 
     glDisable(GL_TEXTURE_2D);
@@ -245,5 +235,5 @@ void KPmenu::Draw()
 
 void KPmenu::UpdateFPS(int fps, float renderTime)
 {
-    TextfeldArray[T_FPS]->FormatText(NULL, fps, renderTime);
+    TextfeldArray[T_FPS].FormatText(NULL, fps, renderTime);
 }
