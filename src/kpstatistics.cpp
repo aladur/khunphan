@@ -22,19 +22,12 @@
 
 #include "misc1.h"
 #include "kpstatistics.h"
-#include "btime.h"
 #include "sprinter.h"
 
 
-KPStatistics::KPStatistics() : pTime(NULL), time(0), stopWatchActive(false)
+KPStatistics::KPStatistics() : time(0), stopWatchActive(false)
 {
     Reset();
-}
-
-KPStatistics::~KPStatistics()
-{
-    delete pTime;
-    pTime = NULL;
 }
 
 void KPStatistics::Reset()
@@ -48,39 +41,24 @@ void KPStatistics::Reset()
 
 void KPStatistics::Start()
 {
-    if (pTime == NULL)
-    {
-        pTime = new BTime();
-    }
-
-    pTime->ResetRelativeTime();
+    timer.ResetRelativeTime();
     stopWatchActive = true;
 }
 
 void KPStatistics::Stop()
 {
-    if (pTime == NULL)
-    {
-        pTime = new BTime();
-    }
-
     if (stopWatchActive)
     {
-        time            += pTime->GetRelativeTimeMsl();
+        time            += timer.GetRelativeTimeMsl();
         stopWatchActive  = false;
     }
 }
 
 unsigned long KPStatistics::GetTotalTime()
 {
-    if (pTime == NULL)
-    {
-        pTime = new BTime();
-    }
-
     if (stopWatchActive)
     {
-        return time + pTime->GetRelativeTimeMsl();
+        return time + timer.GetRelativeTimeMsl();
     }
     else
     {

@@ -23,6 +23,7 @@
 #define _KPSTATISTICS_H_
 
 #include <string>
+#include "btime.h"
 
 // Time display formats:
 // +HH:  two (or more) digit hours
@@ -49,13 +50,10 @@ enum tTimeFormat
 #define MAX_COUNTER (sizeof(tEventCounter) / sizeof(MOVE_COUNTER))
 
 
-class BTime;
-
 class KPStatistics
 {
 public:
     KPStatistics();
-    virtual ~KPStatistics();
 
     void Reset(); // Stop capturing time, reset all statistic values
 
@@ -82,7 +80,7 @@ protected:
     std::string FormatTime(tTimeFormat formatID, unsigned int t);
 
 private:
-    BTime *pTime;
+    BTime timer;
     unsigned int counter[MAX_COUNTER];
     unsigned long  time;
     bool stopWatchActive;
