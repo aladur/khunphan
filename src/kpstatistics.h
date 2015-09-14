@@ -59,9 +59,9 @@ public:
 
     void Start();                 // Start capturing time
     void Stop();                  // Stop capturing time
-    void SetTime(unsigned long t)
+    void SetPlayingTime(unsigned long t)
     {
-        time = t;
+        playingTime = t;
     };
     unsigned long GetTotalTime();             // Returns the total elapsed time
     // in milliseconds
@@ -80,9 +80,9 @@ protected:
     std::string FormatTime(tTimeFormat formatID, unsigned int t);
 
 private:
-    BTime timer;
+    BTime time;
     unsigned int counter[MAX_COUNTER];
-    unsigned long  time;
+    unsigned long  playingTime;
     bool stopWatchActive;
 };
 

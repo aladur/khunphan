@@ -136,44 +136,34 @@ void KPstate::Update(KPstateContext *pContext, int factor)
 
 void KPstate::Draw(KPstateContext *pContext)
 {
-    double t[2];
-    BTime *pTime = NULL;
-
-    if (KPConfig::Instance().PerformanceLog != 0)
-    {
-        pTime = new BTime();
-    }
+    double timeBoardView, timeMenu;
+    BTime time;
 
     pContext->GetLight().Draw();
 
     pContext->GetCamera().male();
 
-    if (pTime != NULL)
+    if (KPConfig::Instance().PerformanceLog)
     {
-        pTime->ResetRelativeTime();
+        time.ResetRelativeTime();
     }
 
     pContext->GetBoardView().Draw();
 
-    if (pTime != NULL)
+    if (KPConfig::Instance().PerformanceLog)
     {
-        t[0] = pTime->GetRelativeTimeUsf(true);
+        timeBoardView = time.GetRelativeTimeUsf(true);
     }
 
     pContext->GetMenu().Draw();
 
-    if (pTime != NULL)
+    if (KPConfig::Instance().PerformanceLog)
     {
-        t[1] = pTime->GetRelativeTimeUsf(true);
-    }
+        timeMenu = time.GetRelativeTimeUsf(true);
 
-    if (pTime != NULL)
-    {
-        DEBUGPRINT3("BoardView: %.1f ms Menu: %.1f ms Sum: %.1f ms\n",
-                    t[0]/1000, t[1]/1000, (t[0] + t[1])/1000);
+        DEBUGPRINT3("BoardView: %.1f us Menu: %.1f us Sum: %.1f us\n",
+                    timeBoardView, timeMenu, (timeBoardView + timeMenu));
     }
-
-    delete pTime;
 }
 
 int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,

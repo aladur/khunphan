@@ -35,7 +35,6 @@ class KPboardView;
 class Kamera;
 class Light;
 class KPStatistics;
-class BTime;
 
 enum tGetValues
 {
@@ -100,7 +99,7 @@ protected:
     virtual void PostWindowRedisplay() = 0;
 
     KPnode *proot;  // unfinished
-    BTime   timer;
+    BTime   fpsTime;
 
 // Sw: unfinished: should be protected
 public:

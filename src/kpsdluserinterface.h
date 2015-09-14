@@ -32,6 +32,7 @@
 #include "kpuibase.h"
 #include "kpconfig.h"
 #include "kpstate.h"
+#include "btime.h"
 
 
 class KPSdlUserInterface : public KPUIBase
@@ -80,6 +81,8 @@ private:
     unsigned int rate;
     int musicIndex;
     std::vector<std::string> musicFiles;
+    double musicPosition; // save position of music in seconds
+    BTime time;
     static const char *soundFile[KP_SND_MAX+1];
 };
 

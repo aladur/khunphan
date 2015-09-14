@@ -53,7 +53,7 @@ const char *KPSdl2UserInterface::soundFile[KP_SND_MAX+1] =
 
 KPSdl2UserInterface::KPSdl2UserInterface() : window(NULL), sound(NULL),
     soundSource(NULL),
-    music(NULL), rate(22050), musicIndex(0)
+    music(NULL), rate(22050), musicIndex(0), musicPosition(0.0)
 {
 }
 
@@ -567,10 +567,7 @@ void KPSdl2UserInterface::SetMusicVolume(int volume) const
 
 void KPSdl2UserInterface::PlayMusic(bool On, bool resetPos)
 {
-    static double pos = 0.0;
-    static BTime time;
-
-    if (On == true)
+    if (On)
     {
         if (music == NULL)
         {
@@ -579,21 +576,24 @@ void KPSdl2UserInterface::PlayMusic(bool On, bool resetPos)
 
         if (music != NULL && !Mix_PlayingMusic())
         {
+            // Fade in music at a previously stored position or at 0.0
             time.ResetRelativeTime();
-            Mix_FadeInMusicPos(music, 1, 1000, pos);
+            Mix_FadeInMusicPos(music, 1, 1000, musicPosition);
             Mix_HookMusicFinished(stopMusicCallback);
         }
     }
-    if (music != NULL && On == false && Mix_PlayingMusic())
+
+    if (music != NULL && !On && Mix_PlayingMusic())
     {
-        // get relative position in seconds
-        pos = time.GetRelativeTimeUsf(true) / 1000000.0;
+        // Music switched off: Get relative position in seconds.
+        musicPosition = time.GetRelativeTimeUsf(true) / 1000000.0;
         Mix_HookMusicFinished(NULL);
         Mix_FadeOutMusic(1000);
     }
-    if (resetPos == true)
+
+    if (resetPos)
     {
-        pos = 0.0;
+        musicPosition = 0.0;
     }
 }
 

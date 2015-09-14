@@ -25,14 +25,14 @@
 #include "sprinter.h"
 
 
-KPStatistics::KPStatistics() : time(0), stopWatchActive(false)
+KPStatistics::KPStatistics() : playingTime(0), stopWatchActive(false)
 {
     Reset();
 }
 
 void KPStatistics::Reset()
 {
-    time            = 0;
+    playingTime     = 0;
     stopWatchActive = false;
     ResetEventCounter(MOVE_COUNTER);
     ResetEventCounter(MOVE_WITH_HELP_CNT);
@@ -41,7 +41,7 @@ void KPStatistics::Reset()
 
 void KPStatistics::Start()
 {
-    timer.ResetRelativeTime();
+    time.ResetRelativeTime();
     stopWatchActive = true;
 }
 
@@ -49,7 +49,7 @@ void KPStatistics::Stop()
 {
     if (stopWatchActive)
     {
-        time            += timer.GetRelativeTimeMsl();
+        playingTime     += time.GetRelativeTimeMsl();
         stopWatchActive  = false;
     }
 }
@@ -58,11 +58,11 @@ unsigned long KPStatistics::GetTotalTime()
 {
     if (stopWatchActive)
     {
-        return time + timer.GetRelativeTimeMsl();
+        return playingTime + time.GetRelativeTimeMsl();
     }
     else
     {
-        return time;
+        return playingTime;
     }
 }
 

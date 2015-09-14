@@ -47,7 +47,7 @@ void KPstateGame::Initialize(KPstateContext *pContext,
     {
         // In this case restore a already started game
         pContext->GetBoardView().SetBoard(KPConfig::Instance().SavedGame);
-        pContext->GetStatistics().SetTime(KPConfig::Instance().PlayTime);
+        pContext->GetStatistics().SetPlayingTime(KPConfig::Instance().PlayTime);
         pContext->GetStatistics().SetEventCounter(MOVE_COUNTER,
                 KPConfig::Instance().Moves        );
         pContext->GetStatistics().SetEventCounter(MOVE_WITH_HELP_CNT,

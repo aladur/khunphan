@@ -192,7 +192,7 @@ void KPUIBase::Display()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    timer.ResetRelativeTime();
+    fpsTime.ResetRelativeTime();
 
     if (KPConfig::Instance().DisplayFPS)
     {
@@ -202,7 +202,7 @@ void KPUIBase::Display()
     pState->Draw(this);  // Drawing is delegated to KPstate
     glFinish();
 
-    renderTime = timer.GetRelativeTimeUsf() / 1000.0; // Get RenderTime in ms
+    renderTime = fpsTime.GetRelativeTimeUsf() / 1000.0; // Get RenderTime in ms
 
     SwapBuffers();
 }
@@ -225,11 +225,11 @@ void KPUIBase::Idle()
     if (lastFrameTimestamp == 0)
     {
         // first time initialization
-        lastFrameTimestamp = timer.GetTimeMsl();
+        lastFrameTimestamp = fpsTime.GetTimeMsl();
         return;
     }
 
-    unsigned long frameTimestamp = timer.GetTimeMsl();
+    unsigned long frameTimestamp = fpsTime.GetTimeMsl();
     unsigned long factor = frameTimestamp - lastFrameTimestamp;
 
     if (factor >= 10)
@@ -248,7 +248,7 @@ void KPUIBase::DisplayFPS(float renderTime)
     static unsigned long t0     = 0;
     static unsigned int  Frames = 0;
 
-    unsigned long t = timer.GetTimeMsl();
+    unsigned long t = fpsTime.GetTimeMsl();
     Frames++;
     if (t - t0 > 2000)  // update every 2 seconds
     {
