@@ -28,6 +28,14 @@
 #include "kpidhash.h"
 
 
+enum
+{
+    HORIZONTAL_MAX = 4,
+    VERTICAL_MAX   = 5,
+    MOVES_MAX      = 7,
+    TOKEN_MAX      = 10
+};
+
 class KPboard
 {
 private:

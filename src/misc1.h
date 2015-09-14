@@ -177,14 +177,6 @@ int stricmp(const char *string1, const char *string2);
 #endif
 
 
-enum
-{
-    HORIZONTAL_MAX = 4,
-    VERTICAL_MAX   = 5,
-    MOVES_MAX      = 7,
-    TOKEN_MAX      = 10
-};
-
 enum tKPTokenID
 {
     TK_EMPTY    = 99,
