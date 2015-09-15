@@ -59,12 +59,7 @@ void KPboard::Init(void)
 {
     id = 0;
     memset(token, 0, sizeof(token));
-
-    for (int i = 0; i < HORIZONTAL_MAX; i++)
-        for (int j = 0; j < VERTICAL_MAX; j++)
-        {
-            tokenID[i][j] = TK_EMPTY;
-        }
+    memset(tokenID, TK_EMPTY, sizeof(tokenID));
 }
 
 KPboard::~KPboard()
@@ -304,10 +299,14 @@ QWord KPboard::GetID() const
 
     unsigned short x, y;
     unsigned short greens, whites_v;
-    static unsigned short index[TOKEN_MAX];
-    static bool assigned[TOKEN_MAX];
+    unsigned short index[TOKEN_MAX];
+    bool assigned[TOKEN_MAX];
 
-    memset(assigned, 0, sizeof(assigned));
+    memset(index, 0, sizeof(index));
+    for (x = 0; x < TOKEN_MAX; x++)
+    {
+        assigned[x] = false;
+    }
 
     greens   = TK_GREEN1;
     whites_v = TK_WHITE1;

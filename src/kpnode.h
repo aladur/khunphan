@@ -58,6 +58,7 @@ private:
     static unsigned int LLSize;
     static int    iterationCount;
     static bool   solveCountAvailable;
+    static double solveTime;
 
 public:
 
@@ -105,6 +106,10 @@ public:
     static bool IsSolveCountAvailable(void)
     {
         return solveCountAvailable;
+    };
+    static double GetSolveTime(void)
+    {
+        return solveTime;
     };
 
 

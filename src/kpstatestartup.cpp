@@ -174,6 +174,8 @@ void KPstateStartUp::Update(KPstateContext *pContext, int factor)
         if (!fullInitialized)
         {
             fullInitialized = true;
+            DEBUGPRINT1("Time to calculate all solutions: %.3f s\n",
+                        KPnode::GetSolveTime() / 1000000.0);
             UpdateDisplay(pContext);
         }
     }

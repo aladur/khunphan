@@ -35,6 +35,7 @@
 #endif
 #include <limits.h>
 #include "kpnode.h"
+#include "btime.h"
 
 
 KPnode *KPnode::proot  = NULL;
@@ -44,11 +45,15 @@ unsigned int KPnode::LLSize = 0;
 bool KPnode::solveCountAvailable = false;
 int  KPnode::iterationCount = 0;
 bool KPnode::finalizeInProgress = false;
+double KPnode::solveTime = 0.0;
 
 KPnode::KPnode() : pnext(NULL), movesToSolve(SHRT_MAX)
 {
-    memset(pchild,  0, sizeof(pchild));
-    memset(pparent, 0, sizeof(pparent));
+    for (int i = 0; i < MOVES_MAX; i++)
+    {
+        pchild[i]  = NULL;
+        pparent[i] = NULL;
+    }
 }
 
 KPnode::KPnode(const KPnode &src) : KPboard (src), pnext(NULL),
@@ -69,8 +74,11 @@ KPnode::KPnode(const KPboard &src) : KPboard (src), pnext(NULL),
     movesToSolve(SHRT_MAX)
 {
     KPboard::CopyFrom(src);
-    memset(pchild,  0, sizeof(pchild));
-    memset(pparent, 0, sizeof(pparent));
+    for (int i = 0; i < MOVES_MAX; i++)
+    {
+        pchild[i]  = NULL;
+        pparent[i] = NULL;
+    }
 }
 
 void KPnode::CopyFrom(const KPnode &src)
@@ -308,6 +316,10 @@ int KPnode::GetSolutionsCount(void)
 
 void KPnode::SetSolveCount(void)
 {
+    BTime time;
+
+    time.ResetRelativeTime();
+ 
     try
     {
         KPnode *p;
@@ -329,6 +341,7 @@ void KPnode::SetSolveCount(void)
         return;  // ignore exception during finalize
     };
 
+    solveTime = time.GetRelativeTimeUsf(true);
     solveCountAvailable = true;
 }
 

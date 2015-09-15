@@ -23,6 +23,7 @@
 #include "kpthreadsolvecount.h"
 #include "kpnode.h"
 
+
 void KPThreadSolveCount::Run()
 {
     KPnode::SetSolveCount();

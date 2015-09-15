@@ -31,9 +31,10 @@
 KPIdHash::KPIdHash()
 {
     hashTable = new KPIdHashEntry *[HASHTABLE_SIZE];
-    memset(hashTable, 0, sizeof(KPIdHashEntry *) * HASHTABLE_SIZE);
-    //for (int i = 0; i < HASHTABLE_SIZE; i++)
-    //  hashTable[i] = (KPIdHashEntry *)NULL;
+    for (int i = 0; i < HASHTABLE_SIZE; i++)
+    {
+        hashTable[i] = NULL;
+    }
 }
 
 void KPIdHash::DeleteEntry(KPIdHashEntry *pEntry)
