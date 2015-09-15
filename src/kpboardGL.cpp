@@ -63,7 +63,7 @@ KPboardView::KPboardView(void) : pSolveTree(NULL),
     emphasizedToken(TK_EMPTY), animatedToken(TK_EMPTY),
     old_x(0.0), old_y(0.0), new_x(0.0), new_y(0.0),
     ax(0.0), ay(0.0), Time(0.0), textureSource(NULL),
-    callList(0)
+    callList(0), rquad(0.0)
 {
     srand(327);
     callList = glGenLists(KBP_ENTRY_COUNT);
@@ -828,7 +828,6 @@ bool KPboardView::IsSolved()
 #ifdef DRAW_TEST
 void KPboardView::DrawCuboid(float deltaAngle) const// Only for test purposes
 {
-    static GLfloat rquad = 0;
     GLint without_camera = 0;  // switch to 1 to test without any camera
     // properties
 

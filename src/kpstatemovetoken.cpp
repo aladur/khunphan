@@ -25,14 +25,16 @@
 #include "kpboardGL.h"
 
 
-// returns true if event has been processed
+KPstateMoveToken::KPstateMoveToken() : KPstate(), mouse_x(0), mouse_y(0)
+{
+}
 
+// returns true if event has been processed
 bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
                                       tMouseButton button, tMouseEvent event,
                                       int x, int y)
 {
     static tKPTokenID token = TK_EMPTY;
-    static int mouse_x=0, mouse_y=0;
 
     if (button == KP_LEFT_MB && event == KP_BUTTON_PRESS)
     {

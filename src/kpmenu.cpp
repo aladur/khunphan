@@ -78,8 +78,6 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
         it->second.GeneriereDisplayList();
     }
 
-    UpdateFPS(0);
-
     progressBar.Initialize();
 
     return true;

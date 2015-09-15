@@ -27,7 +27,7 @@
 #include "Kamera.h"
 
 
-KPstateLightTest::KPstateLightTest()
+KPstateLightTest::KPstateLightTest() : mouse_x(0), mouse_y(0)
 {
 }
 
@@ -102,7 +102,6 @@ void KPstateLightTest::HandleMouseClick(KPstateContext *pContext,
                                         tMouseButton button, tMouseEvent event,
                                         int x, int y)
 {
-    static int mouse_x=0, mouse_y=0;
     float lx, ly, lz;
 
     if (button == KP_LEFT_MB && event == KP_BUTTON_PRESS)

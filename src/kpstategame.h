@@ -59,6 +59,7 @@ protected:
 
     bool bIsPause;
     bool bGameIsSolved;
+    int counter;
 };
 
 #endif

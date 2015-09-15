@@ -44,7 +44,7 @@ public:
 protected:
     void HandleMouseClick (KPstateContext *pContext, tMouseButton button,
                            tMouseEvent event, int x, int y);
-
+    int mouse_x, mouse_y;
 };
 
 #endif

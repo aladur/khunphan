@@ -45,6 +45,7 @@ unsigned int KPnode::LLSize = 0;
 bool KPnode::solveCountAvailable = false;
 int  KPnode::iterationCount = 0;
 bool KPnode::finalizeInProgress = false;
+unsigned int KPnode::count = 0;
 double KPnode::solveTime = 0.0;
 
 KPnode::KPnode() : pnext(NULL), movesToSolve(SHRT_MAX)
@@ -133,8 +134,7 @@ int KPnode::GetNextFreeParentIdx(void) const
 inline bool KPnode::AddNextMoves()
 {
     KPnode *pn;
-    static KPboard b;
-    static unsigned int no = 0;
+    KPboard b;
     unsigned short i = 0;
     tKPTokenID id = TK_GREEN1;
 
@@ -158,11 +158,11 @@ inline bool KPnode::AddNextMoves()
                     pn = new KPnode(b);
                     pchild[i++] = pn;
                     pn->pparent[pn->GetNextFreeParentIdx()] = this;
-                    ++no;
+                    ++count;
                     KPnode::LLAddLast(*pn);
                     KPboard::idHash.Add(pn->GetID(), pn);
 #ifdef DEBUG_OUTPUT
-                    ::fprintf(stdout, "%u. New:\n", no);
+                    ::fprintf(stdout, "%u. New:\n", count);
                     pn->fprintf(stdout);
 #endif
                 }

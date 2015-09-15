@@ -55,7 +55,7 @@ KPUIBase *KPUIBase::instance = NULL;
 KPUIBase::KPUIBase() : proot(NULL), pBoardView(NULL), pCamera(NULL),
     pLight(NULL),
     pMenu(NULL),  pStatistics(NULL), pState(NULL),
-    lastFrameTimestamp(0)
+    lastFrameTimestamp(0), oldTime(0), frameCount(0)
 
 {
     instance = this;
@@ -188,21 +188,15 @@ void KPUIBase::DebugPrintOpenGLVersion() const
 
 void KPUIBase::Display()
 {
-    static double renderTime = 0.0;
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    fpsTime.ResetRelativeTime();
 
     if (KPConfig::Instance().DisplayFPS)
     {
-        DisplayFPS(renderTime);
+        DisplayFPS();
     }
 
     pState->Draw(this);  // Drawing is delegated to KPstate
     glFinish();
-
-    renderTime = fpsTime.GetRelativeTimeUsf() / 1000.0; // Get RenderTime in ms
 
     SwapBuffers();
 }
@@ -243,18 +237,17 @@ void KPUIBase::Idle()
     }
 }
 
-void KPUIBase::DisplayFPS(float renderTime)
+void KPUIBase::DisplayFPS()
 {
-    static unsigned long t0     = 0;
-    static unsigned int  Frames = 0;
-
     unsigned long t = fpsTime.GetTimeMsl();
-    Frames++;
-    if (t - t0 > 2000)  // update every 2 seconds
+
+    frameCount++;
+    if (t - oldTime > 1000)  // update every second
     {
-        pMenu->UpdateFPS( Frames / 2, renderTime );
-        t0     = t;
-        Frames = 0;
+        pMenu->UpdateFPS(frameCount,
+                         static_cast<float>(t - oldTime) / frameCount);
+        oldTime    = t;
+        frameCount = 0;
     }
 }
 

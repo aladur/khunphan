@@ -100,8 +100,6 @@ void KPstate::Update(KPstateContext *pContext, int factor)
 
     if (InAnimation)
     {
-        unsigned int i;
-
         AnimationTime += factor;
         if (AnimationTime >= TOTAL_ANIMATIONTIME)
         {

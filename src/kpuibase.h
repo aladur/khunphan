@@ -91,7 +91,7 @@ public:
                             int x, int y) = 0;
 
 protected:
-    void DisplayFPS(float renderTime);
+    void DisplayFPS();
     bool InitializeAfterOpen();
 
     virtual void InitializeEvents() = 0;
@@ -115,6 +115,8 @@ protected:
 
 private:
     unsigned long lastFrameTimestamp;
+    unsigned long oldTime;
+    unsigned int frameCount;
 
 // Audio interface
 public:

@@ -31,7 +31,7 @@
 
 
 KPstateGame::KPstateGame() : animationFinishedCallback(NULL),
-    bIsPause(false), bGameIsSolved(false)
+    bIsPause(false), bGameIsSolved(false), counter(0)
 {
 }
 
@@ -247,14 +247,12 @@ void KPstateGame::HookAfterAnimationFinished(KPstateContext *pContext)
 
 void KPstateGame::Update(KPstateContext *pContext, int factor)
 {
-    static int counter = 0;
-
     KPstate::Update(pContext, factor);
 
-    counter += factor;
+    counter += 16 * factor;
     if (counter > TOTAL_ANIMATIONTIME)
     {
-        // update approx. every second
+        // update approx. 8 times per second
         counter -= TOTAL_ANIMATIONTIME;
         pContext->GetMenu().TextfeldArray[T_TIME].FormatText(NULL,
                 pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS).c_str());

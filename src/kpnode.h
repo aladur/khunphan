@@ -51,6 +51,7 @@ private:
     KPnode *pnext;
     mutable short movesToSolve;
     static bool finalizeInProgress;
+    static unsigned int count;
 
     static KPnode *proot;
     static KPnode *pfirst;

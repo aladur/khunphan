@@ -30,6 +30,9 @@ class KPstateContext;
 
 class KPstateMoveToken : public KPstate
 {
+public:
+    KPstateMoveToken();
+
 protected:
     bool MouseMoveToken(KPstateContext *pContext, tMouseButton button,
                         tMouseEvent event, int x, int y);
@@ -38,6 +41,9 @@ protected:
     virtual void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
                                      tKPDirection direction,
                                      bool successfullyMoved);
+
+    int mouse_x;
+    int mouse_y;
 };
 
 #endif

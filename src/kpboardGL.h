@@ -23,6 +23,7 @@
 #define _KPBOARD_H__
 
 #include <string>
+#include "misc1.h"
 #include "kpnode.h"
 
 
@@ -101,6 +102,7 @@ private:
     unsigned int textureId[MAX_BOARD_TEXTURES];
     std::string *textureSource;
     int callList;
+    float rquad;
 };
 
 #endif
