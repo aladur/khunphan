@@ -98,7 +98,6 @@ EXTRA_DIST = \
         bposixthreadimp.h \
         kpthreadsolvecount.h \
         kpprogressbar.h \
-        KPtime.h \
         kpstatistics.h \
         btexture.h \
         kpscore.h \

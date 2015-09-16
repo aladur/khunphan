@@ -26,7 +26,6 @@
 #include "misc1.h"
 #include "KPstateContext.h"
 #include "kpmenu.h"
-#include "KPtime.h"
 #include "btime.h"
 
 
