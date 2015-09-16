@@ -666,7 +666,7 @@ const char *BTexture::Rescale(int exp, int format)
         {
             // resulting color and alpha channel
             // is the average of all source texels
-            unsigned short ox, oy;
+            unsigned short ox, oy, i;
             unsigned short c;
             const unsigned char *pOldTexel  = NULL;
             const unsigned char *pOldTexel0 = NULL; // address of upper left
@@ -682,7 +682,10 @@ const char *BTexture::Rescale(int exp, int format)
                 pOldTexel0 = &oldTexels[(y * GetRowBytes()) << shift];
                 for(x = 0; x < GetWidth(); x++)
                 {
-                    memset(pBuffer, 0, GetChannels() * sizeof(unsigned int));
+                    for(i = 0; i < GetChannels(); ++i)
+                    {
+                        pBuffer[i] = 0;
+                    }
                     for (oy = 0; oy < factor; oy++)
                     {
                         c = 0;

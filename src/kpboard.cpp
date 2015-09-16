@@ -58,7 +58,10 @@ KPboard &KPboard::operator= (const KPboard &b)
 void KPboard::Init(void)
 {
     id = 0;
-    memset(token, 0, sizeof(token));
+    for (int i = 0; i < TOKEN_MAX; ++i)
+    {
+        token[i] = 0;
+    }
     memset(tokenID, TK_EMPTY, sizeof(tokenID));
 }
 
@@ -302,9 +305,9 @@ QWord KPboard::GetID() const
     unsigned short index[TOKEN_MAX];
     bool assigned[TOKEN_MAX];
 
-    memset(index, 0, sizeof(index));
     for (x = 0; x < TOKEN_MAX; x++)
     {
+        index[x]    = 0;
         assigned[x] = false;
     }
 
