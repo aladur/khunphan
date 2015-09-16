@@ -102,7 +102,6 @@ private:
     unsigned int textureId[MAX_BOARD_TEXTURES];
     std::string *textureSource;
     int callList;
-    float rquad;
 };
 
 #endif
