@@ -23,7 +23,7 @@
 #define KPSDLUSERINTERFACE_H
 
 #include "misc1.h"
-#ifdef HAVE_SDL
+#if defined (HAVE_SDL) || defined (HAVE_SDL2)
 
 #include <SDL.h>
 #include <SDL_mixer.h>
@@ -42,28 +42,20 @@ public:
     KPSdlUserInterface();
     virtual ~KPSdlUserInterface();
 
-    bool OpenWindow(int argc, char **argv);
-    void SetWindowMode(bool FullScreen) const;
-    void MainLoop();
-    void Close();
-    int  GetValue(int what) const;
     bool CanToggleFullScreen() const;
 
 protected:
     // member functions for event handling
     void Timer(int value);
-    void MouseClick(int button, int state, int x, int y);
+    void MouseClick(int button, int event, int x, int y);
 
     void InitializeEvents();
-    void SwapBuffers();
     void PostWindowRedisplay();
     bool mapKey(int mod, int sym, unsigned char *pKey);
     Mix_Chunk *LoadSoundFile(const char *pFile);
     void StopMusicCallback();
+    virtual void SetStopMusicCallback() = 0;
 
-    static void stopMusicCallback();
-
-    SDL_Surface  *screen;  // SDL Screen ID
     Mix_Chunk    **sound;
     std::string  *soundSource;
     Mix_Music    *music;
@@ -86,5 +78,5 @@ private:
     static const char *soundFile[KP_SND_MAX+1];
 };
 
-#endif //#ifdef HAVE_SDL
+#endif //#if defined (HAVE_SDL) || defined (HAVE_SDL2)
 #endif

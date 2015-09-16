@@ -1,8 +1,8 @@
 /*
-    kpsdl2userinterface.cpp
+    kpsdl12userinterface.cpp
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2015  W. Schwotzer
+    Copyright (C) 2001-2015  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,26 +20,22 @@
 */
 
 #include "misc1.h"
+#ifdef HAVE_SDL
 
-#ifdef HAVE_SDL2
-
-#include "kpsdl2userinterface.h"
+#include "kpsdl12userinterface.h"
 
 
-KPSdl2UserInterface::KPSdl2UserInterface() :
-    KPSdlUserInterface(), window(NULL), renderer(NULL)
+KPSdl12UserInterface::KPSdl12UserInterface() :
+    KPSdlUserInterface(), screen(NULL)
 {
 }
 
-KPSdl2UserInterface::~KPSdl2UserInterface()
+KPSdl12UserInterface::~KPSdl12UserInterface()
 {
-    if (window != NULL)
+    if ( screen )
     {
-        SDL_DestroyRenderer(renderer);
-        renderer = NULL;
-        SDL_DestroyWindow(window);
-        window = NULL;
         SDL_Quit();
+        screen = NULL;
     }
 }
 
@@ -47,33 +43,26 @@ KPSdl2UserInterface::~KPSdl2UserInterface()
 // Public Interface
 /////////////////////////////////////////////////////////////////////
 
-void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
+void KPSdl12UserInterface::SetWindowMode(bool /* FullScreen */) const
 {
-    if (window == NULL || !CanToggleFullScreen())
+    if (screen == NULL || !CanToggleFullScreen())
     {
         return;
     }
 
-    SDL_SetWindowFullscreen(window,
-                            isfullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
+    SDL_WM_ToggleFullScreen(screen);
 }
 
-bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
+bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
-    char title[64];
-    int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
-    SDL_version compiled;
-    SDL_version linked;
+    char temp[64];
+    int flags = SDL_OPENGL | SDL_RESIZABLE;
     const SDL_version *pVersion;
 
-    SDL_VERSION(&compiled);
-    SDL_GetVersion(&linked);
-
     DEBUGPRINT("SDL UserInterface initialization\n");
-    DEBUGPRINT3("SDL linked version: %d.%d.%d\n",
-                linked.major, linked.minor, linked.patch);
-    DEBUGPRINT3("SDL compiled version: %d.%d.%d\n",
-                compiled.major, compiled.minor, compiled.patch);
+    pVersion = SDL_Linked_Version();
+    DEBUGPRINT3("SDL Linked version: %d.%d.%d\n", pVersion->major,
+                pVersion->minor, pVersion->patch);
     DEBUGPRINT3("SDL Header version: %d.%d.%d\n", SDL_MAJOR_VERSION,
                 SDL_MINOR_VERSION, SDL_PATCHLEVEL);
     pVersion = Mix_Linked_Version();
@@ -90,41 +79,29 @@ bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
     if (KPConfig::Instance().FullScreen)
     {
-        flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+        flags |= SDL_FULLSCREEN;
     }
 
-    sprintf(title, "%s V%s", PACKAGE, VERSION);
-
-    window = SDL_CreateWindow(
-                 title,
-                 SDL_WINDOWPOS_UNDEFINED,
-                 SDL_WINDOWPOS_UNDEFINED,
+    screen = SDL_SetVideoMode(
                  KPConfig::Instance().ScreenXResolution,
                  (KPConfig::Instance().ScreenXResolution*3)/4,
+                 KPConfig::Instance().ColorDepth,
                  flags);
-
-    if (window == NULL)
+    if (screen == NULL)
     {
-        printf("*** SDL_CreateWindow Error: %s\n", SDL_GetError());
         SDL_Quit();
         return false;
     }
 
-    renderer = SDL_CreateRenderer(window, -1, 0);
-    if (renderer == NULL)
-    {
-        printf("*** SDL_CreateRenderer Error: %s\n", SDL_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return false;
-    }
+    sprintf(temp, "%s V%s", PACKAGE, VERSION);
+    SDL_WM_SetCaption(temp, temp);
 
     DebugPrintOpenGLVersion();
     InitializeAudio(KPConfig::Instance().TextureName.c_str());
     return InitializeAfterOpen();
 }
 
-void KPSdl2UserInterface::MainLoop()
+void KPSdl12UserInterface::MainLoop()
 {
     // This is the event loop
     bool done = 0;
@@ -142,12 +119,18 @@ void KPSdl2UserInterface::MainLoop()
         {
             switch(event.type)
             {
-                case SDL_WINDOWEVENT:
-                    switch (event.window.event)
+                case SDL_VIDEORESIZE:
+                    screen = SDL_SetVideoMode(event.resize.w, event.resize.h,
+                                              KPConfig::Instance().ColorDepth,
+                                              SDL_OPENGL | SDL_RESIZABLE);
+                    if ( screen )
                     {
-                        case SDL_WINDOWEVENT_SIZE_CHANGED:
-                            Reshape(event.window.data1, event.window.data2);
-                            break;
+                        Reshape(screen->w, screen->h);
+                    }
+                    else
+                    {
+                        // unable to set video mode -> Quit
+                        done = 1;
                     }
                     break;
                 case SDL_QUIT:
@@ -188,39 +171,27 @@ void KPSdl2UserInterface::MainLoop()
     } // main loop
 }
 
-void KPSdl2UserInterface::Close()
+void KPSdl12UserInterface::Close()
 {
-    if (window != NULL)
+    if ( screen )
     {
-        SDL_DestroyRenderer(renderer);
-        renderer = NULL;
-        SDL_DestroyWindow(window);
-        window = NULL;
         SDL_Quit();
+        screen = NULL;
     }
     KPConfig::Instance().WriteToFile();
 
     exit(0);
 }
 
-int KPSdl2UserInterface::GetValue(int what) const
+int KPSdl12UserInterface::GetValue(int what) const
 {
-    if (window != NULL)
+    switch (what)
     {
-        int width;
-        int height;
-
-        SDL_GetWindowSize(window, &width, &height);
-
-        switch (what)
-        {
-            case KP_WINDOW_WIDTH:
-                return width;
-            case KP_WINDOW_HEIGHT:
-                return height;
-        }
+        case KP_WINDOW_WIDTH:
+            return (screen != NULL ? screen->w : 0);
+        case KP_WINDOW_HEIGHT:
+            return (screen != NULL ? screen->h : 0);
     }
-
     return 0;
 }
 
@@ -229,30 +200,26 @@ int KPSdl2UserInterface::GetValue(int what) const
 // Event Handling
 /////////////////////////////////////////////////////////////////////
 
-void KPSdl2UserInterface::SwapBuffers()
+void KPSdl12UserInterface::SwapBuffers()
 {
-    if (window != NULL)
-    {
-        SDL_GL_SwapWindow(window);
-    }
+    SDL_GL_SwapBuffers();
 }
 
 /////////////////////////////////////////////////////////////////////
 // Audio/Music Interface
 /////////////////////////////////////////////////////////////////////
 
-void KPSdl2UserInterface::SetStopMusicCallback()
+void KPSdl12UserInterface::SetStopMusicCallback()
 {
     Mix_HookMusicFinished(stopMusicCallback);
 }
 
-void KPSdl2UserInterface::stopMusicCallback()
+void KPSdl12UserInterface::stopMusicCallback()
 {
-    if (KPSdl2UserInterface::instance != NULL)
+    if (KPSdl12UserInterface::instance != NULL)
     {
-        KPSdl2UserInterface::instance->StopMusicCallback();
+        KPSdl12UserInterface::instance->StopMusicCallback();
     }
 }
 
-#endif //#ifdef HAVE_SDL2
-
+#endif //#ifdef HAVE_SDL

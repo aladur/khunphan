@@ -28,7 +28,7 @@
 #include "kpnode.h"
 #include "kpconfig.h"
 #include "bthread.h"
-#include "kpsdluserinterface.h"
+#include "kpsdl12userinterface.h"
 #include "kpsdl2userinterface.h"
 #include "kpglutuserinterface.h"
 
@@ -134,7 +134,7 @@ bool KhunPhanApp::Run(int argc, char **argv)
 #else
 #ifdef HAVE_SDL
         case 0:
-            userInterface = new KPSdlUserInterface();
+            userInterface = new KPSdl12UserInterface();
             break;
 #endif
 #endif

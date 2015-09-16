@@ -104,6 +104,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-kpsdluserinterface.$(OBJEXT) \
 	khunphan-kpglutuserinterface.$(OBJEXT) \
+	khunphan-kpsdl12userinterface.$(OBJEXT) \
 	khunphan-kpsdl2userinterface.$(OBJEXT) \
 	khunphan-kpuibase.$(OBJEXT) khunphan-btime.$(OBJEXT) \
 	khunphan-kpstatescorelist.$(OBJEXT) khunphan-kpscore.$(OBJEXT) \
@@ -371,51 +372,52 @@ khunphan_SOURCES = \
         bdir.cpp \
         kpsdluserinterface.cpp \
         kpglutuserinterface.cpp \
+        kpsdl12userinterface.cpp \
         kpsdl2userinterface.cpp \
-	kpuibase.cpp \
+        kpuibase.cpp \
         btime.cpp \
         kpstatescorelist.cpp \
         kpscore.cpp \
         btexture.cpp \
-	kpstatistics.cpp \
+        kpstatistics.cpp \
         kpprogressbar.cpp \
         kpthreadsolvecount.cpp \
-	bposixthreadimp.cpp \
+        bposixthreadimp.cpp \
         bwin32threadimp.cpp \
         bthreadimp.cpp \
-	bthreadfactory.cpp \
+        bthreadfactory.cpp \
         bthread.cpp \
         kpstatemovetoken.cpp \
-	kpstatetutorial4.cpp \
+        kpstatetutorial4.cpp \
         kpstatetutorial3.cpp \
         kpstatetutorial2.cpp \
-	kpstatetutorial1.cpp \
+        kpstatetutorial1.cpp \
         kpstategamesolved.cpp \
         kpstateselectlanguage.cpp \
-	kpstategame.cpp \
+        kpstategame.cpp \
         kpstatekeyboardhelp.cpp \
         kpstateaudiosettings.cpp \
-	kpstategraphichint.cpp \
+        kpstategraphichint.cpp \
         kpstategraphicsettings.cpp \
-	kpstatecontrolsettings.cpp \
+        kpstatecontrolsettings.cpp \
         kpstatesettings.cpp \
         kpstatefinish.cpp \
-	kpstatemeinmenu.cpp \
+        kpstatemeinmenu.cpp \
         kpstatefactory.cpp \
         kpstatestartup.cpp \
         kpmenu.cpp \
-	kpstate.cpp \
+        kpstate.cpp \
         light.cpp \
         main.cpp \
         kpconfig.cpp \
         kpboardGL.cpp \
         Kamera.cpp \
-	Textfeld.cpp \
+        Textfeld.cpp \
         Schild.cpp \
         kpidhash.cpp \
         kpnode.cpp \
         misc1.cpp \
-	kpboard.cpp \
+        kpboard.cpp \
         KhunPhan.cpp \
         kpstatelighttest.cpp \
         sprinter.cpp
@@ -428,50 +430,52 @@ EXTRA_DIST = \
         kpboard.h \
         misc1.h \
         kpnode.h \
-	kpidhash.h \
+        kpidhash.h \
         Schild.h \
         sprache.h \
         Textfeld.h \
         Kamera.h \
         kpboardGL.h \
-	kpconfig.h \
+        kpconfig.h \
         light.h \
         KPstateContext.h \
-        kpstate.h kpmenu.h \
-	kpstatestartup.h \
+        kpstate.h \
+        kpmenu.h \
+        kpstatestartup.h \
         kpstatefactory.h \
         kpstatemeinmenu.h \
-	kpstatefinish.h \
+        kpstatefinish.h \
         kpstatesettings.h \
         kpstatecontrolsettings.h \
-	kpstategraphicsettings.h \
+        kpstategraphicsettings.h \
         kpstategraphichint.h \
         kpstateaudiosettings.h \
-	kpstatekeyboardhelp.h \
+        kpstatekeyboardhelp.h \
         kpstategame.h \
         kpstateselectlanguage.h \
-	kpstategamesolved.h \
+        kpstategamesolved.h \
         kpstatetutorial1.h \
         kpstatetutorial2.h \
-	kpstatetutorial3.h \
+        kpstatetutorial3.h \
         kpstatetutorial4.h \
         kpstatemovetoken.h \
         bthread.h \
-	bthreadfactory.h \
+        bthreadfactory.h \
         bthreadimp.h \
         bposixthreadimp.h \
         kpthreadsolvecount.h \
-	kpprogressbar.h \
+        kpprogressbar.h \
         KPtime.h \
         kpstatistics.h \
         btexture.h \
         kpscore.h \
-	kpstatescorelist.h \
+        kpstatescorelist.h \
         btime.h \
         kpuibase.h \
         kpglutuserinterface.h \
-	kpsdluserinterface.h \
-        psdl2userinterface.h \
+        kpsdluserinterface.h \
+        kpsdl12userinterface.h \
+        kpsdl2userinterface.h \
         bdir.h \
         bwin32threadimp.h \
         resource.h \
@@ -479,62 +483,62 @@ EXTRA_DIST = \
         bsingle.h \
         kpstatelighttest.h \
         sprinter.h \
-	KhunPhan.rc \
+        KhunPhan.rc \
         icon.ico
 
 AM_CPPFLAGS = $(all_includes) -DLINUX -DDATADIR=\"$(datadir)\"
 #khunphan_LDFLAGS = $(all_libraries) 
 nobase_dist_pkgdata_DATA = \
-	Music/Cymbals.ogg \
+        Music/Cymbals.ogg \
         Music/Earth.ogg Music/Mystery.ogg \
-	Sounds/changesetting.ogg \
+        Sounds/changesetting.ogg \
         Sounds/gamesolved.ogg \
-	Sounds/movetoken.ogg \
+        Sounds/movetoken.ogg \
         Sounds/opengame.ogg \
-	Sounds/openmenu.ogg \
+        Sounds/openmenu.ogg \
         Sounds/quitgame.ogg \
-	Sounds/tutorialnext.ogg \
-	Sounds/bubbles/movetoken.ogg \
-	Sounds/marble/movetoken.ogg \
-	Sounds/metal/movetoken.ogg \
-	Sounds/painting/movetoken.ogg \
-	Sounds/rock/movetoken.ogg \
-	Sounds/smily/movetoken.ogg \
-	Sounds/wood/movetoken.ogg \
-	Textures/characters.png \
+        Sounds/tutorialnext.ogg \
+        Sounds/bubbles/movetoken.ogg \
+        Sounds/marble/movetoken.ogg \
+        Sounds/metal/movetoken.ogg \
+        Sounds/painting/movetoken.ogg \
+        Sounds/rock/movetoken.ogg \
+        Sounds/smily/movetoken.ogg \
+        Sounds/wood/movetoken.ogg \
+        Textures/characters.png \
         Textures/logo.png \
-	Textures/music_on.png \
+        Textures/music_on.png \
         Textures/soundmusic_off.png \
-	Textures/sound_on.png \
-	Textures/bubbles/board.png \
+        Textures/sound_on.png \
+        Textures/bubbles/board.png \
         Textures/bubbles/texture1.png \
-	Textures/bubbles/texture2.png \
+        Textures/bubbles/texture2.png \
         Textures/bubbles/texture3.png \
-	Textures/marble/board.png \
+        Textures/marble/board.png \
         Textures/marble/texture1.png \
-	Textures/marble/texture2.png \
+        Textures/marble/texture2.png \
         Textures/marble/texture3.png \
-	Textures/metal/board.png \
+        Textures/metal/board.png \
         Textures/metal/texture1.png \
-	Textures/metal/texture2.png \
+        Textures/metal/texture2.png \
         Textures/metal/texture3.png \
-	Textures/painting/board.png \
+        Textures/painting/board.png \
         Textures/painting/texture1.png \
-	Textures/painting/texture2.png \
+        Textures/painting/texture2.png \
         Textures/painting/texture3.png \
-	Textures/rock/board.png \
+        Textures/rock/board.png \
         Textures/rock/texture1.png \
-	Textures/rock/texture2.png \
+        Textures/rock/texture2.png \
         Textures/rock/texture3.png \
-	Textures/smily/board.png \
+        Textures/smily/board.png \
         Textures/smily/texture1.png \
-	Textures/smily/texture2.png \
+        Textures/smily/texture2.png \
         Textures/smily/texture3.png \
-	Textures/wood/board.png \
+        Textures/wood/board.png \
         Textures/wood/texture1.png \
-	Textures/wood/texture2.png \
+        Textures/wood/texture2.png \
         Textures/wood/texture3.png \
-	locale/900.lang \
+        locale/900.lang \
         locale/901.lang \
         locale/999.lang
 
@@ -662,6 +666,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpnode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpprogressbar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpscore.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpsdl12userinterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpsdl2userinterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpsdluserinterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstate.Po@am__quote@
@@ -748,6 +753,20 @@ khunphan-kpglutuserinterface.obj: kpglutuserinterface.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpglutuserinterface.cpp' object='khunphan-kpglutuserinterface.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpglutuserinterface.obj `if test -f 'kpglutuserinterface.cpp'; then $(CYGPATH_W) 'kpglutuserinterface.cpp'; else $(CYGPATH_W) '$(srcdir)/kpglutuserinterface.cpp'; fi`
+
+khunphan-kpsdl12userinterface.o: kpsdl12userinterface.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpsdl12userinterface.o -MD -MP -MF $(DEPDIR)/khunphan-kpsdl12userinterface.Tpo -c -o khunphan-kpsdl12userinterface.o `test -f 'kpsdl12userinterface.cpp' || echo '$(srcdir)/'`kpsdl12userinterface.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpsdl12userinterface.Tpo $(DEPDIR)/khunphan-kpsdl12userinterface.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpsdl12userinterface.cpp' object='khunphan-kpsdl12userinterface.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpsdl12userinterface.o `test -f 'kpsdl12userinterface.cpp' || echo '$(srcdir)/'`kpsdl12userinterface.cpp
+
+khunphan-kpsdl12userinterface.obj: kpsdl12userinterface.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpsdl12userinterface.obj -MD -MP -MF $(DEPDIR)/khunphan-kpsdl12userinterface.Tpo -c -o khunphan-kpsdl12userinterface.obj `if test -f 'kpsdl12userinterface.cpp'; then $(CYGPATH_W) 'kpsdl12userinterface.cpp'; else $(CYGPATH_W) '$(srcdir)/kpsdl12userinterface.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpsdl12userinterface.Tpo $(DEPDIR)/khunphan-kpsdl12userinterface.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpsdl12userinterface.cpp' object='khunphan-kpsdl12userinterface.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpsdl12userinterface.obj `if test -f 'kpsdl12userinterface.cpp'; then $(CYGPATH_W) 'kpsdl12userinterface.cpp'; else $(CYGPATH_W) '$(srcdir)/kpsdl12userinterface.cpp'; fi`
 
 khunphan-kpsdl2userinterface.o: kpsdl2userinterface.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpsdl2userinterface.o -MD -MP -MF $(DEPDIR)/khunphan-kpsdl2userinterface.Tpo -c -o khunphan-kpsdl2userinterface.o `test -f 'kpsdl2userinterface.cpp' || echo '$(srcdir)/'`kpsdl2userinterface.cpp

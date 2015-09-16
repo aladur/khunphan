@@ -20,14 +20,13 @@
 */
 
 #include "misc1.h"
-#ifdef HAVE_SDL
+#if defined (HAVE_SDL) || defined (HAVE_SDL2)
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <io.h>
 #endif
-#include "misc1.h"
 #ifdef HAVE_UNISTD_H
 #include <sys/types.h>
 #include <unistd.h>  // needed for access
@@ -49,20 +48,14 @@ const char *KPSdlUserInterface::soundFile[KP_SND_MAX+1] =
     NULL
 };
 
-KPSdlUserInterface::KPSdlUserInterface() : screen(NULL), sound(NULL),
-    soundSource(NULL),
+KPSdlUserInterface::KPSdlUserInterface() : KPUIBase(),
+    sound(NULL), soundSource(NULL),
     music(NULL), rate(22050), musicIndex(0), musicPosition(0.0)
 {
 }
 
 KPSdlUserInterface::~KPSdlUserInterface()
 {
-    if ( screen )
-    {
-        SDL_Quit();
-        screen = NULL;
-    }
-
     if (sound != NULL)
     {
         for (int i = 0; i < KP_SND_MAX; i++)
@@ -97,134 +90,6 @@ void KPSdlUserInterface::InitializeEvents()
 bool KPSdlUserInterface::CanToggleFullScreen() const
 {
     return true;
-}
-
-void KPSdlUserInterface::SetWindowMode(bool /* FullScreen */) const
-{
-    if (screen == NULL || !CanToggleFullScreen())
-    {
-        return;
-    }
-
-    SDL_WM_ToggleFullScreen(screen);
-}
-
-bool KPSdlUserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
-{
-    char temp[64];
-    int flags = SDL_OPENGL | SDL_RESIZABLE;
-    const SDL_version *pVersion;
-
-    DEBUGPRINT("SDL UserInterface initialization\n");
-    pVersion = SDL_Linked_Version();
-    DEBUGPRINT3("SDL Linked version: %d.%d.%d\n", pVersion->major,
-                pVersion->minor, pVersion->patch);
-    DEBUGPRINT3("SDL Header version: %d.%d.%d\n", SDL_MAJOR_VERSION,
-                SDL_MINOR_VERSION, SDL_PATCHLEVEL);
-    pVersion = Mix_Linked_Version();
-    DEBUGPRINT3("SDL_mixer Linked version: %d.%d.%d\n", pVersion->major,
-                pVersion->minor, pVersion->patch);
-    DEBUGPRINT3("SDL_mixer Header version: %d.%d.%d\n", MIX_MAJOR_VERSION,
-                MIX_MINOR_VERSION, MIX_PATCHLEVEL);
-
-    // Open OpenGL Window with SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE) < 0)
-    {
-        return false;
-    }
-
-    if (KPConfig::Instance().FullScreen)
-    {
-        flags |= SDL_FULLSCREEN;
-    }
-
-    screen = SDL_SetVideoMode(
-                 KPConfig::Instance().ScreenXResolution,
-                 (KPConfig::Instance().ScreenXResolution*3)/4,
-                 KPConfig::Instance().ColorDepth,
-                 flags);
-    if (screen == NULL)
-    {
-        SDL_Quit();
-        return false;
-    }
-
-    sprintf(temp, "%s V%s", PACKAGE, VERSION);
-    SDL_WM_SetCaption(temp, temp);
-
-    DebugPrintOpenGLVersion();
-    InitializeAudio(KPConfig::Instance().TextureName.c_str());
-    return InitializeAfterOpen();
-}
-
-void KPSdlUserInterface::MainLoop()
-{
-    // This is the event loop
-    bool done = 0;
-    unsigned char key;
-
-    while ( ! done )
-    {
-        SDL_Event event;
-
-        memset(&event, 0, sizeof(event));
-
-        Idle();
-
-        while ( SDL_PollEvent(&event) )
-        {
-            switch(event.type)
-            {
-                case SDL_VIDEORESIZE:
-                    screen = SDL_SetVideoMode(event.resize.w, event.resize.h,
-                                              KPConfig::Instance().ColorDepth,
-                                              SDL_OPENGL | SDL_RESIZABLE);
-                    if ( screen )
-                    {
-                        Reshape(screen->w, screen->h);
-                    }
-                    else
-                    {
-                        // unable to set video mode -> Quit
-                        done = 1;
-                    }
-                    break;
-                case SDL_QUIT:
-                    done = 1;
-                    break;
-                case SDL_MOUSEMOTION:
-                    MouseMotion(event.motion.x, event.motion.y);
-                    break;
-                case SDL_MOUSEBUTTONUP:
-                case SDL_MOUSEBUTTONDOWN:
-                    MouseClick(event.button.button, event.button.state,
-                               event.button.x, event.button.y);
-                    break;
-                case SDL_KEYDOWN:
-                    if (mapKey(event.key.keysym.mod, event.key.keysym.sym,
-                               &key))
-                    {
-                        int xm, ym;
-                        SDL_GetMouseState(&xm, &ym);
-                        KeyPressed(key, xm, ym);
-                    }
-                    break;
-                case SDL_KEYUP:
-                    if (mapKey(event.key.keysym.mod, event.key.keysym.sym,
-                               &key))
-                    {
-                        int xm, ym;
-                        SDL_GetMouseState(&xm, &ym);
-                        KeyReleased(key, xm, ym);
-                    }
-                    break;
-            } // switch
-        } // event loop
-        Display();
-        PostWindowRedisplay();
-
-        SDL_Delay(10);
-    } // main loop
 }
 
 bool KPSdlUserInterface::mapKey(int mod, int sym, unsigned char *pKey)
@@ -271,39 +136,9 @@ bool KPSdlUserInterface::mapKey(int mod, int sym, unsigned char *pKey)
     return false;
 }
 
-void KPSdlUserInterface::Close()
-{
-    if ( screen )
-    {
-        SDL_Quit();
-        screen = NULL;
-    }
-    KPConfig::Instance().WriteToFile();
-
-    exit(0);
-}
-
-int KPSdlUserInterface::GetValue(int what) const
-{
-    switch (what)
-    {
-        case KP_WINDOW_WIDTH:
-            return (screen != NULL ? screen->w : 0);
-        case KP_WINDOW_HEIGHT:
-            return (screen != NULL ? screen->h : 0);
-    }
-    return 0;
-}
-
-
 /////////////////////////////////////////////////////////////////////
 // Event Handling
 /////////////////////////////////////////////////////////////////////
-
-void KPSdlUserInterface::SwapBuffers()
-{
-    SDL_GL_SwapBuffers();
-}
 
 void KPSdlUserInterface::Timer(int)
 {
@@ -550,7 +385,7 @@ void KPSdlUserInterface::PlayMusic(bool On, bool resetPos)
             // Fade in music at a previously stored position or at 0.0
             time.ResetRelativeTime();
             Mix_FadeInMusicPos(music, 1, 1000, musicPosition);
-            Mix_HookMusicFinished(stopMusicCallback);
+            SetStopMusicCallback();
         }
     }
 
@@ -578,12 +413,4 @@ void KPSdlUserInterface::StopMusicCallback()
     PlayMusic(true, true);
 }
 
-void KPSdlUserInterface::stopMusicCallback()
-{
-    if (KPSdlUserInterface::instance != NULL)
-    {
-        KPSdlUserInterface::instance->StopMusicCallback();
-    }
-}
-
-#endif //#ifdef HAVE_SDL
+#endif //#if defined (HAVE_SDL) || defined (HAVE_SDL2)

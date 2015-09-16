@@ -1,8 +1,8 @@
 /*
-    kpsdl2userinterface.h
+    kpsdl12userinterface.h
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2015  W. Schwotzer
+    Copyright (C) 2001-2015  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,21 +19,21 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef KPSDL2USERINTERFACE_H
-#define KPSDL2USERINTERFACE_H
+#ifndef KPSDL12USERINTERFACE_H
+#define KPSDL12USERINTERFACE_H
 
 #include "misc1.h"
-#ifdef HAVE_SDL2
+#ifdef HAVE_SDL
 
 #include "kpsdluserinterface.h"
 
 
-class KPSdl2UserInterface : public KPSdlUserInterface
+class KPSdl12UserInterface : public KPSdlUserInterface
 {
 public:
     // public interface
-    KPSdl2UserInterface();
-    virtual ~KPSdl2UserInterface();
+    KPSdl12UserInterface();
+    virtual ~KPSdl12UserInterface();
 
     bool OpenWindow(int argc, char **argv);
     void SetWindowMode(bool FullScreen) const;
@@ -46,12 +46,10 @@ protected:
     void SwapBuffers();
     void SetStopMusicCallback();
 
-
     static void stopMusicCallback();
 
-    SDL_Window   *window;  // SDL Window ID
-    SDL_Renderer *renderer;
+    SDL_Surface  *screen;  // SDL Screen ID
 };
 
-#endif //#ifdef HAVE_SDL2
+#endif //#ifdef HAVE_SDL
 #endif
