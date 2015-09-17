@@ -200,12 +200,12 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
 {
     if(!reInitialize)
     {
-        DEBUGPRINT("Audio and Music initialization\n");
+        LOG1("Audio and Music initialization");
     }
 
     if(!reInitialize && Mix_OpenAudio(rate, AUDIO_S16, 1, 4096))
     {
-        DEBUGPRINT1("*** Error in Mix_OpenAudio: %s\n", Mix_GetError());
+        LOG2("*** Error in Mix_OpenAudio: ", Mix_GetError());
         return false;
     }
 
@@ -257,8 +257,8 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         }
         else
         {
-            DEBUGPRINT1("*** Warning: No sound file available for sound '%s'\n",
-                        soundFile[i]);
+            LOG3("*** Warning: No sound file available for sound '",
+                 soundFile[i], "'");
         }
 
         i++;
@@ -310,14 +310,13 @@ void KPSdlUserInterface::LoadNextMusic()
                            *it;
         if ((music = Mix_LoadMUS(file.c_str())) == NULL)
         {
-            DEBUGPRINT2("*** Error in Mix_LoadMUS(\"%s\"): %s\n",
-                        file.c_str(), Mix_GetError());
+            LOG4("*** Error in Mix_LoadMUS(\"", file, "\"): ", Mix_GetError());
             musicFiles.erase(it);
             continue;
         }
         else
         {
-            DEBUGPRINT1("Loading '%s'\n", file.c_str());
+            LOG3("Loading '", file, "'");
             musicIndex = index + 1;
             SetMusicVolume(KPConfig::Instance().MusicVolume);
             break;
@@ -340,12 +339,12 @@ void KPSdlUserInterface::PlayAudio(int soundId) const
                                   SDL_RWFromFile(soundSource[soundId].c_str(),
                                           "rb"), 1)) == NULL)
         {
-            DEBUGPRINT2("*** Error opening Audio file '%s' [%s]\n",
-                        soundSource[soundId].c_str(), Mix_GetError());
+            LOG5("*** Error opening Audio file '", soundSource[soundId],
+                 "' [", Mix_GetError(), "]");
         }
         if (sound[soundId] != NULL)
         {
-            DEBUGPRINT1("Reading '%s'\n", soundSource[soundId].c_str());
+            LOG3("Reading '", soundSource[soundId], "'");
         }
     }
 

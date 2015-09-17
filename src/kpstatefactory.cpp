@@ -104,8 +104,10 @@ KPstate *KPstateFactory::CreateState(int stateID)
         case KPState_Shutdown:
             return NULL; // pseudo state to shutdown the Application
     }
-    DEBUGPRINT1("*** Error in State-factory: There is no state with ID %d "
-                "defined\n", stateID);
+
+    LOG3("*** Error in State-factory: There is no state with ID ", stateID,
+         "defined\n");
+
     return NULL;
 }
 

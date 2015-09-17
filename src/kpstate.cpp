@@ -159,8 +159,10 @@ void KPstate::Draw(KPstateContext *pContext)
     {
         timeMenu = time.GetRelativeTimeUsf(true);
 
-        DEBUGPRINT3("BoardView: %.1f us Menu: %.1f us Sum: %.1f us\n",
-                    timeBoardView, timeMenu, (timeBoardView + timeMenu));
+        LOG9(std::fixed, std::setprecision(1), "BoardView: ",
+             timeBoardView, " us Menu: ",
+             timeMenu, " us Sum: ",
+             timeBoardView + timeMenu, " us");
     }
 }
 

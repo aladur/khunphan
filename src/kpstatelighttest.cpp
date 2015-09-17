@@ -118,7 +118,7 @@ void KPstateLightTest::HandleMouseClick(KPstateContext *pContext,
         lx += diff_x;
         lz += diff_z;
         pContext->GetLight().SetPosition(lx, ly, lz);
-        DEBUGPRINT3("Light position x=%f y=%f z=%f\n", lx, ly, lz);
+        LOG7(std::fixed, "Light position x=", lx, " y=", ly, " z=", lz);
     }
     else if (button == KP_RIGHT_MB && event == KP_BUTTON_PRESS)
     {
@@ -132,7 +132,7 @@ void KPstateLightTest::HandleMouseClick(KPstateContext *pContext,
         pContext->GetLight().GetPosition(lx, ly, lz);
         ly += diff_y;
         pContext->GetLight().SetPosition(lx, ly, lz);
-        DEBUGPRINT3("Light position x=%f y=%f z=%f\n", lx, ly, lz);
+        LOG7(std::fixed, "Light position x=", lx, " y=", ly, " z=", lz);
     }
 
 }

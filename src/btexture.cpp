@@ -101,7 +101,7 @@ const char *BTexture::ReadTextureFromFile(const char *pFile, int flags)
         return NULL;
     }
 
-    DEBUGPRINT1("Reading '%s'\n", pFile);
+    LOG3("Reading '", pFile, "'");
 
     const char *texels = ReadTextureFromFile(fp, flags);
     fclose(fp);

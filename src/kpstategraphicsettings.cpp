@@ -590,28 +590,21 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *)
         ResolutionChanged = true;
     }
 
-    DEBUGPRINT("Changed Graphic Settings\n");
-    DEBUGPRINT1("  UserInterface :        %s\n",
-                KPConfig::GetUserInterfaceName(E_UserInterface));
-    DEBUGPRINT1("  TextureName :          %s\n",
-                KPConfig::Instance().TextureName.c_str());
-    DEBUGPRINT1("  TextureSize :          %d\n", KPConfig::Instance()
-                .TextureSize);
-    DEBUGPRINT1("  MenuTextureSize :      %d\n",
-                KPConfig::Instance().MenuTextureSize);
-    DEBUGPRINT1("  Shadows :              %s\n",
-                KPConfig::Instance().Shadows ? "On" : "Off");
-    DEBUGPRINT1("  TextureInterpolation : %s\n",
-                KPConfig::Instance().Nearest ? "Off" : "On");
-    DEBUGPRINT1("  ScreenXResolution :    %d\n", E_ScreenXResolution);
-    DEBUGPRINT1("  ColorDepth :           %d\n", E_ColorDepth);
-    DEBUGPRINT1("  Reflections :          %s\n",
-                KPConfig::Instance().Reflections ? "On" : "Off");
-    DEBUGPRINT1("  AmbientLight :         %s\n",
-                KPConfig::Instance().AmbientLight ? "On" : "Off");
-    DEBUGPRINT1("  LightSources :         %d\n", KPConfig::Instance()
-                .LightSources);
-    DEBUGPRINT1("  FullScreen :           %s\n", E_FullScreen ? "On" : "Off");
+    LOG1("Changed Graphic Settings");
+    LOG2("  UserInterface :        ",
+         KPConfig::GetUserInterfaceName(E_UserInterface));
+    LOG2("  TextureName :          ", KPConfig::Instance().TextureName);
+    LOG2("  TextureSize :          ", KPConfig::Instance().TextureSize);
+    LOG2("  MenuTextureSize :      ", KPConfig::Instance().MenuTextureSize);
+    LOG2("  Shadows :              ", ON_OFF(KPConfig::Instance().Shadows));
+    LOG2("  TextureInterpolation : ", ON_OFF(KPConfig::Instance().Nearest));
+    LOG2("  ScreenXResolution :    ", E_ScreenXResolution);
+    LOG2("  ColorDepth :           ", E_ColorDepth);
+    LOG2("  Reflections :          ", ON_OFF(KPConfig::Instance().Reflections));
+    LOG2("  AmbientLight :         ",
+         ON_OFF(KPConfig::Instance().AmbientLight));
+    LOG2("  LightSources :         ", KPConfig::Instance().LightSources);
+    LOG2("  FullScreen :           ", ON_OFF(E_FullScreen));
 
     KPConfig::Instance().ColorDepth        = E_ColorDepth;
     KPConfig::Instance().FullScreen        = E_FullScreen;

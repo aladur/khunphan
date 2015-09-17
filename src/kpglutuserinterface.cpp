@@ -129,26 +129,26 @@ bool KPGlutUserInterface::OpenWindow(int argc, char **argv)
     char temp[64];
 
     glutInit(&argc, argv);
-    DEBUGPRINT("GLUT UserInterface initialization\n");
+    LOG1("GLUT UserInterface initialization");
 #ifdef GLUT_API_VERSION
-    DEBUGPRINT1("GLUT API Version %d\n", GLUT_API_VERSION);
+    LOG2("GLUT API Version ", GLUT_API_VERSION);
 #endif
 #ifdef GLUT_XLIB_IMPLEMENTATION
-    DEBUGPRINT1("GLUT XLIB Implementation #%d\n", GLUT_XLIB_IMPLEMENTATION);
+    LOG2("GLUT XLIB Implementation #", GLUT_XLIB_IMPLEMENTATION);
 #endif
 #ifdef FREEGLUT
     int glutVersion = glutGet(GLUT_VERSION);
-    DEBUGPRINT3("FREEGLUT Version %d.%d.%d\n",
-                (glutVersion / 10000) % 100,
-                (glutVersion /   100) % 100,
-                glutVersion          % 100);
+    LOG6("FREEGLUT Version ",
+         (glutVersion / 10000) % 100, '.',
+         (glutVersion /   100) % 100, '.',
+          glutVersion          % 100);
 #endif
 #ifdef OPENGLUT
     int glutVersion = glutGet(GLUT_VERSION);
-    DEBUGPRINT3("OPENGLUT Version %d.%d.%d\n",
-                (glutVersion / 10000) % 100,
-                (glutVersion /   100) % 100,
-                glutVersion          % 100);
+    LOG6("OPENGLUT Version ",
+         (glutVersion / 10000) % 100, '.',
+         (glutVersion /   100) % 100, '.',
+          glutVersion          % 100);
 #endif
 
     // Open OpenGL Window with GLUT

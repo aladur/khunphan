@@ -49,11 +49,11 @@ void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,
     //GLfloat Brightness = (GLfloat)(1.0 / LightSources);
     GLfloat Brightness = 1.0;
 
-    DEBUGPRINT("Light initialization\n");
-    DEBUGPRINT1(" Ambient Light: %s\n",   AmbientLight ? "On" : "Off");
-    DEBUGPRINT1(" Light Sources: %d\n",   LightSources);
-    DEBUGPRINT1(" Reflections:   %s\n",   Reflections ? "On" : "Off");
-    DEBUGPRINT1(" Brightness:    %.2f\n", Brightness);
+    LOG1("Light initialization");
+    LOG2(" Ambient Light: ", ON_OFF(AmbientLight));
+    LOG2(" Light Sources: ", LightSources);
+    LOG2(" Reflections:   ", ON_OFF(Reflections));
+    LOG4(" Brightness:    ", std::fixed, std::setprecision(2), Brightness);
 
     glDisable(GL_LIGHT0);
     glDisable(GL_LIGHT1);

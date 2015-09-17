@@ -69,18 +69,24 @@ bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     SDL_VERSION(&compiled);
     SDL_GetVersion(&linked);
 
-    DEBUGPRINT("SDL UserInterface initialization\n");
-    DEBUGPRINT3("SDL linked version: %d.%d.%d\n",
-                linked.major, linked.minor, linked.patch);
-    DEBUGPRINT3("SDL compiled version: %d.%d.%d\n",
-                compiled.major, compiled.minor, compiled.patch);
-    DEBUGPRINT3("SDL Header version: %d.%d.%d\n", SDL_MAJOR_VERSION,
-                SDL_MINOR_VERSION, SDL_PATCHLEVEL);
+    LOG1("SDL UserInterface initialization");
+    LOG6("SDL linked version: ",
+         static_cast<unsigned int>(linked.major), '.',
+         static_cast<unsigned int>(linked.minor), '.',
+         static_cast<unsigned int>(linked.patch));
+    LOG6("SDL compiled version: ",
+         static_cast<unsigned int>(compiled.major), '.',
+         static_cast<unsigned int>(compiled.minor), '.',
+         static_cast<unsigned int>(compiled.patch));
+    LOG6("SDL Header version: ",
+         SDL_MAJOR_VERSION, '.', SDL_MINOR_VERSION, '.', SDL_PATCHLEVEL);
     pVersion = Mix_Linked_Version();
-    DEBUGPRINT3("SDL_mixer Linked version: %d.%d.%d\n", pVersion->major,
-                pVersion->minor, pVersion->patch);
-    DEBUGPRINT3("SDL_mixer Header version: %d.%d.%d\n", MIX_MAJOR_VERSION,
-                MIX_MINOR_VERSION, MIX_PATCHLEVEL);
+    LOG6("SDL_mixer Linked version: ",
+         static_cast<unsigned int>(pVersion->major), '.',
+         static_cast<unsigned int>(pVersion->minor), '.',
+         static_cast<unsigned int>(pVersion->patch));
+    LOG6("SDL_mixer Header version: ",
+         MIX_MAJOR_VERSION, '.', MIX_MINOR_VERSION, '.', MIX_PATCHLEVEL);
 
     // Open OpenGL Window with SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE) < 0)

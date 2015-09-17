@@ -44,7 +44,7 @@
 
 extern "C" RETSIGTYPE _interrupt(int)
 {
-    DEBUGPRINT(PACKAGE " aborted by user\n");
+    LOG1(PACKAGE " aborted by user");
     exit(0);
 }
 //#endif

@@ -53,7 +53,7 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
 
     Update(TextureName, TextureSize, Nearest);
 
-    DEBUGPRINT("Loading languages\n");
+    LOG1("Loading languages");
     LoadLanguage(T_LANGUAGE_MAX);
     LoadLanguage(T_LANGUAGE1);
     LoadLanguage(T_LANGUAGE1 + 1);
@@ -69,7 +69,7 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
         return false;
     }
 
-    DEBUGPRINT("Generating Menu Display Lists\n");
+    LOG1("Generating Menu Display Lists");
 
     tTextfeldArray::iterator it;
 
@@ -113,7 +113,7 @@ bool KPmenu::LoadLanguage(int Language)
 
     if (TextfeldArray.find(Language) != TextfeldArray.end())
     {
-        DEBUGPRINT1(" %s\n", TextfeldArray[Language].Text());
+        LOG2(" ", TextfeldArray[Language].Text());
     }
     sprinter::sprintf(file,
                       "%s%d.lang",

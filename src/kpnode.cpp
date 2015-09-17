@@ -125,9 +125,8 @@ int KPnode::GetNextFreeParentIdx(void) const
         i++;
     }
     // Should not happen:
-    DEBUGPRINT1("KPnode::GetNextFreeParentIdx: Too much parents in one node: "
-                "%d\n",
-                i);
+    LOG2("KPnode::GetNextFreeParentIdx: Too much parents in one node: ", i);
+
     return 0;
 }
 
@@ -152,8 +151,8 @@ inline bool KPnode::AddNextMoves()
                 {
                     if (i >= MOVES_MAX)
                     {
-                        DEBUGPRINT1("KPnode::AddNextMoves: Too much moves in "
-                                    "one node: %u\n", i);
+                        LOG2("KPnode::AddNextMoves: Too much moves in "
+                             "one node: ", i);
                     }
                     pn = new KPnode(b);
                     pchild[i++] = pn;

@@ -828,36 +828,36 @@ const char *KPConfig::GetUserInterfaceName(int ui)
 
 void KPConfig::DebugPrint()
 {
-    DEBUGPRINT("Current KhunPhan Configuration:\n");
-    DEBUGPRINT1("  UserInterface :        %s\n",
+    LOG1("Current KhunPhan Configuration:");
+    LOG2("  UserInterface :        ",
                 GetUserInterfaceName(UserInterface));
-    DEBUGPRINT1("  TextureName :          %s\n", TextureName.c_str());
-    DEBUGPRINT1("  TextureSize :          %d\n", TextureSize);
-    DEBUGPRINT1("  MenuTextureSize :      %d\n", MenuTextureSize);
-    DEBUGPRINT1("  Shadows :              %s\n", Shadows ? "On" : "Off");
-    DEBUGPRINT1("  TextureInterpolation : %s\n", Nearest ? "Off" : "On");
-    DEBUGPRINT1("  ScreenXResolution :    %d\n", ScreenXResolution);
-    DEBUGPRINT1("  ColorDepth :           %d\n", ColorDepth);
-    DEBUGPRINT1("  Reflections :          %s\n", Reflections ? "On" : "Off");
-    DEBUGPRINT1("  DisplayFPS :           %s\n", DisplayFPS ? "On" : "Off");
-    DEBUGPRINT1("  AmbientLight :         %s\n", AmbientLight ? "On" : "Off");
-    DEBUGPRINT1("  LightSources :         %d\n", LightSources);
-    DEBUGPRINT1("  FullScreen :           %s\n", FullScreen ? "On" : "Off");
-    DEBUGPRINT1("  Language :             %d\n", Language);
-    DEBUGPRINT1("  CameraPosition :       %d\n", CameraPosition);
-    DEBUGPRINT1("  SolutionHint :         %d\n", SolutionHint);
-    DEBUGPRINT1("  MouseSpeed :           %1.2f\n", MouseSpeed);
-    DEBUGPRINT1("  SoundVolume :          %d\n", SoundVolume);
-    DEBUGPRINT1("  MusicVolume :          %d\n", MusicVolume);
-    DEBUGPRINT1("  SoundOn :              %s\n", SoundOn ? "On" : "Off");
-    DEBUGPRINT1("  MusicOn :              %s\n", MusicOn ? "On" : "Off");
-    DEBUGPRINT1("  SavedGame :            " FMT_UINT64x "\n", SavedGame);
-    DEBUGPRINT1("  PlayTime :             %u ms\n", PlayTime);
-    DEBUGPRINT1("  Moves :                %u\n", Moves);
-    DEBUGPRINT1("  MovesWithHint :        %u\n", MovesWithHint);
-    DEBUGPRINT1("  CheatCount :           %u\n", CheatCount);
-    DEBUGPRINT1("  PerformanceLog :       %s\n", PerformanceLog ? "On" : "Off");
-    DEBUGPRINT1("  SkipProgressBar :      %s\n", SkipProgressBar ?
-                "On" : "Off");
+    LOG2("  TextureName :          ", TextureName);
+    LOG2("  TextureSize :          ", TextureSize);
+    LOG2("  MenuTextureSize :      ", MenuTextureSize);
+    LOG2("  Shadows :              ", ON_OFF(Shadows));
+    LOG2("  TextureInterpolation : ", ON_OFF(Nearest));
+    LOG2("  ScreenXResolution :    ", ScreenXResolution);
+    LOG2("  ColorDepth :           ", ColorDepth);
+    LOG2("  Reflections :          ", ON_OFF(Reflections));
+    LOG2("  DisplayFPS :           ", ON_OFF(DisplayFPS));
+    LOG2("  AmbientLight :         ", ON_OFF(AmbientLight));
+    LOG2("  LightSources :         ", LightSources);
+    LOG2("  FullScreen :           ", ON_OFF(FullScreen));
+    LOG2("  Language :             ", Language);
+    LOG2("  CameraPosition :       ", CameraPosition);
+    LOG2("  SolutionHint :         ", SolutionHint);
+    LOG4(std::fixed, std::setprecision(2),
+         "  MouseSpeed :           ", MouseSpeed);
+    LOG2("  SoundVolume :          ", SoundVolume);
+    LOG2("  MusicVolume :          ", MusicVolume);
+    LOG2("  SoundOn :              ", ON_OFF(SoundOn));
+    LOG2("  MusicOn :              ", ON_OFF(MusicOn));
+    LOG2("  SavedGame :            ", SavedGame);
+    LOG3("  PlayTime :             ", PlayTime, " ms");
+    LOG2("  Moves :                ", Moves);
+    LOG2("  MovesWithHint :        ", MovesWithHint);
+    LOG2("  CheatCount :           ", CheatCount);
+    LOG2("  PerformanceLog :       ", ON_OFF(PerformanceLog));
+    LOG2("  SkipProgressBar :      ", ON_OFF(SkipProgressBar));
 }
 

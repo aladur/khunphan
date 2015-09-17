@@ -118,7 +118,7 @@ bool KPUIBase::InitializeAfterOpen()
 
     pMenu = new KPmenu();
 
-    DEBUGPRINT("Menu initialization\n");
+    LOG1("Menu initialization");
 
     if (!pMenu->Initialize(KPConfig::Instance().TextureName.c_str(),
                            KPConfig::Instance().MenuTextureSize,
@@ -161,24 +161,24 @@ const std::string KPUIBase::GetOpenGLVersion() const
 
 void KPUIBase::DebugPrintOpenGLVersion() const
 {
-    DEBUGPRINT1("OpenGL Vendor:   %s\n", GetOpenGLVendor().c_str()  );
-    DEBUGPRINT1("OpenGL Renderer: %s\n", GetOpenGLRenderer().c_str());
-    DEBUGPRINT1("OpenGL Version:  %s\n", GetOpenGLVersion().c_str() );
+    LOG2("OpenGL Vendor:   ", GetOpenGLVendor());
+    LOG2("OpenGL Renderer: ", GetOpenGLRenderer());
+    LOG2("OpenGL Version:  ", GetOpenGLVersion());
 #ifdef GLU_VERSION_1_3
-    DEBUGPRINT("GLU Header Version 1.3\n");
+    LOG1("GLU Header Version 1.3");
 #else
 #ifdef GLU_VERSION_1_2
-    DEBUGPRINT("GLU Header Version 1.2\n");
+    LOG1("GLU Header Version 1.2");
 #else
 #ifdef GLU_VERSION_1_1
-    DEBUGPRINT("GLU Header Version 1.1\n");
+    LOG1("GLU Header Version 1.1");
 #else
-    DEBUGPRINT("GLU Header Version 1.0\n");
+    LOG1("GLU Header Version 1.0");
 #endif
 #endif
 #endif
 #ifdef GLU_VERSION_1_1
-    DEBUGPRINT1("GLU Linked Version %s\n", gluGetString(GLU_VERSION));
+    LOG2("GLU Linked Version ", gluGetString(GLU_VERSION));
 #endif
 }
 

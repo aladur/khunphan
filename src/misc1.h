@@ -87,6 +87,10 @@
 #include <stdlib.h>
 #endif
 
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+
 /* PATHSEPARATORSTRING shoud be a define to do */
 /* implicit concatenation by the compiler!     */
 #ifdef WIN32
@@ -135,47 +139,85 @@ int stricmp(const char *string1, const char *string2);
 #define S_ISDIR(x)      (x & S_IFDIR)
 #define S_ISREG(x)      (x & S_IFREG)
 #define set_new_handler _set_new_handler
+#define access          _access
 #define UNUSED(param)
 #else
 #define UNUSED(param) param
 #endif
 
-#if defined(WIN32) && !defined(NO_DEBUGPRINT)
-#define DEBUGPRINT(fmt)   OutputDebugString((LPCTSTR)("[" PACKAGE "] " fmt))
-#define DEBUGPRINT1(fmt,p1)                              \
-  {                                                      \
-    char str[255];                                       \
-    sprintf((char *)str, "[" PACKAGE "] " fmt,p1);       \
-    OutputDebugString((LPCTSTR)str);                     \
-  }
-#define DEBUGPRINT2(fmt,p1,p2)                           \
-  {                                                      \
-    char str[255];                                       \
-    sprintf((char *)str, "[" PACKAGE "] " fmt,p1,p2);    \
-    OutputDebugString((LPCTSTR)str);                     \
-  }
-#define DEBUGPRINT3(fmt,p1,p2,p3)                        \
-  {                                                      \
-    char str[255];                                       \
-    sprintf((char *)str, "[" PACKAGE "] " fmt,p1,p2,p3); \
-    OutputDebugString((LPCTSTR)str);                     \
-  }
+#define ON_OFF(b) ((b) ? "On" : "Off")
+
+#ifdef WIN32
+#define LOCALLOG(p) OutputDebugString((LPCTSTR)p.str())
+#else
+#if defined (LINUX)
+#define LOCALLOG(p) std::cout << p.str() << std::endl
+#else
+#error "Unsupported platform"
+#endif
 #endif
 
-#if defined(LINUX) && !defined(NO_DEBUGPRINT)
-#define DEBUGPRINT(fmt)           ::printf("[" PACKAGE "] " fmt)
-#define DEBUGPRINT1(fmt,p1)       ::printf("[" PACKAGE "] " fmt,p1)
-#define DEBUGPRINT2(fmt,p1,p2)    ::printf("[" PACKAGE "] " fmt,p1,p2)
-#define DEBUGPRINT3(fmt,p1,p2,p3) ::printf("[" PACKAGE "] " fmt,p1,p2,p3)
-#endif
 
-#if defined(NO_DEBUGPRINT)
-#define DEBUGPRINT(fmt)
-#define DEBUGPRINT1(fmt,p1)
-#define DEBUGPRINT2(fmt,p1,p2)
-#define DEBUGPRINT2(fmt,p1,p2,p3)
-#endif
-
+#define LOG1(p1)                                         \
+  {                                                      \
+    std::stringstream tmpstr;                            \
+    tmpstr << "[" PACKAGE "] " << p1;                    \
+    LOCALLOG(tmpstr);                                    \
+  }
+#define LOG2(p1,p2)                                      \
+  {                                                      \
+    std::stringstream tmpstr;                            \
+    tmpstr << "[" PACKAGE "] " << p1 << p2;              \
+    LOCALLOG(tmpstr);                                    \
+  }
+#define LOG3(p1,p2,p3)                                   \
+  {                                                      \
+    std::stringstream tmpstr;                            \
+    tmpstr << "[" PACKAGE "] " << p1 << p2 << p3;        \
+    LOCALLOG(tmpstr);                                    \
+  }
+#define LOG4(p1,p2,p3,p4)                                \
+  {                                                      \
+    std::stringstream tmpstr;                            \
+    tmpstr << "[" PACKAGE "] " << p1 << p2 << p3 << p4;  \
+    LOCALLOG(tmpstr);                                    \
+  }
+#define LOG5(p1,p2,p3,p4,p5)                             \
+  {                                                      \
+    std::stringstream tmpstr;                            \
+    tmpstr << "[" PACKAGE "] " << p1 << p2 << p3 << p4   \
+                               << p5;                    \
+    LOCALLOG(tmpstr);                                    \
+  }
+#define LOG6(p1,p2,p3,p4,p5,p6)                          \
+  {                                                      \
+    std::stringstream tmpstr;                            \
+    tmpstr << "[" PACKAGE "] " << p1 << p2 << p3 << p4   \
+                               << p5 << p6;              \
+    LOCALLOG(tmpstr);                                    \
+  }
+#define LOG7(p1,p2,p3,p4,p5,p6,p7)                       \
+  {                                                      \
+    std::stringstream tmpstr;                            \
+    tmpstr << "[" PACKAGE "] " << p1 << p2 << p3 << p4   \
+                               << p5 << p6 << p7;        \
+    LOCALLOG(tmpstr);                                    \
+  }
+#define LOG8(p1,p2,p3,p4,p5,p6,p7,p8)                    \
+  {                                                      \
+    std::stringstream tmpstr;                            \
+    tmpstr << "[" PACKAGE "] " << p1 << p2 << p3 << p4   \
+                               << p5 << p6 << p7 << p8;  \
+    LOCALLOG(tmpstr);                                    \
+  }
+#define LOG9(p1,p2,p3,p4,p5,p6,p7,p8,p9)                 \
+  {                                                      \
+    std::stringstream tmpstr;                            \
+    tmpstr << "[" PACKAGE "] " << p1 << p2 << p3 << p4   \
+                               << p5 << p6 << p7 << p8   \
+                               << p9;                    \
+    LOCALLOG(tmpstr);                                    \
+  }
 
 enum tKPTokenID
 {
@@ -257,5 +299,4 @@ typedef enum
 void message(tMsgType, const char *format, ...);
 
 #endif
-
 
