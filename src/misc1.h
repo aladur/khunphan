@@ -148,7 +148,7 @@ int stricmp(const char *string1, const char *string2);
 #define ON_OFF(b) ((b) ? "On" : "Off")
 
 #ifdef WIN32
-#define LOCALLOG(p) OutputDebugString((LPCTSTR)p.str())
+#define LOCALLOG(p) OutputDebugString(static_cast<LPCTSTR>(p.str().c_str()))
 #else
 #if defined (LINUX)
 #define LOCALLOG(p) std::cout << p.str() << std::endl
