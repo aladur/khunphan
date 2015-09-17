@@ -168,6 +168,9 @@
     <ClCompile Include="src\sprinter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\kpsdl12userinterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bdelete.h">
@@ -314,9 +317,6 @@
     <ClInclude Include="src\kpthreadsolvecount.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\KPtime.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\kpuibase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -339,6 +339,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\sprinter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kpsdl12userinterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

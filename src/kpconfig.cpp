@@ -591,7 +591,6 @@ void KPConfig::ReadFromFile()
             while (subtree != NULL)
             {
                 xmlNodePtr node = subtree->xmlChildrenNode;
-                xmlChar *key;
                 int tmp;
 
                 if (!xmlStrcmp(subtree->name, _TO("PerformanceLog")))

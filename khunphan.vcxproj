@@ -119,6 +119,7 @@
     <ClCompile Include="src\kpnode.cpp" />
     <ClCompile Include="src\kpprogressbar.cpp" />
     <ClCompile Include="src\kpscore.cpp" />
+    <ClCompile Include="src\kpsdl12userinterface.cpp" />
     <ClCompile Include="src\kpsdl2userinterface.cpp" />
     <ClCompile Include="src\kpsdluserinterface.cpp" />
     <ClCompile Include="src\kpstate.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="src\kpnode.h" />
     <ClInclude Include="src\kpprogressbar.h" />
     <ClInclude Include="src\kpscore.h" />
+    <ClInclude Include="src\kpsdl12userinterface.h" />
     <ClInclude Include="src\kpsdl2userinterface.h" />
     <ClInclude Include="src\kpsdluserinterface.h" />
     <ClInclude Include="src\kpstate.h" />
@@ -201,7 +203,6 @@
     <ClInclude Include="src\kpstatetutorial4.h" />
     <ClInclude Include="src\kpstatistics.h" />
     <ClInclude Include="src\kpthreadsolvecount.h" />
-    <ClInclude Include="src\KPtime.h" />
     <ClInclude Include="src\kpuibase.h" />
     <ClInclude Include="src\light.h" />
     <ClInclude Include="src\misc1.h" />
