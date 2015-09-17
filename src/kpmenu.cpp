@@ -151,14 +151,15 @@ bool KPmenu::LoadLanguage(int Language)
         }
         fclose(f);
         // Single source for Package Name and Version
-        sprintf(wort, "%s V%s", PACKAGE, VERSION);
-        AddTextField(0, wort);
+        std::stringstream text;
+        text << PACKAGE << " V" << VERSION;
+        AddTextField(0, text.str().c_str());
         return true;
     }
     return false;
 }
 
-void KPmenu::AddTextField(int number, char word[])
+void KPmenu::AddTextField(int number, const char word[])
 {
     if (word != NULL)
     {

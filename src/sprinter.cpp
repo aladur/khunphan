@@ -55,7 +55,7 @@ int sprinter::sprintf(std::string &s, const char *format, ...)
 
     va_start(arg_ptr, format);
 #ifdef _MSC_VER
-    res = _vsnprintf(p, MAX_BUFFER_SIZE, format, arg_ptr);
+    res = _vsnprintf_s(p, MAX_BUFFER_SIZE, MAX_BUFFER_SIZE - 1, format, arg_ptr);
 #endif
 #ifdef __GNUC__
     res = vsnprintf(p, MAX_BUFFER_SIZE, format, arg_ptr);
@@ -85,7 +85,7 @@ int sprinter::vsprintf(std::string &s, const char *format, va_list arg_ptr)
     }
 
 #ifdef _MSC_VER
-    res = _vsnprintf(p, MAX_BUFFER_SIZE, format, arg_ptr);
+    res = _vsnprintf_s(p, MAX_BUFFER_SIZE, MAX_BUFFER_SIZE - 1, format, arg_ptr);
 #endif
 #ifdef __GNUC__
     res = vsnprintf(p, MAX_BUFFER_SIZE, format, arg_ptr);

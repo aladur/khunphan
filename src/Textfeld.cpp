@@ -395,7 +395,7 @@ int Textfeld::vsprintf(const char *_format, va_list arg_ptr)
 
 #ifdef WIN32
 #ifdef _MSC_VER
-    _vsnprintf(pString, MAX_SSIZE-1, fmt.c_str(), arg_ptr);
+    _vsnprintf_s(pString, MAX_SSIZE, MAX_SSIZE-1, fmt.c_str(), arg_ptr);
 #else
     vsprintf(pString, fmt.c_str(), arg_ptr);
 #endif

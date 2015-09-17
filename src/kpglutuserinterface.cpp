@@ -97,13 +97,14 @@ void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
 
     if (FullScreen)
     {
-        char temp[64];
+        std::stringstream modeString;
 
-        sprintf(temp,"%ix%i:%i",
-                KPConfig::Instance().ScreenXResolution,
-                (KPConfig::Instance().ScreenXResolution*3)/4,
-                KPConfig::Instance().ColorDepth);
-        glutGameModeString(temp);
+        modeString
+             << KPConfig::Instance().ScreenXResolution << 'x'
+             << ((KPConfig::Instance().ScreenXResolution*3)/4) << ':'
+             << KPConfig::Instance().ColorDepth;
+
+        glutGameModeString(modeString.str().c_str());
         if (!glutGameModeGet(GLUT_GAME_MODE_POSSIBLE))
         {
             printf ("  No Game Mode possible!\n\n");
@@ -126,7 +127,7 @@ void KPGlutUserInterface::SetWindowMode(bool /* FullScreen */) const
 
 bool KPGlutUserInterface::OpenWindow(int argc, char **argv)
 {
-    char temp[64];
+    std::stringstream tmpstr;
 
     glutInit(&argc, argv);
     LOG1("GLUT UserInterface initialization");
@@ -156,8 +157,8 @@ bool KPGlutUserInterface::OpenWindow(int argc, char **argv)
     glutInitWindowSize (KPConfig::Instance().ScreenXResolution,
                         (KPConfig::Instance().ScreenXResolution*3)/4);
     //glutInitWindowPosition (10, 10);
-    sprintf(temp, "%s V%s", PACKAGE, VERSION);
-    windowID = glutCreateWindow (temp);
+    tmpstr << PACKAGE << " V" << VERSION;
+    windowID = glutCreateWindow (tmpstr.str().c_str());
     if (KPConfig::Instance().FullScreen)
     {
         glutFullScreen();
