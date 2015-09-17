@@ -69,13 +69,14 @@ public:
     {
         return false;
     };
+    virtual std::string GetWindowTitle() const;
 
     void UpdateDataModel(KPnode *pRoot);
     bool IsInitialized();
     void DebugPrintOpenGLVersion()  const;
-    const std::string GetOpenGLVendor()   const;
-    const std::string GetOpenGLRenderer() const;
-    const std::string GetOpenGLVersion()  const;
+    std::string GetOpenGLVendor()   const;
+    std::string GetOpenGLRenderer() const;
+    std::string GetOpenGLVersion()  const;
 
     // member functions for event handling
     void MouseMotion(int x, int y);

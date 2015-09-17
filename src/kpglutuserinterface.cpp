@@ -127,8 +127,6 @@ void KPGlutUserInterface::SetWindowMode(bool /* FullScreen */) const
 
 bool KPGlutUserInterface::OpenWindow(int argc, char **argv)
 {
-    std::stringstream tmpstr;
-
     glutInit(&argc, argv);
     LOG1("GLUT UserInterface initialization");
 #ifdef GLUT_API_VERSION
@@ -157,8 +155,7 @@ bool KPGlutUserInterface::OpenWindow(int argc, char **argv)
     glutInitWindowSize (KPConfig::Instance().ScreenXResolution,
                         (KPConfig::Instance().ScreenXResolution*3)/4);
     //glutInitWindowPosition (10, 10);
-    tmpstr << PACKAGE << " V" << VERSION;
-    windowID = glutCreateWindow (tmpstr.str().c_str());
+    windowID = glutCreateWindow (GetWindowTitle().c_str());
     if (KPConfig::Instance().FullScreen)
     {
         glutFullScreen();

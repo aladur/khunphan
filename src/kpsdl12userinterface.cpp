@@ -55,7 +55,6 @@ void KPSdl12UserInterface::SetWindowMode(bool /* FullScreen */) const
 
 bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
-    char temp[64];
     int flags = SDL_OPENGL | SDL_RESIZABLE;
     const SDL_version *pVersion;
 
@@ -97,8 +96,7 @@ bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
         return false;
     }
 
-    sprintf(temp, "%s V%s", PACKAGE, VERSION);
-    SDL_WM_SetCaption(temp, temp);
+    SDL_WM_SetCaption(GetWindowTitle().c_str(), GetWindowTitle().c_str());
 
     DebugPrintOpenGLVersion();
     InitializeAudio(KPConfig::Instance().TextureName.c_str());

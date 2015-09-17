@@ -139,22 +139,31 @@ bool KPUIBase::InitializeAfterOpen()
     return true;
 }
 
+std::string KPUIBase::GetWindowTitle() const
+{
+    std::stringstream title;
+
+    title << PACKAGE << " V" << VERSION;
+
+    return title.str();
+}
+
 void KPUIBase::UpdateDataModel(KPnode *pRoot)
 {
     pBoardView->SetSolveTree(pRoot);
 }
 
-const std::string KPUIBase::GetOpenGLVendor() const
+std::string KPUIBase::GetOpenGLVendor() const
 {
     return reinterpret_cast<const char *>(glGetString(GL_VENDOR));
 }
 
-const std::string KPUIBase::GetOpenGLRenderer() const
+std::string KPUIBase::GetOpenGLRenderer() const
 {
     return reinterpret_cast<const char *>(glGetString(GL_RENDERER));
 }
 
-const std::string KPUIBase::GetOpenGLVersion() const
+std::string KPUIBase::GetOpenGLVersion() const
 {
     return reinterpret_cast<const char *>(glGetString(GL_VERSION));
 }

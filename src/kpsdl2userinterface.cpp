@@ -60,7 +60,6 @@ void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
 
 bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
-    std::stringstream title;
     int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
     SDL_version compiled;
     SDL_version linked;
@@ -99,10 +98,8 @@ bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
         flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
 
-    title << PACKAGE << " V" << VERSION;
-
     window = SDL_CreateWindow(
-                 title.str().c_str(),
+                 GetWindowTitle().c_str(),
                  SDL_WINDOWPOS_UNDEFINED,
                  SDL_WINDOWPOS_UNDEFINED,
                  KPConfig::Instance().ScreenXResolution,
