@@ -17,45 +17,45 @@
 
 
 // define constant for degree per radian */
-const float Kamera::degprad = 180.0f / M_PI;
+const float Kamera::degprad = 180.0f / M_PIf;
 
 /* --------- Konstruktor ---------- */
-Kamera::Kamera() : Aspekt(0.0),
-    Pos_x(0.0),      Pos_y(0.0),      Pos_z(0.0),
-    Alpha(0.0),      Beta(0.0),       FOV(0.0),
-    Soll_Pos_x(0.0), Soll_Pos_y(0.0), Soll_Pos_z(0.0),
-    Soll_Alpha(0.0), Soll_Beta(0.0),  Soll_FOV(0.0),
-    d_Pos_x(0.0),    d_Pos_y(0.0),    d_Pos_z(0.0),
-    d_Alpha(0.0),    d_Beta(0.0),     d_FOV(0.0),
-    Nah(0.0),        Fern(0.0),       KameraNummer(0),
-    IsRundflug(0),   BewegFaktor(0.3),DrehFaktor(0.3)
+Kamera::Kamera() :   Aspekt(0.0),
+    Pos_x(0.0),      Pos_y(0.0),       Pos_z(0.0),
+    Alpha(0.0),      Beta(0.0),        FOV(0.0),
+    Soll_Pos_x(0.0), Soll_Pos_y(0.0),  Soll_Pos_z(0.0),
+    Soll_Alpha(0.0), Soll_Beta(0.0),   Soll_FOV(0.0),
+    d_Pos_x(0.0),    d_Pos_y(0.0),     d_Pos_z(0.0),
+    d_Alpha(0.0),    d_Beta(0.0),      d_FOV(0.0),
+    Nah(0.0),        Fern(0.0),        KameraNummer(0),
+    IsRundflug(0),   BewegFaktor(0.3f),DrehFaktor(0.3f)
 {
     // Initialize default camera positions with the parameter list:
     //   Pos_x, Pos_y, Pos_z, Alpha, Beta, FOV
 
     // Position with index 0
-    Positionen.push_back(SPosition(-100.0, -50.0, 50.0, 60.0, 60.0, 38.6));
+    Positionen.push_back(SPosition(-100.0f, -50.0f, 50.0f, 60.0f, 60.0f, 38.6f));
 
     // Position with index 1
-    Positionen.push_back(SPosition(0.0, 160.0, 80.0, 60.0, 180.0, 38.6));
+    Positionen.push_back(SPosition(0.0f, 160.0f, 80.0f, 60.0f, 180.0f, 38.6f));
 
     // Position with index 2
-    Positionen.push_back(SPosition(0.0, 140.0, 120.0, 45.0, 180.0, 38.6));
+    Positionen.push_back(SPosition(0.0f, 140.0f, 120.0f, 45.0f, 180.0f, 38.6f));
 
     // Position with index 3
-    Positionen.push_back(SPosition(0.0, 115.0, 180.0, 30.0, 180.0, 38.6));
+    Positionen.push_back(SPosition(0.0f, 115.0f, 180.0f, 30.0f, 180.0f, 38.6f));
 
     // Position with index 4
-    Positionen.push_back(SPosition(0.0, 0.0, 220.0, 0.0, 180.0, 38.6));
+    Positionen.push_back(SPosition(0.0f, 0.0f, 220.0f, 0.0f, 180.0f, 38.6f));
 
     // Position with index 5
-    Positionen.push_back(SPosition(0.0, 0.0, 300.0, 0.0, 180.0, 38.6));
+    Positionen.push_back(SPosition(0.0f, 0.0f, 300.0f, 0.0f, 180.0f, 38.6f));
 
     // Position with index 6
-    Positionen.push_back(SPosition(-60.0, 160.0, 140.0, 45.0, 155.0, 38.6));
+    Positionen.push_back(SPosition(-60.0f, 160.0f, 140.0f, 45.0f, 155.0f, 38.6f));
 
     // Position with index 7
-    Positionen.push_back(SPosition(60.0, 160.0, 140.0, 45.0, 205.0, 38.6));
+    Positionen.push_back(SPosition(60.0f, 160.0f, 140.0f, 45.0f, 205.0f, 38.6f));
 
     Soll_Pos_x=-60;
     Soll_Pos_y=-30;
@@ -66,7 +66,7 @@ Kamera::Kamera() : Aspekt(0.0),
     Pos_y=Soll_Pos_y;
     Pos_z=Soll_Pos_z;
 
-    Aspekt= 4.0 / 3.0;
+    Aspekt= 4.0f / 3.0f;
 
     IsRundflug = false;
 }
@@ -159,10 +159,10 @@ void Kamera::Beweg_Rein(float Faktor)
     Soll_Pos_y+=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*cos(
                     Soll_Beta/degprad);
     Soll_Pos_z-=2*BewegFaktor*Faktor*cos(Soll_Alpha/degprad);
-    //  if (Pos_z>400) {Pos_z=400;}
-    if (Soll_Pos_z<2.8)
+    //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
+    if (Soll_Pos_z < 2.8f)
     {
-        Soll_Pos_z=2.9;
+        Soll_Pos_z = 2.8f;
     }
     BlickTiefeNeuBestimmen();
     IsRundflug = false;
@@ -176,10 +176,10 @@ void Kamera::Beweg_Raus(float Faktor)
     Soll_Pos_y-=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*cos(
                     Soll_Beta/degprad);
     Soll_Pos_z+=2*BewegFaktor*Faktor*cos(Soll_Alpha/degprad);
-    //  if (Pos_z>400) {Pos_z=400;}
-    if (Soll_Pos_z<2.8)
+    //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
+    if (Soll_Pos_z < 2.8f)
     {
-        Soll_Pos_z=2.8;
+        Soll_Pos_z = 2.8f;
     }
     BlickTiefeNeuBestimmen();
     IsRundflug = false;
@@ -234,9 +234,9 @@ void Kamera::Beweg_Hoch(float Faktor)
 void Kamera::Beweg_Runter(float Faktor)
 {
     Soll_Pos_z-=BewegFaktor*Faktor;
-    if (Soll_Pos_z<2.8)
+    if (Soll_Pos_z < 2.8f)
     {
-        Soll_Pos_z=2.8;
+        Soll_Pos_z = 2.8f;
     }
     BlickTiefeNeuBestimmen();
     IsRundflug = false;
@@ -340,7 +340,7 @@ void Kamera::Schwenk_Links(float Faktor, float Mitte_x, float Mitte_y)
     {
         Abstand=5;
     }
-    Soll_Beta+=Faktor*DrehFaktor*7.338/sqrt(Abstand);
+    Soll_Beta += Faktor * DrehFaktor * 7.338f / sqrt(Abstand);
     Soll_Pos_x=Mitte_x-Abstand*sin(Soll_Beta/degprad);
     Soll_Pos_y=Mitte_y-Abstand*cos(Soll_Beta/degprad);
     BlickTiefeNeuBestimmen();
@@ -355,7 +355,7 @@ void Kamera::Schwenk_Rechts(float Faktor, float Mitte_x, float Mitte_y)
     {
         Abstand=5;
     }
-    Soll_Beta-=Faktor*DrehFaktor*7.338/sqrt(Abstand);
+    Soll_Beta -= Faktor * DrehFaktor * 7.338f / sqrt(Abstand);
     Soll_Pos_x=Mitte_x-Abstand*sin(Soll_Beta/degprad);
     Soll_Pos_y=Mitte_y-Abstand*cos(Soll_Beta/degprad);
     BlickTiefeNeuBestimmen();
@@ -366,14 +366,14 @@ void Kamera::Schwenk_Hoch(float Faktor, float Mitte_x, float Mitte_y)
 {
     GLfloat Abstand=sqrt((Mitte_x-Soll_Pos_x)*(Mitte_x-Soll_Pos_x)+
                          (Mitte_y-Soll_Pos_y)*(Mitte_y-Soll_Pos_y)+
-                         (Soll_Pos_z-2.8)*(Soll_Pos_z-2.8));
+                         (Soll_Pos_z - 2.8f) * (Soll_Pos_z - 2.8f));
     if (Abstand==0)
     {
         Soll_Alpha=0;
     }
     else
     {
-        Soll_Alpha+=Faktor*DrehFaktor*7.338/sqrt(Abstand);
+        Soll_Alpha += Faktor * DrehFaktor * 7.338f / sqrt(Abstand);
         if (Soll_Alpha<0)
         {
             Soll_Alpha=0;
@@ -385,11 +385,11 @@ void Kamera::Schwenk_Hoch(float Faktor, float Mitte_x, float Mitte_y)
     }
     Soll_Pos_x=Mitte_x-Abstand*sin(Soll_Beta/degprad)*sin(Soll_Alpha/degprad);
     Soll_Pos_y=Mitte_y-Abstand*cos(Soll_Beta/degprad)*sin(Soll_Alpha/degprad);
-    Soll_Pos_z=2.8+Abstand*cos(Soll_Alpha/degprad);
-    //  if (Pos_z>400) {Pos_z=400;}
-    if (Soll_Pos_z<2.8)
+    Soll_Pos_z = 2.8f + Abstand * cos(Soll_Alpha / degprad);
+    //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
+    if (Soll_Pos_z < 2.8f)
     {
-        Soll_Pos_z=2.8;
+        Soll_Pos_z = 2.8f;
     }
     BlickTiefeNeuBestimmen();
     IsRundflug = false;
@@ -399,14 +399,14 @@ void Kamera::Schwenk_Runter(float Faktor, float Mitte_x, float Mitte_y)
 {
     GLfloat Abstand=sqrt((Mitte_x-Soll_Pos_x)*(Mitte_x-Soll_Pos_x)+
                          (Mitte_y-Soll_Pos_y)*(Mitte_y-Soll_Pos_y)+
-                         (Soll_Pos_z-2.8)*(Soll_Pos_z-2.8));
+                         (Soll_Pos_z - 2.8f) * (Soll_Pos_z - 2.8f));
     if (Abstand==0)
     {
         Soll_Alpha=0;
     }
     else
     {
-        Soll_Alpha-=Faktor*DrehFaktor*7.338/sqrt(Abstand);
+        Soll_Alpha -= Faktor * DrehFaktor * 7.338f / sqrt(Abstand);
         if (Soll_Alpha<0)
         {
             Soll_Alpha=0;
@@ -418,11 +418,11 @@ void Kamera::Schwenk_Runter(float Faktor, float Mitte_x, float Mitte_y)
     }
     Soll_Pos_x=Mitte_x-Abstand*sin(Soll_Beta/degprad)*sin(Soll_Alpha/degprad);
     Soll_Pos_y=Mitte_y-Abstand*cos(Soll_Beta/degprad)*sin(Soll_Alpha/degprad);
-    Soll_Pos_z=2.8+Abstand*cos(Soll_Alpha/degprad);
-    //  if (Pos_z>400) {Pos_z=400;}
-    if (Soll_Pos_z<2.8)
+    Soll_Pos_z = 2.8f + Abstand * cos(Soll_Alpha / degprad);
+    //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
+    if (Soll_Pos_z < 2.8f)
     {
-        Soll_Pos_z=2.8;
+        Soll_Pos_z = 2.8f;
     }
     BlickTiefeNeuBestimmen();
     IsRundflug = false;
@@ -437,8 +437,8 @@ void Kamera::setzeSollPosition(SPosition &Soll_Pos)
     Soll_Beta  = Soll_Pos.Beta;
     Soll_FOV   = Soll_Pos.FOV;
 
-    Beta=fmod(Beta,360);
-    Soll_Beta=fmod(Soll_Beta,360);
+    Beta = fmod(Beta, 360.0f);
+    Soll_Beta = fmod(Soll_Beta, 360.0f);
 
     if (Soll_Beta>Beta+180)
     {
@@ -462,8 +462,8 @@ void Kamera::setzeSollPosition(float SollPosx, float SollPosy,float SollPosz,
     Soll_Beta  = SollBeta;
     Soll_FOV   = SollFOV;
 
-    Beta=fmod(Beta,360);
-    Soll_Beta=fmod(Soll_Beta,360);
+    Beta = fmod(Beta, 360.0f);
+    Soll_Beta = fmod(Soll_Beta, 360.0f);
 
     if (Soll_Beta>Beta+180)
     {
@@ -487,14 +487,14 @@ void Kamera::BlickeAuf(float Blickpunkt_x,float Blickpunkt_y)
                           (Blickpunkt_y-Pos_y)*(Blickpunkt_y-Pos_y))+
                      Blickpunkt_y;
     GLfloat SollPosz=20;
-    GLfloat SollAlpha=71.0167;
+    GLfloat SollAlpha = 71.0167f;
     GLfloat SollBeta=atan((Blickpunkt_x-SollPosx)/(Blickpunkt_y-SollPosy))*
                      degprad;
     if (SollPosy>Blickpunkt_y)
     {
-        SollBeta-=180;
+        SollBeta -= 180.0f;
     }
-    GLfloat SollFOV=38.6;
+    GLfloat SollFOV = 38.6f;
 
     setzeSollPosition(SollPosx,SollPosy,SollPosz,SollAlpha,SollBeta,SollFOV);
     IsRundflug = false;
@@ -516,9 +516,9 @@ void Kamera::BlickeAuf2(float Blickpunkt_x,float Blickpunkt_y)
                      degprad;
     if (SollPosy>Blickpunkt_y)
     {
-        SollBeta-=180;
+        SollBeta -= 180.0f;
     }
-    GLfloat SollFOV=38.6;
+    GLfloat SollFOV = 38.6f;
 
     setzeSollPosition(SollPosx,SollPosy,SollPosz,SollAlpha,SollBeta,SollFOV);
     IsRundflug = false;
@@ -540,9 +540,9 @@ void Kamera::BlickeAuf3(float Blickpunkt_x,float Blickpunkt_y)
                      degprad;
     if (SollPosy>Blickpunkt_y)
     {
-        SollBeta-=180;
+        SollBeta -= 180.0f;
     }
-    GLfloat SollFOV=38.6;
+    GLfloat SollFOV = 38.6f;
 
     setzeSollPosition(SollPosx,SollPosy,SollPosz,SollAlpha,SollBeta,SollFOV);
     IsRundflug = false;
@@ -562,12 +562,12 @@ void Kamera::Fahrt(int Faktor)
             Beta+=360;
         }
 
-        d_Pos_x = d_Pos_x * 0.9 + 0.003 * (Soll_Pos_x-Pos_x);
-        d_Pos_y = d_Pos_y * 0.9 + 0.003 * (Soll_Pos_y-Pos_y);
-        d_Pos_z = d_Pos_z * 0.9 + 0.003 * (Soll_Pos_z-Pos_z);
-        d_Alpha = d_Alpha * 0.9 + 0.003 * (Soll_Alpha-Alpha);
-        d_Beta  = d_Beta  * 0.9 + 0.003 * (Soll_Beta-Beta);
-        d_FOV   = d_FOV   * 0.9 + 0.003 * (Soll_FOV-FOV);
+        d_Pos_x = d_Pos_x * 0.9f + 0.003f * (Soll_Pos_x - Pos_x);
+        d_Pos_y = d_Pos_y * 0.9f + 0.003f * (Soll_Pos_y - Pos_y);
+        d_Pos_z = d_Pos_z * 0.9f + 0.003f * (Soll_Pos_z - Pos_z);
+        d_Alpha = d_Alpha * 0.9f + 0.003f * (Soll_Alpha - Alpha);
+        d_Beta  = d_Beta  * 0.9f + 0.003f * (Soll_Beta - Beta);
+        d_FOV   = d_FOV   * 0.9f + 0.003f * (Soll_FOV - FOV);
 
         Pos_x += d_Pos_x;
         Pos_y += d_Pos_y;
@@ -612,7 +612,7 @@ void Kamera::BlickTiefeNeuBestimmen()
         }
     }
 
-    Nah*=.8;
+    Nah *= 0.8f;
 
     if (Nah<1)
     {
@@ -627,17 +627,17 @@ void Kamera::Rundflug(int Faktor)
 {
     if (Soll_Pos_y==0)
     {
-        Soll_Pos_y=.00001;
+        Soll_Pos_y = 0.00001f;
     }
     //Soll_Beta=Faktor*.1+atan(Soll_Pos_x/Soll_Pos_y)*degprad;
     //if (Soll_Pos_y>0) {Soll_Beta-=180;}
-    Soll_Beta+=.1*Faktor;
-    Soll_Pos_x=(-30*sin(Soll_Beta*M_PI/180)-280)*sin(Soll_Beta*M_PI/180);
-    Soll_Pos_y=(-30*sin(Soll_Beta*M_PI/180)-280)*cos(Soll_Beta*M_PI/180);
+    Soll_Beta += 0.1f * Faktor;
+    Soll_Pos_x = (-30.0f * sin(Soll_Beta * M_PIf / 180.0f) - 280.0f) * sin(Soll_Beta * M_PIf / 180.0f);
+    Soll_Pos_y = (-30.0f * sin(Soll_Beta * M_PIf / 180.0f) - 280.0f) * cos(Soll_Beta * M_PIf / 180.0f);
     // Sw: unfinished
     //Soll_Pos_z=100-50*sin(Soll_Beta*M_PI/180);
-    Soll_Pos_z=150-25*sin(Soll_Beta*M_PI/180);
-    Soll_FOV=36.8;
+    Soll_Pos_z = 150.0f - 25.0f * sin(Soll_Beta * M_PIf / 180.0f);
+    Soll_FOV = 36.8f;
     Soll_Alpha=atan(sqrt(Soll_Pos_x*Soll_Pos_x+Soll_Pos_y*Soll_Pos_y)/
                     Soll_Pos_z)*degprad;
 }

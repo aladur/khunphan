@@ -45,7 +45,7 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext)
     KPmenu &menu = pContext->GetMenu();
 
     float y;
-    float dy = 0.6;
+    float dy = 0.6f;
 
     menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(2,3.5,14,8.5);
 
@@ -58,43 +58,43 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext)
     menu.TextfeldArray[T_STEUERUNG].VollSichtbar();
 
     y = 6.0;
-    menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT].Positioniere(8,y,.71,A_RECHTS);
+    menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT].Positioniere(8, y, 0.71f, A_RECHTS);
     menu.TextfeldArray[T_MAUSGESCHWINDIGKEIT].SetzeSignal(
         S_TOGGLE_MOUSE_SPEED);
 
     if (E_MouseSpeed<=.293)
     {
-        menu.TextfeldArray[T_MG_LANGSAM].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_LANGSAM].Positioniere(8.2f, y, 0.71f);
         menu.TextfeldArray[T_MG_LANGSAM].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else if (E_MouseSpeed<=.41)
     {
-        menu.TextfeldArray[T_MG_NORMAL].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_NORMAL].Positioniere(8.2f, y, 0.71f);
         menu.TextfeldArray[T_MG_NORMAL].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else if (E_MouseSpeed<=.575)
     {
-        menu.TextfeldArray[T_MG_SCHNELL].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_SCHNELL].Positioniere(8.2f, y, 0.71f);
         menu.TextfeldArray[T_MG_SCHNELL].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else
     {
-        menu.TextfeldArray[T_MG_SEHRSCHNELL].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_MG_SEHRSCHNELL].Positioniere(8.2f, y, 0.71f);
         menu.TextfeldArray[T_MG_SEHRSCHNELL].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
 
     y -= dy;
-    menu.TextfeldArray[T_SOLUTIONHINT].Positioniere(8,y,.71,A_RECHTS);
+    menu.TextfeldArray[T_SOLUTIONHINT].Positioniere(8, y, 0.71f, A_RECHTS);
     menu.TextfeldArray[T_SOLUTIONHINT].SetzeSignal(S_TOGGLE_SOLUTION_HINT);
 
     if (E_SolutionHint)
     {
-        menu.TextfeldArray[T_SH_ON].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_SH_ON].Positioniere(8.2f, y, 0.71f);
         menu.TextfeldArray[T_SH_ON].SetzeSignal(S_TOGGLE_SOLUTION_HINT);
     }
     else
     {
-        menu.TextfeldArray[T_SH_OFF].Positioniere(8.2,y,.71);
+        menu.TextfeldArray[T_SH_OFF].Positioniere(8.2f, y, 0.71f);
         menu.TextfeldArray[T_SH_OFF].SetzeSignal(S_TOGGLE_SOLUTION_HINT);
     }
 
@@ -141,25 +141,25 @@ void KPstateControlSettings::MouseClick (KPstateContext *pContext,
 void  KPstateControlSettings::ToggleMouseSpeed(KPstateContext *pContext)
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
-    if (E_MouseSpeed<=.21)
+    if (E_MouseSpeed <= 0.21f)
     {
-        E_MouseSpeed=.8;
+        E_MouseSpeed = 0.8f;
     }
-    else if (E_MouseSpeed<=.29)
+    else if (E_MouseSpeed <= 0.29f)
     {
-        E_MouseSpeed=.8;
+        E_MouseSpeed = 0.8f;
     }
-    else if (E_MouseSpeed<=.41)
+    else if (E_MouseSpeed <= 0.41f)
     {
-        E_MouseSpeed=.28;
+        E_MouseSpeed = 0.28f;
     }
-    else if (E_MouseSpeed<=.575)
+    else if (E_MouseSpeed <= 0.575f)
     {
-        E_MouseSpeed=.4;
+        E_MouseSpeed = 0.4f;
     }
     else
     {
-        E_MouseSpeed=.565;
+        E_MouseSpeed = 0.565f;
     }
 }
 

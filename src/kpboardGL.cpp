@@ -333,7 +333,7 @@ bool KPboardView::Initialize(const char *TextureName,
 
 float KPboardView::getRnd(void) const
 {
-    return rand() / RAND_MAX;
+    return static_cast<float>(rand()) / RAND_MAX;
 }
 
 void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
@@ -878,7 +878,7 @@ tKPTokenID KPboardView::Selection(const Kamera *pCamera, int x, int y) const
     glPushName(0); // Push 0 (At Least One Entry) Onto The Stack
 
     pCamera->male(x, y);
-    Draw(GL_SELECT); // Draw the tokens (not the board)
+    Draw(true); // Draw the tokens (not the board)
 
     GLint hits = glRenderMode(GL_RENDER);  // Change back to render mode
 

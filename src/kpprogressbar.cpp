@@ -165,7 +165,7 @@ bool KPprogressBar::Animate(int factor)
     }
     else
     {
-        GLfloat factor = 0.5f - 0.5f * cos(M_PI * Time / TOTAL_ANIMATIONTIME);
+        GLfloat factor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
         x = (target_x - old_x) * factor + old_x;
         y = (target_y - old_y) * factor + old_y;
         height = (target_Height - old_Height) * factor + old_Height;

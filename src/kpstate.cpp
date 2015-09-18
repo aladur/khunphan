@@ -68,13 +68,13 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
     menu.DeactivateAllTextFields();
     menu.progressBar.Deactivate();
 
-    float y = 11.7;
+    float y = 11.7f;
 
     if (KPConfig::Instance().DisplayFPS)
     {
-        menu.TextfeldArray[T_FPS].Positioniere(0.1, y, 0.3);
+        menu.TextfeldArray[T_FPS].Positioniere(0.1f, y, 0.3f);
     }
-    y -= 0.6;
+    y -= 0.6f;
 
     if (menu.IsDisplayOpenGLInfo)
     {
@@ -85,11 +85,11 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
         menu.TextfeldArray[T_GL_VERSION ].FormatText(NULL,
                 userInterface.GetOpenGLVersion().c_str());
 
-        menu.TextfeldArray[T_GL_VENDOR  ].Positioniere(0.1, y, 0.3);
-        y -= 0.3;
-        menu.TextfeldArray[T_GL_RENDERER].Positioniere(0.1, y, 0.3);
-        y -= 0.3;
-        menu.TextfeldArray[T_GL_VERSION ].Positioniere(0.1, y, 0.3);
+        menu.TextfeldArray[T_GL_VENDOR  ].Positioniere(0.1f, y, 0.3f);
+        y -= 0.3f;
+        menu.TextfeldArray[T_GL_RENDERER].Positioniere(0.1f, y, 0.3f);
+        y -= 0.3f;
+        menu.TextfeldArray[T_GL_VERSION ].Positioniere(0.1f, y, 0.3f);
     }
 }
 
