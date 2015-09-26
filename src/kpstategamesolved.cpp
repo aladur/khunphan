@@ -37,7 +37,7 @@ KPstateGameSolved::KPstateGameSolved() : addToScoreList(false),
 void KPstateGameSolved::Initialize(KPstateContext *pContext,
                                    const KPstate *pOldState)
 {
-    tTextfeldArray::iterator it;
+    tIdToLabel::iterator it;
 
     KPstate::Initialize(pContext, pOldState);
 
@@ -52,7 +52,7 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
     it = menu.TextfeldArray.find(T_NAME_FIELD);
     if (it == menu.TextfeldArray.end())
     {
-        menu.TextfeldArray[T_NAME_FIELD] = Textfeld();
+        menu.TextfeldArray[T_NAME_FIELD] = Label();
     }
 
     menu.TextfeldArray[T_NAME_FIELD].Initialisiere("");
@@ -83,7 +83,7 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
 
 void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
 {
-    tTextfeldArray::iterator it;
+    tIdToLabel::iterator it;
 
     KPstate::UpdateDisplay(pContext);
 

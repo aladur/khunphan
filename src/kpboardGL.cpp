@@ -866,7 +866,7 @@ const // Only for test purposes
 // Check if a token has been selected
 // If no token was selected return TK_EMPTY
 
-tKPTokenID KPboardView::Selection(const Kamera *pCamera, int x, int y) const
+tKPTokenID KPboardView::Selection(const Camera *pCamera, int x, int y) const
 {
     GLuint  buffer[BUF_SIZE]; // Set Up A Selection Buffer
     tKPTokenID choose = TK_EMPTY;

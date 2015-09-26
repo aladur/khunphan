@@ -24,7 +24,7 @@
 #include "kpuibase.h"
 
 
-int Textfeld::links[] =
+int Label::links[] =
 {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -45,7 +45,7 @@ int Textfeld::links[] =
     9,  9,  8,  8,  8,  8,  8,  0,  7,  8,  8,  8,  8,  6,  8,  6
 };
 
-int Textfeld::rechts[]=
+int Label::rechts[]=
 {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -66,12 +66,12 @@ int Textfeld::rechts[]=
     28, 27, 28, 28, 28, 28, 28,  0, 28, 26, 26, 26, 26, 25, 28, 25
 };
 
-unsigned int Textfeld::texture       = 0;
-short        Textfeld::textureSource = 0;
+unsigned int Label::texture       = 0;
+short        Label::textureSource = 0;
 
-tActivated Textfeld::activated;
+tActivated Label::activated;
 
-Textfeld::Textfeld() : pString(NULL), size(0),
+Label::Label() : pString(NULL), size(0),
     x(0), y(0),
     Hoehe(0), Aspekt(0), Alpha(0),
     alt_x(0),  alt_y(0),  alt_Hoehe(0),  alt_Alpha(0),
@@ -82,12 +82,12 @@ Textfeld::Textfeld() : pString(NULL), size(0),
 {
 }
 
-Textfeld::~Textfeld()
+Label::~Label()
 {
     delete [] pString;
 }
 
-void Textfeld::DeactivateAll()
+void Label::DeactivateAll()
 {
     tActivated::iterator it;
 
@@ -96,10 +96,10 @@ void Textfeld::DeactivateAll()
         (*it)->Desaktiviere();
     }
 
-    Textfeld::activated.clear();
+    Label::activated.clear();
 }
 
-void Textfeld::SetActive(Textfeld *pTextfeld)
+void Label::SetActive(Label *pTextfeld)
 {
     if (activated.find(pTextfeld) == activated.end())
     {
@@ -107,7 +107,7 @@ void Textfeld::SetActive(Textfeld *pTextfeld)
     }
 }
 
-void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize,
+void Label::PreInitialize(const char *TextureName, unsigned int TextureSize,
                              bool Nearest, const KPConfig *pConfig,
                              bool always /*= true*/)
 {
@@ -195,7 +195,7 @@ void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize,
     delete pTexture;
 }
 
-void Textfeld::Initialisiere()
+void Label::Initialisiere()
 {
     x=y=Hoehe=Aspekt=Alpha=0.0;
     alt_x=alt_y=alt_Hoehe=alt_Alpha=0.0;
@@ -207,19 +207,19 @@ void Textfeld::Initialisiere()
     hasInputFocus=false;
 }
 
-void Textfeld::Initialisiere(const char TextZ[])
+void Label::Initialisiere(const char TextZ[])
 {
     Initialisiere();
     SetzeText(TextZ);
 }
 
-void Textfeld::InitialisiereKDL(const char TextZ[])
+void Label::InitialisiereKDL(const char TextZ[])
 {
     Initialisiere();
     SetzeTextKDL(TextZ);
 }
 
-void Textfeld::male()
+void Label::male()
 {
     if (Alpha)
     {
@@ -233,7 +233,7 @@ void Textfeld::male()
     }
 }
 
-void Textfeld::Positioniere(float X, float Y, float H, tKPAlignment A)
+void Label::Positioniere(float X, float Y, float H, tKPAlignment A)
 {
 
     if (A != A_EGAL)
@@ -284,7 +284,7 @@ void Textfeld::Positioniere(float X, float Y, float H, tKPAlignment A)
     StarteAnimation();
 }
 
-void Textfeld::SetzeFormat(const char *srcString /* = NULL */)
+void Label::SetzeFormat(const char *srcString /* = NULL */)
 {
     if (srcString == NULL)
     {
@@ -296,7 +296,7 @@ void Textfeld::SetzeFormat(const char *srcString /* = NULL */)
     }
 }
 
-void Textfeld::CheckValidString(int min_size, const char *srcString /*= NULL */)
+void Label::CheckValidString(int min_size, const char *srcString /*= NULL */)
 {
     char *sTmp = NULL;
 
@@ -321,14 +321,14 @@ void Textfeld::CheckValidString(int min_size, const char *srcString /*= NULL */)
     delete [] sTmp;
 }
 
-void Textfeld::SetzeText(const char TextZ[])
+void Label::SetzeText(const char TextZ[])
 {
     SetzeTextKDL(TextZ);
     SetzeFormat(pString);
     GeneriereDisplayList();
 }
 
-void Textfeld::SetzeTextKDL(const char TextZ[])
+void Label::SetzeTextKDL(const char TextZ[])
 {
     CheckValidString(strlen(TextZ) + 1, TextZ);
     SetzeFormat(pString);
@@ -337,7 +337,7 @@ void Textfeld::SetzeTextKDL(const char TextZ[])
 // Sw: Create a string based on a given format
 // if format == NULL use pString as
 // formatString
-int Textfeld::FormatText(const char *format, ...)
+int Label::FormatText(const char *format, ...)
 {
     int result = 0;
 
@@ -354,7 +354,7 @@ int Textfeld::FormatText(const char *format, ...)
 
 // Sw: Same as FormatText but without creating
 // a Display List
-int Textfeld::FormatTextKDL(const char *format, ...)
+int Label::FormatTextKDL(const char *format, ...)
 {
     int result;
 
@@ -369,7 +369,7 @@ int Textfeld::FormatTextKDL(const char *format, ...)
 
 // Sw: In vsprintf we still have a size limit for the string
 #define MAX_SSIZE   (2000)
-int Textfeld::vsprintf(const char *_format, va_list arg_ptr)
+int Label::vsprintf(const char *_format, va_list arg_ptr)
 {
     std::string fmt;
 
@@ -406,7 +406,7 @@ int Textfeld::vsprintf(const char *_format, va_list arg_ptr)
     return strlen(pString);
 }
 
-bool Textfeld::Zeichen(char Taste)
+bool Label::Zeichen(char Taste)
 {
     if (hasInputFocus)
     {
@@ -449,18 +449,18 @@ bool Textfeld::Zeichen(char Taste)
     return false;
 }
 
-const char *Textfeld::Text()
+const char *Label::Text()
 {
     return pString;
 }
 
-bool Textfeld::IsDeactivated() const
+bool Label::IsDeactivated() const
 {
     return ((soll_Alpha != Alpha && (soll_Alpha == MOD_AUSGEBLENDET)) ||
             (Alpha == MOD_AUSGEBLENDET));
 }
 
-void Textfeld::Desaktiviere()
+void Label::Desaktiviere()
 {
     soll_Alpha = MOD_AUSGEBLENDET;
 
@@ -476,7 +476,7 @@ void Textfeld::Desaktiviere()
     }
 }
 
-void Textfeld::SetInputFocus(bool state)
+void Label::SetInputFocus(bool state)
 {
     hasInputFocus = state;
 
@@ -493,7 +493,7 @@ void Textfeld::SetInputFocus(bool state)
     }
 }
 
-void Textfeld::Angewaehlt()
+void Label::Angewaehlt()
 {
     Alpha = MOD_ANGEWAEHLT;
     soll_Alpha = MOD_EINGEBLENDET;
@@ -503,7 +503,7 @@ void Textfeld::Angewaehlt()
     }
 }
 
-void Textfeld::Eingeblendet()
+void Label::Eingeblendet()
 {
     soll_Alpha = MOD_EINGEBLENDET;
     if (soll_Alpha!=Alpha)
@@ -512,7 +512,7 @@ void Textfeld::Eingeblendet()
     }
 }
 
-void Textfeld::VollSichtbar()
+void Label::VollSichtbar()
 {
     soll_Alpha =MOD_VOLLSICHTBAR;
     if (soll_Alpha!=Alpha)
@@ -521,7 +521,7 @@ void Textfeld::VollSichtbar()
     }
 }
 
-int Textfeld::Animiere(int Faktor)
+int Label::Animiere(int Faktor)
 {
     if (!InAnimation)
     {
@@ -549,12 +549,12 @@ int Textfeld::Animiere(int Faktor)
     }
 }
 
-void Textfeld::SetzeSignal(int NeuesSignal)
+void Label::SetzeSignal(int NeuesSignal)
 {
     Signal=NeuesSignal;
 }
 
-void Textfeld::StarteAnimation()
+void Label::StarteAnimation()
 {
     SetActive(this);
     InAnimation=true;
@@ -565,7 +565,7 @@ void Textfeld::StarteAnimation()
     alt_Alpha=Alpha;
 }
 
-void Textfeld::GeneriereDisplayList()
+void Label::GeneriereDisplayList()
 {
     CheckValidString(50);
 
@@ -723,7 +723,7 @@ void Textfeld::GeneriereDisplayList()
     }
 }
 
-int Textfeld::Maustaste(tMouseButton button, tMouseEvent event,
+int Label::Maustaste(tMouseButton button, tMouseEvent event,
                         int x_, int y_, KPUIBase &ui)
 {
     GLfloat xf=16.0f*x_/ ui.GetValue(KP_WINDOW_WIDTH);
@@ -755,13 +755,13 @@ int Textfeld::Maustaste(tMouseButton button, tMouseEvent event,
     }
 }
 
-float Textfeld::TextfeldHoehe()
+float Label::TextfeldHoehe()
 {
     return 0.7f * lineCount;
 }
 
 
-void Textfeld::SetzeMaxBreite(float mb)
+void Label::SetzeMaxBreite(float mb)
 {
     if (mb < 0)
     {

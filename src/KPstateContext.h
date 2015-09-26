@@ -24,7 +24,7 @@
 
 class KPstate;
 class KPboardView;
-class Kamera;
+class Camera;
 class Light;
 class KPmenu;
 class KPStatistics;
@@ -36,7 +36,7 @@ class KPstateContext
 public:
     virtual void ChangeState( int stateID )     = 0;
     virtual KPboardView     &GetBoardView()     = 0;
-    virtual Kamera          &GetCamera()        = 0;
+    virtual Camera          &GetCamera()        = 0;
     virtual Light           &GetLight()         = 0;
     virtual KPmenu          &GetMenu()          = 0;
     virtual KPStatistics    &GetStatistics()    = 0;

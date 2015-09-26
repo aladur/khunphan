@@ -108,7 +108,7 @@ void KPstate::Update(KPstateContext *pContext, int factor)
             HookAfterAnimationFinished(pContext);
         }
 
-        tSchildArray::iterator sit;
+        tIdToPlate::iterator sit;
 
         for (sit = menu.SchildArray.begin(); sit != menu.SchildArray.end();
              ++sit)
@@ -116,7 +116,7 @@ void KPstate::Update(KPstateContext *pContext, int factor)
             sit->second.Animiere(factor);
         }
 
-        tTextfeldArray::iterator tit;
+        tIdToLabel::iterator tit;
 
         for (tit = menu.TextfeldArray.begin(); tit != menu.TextfeldArray.end();
              ++tit)
@@ -174,7 +174,7 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
     int Signal = 0;
     unsigned int i = 0;
 
-    tSchildArray::iterator sit;
+    tIdToPlate::iterator sit;
 
     for (sit = menu.SchildArray.begin(); sit != menu.SchildArray.end(); ++sit)
     {
@@ -187,7 +187,7 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
         }
     }
 
-    tTextfeldArray::iterator tit;
+    tIdToLabel::iterator tit;
 
     for (tit = menu.TextfeldArray.begin(); tit != menu.TextfeldArray.end();
          ++tit)
@@ -212,7 +212,7 @@ bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
 
     bool action = false;
 
-    tTextfeldArray::iterator it;
+    tIdToLabel::iterator it;
 
     for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
     {

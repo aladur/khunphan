@@ -30,10 +30,10 @@ struct SPosition
     float FOV;
 };
 
-class Kamera
+class Camera
 {
 public:
-    Kamera();
+    Camera();
     void male(int x=-1, int y=-1) const;
     void neuePosition(SPosition &position);
     SPosition Position();

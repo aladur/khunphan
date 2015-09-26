@@ -114,7 +114,7 @@ bool KPUIBase::InitializeAfterOpen()
                        KPConfig::Instance().LightSources,
                        KPConfig::Instance().Reflections);
 
-    pCamera = new Kamera();
+    pCamera = new Camera();
 
     pMenu = new KPmenu();
 
@@ -317,7 +317,7 @@ KPboardView     &KPUIBase::GetBoardView()
 {
     return *pBoardView;
 }
-Kamera          &KPUIBase::GetCamera()
+Camera          &KPUIBase::GetCamera()
 {
     return *pCamera;
 }

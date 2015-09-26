@@ -46,7 +46,7 @@ typedef enum
     SHLD_MUSIC_ON,
     SHLD_MUSIC_OFF,
     SHLD_SHADER, // should be always the last one
-} tSchild;
+} tPlate;
 
 typedef enum
 {
@@ -93,8 +93,8 @@ typedef enum
     S_TOGGLE_MUSIC_ON             = 161
 } tSignal;
 
-typedef std::map<int,Textfeld>    tTextfeldArray;
-typedef std::map<tSchild, Schild> tSchildArray;
+typedef std::map<int, Label>      tIdToLabel;
+typedef std::map<tPlate, Plate>   tIdToPlate;
 
 class KPstate;
 
@@ -149,8 +149,8 @@ protected:
 
     KPprogressBar progressBar;
 
-    tSchildArray   SchildArray;
-    tTextfeldArray TextfeldArray;
+    tIdToPlate   SchildArray;
+    tIdToLabel TextfeldArray;
 
     tKPMenuState lastState;
 };

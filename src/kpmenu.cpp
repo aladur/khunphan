@@ -40,13 +40,13 @@ KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(KPState_Invalid)
 bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
                         int Language /* = 0*/)
 {
-    SchildArray[SHLD_MENUBACKGROUND] = Schild();
-    SchildArray[SHLD_SHADER        ] = Schild();
-    SchildArray[SHLD_LOGO          ] = Schild();
-    SchildArray[SHLD_SOUND_ON      ] = Schild();
-    SchildArray[SHLD_SOUND_OFF     ] = Schild();
-    SchildArray[SHLD_MUSIC_ON      ] = Schild();
-    SchildArray[SHLD_MUSIC_OFF     ] = Schild();
+    SchildArray[SHLD_MENUBACKGROUND] = Plate();
+    SchildArray[SHLD_SHADER        ] = Plate();
+    SchildArray[SHLD_LOGO          ] = Plate();
+    SchildArray[SHLD_SOUND_ON      ] = Plate();
+    SchildArray[SHLD_SOUND_OFF     ] = Plate();
+    SchildArray[SHLD_MUSIC_ON      ] = Plate();
+    SchildArray[SHLD_MUSIC_OFF     ] = Plate();
 
     SchildArray[SHLD_MENUBACKGROUND].Initialisiere(0.7f,0.7f,0.7f);
     SchildArray[SHLD_SHADER        ].Initialisiere(0.0, 0.0, 0.0);
@@ -71,7 +71,7 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
 
     LOG1("Generating Menu Display Lists");
 
-    tTextfeldArray::iterator it;
+    tIdToLabel::iterator it;
 
     for (it = TextfeldArray.begin(); it != TextfeldArray.end(); ++it)
     {
@@ -87,8 +87,8 @@ void KPmenu::Update(const char *TextureName, int TextureSize, bool Nearest,
                     bool always)
 {
     //Create texture for TextFeldArray
-    Textfeld::PreInitialize(TextureName, TextureSize, Nearest,
-                            &KPConfig::Instance(), always);
+    Label::PreInitialize(TextureName, TextureSize, Nearest,
+                         &KPConfig::Instance(), always);
 
     SchildArray[SHLD_LOGO].Initialisiere(TextureName, TextureSize, Nearest,
                                          true, "logo", &KPConfig::Instance(),
@@ -169,7 +169,7 @@ void KPmenu::AddTextField(int number, const char word[])
         }
         else
         {
-            TextfeldArray[number] = Textfeld();
+            TextfeldArray[number] = Label();
             TextfeldArray[number].InitialisiereKDL(word);
         }
     }
@@ -177,7 +177,7 @@ void KPmenu::AddTextField(int number, const char word[])
 
 void KPmenu::DeactivateAllLabels()
 {
-    tSchildArray::iterator it;
+    tIdToPlate::iterator it;
 
     for (it = SchildArray.begin(); it != SchildArray.end(); ++it)
     {
@@ -187,7 +187,7 @@ void KPmenu::DeactivateAllLabels()
 
 void KPmenu::DeactivateAllTextFields()
 {
-    Textfeld::DeactivateAll();
+    Label::DeactivateAll();
 }
 
 void KPmenu::Draw()
@@ -202,7 +202,7 @@ void KPmenu::Draw()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    tSchildArray::iterator sit;
+    tIdToPlate::iterator sit;
 
     for (sit = SchildArray.begin(); sit != SchildArray.end(); ++sit)
     {
@@ -212,7 +212,7 @@ void KPmenu::Draw()
         }
     }
 
-    tTextfeldArray::iterator tit;
+    tIdToLabel::iterator tit;
 
     for (tit = TextfeldArray.begin(); tit != TextfeldArray.end(); ++tit)
     {

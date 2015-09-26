@@ -19,22 +19,22 @@
 
 
 
-class Textfeld;
+class Label;
 class KPConfig;
 class KPUIBase;
 
-typedef std::set<Textfeld *> tActivated;
+typedef std::set<Label *> tActivated;
 
 
-class Textfeld
+class Label
 {
 public:
-    Textfeld();
-    virtual ~Textfeld();
+    Label();
+    virtual ~Label();
     static void PreInitialize(const char *, unsigned int, bool,
                               const KPConfig *, bool always = true);
     static void DeactivateAll();
-    static void SetActive(Textfeld *pTextfeld);
+    static void SetActive(Label *pTextfeld);
     void Initialisiere();
     void Initialisiere(const char[]);
     void InitialisiereKDL(const char[]);

@@ -1,6 +1,6 @@
 /*******************************************************************************
 **
-** Kamera.cpp  Copyright (C) 2001 by Stefan Disch, Tobias Nopper, Martina Welte
+** camera.cpp  Copyright (C) 2001 by Stefan Disch, Tobias Nopper, Martina Welte
 **             Modified 2002-2015 for KhunPhan by W. Schwotzer
 **
 *******************************************************************************/
@@ -17,10 +17,10 @@
 
 
 // define constant for degree per radian */
-const float Kamera::degprad = 180.0f / M_PIf;
+const float Camera::degprad = 180.0f / M_PIf;
 
 /* --------- Konstruktor ---------- */
-Kamera::Kamera() :   Aspekt(0.0),
+Camera::Camera() :   Aspekt(0.0),
     Pos_x(0.0),      Pos_y(0.0),       Pos_z(0.0),
     Alpha(0.0),      Beta(0.0),        FOV(0.0),
     Soll_Pos_x(0.0), Soll_Pos_y(0.0),  Soll_Pos_z(0.0),
@@ -71,7 +71,7 @@ Kamera::Kamera() :   Aspekt(0.0),
     IsRundflug = false;
 }
 
-void Kamera::SetAspekt(float a)
+void Camera::SetAspekt(float a)
 {
     Aspekt = a;
     glMatrixMode(GL_PROJECTION);
@@ -85,7 +85,7 @@ void Kamera::SetAspekt(float a)
 //   For Display update: not necessary
 //   For Selection:      the X and Y Screen coordinates to select
 
-void Kamera::male(int x /* = -1 */, int y /* = -1 */) const
+void Camera::male(int x /* = -1 */, int y /* = -1 */) const
 {
     glMatrixMode(GL_PROJECTION); // Kameraparameter!
     glLoadIdentity();            // zuruecksetzen
@@ -109,7 +109,7 @@ void Kamera::male(int x /* = -1 */, int y /* = -1 */) const
 }
 
 //setzt die Kamera an eine neue Position
-void Kamera::neuePosition(SPosition &position)
+void Camera::neuePosition(SPosition &position)
 {
     Soll_Pos_x = position.Pos_x;
     Soll_Pos_y = position.Pos_y;
@@ -122,37 +122,37 @@ void Kamera::neuePosition(SPosition &position)
 }
 
 //gibt die aktuelle Kameraposition zur"uck
-SPosition Kamera::Position()
+SPosition Camera::Position()
 {
     SPosition position(Pos_x, Pos_y, Pos_z, Alpha, Beta, FOV);
 
     return position;
 }
 
-float Kamera::Pos_xCM()
+float Camera::Pos_xCM()
 {
     return Pos_x;
 }
 
-float Kamera::Pos_yCM()
+float Camera::Pos_yCM()
 {
     return Pos_y;
 }
 
-float Kamera::Pos_zCM()
+float Camera::Pos_zCM()
 {
     return Pos_z;
 }
 
 // l"adt eine Kameraposition aus der Tabelle
-void Kamera::ladePosition(int Platz)
+void Camera::ladePosition(int Platz)
 {
     setzeSollPosition(Positionen.at(Platz));
     IsRundflug = false;
 }
 
 // Bewegt die Kamera in Blickrichtung
-void Kamera::Beweg_Rein(float Faktor)
+void Camera::Beweg_Rein(float Faktor)
 {
     Soll_Pos_x+=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*sin(
                     Soll_Beta/degprad);
@@ -169,7 +169,7 @@ void Kamera::Beweg_Rein(float Faktor)
 }
 
 // Bewegt die Kamera gegen die Blickrichtung
-void Kamera::Beweg_Raus(float Faktor)
+void Camera::Beweg_Raus(float Faktor)
 {
     Soll_Pos_x-=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*sin(
                     Soll_Beta/degprad);
@@ -186,7 +186,7 @@ void Kamera::Beweg_Raus(float Faktor)
 }
 
 // Bewegt die Kamera in Blickrichtung, aber unter Beibehaltung der H"ohe
-void Kamera::Beweg_Vor(float Faktor)
+void Camera::Beweg_Vor(float Faktor)
 {
     Soll_Pos_x+=2*BewegFaktor*Faktor*sin(Soll_Beta/degprad);
     Soll_Pos_y+=2*BewegFaktor*Faktor*cos(Soll_Beta/degprad);
@@ -195,7 +195,7 @@ void Kamera::Beweg_Vor(float Faktor)
 }
 
 // Bewegt die Kamera gegen die Blickrichtung, aber unter Beibehaltung der H"ohe
-void Kamera::Beweg_Zurueck(float Faktor)
+void Camera::Beweg_Zurueck(float Faktor)
 {
     Soll_Pos_x-=2*BewegFaktor*Faktor*sin(Soll_Beta/degprad);
     Soll_Pos_y-=2*BewegFaktor*Faktor*cos(Soll_Beta/degprad);
@@ -204,7 +204,7 @@ void Kamera::Beweg_Zurueck(float Faktor)
 }
 
 // Bewegt die Kamera nach rechts
-void Kamera::Beweg_Rechts(float Faktor)
+void Camera::Beweg_Rechts(float Faktor)
 {
     Soll_Pos_x+=BewegFaktor*Faktor*cos(Soll_Beta/degprad);
     Soll_Pos_y-=BewegFaktor*Faktor*sin(Soll_Beta/degprad);
@@ -213,7 +213,7 @@ void Kamera::Beweg_Rechts(float Faktor)
 }
 
 // Bewegt die Kamera nach links
-void Kamera::Beweg_Links(float Faktor)
+void Camera::Beweg_Links(float Faktor)
 {
     Soll_Pos_x-=BewegFaktor*Faktor*cos(Soll_Beta/degprad);
     Soll_Pos_y+=BewegFaktor*Faktor*sin(Soll_Beta/degprad);
@@ -222,7 +222,7 @@ void Kamera::Beweg_Links(float Faktor)
 }
 
 // Bewegt die Kamera nach oben
-void Kamera::Beweg_Hoch(float Faktor)
+void Camera::Beweg_Hoch(float Faktor)
 {
     Soll_Pos_z+=BewegFaktor*Faktor;
     //  if (Pos_z>400) {Pos_z=400;}
@@ -231,7 +231,7 @@ void Kamera::Beweg_Hoch(float Faktor)
 }
 
 // Bewegt die Kamera nach unten
-void Kamera::Beweg_Runter(float Faktor)
+void Camera::Beweg_Runter(float Faktor)
 {
     Soll_Pos_z-=BewegFaktor*Faktor;
     if (Soll_Pos_z < 2.8f)
@@ -243,7 +243,7 @@ void Kamera::Beweg_Runter(float Faktor)
 }
 
 // Vergr"o"sert den Zoom
-void Kamera::Zoom_Rein(float Faktor)
+void Camera::Zoom_Rein(float Faktor)
 {
     Soll_FOV-=BewegFaktor*Faktor;
     if (Soll_FOV<1)
@@ -254,14 +254,14 @@ void Kamera::Zoom_Rein(float Faktor)
 }
 
 // Verkleinert den Zoom
-void Kamera::Zoom_Raus(float Faktor)
+void Camera::Zoom_Raus(float Faktor)
 {
     Soll_FOV+=BewegFaktor*Faktor;
     IsRundflug = false;
 }
 
 // Vergr"o"sert den Vertigo
-void Kamera::Vertigo_Rein(float Faktor)
+void Camera::Vertigo_Rein(float Faktor)
 {
     Soll_Pos_x-=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*sin(
                     Soll_Beta/degprad);
@@ -277,7 +277,7 @@ void Kamera::Vertigo_Rein(float Faktor)
 }
 
 // Verkleinert den Vertigo
-void Kamera::Vertigo_Raus(float Faktor)
+void Camera::Vertigo_Raus(float Faktor)
 {
     Soll_Pos_x+=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*sin(
                     Soll_Beta/degprad);
@@ -289,21 +289,21 @@ void Kamera::Vertigo_Raus(float Faktor)
 }
 
 // Dreht die Kamera nach rechts
-void Kamera::Dreh_Rechts(float Faktor)
+void Camera::Dreh_Rechts(float Faktor)
 {
     Soll_Beta+=Faktor*DrehFaktor;
     IsRundflug = false;
 }
 
 // Dreht die Kamera nach links
-void Kamera::Dreh_Links(float Faktor)
+void Camera::Dreh_Links(float Faktor)
 {
     Soll_Beta-=Faktor*DrehFaktor;
     IsRundflug = false;
 }
 
 // Dreht die Kamera nach oben
-void Kamera::Dreh_Hoch(float Faktor)
+void Camera::Dreh_Hoch(float Faktor)
 {
     Soll_Alpha+=Faktor*DrehFaktor;
     if (Soll_Alpha>90)
@@ -318,7 +318,7 @@ void Kamera::Dreh_Hoch(float Faktor)
 }
 
 // Dreht die Kamera nach unten
-void Kamera::Dreh_Runter(float Faktor)
+void Camera::Dreh_Runter(float Faktor)
 {
     Soll_Alpha-=Faktor*DrehFaktor;
     if (Soll_Alpha>90)
@@ -332,7 +332,7 @@ void Kamera::Dreh_Runter(float Faktor)
     IsRundflug = false;
 }
 
-void Kamera::Schwenk_Links(float Faktor, float Mitte_x, float Mitte_y)
+void Camera::Schwenk_Links(float Faktor, float Mitte_x, float Mitte_y)
 {
     GLfloat Abstand=sqrt((Mitte_x-Soll_Pos_x)*(Mitte_x-Soll_Pos_x)+
                          (Mitte_y-Soll_Pos_y)*(Mitte_y-Soll_Pos_y));
@@ -347,7 +347,7 @@ void Kamera::Schwenk_Links(float Faktor, float Mitte_x, float Mitte_y)
     IsRundflug = false;
 }
 
-void Kamera::Schwenk_Rechts(float Faktor, float Mitte_x, float Mitte_y)
+void Camera::Schwenk_Rechts(float Faktor, float Mitte_x, float Mitte_y)
 {
     GLfloat Abstand=sqrt((Mitte_x-Soll_Pos_x)*(Mitte_x-Soll_Pos_x)+
                          (Mitte_y-Soll_Pos_y)*(Mitte_y-Soll_Pos_y));
@@ -362,7 +362,7 @@ void Kamera::Schwenk_Rechts(float Faktor, float Mitte_x, float Mitte_y)
     IsRundflug = false;
 }
 
-void Kamera::Schwenk_Hoch(float Faktor, float Mitte_x, float Mitte_y)
+void Camera::Schwenk_Hoch(float Faktor, float Mitte_x, float Mitte_y)
 {
     GLfloat Abstand=sqrt((Mitte_x-Soll_Pos_x)*(Mitte_x-Soll_Pos_x)+
                          (Mitte_y-Soll_Pos_y)*(Mitte_y-Soll_Pos_y)+
@@ -395,7 +395,7 @@ void Kamera::Schwenk_Hoch(float Faktor, float Mitte_x, float Mitte_y)
     IsRundflug = false;
 }
 
-void Kamera::Schwenk_Runter(float Faktor, float Mitte_x, float Mitte_y)
+void Camera::Schwenk_Runter(float Faktor, float Mitte_x, float Mitte_y)
 {
     GLfloat Abstand=sqrt((Mitte_x-Soll_Pos_x)*(Mitte_x-Soll_Pos_x)+
                          (Mitte_y-Soll_Pos_y)*(Mitte_y-Soll_Pos_y)+
@@ -428,7 +428,7 @@ void Kamera::Schwenk_Runter(float Faktor, float Mitte_x, float Mitte_y)
     IsRundflug = false;
 }
 
-void Kamera::setzeSollPosition(SPosition &Soll_Pos)
+void Camera::setzeSollPosition(SPosition &Soll_Pos)
 {
     Soll_Pos_x = Soll_Pos.Pos_x;
     Soll_Pos_y = Soll_Pos.Pos_y;
@@ -452,7 +452,7 @@ void Kamera::setzeSollPosition(SPosition &Soll_Pos)
     IsRundflug = false;
 }
 
-void Kamera::setzeSollPosition(float SollPosx, float SollPosy,float SollPosz,
+void Camera::setzeSollPosition(float SollPosx, float SollPosy,float SollPosz,
                                float SollAlpha,float SollBeta,float SollFOV)
 {
     Soll_Pos_x = SollPosx;
@@ -476,7 +476,7 @@ void Kamera::setzeSollPosition(float SollPosx, float SollPosy,float SollPosz,
     IsRundflug = false;
 }
 
-void Kamera::BlickeAuf(float Blickpunkt_x,float Blickpunkt_y)
+void Camera::BlickeAuf(float Blickpunkt_x,float Blickpunkt_y)
 {
     GLfloat SollPosx=50*(Pos_x-Blickpunkt_x)/
                      sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
@@ -500,7 +500,7 @@ void Kamera::BlickeAuf(float Blickpunkt_x,float Blickpunkt_y)
     IsRundflug = false;
 }
 
-void Kamera::BlickeAuf2(float Blickpunkt_x,float Blickpunkt_y)
+void Camera::BlickeAuf2(float Blickpunkt_x,float Blickpunkt_y)
 {
     GLfloat SollPosx=80*(Pos_x-Blickpunkt_x)/
                      sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
@@ -524,7 +524,7 @@ void Kamera::BlickeAuf2(float Blickpunkt_x,float Blickpunkt_y)
     IsRundflug = false;
 }
 
-void Kamera::BlickeAuf3(float Blickpunkt_x,float Blickpunkt_y)
+void Camera::BlickeAuf3(float Blickpunkt_x,float Blickpunkt_y)
 {
     GLfloat SollPosx=80*(Pos_x-Blickpunkt_x)/
                      sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
@@ -548,7 +548,7 @@ void Kamera::BlickeAuf3(float Blickpunkt_x,float Blickpunkt_y)
     IsRundflug = false;
 }
 
-void Kamera::Fahrt(int Faktor)
+void Camera::Fahrt(int Faktor)
 {
     for (int i=0; i<Faktor; i++)
     {
@@ -585,7 +585,7 @@ void Kamera::Fahrt(int Faktor)
     }
 }
 
-void Kamera::BlickTiefeNeuBestimmen()
+void Camera::BlickTiefeNeuBestimmen()
 {
     GLfloat ax=fabs(Pos_x),ay=fabs(Pos_y),az=Pos_z;
 
@@ -623,7 +623,7 @@ void Kamera::BlickTiefeNeuBestimmen()
 }
 
 
-void Kamera::Rundflug(int Faktor)
+void Camera::Rundflug(int Faktor)
 {
     if (Soll_Pos_y==0)
     {

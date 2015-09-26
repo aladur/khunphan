@@ -36,7 +36,7 @@ KPstateStartUp::KPstateStartUp() : fullInitialized(false)
 void KPstateStartUp::Initialize(KPstateContext *pContext,
                                 const KPstate *pOldState)
 {
-    tTextfeldArray::iterator it;
+    tIdToLabel::iterator it;
 
     KPstate::Initialize(pContext, pOldState);
 
@@ -49,7 +49,7 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT2);
     if (it == pContext->GetMenu().TextfeldArray.end())
     {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT2] = Textfeld();
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT2] = Label();
         pContext->GetMenu().TextfeldArray[T_COPYRIGHT2].SetzeText(
             "© 2002-2015 Wolfgang Schwotzer");
     }
@@ -57,13 +57,13 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT3);
     if (it == pContext->GetMenu().TextfeldArray.end())
     {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT3] = Textfeld();
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT3] = Label();
     }
 
     it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT5);
     if (it == pContext->GetMenu().TextfeldArray.end())
     {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT5] = Textfeld();
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT5] = Label();
         pContext->GetMenu().TextfeldArray[T_COPYRIGHT5].SetzeText(
             "© 2001-2006 Nicklas Nygren");
     }
@@ -71,7 +71,7 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT6);
     if (it == pContext->GetMenu().TextfeldArray.end())
     {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT6] = Textfeld();
+        pContext->GetMenu().TextfeldArray[T_COPYRIGHT6] = Label();
         pContext->GetMenu().TextfeldArray[T_COPYRIGHT6].SetzeText(
             "http://nifflas.ni2.se/");
     }

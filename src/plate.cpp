@@ -25,7 +25,7 @@
 #include "kpuibase.h"
 
 
-Schild::Schild() :     SchildIndex(0), SchildTyp(0), Aspekt(0.0),
+Plate::Plate() :     SchildIndex(0), SchildTyp(0), Aspekt(0.0),
     ax(0), ay(0), bx(0), by(0), Alpha(0),
     soll_ax(0), soll_ay(0), soll_bx(0), soll_by(0), soll_Alpha(0),
     alt_ax(0),  alt_ay(0), alt_bx(0),  alt_by(0), alt_Alpha(0),
@@ -34,7 +34,7 @@ Schild::Schild() :     SchildIndex(0), SchildTyp(0), Aspekt(0.0),
 {
 }
 
-bool Schild::Initialisiere(const char     *TextureName,
+bool Plate::Initialisiere(const char     *TextureName,
                            unsigned int    TextureSize,
                            bool            Nearest,
                            bool            withAlpha,
@@ -150,7 +150,7 @@ bool Schild::Initialisiere(const char     *TextureName,
     return true;
 }
 
-void Schild::Initialisiere(float R, float G, float B)
+void Plate::Initialisiere(float R, float G, float B)
 {
     r = R;
     g = G;
@@ -184,7 +184,7 @@ void Schild::Initialisiere(float R, float G, float B)
     SchildTyp=3;
 }
 
-void Schild::KopieVon(Schild Vorbild)
+void Plate::KopieVon(Plate Vorbild)
 {
     SchildIndex=Vorbild.SchildIndex;
     SchildTyp=Vorbild.SchildTyp;
@@ -198,7 +198,7 @@ void Schild::KopieVon(Schild Vorbild)
     Signal=0;
 }
 
-void Schild::male()
+void Plate::male()
 {
     if (Alpha)
     {
@@ -218,7 +218,7 @@ void Schild::male()
     }
 }
 
-void Schild::Positioniere(float ax_,float ay_,float bx_,float by_)
+void Plate::Positioniere(float ax_,float ay_,float bx_,float by_)
 {
     // Korrigiere Aspekt
     if (Aspekt!=0.0 && Aspekt!=(bx_-ax_)/(by_-ay_))
@@ -263,7 +263,7 @@ void Schild::Positioniere(float ax_,float ay_,float bx_,float by_)
     StarteAnimation();
 }
 
-void Schild::Desaktiviere()
+void Plate::Desaktiviere()
 {
     soll_Alpha=MOD_AUSGEBLENDET;
 
@@ -284,7 +284,7 @@ void Schild::Desaktiviere()
     }
 }
 
-void Schild::Angewaehlt()
+void Plate::Angewaehlt()
 {
     Alpha=MOD_ANGEWAEHLT;
     soll_Alpha=MOD_EINGEBLENDET;
@@ -294,7 +294,7 @@ void Schild::Angewaehlt()
     }
 }
 
-void Schild::Eingeblendet()
+void Plate::Eingeblendet()
 {
     soll_Alpha=MOD_EINGEBLENDET;
     if (soll_Alpha!=Alpha)
@@ -303,7 +303,7 @@ void Schild::Eingeblendet()
     }
 }
 
-void Schild::VollSichtbar()
+void Plate::VollSichtbar()
 {
     soll_Alpha=MOD_VOLLSICHTBAR;
     if (soll_Alpha!=Alpha)
@@ -312,7 +312,7 @@ void Schild::VollSichtbar()
     }
 }
 
-void Schild::StarteAnimation()
+void Plate::StarteAnimation()
 {
     InAnimation=1;
     Zeit=0;
@@ -323,7 +323,7 @@ void Schild::StarteAnimation()
     alt_Alpha=Alpha;
 }
 
-int Schild::Animiere(int Faktor)
+int Plate::Animiere(int Faktor)
 {
     if (!InAnimation)
     {
@@ -353,7 +353,7 @@ int Schild::Animiere(int Faktor)
     }
 }
 
-int Schild::Maustaste(tMouseButton button, tMouseEvent event,
+int Plate::Maustaste(tMouseButton button, tMouseEvent event,
                       int x, int y, KPUIBase &ui)
 {
     GLfloat xf=16.0f*x/ ui.GetValue(KP_WINDOW_WIDTH);
@@ -386,7 +386,7 @@ int Schild::Maustaste(tMouseButton button, tMouseEvent event,
     }
 }
 
-void Schild::SetzeSignal(int NeuesSignal)
+void Plate::SetzeSignal(int NeuesSignal)
 {
     Signal=NeuesSignal;
 }

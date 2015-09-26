@@ -45,7 +45,7 @@
 #define   KBP_ENTRY_COUNT       15
 
 
-class Kamera;
+class Camera;
 class Light;
 
 #define MAX_BOARD_TEXTURES  4
@@ -69,7 +69,7 @@ public:
     void SetBoard(KPnode *n);
     void SetBoard(QWord id);
     short GetMovesToSolve() const;
-    tKPTokenID Selection(const Kamera *pCamera, int x, int y) const;
+    tKPTokenID Selection(const Camera *pCamera, int x, int y) const;
     bool Move(tKPTokenID id, tKPDirection d);
     bool CanMove(tKPTokenID id, tKPDirection d);
     void Animate(int Factor);

@@ -70,26 +70,26 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
     y -= 0.7f;
     for (i = 0; i < max; i++)
     {
-        tTextfeldArray::iterator it;
+        tIdToLabel::iterator it;
 
         it = menu.TextfeldArray.find(T_S_NAME1 + i);
         if (it == menu.TextfeldArray.end())
         {
-            menu.TextfeldArray[T_S_NAME1 + i] = Textfeld();
+            menu.TextfeldArray[T_S_NAME1 + i] = Label();
             menu.TextfeldArray[T_S_NAME1 + i].Initialisiere("");
         }
 
         it = menu.TextfeldArray.find(T_S_PLAYTIME1 + i);
         if (it == menu.TextfeldArray.end())
         {
-            menu.TextfeldArray[T_S_PLAYTIME1 + i] = Textfeld();
+            menu.TextfeldArray[T_S_PLAYTIME1 + i] = Label();
             menu.TextfeldArray[T_S_PLAYTIME1 + i].Initialisiere("");
         }
 
         it = menu.TextfeldArray.find(T_S_MOVES1 + i);
         if (it == menu.TextfeldArray.end())
         {
-            menu.TextfeldArray[T_S_MOVES1 + i] = Textfeld();
+            menu.TextfeldArray[T_S_MOVES1 + i] = Label();
             menu.TextfeldArray[T_S_MOVES1 + i].Initialisiere("");
         }
 

@@ -31,7 +31,7 @@
 
 class KPnode;
 class KPboardView;
-class Kamera;
+class Camera;
 class Light;
 class KPStatistics;
 
@@ -104,7 +104,7 @@ protected:
 // Sw: unfinished: should be protected
 public:
     KPboardView  *pBoardView;
-    Kamera       *pCamera;
+    Camera       *pCamera;
     Light        *pLight;
     KPmenu       *pMenu;
     KPStatistics *pStatistics;
@@ -132,7 +132,7 @@ public:
 protected:
     virtual void ChangeState( int stateID );
     virtual KPboardView     &GetBoardView();
-    virtual Kamera          &GetCamera();
+    virtual Camera          &GetCamera();
     virtual Light           &GetLight();
     virtual KPmenu          &GetMenu();
     virtual KPStatistics    &GetStatistics();

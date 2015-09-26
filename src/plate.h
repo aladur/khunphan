@@ -15,10 +15,10 @@ class KPUIBase;
 class KPConfig;
 
 
-class Schild
+class Plate
 {
 public:
-    Schild();
+    Plate();
     void Initialisiere(float R = 1.0, float G = 1.0, float B = 1.0);
     bool Initialisiere(const char *, unsigned int, bool, bool, const char *,
                        const KPConfig *config, bool always = true);
@@ -33,7 +33,7 @@ public:
     int Maustaste(tMouseButton,tMouseEvent,int,int, KPUIBase &);
     void SetzeZielZustand(int);
     void SetzeSignal(int);
-    void KopieVon(Schild);
+    void KopieVon(Plate);
     int SchildIndex;
     int SchildTyp;
     float Aspekt;

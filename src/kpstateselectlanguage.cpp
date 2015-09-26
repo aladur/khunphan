@@ -114,7 +114,7 @@ tKPMenuState KPstateSelectLanguage::ESCKeyAction (KPstateContext *pContext)
 void KPstateSelectLanguage::SetLanguage (KPstateContext *pContext, int Language)
 {
     pContext->GetMenu().LoadLanguage(Language);
-    tTextfeldArray::iterator it;
+    tIdToLabel::iterator it;
 
     for (it = pContext->GetMenu().TextfeldArray.begin();
          it != pContext->GetMenu().TextfeldArray.end(); ++it)
