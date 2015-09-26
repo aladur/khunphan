@@ -157,10 +157,10 @@ bool KPboardView::CreateTexture(unsigned int TextureSize, const char *pFile,
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                    static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                    (Nearest ? GL_NEAREST : GL_LINEAR));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                    (Nearest ? GL_NEAREST : GL_LINEAR));
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_PRIORITY,   1.0);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
                  GL_UNSIGNED_BYTE, texels);
@@ -668,7 +668,7 @@ void KPboardView::Draw(bool render /* = true */) const
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
         GLfloat color[] =
         {
-            static_cast<GLfloat>(0.6 + 0.4*mat_value),0.0,0.0,1.0
+            0.6f + 0.4f * mat_value, 0.0f, 0.0f, 1.0f
         };
         glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, color);
         DrawToken(i);
@@ -723,12 +723,12 @@ void KPboardView::DrawToken(const tKPTokenID i) const
 
 void KPboardView::Animate(int Factor)
 {
-    xValue +=  static_cast<GLfloat>(Factor * 2 * M_PI / TOTAL_ANIMATIONTIME);
+    xValue +=  Factor * 2 * M_PIf / TOTAL_ANIMATIONTIME;
     if (xValue >= 2 * M_PI)
     {
-        xValue -= static_cast<GLfloat>(2 * M_PI);
+        xValue -= 2 * M_PIf;
     }
-    mat_value = static_cast<float>(0.5 * sin(xValue) + 0.5);
+    mat_value = 0.5f * sin(xValue) + 0.5f;
 
     if (animatedToken == TK_EMPTY)
     {
@@ -742,9 +742,8 @@ void KPboardView::Animate(int Factor)
     }
     else
     {
-        GLfloat Factor=
-            static_cast<GLfloat>(0.5 - 0.5 *
-                                 cos(M_PI * Time / TOTAL_ANIMATIONTIME));
+        GLfloat Factor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
+
         ax = (new_x - old_x) * Factor + old_x;
         ay = (new_y - old_y) * Factor + old_y;
     }

@@ -215,7 +215,7 @@ void KPUIBase::Reshape(int x, int y)
     glViewport(0, 0, x, y);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    GetCamera().SetAspekt(x / static_cast<GLfloat>(y));
+    GetCamera().SetAspekt(x / static_cast<float>(y));
 }
 
 void KPUIBase::Idle()

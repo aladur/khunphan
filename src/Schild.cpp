@@ -118,10 +118,10 @@ bool Schild::Initialisiere(const char     *TextureName,
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                    static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                    (Nearest ? GL_NEAREST : GL_LINEAR));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                    (Nearest ? GL_NEAREST : GL_LINEAR));
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
                  withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, texels);
@@ -342,8 +342,8 @@ int Schild::Animiere(int Faktor)
     }
     else
     {
-        GLfloat Faktor=
-            static_cast<GLfloat>(0.5-0.5*cos(M_PI*Zeit/TOTAL_ANIMATIONTIME));
+        GLfloat Faktor= 0.5f - 0.5f * cos(M_PIf * Zeit / TOTAL_ANIMATIONTIME);
+
         ax=(soll_ax-alt_ax)*Faktor+alt_ax;
         ay=(soll_ay-alt_ay)*Faktor+alt_ay;
         bx=(soll_bx-alt_bx)*Faktor+alt_bx;

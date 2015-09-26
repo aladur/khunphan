@@ -182,10 +182,10 @@ void Textfeld::PreInitialize(const char *TextureName, unsigned int TextureSize,
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                    static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    static_cast<GLfloat>(Nearest ? GL_NEAREST : GL_LINEAR));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                    (Nearest ? GL_NEAREST : GL_LINEAR));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                    (Nearest ? GL_NEAREST : GL_LINEAR));
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, texels);
@@ -539,8 +539,8 @@ int Textfeld::Animiere(int Faktor)
     }
     else
     {
-        GLfloat Faktor=
-            static_cast<GLfloat>(0.5-0.5*cos(M_PI*Zeit/TOTAL_ANIMATIONTIME));
+        GLfloat Faktor = 0.5f - 0.5f * cos(M_PIf * Zeit / TOTAL_ANIMATIONTIME);
+
         x=(soll_x-alt_x)*Faktor+alt_x;
         y=(soll_y-alt_y)*Faktor+alt_y;
         Hoehe=(soll_Hoehe-alt_Hoehe)*Faktor+alt_Hoehe;
