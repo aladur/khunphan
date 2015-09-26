@@ -24,8 +24,8 @@
 #include "kpstatetutorial3.h"
 #include "kpmenu.h"
 #include "kpboardGL.h"
-#include "Kamera.h"
-#include "sprache.h"
+#include "camera.h"
+#include "language.h"
 #include "kpuibase.h"
 
 

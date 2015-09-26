@@ -23,7 +23,7 @@
 #define KPSTATE_H
 
 #include "KPstateContext.h"
-#include "sprache.h"
+#include "language.h"
 #include "misc1.h"
 
 

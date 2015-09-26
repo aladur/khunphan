@@ -12,7 +12,7 @@
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <math.h>
-#include "Kamera.h"
+#include "camera.h"
 #include "misc1.h"
 
 

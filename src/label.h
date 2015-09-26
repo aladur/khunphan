@@ -1,12 +1,12 @@
 /*******************************************************************************
 **
-** Textfeld.h  Copyright (C) 2001 by Stefan Disch, Tobias Nopper, Martina Welte
+** label.h     Copyright (C) 2001 by Stefan Disch, Tobias Nopper, Martina Welte
 **             Modified 2002-2015 for KhunPhan by W. Schwotzer
 **
 *******************************************************************************/
 
-#ifndef __TEXTFELD_H__
-#define __TEXTFELD_H__
+#ifndef __LABEL_H__
+#define __LABEL_H__
 
 #include "misc1.h"
 

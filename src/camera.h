@@ -1,12 +1,12 @@
 /*******************************************************************************
 **
-** Kamera.h    Copyright (C) 2001 by Stefan Disch, Tobias Nopper, Martina Welte
+** camera.h    Copyright (C) 2001 by Stefan Disch, Tobias Nopper, Martina Welte
 **             Modified 2002-2015 for KhunPhan by W. Schwotzer
 **
 *******************************************************************************/
 
-#ifndef __kamera_h__
-#define __kamera_h__
+#ifndef __camera_h__
+#define __camera_h__
 
 #include <vector>
 

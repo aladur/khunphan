@@ -23,7 +23,7 @@
 #define KPSTATEGAMESOLVED_H
 
 #include "kpstate.h"
-#include "sprache.h"
+#include "language.h"
 
 
 class KPstateGameSolved : public KPstate

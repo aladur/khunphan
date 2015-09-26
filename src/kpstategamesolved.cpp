@@ -23,7 +23,7 @@
 #include "kpmenu.h"
 #include "kpconfig.h"
 #include "kpboardGL.h"
-#include "Kamera.h"
+#include "camera.h"
 #include "kpstatistics.h"
 #include "kpscore.h"
 #include "kpuibase.h"

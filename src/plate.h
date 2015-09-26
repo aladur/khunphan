@@ -1,12 +1,12 @@
 /*******************************************************************************
 **
-** Schild.h    Copyright (C) 2001 by Stefan Disch, Tobias Nopper, Martina Welte
+** plate.h     Copyright (C) 2001 by Stefan Disch, Tobias Nopper, Martina Welte
 **             Modified 2002-2015 for KhunPhan by W. Schwotzer
 **
 *******************************************************************************/
 
-#ifndef __SCHILD_H__
-#define __SCHILD_H__
+#ifndef __PLATE_H__
+#define __PLATE_H__
 
 
 #include "misc1.h"
@@ -52,4 +52,4 @@ private:
     unsigned short textureSource;
 };
 
-#endif // #ifndef __SCHILD_H__
+#endif // #ifndef __PLATE_H__

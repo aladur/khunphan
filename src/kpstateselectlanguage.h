@@ -24,7 +24,7 @@
 #define KPSTATESELECTLANGUAGE_H
 
 #include "kpstate.h"
-#include "sprache.h"
+#include "language.h"
 
 
 class KPstateSelectLanguage : public KPstate

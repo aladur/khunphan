@@ -24,11 +24,11 @@
 #include "KPstateContext.h"
 #include "kpmenu.h"
 #include "kpconfig.h"
-#include "Kamera.h"
+#include "camera.h"
 #include "light.h"
 #include "kpboardGL.h"
 #include "kpuibase.h"
-#include "sprache.h"
+#include "language.h"
 #include "btime.h"
 
 

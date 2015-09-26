@@ -34,7 +34,7 @@
 #include "misc1.h"   // needed for memset and NULL
 #include "kpconfig.h"
 #include "kpboardGL.h"
-#include "Kamera.h"
+#include "camera.h"
 #include "light.h"
 #include "btexture.h"
 

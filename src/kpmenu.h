@@ -27,10 +27,10 @@
 #include <windows.h>
 #endif
 #include <map>
-#include "Schild.h"
-#include "Textfeld.h"
+#include "plate.h"
+#include "label.h"
 #include "kpprogressbar.h"
-#include "sprache.h"
+#include "language.h"
 #include "kpstate.h"
 
 

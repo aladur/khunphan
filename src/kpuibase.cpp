@@ -39,7 +39,7 @@
 #include "kpuibase.h"
 #include "kpstatefactory.h"
 #include "kpboardGL.h"
-#include "Kamera.h"
+#include "camera.h"
 #include "light.h"
 #include "kpconfig.h"
 #include "kpstate.h"

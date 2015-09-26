@@ -21,12 +21,12 @@
 
 #include "kpstatestartup.h"
 #include "kpmenu.h"
-#include "Kamera.h"
+#include "camera.h"
 #include "light.h"
 #include "kpboardGL.h"
 #include "kpconfig.h"
 #include "kpnode.h"
-#include "sprache.h"
+#include "language.h"
 #include "misc1.h"
 
 KPstateStartUp::KPstateStartUp() : fullInitialized(false)

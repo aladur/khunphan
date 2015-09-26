@@ -24,7 +24,7 @@
 #include "kpstatelighttest.h"
 #include "kpmenu.h"
 #include "light.h"
-#include "Kamera.h"
+#include "camera.h"
 
 
 KPstateLightTest::KPstateLightTest() : mouse_x(0), mouse_y(0)
