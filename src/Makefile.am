@@ -34,7 +34,7 @@ khunphan_SOURCES = \
         kpstatecontrolsettings.cpp \
         kpstatesettings.cpp \
         kpstatefinish.cpp \
-        kpstatemeinmenu.cpp \
+        kpstatemainmenu.cpp \
         kpstatefactory.cpp \
         kpstatestartup.cpp \
         kpmenu.cpp \
@@ -76,7 +76,7 @@ EXTRA_DIST = \
         kpmenu.h \
         kpstatestartup.h \
         kpstatefactory.h \
-        kpstatemeinmenu.h \
+        kpstatemainmenu.h \
         kpstatefinish.h \
         kpstatesettings.h \
         kpstatecontrolsettings.h \

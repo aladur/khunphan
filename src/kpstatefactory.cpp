@@ -26,7 +26,7 @@
 #include "kpstate.h"
 
 #include "kpstatestartup.h"
-#include "kpstatemeinmenu.h"
+#include "kpstatemainmenu.h"
 #include "kpstatefinish.h"
 #include "kpstatesettings.h"
 #include "kpstatecontrolsettings.h"

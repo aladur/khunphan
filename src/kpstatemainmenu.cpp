@@ -1,5 +1,5 @@
 /*
-    kpstatemeinmenu.h
+    kpstatemainmenu.cpp
 
     Automatic solution finder for KhunPhan game
     Copyright (C) 2001-2015  W. Schwotzer
@@ -19,7 +19,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "kpstatemeinmenu.h"
+#include "kpstatemainmenu.h"
 #include "kpmenu.h"
 #include "kpboardGL.h"
 #include "kpstatistics.h"

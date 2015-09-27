@@ -130,7 +130,7 @@ am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-kpstatecontrolsettings.$(OBJEXT) \
 	khunphan-kpstatesettings.$(OBJEXT) \
 	khunphan-kpstatefinish.$(OBJEXT) \
-	khunphan-kpstatemeinmenu.$(OBJEXT) \
+	khunphan-kpstatemainmenu.$(OBJEXT) \
 	khunphan-kpstatefactory.$(OBJEXT) \
 	khunphan-kpstatestartup.$(OBJEXT) khunphan-kpmenu.$(OBJEXT) \
 	khunphan-kpstate.$(OBJEXT) khunphan-light.$(OBJEXT) \
@@ -402,7 +402,7 @@ khunphan_SOURCES = \
         kpstatecontrolsettings.cpp \
         kpstatesettings.cpp \
         kpstatefinish.cpp \
-        kpstatemeinmenu.cpp \
+        kpstatemainmenu.cpp \
         kpstatefactory.cpp \
         kpstatestartup.cpp \
         kpmenu.cpp \
@@ -443,7 +443,7 @@ EXTRA_DIST = \
         kpmenu.h \
         kpstatestartup.h \
         kpstatefactory.h \
-        kpstatemeinmenu.h \
+        kpstatemainmenu.h \
         kpstatefinish.h \
         kpstatesettings.h \
         kpstatecontrolsettings.h \
@@ -677,7 +677,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstategraphicsettings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstatekeyboardhelp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstatelighttest.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstatemeinmenu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstatemainmenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstatemovetoken.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstatescorelist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstateselectlanguage.Po@am__quote@
@@ -1173,19 +1173,19 @@ khunphan-kpstatefinish.obj: kpstatefinish.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpstatefinish.obj `if test -f 'kpstatefinish.cpp'; then $(CYGPATH_W) 'kpstatefinish.cpp'; else $(CYGPATH_W) '$(srcdir)/kpstatefinish.cpp'; fi`
 
-khunphan-kpstatemeinmenu.o: kpstatemeinmenu.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpstatemeinmenu.o -MD -MP -MF $(DEPDIR)/khunphan-kpstatemeinmenu.Tpo -c -o khunphan-kpstatemeinmenu.o `test -f 'kpstatemeinmenu.cpp' || echo '$(srcdir)/'`kpstatemeinmenu.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpstatemeinmenu.Tpo $(DEPDIR)/khunphan-kpstatemeinmenu.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpstatemeinmenu.cpp' object='khunphan-kpstatemeinmenu.o' libtool=no @AMDEPBACKSLASH@
+khunphan-kpstatemainmenu.o: kpstatemainmenu.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpstatemainmenu.o -MD -MP -MF $(DEPDIR)/khunphan-kpstatemainmenu.Tpo -c -o khunphan-kpstatemainmenu.o `test -f 'kpstatemainmenu.cpp' || echo '$(srcdir)/'`kpstatemainmenu.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpstatemainmenu.Tpo $(DEPDIR)/khunphan-kpstatemainmenu.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpstatemainmenu.cpp' object='khunphan-kpstatemainmenu.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpstatemeinmenu.o `test -f 'kpstatemeinmenu.cpp' || echo '$(srcdir)/'`kpstatemeinmenu.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpstatemainmenu.o `test -f 'kpstatemainmenu.cpp' || echo '$(srcdir)/'`kpstatemainmenu.cpp
 
-khunphan-kpstatemeinmenu.obj: kpstatemeinmenu.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpstatemeinmenu.obj -MD -MP -MF $(DEPDIR)/khunphan-kpstatemeinmenu.Tpo -c -o khunphan-kpstatemeinmenu.obj `if test -f 'kpstatemeinmenu.cpp'; then $(CYGPATH_W) 'kpstatemeinmenu.cpp'; else $(CYGPATH_W) '$(srcdir)/kpstatemeinmenu.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpstatemeinmenu.Tpo $(DEPDIR)/khunphan-kpstatemeinmenu.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpstatemeinmenu.cpp' object='khunphan-kpstatemeinmenu.obj' libtool=no @AMDEPBACKSLASH@
+khunphan-kpstatemainmenu.obj: kpstatemainmenu.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpstatemainmenu.obj -MD -MP -MF $(DEPDIR)/khunphan-kpstatemainmenu.Tpo -c -o khunphan-kpstatemainmenu.obj `if test -f 'kpstatemainmenu.cpp'; then $(CYGPATH_W) 'kpstatemainmenu.cpp'; else $(CYGPATH_W) '$(srcdir)/kpstatemainmenu.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpstatemainmenu.Tpo $(DEPDIR)/khunphan-kpstatemainmenu.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpstatemainmenu.cpp' object='khunphan-kpstatemainmenu.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpstatemeinmenu.obj `if test -f 'kpstatemeinmenu.cpp'; then $(CYGPATH_W) 'kpstatemeinmenu.cpp'; else $(CYGPATH_W) '$(srcdir)/kpstatemeinmenu.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpstatemainmenu.obj `if test -f 'kpstatemainmenu.cpp'; then $(CYGPATH_W) 'kpstatemainmenu.cpp'; else $(CYGPATH_W) '$(srcdir)/kpstatemainmenu.cpp'; fi`
 
 khunphan-kpstatefactory.o: kpstatefactory.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpstatefactory.o -MD -MP -MF $(DEPDIR)/khunphan-kpstatefactory.Tpo -c -o khunphan-kpstatefactory.o `test -f 'kpstatefactory.cpp' || echo '$(srcdir)/'`kpstatefactory.cpp
