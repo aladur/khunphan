@@ -1,5 +1,5 @@
 /*
-    bthreadsolvecount.cpp
+    kpthreadsolvecount.cpp
 
 
     Automatic solution finder for KhunPhan game

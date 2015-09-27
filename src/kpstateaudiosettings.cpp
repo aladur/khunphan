@@ -1,5 +1,5 @@
 /*
-    kpstateaudiosettings.h
+    kpstateaudiosettings.cpp
 
     Automatic solution finder for KhunPhan game
     Copyright (C) 2001-2015  W. Schwotzer
