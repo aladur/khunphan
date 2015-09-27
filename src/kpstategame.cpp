@@ -76,47 +76,47 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
             KPConfig::Instance().SoundVolume : 0);
     pContext->GetUserInterface().PlayMusic(KPConfig::Instance().MusicOn, false);
 
-    menu.SchildArray[SHLD_LOGO].Positioniere(0,11,4,12);
-    menu.SchildArray[SHLD_LOGO].SetzeSignal(S_LOGO);
+    menu.plates[SHLD_LOGO].Positioniere(0,11,4,12);
+    menu.plates[SHLD_LOGO].SetzeSignal(S_LOGO);
 
-    pContext->GetMenu().TextfeldArray[T_MINMOVECOUNT].FormatText(NULL,
+    pContext->GetMenu().labels[T_MINMOVECOUNT].FormatText(NULL,
             pContext->GetBoardView().GetMovesToSolve());
-    pContext->GetMenu().TextfeldArray[T_MOVECOUNT   ].FormatText(NULL,
+    pContext->GetMenu().labels[T_MOVECOUNT].FormatText(NULL,
             pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
 
     if (KPConfig::Instance().SolutionHint)
     {
-        menu.TextfeldArray[T_MINMOVECOUNT].Positioniere(7,0.1f,0.6f);
+        menu.labels[T_MINMOVECOUNT].Positioniere(7,0.1f,0.6f);
     }
 
-    menu.TextfeldArray[T_MOVECOUNT].Positioniere(4,0.1f,0.6f);
-    menu.TextfeldArray[T_TIME     ].Positioniere(12.5,0.1f,0.6f);
+    menu.labels[T_MOVECOUNT].Positioniere(4,0.1f,0.6f);
+    menu.labels[T_TIME].Positioniere(12.5,0.1f,0.6f);
 
     if (KPConfig::Instance().UserInterface == 0)
     {
         if (KPConfig::Instance().SoundOn)
         {
-            menu.SchildArray[SHLD_SOUND_ON].Positioniere(0.3f,0.1f,1,0.5);
-            menu.SchildArray[SHLD_SOUND_ON].SetzeSignal(S_TOGGLE_SOUND_ON);
-            menu.SchildArray[SHLD_SOUND_ON].VollSichtbar();
+            menu.plates[SHLD_SOUND_ON].Positioniere(0.3f,0.1f,1,0.5);
+            menu.plates[SHLD_SOUND_ON].SetzeSignal(S_TOGGLE_SOUND_ON);
+            menu.plates[SHLD_SOUND_ON].VollSichtbar();
         }
         else
         {
-            menu.SchildArray[SHLD_SOUND_OFF].Positioniere(0.3f,0.1f,1,0.5);
-            menu.SchildArray[SHLD_SOUND_OFF].SetzeSignal(S_TOGGLE_SOUND_ON);
-            menu.SchildArray[SHLD_SOUND_OFF].VollSichtbar();
+            menu.plates[SHLD_SOUND_OFF].Positioniere(0.3f,0.1f,1,0.5);
+            menu.plates[SHLD_SOUND_OFF].SetzeSignal(S_TOGGLE_SOUND_ON);
+            menu.plates[SHLD_SOUND_OFF].VollSichtbar();
         }
         if (KPConfig::Instance().MusicOn)
         {
-            menu.SchildArray[SHLD_MUSIC_ON].Positioniere(1.0f,0.1f,1.6f,0.5);
-            menu.SchildArray[SHLD_MUSIC_ON].SetzeSignal(S_TOGGLE_MUSIC_ON);
-            menu.SchildArray[SHLD_MUSIC_ON].VollSichtbar();
+            menu.plates[SHLD_MUSIC_ON].Positioniere(1.0f,0.1f,1.6f,0.5);
+            menu.plates[SHLD_MUSIC_ON].SetzeSignal(S_TOGGLE_MUSIC_ON);
+            menu.plates[SHLD_MUSIC_ON].VollSichtbar();
         }
         else
         {
-            menu.SchildArray[SHLD_MUSIC_OFF].Positioniere(1.0f,0.1f,1.6f,0.5);
-            menu.SchildArray[SHLD_MUSIC_OFF].SetzeSignal(S_TOGGLE_MUSIC_ON);
-            menu.SchildArray[SHLD_MUSIC_OFF].VollSichtbar();
+            menu.plates[SHLD_MUSIC_OFF].Positioniere(1.0f,0.1f,1.6f,0.5);
+            menu.plates[SHLD_MUSIC_OFF].SetzeSignal(S_TOGGLE_MUSIC_ON);
+            menu.plates[SHLD_MUSIC_OFF].VollSichtbar();
         }
     }
 
@@ -254,7 +254,7 @@ void KPstateGame::Update(KPstateContext *pContext, int factor)
     {
         // update approx. 8 times per second
         counter -= TOTAL_ANIMATIONTIME;
-        pContext->GetMenu().TextfeldArray[T_TIME].FormatText(NULL,
+        pContext->GetMenu().labels[T_TIME].FormatText(NULL,
                 pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS).c_str());
     }
 }
@@ -276,18 +276,18 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */)
 
     if (bIsPause)
     {
-        menu.SchildArray[SHLD_LOGO].Positioniere(4,9,12,11);
-        menu.SchildArray[SHLD_SHADER].Positioniere(0,0,16,12);
-        menu.SchildArray[SHLD_SHADER].Eingeblendet();
-        menu.TextfeldArray[T_PAUSE].Positioniere(8,6,3,A_MITTE);
-        menu.TextfeldArray[T_PAUSE].VollSichtbar();
+        menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
+        menu.plates[SHLD_SHADER].Positioniere(0,0,16,12);
+        menu.plates[SHLD_SHADER].Eingeblendet();
+        menu.labels[T_PAUSE].Positioniere(8,6,3,A_MITTE);
+        menu.labels[T_PAUSE].VollSichtbar();
     }
     else
     {
-        menu.SchildArray[SHLD_LOGO].Positioniere(0,11,4,12);
-        menu.SchildArray[SHLD_LOGO].SetzeSignal(S_LOGO);
-        menu.SchildArray[SHLD_SHADER].Desaktiviere();
-        menu.TextfeldArray[T_PAUSE].Desaktiviere();
+        menu.plates[SHLD_LOGO].Positioniere(0,11,4,12);
+        menu.plates[SHLD_LOGO].SetzeSignal(S_LOGO);
+        menu.plates[SHLD_SHADER].Desaktiviere();
+        menu.labels[T_PAUSE].Desaktiviere();
     }
     StartAnimation();
 }

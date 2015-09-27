@@ -149,8 +149,8 @@ protected:
 
     KPprogressBar progressBar;
 
-    tIdToPlate   SchildArray;
-    tIdToLabel TextfeldArray;
+    tIdToPlate   plates;
+    tIdToLabel labels;
 
     tKPMenuState lastState;
 };

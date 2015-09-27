@@ -40,17 +40,17 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(4.5,4.5,11.5,8.5);
+    menu.plates[SHLD_MENUBACKGROUND].Positioniere(4.5,4.5,11.5,8.5);
 
-    menu.SchildArray[SHLD_LOGO].Positioniere(4,9,12,11);
-    menu.SchildArray[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
+    menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_BEENDEN  ].Positioniere(8,8,1,A_MITTE);
-    menu.TextfeldArray[T_BEENDEN  ].VollSichtbar();
-    menu.TextfeldArray[T_JABEENDEN].Positioniere(8,6,1,A_MITTE);
-    menu.TextfeldArray[T_JABEENDEN].SetzeSignal(S_FINISH);
-    menu.TextfeldArray[T_ZURUECK  ].Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_ZURUECK  ].SetzeSignal(S_BACK);
+    menu.labels[T_BEENDEN].Positioniere(8,8,1,A_MITTE);
+    menu.labels[T_BEENDEN].VollSichtbar();
+    menu.labels[T_JABEENDEN].Positioniere(8,6,1,A_MITTE);
+    menu.labels[T_JABEENDEN].SetzeSignal(S_FINISH);
+    menu.labels[T_ZURUECK].Positioniere(8,1,1,A_MITTE);
+    menu.labels[T_ZURUECK].SetzeSignal(S_BACK);
 
     StartAnimation();
 }

@@ -40,31 +40,31 @@ void KPstateSettings::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(4,2.5,12,8.5);
-    menu.SchildArray[SHLD_LOGO].Positioniere(4,9,12,11);
-    menu.SchildArray[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_MENUBACKGROUND].Positioniere(4,2.5,12,8.5);
+    menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
+    menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_EINSTELLUNGEN].Positioniere(8,8,1,A_MITTE);
-    menu.TextfeldArray[T_EINSTELLUNGEN].VollSichtbar();
+    menu.labels[T_EINSTELLUNGEN].Positioniere(8,8,1,A_MITTE);
+    menu.labels[T_EINSTELLUNGEN].VollSichtbar();
 
     float y = 6.5;
-    menu.TextfeldArray[T_STEUERUNG].Positioniere(8,y,1,A_MITTE);
+    menu.labels[T_STEUERUNG].Positioniere(8,y,1,A_MITTE);
     y -= 1.0;
-    menu.TextfeldArray[T_STEUERUNG].SetzeSignal(S_CONTROL_SETTINGS);
+    menu.labels[T_STEUERUNG].SetzeSignal(S_CONTROL_SETTINGS);
 
-    menu.TextfeldArray[T_GRAFIK   ].Positioniere(8,y,1,A_MITTE);
+    menu.labels[T_GRAFIK].Positioniere(8,y,1,A_MITTE);
     y -= 1.0;
-    menu.TextfeldArray[T_GRAFIK   ].SetzeSignal(S_GRAPHIC_SETTINGS);
+    menu.labels[T_GRAFIK].SetzeSignal(S_GRAPHIC_SETTINGS);
 
-    menu.TextfeldArray[T_AUDIO    ].Positioniere(8,y,1,A_MITTE);
+    menu.labels[T_AUDIO].Positioniere(8,y,1,A_MITTE);
     y -= 1.0;
-    menu.TextfeldArray[T_AUDIO    ].SetzeSignal(S_AUDIO_SETTINGS);
+    menu.labels[T_AUDIO].SetzeSignal(S_AUDIO_SETTINGS);
 
-    menu.TextfeldArray[T_SPRACHE  ].Positioniere(8,y,1,A_MITTE);
-    menu.TextfeldArray[T_SPRACHE  ].SetzeSignal(S_SELECT_LANGUAGE);
+    menu.labels[T_SPRACHE].Positioniere(8,y,1,A_MITTE);
+    menu.labels[T_SPRACHE].SetzeSignal(S_SELECT_LANGUAGE);
 
-    menu.TextfeldArray[T_ZURUECK  ].Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_ZURUECK  ].SetzeSignal(S_BACK);
+    menu.labels[T_ZURUECK].Positioniere(8,1,1,A_MITTE);
+    menu.labels[T_ZURUECK].SetzeSignal(S_BACK);
 
     StartAnimation();
 }

@@ -48,19 +48,19 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext)
     float dy = 0.6f;
     int textfeldIdx;
 
-    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(2,3.5,14,8.5);
+    menu.plates[SHLD_MENUBACKGROUND].Positioniere(2,3.5,14,8.5);
 
-    menu.SchildArray[SHLD_LOGO].Positioniere(4,9,12,11);
-    menu.SchildArray[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
+    menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_EINSTELLUNGEN].Positioniere(4,8,1);
-    menu.TextfeldArray[T_EINSTELLUNGEN].VollSichtbar();
-    menu.TextfeldArray[T_AUDIO].Positioniere(12,8,1,A_RECHTS);
-    menu.TextfeldArray[T_AUDIO].VollSichtbar();
+    menu.labels[T_EINSTELLUNGEN].Positioniere(4,8,1);
+    menu.labels[T_EINSTELLUNGEN].VollSichtbar();
+    menu.labels[T_AUDIO].Positioniere(12,8,1,A_RECHTS);
+    menu.labels[T_AUDIO].VollSichtbar();
 
     y = 6.0;
-    menu.TextfeldArray[T_SND_VOLUME].Positioniere(8,y,0.71f,A_RECHTS);
-    menu.TextfeldArray[T_SND_VOLUME].SetzeSignal(S_TOGGLE_SOUND_VOLUME);
+    menu.labels[T_SND_VOLUME].Positioniere(8,y,0.71f,A_RECHTS);
+    menu.labels[T_SND_VOLUME].SetzeSignal(S_TOGGLE_SOUND_VOLUME);
 
     if (E_SoundVolume >= 100)
     {
@@ -107,12 +107,12 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext)
         textfeldIdx = T_SND_VOL_OFF;
     }
 
-    menu.TextfeldArray[textfeldIdx].Positioniere(8.2f,y,0.71f);
-    menu.TextfeldArray[textfeldIdx].SetzeSignal(S_TOGGLE_SOUND_VOLUME);
+    menu.labels[textfeldIdx].Positioniere(8.2f,y,0.71f);
+    menu.labels[textfeldIdx].SetzeSignal(S_TOGGLE_SOUND_VOLUME);
 
     y -= dy;
-    menu.TextfeldArray[T_MUSIC_VOLUME].Positioniere(8,y,0.71f,A_RECHTS);
-    menu.TextfeldArray[T_MUSIC_VOLUME].SetzeSignal(S_TOGGLE_MUSIC_VOLUME);
+    menu.labels[T_MUSIC_VOLUME].Positioniere(8,y,0.71f,A_RECHTS);
+    menu.labels[T_MUSIC_VOLUME].SetzeSignal(S_TOGGLE_MUSIC_VOLUME);
 
     if (E_MusicVolume >= 100)
     {
@@ -159,11 +159,11 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext)
         textfeldIdx = T_MSC_VOL_OFF;
     }
 
-    menu.TextfeldArray[textfeldIdx].Positioniere(8.2f,y,0.71f);
-    menu.TextfeldArray[textfeldIdx].SetzeSignal(S_TOGGLE_MUSIC_VOLUME);
+    menu.labels[textfeldIdx].Positioniere(8.2f,y,0.71f);
+    menu.labels[textfeldIdx].SetzeSignal(S_TOGGLE_MUSIC_VOLUME);
 
-    menu.TextfeldArray[T_ZURUECK].Positioniere(8,0.7f,1,A_MITTE);
-    menu.TextfeldArray[T_ZURUECK].SetzeSignal(S_BACK);
+    menu.labels[T_ZURUECK].Positioniere(8,0.7f,1,A_MITTE);
+    menu.labels[T_ZURUECK].SetzeSignal(S_BACK);
 
     StartAnimation();
 }

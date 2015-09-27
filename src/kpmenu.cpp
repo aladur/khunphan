@@ -40,16 +40,16 @@ KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(KPState_Invalid)
 bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
                         int Language /* = 0*/)
 {
-    SchildArray[SHLD_MENUBACKGROUND] = Plate();
-    SchildArray[SHLD_SHADER        ] = Plate();
-    SchildArray[SHLD_LOGO          ] = Plate();
-    SchildArray[SHLD_SOUND_ON      ] = Plate();
-    SchildArray[SHLD_SOUND_OFF     ] = Plate();
-    SchildArray[SHLD_MUSIC_ON      ] = Plate();
-    SchildArray[SHLD_MUSIC_OFF     ] = Plate();
+    plates[SHLD_MENUBACKGROUND] = Plate();
+    plates[SHLD_SHADER        ] = Plate();
+    plates[SHLD_LOGO          ] = Plate();
+    plates[SHLD_SOUND_ON      ] = Plate();
+    plates[SHLD_SOUND_OFF     ] = Plate();
+    plates[SHLD_MUSIC_ON      ] = Plate();
+    plates[SHLD_MUSIC_OFF     ] = Plate();
 
-    SchildArray[SHLD_MENUBACKGROUND].Initialisiere(0.7f,0.7f,0.7f);
-    SchildArray[SHLD_SHADER        ].Initialisiere(0.0, 0.0, 0.0);
+    plates[SHLD_MENUBACKGROUND].Initialisiere(0.7f,0.7f,0.7f);
+    plates[SHLD_SHADER        ].Initialisiere(0.0, 0.0, 0.0);
 
     Update(TextureName, TextureSize, Nearest);
 
@@ -63,7 +63,7 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
         LoadLanguage(Language);
     }
 
-    if (TextfeldArray.empty())
+    if (labels.empty())
     {
         message(mtError, " *** Error loading language. Program aborted\n");
         return false;
@@ -73,7 +73,7 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
 
     tIdToLabel::iterator it;
 
-    for (it = TextfeldArray.begin(); it != TextfeldArray.end(); ++it)
+    for (it = labels.begin(); it != labels.end(); ++it)
     {
         it->second.GeneriereDisplayList();
     }
@@ -90,16 +90,16 @@ void KPmenu::Update(const char *TextureName, int TextureSize, bool Nearest,
     Label::PreInitialize(TextureName, TextureSize, Nearest,
                          &KPConfig::Instance(), always);
 
-    SchildArray[SHLD_LOGO].Initialisiere(TextureName, TextureSize, Nearest,
+    plates[SHLD_LOGO].Initialisiere(TextureName, TextureSize, Nearest,
                                          true, "logo", &KPConfig::Instance(),
                                          always);
-    SchildArray[SHLD_SOUND_ON].Initialisiere(TextureName, TextureSize, Nearest,
+    plates[SHLD_SOUND_ON].Initialisiere(TextureName, TextureSize, Nearest,
             true, "sound_on", &KPConfig::Instance(), always);
-    SchildArray[SHLD_SOUND_OFF].Initialisiere(TextureName, TextureSize,
+    plates[SHLD_SOUND_OFF].Initialisiere(TextureName, TextureSize,
             Nearest, true, "soundmusic_off", &KPConfig::Instance(), always);
-    SchildArray[SHLD_MUSIC_ON].Initialisiere(TextureName, TextureSize, Nearest,
+    plates[SHLD_MUSIC_ON].Initialisiere(TextureName, TextureSize, Nearest,
             true, "music_on", &KPConfig::Instance(), always);
-    SchildArray[SHLD_MUSIC_OFF].Initialisiere(TextureName, TextureSize,
+    plates[SHLD_MUSIC_OFF].Initialisiere(TextureName, TextureSize,
             Nearest, true, "soundmusic_off", &KPConfig::Instance(), always);
 }
 
@@ -111,9 +111,9 @@ bool KPmenu::LoadLanguage(int Language)
     FILE *f = NULL;
     std::string file;
 
-    if (TextfeldArray.find(Language) != TextfeldArray.end())
+    if (labels.find(Language) != labels.end())
     {
-        LOG2(" ", TextfeldArray[Language].Text());
+        LOG2(" ", labels[Language].Text());
     }
     sprinter::sprintf(file,
                       "%s%d.lang",
@@ -163,14 +163,14 @@ void KPmenu::AddTextField(int number, const char word[])
 {
     if (word != NULL)
     {
-        if (TextfeldArray.find(number) != TextfeldArray.end())
+        if (labels.find(number) != labels.end())
         {
-            TextfeldArray[number].SetzeTextKDL(word);
+            labels[number].SetzeTextKDL(word);
         }
         else
         {
-            TextfeldArray[number] = Label();
-            TextfeldArray[number].InitialisiereKDL(word);
+            labels[number] = Label();
+            labels[number].InitialisiereKDL(word);
         }
     }
 }
@@ -179,7 +179,7 @@ void KPmenu::DeactivateAllLabels()
 {
     tIdToPlate::iterator it;
 
-    for (it = SchildArray.begin(); it != SchildArray.end(); ++it)
+    for (it = plates.begin(); it != plates.end(); ++it)
     {
         it->second.Desaktiviere();
     }
@@ -204,7 +204,7 @@ void KPmenu::Draw()
 
     tIdToPlate::iterator sit;
 
-    for (sit = SchildArray.begin(); sit != SchildArray.end(); ++sit)
+    for (sit = plates.begin(); sit != plates.end(); ++sit)
     {
         if (sit->first != SHLD_SHADER)
         {
@@ -214,7 +214,7 @@ void KPmenu::Draw()
 
     tIdToLabel::iterator tit;
 
-    for (tit = TextfeldArray.begin(); tit != TextfeldArray.end(); ++tit)
+    for (tit = labels.begin(); tit != labels.end(); ++tit)
     {
         tit->second.male();
     }
@@ -225,7 +225,7 @@ void KPmenu::Draw()
 
     // This should always be the last one because it
     // should shade all other drawing primitives
-    SchildArray[SHLD_SHADER].male();
+    plates[SHLD_SHADER].male();
 
     glDisable(GL_BLEND);
     glEnable(GL_LIGHTING);
@@ -234,5 +234,5 @@ void KPmenu::Draw()
 
 void KPmenu::UpdateFPS(int fps, float renderTime)
 {
-    TextfeldArray[T_FPS].FormatText(NULL, fps, renderTime);
+    labels[T_FPS].FormatText(NULL, fps, renderTime);
 }

@@ -49,13 +49,13 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
 
     KPConfig::Instance().SavedGame = 0;
 
-    it = menu.TextfeldArray.find(T_NAME_FIELD);
-    if (it == menu.TextfeldArray.end())
+    it = menu.labels.find(T_NAME_FIELD);
+    if (it == menu.labels.end())
     {
-        menu.TextfeldArray[T_NAME_FIELD] = Label();
+        menu.labels[T_NAME_FIELD] = Label();
     }
 
-    menu.TextfeldArray[T_NAME_FIELD].Initialisiere("");
+    menu.labels[T_NAME_FIELD].Initialisiere("");
 
     if (statistics.GetEventCounter(USED_CHEATS_CNT) != 0)
         // Game solved but cheats used
@@ -90,52 +90,52 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
     KPmenu &menu             = pContext->GetMenu();
     KPStatistics &statistics = pContext->GetStatistics();
 
-    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(1,3.0,15,8.5);
+    menu.plates[SHLD_MENUBACKGROUND].Positioniere(1,3.0,15,8.5);
 
-    menu.SchildArray[SHLD_LOGO].Positioniere(5,9,11,11);
-    menu.SchildArray[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].Positioniere(5,9,11,11);
+    menu.plates[SHLD_LOGO].VollSichtbar();
 
     float y = 7.5;
-    menu.TextfeldArray[T_SOLVED1].FormatText(NULL,
+    menu.labels[T_SOLVED1].FormatText(NULL,
             statistics.GetEventCounter(MOVE_COUNTER),
             statistics.GetTotalTime(RTIME_MM_ss).c_str());
-    menu.TextfeldArray[T_SOLVED1].Positioniere(8,y,0.6f,A_MITTE);
+    menu.labels[T_SOLVED1].Positioniere(8,y,0.6f,A_MITTE);
     y-= 0.6f;
 
-    it = menu.TextfeldArray.find(tf_index);
-    if (it != menu.TextfeldArray.end())
+    it = menu.labels.find(tf_index);
+    if (it != menu.labels.end())
     {
-        menu.TextfeldArray[tf_index].FormatText(NULL,
+        menu.labels[tf_index].FormatText(NULL,
                 statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
-        menu.TextfeldArray[tf_index  ].Positioniere(8,y,0.6f,A_MITTE);
+        menu.labels[tf_index].Positioniere(8,y,0.6f,A_MITTE);
         y-= 0.6f;
     }
 
-    it = menu.TextfeldArray.find(tf_index+1);
-    if (it != menu.TextfeldArray.end())
+    it = menu.labels.find(tf_index+1);
+    if (it != menu.labels.end())
     {
-        menu.TextfeldArray[tf_index+1].Positioniere(8,y,0.6f,A_MITTE);
+        menu.labels[tf_index+1].Positioniere(8,y,0.6f,A_MITTE);
     }
 
     y-= 0.6f;
-    it = menu.TextfeldArray.find(tf_index+2);
-    if (it != menu.TextfeldArray.end())
+    it = menu.labels.find(tf_index+2);
+    if (it != menu.labels.end())
     {
-        menu.TextfeldArray[tf_index+2].Positioniere(8,y,0.6f,A_MITTE);
+        menu.labels[tf_index+2].Positioniere(8,y,0.6f,A_MITTE);
     }
     y-= 1.0;
 
     if (addToScoreList)
     {
-        menu.TextfeldArray[T_INPUT_NAME].Positioniere(8,y,1,A_MITTE);
+        menu.labels[T_INPUT_NAME].Positioniere(8,y,1,A_MITTE);
         y -= 1.0;
-        menu.TextfeldArray[T_NAME_FIELD].Positioniere(8,y,1, A_MITTE);
-        menu.TextfeldArray[T_NAME_FIELD].SetMaxCharacters(24);
-        menu.TextfeldArray[T_NAME_FIELD].SetInputFocus(addToScoreList);
+        menu.labels[T_NAME_FIELD].Positioniere(8,y,1, A_MITTE);
+        menu.labels[T_NAME_FIELD].SetMaxCharacters(24);
+        menu.labels[T_NAME_FIELD].SetInputFocus(addToScoreList);
     }
 
-    menu.TextfeldArray[T_WEITER].Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_WEITER].SetzeSignal(S_CONTINUE);
+    menu.labels[T_WEITER].Positioniere(8,1,1,A_MITTE);
+    menu.labels[T_WEITER].SetzeSignal(S_CONTINUE);
 
     StartAnimation();
 }
@@ -145,7 +145,7 @@ void KPstateGameSolved::KeyPressed (KPstateContext *pContext, unsigned char key,
 {
     if (EvaluateKeyPressed(pContext, key, x, y))
     {
-        if (pContext->GetMenu().TextfeldArray[T_NAME_FIELD].HasInputFocus())
+        if (pContext->GetMenu().labels[T_NAME_FIELD].HasInputFocus())
         {
             UpdateDisplay(pContext);
         }
@@ -187,7 +187,7 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext)
     if (addToScoreList)
     {
         KPscore::Instance().Add(pContext->GetMenu()
-                                .TextfeldArray[T_NAME_FIELD].Text(),
+                                .labels[T_NAME_FIELD].Text(),
                                 pContext->GetStatistics().GetTotalTime(),
                                 pContext->GetStatistics()
                                 .GetEventCounter(MOVE_COUNTER), 0);

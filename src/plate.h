@@ -34,19 +34,22 @@ public:
     void SetzeZielZustand(int);
     void SetzeSignal(int);
     void KopieVon(Plate);
-    int SchildIndex;
-    int SchildTyp;
-    float Aspekt;
+    int DisplayList;
+    int Type;
+    float AspectRatio;
 private:
-    float ax,ay,bx,by;
+    float ax, ay;
+    float bx, by;
     float Alpha;
-    float soll_ax,soll_ay,soll_bx,soll_by;
-    float soll_Alpha;
-    float alt_ax,alt_ay,alt_bx,alt_by;
-    float alt_Alpha;
+    float target_ax, target_ay;
+    float target_bx, target_by;
+    float target_Alpha;
+    float old_ax, old_ay;
+    float old_bx, old_by;
+    float old_Alpha;
     int InAnimation;
     int Signal;
-    int Zeit;
+    int Time;
     float r, g, b; // Color
     unsigned int texture;
     unsigned short textureSource;

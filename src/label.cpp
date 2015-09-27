@@ -24,7 +24,7 @@
 #include "kpuibase.h"
 
 
-int Label::links[] =
+int Label::left[] =
 {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -45,7 +45,7 @@ int Label::links[] =
     9,  9,  8,  8,  8,  8,  8,  0,  7,  8,  8,  8,  8,  6,  8,  6
 };
 
-int Label::rechts[]=
+int Label::right[]=
 {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -73,11 +73,11 @@ tActivated Label::activated;
 
 Label::Label() : pString(NULL), size(0),
     x(0), y(0),
-    Hoehe(0), Aspekt(0), Alpha(0),
-    alt_x(0),  alt_y(0),  alt_Hoehe(0),  alt_Alpha(0),
-    soll_x(0), soll_y(0), soll_Hoehe(0), soll_Alpha(0),
-    Ausrichtung(0), InAnimation(false), Signal(0), Zeit(0),
-    TextfeldIndex(0), hasInputFocus(false), lineCount(0),
+    Height(0), AspectRatio(0), Alpha(0),
+    old_x(0),  old_y(0),  old_Height(0),  old_Alpha(0),
+    target_x(0), target_y(0), target_Height(0), target_Alpha(0),
+    Alignment(0), InAnimation(false), Signal(0), Time(0),
+    DisplayList(0), hasInputFocus(false), lineCount(0),
     MaxCharacters(32), maxWidth(0)
 {
 }
@@ -99,11 +99,11 @@ void Label::DeactivateAll()
     Label::activated.clear();
 }
 
-void Label::SetActive(Label *pTextfeld)
+void Label::SetActive(Label *pLabel)
 {
-    if (activated.find(pTextfeld) == activated.end())
+    if (activated.find(pLabel) == activated.end())
     {
-        activated.insert(pTextfeld);
+        activated.insert(pLabel);
     }
 }
 
@@ -197,14 +197,14 @@ void Label::PreInitialize(const char *TextureName, unsigned int TextureSize,
 
 void Label::Initialisiere()
 {
-    x=y=Hoehe=Aspekt=Alpha=0.0;
-    alt_x=alt_y=alt_Hoehe=alt_Alpha=0.0;
-    soll_x=soll_y=soll_Hoehe=soll_Alpha=0.0;
-    Ausrichtung=A_LINKS;
-    InAnimation=false;
-    Signal=0;
-    Zeit=0;
-    hasInputFocus=false;
+    x = y = Height = AspectRatio = Alpha = 0.0;
+    old_x = old_y = old_Height = old_Alpha = 0.0;
+    target_x = target_y = target_Height = target_Alpha = 0.0;
+    Alignment = A_LINKS;
+    InAnimation = false;
+    Signal = 0;
+    Time = 0;
+    hasInputFocus = false;
 }
 
 void Label::Initialisiere(const char TextZ[])
@@ -226,9 +226,9 @@ void Label::male()
         glPushMatrix();
         glEnable(GL_TEXTURE_2D);
         glTranslatef(x, y, 0);
-        glScalef(Hoehe,Hoehe,1);
+        glScalef(Height, Height, 1);
         glColor4f(1.0,1.0,1.0,Alpha);
-        glCallList(TextfeldIndex);
+        glCallList(DisplayList);
         glPopMatrix();
     }
 }
@@ -238,48 +238,48 @@ void Label::Positioniere(float X, float Y, float H, tKPAlignment A)
 
     if (A != A_EGAL)
     {
-        Ausrichtung=A;
+        Alignment=A;
     }
 
-    switch (Ausrichtung)
+    switch (Alignment)
     {
         case A_LINKS:
         {
-            soll_x = X;
+            target_x = X;
         }
         break;
         case A_MITTE:
         {
-            soll_x = X-0.5f*Aspekt*H;
+            target_x = X - 0.5f * AspectRatio * H;
         }
         break;
         case A_RECHTS:
         {
-            soll_x = X-Aspekt*H;
+            target_x = X - AspectRatio * H;
         }
         break;
     }
 
-    soll_y     = Y;
-    soll_Hoehe = H;
-    soll_Alpha = MOD_EINGEBLENDET;
+    target_y     = Y;
+    target_Height = H;
+    target_Alpha = MOD_EINGEBLENDET;
 
     if (Alpha == MOD_AUSGEBLENDET)
     {
 
-        x=((soll_x-8)/1.5f)+8;
-        y=((soll_y-6)/1.5f)+6;
-        Hoehe=soll_Hoehe/1.5f;
+        x = ((target_x - 8) / 1.5f) + 8;
+        y = ((target_y - 6) / 1.5f) + 6;
+        Height = target_Height / 1.5f;
 
         /*
-          ax=((24.0*rand())/RAND_MAX)-4;
-          ay=((14.0*rand())/RAND_MAX)-1;
-          bx=ax+2*(bx_-ax_);
-          by=ay+2*(by_-ay_);
+        ax = ((24.0 * rand()) / RAND_MAX) - 4;
+        ay = ((14.0 * rand()) / RAND_MAX) - 1;
+        bx = ax + 2 * (bx_ - ax_);
+        by = ay + 2 * (by_ - ay_);
         */
     }
 
-    Signal=0;
+    Signal = 0;
 
     StarteAnimation();
 }
@@ -406,12 +406,12 @@ int Label::vsprintf(const char *_format, va_list arg_ptr)
     return strlen(pString);
 }
 
-bool Label::Zeichen(char Taste)
+bool Label::Zeichen(char key)
 {
     if (hasInputFocus)
     {
         CheckValidString(strlen(pString) + 2, pString);
-        if (Taste>=32 && Taste<127)  // Add character
+        if (key >= ' ' && key <= '~')  // Add character
         {
             size_t size;
 
@@ -420,14 +420,14 @@ bool Label::Zeichen(char Taste)
                 return true;
             }
             size = strlen(pString);
-            pString[size] = Taste;
+            pString[size] = key;
             pString[size+1] = '\0';
             GeneriereDisplayList();
             return true;
         }
-        else if (Taste==8 || Taste==127)     // Delete last character
+        else if (key == '\b' || key == 127)     // Delete last character
         {
-            for (GLint i=0; i<size; i++)
+            for (GLint i = 0; i < size; i++)
                 if (!pString[i+1])
                 {
                     pString[i]='\0';
@@ -435,11 +435,12 @@ bool Label::Zeichen(char Taste)
             GeneriereDisplayList();
             return true;
         }
-        else if (Taste==13 || Taste==10) // Commit input with Enter or Line Feed
+        else if (key == '\r' || key == '\n')
         {
-            soll_Alpha = MOD_EINGEBLENDET;
+            // Commit input with Enter or Line Feed
+            target_Alpha = MOD_EINGEBLENDET;
             hasInputFocus = false;
-            if (soll_Alpha!=Alpha)
+            if (target_Alpha != Alpha)
             {
                 StarteAnimation();
             }
@@ -456,21 +457,21 @@ const char *Label::Text()
 
 bool Label::IsDeactivated() const
 {
-    return ((soll_Alpha != Alpha && (soll_Alpha == MOD_AUSGEBLENDET)) ||
+    return ((target_Alpha != Alpha && (target_Alpha == MOD_AUSGEBLENDET)) ||
             (Alpha == MOD_AUSGEBLENDET));
 }
 
 void Label::Desaktiviere()
 {
-    soll_Alpha = MOD_AUSGEBLENDET;
+    target_Alpha = MOD_AUSGEBLENDET;
 
-    soll_x=((x-8)*1.5f)+8;
-    soll_y=((y-6)*1.5f)+6;
-    soll_Hoehe=Hoehe*1.5f;
+    target_x=((x - 8) * 1.5f) + 8;
+    target_y=((y - 6) * 1.5f) + 6;
+    target_Height = Height * 1.5f;
 
     hasInputFocus = false;
 
-    if (soll_Alpha!=Alpha)
+    if (target_Alpha != Alpha)
     {
         StarteAnimation();
     }
@@ -486,7 +487,7 @@ void Label::SetInputFocus(bool state)
     }
     else
     {
-        if (Alpha && soll_Alpha)
+        if (Alpha && target_Alpha)
         {
             Eingeblendet();
         }
@@ -496,8 +497,8 @@ void Label::SetInputFocus(bool state)
 void Label::Angewaehlt()
 {
     Alpha = MOD_ANGEWAEHLT;
-    soll_Alpha = MOD_EINGEBLENDET;
-    if (soll_Alpha!=Alpha)
+    target_Alpha = MOD_EINGEBLENDET;
+    if (target_Alpha!=Alpha)
     {
         StarteAnimation();
     }
@@ -505,8 +506,8 @@ void Label::Angewaehlt()
 
 void Label::Eingeblendet()
 {
-    soll_Alpha = MOD_EINGEBLENDET;
-    if (soll_Alpha!=Alpha)
+    target_Alpha = MOD_EINGEBLENDET;
+    if (target_Alpha!=Alpha)
     {
         StarteAnimation();
     }
@@ -514,82 +515,83 @@ void Label::Eingeblendet()
 
 void Label::VollSichtbar()
 {
-    soll_Alpha =MOD_VOLLSICHTBAR;
-    if (soll_Alpha!=Alpha)
+    target_Alpha =MOD_VOLLSICHTBAR;
+    if (target_Alpha!=Alpha)
     {
         StarteAnimation();
     }
 }
 
-int Label::Animiere(int Faktor)
+int Label::Animiere(int factor)
 {
     if (!InAnimation)
     {
         return 0;
     }
-    Zeit+=Faktor;
-    if (Zeit>=TOTAL_ANIMATIONTIME)
+    Time += factor;
+    if (Time >= TOTAL_ANIMATIONTIME)
     {
-        x=soll_x;
-        y=soll_y;
-        Hoehe=soll_Hoehe;
-        Alpha=soll_Alpha;
-        InAnimation=false;
+        x = target_x;
+        y = target_y;
+        Height = target_Height;
+        Alpha = target_Alpha;
+        InAnimation = false;
         return 1;
     }
     else
     {
-        GLfloat Faktor = 0.5f - 0.5f * cos(M_PIf * Zeit / TOTAL_ANIMATIONTIME);
+        GLfloat localFactor;
 
-        x=(soll_x-alt_x)*Faktor+alt_x;
-        y=(soll_y-alt_y)*Faktor+alt_y;
-        Hoehe=(soll_Hoehe-alt_Hoehe)*Faktor+alt_Hoehe;
-        Alpha=(soll_Alpha-alt_Alpha)*Faktor+alt_Alpha;
+        localFactor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
+        x      = (target_x - old_x) * localFactor + old_x;
+        y      = (target_y - old_y) * localFactor + old_y;
+        Height = (target_Height - old_Height) * localFactor + old_Height;
+        Alpha  = (target_Alpha - old_Alpha) * localFactor + old_Alpha;
         return 0;
     }
 }
 
-void Label::SetzeSignal(int NeuesSignal)
+void Label::SetzeSignal(int NewSignal)
 {
-    Signal=NeuesSignal;
+    Signal = NewSignal;
 }
 
 void Label::StarteAnimation()
 {
     SetActive(this);
-    InAnimation=true;
-    Zeit=0;
-    alt_x=x;
-    alt_y=y;
-    alt_Hoehe=Hoehe;
-    alt_Alpha=Alpha;
+    InAnimation = true;
+    Time = 0;
+    old_x = x;
+    old_y = y;
+    old_Height = Height;
+    old_Alpha = Alpha;
 }
 
 void Label::GeneriereDisplayList()
 {
     CheckValidString(50);
 
-    if (!TextfeldIndex)
+    if (!DisplayList)
     {
-        TextfeldIndex=glGenLists(1);
+        DisplayList = glGenLists(1);
     }
 
     int x,y;
     float w  = 1.0 / 16.0;
     if (!maxWidth)
     {
-        Aspekt   = 0.0;
+        AspectRatio   = 0.0;
         GLint  p = 0;
         GLuint c = 0;
         lineCount= 1;
-        glNewList(TextfeldIndex, GL_COMPILE);
+        glNewList(DisplayList, GL_COMPILE);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glPushMatrix();
         p=0;
         while ((c = static_cast<unsigned char>(pString[p++])) != '\0')
         {
-            Aspekt+=(rechts[c]-links[c]+4)/64.0f; // Sw: added
-            glTranslatef(-links[c]/64.0f,0,0);
+            AspectRatio += (right[c] - left[c] + 4) / 64.0f; // Sw: added
+            glTranslatef(-left[c] / 64.0f, 0,0);
             glBindTexture(GL_TEXTURE_2D, texture);
             glBegin(GL_QUADS);
             x = c % 16;
@@ -603,7 +605,7 @@ void Label::GeneriereDisplayList()
             glTexCoord2f(w*x,     w*(y+1));
             glVertex2f(0.0,1.0);
             glEnd();
-            glTranslatef((rechts[c]+4)/64.0f,0,0);
+            glTranslatef((right[c] + 4) / 64.0f, 0, 0);
         }
         glPopMatrix();
         glBindTexture(GL_TEXTURE_2D, 0);
@@ -613,7 +615,7 @@ void Label::GeneriereDisplayList()
 
     if (maxWidth)
     {
-        Aspekt=0.0;
+        AspectRatio=0.0;
 
         GLint  start     = 0;
         GLuint character = 0;
@@ -623,7 +625,7 @@ void Label::GeneriereDisplayList()
         lineCount        = 0;
         GLfloat lineWidth= 0.0;
         GLfloat lineWidthUntilLastSpace = 0.0;
-        glNewList(TextfeldIndex,GL_COMPILE);
+        glNewList(DisplayList, GL_COMPILE);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         while (pString[Pos])
         {
@@ -642,7 +644,7 @@ void Label::GeneriereDisplayList()
                     lastSpace = Pos;
                     spaceCount++;
                 }
-                lineWidth += (rechts[character]-links[character]+4)/64.0f;
+                lineWidth += (right[character] - left[character] + 4) / 64.0f;
                 Pos++;
             }
 
@@ -657,7 +659,7 @@ void Label::GeneriereDisplayList()
                 while ((c = static_cast<unsigned char>(pString[Pos++])) &&
                        Pos <= lastSpace)
                 {
-                    glTranslatef(-links[c]/64.0f,0,0);
+                    glTranslatef(-left[c] / 64.0f, 0, 0);
                     glBindTexture(GL_TEXTURE_2D, texture);
                     glBegin(GL_QUADS);
                     x = c % 16;
@@ -671,8 +673,8 @@ void Label::GeneriereDisplayList()
                     glTexCoord2f(w*x,     w*(y+1));
                     glVertex2f(0.0,1.0);
                     glEnd();
-                    glTranslatef((rechts[c]+4)/64.0f,0,0);
-                    if (c==32)
+                    glTranslatef((right[c] + 4) / 64.0f, 0, 0);
+                    if (c == 32)
                     {
                         glTranslatef(delta,0,0);
                     }
@@ -693,7 +695,7 @@ void Label::GeneriereDisplayList()
                 Pos=start;
                 while ((c = static_cast<unsigned char>(pString[Pos++])))
                 {
-                    glTranslatef(-links[c]/64.0f,0,0);
+                    glTranslatef(-left[c] / 64.0f, 0, 0);
                     glBindTexture(GL_TEXTURE_2D, texture);
                     glBegin(GL_QUADS);
                     x = c % 16;
@@ -707,7 +709,7 @@ void Label::GeneriereDisplayList()
                     glTexCoord2f(w*x,     w*(y+1));
                     glVertex2f(0.0,1.0);
                     glEnd();
-                    glTranslatef((rechts[c]+4)/64.0f,0,0);
+                    glTranslatef((right[c] + 4) / 64.0f, 0, 0);
                     if (c==32)
                     {
                         glTranslatef(delta,0,0);
@@ -726,11 +728,12 @@ void Label::GeneriereDisplayList()
 int Label::Maustaste(tMouseButton button, tMouseEvent event,
                         int x_, int y_, KPUIBase &ui)
 {
-    GLfloat xf=16.0f*x_/ ui.GetValue(KP_WINDOW_WIDTH);
-    GLfloat yf=12.0f-12.0f*y_/ ui.GetValue(KP_WINDOW_HEIGHT);
-    if (soll_Alpha>0.0 &&
-        Signal!=0 &&
-        x<=xf && xf<=x+Hoehe*Aspekt && y<=yf && yf<=y+Hoehe)
+    GLfloat xf = 16.0f * x_ / ui.GetValue(KP_WINDOW_WIDTH);
+    GLfloat yf = 12.0f - 12.0f * y_ / ui.GetValue(KP_WINDOW_HEIGHT);
+    if (target_Alpha > 0.0 &&
+        Signal != 0 &&
+        x <= xf && xf <= x + Height * AspectRatio &&
+        y <= yf && yf <= y + Height)
     {
         if (button == KP_LEFT_MB)
         {
@@ -755,17 +758,17 @@ int Label::Maustaste(tMouseButton button, tMouseEvent event,
     }
 }
 
-float Label::TextfeldHoehe()
+float Label::TextfeldHeight()
 {
     return 0.7f * lineCount;
 }
 
 
-void Label::SetzeMaxBreite(float mb)
+void Label::SetzeMaxBreite(float maxWidth_)
 {
-    if (mb < 0)
+    if (maxWidth_ < 0)
     {
-        mb = 0;
+        maxWidth_ = 0;
     }
-    maxWidth = mb;
+    maxWidth = maxWidth_;
 }

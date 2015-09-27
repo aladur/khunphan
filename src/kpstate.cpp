@@ -72,24 +72,24 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
 
     if (KPConfig::Instance().DisplayFPS)
     {
-        menu.TextfeldArray[T_FPS].Positioniere(0.1f, y, 0.3f);
+        menu.labels[T_FPS].Positioniere(0.1f, y, 0.3f);
     }
     y -= 0.6f;
 
     if (menu.IsDisplayOpenGLInfo)
     {
-        menu.TextfeldArray[T_GL_VENDOR  ].FormatText(NULL,
+        menu.labels[T_GL_VENDOR].FormatText(NULL,
                 userInterface.GetOpenGLVendor().c_str());
-        menu.TextfeldArray[T_GL_RENDERER].FormatText(NULL,
+        menu.labels[T_GL_RENDERER].FormatText(NULL,
                 userInterface.GetOpenGLRenderer().c_str());
-        menu.TextfeldArray[T_GL_VERSION ].FormatText(NULL,
+        menu.labels[T_GL_VERSION].FormatText(NULL,
                 userInterface.GetOpenGLVersion().c_str());
 
-        menu.TextfeldArray[T_GL_VENDOR  ].Positioniere(0.1f, y, 0.3f);
+        menu.labels[T_GL_VENDOR].Positioniere(0.1f, y, 0.3f);
         y -= 0.3f;
-        menu.TextfeldArray[T_GL_RENDERER].Positioniere(0.1f, y, 0.3f);
+        menu.labels[T_GL_RENDERER].Positioniere(0.1f, y, 0.3f);
         y -= 0.3f;
-        menu.TextfeldArray[T_GL_VERSION ].Positioniere(0.1f, y, 0.3f);
+        menu.labels[T_GL_VERSION].Positioniere(0.1f, y, 0.3f);
     }
 }
 
@@ -110,7 +110,7 @@ void KPstate::Update(KPstateContext *pContext, int factor)
 
         tIdToPlate::iterator sit;
 
-        for (sit = menu.SchildArray.begin(); sit != menu.SchildArray.end();
+        for (sit = menu.plates.begin(); sit != menu.plates.end();
              ++sit)
         {
             sit->second.Animiere(factor);
@@ -118,7 +118,7 @@ void KPstate::Update(KPstateContext *pContext, int factor)
 
         tIdToLabel::iterator tit;
 
-        for (tit = menu.TextfeldArray.begin(); tit != menu.TextfeldArray.end();
+        for (tit = menu.labels.begin(); tit != menu.labels.end();
              ++tit)
         {
             tit->second.Animiere(factor);
@@ -176,7 +176,7 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
 
     tIdToPlate::iterator sit;
 
-    for (sit = menu.SchildArray.begin(); sit != menu.SchildArray.end(); ++sit)
+    for (sit = menu.plates.begin(); sit != menu.plates.end(); ++sit)
     {
         Signal = sit->second.Maustaste(button,event,x,y,
                  pContext->GetUserInterface());
@@ -189,7 +189,7 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
 
     tIdToLabel::iterator tit;
 
-    for (tit = menu.TextfeldArray.begin(); tit != menu.TextfeldArray.end();
+    for (tit = menu.labels.begin(); tit != menu.labels.end();
          ++tit)
     {
         if (Signal)
@@ -214,7 +214,7 @@ bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
 
     tIdToLabel::iterator it;
 
-    for (it = menu.TextfeldArray.begin(); it != menu.TextfeldArray.end(); ++it)
+    for (it = menu.labels.begin(); it != menu.labels.end(); ++it)
     {
         if (action)
         {

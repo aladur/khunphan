@@ -34,7 +34,7 @@ public:
     static void PreInitialize(const char *, unsigned int, bool,
                               const KPConfig *, bool always = true);
     static void DeactivateAll();
-    static void SetActive(Label *pTextfeld);
+    static void SetActive(Label *pLabel);
     void Initialisiere();
     void Initialisiere(const char[]);
     void InitialisiereKDL(const char[]);
@@ -77,7 +77,7 @@ public:
 
     void SetInputFocus(bool state);
 
-    float TextfeldHoehe();
+    float TextfeldHeight();
 
     void GeneriereDisplayList();
 
@@ -91,21 +91,22 @@ private:
     std::string format;
     char *pString;
     int   size;
-    float x,y,Hoehe,Aspekt,Alpha;
-    float alt_x,alt_y,alt_Hoehe,alt_Alpha;
-    float soll_x,soll_y,soll_Hoehe,soll_Alpha;
-    int Ausrichtung;
+    float AspectRatio;
+    float x, y, Height, Alpha;
+    float old_x, old_y, old_Height, old_Alpha;
+    float target_x, target_y, target_Height, target_Alpha;
+    int Alignment;
     bool  InAnimation;
     int Signal;
-    int Zeit;
-    int TextfeldIndex;
+    int Time;
+    int DisplayList;
     bool  hasInputFocus;
     int lineCount;
     unsigned int MaxCharacters;
     float maxWidth;
 
-    static int   links[];
-    static int   rechts[];
+    static int   left[];
+    static int   right[];
     static short textureSource;
 };
 

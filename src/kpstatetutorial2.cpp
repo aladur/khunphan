@@ -46,40 +46,40 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(.5,4.5,15.5,11);
+    menu.plates[SHLD_MENUBACKGROUND].Positioniere(.5,4.5,15.5,11);
 
-    menu.SchildArray[SHLD_LOGO].Positioniere(0,11.0,4,12);
-    menu.SchildArray[SHLD_LOGO].SetzeSignal(S_BACK);
-    menu.SchildArray[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].Positioniere(0,11.0,4,12);
+    menu.plates[SHLD_LOGO].SetzeSignal(S_BACK);
+    menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_TUTORIAL2].Positioniere(8,10.5,1.0,A_MITTE);
-    menu.TextfeldArray[T_TUTORIAL2].VollSichtbar();
+    menu.labels[T_TUTORIAL2].Positioniere(8,10.5,1.0,A_MITTE);
+    menu.labels[T_TUTORIAL2].VollSichtbar();
 
     float y = 9.5;
-    menu.TextfeldArray[T_TUTORIAL2_01].Positioniere(1.25,y,0.5);
+    menu.labels[T_TUTORIAL2_01].Positioniere(1.25,y,0.5);
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL2_02) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL2_02) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL2_02].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL2_02].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL2_03) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL2_03) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL2_03].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL2_03].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL2_04) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL2_04) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL2_04].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL2_04].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL2_05) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL2_05) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL2_05].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL2_05].Positioniere(1.25,y,0.5);
     }
 
-    menu.TextfeldArray[T_WEITER].Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_WEITER].SetzeSignal(S_CONTINUE);
+    menu.labels[T_WEITER].Positioniere(8,1,1,A_MITTE);
+    menu.labels[T_WEITER].SetzeSignal(S_CONTINUE);
 
     StartAnimation();
 }

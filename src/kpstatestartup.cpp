@@ -46,33 +46,33 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
         fullInitialized = true;
     }
 
-    it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT2);
-    if (it == pContext->GetMenu().TextfeldArray.end())
+    it = pContext->GetMenu().labels.find(T_COPYRIGHT2);
+    if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT2] = Label();
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT2].SetzeText(
+        pContext->GetMenu().labels[T_COPYRIGHT2] = Label();
+        pContext->GetMenu().labels[T_COPYRIGHT2].SetzeText(
             "© 2002-2015 Wolfgang Schwotzer");
     }
 
-    it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT3);
-    if (it == pContext->GetMenu().TextfeldArray.end())
+    it = pContext->GetMenu().labels.find(T_COPYRIGHT3);
+    if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT3] = Label();
+        pContext->GetMenu().labels[T_COPYRIGHT3] = Label();
     }
 
-    it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT5);
-    if (it == pContext->GetMenu().TextfeldArray.end())
+    it = pContext->GetMenu().labels.find(T_COPYRIGHT5);
+    if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT5] = Label();
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT5].SetzeText(
+        pContext->GetMenu().labels[T_COPYRIGHT5] = Label();
+        pContext->GetMenu().labels[T_COPYRIGHT5].SetzeText(
             "© 2001-2006 Nicklas Nygren");
     }
 
-    it = pContext->GetMenu().TextfeldArray.find(T_COPYRIGHT6);
-    if (it == pContext->GetMenu().TextfeldArray.end())
+    it = pContext->GetMenu().labels.find(T_COPYRIGHT6);
+    if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT6] = Label();
-        pContext->GetMenu().TextfeldArray[T_COPYRIGHT6].SetzeText(
+        pContext->GetMenu().labels[T_COPYRIGHT6] = Label();
+        pContext->GetMenu().labels[T_COPYRIGHT6].SetzeText(
             "http://nifflas.ni2.se/");
     }
 
@@ -90,7 +90,7 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
     // every thing which should be permanently be visible within this
     // state should be listed here:
 
-    menu.SchildArray[SHLD_LOGO].Positioniere(5,9,11,11);
+    menu.plates[SHLD_LOGO].Positioniere(5,9,11,11);
 
     if (!fullInitialized)
     {
@@ -99,20 +99,20 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
     }
 
     float y = 3.0f;
-    menu.TextfeldArray[T_COPYRIGHT1].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT1].Positioniere(8, y, 0.4f, A_MITTE);
     y -= 0.4f;
-    menu.TextfeldArray[T_COPYRIGHT2].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT2].Positioniere(8, y, 0.4f, A_MITTE);
     y -= 0.4f;
-    menu.TextfeldArray[T_COPYRIGHT3].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT3].Positioniere(8, y, 0.4f, A_MITTE);
     y -= 0.8f;
-    menu.TextfeldArray[T_COPYRIGHT4].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT4].Positioniere(8, y, 0.4f, A_MITTE);
     y -= 0.4f;
-    menu.TextfeldArray[T_COPYRIGHT5].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT5].Positioniere(8, y, 0.4f, A_MITTE);
     y -= 0.4f;
-    menu.TextfeldArray[T_COPYRIGHT6].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT6].Positioniere(8, y, 0.4f, A_MITTE);
 
-    menu.TextfeldArray[T_NOWARRANTY].Positioniere(8,    0,   0.5, A_MITTE);
-    menu.TextfeldArray[T_VERSION   ].Positioniere(0.1f, 0,   0.5);
+    menu.labels[T_NOWARRANTY].Positioniere(8,    0,   0.5, A_MITTE);
+    menu.labels[T_VERSION].Positioniere(0.1f, 0,   0.5);
 
     StartAnimation();
 }

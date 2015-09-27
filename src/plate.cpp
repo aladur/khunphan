@@ -25,11 +25,11 @@
 #include "kpuibase.h"
 
 
-Plate::Plate() :     SchildIndex(0), SchildTyp(0), Aspekt(0.0),
+Plate::Plate() :     DisplayList(0), Type(0), AspectRatio(0.0),
     ax(0), ay(0), bx(0), by(0), Alpha(0),
-    soll_ax(0), soll_ay(0), soll_bx(0), soll_by(0), soll_Alpha(0),
-    alt_ax(0),  alt_ay(0), alt_bx(0),  alt_by(0), alt_Alpha(0),
-    InAnimation(0), Signal(0), Zeit(0),
+    target_ax(0), target_ay(0), target_bx(0), target_by(0), target_Alpha(0),
+    old_ax(0),  old_ay(0), old_bx(0),  old_by(0), old_Alpha(0),
+    InAnimation(0), Signal(0), Time(0),
     r(1.0), g(1.0), b(1.0), texture(0), textureSource(0)
 {
 }
@@ -103,9 +103,9 @@ bool Plate::Initialisiere(const char     *TextureName,
                 file2.c_str());
     }
 
-    if (SchildIndex == 0)
+    if (DisplayList == 0)
     {
-        SchildIndex=glGenLists(1);
+        DisplayList = glGenLists(1);
     }
     if (texture == 0)
     {
@@ -126,7 +126,7 @@ bool Plate::Initialisiere(const char     *TextureName,
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
                  withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, texels);
 
-    glNewList(SchildIndex,GL_COMPILE);
+    glNewList(DisplayList, GL_COMPILE);
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
     glBegin(GL_QUADS);
@@ -142,9 +142,9 @@ bool Plate::Initialisiere(const char     *TextureName,
     glEndList();
     //glBindTexture(GL_TEXTURE_2D, 0);
 
-    Aspekt=(width+1.0f)/(height+1.0f);
+    AspectRatio = (width + 1.0f) / (height + 1.0f);
 
-    SchildTyp=1;
+    Type = 1;
     delete pTexture;
 
     return true;
@@ -156,12 +156,12 @@ void Plate::Initialisiere(float R, float G, float B)
     g = G;
     b = B;
 
-    if (!SchildIndex)
+    if (!DisplayList)
     {
-        SchildIndex=glGenLists(1);
+        DisplayList = glGenLists(1);
     }
 
-    glNewList(SchildIndex,GL_COMPILE);
+    glNewList(DisplayList, GL_COMPILE);
     glDisable(GL_TEXTURE_2D);
     glBegin(GL_QUADS);
     glVertex2f(0.0,0.0);
@@ -171,31 +171,32 @@ void Plate::Initialisiere(float R, float G, float B)
     glEnd();
     glEndList();
 
-    ax=alt_ax=soll_ax=8;
-    ay=alt_ay=soll_ay=6;
-    bx=alt_bx=soll_bx=8.1f;
-    by=alt_by=soll_by=6.1f;
+    ax = old_ax = target_ax = 8;
+    ay = old_ay = target_ay = 6;
+    bx = old_bx = target_bx = 8.1f;
+    by = old_by = target_by = 6.1f;
 
-    Alpha=alt_Alpha=soll_Alpha=MOD_AUSGEBLENDET;
-    InAnimation=0;
+    Alpha = old_Alpha = target_Alpha = MOD_AUSGEBLENDET;
+    InAnimation = 0;
 
-    Aspekt=0.0;
+    AspectRatio = 0.0;
 
-    SchildTyp=3;
+    Type = 3;
 }
 
-void Plate::KopieVon(Plate Vorbild)
+void Plate::KopieVon(Plate src)
 {
-    SchildIndex=Vorbild.SchildIndex;
-    SchildTyp=Vorbild.SchildTyp;
-    Aspekt=Vorbild.Aspekt;
-    ax=alt_ax=soll_ax=0;
-    ay=alt_ay=soll_ay=0;
-    bx=alt_bx=soll_bx=0;
-    by=alt_by=soll_by=0;
-    Alpha=alt_Alpha=soll_Alpha=MOD_AUSGEBLENDET;
-    InAnimation=0;
-    Signal=0;
+    DisplayList     = src.DisplayList;
+    Type            = src.Type;
+    AspectRatio     = src.AspectRatio;
+
+    ax=old_ax       = target_ax = 0;
+    ay=old_ay       = target_ay = 0;
+    bx=old_bx       = target_bx = 0;
+    by=old_by       = target_by = 0;
+    Alpha=old_Alpha = target_Alpha = MOD_AUSGEBLENDET;
+    InAnimation     = 0;
+    Signal          = 0;
 }
 
 void Plate::male()
@@ -212,73 +213,74 @@ void Plate::male()
             /*glTexEnvfv(GL_TEXTURE_ENV,GL_TEXTURE_ENV_COLOR,color);*/
         }
         glColor4fv(color);
-        glCallList(SchildIndex);
+        glCallList(DisplayList);
         glDisable(GL_TEXTURE_2D);
         glPopMatrix();
     }
 }
 
-void Plate::Positioniere(float ax_,float ay_,float bx_,float by_)
+void Plate::Positioniere(float ax_, float ay_, float bx_, float by_)
 {
-    // Korrigiere Aspekt
-    if (Aspekt!=0.0 && Aspekt!=(bx_-ax_)/(by_-ay_))
+    // Korrigiere AspectRatio
+    if (AspectRatio != 0.0 && AspectRatio != (bx_ - ax_) / (by_ - ay_))
     {
-        GLfloat cx=(ax_+bx_)*0.5f;
-        ax_=cx-Aspekt*(by_-ay_)*0.5f;
-        bx_=cx+Aspekt*(by_-ay_)*0.5f;
+        GLfloat cx = (ax_ + bx_) * 0.5f;
+        ax_=cx-AspectRatio * (by_ - ay_) * 0.5f;
+        bx_=cx+AspectRatio * (by_ - ay_) * 0.5f;
     }
 
-    soll_ax=ax_;
-    soll_ay=ay_;
-    soll_bx=bx_;
-    soll_by=by_;
+    target_ax = ax_;
+    target_ay = ay_;
+    target_bx = bx_;
+    target_by = by_;
 
-    if (SchildTyp==3)
+    if (Type == 3)
     {
-        soll_Alpha=MOD_TRANSPARENT;
+        target_Alpha = MOD_TRANSPARENT;
     }
     else
     {
-        soll_Alpha=MOD_EINGEBLENDET;
+        target_Alpha = MOD_EINGEBLENDET;
     }
 
-    if (Alpha==MOD_AUSGEBLENDET)
+    if (Alpha == MOD_AUSGEBLENDET)
     {
 
-        ax=((soll_ax-8)/1.5f)+8;
-        ay=((soll_ay-6)/1.5f)+6;
-        bx=((soll_bx-8)/1.5f)+8;
-        by=((soll_by-6)/1.5f)+6;
+        ax = ((target_ax - 8) / 1.5f) + 8;
+        ay = ((target_ay - 6) / 1.5f) + 6;
+        bx = ((target_bx - 8) / 1.5f) + 8;
+        by = ((target_by - 6) / 1.5f) + 6;
 
         /*
-        ax=((24.0*rand())/RAND_MAX)-4;
-        ay=((14.0*rand())/RAND_MAX)-1;
-        bx=ax+2*(bx_-ax_);
-        by=ay+2*(by_-ay_);
-             */
+        ax = ((24.0 * rand()) / RAND_MAX) - 4;
+        ay = ((14.0 * rand()) / RAND_MAX) - 1;
+        bx = ax + 2 * (bx_ - ax_);
+        by = ay + 2 * (by_ - ay_);
+        */
     }
 
-    Signal=0;
+    Signal = 0;
 
     StarteAnimation();
 }
 
 void Plate::Desaktiviere()
 {
-    soll_Alpha=MOD_AUSGEBLENDET;
+    target_Alpha = MOD_AUSGEBLENDET;
 
-    soll_ax=((ax-8)*1.5f)+8;
-    soll_ay=((ay-6)*1.5f)+6;
-    soll_bx=((bx-8)*1.5f)+8;
-    soll_by=((by-6)*1.5f)+6;
+    target_ax = ((ax - 8) * 1.5f) + 8;
+    target_ay = ((ay - 6) * 1.5f) + 6;
+    target_bx = ((bx - 8) * 1.5f) + 8;
+    target_by = ((by - 6) * 1.5f) + 6;
 
     /*
-        soll_ax=((24.0*rand())/RAND_MAX)-4;
-        soll_ay=((14.0*rand())/RAND_MAX)-1;
-        soll_bx=soll_ax+.5*(bx-ax);
-        soll_by=soll_ay+.5*(by-ay);
+    target_ax = ((24.0 * rand()) / RAND_MAX) - 4;
+    target_ay = ((14.0 * rand()) / RAND_MAX) - 1;
+    target_bx = target_ax + 0.5 * (bx - ax);
+    target_by = target_ay + 0.5 * (by - ay);
     */
-    if (soll_Alpha!=Alpha)
+
+    if (target_Alpha != Alpha)
     {
         StarteAnimation();
     }
@@ -286,9 +288,9 @@ void Plate::Desaktiviere()
 
 void Plate::Angewaehlt()
 {
-    Alpha=MOD_ANGEWAEHLT;
-    soll_Alpha=MOD_EINGEBLENDET;
-    if (soll_Alpha!=Alpha)
+    Alpha = MOD_ANGEWAEHLT;
+    target_Alpha = MOD_EINGEBLENDET;
+    if (target_Alpha != Alpha)
     {
         StarteAnimation();
     }
@@ -296,8 +298,8 @@ void Plate::Angewaehlt()
 
 void Plate::Eingeblendet()
 {
-    soll_Alpha=MOD_EINGEBLENDET;
-    if (soll_Alpha!=Alpha)
+    target_Alpha = MOD_EINGEBLENDET;
+    if (target_Alpha != Alpha)
     {
         StarteAnimation();
     }
@@ -305,8 +307,8 @@ void Plate::Eingeblendet()
 
 void Plate::VollSichtbar()
 {
-    soll_Alpha=MOD_VOLLSICHTBAR;
-    if (soll_Alpha!=Alpha)
+    target_Alpha = MOD_VOLLSICHTBAR;
+    if (target_Alpha != Alpha)
     {
         StarteAnimation();
     }
@@ -314,41 +316,42 @@ void Plate::VollSichtbar()
 
 void Plate::StarteAnimation()
 {
-    InAnimation=1;
-    Zeit=0;
-    alt_ax=ax;
-    alt_ay=ay;
-    alt_bx=bx;
-    alt_by=by;
-    alt_Alpha=Alpha;
+    InAnimation = 1;
+    Time = 0;
+    old_ax = ax;
+    old_ay = ay;
+    old_bx = bx;
+    old_by = by;
+    old_Alpha = Alpha;
 }
 
-int Plate::Animiere(int Faktor)
+int Plate::Animiere(int factor)
 {
     if (!InAnimation)
     {
         return 0;
     }
-    Zeit+=Faktor;
-    if (Zeit>=TOTAL_ANIMATIONTIME)
+    Time += factor;
+    if (Time >= TOTAL_ANIMATIONTIME)
     {
-        ax=soll_ax;
-        ay=soll_ay;
-        bx=soll_bx;
-        by=soll_by;
-        Alpha=soll_Alpha;
-        InAnimation=0;
+        ax = target_ax;
+        ay = target_ay;
+        bx = target_bx;
+        by = target_by;
+        Alpha = target_Alpha;
+        InAnimation = 0;
         return 1;
     }
     else
     {
-        GLfloat Faktor= 0.5f - 0.5f * cos(M_PIf * Zeit / TOTAL_ANIMATIONTIME);
+        GLfloat localFactor;
 
-        ax=(soll_ax-alt_ax)*Faktor+alt_ax;
-        ay=(soll_ay-alt_ay)*Faktor+alt_ay;
-        bx=(soll_bx-alt_bx)*Faktor+alt_bx;
-        by=(soll_by-alt_by)*Faktor+alt_by;
-        Alpha=(soll_Alpha-alt_Alpha)*Faktor+alt_Alpha;
+        localFactor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
+        ax   = (target_ax - old_ax) * localFactor + old_ax;
+        ay   = (target_ay - old_ay) * localFactor + old_ay;
+        bx   = (target_bx - old_bx) * localFactor + old_bx;
+        by   = (target_by - old_by) * localFactor + old_by;
+        Alpha= (target_Alpha - old_Alpha) * localFactor + old_Alpha;
         return 0;
     }
 }
@@ -356,12 +359,12 @@ int Plate::Animiere(int Faktor)
 int Plate::Maustaste(tMouseButton button, tMouseEvent event,
                       int x, int y, KPUIBase &ui)
 {
-    GLfloat xf=16.0f*x/ ui.GetValue(KP_WINDOW_WIDTH);
-    GLfloat yf=12.0f-12.0f*y/ ui.GetValue(KP_WINDOW_HEIGHT);
+    GLfloat xf = 16.0f * x / ui.GetValue(KP_WINDOW_WIDTH);
+    GLfloat yf = 12.0f - 12.0f * y / ui.GetValue(KP_WINDOW_HEIGHT);
 
-    if (soll_Alpha>0.0 &&
-        Signal!=0 &&
-        ax<=xf && xf<=bx && ay<=yf && yf<=by)
+    if (target_Alpha > 0.0 &&
+        Signal !=0 &&
+        ax <= xf && xf <= bx && ay <= yf && yf <= by)
     {
         if (button == KP_LEFT_MB)
         {
@@ -386,7 +389,7 @@ int Plate::Maustaste(tMouseButton button, tMouseEvent event,
     }
 }
 
-void Plate::SetzeSignal(int NeuesSignal)
+void Plate::SetzeSignal(int NewSignal)
 {
-    Signal=NeuesSignal;
+    Signal = NewSignal;
 }

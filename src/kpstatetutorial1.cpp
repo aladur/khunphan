@@ -43,9 +43,9 @@ void KPstateTutorial1::Initialize(KPstateContext *pContext,
     // Set Tutorial-Text to width  31.2
     for (int i=T_TUTORIAL1 ; i <= T_TUTORIAL_END ; i++ )
     {
-        if (menu.TextfeldArray.find(i) != menu.TextfeldArray.end())
+        if (menu.labels.find(i) != menu.labels.end())
         {
-            menu.TextfeldArray[i].SetzeMaxBreite(31);
+            menu.labels[i].SetzeMaxBreite(31);
         }
     }
 
@@ -61,57 +61,57 @@ void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.SchildArray[SHLD_MENUBACKGROUND].Positioniere(.5,4.0,15.5,11);
+    menu.plates[SHLD_MENUBACKGROUND].Positioniere(.5,4.0,15.5,11);
 
-    menu.SchildArray[SHLD_LOGO].Positioniere(0,11.0,4,12);
-    menu.SchildArray[SHLD_LOGO].SetzeSignal(S_BACK);
-    menu.SchildArray[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].Positioniere(0,11.0,4,12);
+    menu.plates[SHLD_LOGO].SetzeSignal(S_BACK);
+    menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.TextfeldArray[T_TUTORIAL1].Positioniere(8,10.5,1.0,A_MITTE);
-    menu.TextfeldArray[T_TUTORIAL1].VollSichtbar();
+    menu.labels[T_TUTORIAL1].Positioniere(8,10.5,1.0,A_MITTE);
+    menu.labels[T_TUTORIAL1].VollSichtbar();
 
     float y = 9.5;
-    menu.TextfeldArray[T_TUTORIAL1_01].Positioniere(1.25,y,0.7f);
+    menu.labels[T_TUTORIAL1_01].Positioniere(1.25,y,0.7f);
     y -= 1.0;
-    menu.TextfeldArray[T_TUTORIAL1_02].Positioniere(1.25,y,0.5);
+    menu.labels[T_TUTORIAL1_02].Positioniere(1.25,y,0.5);
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL1_03) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL1_03) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_03].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL1_03].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL1_04) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL1_04) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_04].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL1_04].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL1_05) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL1_05) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_05].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL1_05].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL1_06) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL1_06) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_06].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL1_06].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL1_07) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL1_07) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_07].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL1_07].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL1_08) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL1_08) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_08].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL1_08].Positioniere(1.25,y,0.5);
     }
     y -= 0.5;
-    if (menu.TextfeldArray.find(T_TUTORIAL1_09) != menu.TextfeldArray.end())
+    if (menu.labels.find(T_TUTORIAL1_09) != menu.labels.end())
     {
-        menu.TextfeldArray[T_TUTORIAL1_09].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL1_09].Positioniere(1.25,y,0.5);
     }
 
-    menu.TextfeldArray[T_WEITER].Positioniere(8,1,1,A_MITTE);
-    menu.TextfeldArray[T_WEITER].SetzeSignal(S_CONTINUE);
+    menu.labels[T_WEITER].Positioniere(8,1,1,A_MITTE);
+    menu.labels[T_WEITER].SetzeSignal(S_CONTINUE);
 
     StartAnimation();
 }

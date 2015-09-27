@@ -11,6 +11,7 @@
 #include <vector>
 
 
+// struct containing a camera position
 struct SPosition
 {
     SPosition()
@@ -64,32 +65,33 @@ public:
     void BlickeAuf3(float,float);
     void Fahrt(int);
     void Rundflug(int);
-    void setzeSollPosition(SPosition &soll_position);
+    void setzeSollPosition(SPosition &target_position);
     void setzeSollPosition(float,float,float,float,float,float);
     void BlickTiefeNeuBestimmen();
     void SetzeRundflug(bool r = true)
     {
-        IsRundflug = r;
+        IsRoundtrip = r;
     };
-    void SetAspekt(float a);
+    void SetAspectRatio(float aspectRatio);
 
 private:
     float Pos_xCM();
     float Pos_yCM();
     float Pos_zCM();
-    float Aspekt;
+    float AspectRatio;
     float Pos_x,Pos_y,Pos_z,Alpha,Beta,FOV;
-    float Soll_Pos_x,Soll_Pos_y,Soll_Pos_z,Soll_Alpha,Soll_Beta,Soll_FOV;
+    float target_Pos_x,target_Pos_y,target_Pos_z;
+    float target_Alpha,target_Beta,target_FOV;
     float d_Pos_x,d_Pos_y,d_Pos_z,d_Alpha,d_Beta,d_FOV;
-    float Nah,Fern;
-    int KameraNummer;
-    bool IsRundflug;
+    float Near,Far;
+    bool IsRoundtrip;
 
-    const float BewegFaktor;
-    const float DrehFaktor;
+    const float MoveFactor;
+    const float RotateFactor;
     static const float degprad; // degrees per radian
-    std::vector<SPosition>
-    Positionen; // vector zum Abspeichern der Kamerapositionen
+
+    // vector zum Abspeichern der Kamerapositionen
+    std::vector<SPosition> Positions;
 };
 
 #endif

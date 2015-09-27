@@ -20,63 +20,64 @@
 const float Camera::degprad = 180.0f / M_PIf;
 
 /* --------- Konstruktor ---------- */
-Camera::Camera() :   Aspekt(0.0),
+Camera::Camera() :   AspectRatio(0.0),
     Pos_x(0.0),      Pos_y(0.0),       Pos_z(0.0),
     Alpha(0.0),      Beta(0.0),        FOV(0.0),
-    Soll_Pos_x(0.0), Soll_Pos_y(0.0),  Soll_Pos_z(0.0),
-    Soll_Alpha(0.0), Soll_Beta(0.0),   Soll_FOV(0.0),
+    target_Pos_x(0.0), target_Pos_y(0.0),  target_Pos_z(0.0),
+    target_Alpha(0.0), target_Beta(0.0),   target_FOV(0.0),
     d_Pos_x(0.0),    d_Pos_y(0.0),     d_Pos_z(0.0),
     d_Alpha(0.0),    d_Beta(0.0),      d_FOV(0.0),
-    Nah(0.0),        Fern(0.0),        KameraNummer(0),
-    IsRundflug(0),   BewegFaktor(0.3f),DrehFaktor(0.3f)
+    Near(0.0),        Far(0.0),
+    IsRoundtrip(0),   MoveFactor(0.3f),RotateFactor(0.3f)
 {
     // Initialize default camera positions with the parameter list:
     //   Pos_x, Pos_y, Pos_z, Alpha, Beta, FOV
 
     // Position with index 0
-    Positionen.push_back(SPosition(-100.0f, -50.0f, 50.0f, 60.0f, 60.0f, 38.6f));
+    Positions.push_back(SPosition(-100.0f, -50.0f, 50.0f, 60.0f, 60.0f, 38.6f));
 
     // Position with index 1
-    Positionen.push_back(SPosition(0.0f, 160.0f, 80.0f, 60.0f, 180.0f, 38.6f));
+    Positions.push_back(SPosition(0.0f, 160.0f, 80.0f, 60.0f, 180.0f, 38.6f));
 
     // Position with index 2
-    Positionen.push_back(SPosition(0.0f, 140.0f, 120.0f, 45.0f, 180.0f, 38.6f));
+    Positions.push_back(SPosition(0.0f, 140.0f, 120.0f, 45.0f, 180.0f, 38.6f));
 
     // Position with index 3
-    Positionen.push_back(SPosition(0.0f, 115.0f, 180.0f, 30.0f, 180.0f, 38.6f));
+    Positions.push_back(SPosition(0.0f, 115.0f, 180.0f, 30.0f, 180.0f, 38.6f));
 
     // Position with index 4
-    Positionen.push_back(SPosition(0.0f, 0.0f, 220.0f, 0.0f, 180.0f, 38.6f));
+    Positions.push_back(SPosition(0.0f, 0.0f, 220.0f, 0.0f, 180.0f, 38.6f));
 
     // Position with index 5
-    Positionen.push_back(SPosition(0.0f, 0.0f, 300.0f, 0.0f, 180.0f, 38.6f));
+    Positions.push_back(SPosition(0.0f, 0.0f, 300.0f, 0.0f, 180.0f, 38.6f));
 
     // Position with index 6
-    Positionen.push_back(SPosition(-60.0f, 160.0f, 140.0f, 45.0f, 155.0f, 38.6f));
+    Positions.push_back(SPosition(-60.0f, 160.0f, 140.0f, 45.0f, 155.0f, 38.6f));
 
     // Position with index 7
-    Positionen.push_back(SPosition(60.0f, 160.0f, 140.0f, 45.0f, 205.0f, 38.6f));
+    Positions.push_back(SPosition(60.0f, 160.0f, 140.0f, 45.0f, 205.0f, 38.6f));
 
-    Soll_Pos_x=-60;
-    Soll_Pos_y=-30;
+    target_Pos_x = -60;
+    target_Pos_y = -30;
+
     Rundflug(0);
-    Alpha=Soll_Alpha;
-    Beta=Soll_Beta;
-    Pos_x=Soll_Pos_x;
-    Pos_y=Soll_Pos_y;
-    Pos_z=Soll_Pos_z;
 
-    Aspekt= 4.0f / 3.0f;
+    Alpha = target_Alpha;
+    Beta  = target_Beta;
+    Pos_x = target_Pos_x;
+    Pos_y = target_Pos_y;
+    Pos_z = target_Pos_z;
 
-    IsRundflug = false;
+    AspectRatio = 4.0f / 3.0f;
+    IsRoundtrip = false;
 }
 
-void Camera::SetAspekt(float a)
+void Camera::SetAspectRatio(float aspectRatio)
 {
-    Aspekt = a;
+    AspectRatio = aspectRatio;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(FOV,Aspekt,Nah,Fern);
+    gluPerspective(FOV, AspectRatio, Near, Far);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -96,7 +97,7 @@ void Camera::male(int x /* = -1 */, int y /* = -1 */) const
         glGetIntegerv(GL_VIEWPORT, viewport);
         gluPickMatrix(x, (viewport[3]- y), 1.0f, 1.0f, viewport);
     }
-    gluPerspective(FOV,Aspekt,Nah,Fern);
+    gluPerspective(FOV, AspectRatio, Near, Far);
 
     glMatrixMode(GL_MODELVIEW);  // Blickpunkt!
     glLoadIdentity();            // Kamera an den Ursprung setzen
@@ -111,14 +112,14 @@ void Camera::male(int x /* = -1 */, int y /* = -1 */) const
 //setzt die Kamera an eine neue Position
 void Camera::neuePosition(SPosition &position)
 {
-    Soll_Pos_x = position.Pos_x;
-    Soll_Pos_y = position.Pos_y;
-    Soll_Pos_z = position.Pos_z;
-    Soll_Alpha = position.Alpha;
-    Soll_Beta  = position.Beta;
-    Soll_FOV   = position.FOV;
+    target_Pos_x = position.Pos_x;
+    target_Pos_y = position.Pos_y;
+    target_Pos_z = position.Pos_z;
+    target_Alpha = position.Alpha;
+    target_Beta  = position.Beta;
+    target_FOV   = position.FOV;
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 //gibt die aktuelle Kameraposition zur"uck
@@ -145,429 +146,444 @@ float Camera::Pos_zCM()
 }
 
 // l"adt eine Kameraposition aus der Tabelle
-void Camera::ladePosition(int Platz)
+void Camera::ladePosition(int index)
 {
-    setzeSollPosition(Positionen.at(Platz));
-    IsRundflug = false;
+    setzeSollPosition(Positions.at(index));
+    IsRoundtrip = false;
 }
 
 // Bewegt die Kamera in Blickrichtung
-void Camera::Beweg_Rein(float Faktor)
+void Camera::Beweg_Rein(float factor)
 {
-    Soll_Pos_x+=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*sin(
-                    Soll_Beta/degprad);
-    Soll_Pos_y+=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*cos(
-                    Soll_Beta/degprad);
-    Soll_Pos_z-=2*BewegFaktor*Faktor*cos(Soll_Alpha/degprad);
+    target_Pos_x += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    sin(target_Beta / degprad);
+    target_Pos_y += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    cos(target_Beta / degprad);
+    target_Pos_z -= 2 * MoveFactor * factor * cos(target_Alpha / degprad);
     //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
-    if (Soll_Pos_z < 2.8f)
+    if (target_Pos_z < 2.8f)
     {
-        Soll_Pos_z = 2.8f;
+        target_Pos_z = 2.8f;
     }
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Bewegt die Kamera gegen die Blickrichtung
-void Camera::Beweg_Raus(float Faktor)
+void Camera::Beweg_Raus(float factor)
 {
-    Soll_Pos_x-=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*sin(
-                    Soll_Beta/degprad);
-    Soll_Pos_y-=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*cos(
-                    Soll_Beta/degprad);
-    Soll_Pos_z+=2*BewegFaktor*Faktor*cos(Soll_Alpha/degprad);
+    target_Pos_x -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    sin(target_Beta / degprad);
+    target_Pos_y -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    cos(target_Beta / degprad);
+    target_Pos_z += 2 * MoveFactor * factor * cos(target_Alpha / degprad);
     //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
-    if (Soll_Pos_z < 2.8f)
+    if (target_Pos_z < 2.8f)
     {
-        Soll_Pos_z = 2.8f;
+        target_Pos_z = 2.8f;
     }
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Bewegt die Kamera in Blickrichtung, aber unter Beibehaltung der H"ohe
-void Camera::Beweg_Vor(float Faktor)
+void Camera::Beweg_Vor(float factor)
 {
-    Soll_Pos_x+=2*BewegFaktor*Faktor*sin(Soll_Beta/degprad);
-    Soll_Pos_y+=2*BewegFaktor*Faktor*cos(Soll_Beta/degprad);
+    target_Pos_x += 2 * MoveFactor * factor * sin(target_Beta / degprad);
+    target_Pos_y += 2 * MoveFactor * factor * cos(target_Beta / degprad);
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Bewegt die Kamera gegen die Blickrichtung, aber unter Beibehaltung der H"ohe
-void Camera::Beweg_Zurueck(float Faktor)
+void Camera::Beweg_Zurueck(float factor)
 {
-    Soll_Pos_x-=2*BewegFaktor*Faktor*sin(Soll_Beta/degprad);
-    Soll_Pos_y-=2*BewegFaktor*Faktor*cos(Soll_Beta/degprad);
+    target_Pos_x -= 2 * MoveFactor * factor * sin(target_Beta / degprad);
+    target_Pos_y -= 2 * MoveFactor * factor * cos(target_Beta / degprad);
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Bewegt die Kamera nach rechts
-void Camera::Beweg_Rechts(float Faktor)
+void Camera::Beweg_Rechts(float factor)
 {
-    Soll_Pos_x+=BewegFaktor*Faktor*cos(Soll_Beta/degprad);
-    Soll_Pos_y-=BewegFaktor*Faktor*sin(Soll_Beta/degprad);
+    target_Pos_x += MoveFactor * factor * cos(target_Beta / degprad);
+    target_Pos_y -= MoveFactor * factor * sin(target_Beta / degprad);
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Bewegt die Kamera nach links
-void Camera::Beweg_Links(float Faktor)
+void Camera::Beweg_Links(float factor)
 {
-    Soll_Pos_x-=BewegFaktor*Faktor*cos(Soll_Beta/degprad);
-    Soll_Pos_y+=BewegFaktor*Faktor*sin(Soll_Beta/degprad);
+    target_Pos_x -= MoveFactor * factor * cos(target_Beta / degprad);
+    target_Pos_y += MoveFactor * factor * sin(target_Beta / degprad);
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Bewegt die Kamera nach oben
-void Camera::Beweg_Hoch(float Faktor)
+void Camera::Beweg_Hoch(float factor)
 {
-    Soll_Pos_z+=BewegFaktor*Faktor;
+    target_Pos_z += MoveFactor * factor;
     //  if (Pos_z>400) {Pos_z=400;}
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Bewegt die Kamera nach unten
-void Camera::Beweg_Runter(float Faktor)
+void Camera::Beweg_Runter(float factor)
 {
-    Soll_Pos_z-=BewegFaktor*Faktor;
-    if (Soll_Pos_z < 2.8f)
+    target_Pos_z -= MoveFactor * factor;
+    if (target_Pos_z < 2.8f)
     {
-        Soll_Pos_z = 2.8f;
+        target_Pos_z = 2.8f;
     }
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Vergr"o"sert den Zoom
-void Camera::Zoom_Rein(float Faktor)
+void Camera::Zoom_Rein(float factor)
 {
-    Soll_FOV-=BewegFaktor*Faktor;
-    if (Soll_FOV<1)
+    target_FOV -= MoveFactor * factor;
+    if (target_FOV < 1)
     {
-        Soll_FOV=1;
+        target_FOV = 1;
     }
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Verkleinert den Zoom
-void Camera::Zoom_Raus(float Faktor)
+void Camera::Zoom_Raus(float factor)
 {
-    Soll_FOV+=BewegFaktor*Faktor;
-    IsRundflug = false;
+    target_FOV += MoveFactor * factor;
+    IsRoundtrip = false;
 }
 
 // Vergr"o"sert den Vertigo
-void Camera::Vertigo_Rein(float Faktor)
+void Camera::Vertigo_Rein(float factor)
 {
-    Soll_Pos_x-=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*sin(
-                    Soll_Beta/degprad);
-    Soll_Pos_y-=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*cos(
-                    Soll_Beta/degprad);
-    Soll_Pos_z+=2*BewegFaktor*Faktor*cos(Soll_Alpha/degprad);
-    Soll_FOV=2077*cos(Soll_Alpha/degprad)/Soll_Pos_z;
-    if (Soll_FOV<1)
+    target_Pos_x -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    sin(target_Beta / degprad);
+    target_Pos_y -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    cos(target_Beta / degprad);
+    target_Pos_z += 2 * MoveFactor * factor * cos(target_Alpha / degprad);
+ 
+    target_FOV = 2077 * cos(target_Alpha / degprad) / target_Pos_z;
+    if (target_FOV < 1)
     {
-        Soll_FOV=1;
+        target_FOV = 1;
     }
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Verkleinert den Vertigo
-void Camera::Vertigo_Raus(float Faktor)
+void Camera::Vertigo_Raus(float factor)
 {
-    Soll_Pos_x+=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*sin(
-                    Soll_Beta/degprad);
-    Soll_Pos_y+=2*BewegFaktor*Faktor*sin(Soll_Alpha/degprad)*cos(
-                    Soll_Beta/degprad);
-    Soll_Pos_z-=2*BewegFaktor*Faktor*cos(Soll_Alpha/degprad);
-    Soll_FOV=2077*cos(Soll_Alpha/degprad)/Soll_Pos_z;
-    IsRundflug = false;
+    target_Pos_x += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    sin(target_Beta / degprad);
+    target_Pos_y += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    cos(target_Beta / degprad);
+    target_Pos_z -= 2 * MoveFactor * factor * cos(target_Alpha / degprad);
+    target_FOV = 2077 * cos(target_Alpha / degprad) / target_Pos_z;
+    IsRoundtrip = false;
 }
 
 // Dreht die Kamera nach rechts
-void Camera::Dreh_Rechts(float Faktor)
+void Camera::Dreh_Rechts(float factor)
 {
-    Soll_Beta+=Faktor*DrehFaktor;
-    IsRundflug = false;
+    target_Beta += factor * RotateFactor;
+    IsRoundtrip = false;
 }
 
 // Dreht die Kamera nach links
-void Camera::Dreh_Links(float Faktor)
+void Camera::Dreh_Links(float factor)
 {
-    Soll_Beta-=Faktor*DrehFaktor;
-    IsRundflug = false;
+    target_Beta -= factor * RotateFactor;
+    IsRoundtrip = false;
 }
 
 // Dreht die Kamera nach oben
-void Camera::Dreh_Hoch(float Faktor)
+void Camera::Dreh_Hoch(float factor)
 {
-    Soll_Alpha+=Faktor*DrehFaktor;
-    if (Soll_Alpha>90)
+    target_Alpha += factor * RotateFactor;
+    if (target_Alpha > 90)
     {
-        Soll_Alpha=90;
+        target_Alpha = 90;
     }
-    if (Soll_Alpha<0)
+    if (target_Alpha < 0)
     {
-        Soll_Alpha=0;
+        target_Alpha = 0;
     }
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
 // Dreht die Kamera nach unten
-void Camera::Dreh_Runter(float Faktor)
+void Camera::Dreh_Runter(float factor)
 {
-    Soll_Alpha-=Faktor*DrehFaktor;
-    if (Soll_Alpha>90)
+    target_Alpha -= factor * RotateFactor;
+    if (target_Alpha > 90)
     {
-        Soll_Alpha=90;
+        target_Alpha = 90;
     }
-    if (Soll_Alpha<0)
+    if (target_Alpha < 0)
     {
-        Soll_Alpha=0;
+        target_Alpha = 0;
     }
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
-void Camera::Schwenk_Links(float Faktor, float Mitte_x, float Mitte_y)
+void Camera::Schwenk_Links(float factor, float center_x, float center_y)
 {
-    GLfloat Abstand=sqrt((Mitte_x-Soll_Pos_x)*(Mitte_x-Soll_Pos_x)+
-                         (Mitte_y-Soll_Pos_y)*(Mitte_y-Soll_Pos_y));
-    if (Abstand<5)
+    GLfloat distance;
+
+    distance = sqrt((center_x - target_Pos_x) * (center_x - target_Pos_x) +
+                    (center_y - target_Pos_y) * (center_y - target_Pos_y));
+
+    if (distance < 5)
     {
-        Abstand=5;
+        distance = 5;
     }
-    Soll_Beta += Faktor * DrehFaktor * 7.338f / sqrt(Abstand);
-    Soll_Pos_x=Mitte_x-Abstand*sin(Soll_Beta/degprad);
-    Soll_Pos_y=Mitte_y-Abstand*cos(Soll_Beta/degprad);
+
+    target_Beta += factor * RotateFactor * 7.338f / sqrt(distance);
+    target_Pos_x = center_x - distance * sin(target_Beta / degprad);
+    target_Pos_y = center_y - distance * cos(target_Beta / degprad);
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
-void Camera::Schwenk_Rechts(float Faktor, float Mitte_x, float Mitte_y)
+void Camera::Schwenk_Rechts(float factor, float center_x, float center_y)
 {
-    GLfloat Abstand=sqrt((Mitte_x-Soll_Pos_x)*(Mitte_x-Soll_Pos_x)+
-                         (Mitte_y-Soll_Pos_y)*(Mitte_y-Soll_Pos_y));
-    if (Abstand<5)
+    GLfloat distance;
+
+    distance = sqrt((center_x - target_Pos_x) * (center_x - target_Pos_x) +
+                    (center_y - target_Pos_y) * (center_y - target_Pos_y));
+
+    if (distance < 5)
     {
-        Abstand=5;
+        distance = 5;
     }
-    Soll_Beta -= Faktor * DrehFaktor * 7.338f / sqrt(Abstand);
-    Soll_Pos_x=Mitte_x-Abstand*sin(Soll_Beta/degprad);
-    Soll_Pos_y=Mitte_y-Abstand*cos(Soll_Beta/degprad);
+
+    target_Beta -= factor * RotateFactor * 7.338f / sqrt(distance);
+    target_Pos_x = center_x - distance * sin(target_Beta / degprad);
+    target_Pos_y = center_y - distance * cos(target_Beta / degprad);
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
-void Camera::Schwenk_Hoch(float Faktor, float Mitte_x, float Mitte_y)
+void Camera::Schwenk_Hoch(float factor, float center_x, float center_y)
 {
-    GLfloat Abstand=sqrt((Mitte_x-Soll_Pos_x)*(Mitte_x-Soll_Pos_x)+
-                         (Mitte_y-Soll_Pos_y)*(Mitte_y-Soll_Pos_y)+
-                         (Soll_Pos_z - 2.8f) * (Soll_Pos_z - 2.8f));
-    if (Abstand==0)
+    GLfloat distance;
+
+    distance = sqrt((center_x - target_Pos_x) * (center_x - target_Pos_x) +
+                    (center_y - target_Pos_y) * (center_y - target_Pos_y) +
+                    (target_Pos_z - 2.8f) * (target_Pos_z - 2.8f));
+
+    if (distance == 0)
     {
-        Soll_Alpha=0;
+        target_Alpha = 0;
     }
     else
     {
-        Soll_Alpha += Faktor * DrehFaktor * 7.338f / sqrt(Abstand);
-        if (Soll_Alpha<0)
+        target_Alpha += factor * RotateFactor * 7.338f / sqrt(distance);
+
+        if (target_Alpha < 0)
         {
-            Soll_Alpha=0;
+            target_Alpha = 0;
         }
-        if (Soll_Alpha>90)
+        if (target_Alpha > 90)
         {
-            Soll_Alpha=90;
+            target_Alpha = 90;
         }
     }
-    Soll_Pos_x=Mitte_x-Abstand*sin(Soll_Beta/degprad)*sin(Soll_Alpha/degprad);
-    Soll_Pos_y=Mitte_y-Abstand*cos(Soll_Beta/degprad)*sin(Soll_Alpha/degprad);
-    Soll_Pos_z = 2.8f + Abstand * cos(Soll_Alpha / degprad);
+
+    target_Pos_x = center_x - distance * sin(target_Beta / degprad) *
+                                         sin(target_Alpha / degprad);
+    target_Pos_y = center_y - distance * cos(target_Beta / degprad) *
+                                         sin(target_Alpha / degprad);
+    target_Pos_z = 2.8f + distance * cos(target_Alpha / degprad);
     //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
-    if (Soll_Pos_z < 2.8f)
+    if (target_Pos_z < 2.8f)
     {
-        Soll_Pos_z = 2.8f;
+        target_Pos_z = 2.8f;
     }
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
-void Camera::Schwenk_Runter(float Faktor, float Mitte_x, float Mitte_y)
+void Camera::Schwenk_Runter(float factor, float center_x, float center_y)
 {
-    GLfloat Abstand=sqrt((Mitte_x-Soll_Pos_x)*(Mitte_x-Soll_Pos_x)+
-                         (Mitte_y-Soll_Pos_y)*(Mitte_y-Soll_Pos_y)+
-                         (Soll_Pos_z - 2.8f) * (Soll_Pos_z - 2.8f));
-    if (Abstand==0)
+    GLfloat distance;
+
+    distance = sqrt((center_x - target_Pos_x) * (center_x - target_Pos_x) +
+                    (center_y - target_Pos_y) * (center_y - target_Pos_y) +
+                    (target_Pos_z - 2.8f) * (target_Pos_z - 2.8f));
+
+    if (distance == 0)
     {
-        Soll_Alpha=0;
+        target_Alpha = 0;
     }
     else
     {
-        Soll_Alpha -= Faktor * DrehFaktor * 7.338f / sqrt(Abstand);
-        if (Soll_Alpha<0)
+        target_Alpha -= factor * RotateFactor * 7.338f / sqrt(distance);
+
+        if (target_Alpha < 0)
         {
-            Soll_Alpha=0;
+            target_Alpha = 0;
         }
-        if (Soll_Alpha>90)
+        if (target_Alpha > 90)
         {
-            Soll_Alpha=90;
+            target_Alpha = 90;
         }
     }
-    Soll_Pos_x=Mitte_x-Abstand*sin(Soll_Beta/degprad)*sin(Soll_Alpha/degprad);
-    Soll_Pos_y=Mitte_y-Abstand*cos(Soll_Beta/degprad)*sin(Soll_Alpha/degprad);
-    Soll_Pos_z = 2.8f + Abstand * cos(Soll_Alpha / degprad);
+
+    target_Pos_x = center_x - distance * sin(target_Beta / degprad) *
+                                         sin(target_Alpha / degprad);
+    target_Pos_y = center_y - distance * cos(target_Beta / degprad) *
+                                         sin(target_Alpha / degprad);
+
+    target_Pos_z = 2.8f + distance * cos(target_Alpha / degprad);
     //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
-    if (Soll_Pos_z < 2.8f)
+    if (target_Pos_z < 2.8f)
     {
-        Soll_Pos_z = 2.8f;
+        target_Pos_z = 2.8f;
     }
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
-void Camera::setzeSollPosition(SPosition &Soll_Pos)
+void Camera::setzeSollPosition(SPosition &target_Pos)
 {
-    Soll_Pos_x = Soll_Pos.Pos_x;
-    Soll_Pos_y = Soll_Pos.Pos_y;
-    Soll_Pos_z = Soll_Pos.Pos_z;
-    Soll_Alpha = Soll_Pos.Alpha;
-    Soll_Beta  = Soll_Pos.Beta;
-    Soll_FOV   = Soll_Pos.FOV;
+    target_Pos_x = target_Pos.Pos_x;
+    target_Pos_y = target_Pos.Pos_y;
+    target_Pos_z = target_Pos.Pos_z;
+    target_Alpha = target_Pos.Alpha;
+    target_Beta  = target_Pos.Beta;
+    target_FOV   = target_Pos.FOV;
 
     Beta = fmod(Beta, 360.0f);
-    Soll_Beta = fmod(Soll_Beta, 360.0f);
+    target_Beta = fmod(target_Beta, 360.0f);
 
-    if (Soll_Beta>Beta+180)
+    if (target_Beta > Beta + 180)
     {
-        Soll_Beta-=360;
+        target_Beta -= 360;
     }
-    if (Soll_Beta<Beta-180)
+    if (target_Beta < Beta - 180)
     {
-        Soll_Beta+=360;
+        target_Beta += 360;
     }
     BlickTiefeNeuBestimmen();
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
-void Camera::setzeSollPosition(float SollPosx, float SollPosy,float SollPosz,
-                               float SollAlpha,float SollBeta,float SollFOV)
+void Camera::setzeSollPosition(float tgtPosx, float tgtPosy,float tgtPosz,
+                               float tgtAlpha,float tgtBeta,float tgtFOV)
 {
-    Soll_Pos_x = SollPosx;
-    Soll_Pos_y = SollPosy;
-    Soll_Pos_z = SollPosz;
-    Soll_Alpha = SollAlpha;
-    Soll_Beta  = SollBeta;
-    Soll_FOV   = SollFOV;
+    target_Pos_x = tgtPosx;
+    target_Pos_y = tgtPosy;
+    target_Pos_z = tgtPosz;
+    target_Alpha = tgtAlpha;
+    target_Beta  = tgtBeta;
+    target_FOV   = tgtFOV;
 
     Beta = fmod(Beta, 360.0f);
-    Soll_Beta = fmod(Soll_Beta, 360.0f);
+    target_Beta = fmod(target_Beta, 360.0f);
 
-    if (Soll_Beta>Beta+180)
+    if (target_Beta > Beta + 180)
     {
-        Soll_Beta-=360;
+        target_Beta -= 360;
     }
-    if (Soll_Beta<Beta-180)
+    if (target_Beta < Beta - 180)
     {
-        Soll_Beta+=360;
+        target_Beta += 360;
     }
-    IsRundflug = false;
+    IsRoundtrip = false;
 }
 
-void Camera::BlickeAuf(float Blickpunkt_x,float Blickpunkt_y)
+void Camera::BlickeAuf(float focus_x, float focus_y)
 {
-    GLfloat SollPosx=50*(Pos_x-Blickpunkt_x)/
-                     sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
-                          (Blickpunkt_y-Pos_y)*(Blickpunkt_y-Pos_y))+
-                     Blickpunkt_x;
-    GLfloat SollPosy=50*(Pos_y-Blickpunkt_y)/
-                     sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
-                          (Blickpunkt_y-Pos_y)*(Blickpunkt_y-Pos_y))+
-                     Blickpunkt_y;
-    GLfloat SollPosz=20;
-    GLfloat SollAlpha = 71.0167f;
-    GLfloat SollBeta=atan((Blickpunkt_x-SollPosx)/(Blickpunkt_y-SollPosy))*
-                     degprad;
-    if (SollPosy>Blickpunkt_y)
+    GLfloat tgtPosx = focus_x + 50 * (Pos_x - focus_x) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosy = focus_y + 50 * (Pos_y - focus_y) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosz = 20;
+    GLfloat tgtAlpha = 71.0167f;
+    GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
+    if (tgtPosy > focus_y)
     {
-        SollBeta -= 180.0f;
+        tgtBeta -= 180.0f;
     }
-    GLfloat SollFOV = 38.6f;
+    GLfloat tgtFOV = 38.6f;
 
-    setzeSollPosition(SollPosx,SollPosy,SollPosz,SollAlpha,SollBeta,SollFOV);
-    IsRundflug = false;
+    setzeSollPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
+    IsRoundtrip = false;
 }
 
-void Camera::BlickeAuf2(float Blickpunkt_x,float Blickpunkt_y)
+void Camera::BlickeAuf2(float focus_x, float focus_y)
 {
-    GLfloat SollPosx=80*(Pos_x-Blickpunkt_x)/
-                     sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
-                          (Blickpunkt_y-Pos_y)*(Blickpunkt_y-Pos_y))+
-                     Blickpunkt_x;
-    GLfloat SollPosy=80*(Pos_y-Blickpunkt_y)/
-                     sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
-                          (Blickpunkt_y-Pos_y)*(Blickpunkt_y-Pos_y))+
-                     Blickpunkt_y;
-    GLfloat SollPosz=50;
-    GLfloat SollAlpha=72;
-    GLfloat SollBeta=atan((Blickpunkt_x-SollPosx)/(Blickpunkt_y-SollPosy))*
-                     degprad;
-    if (SollPosy>Blickpunkt_y)
+    GLfloat tgtPosx = focus_x + 80 * (Pos_x - focus_x) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosy = focus_y + 80 * (Pos_y - focus_y) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosz = 50;
+    GLfloat tgtAlpha = 72;
+    GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
+    if (tgtPosy > focus_y)
     {
-        SollBeta -= 180.0f;
+        tgtBeta -= 180.0f;
     }
-    GLfloat SollFOV = 38.6f;
+    GLfloat tgtFOV = 38.6f;
 
-    setzeSollPosition(SollPosx,SollPosy,SollPosz,SollAlpha,SollBeta,SollFOV);
-    IsRundflug = false;
+    setzeSollPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
+    IsRoundtrip = false;
 }
 
-void Camera::BlickeAuf3(float Blickpunkt_x,float Blickpunkt_y)
+void Camera::BlickeAuf3(float focus_x, float focus_y)
 {
-    GLfloat SollPosx=80*(Pos_x-Blickpunkt_x)/
-                     sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
-                          (Blickpunkt_y-Pos_y)*(Blickpunkt_y-Pos_y))+
-                     Blickpunkt_x;
-    GLfloat SollPosy=80*(Pos_y-Blickpunkt_y)/
-                     sqrt((Blickpunkt_x-Pos_x)*(Blickpunkt_x-Pos_x)+
-                          (Blickpunkt_y-Pos_y)*(Blickpunkt_y-Pos_y))+
-                     Blickpunkt_y;
-    GLfloat SollPosz=50;
-    GLfloat SollAlpha=58;
-    GLfloat SollBeta=atan((Blickpunkt_x-SollPosx)/(Blickpunkt_y-SollPosy))*
-                     degprad;
-    if (SollPosy>Blickpunkt_y)
+    GLfloat tgtPosx = focus_x + 80 * (Pos_x - focus_x) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosy = focus_y + 80 * (Pos_y - focus_y) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosz = 50;
+    GLfloat tgtAlpha = 58;
+    GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
+    if (tgtPosy>focus_y)
     {
-        SollBeta -= 180.0f;
+        tgtBeta -= 180.0f;
     }
-    GLfloat SollFOV = 38.6f;
+    GLfloat tgtFOV = 38.6f;
 
-    setzeSollPosition(SollPosx,SollPosy,SollPosz,SollAlpha,SollBeta,SollFOV);
-    IsRundflug = false;
+    setzeSollPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
+    IsRoundtrip = false;
 }
 
-void Camera::Fahrt(int Faktor)
+void Camera::Fahrt(int factor)
 {
-    for (int i=0; i<Faktor; i++)
+    for (int i=0; i < factor; i++)
     {
 
-        if (Soll_Beta-Beta<-180)
+        if (target_Beta - Beta < -180)
         {
-            Beta-=360;
+            Beta -= 360;
         }
-        if (Soll_Beta-Beta> 180)
+        if (target_Beta - Beta > 180)
         {
-            Beta+=360;
+            Beta += 360;
         }
 
-        d_Pos_x = d_Pos_x * 0.9f + 0.003f * (Soll_Pos_x - Pos_x);
-        d_Pos_y = d_Pos_y * 0.9f + 0.003f * (Soll_Pos_y - Pos_y);
-        d_Pos_z = d_Pos_z * 0.9f + 0.003f * (Soll_Pos_z - Pos_z);
-        d_Alpha = d_Alpha * 0.9f + 0.003f * (Soll_Alpha - Alpha);
-        d_Beta  = d_Beta  * 0.9f + 0.003f * (Soll_Beta - Beta);
-        d_FOV   = d_FOV   * 0.9f + 0.003f * (Soll_FOV - FOV);
+        d_Pos_x = d_Pos_x * 0.9f + 0.003f * (target_Pos_x - Pos_x);
+        d_Pos_y = d_Pos_y * 0.9f + 0.003f * (target_Pos_y - Pos_y);
+        d_Pos_z = d_Pos_z * 0.9f + 0.003f * (target_Pos_z - Pos_z);
+        d_Alpha = d_Alpha * 0.9f + 0.003f * (target_Alpha - Alpha);
+        d_Beta  = d_Beta  * 0.9f + 0.003f * (target_Beta - Beta);
+        d_FOV   = d_FOV   * 0.9f + 0.003f * (target_FOV - FOV);
 
         Pos_x += d_Pos_x;
         Pos_y += d_Pos_y;
@@ -579,65 +595,72 @@ void Camera::Fahrt(int Faktor)
         BlickTiefeNeuBestimmen();
 
     }
-    if (IsRundflug)
+
+    if (IsRoundtrip)
     {
-        Rundflug(Faktor);
+        Rundflug(factor);
     }
 }
 
 void Camera::BlickTiefeNeuBestimmen()
 {
-    GLfloat ax=fabs(Pos_x),ay=fabs(Pos_y),az=Pos_z;
+    GLfloat ax = fabs(Pos_x);
+    GLfloat ay = fabs(Pos_y);
+    GLfloat az = Pos_z;
 
-    if (ax<150)
+    if (ax < 150)
     {
-        if (ay<80)
+        if (ay < 80)
         {
-            Nah=az-5;
+            Near = az - 5;
         }
         else
         {
-            Nah=sqrt((ay-80)*(ay-80)+(az-5)*(az-5));
+            Near = sqrt((ay - 80) * (ay - 80) + (az - 5) * (az - 5));
         }
     }
     else
     {
-        if (ay<80)
+        if (ay < 80)
         {
-            Nah=sqrt((ax-150)*(ax-150)+(az-5)*(az-5));
+            Near = sqrt((ax - 150) * (ax - 150) + (az - 5) * (az - 5));
         }
         else
         {
-            Nah=sqrt((ax-150)*(ax-150)+(ay-80)*(ay-80)+(az-5)*(az-5));
+            Near = sqrt((ax - 150) * (ax - 150) + (ay - 80) * (ay - 80) +
+                        (az - 5) * (az - 5));
         }
     }
 
-    Nah *= 0.8f;
+    Near *= 0.8f;
 
-    if (Nah<1)
+    if (Near < 1)
     {
-        Nah=1;
+        Near = 1;
     }
 
-    Fern=sqrt((ax+150)*(ax+150)+(ay+80)*(ay+80)+az*az);
+    Far = sqrt((ax + 150) * (ax + 150) + (ay + 80) * (ay + 80) + az * az);
 }
 
 
-void Camera::Rundflug(int Faktor)
+void Camera::Rundflug(int factor)
 {
-    if (Soll_Pos_y==0)
+    if (target_Pos_y == 0)
     {
-        Soll_Pos_y = 0.00001f;
+        target_Pos_y = 0.00001f;
     }
-    //Soll_Beta=Faktor*.1+atan(Soll_Pos_x/Soll_Pos_y)*degprad;
-    //if (Soll_Pos_y>0) {Soll_Beta-=180;}
-    Soll_Beta += 0.1f * Faktor;
-    Soll_Pos_x = (-30.0f * sin(Soll_Beta * M_PIf / 180.0f) - 280.0f) * sin(Soll_Beta * M_PIf / 180.0f);
-    Soll_Pos_y = (-30.0f * sin(Soll_Beta * M_PIf / 180.0f) - 280.0f) * cos(Soll_Beta * M_PIf / 180.0f);
+
+    //target_Beta = factor * 0.1f + atan(target_Pos_x / target_Pos_y) * degprad;
+    //if (target_Pos_y > 0) {target_Beta -= 180;}
+    target_Beta += 0.1f * factor;
+    target_Pos_x = (-30.0f * sin(target_Beta * M_PIf / 180.0f) - 280.0f) *
+                    sin(target_Beta * M_PIf / 180.0f);
+    target_Pos_y = (-30.0f * sin(target_Beta * M_PIf / 180.0f) - 280.0f) *
+                    cos(target_Beta * M_PIf / 180.0f);
     // Sw: unfinished
-    //Soll_Pos_z=100-50*sin(Soll_Beta*M_PI/180);
-    Soll_Pos_z = 150.0f - 25.0f * sin(Soll_Beta * M_PIf / 180.0f);
-    Soll_FOV = 36.8f;
-    Soll_Alpha=atan(sqrt(Soll_Pos_x*Soll_Pos_x+Soll_Pos_y*Soll_Pos_y)/
-                    Soll_Pos_z)*degprad;
+    //target_Pos_z=100-50*sin(target_Beta*M_PI/180);
+    target_Pos_z = 150.0f - 25.0f * sin(target_Beta * M_PIf / 180.0f);
+    target_FOV = 36.8f;
+    target_Alpha = degprad * atan(sqrt(target_Pos_x * target_Pos_x +
+                   target_Pos_y * target_Pos_y) / target_Pos_z);
 }
