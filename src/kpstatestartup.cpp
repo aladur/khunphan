@@ -95,23 +95,23 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
     if (!fullInitialized)
     {
         menu.progressBar.SetBarColor(1.0, 0.0, 0.0);
-        menu.progressBar.SetPosition(8, 6, 6, 1.5, A_MITTE);
+        menu.progressBar.SetPosition(8, 6, 6, 1.5, A_CENTERED);
     }
 
     float y = 3.0f;
-    menu.labels[T_COPYRIGHT1].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT1].Positioniere(8, y, 0.4f, A_CENTERED);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT2].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT2].Positioniere(8, y, 0.4f, A_CENTERED);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT3].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT3].Positioniere(8, y, 0.4f, A_CENTERED);
     y -= 0.8f;
-    menu.labels[T_COPYRIGHT4].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT4].Positioniere(8, y, 0.4f, A_CENTERED);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT5].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT5].Positioniere(8, y, 0.4f, A_CENTERED);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT6].Positioniere(8, y, 0.4f, A_MITTE);
+    menu.labels[T_COPYRIGHT6].Positioniere(8, y, 0.4f, A_CENTERED);
 
-    menu.labels[T_NOWARRANTY].Positioniere(8,    0,   0.5, A_MITTE);
+    menu.labels[T_NOWARRANTY].Positioniere(8,    0,   0.5, A_CENTERED);
     menu.labels[T_VERSION].Positioniere(0.1f, 0,   0.5);
 
     StartAnimation();

@@ -44,17 +44,17 @@ void KPstateGraphicHint::UpdateDisplay(KPstateContext *pContext)
     menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
     menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.labels[T_HINWEIS].Positioniere(8,8,1,A_MITTE);
-    menu.labels[T_HINWEIS].VollSichtbar();
+    menu.labels[T_HINT].Positioniere(8,8,1,A_CENTERED);
+    menu.labels[T_HINT].VollSichtbar();
 
-    menu.labels[T_HINWEIS1].Positioniere(8,6.0,0.7f,A_MITTE);
-    menu.labels[T_HINWEIS2].Positioniere(8,5.5,0.7f,A_MITTE);
-    if (menu.labels.find(T_HINWEIS3) != menu.labels.end())
+    menu.labels[T_HINT1].Positioniere(8,6.0,0.7f,A_CENTERED);
+    menu.labels[T_HINT1].Positioniere(8,5.5,0.7f,A_CENTERED);
+    if (menu.labels.find(T_HINT3) != menu.labels.end())
     {
-        menu.labels[T_HINWEIS3].Positioniere(8,5.0,0.7f,A_MITTE);
+        menu.labels[T_HINT3].Positioniere(8,5.0,0.7f,A_CENTERED);
     }
 
-    menu.labels[T_OK].Positioniere(8,1,1,A_MITTE);
+    menu.labels[T_OK].Positioniere(8,1,1,A_CENTERED);
     menu.labels[T_OK].SetzeSignal(S_BACK);
 
     StartAnimation();

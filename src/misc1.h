@@ -245,10 +245,10 @@ enum tKPDirection
 
 enum tKPAlignment
 {
-    A_EGAL,
-    A_LINKS,
-    A_MITTE,
-    A_RECHTS
+    A_DONTCARE,
+    A_LEFT,
+    A_CENTERED,
+    A_RIGHT
 };
 
 enum tEventCounter
@@ -271,11 +271,11 @@ enum tMouseButton
     KP_RIGHT_MB        = 48
 };
 
-#define MOD_AUSGEBLENDET 0.0f
-#define MOD_TRANSPARENT  0.2f
-#define MOD_EINGEBLENDET 0.6f
-#define MOD_ANGEWAEHLT   0.8f
-#define MOD_VOLLSICHTBAR 1.0f
+#define MOD_FADEOUT      0.0f
+#define MOD_TRANSPARENCY 0.2f
+#define MOD_FADEIN       0.6f
+#define MOD_SELECTED     0.8f
+#define MOD_FULLYVISIBLE 1.0f
 
 enum
 {

@@ -200,7 +200,7 @@ void Label::Initialisiere()
     x = y = Height = AspectRatio = Alpha = 0.0;
     old_x = old_y = old_Height = old_Alpha = 0.0;
     target_x = target_y = target_Height = target_Alpha = 0.0;
-    Alignment = A_LINKS;
+    Alignment = A_LEFT;
     InAnimation = false;
     Signal = 0;
     Time = 0;
@@ -236,24 +236,24 @@ void Label::male()
 void Label::Positioniere(float X, float Y, float H, tKPAlignment A)
 {
 
-    if (A != A_EGAL)
+    if (A != A_DONTCARE)
     {
         Alignment=A;
     }
 
     switch (Alignment)
     {
-        case A_LINKS:
+        case A_LEFT:
         {
             target_x = X;
         }
         break;
-        case A_MITTE:
+        case A_CENTERED:
         {
             target_x = X - 0.5f * AspectRatio * H;
         }
         break;
-        case A_RECHTS:
+        case A_RIGHT:
         {
             target_x = X - AspectRatio * H;
         }
@@ -262,9 +262,9 @@ void Label::Positioniere(float X, float Y, float H, tKPAlignment A)
 
     target_y     = Y;
     target_Height = H;
-    target_Alpha = MOD_EINGEBLENDET;
+    target_Alpha = MOD_FADEIN;
 
-    if (Alpha == MOD_AUSGEBLENDET)
+    if (Alpha == MOD_FADEOUT)
     {
 
         x = ((target_x - 8) / 1.5f) + 8;
@@ -438,7 +438,7 @@ bool Label::Zeichen(char key)
         else if (key == '\r' || key == '\n')
         {
             // Commit input with Enter or Line Feed
-            target_Alpha = MOD_EINGEBLENDET;
+            target_Alpha = MOD_FADEIN;
             hasInputFocus = false;
             if (target_Alpha != Alpha)
             {
@@ -457,13 +457,13 @@ const char *Label::Text()
 
 bool Label::IsDeactivated() const
 {
-    return ((target_Alpha != Alpha && (target_Alpha == MOD_AUSGEBLENDET)) ||
-            (Alpha == MOD_AUSGEBLENDET));
+    return ((target_Alpha != Alpha && (target_Alpha == MOD_FADEOUT)) ||
+            (Alpha == MOD_FADEOUT));
 }
 
 void Label::Desaktiviere()
 {
-    target_Alpha = MOD_AUSGEBLENDET;
+    target_Alpha = MOD_FADEOUT;
 
     target_x=((x - 8) * 1.5f) + 8;
     target_y=((y - 6) * 1.5f) + 6;
@@ -496,8 +496,8 @@ void Label::SetInputFocus(bool state)
 
 void Label::Angewaehlt()
 {
-    Alpha = MOD_ANGEWAEHLT;
-    target_Alpha = MOD_EINGEBLENDET;
+    Alpha = MOD_SELECTED;
+    target_Alpha = MOD_FADEIN;
     if (target_Alpha!=Alpha)
     {
         StarteAnimation();
@@ -506,7 +506,7 @@ void Label::Angewaehlt()
 
 void Label::Eingeblendet()
 {
-    target_Alpha = MOD_EINGEBLENDET;
+    target_Alpha = MOD_FADEIN;
     if (target_Alpha!=Alpha)
     {
         StarteAnimation();
@@ -515,7 +515,7 @@ void Label::Eingeblendet()
 
 void Label::VollSichtbar()
 {
-    target_Alpha =MOD_VOLLSICHTBAR;
+    target_Alpha =MOD_FULLYVISIBLE;
     if (target_Alpha!=Alpha)
     {
         StarteAnimation();

@@ -45,12 +45,12 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext)
     menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
     menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.labels[T_BEENDEN].Positioniere(8,8,1,A_MITTE);
-    menu.labels[T_BEENDEN].VollSichtbar();
-    menu.labels[T_JABEENDEN].Positioniere(8,6,1,A_MITTE);
-    menu.labels[T_JABEENDEN].SetzeSignal(S_FINISH);
-    menu.labels[T_ZURUECK].Positioniere(8,1,1,A_MITTE);
-    menu.labels[T_ZURUECK].SetzeSignal(S_BACK);
+    menu.labels[T_QUIT].Positioniere(8,8,1,A_CENTERED);
+    menu.labels[T_QUIT].VollSichtbar();
+    menu.labels[T_DOQUIT].Positioniere(8,6,1,A_CENTERED);
+    menu.labels[T_DOQUIT].SetzeSignal(S_FINISH);
+    menu.labels[T_BACK].Positioniere(8,1,1,A_CENTERED);
+    menu.labels[T_BACK].SetzeSignal(S_BACK);
 
     StartAnimation();
 }

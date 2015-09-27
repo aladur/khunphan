@@ -46,15 +46,15 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext)
     menu.plates[SHLD_LOGO].Positioniere(5,9,11,11);
     menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.labels[T_SPRACHAUSWAHL].Positioniere(8,8,1,A_MITTE);
-    menu.labels[T_SPRACHAUSWAHL].VollSichtbar();
+    menu.labels[T_SELECTLANGUAGE].Positioniere(8,8,1,A_CENTERED);
+    menu.labels[T_SELECTLANGUAGE].VollSichtbar();
 
     float Pos_y=7;
-    for (int i = T_LANGUAGE1; i < MAX_TEXTFELD; i++)
+    for (int i = T_LANGUAGE1; i <= T_LANGUAGE_MAX; i++)
     {
         if ( menu.labels.find(i) != menu.labels.end() )
         {
-            menu.labels[i].Positioniere(8,Pos_y,0.71f,A_MITTE);
+            menu.labels[i].Positioniere(8,Pos_y,0.71f,A_CENTERED);
             menu.labels[i].SetzeSignal(i);
             Pos_y-=.5;
         }
@@ -62,8 +62,8 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext)
 
     if (KPConfig::Instance().Language)
     {
-        menu.labels[T_ZURUECK].Positioniere(8,1,1,A_MITTE);
-        menu.labels[T_ZURUECK].SetzeSignal(S_BACK);
+        menu.labels[T_BACK].Positioniere(8,1,1,A_CENTERED);
+        menu.labels[T_BACK].SetzeSignal(S_BACK);
     }
 
     StartAnimation();

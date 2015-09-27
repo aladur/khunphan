@@ -148,59 +148,58 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     menu.plates[SHLD_LOGO].Positioniere(4,10,12,12);
     menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.labels[T_EINSTELLUNGEN].Positioniere(4,9,1);
-    menu.labels[T_EINSTELLUNGEN].VollSichtbar();
-    menu.labels[T_GRAFIK].Positioniere(12,9,1,A_RECHTS);
-    menu.labels[T_GRAFIK].VollSichtbar();
+    menu.labels[T_SETTINGS].Positioniere(4,9,1);
+    menu.labels[T_SETTINGS].VollSichtbar();
+    menu.labels[T_GRAPHICS].Positioniere(12,9,1,A_RIGHT);
+    menu.labels[T_GRAPHICS].VollSichtbar();
 
     y = 8.0f;
-    menu.labels[T_QUALITAET].Positioniere(8,y,1,A_RECHTS);
-    menu.labels[T_QUALITAET].SetzeSignal(S_TOGGLE_QUALITY);
+    menu.labels[T_QUALITY].Positioniere(8,y,1,A_RIGHT);
+    menu.labels[T_QUALITY].SetzeSignal(S_TOGGLE_QUALITY);
     y = 7.4f;
     if (E_FullScreen == 0)
     {
-        menu.labels[T_AUFLOESUNG].Positioniere(8, y, 0.6f, A_RECHTS);
-        menu.labels[T_AUFLOESUNG].SetzeSignal(S_TOGGLE_RESOLUTION);
+        menu.labels[T_RESOLUTION].Positioniere(8, y, 0.6f, A_RIGHT);
+        menu.labels[T_RESOLUTION].SetzeSignal(S_TOGGLE_RESOLUTION);
     }
     y -= dy;
-    menu.labels[T_SCREENMODE].Positioniere(8, y, 0.6f, A_RECHTS);
+    menu.labels[T_SCREENMODE].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
     menu.labels[T_SCREENMODE].SetzeSignal(S_TOGGLE_SCREENMODE);
-    menu.labels[T_MENUTEXTUREN].Positioniere(8, y, 0.6f, A_RECHTS);
+    menu.labels[T_MENUTEXTURES].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
-    menu.labels[T_MENUTEXTUREN].SetzeSignal(S_TOGGLE_MENUTEXTURES);
-    menu.labels[T_TEXTUREN].Positioniere(8, y, 0.6f, A_RECHTS);
+    menu.labels[T_MENUTEXTURES].SetzeSignal(S_TOGGLE_MENUTEXTURES);
+    menu.labels[T_TEXTURES].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
-    menu.labels[T_TEXTUREN].SetzeSignal(S_TOGGLE_TEXTURES);
-    menu.labels[T_TEXTURENAME].Positioniere(8, y, 0.6f, A_RECHTS);
+    menu.labels[T_TEXTURES].SetzeSignal(S_TOGGLE_TEXTURES);
+    menu.labels[T_TEXTURENAME].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
     menu.labels[T_TEXTURENAME].SetzeSignal(S_TOGGLE_TEXTURENAME);
-    menu.labels[T_REFLEKTIONEN].Positioniere(8, y, 0.6f, A_RECHTS);
+    menu.labels[T_REFLECTIONS].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
-    menu.labels[T_REFLEKTIONEN].SetzeSignal(S_TOGGLE_REFLECTIONS);
-    menu.labels[T_FARBTIEFE].Positioniere(8, y, 0.6f, A_RECHTS);
+    menu.labels[T_REFLECTIONS].SetzeSignal(S_TOGGLE_REFLECTIONS);
+    menu.labels[T_COLORDEPTH].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
-    menu.labels[T_FARBTIEFE].SetzeSignal(S_TOGGLE_COLORDEPTH);
+    menu.labels[T_COLORDEPTH].SetzeSignal(S_TOGGLE_COLORDEPTH);
     // Shadows currently not supported
-    //menu.labels[T_SCHATTEN].Positioniere(8,y,0.6f,A_RECHTS);
+    //menu.labels[T_SHADOWS].Positioniere(8,y,0.6f,A_RIGHT);
     //y -= dy;
-    //menu.labels[T_SCHATTEN].SetzeSignal(S_TOGGLE_SHADOWS);
-    menu.labels[T_TEXTURINTERPOLATION].Positioniere(8, y, 0.6f, A_RECHTS);
+    //menu.labels[T_SHADOWS].SetzeSignal(S_TOGGLE_SHADOWS);
+    menu.labels[T_TEXTUREINTERPOL].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
-    menu.labels[T_TEXTURINTERPOLATION].SetzeSignal(
-        S_TOGGLE_TEXTUREINTERPOLATION);
-    menu.labels[T_AMBIENTESLICHT].Positioniere(8, y, 0.6f, A_RECHTS);
+    menu.labels[T_TEXTUREINTERPOL].SetzeSignal(S_TOGGLE_TEXTUREINTERPOL);
+    menu.labels[T_AMBIENTLIGHT].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
-    menu.labels[T_AMBIENTESLICHT].SetzeSignal(S_TOGGLE_AMBIENT_LIGHT);
-    menu.labels[T_TISCHLAMPEN].Positioniere(8, y, 0.6f, A_RECHTS);
+    menu.labels[T_AMBIENTLIGHT].SetzeSignal(S_TOGGLE_AMBIENT_LIGHT);
+    menu.labels[T_ILLUMINATION].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
-    menu.labels[T_TISCHLAMPEN].SetzeSignal(S_TOGGLE_LAMPS);
+    menu.labels[T_ILLUMINATION].SetzeSignal(S_TOGGLE_LAMPS);
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
-    menu.labels[T_USERINTERFACE].Positioniere(8, y, 0.6f, A_RECHTS);
+    menu.labels[T_USERINTERFACE].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
     menu.labels[T_USERINTERFACE].SetzeSignal(S_TOGGLE_USER_INTERFACE);
 #endif
-    menu.labels[T_FRAMERATE].Positioniere(8, y, 0.6f, A_RECHTS);
+    menu.labels[T_FRAMERATE].Positioniere(8, y, 0.6f, A_RIGHT);
     y -= dy;
     menu.labels[T_FRAMERATE].SetzeSignal(S_TOGGLE_FPS);
 
@@ -209,14 +208,14 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     {
         case 1:
         {
-            menu.labels[T_Q_SEHRSCHNELL].Positioniere(8.2f, y, 1);
-            menu.labels[T_Q_SEHRSCHNELL].SetzeSignal(S_TOGGLE_QUALITY);
+            menu.labels[T_Q_VERYFAST].Positioniere(8.2f, y, 1);
+            menu.labels[T_Q_VERYFAST].SetzeSignal(S_TOGGLE_QUALITY);
         }
         break;
         case 2:
         {
-            menu.labels[T_Q_SCHNELL].Positioniere(8.2f, y, 1);
-            menu.labels[T_Q_SCHNELL].SetzeSignal(S_TOGGLE_QUALITY);
+            menu.labels[T_Q_FAST].Positioniere(8.2f, y, 1);
+            menu.labels[T_Q_FAST].SetzeSignal(S_TOGGLE_QUALITY);
         }
         break;
         case 3:
@@ -227,20 +226,20 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
         break;
         case 4:
         {
-            menu.labels[T_Q_HOCH].Positioniere(8.2f, y, 1);
-            menu.labels[T_Q_HOCH].SetzeSignal(S_TOGGLE_QUALITY);
+            menu.labels[T_Q_HIGH].Positioniere(8.2f, y, 1);
+            menu.labels[T_Q_HIGH].SetzeSignal(S_TOGGLE_QUALITY);
         }
         break;
         case 5:
         {
-            menu.labels[T_Q_SEHRHOCH].Positioniere(8.2f, y, 1);
-            menu.labels[T_Q_SEHRHOCH].SetzeSignal(S_TOGGLE_QUALITY);
+            menu.labels[T_Q_VERYHIGH].Positioniere(8.2f, y, 1);
+            menu.labels[T_Q_VERYHIGH].SetzeSignal(S_TOGGLE_QUALITY);
         }
         break;
         default:
         {
-            menu.labels[T_Q_BENUTZER].Positioniere(8.2f, y, 1);
-            menu.labels[T_Q_BENUTZER].SetzeSignal(S_TOGGLE_QUALITY);
+            menu.labels[T_Q_USER].Positioniere(8.2f, y, 1);
+            menu.labels[T_Q_USER].SetzeSignal(S_TOGGLE_QUALITY);
         }
         break;
     }
@@ -252,37 +251,32 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
         {
             case 640:
             {
-                menu.labels[T_AUF_640x480].Positioniere(8.2f, y, 0.6f);
-                menu.labels[T_AUF_640x480].SetzeSignal(
-                    S_TOGGLE_RESOLUTION);
+                menu.labels[T_RES_640x480].Positioniere(8.2f, y, 0.6f);
+                menu.labels[T_RES_640x480].SetzeSignal(S_TOGGLE_RESOLUTION);
             }
             break;
             case 1024:
             {
-                menu.labels[T_AUF_1024x768].Positioniere(8.2f, y, 0.6f);
-                menu.labels[T_AUF_1024x768].SetzeSignal(
-                    S_TOGGLE_RESOLUTION);
+                menu.labels[T_RES_1024x768].Positioniere(8.2f, y, 0.6f);
+                menu.labels[T_RES_1024x768].SetzeSignal(S_TOGGLE_RESOLUTION);
             }
             break;
             case 1280:
             {
-                menu.labels[T_AUF_1280x960].Positioniere(8.2f, y, 0.6f);
-                menu.labels[T_AUF_1280x960].SetzeSignal(
-                    S_TOGGLE_RESOLUTION);
+                menu.labels[T_RES_1280x960].Positioniere(8.2f, y, 0.6f);
+                menu.labels[T_RES_1280x960].SetzeSignal(S_TOGGLE_RESOLUTION);
             }
             break;
             case 1600:
             {
-                menu.labels[T_AUF_1600x1200].Positioniere(8.2f, y, 0.6f);
-                menu.labels[T_AUF_1600x1200].SetzeSignal(
-                    S_TOGGLE_RESOLUTION);
+                menu.labels[T_RES_1600x1200].Positioniere(8.2f, y, 0.6f);
+                menu.labels[T_RES_1600x1200].SetzeSignal(S_TOGGLE_RESOLUTION);
             }
             break;
             default:
             {
-                menu.labels[T_AUF_800x600].Positioniere(8.2f, y, 0.6f);
-                menu.labels[T_AUF_800x600].SetzeSignal(
-                    S_TOGGLE_RESOLUTION);
+                menu.labels[T_RES_800x600].Positioniere(8.2f, y, 0.6f);
+                menu.labels[T_RES_800x600].SetzeSignal(S_TOGGLE_RESOLUTION);
             }
             break;
         }
@@ -305,8 +299,8 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     {
         case 1:
         {
-            menu.labels[T_MT_HOCH].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_MT_HOCH].SetzeSignal(S_TOGGLE_MENUTEXTURES);
+            menu.labels[T_MT_HIGH].Positioniere(8.2f, y, 0.6f);
+            menu.labels[T_MT_HIGH].SetzeSignal(S_TOGGLE_MENUTEXTURES);
         }
         break;
         case 2:
@@ -322,8 +316,8 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     {
         case 1:
         {
-            menu.labels[T_T_HOCH].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_T_HOCH].SetzeSignal(S_TOGGLE_TEXTURES);
+            menu.labels[T_T_HIGH].Positioniere(8.2f, y, 0.6f);
+            menu.labels[T_T_HIGH].SetzeSignal(S_TOGGLE_TEXTURES);
         }
         break;
         case 2:
@@ -334,33 +328,32 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
         break;
         case 4:
         {
-            menu.labels[T_T_NIEDRIG].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_T_NIEDRIG].SetzeSignal(S_TOGGLE_TEXTURES);
+            menu.labels[T_T_LOW].Positioniere(8.2f, y, 0.6f);
+            menu.labels[T_T_LOW].SetzeSignal(S_TOGGLE_TEXTURES);
         }
         break;
         case 8:
         {
-            menu.labels[T_T_SEHRNIEDRIG].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_T_SEHRNIEDRIG].SetzeSignal(S_TOGGLE_TEXTURES);
+            menu.labels[T_T_VERYLOW].Positioniere(8.2f, y, 0.6f);
+            menu.labels[T_T_VERYLOW].SetzeSignal(S_TOGGLE_TEXTURES);
         }
         break;
     }
 
     y -= dy;
     menu.labels[T_TEXTURE1 + textureIndex].Positioniere(8.2f, y, 0.6f);
-    menu.labels[T_TEXTURE1 + textureIndex].SetzeSignal(
-        S_TOGGLE_TEXTURENAME);
+    menu.labels[T_TEXTURE1 + textureIndex].SetzeSignal(S_TOGGLE_TEXTURENAME);
 
     y -= dy;
     if (KPConfig::Instance().Reflections)
     {
-        menu.labels[T_REF_EIN].Positioniere(8.2f, y, 0.6f);
-        menu.labels[T_REF_EIN].SetzeSignal(S_TOGGLE_REFLECTIONS);
+        menu.labels[T_REF_ON].Positioniere(8.2f, y, 0.6f);
+        menu.labels[T_REF_ON].SetzeSignal(S_TOGGLE_REFLECTIONS);
     }
     else
     {
-        menu.labels[T_REF_AUS].Positioniere(8.2f, y, 0.6f);
-        menu.labels[T_REF_AUS].SetzeSignal(S_TOGGLE_REFLECTIONS);
+        menu.labels[T_REF_OFF].Positioniere(8.2f, y, 0.6f);
+        menu.labels[T_REF_OFF].SetzeSignal(S_TOGGLE_REFLECTIONS);
     }
 
     y -= dy;
@@ -368,14 +361,14 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     {
         case 32:
         {
-            menu.labels[T_FT_32].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_FT_32].SetzeSignal(S_TOGGLE_COLORDEPTH);
+            menu.labels[T_CD_32].Positioniere(8.2f, y, 0.6f);
+            menu.labels[T_CD_32].SetzeSignal(S_TOGGLE_COLORDEPTH);
         }
         break;
         default:
         {
-            menu.labels[T_FT_16].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_FT_16].SetzeSignal(S_TOGGLE_COLORDEPTH);
+            menu.labels[T_CD_16].Positioniere(8.2f, y, 0.6f);
+            menu.labels[T_CD_16].SetzeSignal(S_TOGGLE_COLORDEPTH);
         }
         break;
     }
@@ -384,42 +377,38 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     y -= dy;
     if (KPConfig::Instance().Shadows)
     {
-      menu.labels[T_S_EIN].Positioniere(8.2f, y, 0.6f);
-      menu.labels[T_S_EIN].SetzeSignal(S_TOGGLE_SHADOWS);
+      menu.labels[T_S_ON].Positioniere(8.2f, y, 0.6f);
+      menu.labels[T_S_ON].SetzeSignal(S_TOGGLE_SHADOWS);
     }
     else
     {
-      menu.labels[T_S_AUS].Positioniere(8.2f, y, 0.6f);
-      menu.labels[T_S_AUS].SetzeSignal(S_TOGGLE_SHADOWS);
+      menu.labels[T_S_OFF].Positioniere(8.2f, y, 0.6f);
+      menu.labels[T_S_OFF].SetzeSignal(S_TOGGLE_SHADOWS);
     }
     */
 
     y -= dy;
     if (KPConfig::Instance().Nearest)
     {
-        menu.labels[T_TI_AUS].Positioniere(8.2f, y, 0.6f);
-        menu.labels[T_TI_AUS].SetzeSignal(
-            S_TOGGLE_TEXTUREINTERPOLATION);
+        menu.labels[T_TI_OFF].Positioniere(8.2f, y, 0.6f);
+        menu.labels[T_TI_OFF].SetzeSignal(S_TOGGLE_TEXTUREINTERPOL);
     }
     else
     {
-        menu.labels[T_TI_EIN].Positioniere(8.2f, y, 0.6f);
-        menu.labels[T_TI_EIN].SetzeSignal(
-            S_TOGGLE_TEXTUREINTERPOLATION);
+        menu.labels[T_TI_ON].Positioniere(8.2f, y, 0.6f);
+        menu.labels[T_TI_ON].SetzeSignal(S_TOGGLE_TEXTUREINTERPOL);
     }
 
     y -= dy;
     if (KPConfig::Instance().AmbientLight)
     {
-        menu.labels[T_AMBIENTESLICHTEIN].Positioniere(8.2f, y, 0.6f);
-        menu.labels[T_AMBIENTESLICHTEIN].SetzeSignal(
-            S_TOGGLE_AMBIENT_LIGHT);
+        menu.labels[T_AL_ON].Positioniere(8.2f, y, 0.6f);
+        menu.labels[T_AL_ON].SetzeSignal(S_TOGGLE_AMBIENT_LIGHT);
     }
     else
     {
-        menu.labels[T_AMBIENTESLICHTAUS].Positioniere(8.2f, y, 0.6f);
-        menu.labels[T_AMBIENTESLICHTAUS].SetzeSignal(
-            S_TOGGLE_AMBIENT_LIGHT);
+        menu.labels[T_AL_OFF].Positioniere(8.2f, y, 0.6f);
+        menu.labels[T_AL_OFF].SetzeSignal(S_TOGGLE_AMBIENT_LIGHT);
 
     }
 
@@ -428,20 +417,20 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     {
         case 1:
         {
-            menu.labels[T_TISCHLAMPEN1].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_TISCHLAMPEN1].SetzeSignal(S_TOGGLE_LAMPS);
+            menu.labels[T_ILLUM1].Positioniere(8.2f, y, 0.6f);
+            menu.labels[T_ILLUM1].SetzeSignal(S_TOGGLE_LAMPS);
         }
         break;
         case 2:
         {
-            menu.labels[T_TISCHLAMPEN2].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_TISCHLAMPEN2].SetzeSignal(S_TOGGLE_LAMPS);
+            menu.labels[T_ILLUM2].Positioniere(8.2f, y, 0.6f);
+            menu.labels[T_ILLUM2].SetzeSignal(S_TOGGLE_LAMPS);
         }
         break;
         case 3:
         {
-            menu.labels[T_TISCHLAMPEN3].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_TISCHLAMPEN3].SetzeSignal(S_TOGGLE_LAMPS);
+            menu.labels[T_ILLUM3].Positioniere(8.2f, y, 0.6f);
+            menu.labels[T_ILLUM3].SetzeSignal(S_TOGGLE_LAMPS);
         }
         break;
     }
@@ -453,15 +442,13 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
         case 0:
         {
             menu.labels[T_USERINTERFACE0].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_USERINTERFACE0].SetzeSignal(
-                S_TOGGLE_USER_INTERFACE);
+            menu.labels[T_USERINTERFACE0].SetzeSignal(S_TOGGLE_USER_INTERFACE);
         }
         break;
         case 1:
         {
             menu.labels[T_USERINTERFACE1].Positioniere(8.2f, y, 0.6f);
-            menu.labels[T_USERINTERFACE1].SetzeSignal(
-                S_TOGGLE_USER_INTERFACE);
+            menu.labels[T_USERINTERFACE1].SetzeSignal(S_TOGGLE_USER_INTERFACE);
         }
         break;
     }
@@ -470,17 +457,17 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     y -= dy;
     if (KPConfig::Instance().DisplayFPS)
     {
-        menu.labels[T_FRAMERATEEIN].Positioniere(8.2f, y, 0.6f);
-        menu.labels[T_FRAMERATEEIN].SetzeSignal(S_TOGGLE_FPS);
+        menu.labels[T_FR_ON].Positioniere(8.2f, y, 0.6f);
+        menu.labels[T_FR_ON].SetzeSignal(S_TOGGLE_FPS);
     }
     else
     {
-        menu.labels[T_FRAMERATEAUS].Positioniere(8.2f, y, 0.6f);
-        menu.labels[T_FRAMERATEAUS].SetzeSignal(S_TOGGLE_FPS);
+        menu.labels[T_FR_OFF].Positioniere(8.2f, y, 0.6f);
+        menu.labels[T_FR_OFF].SetzeSignal(S_TOGGLE_FPS);
     }
 
-    menu.labels[T_ZURUECK].Positioniere(8, 0.7f, 1 ,A_MITTE);
-    menu.labels[T_ZURUECK].SetzeSignal(S_BACK);
+    menu.labels[T_BACK].Positioniere(8, 0.7f, 1 ,A_CENTERED);
+    menu.labels[T_BACK].SetzeSignal(S_BACK);
 
     StartAnimation();
 }
@@ -521,7 +508,7 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
             ToggleShadows(pContext);
             UpdateDisplay(pContext);
             break;
-        case S_TOGGLE_TEXTUREINTERPOLATION:
+        case S_TOGGLE_TEXTUREINTERPOL:
             ToggleTextureInterpolation(pContext);
             UpdateDisplay(pContext);
             break;

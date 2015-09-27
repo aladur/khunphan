@@ -176,7 +176,7 @@ void Plate::Initialisiere(float R, float G, float B)
     bx = old_bx = target_bx = 8.1f;
     by = old_by = target_by = 6.1f;
 
-    Alpha = old_Alpha = target_Alpha = MOD_AUSGEBLENDET;
+    Alpha = old_Alpha = target_Alpha = MOD_FADEOUT;
     InAnimation = 0;
 
     AspectRatio = 0.0;
@@ -194,7 +194,7 @@ void Plate::KopieVon(Plate src)
     ay=old_ay       = target_ay = 0;
     bx=old_bx       = target_bx = 0;
     by=old_by       = target_by = 0;
-    Alpha=old_Alpha = target_Alpha = MOD_AUSGEBLENDET;
+    Alpha=old_Alpha = target_Alpha = MOD_FADEOUT;
     InAnimation     = 0;
     Signal          = 0;
 }
@@ -236,14 +236,14 @@ void Plate::Positioniere(float ax_, float ay_, float bx_, float by_)
 
     if (Type == 3)
     {
-        target_Alpha = MOD_TRANSPARENT;
+        target_Alpha = MOD_TRANSPARENCY;
     }
     else
     {
-        target_Alpha = MOD_EINGEBLENDET;
+        target_Alpha = MOD_FADEIN;
     }
 
-    if (Alpha == MOD_AUSGEBLENDET)
+    if (Alpha == MOD_FADEOUT)
     {
 
         ax = ((target_ax - 8) / 1.5f) + 8;
@@ -266,7 +266,7 @@ void Plate::Positioniere(float ax_, float ay_, float bx_, float by_)
 
 void Plate::Desaktiviere()
 {
-    target_Alpha = MOD_AUSGEBLENDET;
+    target_Alpha = MOD_FADEOUT;
 
     target_ax = ((ax - 8) * 1.5f) + 8;
     target_ay = ((ay - 6) * 1.5f) + 6;
@@ -288,8 +288,8 @@ void Plate::Desaktiviere()
 
 void Plate::Angewaehlt()
 {
-    Alpha = MOD_ANGEWAEHLT;
-    target_Alpha = MOD_EINGEBLENDET;
+    Alpha = MOD_SELECTED;
+    target_Alpha = MOD_FADEIN;
     if (target_Alpha != Alpha)
     {
         StarteAnimation();
@@ -298,7 +298,7 @@ void Plate::Angewaehlt()
 
 void Plate::Eingeblendet()
 {
-    target_Alpha = MOD_EINGEBLENDET;
+    target_Alpha = MOD_FADEIN;
     if (target_Alpha != Alpha)
     {
         StarteAnimation();
@@ -307,7 +307,7 @@ void Plate::Eingeblendet()
 
 void Plate::VollSichtbar()
 {
-    target_Alpha = MOD_VOLLSICHTBAR;
+    target_Alpha = MOD_FULLYVISIBLE;
     if (target_Alpha != Alpha)
     {
         StarteAnimation();

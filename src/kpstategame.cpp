@@ -279,7 +279,7 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */)
         menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
         menu.plates[SHLD_SHADER].Positioniere(0,0,16,12);
         menu.plates[SHLD_SHADER].Eingeblendet();
-        menu.labels[T_PAUSE].Positioniere(8,6,3,A_MITTE);
+        menu.labels[T_PAUSE].Positioniere(8,6,3,A_CENTERED);
         menu.labels[T_PAUSE].VollSichtbar();
     }
     else

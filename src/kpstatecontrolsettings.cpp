@@ -1,5 +1,5 @@
 /*
-    kpstatecontrolsettings.h
+    kpstatecontrolsettings.cpp
 
     Automatic solution finder for KhunPhan game
     Copyright (C) 2001-2015  W. Schwotzer
@@ -52,39 +52,38 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext)
     menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
     menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.labels[T_EINSTELLUNGEN].Positioniere(4,8,1);
-    menu.labels[T_EINSTELLUNGEN].VollSichtbar();
-    menu.labels[T_STEUERUNG].Positioniere(12,8,1,A_RECHTS);
-    menu.labels[T_STEUERUNG].VollSichtbar();
+    menu.labels[T_SETTINGS].Positioniere(4,8,1);
+    menu.labels[T_SETTINGS].VollSichtbar();
+    menu.labels[T_CONTROL].Positioniere(12,8,1,A_RIGHT);
+    menu.labels[T_CONTROL].VollSichtbar();
 
     y = 6.0;
-    menu.labels[T_MAUSGESCHWINDIGKEIT].Positioniere(8, y, 0.71f, A_RECHTS);
-    menu.labels[T_MAUSGESCHWINDIGKEIT].SetzeSignal(
-        S_TOGGLE_MOUSE_SPEED);
+    menu.labels[T_MOUSESPEED].Positioniere(8, y, 0.71f, A_RIGHT);
+    menu.labels[T_MOUSESPEED].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
 
     if (E_MouseSpeed<=.293)
     {
-        menu.labels[T_MG_LANGSAM].Positioniere(8.2f, y, 0.71f);
-        menu.labels[T_MG_LANGSAM].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[T_MS_SLOW].Positioniere(8.2f, y, 0.71f);
+        menu.labels[T_MS_SLOW].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else if (E_MouseSpeed<=.41)
     {
-        menu.labels[T_MG_NORMAL].Positioniere(8.2f, y, 0.71f);
-        menu.labels[T_MG_NORMAL].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[T_MS_MEDIUM].Positioniere(8.2f, y, 0.71f);
+        menu.labels[T_MS_MEDIUM].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else if (E_MouseSpeed<=.575)
     {
-        menu.labels[T_MG_SCHNELL].Positioniere(8.2f, y, 0.71f);
-        menu.labels[T_MG_SCHNELL].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[T_MS_FAST].Positioniere(8.2f, y, 0.71f);
+        menu.labels[T_MS_FAST].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else
     {
-        menu.labels[T_MG_SEHRSCHNELL].Positioniere(8.2f, y, 0.71f);
-        menu.labels[T_MG_SEHRSCHNELL].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[T_MS_VERYFAST].Positioniere(8.2f, y, 0.71f);
+        menu.labels[T_MS_VERYFAST].SetzeSignal(S_TOGGLE_MOUSE_SPEED);
     }
 
     y -= dy;
-    menu.labels[T_SOLUTIONHINT].Positioniere(8, y, 0.71f, A_RECHTS);
+    menu.labels[T_SOLUTIONHINT].Positioniere(8, y, 0.71f, A_RIGHT);
     menu.labels[T_SOLUTIONHINT].SetzeSignal(S_TOGGLE_SOLUTION_HINT);
 
     if (E_SolutionHint)
@@ -98,8 +97,8 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext)
         menu.labels[T_SH_OFF].SetzeSignal(S_TOGGLE_SOLUTION_HINT);
     }
 
-    menu.labels[T_ZURUECK].Positioniere(8,1,1,A_MITTE);
-    menu.labels[T_ZURUECK].SetzeSignal(S_BACK);
+    menu.labels[T_BACK].Positioniere(8,1,1,A_CENTERED);
+    menu.labels[T_BACK].SetzeSignal(S_BACK);
 
     StartAnimation();
 }

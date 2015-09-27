@@ -57,7 +57,7 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
     menu.plates[SHLD_LOGO].Positioniere(5,9,11,11);
     menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.labels[T_SCORELIST].Positioniere(8, 8.5, 1, A_MITTE);
+    menu.labels[T_SCORELIST].Positioniere(8, 8.5, 1, A_CENTERED);
     menu.labels[T_SCORELIST].VollSichtbar();
 
     float y = 7.5;
@@ -104,18 +104,16 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
 
 
         menu.labels[T_S_NAME1 + i].Positioniere(2, y, 0.6f);
-        menu.labels[T_S_PLAYTIME1 + i].Positioniere(9, y, 0.6f,
-                A_MITTE);
-        menu.labels[T_S_MOVES1 + i].Positioniere(12,y, 0.6f,
-                A_MITTE);
+        menu.labels[T_S_PLAYTIME1 + i].Positioniere(9, y, 0.6f, A_CENTERED);
+        menu.labels[T_S_MOVES1 + i].Positioniere(12,y, 0.6f, A_CENTERED);
 
         y -= 0.5f;
     }
 
     KPscore::Instance().CheckPlayTime(true);
 
-    menu.labels[T_WEITER].Positioniere(8,1,1,A_MITTE);
-    menu.labels[T_WEITER].SetzeSignal(S_CONTINUE);
+    menu.labels[T_CONTINUE].Positioniere(8,1,1,A_CENTERED);
+    menu.labels[T_CONTINUE].SetzeSignal(S_CONTINUE);
 
     StartAnimation();
 }

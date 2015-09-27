@@ -11,18 +11,18 @@
 #define T_NOWARRANTY       9
 
 //Hauptmenu
-#define T_HAUPTMENU       10
-#define T_EINSTELLUNGEN   11
+#define T_MAINMENU        10
+#define T_SETTINGS        11
 #define T_H_KEYBOARDHELP  12
-#define T_BEENDEN         13
+#define T_QUIT            13
 #define T_TUTORIAL        14
-#define T_WEITER          15
+#define T_CONTINUE        15
 
 // Einstellungen
-#define T_STEUERUNG       20
-#define T_GRAFIK          21
+#define T_CONTROL         20
+#define T_GRAPHICS        21
 #define T_AUDIO           22
-#define T_SPRACHE         23
+#define T_LANGUAGE        23
 
 //OpenGL Interface
 #define T_GL_VENDOR       30
@@ -49,15 +49,15 @@
 #define T_H_FULLSCREEN    54
 
 //Allgemein
-#define T_ZURUECK        100
-#define T_UEBERNEHMEN    101
+#define T_BACK           100
+#define T_STORE          101
 #define T_OK             102
-#define T_ABBRECHEN      103
+#define T_CANCEL         103
 #define T_PAUSE          104
-#define T_JABEENDEN      105
+#define T_DOQUIT         105
 
 //Aus Spiel
-#define T_WEITERSPIELEN  170
+#define T_CONTINUEGAME   170
 #define T_SOLVED1        171
 
 #define T_SOLVED2_1      172
@@ -73,84 +73,84 @@
 #define T_SOLVED4_3      180
 
 #define T_INPUT_NAME     181
-#define T_NAME_FIELD     182
+#define T_NAME_LABEL     182
 
 //Im Spiel
-#define T_NEUESSPIEL     192
+#define T_NEWGAME        192
 #define T_TIME           193
 #define T_MINMOVECOUNT   194
 #define T_MOVECOUNT      195
 
 // Einstellungen - Bedienung
-#define T_MAUSGESCHWINDIGKEIT 200
-#define T_MG_LANGSAM     201
-#define T_MG_NORMAL      202
-#define T_MG_SCHNELL     203
-#define T_MG_SEHRSCHNELL 204
+#define T_MOUSESPEED     200
+#define T_MS_SLOW        201
+#define T_MS_MEDIUM      202
+#define T_MS_FAST        203
+#define T_MS_VERYFAST    204
 
 #define T_SOLUTIONHINT   205
 #define T_SH_ON          206
 #define T_SH_OFF         207
 
-#define T_MENUTEXTUREN   230
+#define T_MENUTEXTURES   230
 #define T_MT_NORMAL      231
-#define T_MT_HOCH        232
+#define T_MT_HIGH        232
 
-#define T_TEXTUREN       250
-#define T_T_SEHRNIEDRIG  251
-#define T_T_NIEDRIG      252
+#define T_TEXTURES       250
+#define T_T_VERYLOW      251
+#define T_T_LOW          252
 #define T_T_NORMAL       253
-#define T_T_HOCH         254
+#define T_T_HIGH         254
 
-#define T_REFLEKTIONEN   260
-#define T_REF_AUS        261
-#define T_REF_EIN        262
+#define T_REFLECTIONS    260
+#define T_REF_OFF        261
+#define T_REF_ON         262
 
-#define T_AUFLOESUNG     270
-#define T_AUF_640x480    271
-#define T_AUF_800x600    272
-#define T_AUF_1024x768   273
-#define T_AUF_1280x960   274
-#define T_AUF_1600x1200  275
+#define T_RESOLUTION     270
+#define T_RES_640x480    271
+#define T_RES_800x600    272
+#define T_RES_1024x768   273
+#define T_RES_1280x960   274
+#define T_RES_1600x1200  275
 
-#define T_FARBTIEFE      280
-#define T_FT_16          281
-#define T_FT_24          282
-#define T_FT_32          283
+#define T_COLORDEPTH     280
+#define T_CD_16          281
+#define T_CD_24          282
+#define T_CD_32          283
 
-#define T_SCHATTEN       290
-#define T_S_AUS          291
-#define T_S_EIN          292
+#define T_SHADOWS        290
+#define T_S_OFF          291
+#define T_S_ON           292
 
-#define T_TEXTURINTERPOLATION 295
-#define T_TI_AUS         296
-#define T_TI_EIN         297
+#define T_TEXTUREINTERPOL 295
+#define T_TI_OFF         296
+#define T_TI_ON          297
 
-#define T_QUALITAET      300
-#define T_Q_SEHRSCHNELL  301
-#define T_Q_SCHNELL      302
+#define T_QUALITY        300
+#define T_Q_VERYFAST     301
+#define T_Q_FAST         302
 #define T_Q_NORMAL       303
-#define T_Q_HOCH         304
-#define T_Q_SEHRHOCH     305
-#define T_Q_BENUTZER     306
+#define T_Q_HIGH         304
+#define T_Q_VERYHIGH     305
+#define T_Q_USER         306
 
-#define T_HINWEIS        310
-#define T_HINWEIS1       311
-#define T_HINWEIS2       312
-#define T_HINWEIS3       313
+#define T_HINT           310
+#define T_HINT1          311
+#define T_HINT2          312
+#define T_HINT3          313
 
-#define T_AMBIENTESLICHT    320
-#define T_AMBIENTESLICHTEIN 321
-#define T_AMBIENTESLICHTAUS 322
+#define T_AMBIENTLIGHT   320
+#define T_AL_ON          321
+#define T_AL_OFF         322
 
-#define T_TISCHLAMPEN    325
-#define T_TISCHLAMPEN1   326
-#define T_TISCHLAMPEN2   327
-#define T_TISCHLAMPEN3   328
+#define T_ILLUMINATION   325
+#define T_ILLUM1         326
+#define T_ILLUM2         327
+#define T_ILLUM3         328
 
 #define T_FRAMERATE      335
-#define T_FRAMERATEEIN   336
-#define T_FRAMERATEAUS   337
+#define T_FR_ON          336
+#define T_FR_OFF         337
 
 #define T_SCREENMODE     341
 #define T_FULLSCREEN     342
@@ -161,7 +161,7 @@
 #define T_USERINTERFACE1 347
 
 // Einstellungen - Audio
-#define T_SND_VOLUME     350
+#define T_SOUND_VOLUME   350
 #define T_SND_VOL_OFF    351
 #define T_SND_VOL_10     352
 #define T_SND_VOL_20     353
@@ -193,7 +193,7 @@
 #define T_TEXTURE3       385
 
 // Einstellungen - Sprache
-#define T_SPRACHAUSWAHL  400
+#define T_SELECTLANGUAGE 400
 #define T_NATIVE_LANG1   401
 #define T_NATIVE_LANG2   402
 
@@ -254,6 +254,4 @@
 
 #define T_LANGUAGE1        900
 #define T_LANGUAGE_MAX     999
-
-#define MAX_TEXTFELD      1000
 

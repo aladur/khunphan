@@ -58,7 +58,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext)
     menu.plates[SHLD_LOGO].SetzeSignal(S_BACK);
     menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.labels[GetTextOffset()].Positioniere(8,10.5,1.0,A_MITTE);
+    menu.labels[GetTextOffset()].Positioniere(8,10.5,1.0,A_CENTERED);
     menu.labels[GetTextOffset()].VollSichtbar();
 
     float y = 9.5;
@@ -100,8 +100,8 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext)
         case KP_TUT_RIGHT_TOKEN:
             // Klicked (and evtl. moved) the right token
             // Tutorial can be finished
-            menu.labels[T_WEITER].Positioniere(8,1,1,A_MITTE);
-            menu.labels[T_WEITER].SetzeSignal(S_CONTINUE);
+            menu.labels[T_CONTINUE].Positioniere(8,1,1,A_CENTERED);
+            menu.labels[T_CONTINUE].SetzeSignal(S_CONTINUE);
             menu.labels[GetTextOffset() + 1].Positioniere(1.25,y,0.5);
             y -= 0.5;
             break;

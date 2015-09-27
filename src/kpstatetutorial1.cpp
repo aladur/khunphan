@@ -67,7 +67,7 @@ void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext)
     menu.plates[SHLD_LOGO].SetzeSignal(S_BACK);
     menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.labels[T_TUTORIAL1].Positioniere(8,10.5,1.0,A_MITTE);
+    menu.labels[T_TUTORIAL1].Positioniere(8,10.5,1.0,A_CENTERED);
     menu.labels[T_TUTORIAL1].VollSichtbar();
 
     float y = 9.5;
@@ -110,8 +110,8 @@ void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext)
         menu.labels[T_TUTORIAL1_09].Positioniere(1.25,y,0.5);
     }
 
-    menu.labels[T_WEITER].Positioniere(8,1,1,A_MITTE);
-    menu.labels[T_WEITER].SetzeSignal(S_CONTINUE);
+    menu.labels[T_CONTINUE].Positioniere(8,1,1,A_CENTERED);
+    menu.labels[T_CONTINUE].SetzeSignal(S_CONTINUE);
 
     StartAnimation();
 }

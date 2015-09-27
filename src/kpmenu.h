@@ -73,7 +73,7 @@ typedef enum
     S_TOGGLE_RESOLUTION           = 133,
     S_TOGGLE_COLORDEPTH           = 134,
     S_TOGGLE_SHADOWS              = 135,
-    S_TOGGLE_TEXTUREINTERPOLATION = 136,
+    S_TOGGLE_TEXTUREINTERPOL      = 136,
     S_TOGGLE_MENUTEXTURES         = 137,
     S_TOGGLE_TEXTURES             = 138,
     S_TOGGLE_QUALITY              = 139,

@@ -58,32 +58,32 @@ void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext)
     menu.plates[SHLD_LOGO].Positioniere(5,9,11,11);
     menu.plates[SHLD_LOGO].VollSichtbar();
 
-    menu.labels[T_HAUPTMENU].Positioniere(8,8,1,A_MITTE);
-    menu.labels[T_HAUPTMENU].VollSichtbar();
+    menu.labels[T_MAINMENU].Positioniere(8,8,1,A_CENTERED);
+    menu.labels[T_MAINMENU].VollSichtbar();
 
-    menu.labels[T_TUTORIAL].Positioniere(5.5,6.5,1,A_MITTE);
+    menu.labels[T_TUTORIAL].Positioniere(5.5,6.5,1,A_CENTERED);
     menu.labels[T_TUTORIAL].SetzeSignal(S_TUTORIAL);
 
-    menu.labels[T_H_KEYBOARDHELP].Positioniere(5.5,5,1,A_MITTE);
+    menu.labels[T_H_KEYBOARDHELP].Positioniere(5.5,5,1,A_CENTERED);
     menu.labels[T_H_KEYBOARDHELP].SetzeSignal(S_KEYBOARD_HELP);
 
-    menu.labels[T_SCORELIST].Positioniere(5.5,3.5,1,A_MITTE);
+    menu.labels[T_SCORELIST].Positioniere(5.5,3.5,1,A_CENTERED);
     menu.labels[T_SCORELIST].SetzeSignal(S_SCORELIST);
 
-    menu.labels[T_NEUESSPIEL].Positioniere(10.5,6.5,1,A_MITTE);
-    menu.labels[T_NEUESSPIEL].SetzeSignal(S_NEW_GAME);
+    menu.labels[T_NEWGAME].Positioniere(10.5,6.5,1,A_CENTERED);
+    menu.labels[T_NEWGAME].SetzeSignal(S_NEW_GAME);
 
-    menu.labels[T_EINSTELLUNGEN].Positioniere(10.5,5,1,A_MITTE);
-    menu.labels[T_EINSTELLUNGEN].SetzeSignal(S_SETTINGS);
+    menu.labels[T_SETTINGS].Positioniere(10.5,5,1,A_CENTERED);
+    menu.labels[T_SETTINGS].SetzeSignal(S_SETTINGS);
 
     if (KPConfig::Instance().SavedGame != 0)
     {
-        menu.labels[T_WEITERSPIELEN].Positioniere(10.5,3.5,1,A_MITTE);
-        menu.labels[T_WEITERSPIELEN].SetzeSignal(S_CONTINUE);
+        menu.labels[T_CONTINUEGAME].Positioniere(10.5,3.5,1,A_CENTERED);
+        menu.labels[T_CONTINUEGAME].SetzeSignal(S_CONTINUE);
     }
 
-    menu.labels[T_BEENDEN].Positioniere(8,1,1,A_MITTE);
-    menu.labels[T_BEENDEN].SetzeSignal(S_FINISH);
+    menu.labels[T_QUIT].Positioniere(8,1,1,A_CENTERED);
+    menu.labels[T_QUIT].SetzeSignal(S_FINISH);
 
     StartAnimation();
 }

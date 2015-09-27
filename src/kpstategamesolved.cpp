@@ -49,13 +49,13 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
 
     KPConfig::Instance().SavedGame = 0;
 
-    it = menu.labels.find(T_NAME_FIELD);
+    it = menu.labels.find(T_NAME_LABEL);
     if (it == menu.labels.end())
     {
-        menu.labels[T_NAME_FIELD] = Label();
+        menu.labels[T_NAME_LABEL] = Label();
     }
 
-    menu.labels[T_NAME_FIELD].Initialisiere("");
+    menu.labels[T_NAME_LABEL].Initialisiere("");
 
     if (statistics.GetEventCounter(USED_CHEATS_CNT) != 0)
         // Game solved but cheats used
@@ -99,7 +99,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_SOLVED1].FormatText(NULL,
             statistics.GetEventCounter(MOVE_COUNTER),
             statistics.GetTotalTime(RTIME_MM_ss).c_str());
-    menu.labels[T_SOLVED1].Positioniere(8,y,0.6f,A_MITTE);
+    menu.labels[T_SOLVED1].Positioniere(8,y,0.6f,A_CENTERED);
     y-= 0.6f;
 
     it = menu.labels.find(tf_index);
@@ -107,35 +107,35 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
     {
         menu.labels[tf_index].FormatText(NULL,
                 statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
-        menu.labels[tf_index].Positioniere(8,y,0.6f,A_MITTE);
+        menu.labels[tf_index].Positioniere(8,y,0.6f,A_CENTERED);
         y-= 0.6f;
     }
 
     it = menu.labels.find(tf_index+1);
     if (it != menu.labels.end())
     {
-        menu.labels[tf_index+1].Positioniere(8,y,0.6f,A_MITTE);
+        menu.labels[tf_index+1].Positioniere(8,y,0.6f,A_CENTERED);
     }
 
     y-= 0.6f;
     it = menu.labels.find(tf_index+2);
     if (it != menu.labels.end())
     {
-        menu.labels[tf_index+2].Positioniere(8,y,0.6f,A_MITTE);
+        menu.labels[tf_index+2].Positioniere(8,y,0.6f,A_CENTERED);
     }
     y-= 1.0;
 
     if (addToScoreList)
     {
-        menu.labels[T_INPUT_NAME].Positioniere(8,y,1,A_MITTE);
+        menu.labels[T_INPUT_NAME].Positioniere(8,y,1,A_CENTERED);
         y -= 1.0;
-        menu.labels[T_NAME_FIELD].Positioniere(8,y,1, A_MITTE);
-        menu.labels[T_NAME_FIELD].SetMaxCharacters(24);
-        menu.labels[T_NAME_FIELD].SetInputFocus(addToScoreList);
+        menu.labels[T_NAME_LABEL].Positioniere(8,y,1, A_CENTERED);
+        menu.labels[T_NAME_LABEL].SetMaxCharacters(24);
+        menu.labels[T_NAME_LABEL].SetInputFocus(addToScoreList);
     }
 
-    menu.labels[T_WEITER].Positioniere(8,1,1,A_MITTE);
-    menu.labels[T_WEITER].SetzeSignal(S_CONTINUE);
+    menu.labels[T_CONTINUE].Positioniere(8,1,1,A_CENTERED);
+    menu.labels[T_CONTINUE].SetzeSignal(S_CONTINUE);
 
     StartAnimation();
 }
@@ -145,7 +145,7 @@ void KPstateGameSolved::KeyPressed (KPstateContext *pContext, unsigned char key,
 {
     if (EvaluateKeyPressed(pContext, key, x, y))
     {
-        if (pContext->GetMenu().labels[T_NAME_FIELD].HasInputFocus())
+        if (pContext->GetMenu().labels[T_NAME_LABEL].HasInputFocus())
         {
             UpdateDisplay(pContext);
         }
@@ -186,8 +186,7 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext)
 
     if (addToScoreList)
     {
-        KPscore::Instance().Add(pContext->GetMenu()
-                                .labels[T_NAME_FIELD].Text(),
+        KPscore::Instance().Add(pContext->GetMenu().labels[T_NAME_LABEL].Text(),
                                 pContext->GetStatistics().GetTotalTime(),
                                 pContext->GetStatistics()
                                 .GetEventCounter(MOVE_COUNTER), 0);

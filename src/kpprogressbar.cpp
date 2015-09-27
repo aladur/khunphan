@@ -64,7 +64,7 @@ void KPprogressBar::Initialize()
 
 void KPprogressBar::Blended()
 {
-    target_Alpha = MOD_EINGEBLENDET;
+    target_Alpha = MOD_FADEIN;
     if (target_Alpha != alpha)
     {
         StartAnimation();
@@ -73,7 +73,7 @@ void KPprogressBar::Blended()
 
 void KPprogressBar::FullVisible()
 {
-    target_Alpha = MOD_VOLLSICHTBAR;
+    target_Alpha = MOD_FULLYVISIBLE;
     if (target_Alpha != alpha)
     {
         StartAnimation();
@@ -96,17 +96,17 @@ void KPprogressBar::SetPosition(float X, float Y, float Width, float Height,
 {
     switch (Alignment)
     {
-        case A_LINKS:
+        case A_LEFT:
         {
             target_x = X;
         }
         break;
-        case A_MITTE:
+        case A_CENTERED:
         {
             target_x = X - Width * 0.5f;
         }
         break;
-        case A_RECHTS:
+        case A_RIGHT:
         {
             target_x = X - Width;
         }
@@ -116,9 +116,9 @@ void KPprogressBar::SetPosition(float X, float Y, float Width, float Height,
     target_y     = Y;
     target_Height= Height;
     target_Width = Width;
-    target_Alpha = MOD_EINGEBLENDET;
+    target_Alpha = MOD_FADEIN;
 
-    if (alpha == MOD_AUSGEBLENDET)
+    if (alpha == MOD_FADEOUT)
     {
         x      = target_x      / 1.5f;
         y      = target_y      / 1.5f;
@@ -132,7 +132,7 @@ void KPprogressBar::SetPosition(float X, float Y, float Width, float Height,
 
 void KPprogressBar::Deactivate()
 {
-    target_Alpha = MOD_AUSGEBLENDET;
+    target_Alpha = MOD_FADEOUT;
 
     target_x      = x      * 1.5f;
     target_y      = y      * 1.5f;

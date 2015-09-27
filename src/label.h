@@ -39,7 +39,7 @@ public:
     void Initialisiere(const char[]);
     void InitialisiereKDL(const char[]);
     void male();
-    void Positioniere(float,float,float,tKPAlignment pos = A_LINKS);
+    void Positioniere(float,float,float,tKPAlignment pos = A_LEFT);
     void SetzeText(const char[]);
     void SetzeTextKDL(const char[]);
     int  FormatText(const char *format, ...);
