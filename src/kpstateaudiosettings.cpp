@@ -48,10 +48,10 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext)
     float dy = 0.6f;
     int textfeldIdx;
 
-    menu.plates[SHLD_MENUBACKGROUND].SetPosition(2,3.5,14,8.5);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2,3.5,14,8.5);
 
-    menu.plates[SHLD_LOGO].SetPosition(4,9,12,11);
-    menu.plates[SHLD_LOGO].SetFullyVisible();
+    menu.plates[PLATE_LOGO].SetPosition(4,9,12,11);
+    menu.plates[PLATE_LOGO].SetFullyVisible();
 
     menu.labels[T_SETTINGS].SetPosition(4,8,1);
     menu.labels[T_SETTINGS].SetFullyVisible();

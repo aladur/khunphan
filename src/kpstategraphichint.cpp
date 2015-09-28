@@ -39,10 +39,10 @@ void KPstateGraphicHint::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[SHLD_MENUBACKGROUND].SetPosition(2,3.5,15,8.5);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2,3.5,15,8.5);
 
-    menu.plates[SHLD_LOGO].SetPosition(4,9,12,11);
-    menu.plates[SHLD_LOGO].SetFullyVisible();
+    menu.plates[PLATE_LOGO].SetPosition(4,9,12,11);
+    menu.plates[PLATE_LOGO].SetFullyVisible();
 
     menu.labels[T_HINT].SetPosition(8,8,1,A_CENTERED);
     menu.labels[T_HINT].SetFullyVisible();

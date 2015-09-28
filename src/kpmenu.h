@@ -39,13 +39,13 @@
 
 typedef enum
 {
-    SHLD_MENUBACKGROUND,
-    SHLD_LOGO,
-    SHLD_SOUND_ON,
-    SHLD_SOUND_OFF,
-    SHLD_MUSIC_ON,
-    SHLD_MUSIC_OFF,
-    SHLD_SHADER, // should be always the last one
+    PLATE_MENUBACKGROUND,
+    PLATE_LOGO,
+    PLATE_SOUND_ON,
+    PLATE_SOUND_OFF,
+    PLATE_MUSIC_ON,
+    PLATE_MUSIC_OFF,
+    PLATE_SHADER, // should be always the last one
 } tPlate;
 
 typedef enum

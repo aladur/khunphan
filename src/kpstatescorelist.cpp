@@ -52,10 +52,10 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
         max = 10;
     }
 
-    menu.plates[SHLD_MENUBACKGROUND].SetPosition(1,2.0,15,9);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(1,2.0,15,9);
 
-    menu.plates[SHLD_LOGO].SetPosition(5,9,11,11);
-    menu.plates[SHLD_LOGO].SetFullyVisible();
+    menu.plates[PLATE_LOGO].SetPosition(5,9,11,11);
+    menu.plates[PLATE_LOGO].SetFullyVisible();
 
     menu.labels[T_SCORELIST].SetPosition(8, 8.5, 1, A_CENTERED);
     menu.labels[T_SCORELIST].SetFullyVisible();

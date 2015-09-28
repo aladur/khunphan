@@ -90,10 +90,10 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
     KPmenu &menu             = pContext->GetMenu();
     KPStatistics &statistics = pContext->GetStatistics();
 
-    menu.plates[SHLD_MENUBACKGROUND].SetPosition(1,3.0,15,8.5);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(1,3.0,15,8.5);
 
-    menu.plates[SHLD_LOGO].SetPosition(5,9,11,11);
-    menu.plates[SHLD_LOGO].SetFullyVisible();
+    menu.plates[PLATE_LOGO].SetPosition(5,9,11,11);
+    menu.plates[PLATE_LOGO].SetFullyVisible();
 
     float y = 7.5;
     menu.labels[T_SOLVED1].FormatText(NULL,

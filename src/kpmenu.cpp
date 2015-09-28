@@ -40,16 +40,16 @@ KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(KPState_Invalid)
 bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
                         int Language /* = 0*/)
 {
-    plates[SHLD_MENUBACKGROUND] = Plate();
-    plates[SHLD_SHADER] = Plate();
-    plates[SHLD_LOGO] = Plate();
-    plates[SHLD_SOUND_ON] = Plate();
-    plates[SHLD_SOUND_OFF] = Plate();
-    plates[SHLD_MUSIC_ON] = Plate();
-    plates[SHLD_MUSIC_OFF] = Plate();
+    plates[PLATE_MENUBACKGROUND] = Plate();
+    plates[PLATE_SHADER] = Plate();
+    plates[PLATE_LOGO] = Plate();
+    plates[PLATE_SOUND_ON] = Plate();
+    plates[PLATE_SOUND_OFF] = Plate();
+    plates[PLATE_MUSIC_ON] = Plate();
+    plates[PLATE_MUSIC_OFF] = Plate();
 
-    plates[SHLD_MENUBACKGROUND].Initialize(0.7f, 0.7f, 0.7f);
-    plates[SHLD_SHADER].Initialize(0.0, 0.0, 0.0);
+    plates[PLATE_MENUBACKGROUND].Initialize(0.7f, 0.7f, 0.7f);
+    plates[PLATE_SHADER].Initialize(0.0, 0.0, 0.0);
 
     Update(TextureName, TextureSize, Nearest);
 
@@ -90,15 +90,15 @@ void KPmenu::Update(const char *TextureName, int TextureSize, bool Nearest,
     Label::PreInitialize(TextureName, TextureSize, Nearest,
                          &KPConfig::Instance(), always);
 
-    plates[SHLD_LOGO].Initialize(TextureName, TextureSize, Nearest,
+    plates[PLATE_LOGO].Initialize(TextureName, TextureSize, Nearest,
                       true, "logo", &KPConfig::Instance(), always);
-    plates[SHLD_SOUND_ON].Initialize(TextureName, TextureSize, Nearest,
+    plates[PLATE_SOUND_ON].Initialize(TextureName, TextureSize, Nearest,
                       true, "sound_on", &KPConfig::Instance(), always);
-    plates[SHLD_SOUND_OFF].Initialize(TextureName, TextureSize, Nearest,
+    plates[PLATE_SOUND_OFF].Initialize(TextureName, TextureSize, Nearest,
                       true, "soundmusic_off", &KPConfig::Instance(), always);
-    plates[SHLD_MUSIC_ON].Initialize(TextureName, TextureSize, Nearest,
+    plates[PLATE_MUSIC_ON].Initialize(TextureName, TextureSize, Nearest,
                       true, "music_on", &KPConfig::Instance(), always);
-    plates[SHLD_MUSIC_OFF].Initialize(TextureName, TextureSize, Nearest,
+    plates[PLATE_MUSIC_OFF].Initialize(TextureName, TextureSize, Nearest,
                       true, "soundmusic_off", &KPConfig::Instance(), always);
 }
 
@@ -205,7 +205,7 @@ void KPmenu::Draw()
 
     for (sit = plates.begin(); sit != plates.end(); ++sit)
     {
-        if (sit->first != SHLD_SHADER)
+        if (sit->first != PLATE_SHADER)
         {
             sit->second.Draw();
         }
@@ -224,7 +224,7 @@ void KPmenu::Draw()
 
     // This should always be the last one because it
     // should shade all other drawing primitives
-    plates[SHLD_SHADER].Draw();
+    plates[PLATE_SHADER].Draw();
 
     glDisable(GL_BLEND);
     glEnable(GL_LIGHTING);

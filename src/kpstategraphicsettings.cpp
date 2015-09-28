@@ -143,10 +143,10 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
         Quality=0;
     }
 
-    menu.plates[SHLD_MENUBACKGROUND].SetPosition(2, 1.7f, 14, 9.5f);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 1.7f, 14, 9.5f);
 
-    menu.plates[SHLD_LOGO].SetPosition(4,10,12,12);
-    menu.plates[SHLD_LOGO].SetFullyVisible();
+    menu.plates[PLATE_LOGO].SetPosition(4,10,12,12);
+    menu.plates[PLATE_LOGO].SetFullyVisible();
 
     menu.labels[T_SETTINGS].SetPosition(4,9,1);
     menu.labels[T_SETTINGS].SetFullyVisible();

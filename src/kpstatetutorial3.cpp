@@ -52,11 +52,11 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[SHLD_MENUBACKGROUND].SetPosition(.5,4.5,15.5,11);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(.5,4.5,15.5,11);
 
-    menu.plates[SHLD_LOGO].SetPosition(0,11.0,4,12);
-    menu.plates[SHLD_LOGO].SetSignal(S_BACK);
-    menu.plates[SHLD_LOGO].SetFullyVisible();
+    menu.plates[PLATE_LOGO].SetPosition(0,11.0,4,12);
+    menu.plates[PLATE_LOGO].SetSignal(S_BACK);
+    menu.plates[PLATE_LOGO].SetFullyVisible();
 
     menu.labels[GetTextOffset()].SetPosition(8,10.5,1.0,A_CENTERED);
     menu.labels[GetTextOffset()].SetFullyVisible();
