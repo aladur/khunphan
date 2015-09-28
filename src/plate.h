@@ -19,25 +19,23 @@ class Plate
 {
 public:
     Plate();
-    void Initialisiere(float R = 1.0, float G = 1.0, float B = 1.0);
-    bool Initialisiere(const char *, unsigned int, bool, bool, const char *,
-                       const KPConfig *config, bool always = true);
-    void male();
-    void Positioniere(float,float,float,float);
-    void Desaktiviere();
-    void Angewaehlt();
-    void Eingeblendet();
-    void VollSichtbar();
-    void StarteAnimation();
-    int Animiere(int);
-    int Maustaste(tMouseButton,tMouseEvent,int,int, KPUIBase &);
-    void SetzeZielZustand(int);
-    void SetzeSignal(int);
-    void KopieVon(Plate);
+    void Initialize(float R = 1.0, float G = 1.0, float B = 1.0);
+    bool Initialize(const char *, unsigned int, bool, bool, const char *,
+                    const KPConfig *config, bool always = true);
+    void Draw();
+    void SetPosition(float,float,float,float);
+    void SetFadeOut();
+    void SetSelected();
+    void SetFadeIn();
+    void SetFullyVisible();
+    void StartAnimation();
+    int Animate(int);
+    int MouseEvent(tMouseButton,tMouseEvent,int,int, KPUIBase &);
+    void SetSignal(int);
+private:
     int DisplayList;
     int Type;
     float AspectRatio;
-private:
     float ax, ay;
     float bx, by;
     float Alpha;

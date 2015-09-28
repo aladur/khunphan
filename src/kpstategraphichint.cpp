@@ -39,23 +39,23 @@ void KPstateGraphicHint::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[SHLD_MENUBACKGROUND].Positioniere(2,3.5,15,8.5);
+    menu.plates[SHLD_MENUBACKGROUND].SetPosition(2,3.5,15,8.5);
 
-    menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
-    menu.plates[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].SetPosition(4,9,12,11);
+    menu.plates[SHLD_LOGO].SetFullyVisible();
 
-    menu.labels[T_HINT].Positioniere(8,8,1,A_CENTERED);
-    menu.labels[T_HINT].VollSichtbar();
+    menu.labels[T_HINT].SetPosition(8,8,1,A_CENTERED);
+    menu.labels[T_HINT].SetFullyVisible();
 
-    menu.labels[T_HINT1].Positioniere(8,6.0,0.7f,A_CENTERED);
-    menu.labels[T_HINT1].Positioniere(8,5.5,0.7f,A_CENTERED);
+    menu.labels[T_HINT1].SetPosition(8,6.0,0.7f,A_CENTERED);
+    menu.labels[T_HINT1].SetPosition(8,5.5,0.7f,A_CENTERED);
     if (menu.labels.find(T_HINT3) != menu.labels.end())
     {
-        menu.labels[T_HINT3].Positioniere(8,5.0,0.7f,A_CENTERED);
+        menu.labels[T_HINT3].SetPosition(8,5.0,0.7f,A_CENTERED);
     }
 
-    menu.labels[T_OK].Positioniere(8,1,1,A_CENTERED);
-    menu.labels[T_OK].SetzeSignal(S_BACK);
+    menu.labels[T_OK].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_OK].SetSignal(S_BACK);
 
     StartAnimation();
 }

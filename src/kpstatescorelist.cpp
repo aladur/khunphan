@@ -52,20 +52,20 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
         max = 10;
     }
 
-    menu.plates[SHLD_MENUBACKGROUND].Positioniere(1,2.0,15,9);
+    menu.plates[SHLD_MENUBACKGROUND].SetPosition(1,2.0,15,9);
 
-    menu.plates[SHLD_LOGO].Positioniere(5,9,11,11);
-    menu.plates[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].SetPosition(5,9,11,11);
+    menu.plates[SHLD_LOGO].SetFullyVisible();
 
-    menu.labels[T_SCORELIST].Positioniere(8, 8.5, 1, A_CENTERED);
-    menu.labels[T_SCORELIST].VollSichtbar();
+    menu.labels[T_SCORELIST].SetPosition(8, 8.5, 1, A_CENTERED);
+    menu.labels[T_SCORELIST].SetFullyVisible();
 
     float y = 7.5;
-    menu.labels[T_S_NAME].Positioniere(2, y, 0.7f);
-    menu.labels[T_S_PLAYTIME].Positioniere(8, y, 0.7f);
-    menu.labels[T_S_PLAYTIME].SetzeSignal(S_PLAYTIME);
-    menu.labels[T_S_MOVES].Positioniere(11,y, 0.7f);
-    menu.labels[T_S_MOVES].SetzeSignal(S_MOVES);
+    menu.labels[T_S_NAME].SetPosition(2, y, 0.7f);
+    menu.labels[T_S_PLAYTIME].SetPosition(8, y, 0.7f);
+    menu.labels[T_S_PLAYTIME].SetSignal(S_PLAYTIME);
+    menu.labels[T_S_MOVES].SetPosition(11,y, 0.7f);
+    menu.labels[T_S_MOVES].SetSignal(S_MOVES);
 
     y -= 0.7f;
     for (i = 0; i < max; i++)
@@ -76,21 +76,21 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
         if (it == menu.labels.end())
         {
             menu.labels[T_S_NAME1 + i] = Label();
-            menu.labels[T_S_NAME1 + i].Initialisiere("");
+            menu.labels[T_S_NAME1 + i].Initialize("");
         }
 
         it = menu.labels.find(T_S_PLAYTIME1 + i);
         if (it == menu.labels.end())
         {
             menu.labels[T_S_PLAYTIME1 + i] = Label();
-            menu.labels[T_S_PLAYTIME1 + i].Initialisiere("");
+            menu.labels[T_S_PLAYTIME1 + i].Initialize("");
         }
 
         it = menu.labels.find(T_S_MOVES1 + i);
         if (it == menu.labels.end())
         {
             menu.labels[T_S_MOVES1 + i] = Label();
-            menu.labels[T_S_MOVES1 + i].Initialisiere("");
+            menu.labels[T_S_MOVES1 + i].Initialize("");
         }
 
         KPscore::Instance().Get(i, Name, &PlayTime, &Moves);
@@ -103,17 +103,17 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
         menu.labels[T_S_MOVES1 + i].FormatText("%u", Moves);
 
 
-        menu.labels[T_S_NAME1 + i].Positioniere(2, y, 0.6f);
-        menu.labels[T_S_PLAYTIME1 + i].Positioniere(9, y, 0.6f, A_CENTERED);
-        menu.labels[T_S_MOVES1 + i].Positioniere(12,y, 0.6f, A_CENTERED);
+        menu.labels[T_S_NAME1 + i].SetPosition(2, y, 0.6f);
+        menu.labels[T_S_PLAYTIME1 + i].SetPosition(9, y, 0.6f, A_CENTERED);
+        menu.labels[T_S_MOVES1 + i].SetPosition(12,y, 0.6f, A_CENTERED);
 
         y -= 0.5f;
     }
 
     KPscore::Instance().CheckPlayTime(true);
 
-    menu.labels[T_CONTINUE].Positioniere(8,1,1,A_CENTERED);
-    menu.labels[T_CONTINUE].SetzeSignal(S_CONTINUE);
+    menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
     StartAnimation();
 }

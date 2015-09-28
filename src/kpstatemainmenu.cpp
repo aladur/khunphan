@@ -53,37 +53,37 @@ void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext)
     // every thing which should be permanently be visible within this
     // state should be listed here:
 
-    menu.plates[SHLD_MENUBACKGROUND].Positioniere(2,2.5,14,8.5);
+    menu.plates[SHLD_MENUBACKGROUND].SetPosition(2,2.5,14,8.5);
 
-    menu.plates[SHLD_LOGO].Positioniere(5,9,11,11);
-    menu.plates[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].SetPosition(5,9,11,11);
+    menu.plates[SHLD_LOGO].SetFullyVisible();
 
-    menu.labels[T_MAINMENU].Positioniere(8,8,1,A_CENTERED);
-    menu.labels[T_MAINMENU].VollSichtbar();
+    menu.labels[T_MAINMENU].SetPosition(8,8,1,A_CENTERED);
+    menu.labels[T_MAINMENU].SetFullyVisible();
 
-    menu.labels[T_TUTORIAL].Positioniere(5.5,6.5,1,A_CENTERED);
-    menu.labels[T_TUTORIAL].SetzeSignal(S_TUTORIAL);
+    menu.labels[T_TUTORIAL].SetPosition(5.5,6.5,1,A_CENTERED);
+    menu.labels[T_TUTORIAL].SetSignal(S_TUTORIAL);
 
-    menu.labels[T_H_KEYBOARDHELP].Positioniere(5.5,5,1,A_CENTERED);
-    menu.labels[T_H_KEYBOARDHELP].SetzeSignal(S_KEYBOARD_HELP);
+    menu.labels[T_H_KEYBOARDHELP].SetPosition(5.5,5,1,A_CENTERED);
+    menu.labels[T_H_KEYBOARDHELP].SetSignal(S_KEYBOARD_HELP);
 
-    menu.labels[T_SCORELIST].Positioniere(5.5,3.5,1,A_CENTERED);
-    menu.labels[T_SCORELIST].SetzeSignal(S_SCORELIST);
+    menu.labels[T_SCORELIST].SetPosition(5.5,3.5,1,A_CENTERED);
+    menu.labels[T_SCORELIST].SetSignal(S_SCORELIST);
 
-    menu.labels[T_NEWGAME].Positioniere(10.5,6.5,1,A_CENTERED);
-    menu.labels[T_NEWGAME].SetzeSignal(S_NEW_GAME);
+    menu.labels[T_NEWGAME].SetPosition(10.5,6.5,1,A_CENTERED);
+    menu.labels[T_NEWGAME].SetSignal(S_NEW_GAME);
 
-    menu.labels[T_SETTINGS].Positioniere(10.5,5,1,A_CENTERED);
-    menu.labels[T_SETTINGS].SetzeSignal(S_SETTINGS);
+    menu.labels[T_SETTINGS].SetPosition(10.5,5,1,A_CENTERED);
+    menu.labels[T_SETTINGS].SetSignal(S_SETTINGS);
 
     if (KPConfig::Instance().SavedGame != 0)
     {
-        menu.labels[T_CONTINUEGAME].Positioniere(10.5,3.5,1,A_CENTERED);
-        menu.labels[T_CONTINUEGAME].SetzeSignal(S_CONTINUE);
+        menu.labels[T_CONTINUEGAME].SetPosition(10.5,3.5,1,A_CENTERED);
+        menu.labels[T_CONTINUEGAME].SetSignal(S_CONTINUE);
     }
 
-    menu.labels[T_QUIT].Positioniere(8,1,1,A_CENTERED);
-    menu.labels[T_QUIT].SetzeSignal(S_FINISH);
+    menu.labels[T_QUIT].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_QUIT].SetSignal(S_FINISH);
 
     StartAnimation();
 }

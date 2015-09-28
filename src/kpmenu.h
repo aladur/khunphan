@@ -144,8 +144,8 @@ public:
 protected:
     bool LoadLanguage(int Language) ;
     void AddTextField(int number, const char word[]);
-    void DeactivateAllLabels();
-    void DeactivateAllTextFields();
+    void FadeOutAllPlates();
+    void FadeOutAllLabels();
 
     KPprogressBar progressBar;
 

@@ -60,7 +60,7 @@ Camera::Camera() :   AspectRatio(0.0),
     target_Pos_x = -60;
     target_Pos_y = -30;
 
-    Rundflug(0);
+    Roundtrip(0);
 
     Alpha = target_Alpha;
     Beta  = target_Beta;
@@ -81,170 +81,66 @@ void Camera::SetAspectRatio(float aspectRatio)
     glMatrixMode(GL_MODELVIEW);
 }
 
-// This method can be used for both display update and Selection
-// Parameters:
-//   For Display update: not necessary
-//   For Selection:      the X and Y Screen coordinates to select
-
-void Camera::male(int x /* = -1 */, int y /* = -1 */) const
-{
-    glMatrixMode(GL_PROJECTION); // Kameraparameter!
-    glLoadIdentity();            // zuruecksetzen
-    if (x >= 0 && y >= 0)        // only necessary in selection mode:
-    {
-        GLint   viewport[4];
-
-        glGetIntegerv(GL_VIEWPORT, viewport);
-        gluPickMatrix(x, (viewport[3]- y), 1.0f, 1.0f, viewport);
-    }
-    gluPerspective(FOV, AspectRatio, Near, Far);
-
-    glMatrixMode(GL_MODELVIEW);  // Blickpunkt!
-    glLoadIdentity();            // Kamera an den Ursprung setzen
-
-    glRotatef(Alpha,-1,0,0);     // um Alpha nach oben und Beta nach Rechts
-    // drehen
-    glRotatef(Beta,0,0,1);
-    // an die gewuenschte Position setzen
-    glTranslatef(-Pos_x,-Pos_y,-Pos_z);
-}
-
-//setzt die Kamera an eine neue Position
-void Camera::neuePosition(SPosition &position)
-{
-    target_Pos_x = position.Pos_x;
-    target_Pos_y = position.Pos_y;
-    target_Pos_z = position.Pos_z;
-    target_Alpha = position.Alpha;
-    target_Beta  = position.Beta;
-    target_FOV   = position.FOV;
-    BlickTiefeNeuBestimmen();
-    IsRoundtrip = false;
-}
-
-//gibt die aktuelle Kameraposition zur"uck
-SPosition Camera::Position()
-{
-    SPosition position(Pos_x, Pos_y, Pos_z, Alpha, Beta, FOV);
-
-    return position;
-}
-
-float Camera::Pos_xCM()
-{
-    return Pos_x;
-}
-
-float Camera::Pos_yCM()
-{
-    return Pos_y;
-}
-
-float Camera::Pos_zCM()
-{
-    return Pos_z;
-}
-
-// l"adt eine Kameraposition aus der Tabelle
-void Camera::ladePosition(int index)
-{
-    setzeSollPosition(Positions.at(index));
-    IsRoundtrip = false;
-}
-
-// Bewegt die Kamera in Blickrichtung
-void Camera::Beweg_Rein(float factor)
-{
-    target_Pos_x += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
-                    sin(target_Beta / degprad);
-    target_Pos_y += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
-                    cos(target_Beta / degprad);
-    target_Pos_z -= 2 * MoveFactor * factor * cos(target_Alpha / degprad);
-    //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
-    if (target_Pos_z < 2.8f)
-    {
-        target_Pos_z = 2.8f;
-    }
-    BlickTiefeNeuBestimmen();
-    IsRoundtrip = false;
-}
-
-// Bewegt die Kamera gegen die Blickrichtung
-void Camera::Beweg_Raus(float factor)
-{
-    target_Pos_x -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
-                    sin(target_Beta / degprad);
-    target_Pos_y -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
-                    cos(target_Beta / degprad);
-    target_Pos_z += 2 * MoveFactor * factor * cos(target_Alpha / degprad);
-    //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
-    if (target_Pos_z < 2.8f)
-    {
-        target_Pos_z = 2.8f;
-    }
-    BlickTiefeNeuBestimmen();
-    IsRoundtrip = false;
-}
-
+#ifdef CAMERA_EXTENDED
 // Bewegt die Kamera in Blickrichtung, aber unter Beibehaltung der H"ohe
-void Camera::Beweg_Vor(float factor)
+void Camera::MoveForward(float factor)
 {
     target_Pos_x += 2 * MoveFactor * factor * sin(target_Beta / degprad);
     target_Pos_y += 2 * MoveFactor * factor * cos(target_Beta / degprad);
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
 // Bewegt die Kamera gegen die Blickrichtung, aber unter Beibehaltung der H"ohe
-void Camera::Beweg_Zurueck(float factor)
+void Camera::MoveBackward(float factor)
 {
     target_Pos_x -= 2 * MoveFactor * factor * sin(target_Beta / degprad);
     target_Pos_y -= 2 * MoveFactor * factor * cos(target_Beta / degprad);
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
 // Bewegt die Kamera nach rechts
-void Camera::Beweg_Rechts(float factor)
+void Camera::MoveRight(float factor)
 {
     target_Pos_x += MoveFactor * factor * cos(target_Beta / degprad);
     target_Pos_y -= MoveFactor * factor * sin(target_Beta / degprad);
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
 // Bewegt die Kamera nach links
-void Camera::Beweg_Links(float factor)
+void Camera::MoveLeft(float factor)
 {
     target_Pos_x -= MoveFactor * factor * cos(target_Beta / degprad);
     target_Pos_y += MoveFactor * factor * sin(target_Beta / degprad);
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
 // Bewegt die Kamera nach oben
-void Camera::Beweg_Hoch(float factor)
+void Camera::MoveUp(float factor)
 {
     target_Pos_z += MoveFactor * factor;
     //  if (Pos_z>400) {Pos_z=400;}
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
 // Bewegt die Kamera nach unten
-void Camera::Beweg_Runter(float factor)
+void Camera::MoveDown(float factor)
 {
     target_Pos_z -= MoveFactor * factor;
     if (target_Pos_z < 2.8f)
     {
         target_Pos_z = 2.8f;
     }
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
 // Vergr"o"sert den Zoom
-void Camera::Zoom_Rein(float factor)
+void Camera::ZoomIn(float factor)
 {
     target_FOV -= MoveFactor * factor;
     if (target_FOV < 1)
@@ -255,14 +151,14 @@ void Camera::Zoom_Rein(float factor)
 }
 
 // Verkleinert den Zoom
-void Camera::Zoom_Raus(float factor)
+void Camera::ZoomOut(float factor)
 {
     target_FOV += MoveFactor * factor;
     IsRoundtrip = false;
 }
 
 // Vergr"o"sert den Vertigo
-void Camera::Vertigo_Rein(float factor)
+void Camera::VertigoIn(float factor)
 {
     target_Pos_x -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
                     sin(target_Beta / degprad);
@@ -279,7 +175,7 @@ void Camera::Vertigo_Rein(float factor)
 }
 
 // Verkleinert den Vertigo
-void Camera::Vertigo_Raus(float factor)
+void Camera::VertigoOut(float factor)
 {
     target_Pos_x += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
                     sin(target_Beta / degprad);
@@ -291,21 +187,21 @@ void Camera::Vertigo_Raus(float factor)
 }
 
 // Dreht die Kamera nach rechts
-void Camera::Dreh_Rechts(float factor)
+void Camera::RotateRight(float factor)
 {
     target_Beta += factor * RotateFactor;
     IsRoundtrip = false;
 }
 
 // Dreht die Kamera nach links
-void Camera::Dreh_Links(float factor)
+void Camera::RotateLeft(float factor)
 {
     target_Beta -= factor * RotateFactor;
     IsRoundtrip = false;
 }
 
 // Dreht die Kamera nach oben
-void Camera::Dreh_Hoch(float factor)
+void Camera::RotateUp(float factor)
 {
     target_Alpha += factor * RotateFactor;
     if (target_Alpha > 90)
@@ -320,7 +216,7 @@ void Camera::Dreh_Hoch(float factor)
 }
 
 // Dreht die Kamera nach unten
-void Camera::Dreh_Runter(float factor)
+void Camera::RotateDown(float factor)
 {
     target_Alpha -= factor * RotateFactor;
     if (target_Alpha > 90)
@@ -334,7 +230,7 @@ void Camera::Dreh_Runter(float factor)
     IsRoundtrip = false;
 }
 
-void Camera::Schwenk_Links(float factor, float center_x, float center_y)
+void Camera::PanLeft(float factor, float center_x, float center_y)
 {
     GLfloat distance;
 
@@ -349,11 +245,11 @@ void Camera::Schwenk_Links(float factor, float center_x, float center_y)
     target_Beta += factor * RotateFactor * 7.338f / sqrt(distance);
     target_Pos_x = center_x - distance * sin(target_Beta / degprad);
     target_Pos_y = center_y - distance * cos(target_Beta / degprad);
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
-void Camera::Schwenk_Rechts(float factor, float center_x, float center_y)
+void Camera::PanRight(float factor, float center_x, float center_y)
 {
     GLfloat distance;
 
@@ -368,11 +264,11 @@ void Camera::Schwenk_Rechts(float factor, float center_x, float center_y)
     target_Beta -= factor * RotateFactor * 7.338f / sqrt(distance);
     target_Pos_x = center_x - distance * sin(target_Beta / degprad);
     target_Pos_y = center_y - distance * cos(target_Beta / degprad);
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
-void Camera::Schwenk_Hoch(float factor, float center_x, float center_y)
+void Camera::PanUp(float factor, float center_x, float center_y)
 {
     GLfloat distance;
 
@@ -408,11 +304,11 @@ void Camera::Schwenk_Hoch(float factor, float center_x, float center_y)
     {
         target_Pos_z = 2.8f;
     }
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
-void Camera::Schwenk_Runter(float factor, float center_x, float center_y)
+void Camera::PanDown(float factor, float center_x, float center_y)
 {
     GLfloat distance;
 
@@ -449,11 +345,109 @@ void Camera::Schwenk_Runter(float factor, float center_x, float center_y)
     {
         target_Pos_z = 2.8f;
     }
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
-void Camera::setzeSollPosition(SPosition &target_Pos)
+void Camera::FocusUp(float focus_x, float focus_y)
+{
+    GLfloat tgtPosx = focus_x + 50 * (Pos_x - focus_x) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosy = focus_y + 50 * (Pos_y - focus_y) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosz = 20;
+    GLfloat tgtAlpha = 71.0167f;
+    GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
+    if (tgtPosy > focus_y)
+    {
+        tgtBeta -= 180.0f;
+    }
+    GLfloat tgtFOV = 38.6f;
+
+    SetTargetPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
+    IsRoundtrip = false;
+}
+
+void Camera::FocusUp2(float focus_x, float focus_y)
+{
+    GLfloat tgtPosx = focus_x + 80 * (Pos_x - focus_x) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosy = focus_y + 80 * (Pos_y - focus_y) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosz = 50;
+    GLfloat tgtAlpha = 72;
+    GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
+    if (tgtPosy > focus_y)
+    {
+        tgtBeta -= 180.0f;
+    }
+    GLfloat tgtFOV = 38.6f;
+
+    SetTargetPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
+    IsRoundtrip = false;
+}
+
+void Camera::FocusUp3(float focus_x, float focus_y)
+{
+    GLfloat tgtPosx = focus_x + 80 * (Pos_x - focus_x) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosy = focus_y + 80 * (Pos_y - focus_y) /
+                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
+                           (focus_y - Pos_y) * (focus_y - Pos_y));
+    GLfloat tgtPosz = 50;
+    GLfloat tgtAlpha = 58;
+    GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
+    if (tgtPosy>focus_y)
+    {
+        tgtBeta -= 180.0f;
+    }
+    GLfloat tgtFOV = 38.6f;
+
+    SetTargetPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
+    IsRoundtrip = false;
+}
+#endif // #ifdef CAMERA_EXTENDED
+
+// Bewegt die Kamera in Blickrichtung
+void Camera::MoveIn(float factor)
+{
+    target_Pos_x += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    sin(target_Beta / degprad);
+    target_Pos_y += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    cos(target_Beta / degprad);
+    target_Pos_z -= 2 * MoveFactor * factor * cos(target_Alpha / degprad);
+    //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
+    if (target_Pos_z < 2.8f)
+    {
+        target_Pos_z = 2.8f;
+    }
+    RecalculateViewFrustum();
+    IsRoundtrip = false;
+}
+
+// Bewegt die Kamera gegen die Blickrichtung
+void Camera::MoveOut(float factor)
+{
+    target_Pos_x -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    sin(target_Beta / degprad);
+    target_Pos_y -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
+                    cos(target_Beta / degprad);
+    target_Pos_z += 2 * MoveFactor * factor * cos(target_Alpha / degprad);
+    //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
+    if (target_Pos_z < 2.8f)
+    {
+        target_Pos_z = 2.8f;
+    }
+    RecalculateViewFrustum();
+    IsRoundtrip = false;
+}
+
+void Camera::SetTargetPosition(SPosition &target_Pos)
 {
     target_Pos_x = target_Pos.Pos_x;
     target_Pos_y = target_Pos.Pos_y;
@@ -473,11 +467,11 @@ void Camera::setzeSollPosition(SPosition &target_Pos)
     {
         target_Beta += 360;
     }
-    BlickTiefeNeuBestimmen();
+    RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
-void Camera::setzeSollPosition(float tgtPosx, float tgtPosy,float tgtPosz,
+void Camera::SetTargetPosition(float tgtPosx, float tgtPosy,float tgtPosz,
                                float tgtAlpha,float tgtBeta,float tgtFOV)
 {
     target_Pos_x = tgtPosx;
@@ -501,70 +495,7 @@ void Camera::setzeSollPosition(float tgtPosx, float tgtPosy,float tgtPosz,
     IsRoundtrip = false;
 }
 
-void Camera::BlickeAuf(float focus_x, float focus_y)
-{
-    GLfloat tgtPosx = focus_x + 50 * (Pos_x - focus_x) /
-                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
-                           (focus_y - Pos_y) * (focus_y - Pos_y));
-    GLfloat tgtPosy = focus_y + 50 * (Pos_y - focus_y) /
-                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
-                           (focus_y - Pos_y) * (focus_y - Pos_y));
-    GLfloat tgtPosz = 20;
-    GLfloat tgtAlpha = 71.0167f;
-    GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
-    if (tgtPosy > focus_y)
-    {
-        tgtBeta -= 180.0f;
-    }
-    GLfloat tgtFOV = 38.6f;
-
-    setzeSollPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
-    IsRoundtrip = false;
-}
-
-void Camera::BlickeAuf2(float focus_x, float focus_y)
-{
-    GLfloat tgtPosx = focus_x + 80 * (Pos_x - focus_x) /
-                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
-                           (focus_y - Pos_y) * (focus_y - Pos_y));
-    GLfloat tgtPosy = focus_y + 80 * (Pos_y - focus_y) /
-                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
-                           (focus_y - Pos_y) * (focus_y - Pos_y));
-    GLfloat tgtPosz = 50;
-    GLfloat tgtAlpha = 72;
-    GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
-    if (tgtPosy > focus_y)
-    {
-        tgtBeta -= 180.0f;
-    }
-    GLfloat tgtFOV = 38.6f;
-
-    setzeSollPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
-    IsRoundtrip = false;
-}
-
-void Camera::BlickeAuf3(float focus_x, float focus_y)
-{
-    GLfloat tgtPosx = focus_x + 80 * (Pos_x - focus_x) /
-                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
-                           (focus_y - Pos_y) * (focus_y - Pos_y));
-    GLfloat tgtPosy = focus_y + 80 * (Pos_y - focus_y) /
-                      sqrt((focus_x - Pos_x) * (focus_x - Pos_x) +
-                           (focus_y - Pos_y) * (focus_y - Pos_y));
-    GLfloat tgtPosz = 50;
-    GLfloat tgtAlpha = 58;
-    GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
-    if (tgtPosy>focus_y)
-    {
-        tgtBeta -= 180.0f;
-    }
-    GLfloat tgtFOV = 38.6f;
-
-    setzeSollPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
-    IsRoundtrip = false;
-}
-
-void Camera::Fahrt(int factor)
+void Camera::Run(int factor)
 {
     for (int i=0; i < factor; i++)
     {
@@ -592,17 +523,52 @@ void Camera::Fahrt(int factor)
         Beta  += d_Beta;
         FOV   += d_FOV;
 
-        BlickTiefeNeuBestimmen();
+        RecalculateViewFrustum();
 
     }
 
     if (IsRoundtrip)
     {
-        Rundflug(factor);
+        Roundtrip(factor);
     }
 }
 
-void Camera::BlickTiefeNeuBestimmen()
+// This method can be used for both display update and Selection
+// Parameters:
+//   For Display update: not necessary
+//   For Selection:      the X and Y Screen coordinates to select
+
+void Camera::Draw(int x /* = -1 */, int y /* = -1 */) const
+{
+    glMatrixMode(GL_PROJECTION); // Kameraparameter!
+    glLoadIdentity();            // zuruecksetzen
+    if (x >= 0 && y >= 0)        // only necessary in selection mode:
+    {
+        GLint   viewport[4];
+
+        glGetIntegerv(GL_VIEWPORT, viewport);
+        gluPickMatrix(x, (viewport[3]- y), 1.0f, 1.0f, viewport);
+    }
+    gluPerspective(FOV, AspectRatio, Near, Far);
+
+    glMatrixMode(GL_MODELVIEW);  // Blickpunkt!
+    glLoadIdentity();            // Kamera an den Ursprung setzen
+
+    glRotatef(Alpha,-1,0,0);     // um Alpha nach oben und Beta nach Rechts
+    // drehen
+    glRotatef(Beta,0,0,1);
+    // an die gewuenschte Position setzen
+    glTranslatef(-Pos_x,-Pos_y,-Pos_z);
+}
+
+// l"adt eine Kameraposition aus der Tabelle
+void Camera::SetPosition(int index)
+{
+    SetTargetPosition(Positions.at(index));
+    IsRoundtrip = false;
+}
+
+void Camera::RecalculateViewFrustum()
 {
     GLfloat ax = fabs(Pos_x);
     GLfloat ay = fabs(Pos_y);
@@ -643,7 +609,7 @@ void Camera::BlickTiefeNeuBestimmen()
 }
 
 
-void Camera::Rundflug(int factor)
+void Camera::Roundtrip(int factor)
 {
     if (target_Pos_y == 0)
     {

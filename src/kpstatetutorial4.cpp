@@ -35,7 +35,7 @@ void KPstateTutorial4::ContinueWithNextState(KPstateContext *pContext,
         return;
     }
 
-    pContext->GetCamera().SetzeRundflug(true);
+    pContext->GetCamera().SetRoundtrip(true);
     pContext->GetBoardView().EmphasizeToken( TK_EMPTY );
     pContext->ChangeState( pContext->GetMenu().RestoreLastStateId() );
 }

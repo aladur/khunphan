@@ -52,8 +52,8 @@ void KPstate::Initialize(KPstateContext *pContext, const KPstate *pOldState)
     }
 
     // Sw: unfinished. Should be enough in UpdateDisplay
-    menu.DeactivateAllLabels();
-    menu.DeactivateAllTextFields();
+    menu.FadeOutAllPlates();
+    menu.FadeOutAllLabels();
     PlayAudioForInitialize(pContext);
 }
 
@@ -64,15 +64,15 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
 
     // by default deactivate all drawing primitives
 
-    menu.DeactivateAllLabels();
-    menu.DeactivateAllTextFields();
-    menu.progressBar.Deactivate();
+    menu.FadeOutAllPlates();
+    menu.FadeOutAllLabels();
+    menu.progressBar.SetFadeOut();
 
     float y = 11.7f;
 
     if (KPConfig::Instance().DisplayFPS)
     {
-        menu.labels[T_FPS].Positioniere(0.1f, y, 0.3f);
+        menu.labels[T_FPS].SetPosition(0.1f, y, 0.3f);
     }
     y -= 0.6f;
 
@@ -85,11 +85,11 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
         menu.labels[T_GL_VERSION].FormatText(NULL,
                 userInterface.GetOpenGLVersion().c_str());
 
-        menu.labels[T_GL_VENDOR].Positioniere(0.1f, y, 0.3f);
+        menu.labels[T_GL_VENDOR].SetPosition(0.1f, y, 0.3f);
         y -= 0.3f;
-        menu.labels[T_GL_RENDERER].Positioniere(0.1f, y, 0.3f);
+        menu.labels[T_GL_RENDERER].SetPosition(0.1f, y, 0.3f);
         y -= 0.3f;
-        menu.labels[T_GL_VERSION].Positioniere(0.1f, y, 0.3f);
+        menu.labels[T_GL_VERSION].SetPosition(0.1f, y, 0.3f);
     }
 }
 
@@ -113,7 +113,7 @@ void KPstate::Update(KPstateContext *pContext, int factor)
         for (sit = menu.plates.begin(); sit != menu.plates.end();
              ++sit)
         {
-            sit->second.Animiere(factor);
+            sit->second.Animate(factor);
         }
 
         tIdToLabel::iterator tit;
@@ -121,7 +121,7 @@ void KPstate::Update(KPstateContext *pContext, int factor)
         for (tit = menu.labels.begin(); tit != menu.labels.end();
              ++tit)
         {
-            tit->second.Animiere(factor);
+            tit->second.Animate(factor);
         }
     }
 
@@ -129,7 +129,7 @@ void KPstate::Update(KPstateContext *pContext, int factor)
 
     pContext->GetBoardView().Animate(factor);
 
-    pContext->GetCamera().Fahrt(factor);
+    pContext->GetCamera().Run(factor);
 }
 
 void KPstate::Draw(KPstateContext *pContext)
@@ -139,7 +139,7 @@ void KPstate::Draw(KPstateContext *pContext)
 
     pContext->GetLight().Draw();
 
-    pContext->GetCamera().male();
+    pContext->GetCamera().Draw();
 
     if (KPConfig::Instance().PerformanceLog)
     {
@@ -178,8 +178,8 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
 
     for (sit = menu.plates.begin(); sit != menu.plates.end(); ++sit)
     {
-        Signal = sit->second.Maustaste(button,event,x,y,
-                 pContext->GetUserInterface());
+        Signal = sit->second.MouseEvent(button,event,x,y,
+                                        pContext->GetUserInterface());
 
         if (Signal)
         {
@@ -197,8 +197,8 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
             break;
         }
 
-        Signal = tit->second.Maustaste(button, event, x, y,
-                                       pContext->GetUserInterface());
+        Signal = tit->second.MouseEvent(button, event, x, y,
+                                        pContext->GetUserInterface());
     }
 
     return Signal;
@@ -220,7 +220,7 @@ bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
         {
             break;
         }
-        action = it->second.Zeichen(key);
+        action = it->second.AddCharacter(key);
     }
     return action;
 }

@@ -62,7 +62,7 @@ void KPprogressBar::Initialize()
 {
 }
 
-void KPprogressBar::Blended()
+void KPprogressBar::SetFadeIn()
 {
     target_Alpha = MOD_FADEIN;
     if (target_Alpha != alpha)
@@ -71,7 +71,7 @@ void KPprogressBar::Blended()
     }
 }
 
-void KPprogressBar::FullVisible()
+void KPprogressBar::SetFullyVisible()
 {
     target_Alpha = MOD_FULLYVISIBLE;
     if (target_Alpha != alpha)
@@ -125,12 +125,12 @@ void KPprogressBar::SetPosition(float X, float Y, float Width, float Height,
         height = target_Height / 1.5f;
         width  = target_Width  / 1.5f;
     }
-    GenerateDisplayList();
+    RecreateDisplayList();
 
     StartAnimation();
 }
 
-void KPprogressBar::Deactivate()
+void KPprogressBar::SetFadeOut()
 {
     target_Alpha = MOD_FADEOUT;
 
@@ -180,11 +180,11 @@ void KPprogressBar::SetPercentage(int Percent)
     if (abs(Percent - percent) > 1)
     {
         percent = Percent;
-        GenerateDisplayList();
+        RecreateDisplayList();
     }
 }
 
-void KPprogressBar::GenerateDisplayList()
+void KPprogressBar::RecreateDisplayList()
 {
     GLfloat mw = height * PROGRESS_MARGIN;
 

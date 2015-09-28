@@ -40,52 +40,52 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[SHLD_MENUBACKGROUND].Positioniere(2,2.5,14,9.0);
+    menu.plates[SHLD_MENUBACKGROUND].SetPosition(2,2.5,14,9.0);
 
-    menu.plates[SHLD_LOGO].Positioniere(5,9,11,11);
-    menu.plates[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].SetPosition(5,9,11,11);
+    menu.plates[SHLD_LOGO].SetFullyVisible();
 
     bool fullScreen = pContext->GetUserInterface().CanToggleFullScreen();
 
     float y = 8.5;
-    menu.labels[T_H_KEYBOARDHELP].Positioniere(8,y,1,A_CENTERED);
+    menu.labels[T_H_KEYBOARDHELP].SetPosition(8,y,1,A_CENTERED);
     y -= 1.0f;
-    menu.labels[T_H_KEYBOARDHELP].VollSichtbar();
+    menu.labels[T_H_KEYBOARDHELP].SetFullyVisible();
 
-    menu.labels[T_H_GENERAL].Positioniere(8,y,1,A_CENTERED);
+    menu.labels[T_H_GENERAL].SetPosition(8,y,1,A_CENTERED);
     y -= 1.0f;
-    menu.labels[T_H_ESC_KEY].Positioniere(3,y,0.6f);
+    menu.labels[T_H_ESC_KEY].SetPosition(3,y,0.6f);
     y -= 0.6f;
-    menu.labels[T_H_OPENGL_KEY].Positioniere(3,y,0.6f);
+    menu.labels[T_H_OPENGL_KEY].SetPosition(3,y,0.6f);
     y -= (fullScreen ? 0.6f : 1.0f);
     if (fullScreen)
     {
-        menu.labels[T_H_FULLSCREEN_KEY].Positioniere(3,y,0.6f);
+        menu.labels[T_H_FULLSCREEN_KEY].SetPosition(3,y,0.6f);
         y -= 1.0f;
     }
-    menu.labels[T_H_IN_GAME].Positioniere(8,y,1,A_CENTERED);
+    menu.labels[T_H_IN_GAME].SetPosition(8,y,1,A_CENTERED);
     y -= 1.0f;
-    menu.labels[T_H_PAUSE_KEY].Positioniere(3,y,0.6f);
+    menu.labels[T_H_PAUSE_KEY].SetPosition(3,y,0.6f);
     y -= 0.6f;
-    menu.labels[T_H_CAMERA_KEY].Positioniere(3,y,0.6f);
+    menu.labels[T_H_CAMERA_KEY].SetPosition(3,y,0.6f);
     y -= 0.6f;
 
     y = 6.5f;
-    menu.labels[T_H_ESC].Positioniere(6,y,0.6f);
+    menu.labels[T_H_ESC].SetPosition(6,y,0.6f);
     y -= 0.6f;
-    menu.labels[T_H_OPENGL].Positioniere(6,y,0.6f);
+    menu.labels[T_H_OPENGL].SetPosition(6,y,0.6f);
     y -= (fullScreen ? 0.6f : 2.0f);
     if (fullScreen)
     {
-        menu.labels[T_H_FULLSCREEN].Positioniere(6,y,0.6f);
+        menu.labels[T_H_FULLSCREEN].SetPosition(6,y,0.6f);
         y -= 2.0f;
     }
-    menu.labels[T_H_PAUSE].Positioniere(6,y,0.6f);
+    menu.labels[T_H_PAUSE].SetPosition(6,y,0.6f);
     y -= 0.6f;
-    menu.labels[T_H_CAMERA].Positioniere(6,y,0.6f);
+    menu.labels[T_H_CAMERA].SetPosition(6,y,0.6f);
 
-    menu.labels[T_BACK].Positioniere(8,1,1,A_CENTERED);
-    menu.labels[T_BACK].SetzeSignal(S_BACK);
+    menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_BACK].SetSignal(S_BACK);
 
     StartAnimation();
 }

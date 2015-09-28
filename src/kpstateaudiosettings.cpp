@@ -48,19 +48,19 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext)
     float dy = 0.6f;
     int textfeldIdx;
 
-    menu.plates[SHLD_MENUBACKGROUND].Positioniere(2,3.5,14,8.5);
+    menu.plates[SHLD_MENUBACKGROUND].SetPosition(2,3.5,14,8.5);
 
-    menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
-    menu.plates[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].SetPosition(4,9,12,11);
+    menu.plates[SHLD_LOGO].SetFullyVisible();
 
-    menu.labels[T_SETTINGS].Positioniere(4,8,1);
-    menu.labels[T_SETTINGS].VollSichtbar();
-    menu.labels[T_AUDIO].Positioniere(12,8,1,A_RIGHT);
-    menu.labels[T_AUDIO].VollSichtbar();
+    menu.labels[T_SETTINGS].SetPosition(4,8,1);
+    menu.labels[T_SETTINGS].SetFullyVisible();
+    menu.labels[T_AUDIO].SetPosition(12,8,1,A_RIGHT);
+    menu.labels[T_AUDIO].SetFullyVisible();
 
     y = 6.0;
-    menu.labels[T_SOUND_VOLUME].Positioniere(8,y,0.71f,A_RIGHT);
-    menu.labels[T_SOUND_VOLUME].SetzeSignal(S_TOGGLE_SOUND_VOLUME);
+    menu.labels[T_SOUND_VOLUME].SetPosition(8,y,0.71f,A_RIGHT);
+    menu.labels[T_SOUND_VOLUME].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
     if (E_SoundVolume >= 100)
     {
@@ -107,12 +107,12 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext)
         textfeldIdx = T_SND_VOL_OFF;
     }
 
-    menu.labels[textfeldIdx].Positioniere(8.2f,y,0.71f);
-    menu.labels[textfeldIdx].SetzeSignal(S_TOGGLE_SOUND_VOLUME);
+    menu.labels[textfeldIdx].SetPosition(8.2f,y,0.71f);
+    menu.labels[textfeldIdx].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
     y -= dy;
-    menu.labels[T_MUSIC_VOLUME].Positioniere(8,y,0.71f,A_RIGHT);
-    menu.labels[T_MUSIC_VOLUME].SetzeSignal(S_TOGGLE_MUSIC_VOLUME);
+    menu.labels[T_MUSIC_VOLUME].SetPosition(8,y,0.71f,A_RIGHT);
+    menu.labels[T_MUSIC_VOLUME].SetSignal(S_TOGGLE_MUSIC_VOLUME);
 
     if (E_MusicVolume >= 100)
     {
@@ -159,11 +159,11 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext)
         textfeldIdx = T_MSC_VOL_OFF;
     }
 
-    menu.labels[textfeldIdx].Positioniere(8.2f,y,0.71f);
-    menu.labels[textfeldIdx].SetzeSignal(S_TOGGLE_MUSIC_VOLUME);
+    menu.labels[textfeldIdx].SetPosition(8.2f,y,0.71f);
+    menu.labels[textfeldIdx].SetSignal(S_TOGGLE_MUSIC_VOLUME);
 
-    menu.labels[T_BACK].Positioniere(8,0.7f,1,A_CENTERED);
-    menu.labels[T_BACK].SetzeSignal(S_BACK);
+    menu.labels[T_BACK].SetPosition(8,0.7f,1,A_CENTERED);
+    menu.labels[T_BACK].SetSignal(S_BACK);
 
     StartAnimation();
 }

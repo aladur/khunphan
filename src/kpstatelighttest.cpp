@@ -39,7 +39,7 @@ void KPstateLightTest::Initialize(KPstateContext *pContext,
     // Do some initialization stuff here:
 
     KPConfig::Instance().CameraPosition = 1;
-    pContext->GetCamera().ladePosition(KPConfig::Instance().CameraPosition);
+    pContext->GetCamera().SetPosition(KPConfig::Instance().CameraPosition);
     UpdateDisplay(pContext);
 }
 
@@ -49,8 +49,8 @@ void KPstateLightTest::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.labels[T_OK].Positioniere(8,1,1,A_CENTERED);
-    menu.labels[T_OK].SetzeSignal(S_BACK);
+    menu.labels[T_OK].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_OK].SetSignal(S_BACK);
 
     StartAnimation();
 }
@@ -70,7 +70,7 @@ void  KPstateLightTest::KeyPressed (KPstateContext *pContext, unsigned char key,
         case '6':
         case '7':
             KPConfig::Instance().CameraPosition = key - '1' + 1;
-            pContext->GetCamera().ladePosition(
+            pContext->GetCamera().SetPosition(
                 KPConfig::Instance().CameraPosition);
             break;
     }

@@ -87,13 +87,13 @@ Label::~Label()
     delete [] pString;
 }
 
-void Label::DeactivateAll()
+void Label::FadeOutAll()
 {
     tActivated::iterator it;
 
     for (it = activated.begin(); it != activated.end(); ++it)
     {
-        (*it)->Desaktiviere();
+        (*it)->SetFadeOut();
     }
 
     Label::activated.clear();
@@ -195,7 +195,7 @@ void Label::PreInitialize(const char *TextureName, unsigned int TextureSize,
     delete pTexture;
 }
 
-void Label::Initialisiere()
+void Label::Initialize()
 {
     x = y = Height = AspectRatio = Alpha = 0.0;
     old_x = old_y = old_Height = old_Alpha = 0.0;
@@ -207,19 +207,19 @@ void Label::Initialisiere()
     hasInputFocus = false;
 }
 
-void Label::Initialisiere(const char TextZ[])
+void Label::Initialize(const char TextZ[])
 {
-    Initialisiere();
-    SetzeText(TextZ);
+    Initialize();
+    SetText(TextZ);
 }
 
-void Label::InitialisiereKDL(const char TextZ[])
+void Label::InitializeNDL(const char TextZ[])
 {
-    Initialisiere();
-    SetzeTextKDL(TextZ);
+    Initialize();
+    SetTextNDL(TextZ);
 }
 
-void Label::male()
+void Label::Draw()
 {
     if (Alpha)
     {
@@ -233,7 +233,7 @@ void Label::male()
     }
 }
 
-void Label::Positioniere(float X, float Y, float H, tKPAlignment A)
+void Label::SetPosition(float X, float Y, float H, tKPAlignment A)
 {
 
     if (A != A_DONTCARE)
@@ -281,10 +281,10 @@ void Label::Positioniere(float X, float Y, float H, tKPAlignment A)
 
     Signal = 0;
 
-    StarteAnimation();
+    StartAnimation();
 }
 
-void Label::SetzeFormat(const char *srcString /* = NULL */)
+void Label::SetFormat(const char *srcString /* = NULL */)
 {
     if (srcString == NULL)
     {
@@ -321,17 +321,17 @@ void Label::CheckValidString(int min_size, const char *srcString /*= NULL */)
     delete [] sTmp;
 }
 
-void Label::SetzeText(const char TextZ[])
+void Label::SetText(const char TextZ[])
 {
-    SetzeTextKDL(TextZ);
-    SetzeFormat(pString);
-    GeneriereDisplayList();
+    SetTextNDL(TextZ);
+    SetFormat(pString);
+    RecreateDisplayList();
 }
 
-void Label::SetzeTextKDL(const char TextZ[])
+void Label::SetTextNDL(const char TextZ[])
 {
     CheckValidString(strlen(TextZ) + 1, TextZ);
-    SetzeFormat(pString);
+    SetFormat(pString);
 }
 
 // Sw: Create a string based on a given format
@@ -347,14 +347,14 @@ int Label::FormatText(const char *format, ...)
     result = this->vsprintf(format,arg_ptr);
     va_end(arg_ptr);
 
-    GeneriereDisplayList();
+    RecreateDisplayList();
 
     return result;
 }
 
 // Sw: Same as FormatText but without creating
 // a Display List
-int Label::FormatTextKDL(const char *format, ...)
+int Label::FormatTextNDL(const char *format, ...)
 {
     int result;
 
@@ -406,7 +406,7 @@ int Label::vsprintf(const char *_format, va_list arg_ptr)
     return strlen(pString);
 }
 
-bool Label::Zeichen(char key)
+bool Label::AddCharacter(char key)
 {
     if (hasInputFocus)
     {
@@ -422,17 +422,19 @@ bool Label::Zeichen(char key)
             size = strlen(pString);
             pString[size] = key;
             pString[size+1] = '\0';
-            GeneriereDisplayList();
+            RecreateDisplayList();
             return true;
         }
         else if (key == '\b' || key == 127)     // Delete last character
         {
             for (GLint i = 0; i < size; i++)
+            {
                 if (!pString[i+1])
                 {
                     pString[i]='\0';
                 }
-            GeneriereDisplayList();
+            }
+            RecreateDisplayList();
             return true;
         }
         else if (key == '\r' || key == '\n')
@@ -442,7 +444,7 @@ bool Label::Zeichen(char key)
             hasInputFocus = false;
             if (target_Alpha != Alpha)
             {
-                StarteAnimation();
+                StartAnimation();
             }
             return true;
         }
@@ -450,18 +452,12 @@ bool Label::Zeichen(char key)
     return false;
 }
 
-const char *Label::Text()
+std::string Label::GetText()
 {
     return pString;
 }
 
-bool Label::IsDeactivated() const
-{
-    return ((target_Alpha != Alpha && (target_Alpha == MOD_FADEOUT)) ||
-            (Alpha == MOD_FADEOUT));
-}
-
-void Label::Desaktiviere()
+void Label::SetFadeOut()
 {
     target_Alpha = MOD_FADEOUT;
 
@@ -473,7 +469,7 @@ void Label::Desaktiviere()
 
     if (target_Alpha != Alpha)
     {
-        StarteAnimation();
+        StartAnimation();
     }
 }
 
@@ -483,46 +479,46 @@ void Label::SetInputFocus(bool state)
 
     if (hasInputFocus)
     {
-        VollSichtbar();
+        SetFullyVisible();
     }
     else
     {
         if (Alpha && target_Alpha)
         {
-            Eingeblendet();
+            SetFadeIn();
         }
     }
 }
 
-void Label::Angewaehlt()
+void Label::SetSelected()
 {
     Alpha = MOD_SELECTED;
     target_Alpha = MOD_FADEIN;
     if (target_Alpha!=Alpha)
     {
-        StarteAnimation();
+        StartAnimation();
     }
 }
 
-void Label::Eingeblendet()
+void Label::SetFadeIn()
 {
     target_Alpha = MOD_FADEIN;
     if (target_Alpha!=Alpha)
     {
-        StarteAnimation();
+        StartAnimation();
     }
 }
 
-void Label::VollSichtbar()
+void Label::SetFullyVisible()
 {
     target_Alpha =MOD_FULLYVISIBLE;
     if (target_Alpha!=Alpha)
     {
-        StarteAnimation();
+        StartAnimation();
     }
 }
 
-int Label::Animiere(int factor)
+int Label::Animate(int factor)
 {
     if (!InAnimation)
     {
@@ -551,12 +547,12 @@ int Label::Animiere(int factor)
     }
 }
 
-void Label::SetzeSignal(int NewSignal)
+void Label::SetSignal(int NewSignal)
 {
     Signal = NewSignal;
 }
 
-void Label::StarteAnimation()
+void Label::StartAnimation()
 {
     SetActive(this);
     InAnimation = true;
@@ -567,7 +563,7 @@ void Label::StarteAnimation()
     old_Alpha = Alpha;
 }
 
-void Label::GeneriereDisplayList()
+void Label::RecreateDisplayList()
 {
     CheckValidString(50);
 
@@ -611,7 +607,6 @@ void Label::GeneriereDisplayList()
         glBindTexture(GL_TEXTURE_2D, 0);
         glEndList();
     }
-
 
     if (maxWidth)
     {
@@ -725,7 +720,7 @@ void Label::GeneriereDisplayList()
     }
 }
 
-int Label::Maustaste(tMouseButton button, tMouseEvent event,
+int Label::MouseEvent(tMouseButton button, tMouseEvent event,
                         int x_, int y_, KPUIBase &ui)
 {
     GLfloat xf = 16.0f * x_ / ui.GetValue(KP_WINDOW_WIDTH);
@@ -739,7 +734,7 @@ int Label::Maustaste(tMouseButton button, tMouseEvent event,
         {
             if (event == KP_BUTTON_PRESS)
             {
-                Angewaehlt();
+                SetSelected();
                 return -1;
             }
             else
@@ -758,13 +753,13 @@ int Label::Maustaste(tMouseButton button, tMouseEvent event,
     }
 }
 
-float Label::TextfeldHeight()
+float Label::GetHeight()
 {
     return 0.7f * lineCount;
 }
 
 
-void Label::SetzeMaxBreite(float maxWidth_)
+void Label::SetMaxWidth(float maxWidth_)
 {
     if (maxWidth_ < 0)
     {

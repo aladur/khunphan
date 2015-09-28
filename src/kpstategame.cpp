@@ -60,7 +60,7 @@ void KPstateGame::Initialize(KPstateContext *pContext,
         pContext->GetBoardView().ResetBoard();
     }
 
-    pContext->GetCamera().ladePosition(KPConfig::Instance().CameraPosition);
+    pContext->GetCamera().SetPosition(KPConfig::Instance().CameraPosition);
     pContext->GetStatistics().Start();
 
     UpdateDisplay(pContext);
@@ -76,8 +76,8 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
             KPConfig::Instance().SoundVolume : 0);
     pContext->GetUserInterface().PlayMusic(KPConfig::Instance().MusicOn, false);
 
-    menu.plates[SHLD_LOGO].Positioniere(0,11,4,12);
-    menu.plates[SHLD_LOGO].SetzeSignal(S_LOGO);
+    menu.plates[SHLD_LOGO].SetPosition(0,11,4,12);
+    menu.plates[SHLD_LOGO].SetSignal(S_LOGO);
 
     pContext->GetMenu().labels[T_MINMOVECOUNT].FormatText(NULL,
             pContext->GetBoardView().GetMovesToSolve());
@@ -86,37 +86,37 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
 
     if (KPConfig::Instance().SolutionHint)
     {
-        menu.labels[T_MINMOVECOUNT].Positioniere(7,0.1f,0.6f);
+        menu.labels[T_MINMOVECOUNT].SetPosition(7,0.1f,0.6f);
     }
 
-    menu.labels[T_MOVECOUNT].Positioniere(4,0.1f,0.6f);
-    menu.labels[T_TIME].Positioniere(12.5,0.1f,0.6f);
+    menu.labels[T_MOVECOUNT].SetPosition(4,0.1f,0.6f);
+    menu.labels[T_TIME].SetPosition(12.5,0.1f,0.6f);
 
     if (KPConfig::Instance().UserInterface == 0)
     {
         if (KPConfig::Instance().SoundOn)
         {
-            menu.plates[SHLD_SOUND_ON].Positioniere(0.3f,0.1f,1,0.5);
-            menu.plates[SHLD_SOUND_ON].SetzeSignal(S_TOGGLE_SOUND_ON);
-            menu.plates[SHLD_SOUND_ON].VollSichtbar();
+            menu.plates[SHLD_SOUND_ON].SetPosition(0.3f,0.1f,1,0.5);
+            menu.plates[SHLD_SOUND_ON].SetSignal(S_TOGGLE_SOUND_ON);
+            menu.plates[SHLD_SOUND_ON].SetFullyVisible();
         }
         else
         {
-            menu.plates[SHLD_SOUND_OFF].Positioniere(0.3f,0.1f,1,0.5);
-            menu.plates[SHLD_SOUND_OFF].SetzeSignal(S_TOGGLE_SOUND_ON);
-            menu.plates[SHLD_SOUND_OFF].VollSichtbar();
+            menu.plates[SHLD_SOUND_OFF].SetPosition(0.3f,0.1f,1,0.5);
+            menu.plates[SHLD_SOUND_OFF].SetSignal(S_TOGGLE_SOUND_ON);
+            menu.plates[SHLD_SOUND_OFF].SetFullyVisible();
         }
         if (KPConfig::Instance().MusicOn)
         {
-            menu.plates[SHLD_MUSIC_ON].Positioniere(1.0f,0.1f,1.6f,0.5);
-            menu.plates[SHLD_MUSIC_ON].SetzeSignal(S_TOGGLE_MUSIC_ON);
-            menu.plates[SHLD_MUSIC_ON].VollSichtbar();
+            menu.plates[SHLD_MUSIC_ON].SetPosition(1.0f,0.1f,1.6f,0.5);
+            menu.plates[SHLD_MUSIC_ON].SetSignal(S_TOGGLE_MUSIC_ON);
+            menu.plates[SHLD_MUSIC_ON].SetFullyVisible();
         }
         else
         {
-            menu.plates[SHLD_MUSIC_OFF].Positioniere(1.0f,0.1f,1.6f,0.5);
-            menu.plates[SHLD_MUSIC_OFF].SetzeSignal(S_TOGGLE_MUSIC_ON);
-            menu.plates[SHLD_MUSIC_OFF].VollSichtbar();
+            menu.plates[SHLD_MUSIC_OFF].SetPosition(1.0f,0.1f,1.6f,0.5);
+            menu.plates[SHLD_MUSIC_OFF].SetSignal(S_TOGGLE_MUSIC_ON);
+            menu.plates[SHLD_MUSIC_OFF].SetFullyVisible();
         }
     }
 
@@ -160,7 +160,7 @@ void  KPstateGame::KeyPressed (KPstateContext *pContext, unsigned char key,
         case '7':
             KPConfig::Instance().CameraPosition = key - '1' + 1;
             KPConfig::Instance().WriteToFile();
-            pContext->GetCamera().ladePosition(
+            pContext->GetCamera().SetPosition(
                 KPConfig::Instance().CameraPosition);
             break;
         case 'P':
@@ -174,7 +174,7 @@ void  KPstateGame::KeyPressed (KPstateContext *pContext, unsigned char key,
 
 tKPMenuState KPstateGame::ESCKeyAction (KPstateContext *pContext)
 {
-    pContext->GetCamera().SetzeRundflug(true);
+    pContext->GetCamera().SetRoundtrip(true);
     pContext->GetStatistics().Stop();
     SaveGameStatus(pContext);
     pContext->GetUserInterface().SetSoundVolume(
@@ -194,7 +194,7 @@ void  KPstateGame::MouseClick (KPstateContext *pContext,
         switch (Signal)
         {
             case S_LOGO:
-                pContext->GetCamera().SetzeRundflug(true);
+                pContext->GetCamera().SetRoundtrip(true);
                 pContext->GetStatistics().Stop();
                 SaveGameStatus(pContext);
                 pContext->GetUserInterface().SetSoundVolume(
@@ -276,18 +276,18 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */)
 
     if (bIsPause)
     {
-        menu.plates[SHLD_LOGO].Positioniere(4,9,12,11);
-        menu.plates[SHLD_SHADER].Positioniere(0,0,16,12);
-        menu.plates[SHLD_SHADER].Eingeblendet();
-        menu.labels[T_PAUSE].Positioniere(8,6,3,A_CENTERED);
-        menu.labels[T_PAUSE].VollSichtbar();
+        menu.plates[SHLD_LOGO].SetPosition(4,9,12,11);
+        menu.plates[SHLD_SHADER].SetPosition(0,0,16,12);
+        menu.plates[SHLD_SHADER].SetFadeIn();
+        menu.labels[T_PAUSE].SetPosition(8,6,3,A_CENTERED);
+        menu.labels[T_PAUSE].SetFullyVisible();
     }
     else
     {
-        menu.plates[SHLD_LOGO].Positioniere(0,11,4,12);
-        menu.plates[SHLD_LOGO].SetzeSignal(S_LOGO);
-        menu.plates[SHLD_SHADER].Desaktiviere();
-        menu.labels[T_PAUSE].Desaktiviere();
+        menu.plates[SHLD_LOGO].SetPosition(0,11,4,12);
+        menu.plates[SHLD_LOGO].SetSignal(S_LOGO);
+        menu.plates[SHLD_SHADER].SetFadeOut();
+        menu.labels[T_PAUSE].SetFadeOut();
     }
     StartAnimation();
 }

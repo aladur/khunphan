@@ -50,7 +50,7 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     if (it == pContext->GetMenu().labels.end())
     {
         pContext->GetMenu().labels[T_COPYRIGHT2] = Label();
-        pContext->GetMenu().labels[T_COPYRIGHT2].SetzeText(
+        pContext->GetMenu().labels[T_COPYRIGHT2].SetText(
             "© 2002-2015 Wolfgang Schwotzer");
     }
 
@@ -64,7 +64,7 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     if (it == pContext->GetMenu().labels.end())
     {
         pContext->GetMenu().labels[T_COPYRIGHT5] = Label();
-        pContext->GetMenu().labels[T_COPYRIGHT5].SetzeText(
+        pContext->GetMenu().labels[T_COPYRIGHT5].SetText(
             "© 2001-2006 Nicklas Nygren");
     }
 
@@ -72,13 +72,13 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     if (it == pContext->GetMenu().labels.end())
     {
         pContext->GetMenu().labels[T_COPYRIGHT6] = Label();
-        pContext->GetMenu().labels[T_COPYRIGHT6].SetzeText(
+        pContext->GetMenu().labels[T_COPYRIGHT6].SetText(
             "http://nifflas.ni2.se/");
     }
 
     UpdateDisplay(pContext);
 
-    pContext->GetCamera().SetzeRundflug(true);
+    pContext->GetCamera().SetRoundtrip(true);
 }
 
 void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
@@ -90,7 +90,7 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
     // every thing which should be permanently be visible within this
     // state should be listed here:
 
-    menu.plates[SHLD_LOGO].Positioniere(5,9,11,11);
+    menu.plates[SHLD_LOGO].SetPosition(5,9,11,11);
 
     if (!fullInitialized)
     {
@@ -99,20 +99,20 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
     }
 
     float y = 3.0f;
-    menu.labels[T_COPYRIGHT1].Positioniere(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT1].SetPosition(8, y, 0.4f, A_CENTERED);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT2].Positioniere(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT2].SetPosition(8, y, 0.4f, A_CENTERED);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT3].Positioniere(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT3].SetPosition(8, y, 0.4f, A_CENTERED);
     y -= 0.8f;
-    menu.labels[T_COPYRIGHT4].Positioniere(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT4].SetPosition(8, y, 0.4f, A_CENTERED);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT5].Positioniere(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT5].SetPosition(8, y, 0.4f, A_CENTERED);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT6].Positioniere(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT6].SetPosition(8, y, 0.4f, A_CENTERED);
 
-    menu.labels[T_NOWARRANTY].Positioniere(8,    0,   0.5, A_CENTERED);
-    menu.labels[T_VERSION].Positioniere(0.1f, 0,   0.5);
+    menu.labels[T_NOWARRANTY].SetPosition(8, 0, 0.5, A_CENTERED);
+    menu.labels[T_VERSION].SetPosition(0.1f, 0, 0.5);
 
     StartAnimation();
 }
@@ -149,7 +149,7 @@ void KPstateStartUp::Draw(KPstateContext *pContext)
 {
     pContext->GetLight().Draw();
 
-    pContext->GetCamera().male();
+    pContext->GetCamera().Draw();
 
     if (fullInitialized)
     {

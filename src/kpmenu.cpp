@@ -41,15 +41,15 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
                         int Language /* = 0*/)
 {
     plates[SHLD_MENUBACKGROUND] = Plate();
-    plates[SHLD_SHADER        ] = Plate();
-    plates[SHLD_LOGO          ] = Plate();
-    plates[SHLD_SOUND_ON      ] = Plate();
-    plates[SHLD_SOUND_OFF     ] = Plate();
-    plates[SHLD_MUSIC_ON      ] = Plate();
-    plates[SHLD_MUSIC_OFF     ] = Plate();
+    plates[SHLD_SHADER] = Plate();
+    plates[SHLD_LOGO] = Plate();
+    plates[SHLD_SOUND_ON] = Plate();
+    plates[SHLD_SOUND_OFF] = Plate();
+    plates[SHLD_MUSIC_ON] = Plate();
+    plates[SHLD_MUSIC_OFF] = Plate();
 
-    plates[SHLD_MENUBACKGROUND].Initialisiere(0.7f,0.7f,0.7f);
-    plates[SHLD_SHADER        ].Initialisiere(0.0, 0.0, 0.0);
+    plates[SHLD_MENUBACKGROUND].Initialize(0.7f, 0.7f, 0.7f);
+    plates[SHLD_SHADER].Initialize(0.0, 0.0, 0.0);
 
     Update(TextureName, TextureSize, Nearest);
 
@@ -75,7 +75,7 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
 
     for (it = labels.begin(); it != labels.end(); ++it)
     {
-        it->second.GeneriereDisplayList();
+        it->second.RecreateDisplayList();
     }
 
     progressBar.Initialize();
@@ -90,17 +90,16 @@ void KPmenu::Update(const char *TextureName, int TextureSize, bool Nearest,
     Label::PreInitialize(TextureName, TextureSize, Nearest,
                          &KPConfig::Instance(), always);
 
-    plates[SHLD_LOGO].Initialisiere(TextureName, TextureSize, Nearest,
-                                         true, "logo", &KPConfig::Instance(),
-                                         always);
-    plates[SHLD_SOUND_ON].Initialisiere(TextureName, TextureSize, Nearest,
-            true, "sound_on", &KPConfig::Instance(), always);
-    plates[SHLD_SOUND_OFF].Initialisiere(TextureName, TextureSize,
-            Nearest, true, "soundmusic_off", &KPConfig::Instance(), always);
-    plates[SHLD_MUSIC_ON].Initialisiere(TextureName, TextureSize, Nearest,
-            true, "music_on", &KPConfig::Instance(), always);
-    plates[SHLD_MUSIC_OFF].Initialisiere(TextureName, TextureSize,
-            Nearest, true, "soundmusic_off", &KPConfig::Instance(), always);
+    plates[SHLD_LOGO].Initialize(TextureName, TextureSize, Nearest,
+                      true, "logo", &KPConfig::Instance(), always);
+    plates[SHLD_SOUND_ON].Initialize(TextureName, TextureSize, Nearest,
+                      true, "sound_on", &KPConfig::Instance(), always);
+    plates[SHLD_SOUND_OFF].Initialize(TextureName, TextureSize, Nearest,
+                      true, "soundmusic_off", &KPConfig::Instance(), always);
+    plates[SHLD_MUSIC_ON].Initialize(TextureName, TextureSize, Nearest,
+                      true, "music_on", &KPConfig::Instance(), always);
+    plates[SHLD_MUSIC_OFF].Initialize(TextureName, TextureSize, Nearest,
+                      true, "soundmusic_off", &KPConfig::Instance(), always);
 }
 
 bool KPmenu::LoadLanguage(int Language)
@@ -113,7 +112,7 @@ bool KPmenu::LoadLanguage(int Language)
 
     if (labels.find(Language) != labels.end())
     {
-        LOG2(" ", labels[Language].Text());
+        LOG2(" ", labels[Language].GetText().c_str());
     }
     sprinter::sprintf(file,
                       "%s%d.lang",
@@ -165,29 +164,29 @@ void KPmenu::AddTextField(int number, const char word[])
     {
         if (labels.find(number) != labels.end())
         {
-            labels[number].SetzeTextKDL(word);
+            labels[number].SetTextNDL(word);
         }
         else
         {
             labels[number] = Label();
-            labels[number].InitialisiereKDL(word);
+            labels[number].Initialize(word);
         }
     }
 }
 
-void KPmenu::DeactivateAllLabels()
+void KPmenu::FadeOutAllPlates()
 {
     tIdToPlate::iterator it;
 
     for (it = plates.begin(); it != plates.end(); ++it)
     {
-        it->second.Desaktiviere();
+        it->second.SetFadeOut();
     }
 }
 
-void KPmenu::DeactivateAllTextFields()
+void KPmenu::FadeOutAllLabels()
 {
-    Label::DeactivateAll();
+    Label::FadeOutAll();
 }
 
 void KPmenu::Draw()
@@ -208,7 +207,7 @@ void KPmenu::Draw()
     {
         if (sit->first != SHLD_SHADER)
         {
-            sit->second.male();
+            sit->second.Draw();
         }
     }
 
@@ -216,7 +215,7 @@ void KPmenu::Draw()
 
     for (tit = labels.begin(); tit != labels.end(); ++tit)
     {
-        tit->second.male();
+        tit->second.Draw();
     }
 
     glDisable(GL_TEXTURE_2D);
@@ -225,7 +224,7 @@ void KPmenu::Draw()
 
     // This should always be the last one because it
     // should shade all other drawing primitives
-    plates[SHLD_SHADER].male();
+    plates[SHLD_SHADER].Draw();
 
     glDisable(GL_BLEND);
     glEnable(GL_LIGHTING);

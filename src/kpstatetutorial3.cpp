@@ -40,7 +40,7 @@ void KPstateTutorial3::Initialize(KPstateContext *pContext,
 
     // Do some initialization stuff here:
     pContext->GetBoardView().EmphasizeToken( GetEmphasizedTokenId() );
-    pContext->GetCamera().SetzeRundflug(false);
+    pContext->GetCamera().SetRoundtrip(false);
     InitializeBoardWithTokens(pContext);
 
     UpdateDisplay(pContext);
@@ -52,46 +52,46 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[SHLD_MENUBACKGROUND].Positioniere(.5,4.5,15.5,11);
+    menu.plates[SHLD_MENUBACKGROUND].SetPosition(.5,4.5,15.5,11);
 
-    menu.plates[SHLD_LOGO].Positioniere(0,11.0,4,12);
-    menu.plates[SHLD_LOGO].SetzeSignal(S_BACK);
-    menu.plates[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].SetPosition(0,11.0,4,12);
+    menu.plates[SHLD_LOGO].SetSignal(S_BACK);
+    menu.plates[SHLD_LOGO].SetFullyVisible();
 
-    menu.labels[GetTextOffset()].Positioniere(8,10.5,1.0,A_CENTERED);
-    menu.labels[GetTextOffset()].VollSichtbar();
+    menu.labels[GetTextOffset()].SetPosition(8,10.5,1.0,A_CENTERED);
+    menu.labels[GetTextOffset()].SetFullyVisible();
 
     float y = 9.5;
-    menu.labels[GetTextOffset() + 2].Positioniere(1.25,y,0.5);
+    menu.labels[GetTextOffset() + 2].SetPosition(1.25,y,0.5);
     y -= 0.5;
     if (menu.labels.find(GetTextOffset() + 3) !=
         menu.labels.end())
     {
-        menu.labels[GetTextOffset() + 3].Positioniere(1.25,y,0.5);
+        menu.labels[GetTextOffset() + 3].SetPosition(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.labels.find(GetTextOffset() + 4) !=
         menu.labels.end())
     {
-        menu.labels[GetTextOffset() + 4].Positioniere(1.25,y,0.5);
+        menu.labels[GetTextOffset() + 4].SetPosition(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.labels.find(GetTextOffset() + 5) !=
         menu.labels.end())
     {
-        menu.labels[GetTextOffset() + 5].Positioniere(1.25,y,0.5);
+        menu.labels[GetTextOffset() + 5].SetPosition(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.labels.find(GetTextOffset() + 6) !=
         menu.labels.end())
     {
-        menu.labels[GetTextOffset() + 6].Positioniere(1.25,y,0.5);
+        menu.labels[GetTextOffset() + 6].SetPosition(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.labels.find(GetTextOffset() + 7) !=
         menu.labels.end())
     {
-        menu.labels[GetTextOffset() + 7].Positioniere(1.25,y,0.5);
+        menu.labels[GetTextOffset() + 7].SetPosition(1.25,y,0.5);
     }
     y -= 0.5;
 
@@ -100,38 +100,38 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext)
         case KP_TUT_RIGHT_TOKEN:
             // Klicked (and evtl. moved) the right token
             // Tutorial can be finished
-            menu.labels[T_CONTINUE].Positioniere(8,1,1,A_CENTERED);
-            menu.labels[T_CONTINUE].SetzeSignal(S_CONTINUE);
-            menu.labels[GetTextOffset() + 1].Positioniere(1.25,y,0.5);
+            menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
+            menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
+            menu.labels[GetTextOffset() + 1].SetPosition(1.25,y,0.5);
             y -= 0.5;
             break;
         case KP_TUT_NO_TOKEN:
             // Missed any token
-            menu.labels[T_TUTORIAL34_EMPTY].Positioniere(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_EMPTY].SetPosition(1.25,y,0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].Positioniere(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25,y,0.5);
             y -= 0.5;
             break;
         case KP_TUT_NOMOV_TOKEN:
             // Klicked on an unmovable token
-            menu.labels[T_TUTORIAL34_NOMV].Positioniere(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_NOMV].SetPosition(1.25,y,0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].Positioniere(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25,y,0.5);
             y -= 0.5;
             break;
         case KP_TUT_WRONG_TOKEN:
             // Klicked on the wrong token
-            menu.labels[T_TUTORIAL34_GOOD].Positioniere(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_GOOD].SetPosition(1.25,y,0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].Positioniere(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25,y,0.5);
             y -= 0.5;
             break;
         case KP_TUT_KLICKED_ONLY:
             // Klicked right token, but did not move with the mouse
             // This can only happen in Tutorial 4
-            menu.labels[T_TUTORIAL4_MOVE].Positioniere(1.25,y,0.5);
+            menu.labels[T_TUTORIAL4_MOVE].SetPosition(1.25,y,0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].Positioniere(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25,y,0.5);
             break;
         case KP_TUT_STARTED:
         default:
@@ -180,7 +180,7 @@ void  KPstateTutorial3::KeyPressed (KPstateContext *pContext, unsigned char key,
 
 tKPMenuState KPstateTutorial3::ESCKeyAction (KPstateContext *pContext)
 {
-    pContext->GetCamera().SetzeRundflug(true);
+    pContext->GetCamera().SetRoundtrip(true);
     pContext->GetBoardView().ResetBoard();
     pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
     return pContext->GetMenu().RestoreLastStateId();
@@ -194,7 +194,7 @@ void KPstateTutorial3::ContinueWithNextState(KPstateContext *pContext,
         return;
     }
 
-    pContext->GetCamera().SetzeRundflug(true);
+    pContext->GetCamera().SetRoundtrip(true);
     pContext->GetBoardView().ResetBoard();
     pContext->GetBoardView().EmphasizeToken( TK_EMPTY );
     pContext->ChangeState( KPState_Tutorial4 );

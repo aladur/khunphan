@@ -876,7 +876,7 @@ tKPTokenID KPboardView::Selection(const Camera *pCamera, int x, int y) const
     glInitNames();
     glPushName(0); // Push 0 (At Least One Entry) Onto The Stack
 
-    pCamera->male(x, y);
+    pCamera->Draw(x, y);
     Draw(true); // Draw the tokens (not the board)
 
     GLint hits = glRenderMode(GL_RENDER);  // Change back to render mode

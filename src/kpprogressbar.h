@@ -30,9 +30,9 @@ public:
     virtual ~KPprogressBar();
 
     void Initialize();
-    void Deactivate();
-    void Blended();
-    void FullVisible();
+    void SetFadeOut();
+    void SetFadeIn();
+    void SetFullyVisible();
     void SetPosition(float X, float Y, float Width, float Height,
                      tKPAlignment Alignment);
     void SetPercentage(int Percent);
@@ -42,7 +42,7 @@ public:
     void Draw();
 
 protected:
-    void GenerateDisplayList();
+    void RecreateDisplayList();
     bool InAnimation;
     float x, old_x, target_x;
     float y, old_y, target_y;

@@ -41,29 +41,29 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[SHLD_MENUBACKGROUND].Positioniere(2,2.5,14,8.5);
+    menu.plates[SHLD_MENUBACKGROUND].SetPosition(2,2.5,14,8.5);
 
-    menu.plates[SHLD_LOGO].Positioniere(5,9,11,11);
-    menu.plates[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].SetPosition(5,9,11,11);
+    menu.plates[SHLD_LOGO].SetFullyVisible();
 
-    menu.labels[T_SELECTLANGUAGE].Positioniere(8,8,1,A_CENTERED);
-    menu.labels[T_SELECTLANGUAGE].VollSichtbar();
+    menu.labels[T_SELECTLANGUAGE].SetPosition(8,8,1,A_CENTERED);
+    menu.labels[T_SELECTLANGUAGE].SetFullyVisible();
 
     float Pos_y=7;
     for (int i = T_LANGUAGE1; i <= T_LANGUAGE_MAX; i++)
     {
         if ( menu.labels.find(i) != menu.labels.end() )
         {
-            menu.labels[i].Positioniere(8,Pos_y,0.71f,A_CENTERED);
-            menu.labels[i].SetzeSignal(i);
+            menu.labels[i].SetPosition(8,Pos_y,0.71f,A_CENTERED);
+            menu.labels[i].SetSignal(i);
             Pos_y-=.5;
         }
     }
 
     if (KPConfig::Instance().Language)
     {
-        menu.labels[T_BACK].Positioniere(8,1,1,A_CENTERED);
-        menu.labels[T_BACK].SetzeSignal(S_BACK);
+        menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
+        menu.labels[T_BACK].SetSignal(S_BACK);
     }
 
     StartAnimation();
@@ -119,7 +119,7 @@ void KPstateSelectLanguage::SetLanguage (KPstateContext *pContext, int Language)
     for (it = pContext->GetMenu().labels.begin();
          it != pContext->GetMenu().labels.end(); ++it)
     {
-        it->second.GeneriereDisplayList();
+        it->second.RecreateDisplayList();
     }
 
     KPConfig::Instance().Language = Language;

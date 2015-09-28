@@ -34,7 +34,7 @@ void KPstateTutorial2::Initialize(KPstateContext *pContext,
 
     // Do some initialization stuff here:
     pContext->GetBoardView().EmphasizeToken(TK_RED1);
-    pContext->GetCamera().SetzeRundflug(false);
+    pContext->GetCamera().SetRoundtrip(false);
     InitializeBoardWithTokens(pContext);
 
     UpdateDisplay(pContext);
@@ -46,40 +46,40 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext)
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[SHLD_MENUBACKGROUND].Positioniere(.5,4.5,15.5,11);
+    menu.plates[SHLD_MENUBACKGROUND].SetPosition(.5,4.5,15.5,11);
 
-    menu.plates[SHLD_LOGO].Positioniere(0,11.0,4,12);
-    menu.plates[SHLD_LOGO].SetzeSignal(S_BACK);
-    menu.plates[SHLD_LOGO].VollSichtbar();
+    menu.plates[SHLD_LOGO].SetPosition(0,11.0,4,12);
+    menu.plates[SHLD_LOGO].SetSignal(S_BACK);
+    menu.plates[SHLD_LOGO].SetFullyVisible();
 
-    menu.labels[T_TUTORIAL2].Positioniere(8,10.5,1.0,A_CENTERED);
-    menu.labels[T_TUTORIAL2].VollSichtbar();
+    menu.labels[T_TUTORIAL2].SetPosition(8,10.5,1.0,A_CENTERED);
+    menu.labels[T_TUTORIAL2].SetFullyVisible();
 
     float y = 9.5;
-    menu.labels[T_TUTORIAL2_01].Positioniere(1.25,y,0.5);
+    menu.labels[T_TUTORIAL2_01].SetPosition(1.25,y,0.5);
     y -= 0.5;
     if (menu.labels.find(T_TUTORIAL2_02) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL2_02].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL2_02].SetPosition(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.labels.find(T_TUTORIAL2_03) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL2_03].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL2_03].SetPosition(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.labels.find(T_TUTORIAL2_04) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL2_04].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL2_04].SetPosition(1.25,y,0.5);
     }
     y -= 0.5;
     if (menu.labels.find(T_TUTORIAL2_05) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL2_05].Positioniere(1.25,y,0.5);
+        menu.labels[T_TUTORIAL2_05].SetPosition(1.25,y,0.5);
     }
 
-    menu.labels[T_CONTINUE].Positioniere(8,1,1,A_CENTERED);
-    menu.labels[T_CONTINUE].SetzeSignal(S_CONTINUE);
+    menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
     StartAnimation();
 }
@@ -100,7 +100,7 @@ void KPstateTutorial2::KeyPressed (KPstateContext *pContext, unsigned char key,
 
 tKPMenuState KPstateTutorial2::ESCKeyAction (KPstateContext *pContext)
 {
-    pContext->GetCamera().SetzeRundflug(true);
+    pContext->GetCamera().SetRoundtrip(true);
     pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
     return pContext->GetMenu().RestoreLastStateId();
 }

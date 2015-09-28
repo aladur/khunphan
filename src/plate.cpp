@@ -34,13 +34,13 @@ Plate::Plate() :     DisplayList(0), Type(0), AspectRatio(0.0),
 {
 }
 
-bool Plate::Initialisiere(const char     *TextureName,
-                           unsigned int    TextureSize,
-                           bool            Nearest,
-                           bool            withAlpha,
-                           const char     *Name,
-                           const KPConfig *pConfig,
-                           bool            always)
+bool Plate::Initialize(const char     *TextureName,
+                       unsigned int    TextureSize,
+                       bool            Nearest,
+                       bool            withAlpha,
+                       const char     *Name,
+                       const KPConfig *pConfig,
+                       bool            always)
 {
     // The texture size must be a power of 2 (1, 2, 4, 8, ...)
     if (BTexture::GetExpToBase2(TextureSize) == -1)
@@ -150,7 +150,7 @@ bool Plate::Initialisiere(const char     *TextureName,
     return true;
 }
 
-void Plate::Initialisiere(float R, float G, float B)
+void Plate::Initialize(float R, float G, float B)
 {
     r = R;
     g = G;
@@ -184,22 +184,7 @@ void Plate::Initialisiere(float R, float G, float B)
     Type = 3;
 }
 
-void Plate::KopieVon(Plate src)
-{
-    DisplayList     = src.DisplayList;
-    Type            = src.Type;
-    AspectRatio     = src.AspectRatio;
-
-    ax=old_ax       = target_ax = 0;
-    ay=old_ay       = target_ay = 0;
-    bx=old_bx       = target_bx = 0;
-    by=old_by       = target_by = 0;
-    Alpha=old_Alpha = target_Alpha = MOD_FADEOUT;
-    InAnimation     = 0;
-    Signal          = 0;
-}
-
-void Plate::male()
+void Plate::Draw()
 {
     if (Alpha)
     {
@@ -219,7 +204,7 @@ void Plate::male()
     }
 }
 
-void Plate::Positioniere(float ax_, float ay_, float bx_, float by_)
+void Plate::SetPosition(float ax_, float ay_, float bx_, float by_)
 {
     // Korrigiere AspectRatio
     if (AspectRatio != 0.0 && AspectRatio != (bx_ - ax_) / (by_ - ay_))
@@ -261,10 +246,10 @@ void Plate::Positioniere(float ax_, float ay_, float bx_, float by_)
 
     Signal = 0;
 
-    StarteAnimation();
+    StartAnimation();
 }
 
-void Plate::Desaktiviere()
+void Plate::SetFadeOut()
 {
     target_Alpha = MOD_FADEOUT;
 
@@ -282,39 +267,39 @@ void Plate::Desaktiviere()
 
     if (target_Alpha != Alpha)
     {
-        StarteAnimation();
+        StartAnimation();
     }
 }
 
-void Plate::Angewaehlt()
+void Plate::SetSelected()
 {
     Alpha = MOD_SELECTED;
     target_Alpha = MOD_FADEIN;
     if (target_Alpha != Alpha)
     {
-        StarteAnimation();
+        StartAnimation();
     }
 }
 
-void Plate::Eingeblendet()
+void Plate::SetFadeIn()
 {
     target_Alpha = MOD_FADEIN;
     if (target_Alpha != Alpha)
     {
-        StarteAnimation();
+        StartAnimation();
     }
 }
 
-void Plate::VollSichtbar()
+void Plate::SetFullyVisible()
 {
     target_Alpha = MOD_FULLYVISIBLE;
     if (target_Alpha != Alpha)
     {
-        StarteAnimation();
+        StartAnimation();
     }
 }
 
-void Plate::StarteAnimation()
+void Plate::StartAnimation()
 {
     InAnimation = 1;
     Time = 0;
@@ -325,7 +310,7 @@ void Plate::StarteAnimation()
     old_Alpha = Alpha;
 }
 
-int Plate::Animiere(int factor)
+int Plate::Animate(int factor)
 {
     if (!InAnimation)
     {
@@ -356,7 +341,7 @@ int Plate::Animiere(int factor)
     }
 }
 
-int Plate::Maustaste(tMouseButton button, tMouseEvent event,
+int Plate::MouseEvent(tMouseButton button, tMouseEvent event,
                       int x, int y, KPUIBase &ui)
 {
     GLfloat xf = 16.0f * x / ui.GetValue(KP_WINDOW_WIDTH);
@@ -370,7 +355,7 @@ int Plate::Maustaste(tMouseButton button, tMouseEvent event,
         {
             if (event == KP_BUTTON_PRESS)
             {
-                Angewaehlt();
+                SetSelected();
                 return -1;
             }
             else
@@ -389,7 +374,7 @@ int Plate::Maustaste(tMouseButton button, tMouseEvent event,
     }
 }
 
-void Plate::SetzeSignal(int NewSignal)
+void Plate::SetSignal(int NewSignal)
 {
     Signal = NewSignal;
 }

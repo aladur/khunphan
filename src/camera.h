@@ -10,6 +10,9 @@
 
 #include <vector>
 
+// Uncomment this to get a camera with an extended
+// feature set.
+// #define CAMERA_EXTENDED
 
 // struct containing a camera position
 struct SPosition
@@ -35,49 +38,46 @@ class Camera
 {
 public:
     Camera();
-    void male(int x=-1, int y=-1) const;
-    void neuePosition(SPosition &position);
-    SPosition Position();
-    void ladePosition(int);
-    void Beweg_Vor(float);
-    void Beweg_Zurueck(float);
-    void Beweg_Rein(float);
-    void Beweg_Raus(float);
-    void Beweg_Rechts(float);
-    void Beweg_Links(float);
-    void Beweg_Hoch(float);
-    void Beweg_Runter(float);
-    void Zoom_Rein(float);
-    void Zoom_Raus(float);
-    void Vertigo_Rein(float);
-    void Vertigo_Raus(float);
-    void Dreh_Rechts(float);
-    void Dreh_Links(float);
-    void Dreh_Hoch(float);
-    void Dreh_Runter(float);
-    void Schwenk_Rechts(float,float,float);
-    void Schwenk_Links(float,float,float);
-    void Schwenk_Hoch(float,float,float);
-    void Schwenk_Runter(float,float,float);
-    void Verfolge(int);
-    void BlickeAuf(float,float);
-    void BlickeAuf2(float,float);
-    void BlickeAuf3(float,float);
-    void Fahrt(int);
-    void Rundflug(int);
-    void setzeSollPosition(SPosition &target_position);
-    void setzeSollPosition(float,float,float,float,float,float);
-    void BlickTiefeNeuBestimmen();
-    void SetzeRundflug(bool r = true)
+#ifdef CAMERA_EXTENDED
+    void MoveForward(float);
+    void MoveBackward(float);
+    void MoveRight(float);
+    void MoveLeft(float);
+    void MoveUp(float);
+    void MoveDown(float);
+    void ZoomIn(float);
+    void ZoomOut(float);
+    void VertigoIn(float);
+    void VertigoOut(float);
+    void RotateRight(float);
+    void RotateLeft(float);
+    void RotateUp(float);
+    void RotateDown(float);
+    void PanRight(float,float,float);
+    void PanLeft(float,float,float);
+    void PanUp(float,float,float);
+    void PanDown(float,float,float);
+    void Follow(int);
+    void FocusUp(float,float);
+    void FocusUp2(float,float);
+    void FocusUp3(float,float);
+#endif // #ifdef CAMERA_EXTENDED
+    void MoveIn(float);
+    void MoveOut(float);
+    void Run(int);
+    void Draw(int x=-1, int y=-1) const;
+    void SetPosition(int);
+    void Roundtrip(int);
+    void SetTargetPosition(SPosition &target_position);
+    void SetTargetPosition(float,float,float,float,float,float);
+    void RecalculateViewFrustum();
+    inline void SetRoundtrip(bool b = true)
     {
-        IsRoundtrip = r;
+        IsRoundtrip = b;
     };
     void SetAspectRatio(float aspectRatio);
 
 private:
-    float Pos_xCM();
-    float Pos_yCM();
-    float Pos_zCM();
     float AspectRatio;
     float Pos_x,Pos_y,Pos_z,Alpha,Beta,FOV;
     float target_Pos_x,target_Pos_y,target_Pos_z;

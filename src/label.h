@@ -33,60 +33,55 @@ public:
     virtual ~Label();
     static void PreInitialize(const char *, unsigned int, bool,
                               const KPConfig *, bool always = true);
-    static void DeactivateAll();
+    static void FadeOutAll();
     static void SetActive(Label *pLabel);
-    void Initialisiere();
-    void Initialisiere(const char[]);
-    void InitialisiereKDL(const char[]);
-    void male();
-    void Positioniere(float,float,float,tKPAlignment pos = A_LEFT);
-    void SetzeText(const char[]);
-    void SetzeTextKDL(const char[]);
+    void Initialize();
+    void Initialize(const char[]);
+    void InitializeNDL(const char[]);
+    void Draw();
+    void SetPosition(float,float,float,tKPAlignment pos = A_LEFT);
+    void SetText(const char[]);
+    void SetTextNDL(const char[]);
     int  FormatText(const char *format, ...);
-    int  FormatTextKDL(const char *format, ...);
+    int  FormatTextNDL(const char *format, ...);
     int  vsprintf(const char *format, va_list arg_ptr);
-    bool HasInputFocus()
+    inline bool HasInputFocus()
     {
         return hasInputFocus;
     };
-    void SetMaxCharacters(unsigned int value)
+    inline void SetMaxCharacters(unsigned int value)
     {
         MaxCharacters = value;
     };
-    unsigned int GetMaxCharacters()
+    inline unsigned int GetMaxCharacters()
     {
         return MaxCharacters;
     };
-    bool Zeichen(char);
-    const char *Text();
+    bool AddCharacter(char);
+    std::string GetText();
 
-    bool IsDeactivated() const;
-    void Desaktiviere();
-    void Angewaehlt();
-    void Eingeblendet();
-    void VollSichtbar();
-    int Animiere(int);
-    void SetzeSignal(int);
-    int GetSignal(void)
+    void SetFadeOut();
+    void SetSelected();
+    void SetFadeIn();
+    void SetFullyVisible();
+    int Animate(int);
+    void SetSignal(int);
+    inline int GetSignal(void)
     {
         return Signal;
     };
-    int Maustaste(tMouseButton,tMouseEvent,int,int, KPUIBase &);
-
-    void SetzeMaxBreite(float);
-
+    int MouseEvent(tMouseButton,tMouseEvent,int,int, KPUIBase &);
+    void SetMaxWidth(float);
     void SetInputFocus(bool state);
-
-    float TextfeldHeight();
-
-    void GeneriereDisplayList();
+    float GetHeight();
+    void RecreateDisplayList();
 
 private:
     static tActivated activated;
     static unsigned int texture;
 
-    void SetzeFormat(const char *);
-    void StarteAnimation();
+    void SetFormat(const char *);
+    void StartAnimation();
     void CheckValidString(int min_size, const char *srcString = NULL);
     std::string format;
     char *pString;
