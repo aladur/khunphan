@@ -108,7 +108,7 @@
     <ClCompile Include="src\bthreadimp.cpp" />
     <ClCompile Include="src\btime.cpp" />
     <ClCompile Include="src\bwin32threadimp.cpp" />
-    <ClCompile Include="src\Kamera.cpp" />
+    <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\KhunPhan.cpp" />
     <ClCompile Include="src\kpboard.cpp" />
     <ClCompile Include="src\kpboardGL.cpp" />
@@ -133,7 +133,7 @@
     <ClCompile Include="src\kpstategraphicsettings.cpp" />
     <ClCompile Include="src\kpstatekeyboardhelp.cpp" />
     <ClCompile Include="src\kpstatelighttest.cpp" />
-    <ClCompile Include="src\kpstatemeinmenu.cpp" />
+    <ClCompile Include="src\kpstatemainmenu.cpp" />
     <ClCompile Include="src\kpstatemovetoken.cpp" />
     <ClCompile Include="src\kpstatescorelist.cpp" />
     <ClCompile Include="src\kpstateselectlanguage.cpp" />
@@ -146,12 +146,12 @@
     <ClCompile Include="src\kpstatistics.cpp" />
     <ClCompile Include="src\kpthreadsolvecount.cpp" />
     <ClCompile Include="src\kpuibase.cpp" />
+    <ClCompile Include="src\label.cpp" />
     <ClCompile Include="src\light.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\misc1.cpp" />
-    <ClCompile Include="src\Schild.cpp" />
+    <ClCompile Include="src\plate.cpp" />
     <ClCompile Include="src\sprinter.cpp" />
-    <ClCompile Include="src\Textfeld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bdelete.h" />
@@ -164,9 +164,8 @@
     <ClInclude Include="src\bthreadimp.h" />
     <ClInclude Include="src\btime.h" />
     <ClInclude Include="src\bwin32threadimp.h" />
+    <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\confdefs.h" />
-    <ClInclude Include="src\Kamera.h" />
-    <ClInclude Include="src\KhunPhan.h" />
     <ClInclude Include="src\kpboard.h" />
     <ClInclude Include="src\kpboardGL.h" />
     <ClInclude Include="src\kpconfig.h" />
@@ -191,7 +190,7 @@
     <ClInclude Include="src\kpstategraphicsettings.h" />
     <ClInclude Include="src\kpstatekeyboardhelp.h" />
     <ClInclude Include="src\kpstatelighttest.h" />
-    <ClInclude Include="src\kpstatemeinmenu.h" />
+    <ClInclude Include="src\kpstatemainmenu.h" />
     <ClInclude Include="src\kpstatemovetoken.h" />
     <ClInclude Include="src\kpstatescorelist.h" />
     <ClInclude Include="src\kpstateselectlanguage.h" />
@@ -204,13 +203,13 @@
     <ClInclude Include="src\kpstatistics.h" />
     <ClInclude Include="src\kpthreadsolvecount.h" />
     <ClInclude Include="src\kpuibase.h" />
+    <ClInclude Include="src\label.h" />
     <ClInclude Include="src\light.h" />
     <ClInclude Include="src\misc1.h" />
+    <ClInclude Include="src\plate.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\Schild.h" />
     <ClInclude Include="src\sprache.h" />
     <ClInclude Include="src\sprinter.h" />
-    <ClInclude Include="src\Textfeld.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\KhunPhan.rc" />

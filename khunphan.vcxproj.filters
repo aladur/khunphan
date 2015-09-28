@@ -39,9 +39,6 @@
     <ClCompile Include="src\bwin32threadimp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Kamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\KhunPhan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -111,9 +108,6 @@
     <ClCompile Include="src\kpstatelighttest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\kpstatemeinmenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\kpstatemovetoken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -159,16 +153,22 @@
     <ClCompile Include="src\misc1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Schild.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Textfeld.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\sprinter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\kpsdl12userinterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kpstatemainmenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\label.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -204,12 +204,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\confdefs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Kamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KhunPhan.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\kpboard.h">
@@ -281,9 +275,6 @@
     <ClInclude Include="src\kpstatelighttest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\kpstatemeinmenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\kpstatemovetoken.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -329,19 +320,25 @@
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Schild.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\sprache.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Textfeld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\sprinter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\kpsdl12userinterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kpstatemainmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\label.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
