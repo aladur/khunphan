@@ -129,7 +129,7 @@ void Label::PreInitialize(const char *TextureName, unsigned int TextureSize,
         }
     }
 
-    if((texels = pTexture->ReadTextureFromFile(file1.c_str(),
+    if ((texels = pTexture->ReadTextureFromFile(file1.c_str(),
                  TEX_WITH_ALPHA)) == NULL)
     {
         if ((texels = pTexture->ReadTextureFromFile(file2.c_str(),

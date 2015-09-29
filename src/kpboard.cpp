@@ -73,10 +73,12 @@ inline void KPboard::SetPosition(tKPTokenID aTokenId, int x, int y, int xExtend,
                                  int yExtend)
 {
     for (int i = 0; i < xExtend; i++)
+    {
         for (int j = 0; j < yExtend; j++)
         {
             tokenID[x+i][y+j] = aTokenId;
         }
+    }
 }
 
 bool KPboard::InitializeToken (tKPTokenID aTokenId, const char *, int x, int y,
@@ -118,10 +120,12 @@ bool KPboard::Move(tKPTokenID aTokenID, tKPDirection d)
                 return false;
             }
             for (i = 0; i < xExtend; i++)
+            {
                 if (tokenID[x+i][y-1] != TK_EMPTY)
                 {
                     return false;
                 }
+            }
 
             // 2. update the position of this token
             y--;
@@ -143,10 +147,12 @@ bool KPboard::Move(tKPTokenID aTokenID, tKPDirection d)
                 return false;
             }
             for (i = 0; i < xExtend; i++)
+            {
                 if (tokenID[x+i][y+yExtend] != TK_EMPTY)
                 {
                     return false;
                 }
+            }
             y++;
             SetPosition(aTokenID, x, y, xExtend, yExtend);
             for (i = 0; i < xExtend; i++)
@@ -162,10 +168,12 @@ bool KPboard::Move(tKPTokenID aTokenID, tKPDirection d)
                 return false;
             }
             for (j = 0; j < yExtend; j++)
+            {
                 if (tokenID[x-1][y+j] != TK_EMPTY)
                 {
                     return false;
                 }
+            }
             x--;
             SetPosition(aTokenID, x, y, xExtend, yExtend);
             for (j = 0; j < yExtend; j++)
@@ -181,10 +189,12 @@ bool KPboard::Move(tKPTokenID aTokenID, tKPDirection d)
                 return false;
             }
             for (j = 0; j < yExtend; j++)
+            {
                 if (tokenID[x+xExtend][y+j] != TK_EMPTY)
                 {
                     return false;
                 }
+            }
             x++;
             SetPosition(aTokenID, x, y, xExtend, yExtend);
             for (j = 0; j < yExtend; j++)
@@ -228,10 +238,12 @@ bool KPboard::CanMove(tKPTokenID aTokenID, tKPDirection d) const
                 return false;
             }
             for (i = 0; i < xExtend; i++)
+            {
                 if (tokenID[x+i][y-1] != TK_EMPTY)
                 {
                     return false;
                 }
+            }
             break;
 
         case MOVE_DOWN:
@@ -240,10 +252,12 @@ bool KPboard::CanMove(tKPTokenID aTokenID, tKPDirection d) const
                 return false;
             }
             for (i = 0; i < xExtend; i++)
+            {
                 if (tokenID[x+i][y+yExtend] != TK_EMPTY)
                 {
                     return false;
                 }
+            }
             break;
 
         case MOVE_LEFT:
@@ -252,10 +266,12 @@ bool KPboard::CanMove(tKPTokenID aTokenID, tKPDirection d) const
                 return false;
             }
             for (i = 0; i < yExtend; i++)
+            {
                 if (tokenID[x-1][y+i] != TK_EMPTY)
                 {
                     return false;
                 }
+            }
             break;
 
         case MOVE_RIGHT:
@@ -264,10 +280,12 @@ bool KPboard::CanMove(tKPTokenID aTokenID, tKPDirection d) const
                 return false;
             }
             for (i = 0; i < yExtend; i++)
+            {
                 if (tokenID[x+xExtend][y+i] != TK_EMPTY)
                 {
                     return false;
                 }
+            }
             break;
 
         case MOVE_NO:

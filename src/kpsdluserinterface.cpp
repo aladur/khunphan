@@ -59,10 +59,12 @@ KPSdlUserInterface::~KPSdlUserInterface()
     if (sound != NULL)
     {
         for (int i = 0; i < KP_SND_MAX; i++)
+        {
             if (sound[i] != NULL)
             {
                 Mix_FreeChunk(sound[i]);
             }
+         }
         delete [] sound;
         sound = NULL;
     }
@@ -198,12 +200,12 @@ void KPSdlUserInterface::MouseClick( int button, int event, int x, int y )
 bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         bool reInitialize /* = false */)
 {
-    if(!reInitialize)
+    if (!reInitialize)
     {
         LOG1("Audio and Music initialization");
     }
 
-    if(!reInitialize && Mix_OpenAudio(rate, AUDIO_S16, 1, 4096))
+    if (!reInitialize && Mix_OpenAudio(rate, AUDIO_S16, 1, 4096))
     {
         LOG2("*** Error in Mix_OpenAudio: ", Mix_GetError());
         return false;
@@ -251,7 +253,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         {
             soundSource[i] = file1;
         }
-        else if(!access(file2.c_str(), R_OK))
+        else if (!access(file2.c_str(), R_OK))
         {
             soundSource[i] = file2;
         }

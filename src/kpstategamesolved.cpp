@@ -71,7 +71,7 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
     {
         // Game solved without any help
         tf_index = T_SOLVED2_1;
-        if(KPscore::Instance().CanAdd("", statistics.GetTotalTime(),
+        if (KPscore::Instance().CanAdd("", statistics.GetTotalTime(),
                                       statistics.GetEventCounter(MOVE_COUNTER)))
         {
             addToScoreList = true;

@@ -680,9 +680,9 @@ const char *BTexture::Rescale(int exp, int format)
             {
                 unsigned char *pRow = &texels[ y * GetRowBytes()];
                 pOldTexel0 = &oldTexels[(y * GetRowBytes()) << shift];
-                for(x = 0; x < GetWidth(); x++)
+                for (x = 0; x < GetWidth(); x++)
                 {
-                    for(i = 0; i < GetChannels(); ++i)
+                    for (i = 0; i < GetChannels(); ++i)
                     {
                         pBuffer[i] = 0;
                     }
@@ -740,7 +740,7 @@ const char *BTexture::Rescale(int exp, int format)
                 const unsigned char *pOldRow = &oldTexels[(y * GetRowBytes())
                                                <<(2*exp)];
 
-                for(x = 0; x < GetWidth(); x++)
+                for (x = 0; x < GetWidth(); x++)
                 {
                     memcpy(&pRow[x * GetChannels()],
                            &pOldRow[(x * GetChannels()) << exp],
