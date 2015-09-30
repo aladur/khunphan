@@ -90,7 +90,7 @@ private:
     const float RotateFactor;
     static const float degprad; // degrees per radian
 
-    // vector zum Abspeichern der Kamerapositionen
+    // The vector stores some pre-initialized, fixed camera positions
     std::vector<SPosition> Positions;
 };
 

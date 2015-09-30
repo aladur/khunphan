@@ -206,7 +206,7 @@ void Plate::Draw()
 
 void Plate::SetPosition(float ax_, float ay_, float bx_, float by_)
 {
-    // Korrigiere AspectRatio
+    // Correction for AspectRatio needed here
     if (AspectRatio != 0.0 && AspectRatio != (bx_ - ax_) / (by_ - ay_))
     {
         GLfloat cx = (ax_ + bx_) * 0.5f;

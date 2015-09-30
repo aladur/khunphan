@@ -19,7 +19,6 @@
 // define constant for degree per radian */
 const float Camera::degprad = 180.0f / M_PIf;
 
-/* --------- Konstruktor ---------- */
 Camera::Camera() :   AspectRatio(0.0),
     Pos_x(0.0),      Pos_y(0.0),       Pos_z(0.0),
     Alpha(0.0),      Beta(0.0),        FOV(0.0),
@@ -82,7 +81,7 @@ void Camera::SetAspectRatio(float aspectRatio)
 }
 
 #ifdef CAMERA_EXTENDED
-// Bewegt die Kamera in Blickrichtung, aber unter Beibehaltung der H"ohe
+// Move the camera towards the view direction. Does not change the height.
 void Camera::MoveForward(float factor)
 {
     target_Pos_x += 2 * MoveFactor * factor * sin(target_Beta / degprad);
@@ -91,7 +90,7 @@ void Camera::MoveForward(float factor)
     IsRoundtrip = false;
 }
 
-// Bewegt die Kamera gegen die Blickrichtung, aber unter Beibehaltung der H"ohe
+// Move the camera away from the view direction. Does not change the height.
 void Camera::MoveBackward(float factor)
 {
     target_Pos_x -= 2 * MoveFactor * factor * sin(target_Beta / degprad);
@@ -100,7 +99,7 @@ void Camera::MoveBackward(float factor)
     IsRoundtrip = false;
 }
 
-// Bewegt die Kamera nach rechts
+// Move the camera to the right. Does not change the view direction.
 void Camera::MoveRight(float factor)
 {
     target_Pos_x += MoveFactor * factor * cos(target_Beta / degprad);
@@ -109,7 +108,7 @@ void Camera::MoveRight(float factor)
     IsRoundtrip = false;
 }
 
-// Bewegt die Kamera nach links
+// Move the camera to the left. Does not change the view direction.
 void Camera::MoveLeft(float factor)
 {
     target_Pos_x -= MoveFactor * factor * cos(target_Beta / degprad);
@@ -118,7 +117,7 @@ void Camera::MoveLeft(float factor)
     IsRoundtrip = false;
 }
 
-// Bewegt die Kamera nach oben
+// Move the camera to the up. Does not change the view direction.
 void Camera::MoveUp(float factor)
 {
     target_Pos_z += MoveFactor * factor;
@@ -127,7 +126,7 @@ void Camera::MoveUp(float factor)
     IsRoundtrip = false;
 }
 
-// Bewegt die Kamera nach unten
+// Move the camera to the down. Does not change the view direction.
 void Camera::MoveDown(float factor)
 {
     target_Pos_z -= MoveFactor * factor;
@@ -139,7 +138,7 @@ void Camera::MoveDown(float factor)
     IsRoundtrip = false;
 }
 
-// Vergr"o"sert den Zoom
+// Decreases the field of view angle, increases the zoom factor.
 void Camera::ZoomIn(float factor)
 {
     target_FOV -= MoveFactor * factor;
@@ -150,14 +149,14 @@ void Camera::ZoomIn(float factor)
     IsRoundtrip = false;
 }
 
-// Verkleinert den Zoom
+// Increases the field of view angle, decreases the zoom factor.
 void Camera::ZoomOut(float factor)
 {
     target_FOV += MoveFactor * factor;
     IsRoundtrip = false;
 }
 
-// Vergr"o"sert den Vertigo
+// Increases the vertigo
 void Camera::VertigoIn(float factor)
 {
     target_Pos_x -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
@@ -174,7 +173,7 @@ void Camera::VertigoIn(float factor)
     IsRoundtrip = false;
 }
 
-// Verkleinert den Vertigo
+// Decreases the vertigo
 void Camera::VertigoOut(float factor)
 {
     target_Pos_x += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
@@ -186,21 +185,21 @@ void Camera::VertigoOut(float factor)
     IsRoundtrip = false;
 }
 
-// Dreht die Kamera nach rechts
+// Rotates the cameras view direction to the right. Keeps the camera position.
 void Camera::RotateRight(float factor)
 {
     target_Beta += factor * RotateFactor;
     IsRoundtrip = false;
 }
 
-// Dreht die Kamera nach links
+// Rotates the cameras view direction to the left. Keeps the camera position.
 void Camera::RotateLeft(float factor)
 {
     target_Beta -= factor * RotateFactor;
     IsRoundtrip = false;
 }
 
-// Dreht die Kamera nach oben
+// Rotates the cameras view direction to the up. Keeps the camera position.
 void Camera::RotateUp(float factor)
 {
     target_Alpha += factor * RotateFactor;
@@ -215,7 +214,7 @@ void Camera::RotateUp(float factor)
     IsRoundtrip = false;
 }
 
-// Dreht die Kamera nach unten
+// Rotates the cameras view direction to the down. Keeps the camera position.
 void Camera::RotateDown(float factor)
 {
     target_Alpha -= factor * RotateFactor;
@@ -413,7 +412,8 @@ void Camera::FocusUp3(float focus_x, float focus_y)
 }
 #endif // #ifdef CAMERA_EXTENDED
 
-// Bewegt die Kamera in Blickrichtung
+// Move the camera towards the view direction.
+// May change x-, y- or z-position.
 void Camera::MoveIn(float factor)
 {
     target_Pos_x += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
@@ -430,7 +430,8 @@ void Camera::MoveIn(float factor)
     IsRoundtrip = false;
 }
 
-// Bewegt die Kamera gegen die Blickrichtung
+// Move the camera away from the view direction.
+// May change x-, y- or z-position.
 void Camera::MoveOut(float factor)
 {
     target_Pos_x -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
@@ -540,8 +541,8 @@ void Camera::Run(int factor)
 
 void Camera::Draw(int x /* = -1 */, int y /* = -1 */) const
 {
-    glMatrixMode(GL_PROJECTION); // Kameraparameter!
-    glLoadIdentity();            // zuruecksetzen
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
     if (x >= 0 && y >= 0)        // only necessary in selection mode:
     {
         GLint   viewport[4];
@@ -551,17 +552,15 @@ void Camera::Draw(int x /* = -1 */, int y /* = -1 */) const
     }
     gluPerspective(FOV, AspectRatio, Near, Far);
 
-    glMatrixMode(GL_MODELVIEW);  // Blickpunkt!
-    glLoadIdentity();            // Kamera an den Ursprung setzen
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();            // Set camera to the origin
 
-    glRotatef(Alpha,-1,0,0);     // um Alpha nach oben und Beta nach Rechts
-    // drehen
-    glRotatef(Beta,0,0,1);
-    // an die gewuenschte Position setzen
-    glTranslatef(-Pos_x,-Pos_y,-Pos_z);
+    glRotatef(Alpha,-1,0,0);     // Rotate up by Alpha
+    glRotatef(Beta,0,0,1);       // Rotate right by Beta
+    glTranslatef(-Pos_x,-Pos_y,-Pos_z); // Move to the target position
 }
 
-// l"adt eine Kameraposition aus der Tabelle
+// Switches to one of the pre-initialized camera positions.
 void Camera::SetPosition(int index)
 {
     SetTargetPosition(Positions.at(index));
