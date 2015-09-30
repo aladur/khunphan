@@ -109,6 +109,7 @@
     <ClCompile Include="src\btime.cpp" />
     <ClCompile Include="src\bwin32threadimp.cpp" />
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\extendedcamera.cpp" />
     <ClCompile Include="src\KhunPhan.cpp" />
     <ClCompile Include="src\kpboard.cpp" />
     <ClCompile Include="src\kpboardGL.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="src\btime.h" />
     <ClInclude Include="src\bwin32threadimp.h" />
     <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\extendedcamera.h" />
     <ClInclude Include="src\confdefs.h" />
     <ClInclude Include="src\kpboard.h" />
     <ClInclude Include="src\kpboardGL.h" />

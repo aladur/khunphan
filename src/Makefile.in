@@ -136,10 +136,10 @@ am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-kpstate.$(OBJEXT) khunphan-light.$(OBJEXT) \
 	khunphan-main.$(OBJEXT) khunphan-kpconfig.$(OBJEXT) \
 	khunphan-kpboardGL.$(OBJEXT) khunphan-camera.$(OBJEXT) \
-	khunphan-label.$(OBJEXT) khunphan-plate.$(OBJEXT) \
-	khunphan-kpidhash.$(OBJEXT) khunphan-kpnode.$(OBJEXT) \
-	khunphan-misc1.$(OBJEXT) khunphan-kpboard.$(OBJEXT) \
-	khunphan-KhunPhan.$(OBJEXT) \
+	khunphan-extendedcamera.$(OBJEXT) khunphan-label.$(OBJEXT) \
+	khunphan-plate.$(OBJEXT) khunphan-kpidhash.$(OBJEXT) \
+	khunphan-kpnode.$(OBJEXT) khunphan-misc1.$(OBJEXT) \
+	khunphan-kpboard.$(OBJEXT) khunphan-KhunPhan.$(OBJEXT) \
 	khunphan-kpstatelighttest.$(OBJEXT) \
 	khunphan-sprinter.$(OBJEXT)
 khunphan_OBJECTS = $(am_khunphan_OBJECTS)
@@ -412,6 +412,7 @@ khunphan_SOURCES = \
         kpconfig.cpp \
         kpboardGL.cpp \
         camera.cpp \
+        extendedcamera.cpp \
         label.cpp \
         plate.cpp \
         kpidhash.cpp \
@@ -435,6 +436,7 @@ EXTRA_DIST = \
         language.h \
         label.h \
         camera.h \
+        extendedcamera.h \
         kpboardGL.h \
         kpconfig.h \
         light.h \
@@ -654,6 +656,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-btime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bwin32threadimp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-camera.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-extendedcamera.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpboardGL.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpconfig.Po@am__quote@
@@ -1312,6 +1315,20 @@ khunphan-camera.obj: camera.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='camera.cpp' object='khunphan-camera.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-camera.obj `if test -f 'camera.cpp'; then $(CYGPATH_W) 'camera.cpp'; else $(CYGPATH_W) '$(srcdir)/camera.cpp'; fi`
+
+khunphan-extendedcamera.o: extendedcamera.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-extendedcamera.o -MD -MP -MF $(DEPDIR)/khunphan-extendedcamera.Tpo -c -o khunphan-extendedcamera.o `test -f 'extendedcamera.cpp' || echo '$(srcdir)/'`extendedcamera.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-extendedcamera.Tpo $(DEPDIR)/khunphan-extendedcamera.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='extendedcamera.cpp' object='khunphan-extendedcamera.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-extendedcamera.o `test -f 'extendedcamera.cpp' || echo '$(srcdir)/'`extendedcamera.cpp
+
+khunphan-extendedcamera.obj: extendedcamera.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-extendedcamera.obj -MD -MP -MF $(DEPDIR)/khunphan-extendedcamera.Tpo -c -o khunphan-extendedcamera.obj `if test -f 'extendedcamera.cpp'; then $(CYGPATH_W) 'extendedcamera.cpp'; else $(CYGPATH_W) '$(srcdir)/extendedcamera.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-extendedcamera.Tpo $(DEPDIR)/khunphan-extendedcamera.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='extendedcamera.cpp' object='khunphan-extendedcamera.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-extendedcamera.obj `if test -f 'extendedcamera.cpp'; then $(CYGPATH_W) 'extendedcamera.cpp'; else $(CYGPATH_W) '$(srcdir)/extendedcamera.cpp'; fi`
 
 khunphan-label.o: label.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-label.o -MD -MP -MF $(DEPDIR)/khunphan-label.Tpo -c -o khunphan-label.o `test -f 'label.cpp' || echo '$(srcdir)/'`label.cpp

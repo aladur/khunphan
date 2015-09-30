@@ -44,6 +44,7 @@ khunphan_SOURCES = \
         kpconfig.cpp \
         kpboardGL.cpp \
         camera.cpp \
+        extendedcamera.cpp \
         label.cpp \
         plate.cpp \
         kpidhash.cpp \
@@ -68,6 +69,7 @@ EXTRA_DIST = \
         language.h \
         label.h \
         camera.h \
+        extendedcamera.h \
         kpboardGL.h \
         kpconfig.h \
         light.h \

@@ -162,6 +162,9 @@
     <ClCompile Include="src\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\extendedcamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\kpstatemainmenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -330,6 +333,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\extendedcamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\kpstatemainmenu.h">

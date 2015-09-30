@@ -10,9 +10,6 @@
 
 #include <vector>
 
-// Uncomment this to get a camera with an extended
-// feature set.
-// #define CAMERA_EXTENDED
 
 // struct containing a camera position
 struct SPosition
@@ -38,30 +35,6 @@ class Camera
 {
 public:
     Camera();
-#ifdef CAMERA_EXTENDED
-    void MoveForward(float);
-    void MoveBackward(float);
-    void MoveRight(float);
-    void MoveLeft(float);
-    void MoveUp(float);
-    void MoveDown(float);
-    void ZoomIn(float);
-    void ZoomOut(float);
-    void VertigoIn(float);
-    void VertigoOut(float);
-    void RotateRight(float);
-    void RotateLeft(float);
-    void RotateUp(float);
-    void RotateDown(float);
-    void PanRight(float,float,float);
-    void PanLeft(float,float,float);
-    void PanUp(float,float,float);
-    void PanDown(float,float,float);
-    void Follow(int);
-    void FocusUp(float,float);
-    void FocusUp2(float,float);
-    void FocusUp3(float,float);
-#endif // #ifdef CAMERA_EXTENDED
     void MoveIn(float);
     void MoveOut(float);
     void Run(int);
@@ -77,7 +50,7 @@ public:
     };
     void SetAspectRatio(float aspectRatio);
 
-private:
+protected:
     float AspectRatio;
     float Pos_x,Pos_y,Pos_z,Alpha,Beta,FOV;
     float target_Pos_x,target_Pos_y,target_Pos_z;
