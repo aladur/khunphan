@@ -6,6 +6,7 @@ AC_CONFIG_AUX_DIR([config])
 AC_CANONICAL_TARGET
 AC_ARG_PROGRAM dnl Perform program name transformation
 AM_INIT_AUTOMAKE
+AM_MAINTAINER_MODE([disable])
 dnl AC_PREFIX_DEFAULT(/usr/local)
 AM_CONFIG_HEADER([src/config.h])
 AC_PROG_LN_S
