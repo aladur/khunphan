@@ -164,7 +164,7 @@ void KPmenu::AddTextField(int number, const char word[])
     {
         if (labels.find(number) != labels.end())
         {
-            labels[number].SetTextNDL(word);
+            labels[number].Initialize(word);
         }
         else
         {

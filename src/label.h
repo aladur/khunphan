@@ -40,7 +40,6 @@ public:
     void Draw();
     void SetPosition(float,float,float,tKPAlignment pos = A_LEFT);
     void SetText(const std::string &text);
-    void SetTextNDL(const std::string &text);
     int  FormatText(...);
     inline bool HasInputFocus()
     {
@@ -75,6 +74,7 @@ public:
     void SetInputFocus(bool state);
     float GetHeight();
     void RecreateDisplayList();
+    void DebugPrint();
 
 private:
     static tActivated activated;

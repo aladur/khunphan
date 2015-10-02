@@ -183,10 +183,10 @@ void KPstateGameSolved::MouseClick (KPstateContext *pContext,
 void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext)
 {
     tKPMenuState newState = KPState_MainMenu;
+    std::string name(pContext->GetMenu().labels[T_NAME_LABEL].GetText());
 
-    if (addToScoreList)
+    if (addToScoreList && !name.empty())
     {
-        std::string name(pContext->GetMenu().labels[T_NAME_LABEL].GetText());
 
         KPscore::Instance().Add(name.c_str(),
                                 pContext->GetStatistics().GetTotalTime(),

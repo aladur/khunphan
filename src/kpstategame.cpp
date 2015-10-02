@@ -319,7 +319,7 @@ void KPstateGame::Cheat1(KPstateContext *pContext)
     n.InitializeToken(TK_RED1,   "red",   0, 3, 2, 2);
 
     pContext->GetBoardView().SetBoard(&n);
-    //pContext->GetStatistics().IncEventCounter(USED_CHEATS_CNT);
+    pContext->GetStatistics().IncEventCounter(USED_CHEATS_CNT);
 }
 
 void KPstateGame::SaveGameStatus(KPstateContext *pContext)

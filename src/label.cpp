@@ -288,13 +288,8 @@ void Label::SetPosition(float X, float Y, float H, tKPAlignment A)
 
 void Label::SetText(const std::string &text)
 {
-    SetTextNDL(text);
-    RecreateDisplayList();
-}
-
-void Label::SetTextNDL(const std::string &text)
-{
     labelText = text;
+    RecreateDisplayList();
 }
 
 int Label::FormatText(...)
@@ -674,3 +669,11 @@ void Label::SetMaxWidth(float maxWidth_)
     }
     maxWidth = maxWidth_;
 }
+
+void Label::DebugPrint(void)
+{
+    std::cout << "format='" << format
+              << "' text='" << labelText << "'"
+              << std::endl;
+}
+
