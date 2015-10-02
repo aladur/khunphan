@@ -314,8 +314,11 @@ void KPscore::ReadFromFile()
                 if (!xmlStrcmp(tag, _TO("Name")))
                 {
                     key  = xmlNodeListGetString(doc, node, 1);
-                    Name = _FROM(key);
-                    xmlFree(key);
+                    if (key)
+                    {
+                        Name = _FROM(key);
+                        xmlFree(key);
+                    }
                 }
                 else if (!xmlStrcmp(tag, _TO("PlayTime")))
                 {

@@ -22,6 +22,7 @@
 #include "btexture.h"
 #include "label.h"
 #include "kpuibase.h"
+#include "sprinter.h"
 
 
 int Label::left[] =
@@ -71,8 +72,7 @@ short        Label::textureSource = 0;
 
 tActivated Label::activated;
 
-Label::Label() : pString(NULL), size(0),
-    x(0), y(0),
+Label::Label() : size(0), x(0), y(0),
     Height(0), AspectRatio(0), Alpha(0),
     old_x(0),  old_y(0),  old_Height(0),  old_Alpha(0),
     target_x(0), target_y(0), target_Height(0), target_Alpha(0),
@@ -84,7 +84,6 @@ Label::Label() : pString(NULL), size(0),
 
 Label::~Label()
 {
-    delete [] pString;
 }
 
 void Label::FadeOutAll()
@@ -107,9 +106,10 @@ void Label::SetActive(Label *pLabel)
     }
 }
 
-void Label::PreInitialize(const char *TextureName, unsigned int TextureSize,
-                             bool Nearest, const KPConfig *pConfig,
-                             bool always /*= true*/)
+void Label::PreInitialize(const std::string &TextureName,
+                          unsigned int TextureSize,
+                          bool Nearest, const KPConfig *pConfig,
+                          bool always /*= true*/)
 {
     BTexture *pTexture = new BTexture;
     std::string file1, file2;
@@ -205,18 +205,20 @@ void Label::Initialize()
     Signal = 0;
     Time = 0;
     hasInputFocus = false;
+    format.clear();
+    labelText.clear();
 }
 
-void Label::Initialize(const char TextZ[])
+void Label::Initialize(const std::string &textOrFormat)
 {
     Initialize();
-    SetText(TextZ);
-}
 
-void Label::InitializeNDL(const char TextZ[])
-{
-    Initialize();
-    SetTextNDL(TextZ);
+    if (sprinter::isformatstring(textOrFormat))
+    {
+       format = textOrFormat;
+    } else {
+       labelText = textOrFormat;
+    }
 }
 
 void Label::Draw()
@@ -284,177 +286,77 @@ void Label::SetPosition(float X, float Y, float H, tKPAlignment A)
     StartAnimation();
 }
 
-void Label::SetFormat(const char *srcString /* = NULL */)
+void Label::SetText(const std::string &text)
 {
-    if (srcString == NULL)
-    {
-        format.clear();
-    }
-    else
-    {
-        format = srcString;
-    }
-}
-
-void Label::CheckValidString(int min_size, const char *srcString /*= NULL */)
-{
-    char *sTmp = NULL;
-
-    if (pString == NULL || size < min_size)
-    {
-        int m = min_size;
-        if (m < 50)
-        {
-            m = 50;    // define a min size of 50 (avoiding mem. allocation)
-        }
-        sTmp = pString;
-        pString = new char [m];
-        size = m;
-        pString[0] = '\0';
-    }
-
-    if (srcString != NULL)
-    {
-        strcpy(pString, srcString);
-    }
-
-    delete [] sTmp;
-}
-
-void Label::SetText(const char TextZ[])
-{
-    SetTextNDL(TextZ);
-    SetFormat(pString);
+    SetTextNDL(text);
     RecreateDisplayList();
 }
 
-void Label::SetTextNDL(const char TextZ[])
+void Label::SetTextNDL(const std::string &text)
 {
-    CheckValidString(strlen(TextZ) + 1, TextZ);
-    SetFormat(pString);
+    labelText = text;
 }
 
-// Sw: Create a string based on a given format
-// if format == NULL use pString as
-// formatString
-int Label::FormatText(const char *format, ...)
+int Label::FormatText(...)
 {
     int result = 0;
 
-    va_list arg_ptr;
+    if (!format.empty())
+    {
+        va_list arg_ptr;
 
-    va_start(arg_ptr, format);
-    result = this->vsprintf(format,arg_ptr);
-    va_end(arg_ptr);
+        va_start(arg_ptr, NULL);
+        result = sprinter::vsprintf(labelText, format, arg_ptr);
+        va_end(arg_ptr);
 
-    RecreateDisplayList();
+        RecreateDisplayList();
+    }
 
     return result;
-}
-
-// Sw: Same as FormatText but without creating
-// a Display List
-int Label::FormatTextNDL(const char *format, ...)
-{
-    int result;
-
-    va_list arg_ptr;
-
-    va_start(arg_ptr, format);
-    result = this->vsprintf(format,arg_ptr);
-    va_end(arg_ptr);
-
-    return result;
-}
-
-// Sw: In vsprintf we still have a size limit for the string
-#define MAX_SSIZE   (2000)
-int Label::vsprintf(const char *_format, va_list arg_ptr)
-{
-    std::string fmt;
-
-    if (pString == NULL)
-    {
-        return -1;
-    }
-
-    if (_format == NULL)
-    {
-        if (format.empty())
-        {
-            format = pString;
-        }
-        fmt = format;
-    }
-    else
-    {
-        fmt = _format;
-    }
-
-    CheckValidString(MAX_SSIZE);
-
-#ifdef WIN32
-#ifdef _MSC_VER
-    _vsnprintf_s(pString, MAX_SSIZE, MAX_SSIZE-1, fmt.c_str(), arg_ptr);
-#else
-    vsprintf(pString, fmt.c_str(), arg_ptr);
-#endif
-#else
-    vsnprintf(pString, MAX_SSIZE-1, fmt.c_str(), arg_ptr);
-#endif
-
-    return strlen(pString);
 }
 
 bool Label::AddCharacter(char key)
 {
     if (hasInputFocus)
     {
-        CheckValidString(strlen(pString) + 2, pString);
-        if (key >= ' ' && key <= '~')  // Add character
+        if (key >= ' ' && key <= '~')
         {
-            size_t size;
+            // Valid ASCII character so add it if it fits in
+            if (labelText.size() < MaxCharacters)
+            {
+                labelText.push_back(key);
+                RecreateDisplayList();
+            }
 
-            if (strlen(pString) >= MaxCharacters)
-            {
-                return true;
-            }
-            size = strlen(pString);
-            pString[size] = key;
-            pString[size+1] = '\0';
-            RecreateDisplayList();
             return true;
         }
-        else if (key == '\b' || key == 127)     // Delete last character
+        else if (key == '\b' || key == 127)
         {
-            for (GLint i = 0; i < size; i++)
+            // Delete last character
+            if (!labelText.empty())
             {
-                if (!pString[i+1])
-                {
-                    pString[i]='\0';
-                }
+                labelText = labelText.substr(0, labelText.size() - 1);
+                RecreateDisplayList();
             }
-            RecreateDisplayList();
+
             return true;
         }
-        else if (key == '\r' || key == '\n')
+        else if (!labelText.empty() && (key == '\r' || key == '\n'))
         {
-            // Commit input with Enter or Line Feed
+            // If the text contains at least one character
+            // the input will be commited with Enter or Line Feed
             target_Alpha = MOD_FADEIN;
             hasInputFocus = false;
             if (target_Alpha != Alpha)
             {
                 StartAnimation();
             }
+
             return true;
         }
     }
-    return false;
-}
 
-std::string Label::GetText()
-{
-    return pString;
+    return false;
 }
 
 void Label::SetFadeOut()
@@ -565,27 +467,30 @@ void Label::StartAnimation()
 
 void Label::RecreateDisplayList()
 {
-    CheckValidString(50);
-
     if (!DisplayList)
     {
         DisplayList = glGenLists(1);
     }
 
     int x,y;
-    float w  = 1.0 / 16.0;
+    const float w  = 1.0 / 16.0;
+
     if (!maxWidth)
     {
         AspectRatio   = 0.0;
         GLint  p = 0;
         GLuint c = 0;
+        std::string::size_type pos;
+
         lineCount= 1;
         glNewList(DisplayList, GL_COMPILE);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glPushMatrix();
         p=0;
-        while ((c = static_cast<unsigned char>(pString[p++])) != '\0')
+
+        for (pos = 0; pos < labelText.size(); ++pos)
         {
+            c = static_cast<unsigned char>(labelText[pos]);
             AspectRatio += (right[c] - left[c] + 4) / 64.0f; // Sw: added
             glTranslatef(-left[c] / 64.0f, 0,0);
             glBindTexture(GL_TEXTURE_2D, texture);
@@ -610,30 +515,30 @@ void Label::RecreateDisplayList()
 
     if (maxWidth)
     {
-        AspectRatio=0.0;
+        std::string::size_type start     = 0;
+        std::string::size_type Pos       = 0;
+        std::string::size_type lastSpace = 0;
+        GLuint character                 = 0;
+        GLint spaceCount                 = 0;
+        GLfloat lineWidth                = 0.0;
+        GLfloat lineWidthUntilLastSpace  = 0.0;
 
-        GLint  start     = 0;
-        GLuint character = 0;
-        GLint  Pos       = 0;
-        GLint  spaceCount= 0;
-        GLint  lastSpace = 0;
-        lineCount        = 0;
-        GLfloat lineWidth= 0.0;
-        GLfloat lineWidthUntilLastSpace = 0.0;
+        AspectRatio = 0.0;
+        lineCount   = 0;
         glNewList(DisplayList, GL_COMPILE);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        while (pString[Pos])
-        {
 
+        while (Pos < labelText.size())
+        {
             start      = Pos;
             spaceCount = 0;
             lastSpace  = 0;
             lineWidth  = 0.0;
 
-            while ((character = static_cast<unsigned char>(pString[Pos])) &&
-                   (lineWidth < maxWidth * 1.05))
+            while (Pos < labelText.size() && (lineWidth < maxWidth * 1.05))
             {
-                if (character==32)
+                character = static_cast<unsigned char>(labelText[Pos]);
+                if (character == ' ')
                 {
                     lineWidthUntilLastSpace = lineWidth;
                     lastSpace = Pos;
@@ -643,7 +548,7 @@ void Label::RecreateDisplayList()
                 Pos++;
             }
 
-            if (pString[Pos])   // noch nicht am Ende: Blocksatz
+            if (Pos < labelText.size()) // Not at the end: justify left, right
             {
                 GLfloat delta=(maxWidth - lineWidthUntilLastSpace)/
                               (spaceCount - 1.0f);
@@ -651,9 +556,10 @@ void Label::RecreateDisplayList()
                 glPushMatrix();
                 glTranslatef(0, -lineCount * 0.7f, 0);
                 Pos=start;
-                while ((c = static_cast<unsigned char>(pString[Pos++])) &&
-                       Pos <= lastSpace)
+
+                while (Pos < labelText.size() && Pos < lastSpace)
                 {
+                    character = static_cast<unsigned char>(labelText[Pos++]);
                     glTranslatef(-left[c] / 64.0f, 0, 0);
                     glBindTexture(GL_TEXTURE_2D, texture);
                     glBegin(GL_QUADS);
@@ -677,7 +583,7 @@ void Label::RecreateDisplayList()
                 glPopMatrix();
                 lineCount++;
             }
-            else     // am Ende: Linksbuendig
+            else     // At the end: justify left
             {
                 GLfloat delta=0;
                 if (lineWidth > maxWidth)
@@ -688,8 +594,9 @@ void Label::RecreateDisplayList()
                 glPushMatrix();
                 glTranslatef(0, -lineCount * 0.7f, 0);
                 Pos=start;
-                while ((c = static_cast<unsigned char>(pString[Pos++])))
+                while (Pos < labelText.size())
                 {
+                    character = static_cast<unsigned char>(labelText[Pos++]);
                     glTranslatef(-left[c] / 64.0f, 0, 0);
                     glBindTexture(GL_TEXTURE_2D, texture);
                     glBegin(GL_QUADS);

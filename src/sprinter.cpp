@@ -40,14 +40,14 @@
 // In c++11 this can be implemented in a type safe way using
 // variadic templates.
 
-int sprinter::sprintf(std::string &s, const char *format, ...)
+int sprinter::sprintf(std::string &s, const std::string &format, ...)
 {
     va_list arg_ptr;
     char buffer[MAX_BUFFER_SIZE];
     char *p = static_cast<char *>(buffer);
     int res = -1;
 
-    if (format == NULL)
+    if (format.empty())
     {
         s.clear();
         return 0;
@@ -55,10 +55,11 @@ int sprinter::sprintf(std::string &s, const char *format, ...)
 
     va_start(arg_ptr, format);
 #ifdef _MSC_VER
-    res = _vsnprintf_s(p, MAX_BUFFER_SIZE, MAX_BUFFER_SIZE - 1, format, arg_ptr);
+    res = _vsnprintf_s(p, MAX_BUFFER_SIZE, MAX_BUFFER_SIZE - 1,
+                       format.c_str(), arg_ptr);
 #endif
 #ifdef __GNUC__
-    res = vsnprintf(p, MAX_BUFFER_SIZE, format, arg_ptr);
+    res = vsnprintf(p, MAX_BUFFER_SIZE, format.c_str(), arg_ptr);
 #endif
     va_end(arg_ptr);
 
@@ -72,23 +73,26 @@ int sprinter::sprintf(std::string &s, const char *format, ...)
     return res;
 }
 
-int sprinter::vsprintf(std::string &s, const char *format, va_list arg_ptr)
+int sprinter::vsprintf(std::string &s,
+                       const std::string &format,
+                       va_list arg_ptr)
 {
     char buffer[MAX_BUFFER_SIZE];
     char *p = static_cast<char *>(buffer);
     int res = -1;
 
-    if (format == NULL)
+    if (format.empty())
     {
         s.clear();
         return 0;
     }
 
 #ifdef _MSC_VER
-    res = _vsnprintf_s(p, MAX_BUFFER_SIZE, MAX_BUFFER_SIZE - 1, format, arg_ptr);
+    res = _vsnprintf_s(p, MAX_BUFFER_SIZE, MAX_BUFFER_SIZE - 1,
+                       format.c_str(), arg_ptr);
 #endif
 #ifdef __GNUC__
-    res = vsnprintf(p, MAX_BUFFER_SIZE, format, arg_ptr);
+    res = vsnprintf(p, MAX_BUFFER_SIZE, format.c_str(), arg_ptr);
 #endif
 
     if (res < 0 || (res >= MAX_BUFFER_SIZE))
@@ -102,4 +106,26 @@ int sprinter::vsprintf(std::string &s, const char *format, va_list arg_ptr)
 }
 
 #undef MAX_BUFFER_SIZE
+
+bool sprinter::isformatstring(const std::string &text)
+{
+    std::string::size_type pos = 0;
+
+    while (pos != std::string::npos)
+    {
+        pos = text.find('%', pos);
+
+        if (pos != std::string::npos)
+        {
+            ++pos;
+            if (text[pos] != '\0' && text[pos] != '%')
+            {
+                return true;
+            }
+            ++pos;
+        }
+    }
+
+    return false;
+}
 

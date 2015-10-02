@@ -23,7 +23,7 @@ OpenGL Interface Info
 32 OpenGL Version : %s
 
 // Display FPS
-35 %d fps
+35 %d fps (%1.1f ms)
 
 // Keyboard Help
 40 General

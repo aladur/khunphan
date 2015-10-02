@@ -33,8 +33,10 @@
 class sprinter
 {
 public:
-    static int sprintf(std::string &s, const char *format, ...);
-    static int vsprintf(std::string &s, const char *format, va_list arg_ptr);
+    static int sprintf(std::string &s, const std::string &format, ...);
+    static int vsprintf(std::string &s, const std::string &format,
+                        va_list arg_ptr);
+    static bool isformatstring(const std::string &text);
 };
 
 #endif

@@ -233,5 +233,5 @@ void KPmenu::Draw()
 
 void KPmenu::UpdateFPS(int fps, float renderTime)
 {
-    labels[T_FPS].FormatText(NULL, fps, renderTime);
+    labels[T_FPS].FormatText(fps, renderTime);
 }

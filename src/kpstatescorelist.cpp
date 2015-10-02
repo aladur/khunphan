@@ -76,31 +76,31 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
         if (it == menu.labels.end())
         {
             menu.labels[T_S_NAME1 + i] = Label();
-            menu.labels[T_S_NAME1 + i].Initialize("");
+            menu.labels[T_S_NAME1 + i].Initialize("%s");
         }
 
         it = menu.labels.find(T_S_PLAYTIME1 + i);
         if (it == menu.labels.end())
         {
             menu.labels[T_S_PLAYTIME1 + i] = Label();
-            menu.labels[T_S_PLAYTIME1 + i].Initialize("");
+            menu.labels[T_S_PLAYTIME1 + i].Initialize("%d:%02d:%02d");
         }
 
         it = menu.labels.find(T_S_MOVES1 + i);
         if (it == menu.labels.end())
         {
             menu.labels[T_S_MOVES1 + i] = Label();
-            menu.labels[T_S_MOVES1 + i].Initialize("");
+            menu.labels[T_S_MOVES1 + i].Initialize("%u");
         }
 
         KPscore::Instance().Get(i, Name, &PlayTime, &Moves);
 
-        menu.labels[T_S_NAME1 + i].FormatText("%s", Name.c_str());
-        menu.labels[T_S_PLAYTIME1 + i].FormatText("%d:%02d:%02d",
+        menu.labels[T_S_NAME1 + i].FormatText(Name.c_str());
+        menu.labels[T_S_PLAYTIME1 + i].FormatText(
                 PlayTime / 3600000,
                 (PlayTime % 3600000) / 60000,
                 (PlayTime % 60000) / 1000 );
-        menu.labels[T_S_MOVES1 + i].FormatText("%u", Moves);
+        menu.labels[T_S_MOVES1 + i].FormatText(Moves);
 
 
         menu.labels[T_S_NAME1 + i].SetPosition(2, y, 0.6f);

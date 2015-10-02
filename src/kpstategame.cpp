@@ -79,9 +79,9 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
     menu.plates[PLATE_LOGO].SetPosition(0,11,4,12);
     menu.plates[PLATE_LOGO].SetSignal(S_LOGO);
 
-    pContext->GetMenu().labels[T_MINMOVECOUNT].FormatText(NULL,
+    pContext->GetMenu().labels[T_MINMOVECOUNT].FormatText(
             pContext->GetBoardView().GetMovesToSolve());
-    pContext->GetMenu().labels[T_MOVECOUNT].FormatText(NULL,
+    pContext->GetMenu().labels[T_MOVECOUNT].FormatText(
             pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
 
     if (KPConfig::Instance().SolutionHint)
@@ -254,7 +254,7 @@ void KPstateGame::Update(KPstateContext *pContext, int factor)
     {
         // update approx. 8 times per second
         counter -= TOTAL_ANIMATIONTIME;
-        pContext->GetMenu().labels[T_TIME].FormatText(NULL,
+        pContext->GetMenu().labels[T_TIME].FormatText(
                 pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS).c_str());
     }
 }
@@ -319,7 +319,7 @@ void KPstateGame::Cheat1(KPstateContext *pContext)
     n.InitializeToken(TK_RED1,   "red",   0, 3, 2, 2);
 
     pContext->GetBoardView().SetBoard(&n);
-    pContext->GetStatistics().IncEventCounter(USED_CHEATS_CNT);
+    //pContext->GetStatistics().IncEventCounter(USED_CHEATS_CNT);
 }
 
 void KPstateGame::SaveGameStatus(KPstateContext *pContext)

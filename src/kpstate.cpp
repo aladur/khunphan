@@ -78,11 +78,11 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
 
     if (menu.IsDisplayOpenGLInfo)
     {
-        menu.labels[T_GL_VENDOR].FormatText(NULL,
+        menu.labels[T_GL_VENDOR].FormatText(
                 userInterface.GetOpenGLVendor().c_str());
-        menu.labels[T_GL_RENDERER].FormatText(NULL,
+        menu.labels[T_GL_RENDERER].FormatText(
                 userInterface.GetOpenGLRenderer().c_str());
-        menu.labels[T_GL_VERSION].FormatText(NULL,
+        menu.labels[T_GL_VERSION].FormatText(
                 userInterface.GetOpenGLVersion().c_str());
 
         menu.labels[T_GL_VENDOR].SetPosition(0.1f, y, 0.3f);
@@ -210,19 +210,16 @@ bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
     // returns true if key has been evaluated
     KPmenu &menu = pContext->GetMenu();
 
-    bool action = false;
+    bool done = false;
 
     tIdToLabel::iterator it;
 
-    for (it = menu.labels.begin(); it != menu.labels.end(); ++it)
+    for (it = menu.labels.begin(); !done && it != menu.labels.end(); ++it)
     {
-        if (action)
-        {
-            break;
-        }
-        action = it->second.AddCharacter(key);
+        done = it->second.AddCharacter(key);
     }
-    return action;
+
+    return done;
 }
 
 void KPstate::StartAnimation()

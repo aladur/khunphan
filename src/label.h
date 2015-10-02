@@ -31,20 +31,17 @@ class Label
 public:
     Label();
     virtual ~Label();
-    static void PreInitialize(const char *, unsigned int, bool,
+    static void PreInitialize(const std::string &, unsigned int, bool,
                               const KPConfig *, bool always = true);
     static void FadeOutAll();
     static void SetActive(Label *pLabel);
     void Initialize();
-    void Initialize(const char[]);
-    void InitializeNDL(const char[]);
+    void Initialize(const std::string &textOrFormat);
     void Draw();
     void SetPosition(float,float,float,tKPAlignment pos = A_LEFT);
-    void SetText(const char[]);
-    void SetTextNDL(const char[]);
-    int  FormatText(const char *format, ...);
-    int  FormatTextNDL(const char *format, ...);
-    int  vsprintf(const char *format, va_list arg_ptr);
+    void SetText(const std::string &text);
+    void SetTextNDL(const std::string &text);
+    int  FormatText(...);
     inline bool HasInputFocus()
     {
         return hasInputFocus;
@@ -58,7 +55,10 @@ public:
         return MaxCharacters;
     };
     bool AddCharacter(char);
-    std::string GetText();
+    std::string GetText()
+    {
+        return labelText;
+    }
 
     void SetFadeOut();
     void SetSelected();
@@ -80,11 +80,9 @@ private:
     static tActivated activated;
     static unsigned int texture;
 
-    void SetFormat(const char *);
     void StartAnimation();
-    void CheckValidString(int min_size, const char *srcString = NULL);
     std::string format;
-    char *pString;
+    std::string labelText;
     int   size;
     float AspectRatio;
     float x, y, Height, Alpha;
