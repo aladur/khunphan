@@ -23,7 +23,7 @@
 #ifndef __kpboard_h__
 #define __kpboard_h__
 
-#include <stdio.h>
+#include <ostream>
 #include "misc1.h"
 #include "kpidhash.h"
 
@@ -53,7 +53,7 @@ public:
     KPboard &operator = (const KPboard &b);
     virtual void Init();
     bool IsMemberOf(void);
-    virtual void fprintf(FILE *fp) const;
+    virtual void print(std::ostream &os) const;
     bool InitializeToken (tKPTokenID id, const char *color, int x, int y,
                           int xExtend, int yExtend);
     inline void SetPosition(tKPTokenID id, int x, int y, int xExtend,

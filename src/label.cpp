@@ -12,7 +12,6 @@
 #endif
 #include <GL/gl.h>
 #include <math.h>
-#include <stdio.h>
 #include "misc1.h"
 #ifdef HAVE_UNISTD_H
 #include <sys/types.h>

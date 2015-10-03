@@ -23,7 +23,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
-#include <stdio.h>
+#include <ostream>
 #include "KhunPhan.h"
 #include "kpnode.h"
 #include "kpconfig.h"
@@ -91,8 +91,7 @@ void KhunPhanApp::InitializeSolutionTree()
     }
 
     // several checks:
-    //KPboard::idHash.Check(stdout);
-    //KPboard::idHash.fprintf(stdout);
+    //KPboard::idHash.Check(std::cout);
     LOG2("Total positions found: ", KPnode::LLSetFirstToRoot());
     LOG2("Total solutions found: ", KPnode::GetSolutionsCount());
 }

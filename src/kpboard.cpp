@@ -22,7 +22,8 @@
 
 #include "misc1.h"  // needed for memset and NULL
 #include "kpboard.h"
-
+#include <ostream>
+#include <iomanip>
 
 KPIdHash KPboard::idHash;
 
@@ -295,18 +296,17 @@ bool KPboard::CanMove(tKPTokenID aTokenID, tKPDirection d) const
     return true;  // the default
 }
 
-void KPboard::fprintf(FILE *fp) const
+void KPboard::print(std::ostream &os) const
 {
     for (int j = 0; j < VERTICAL_MAX; j++)
     {
         for (int i = 0; i < HORIZONTAL_MAX; i++)
         {
-            ::fprintf(fp, "%02d ", tokenID[i][j]);
+            os << std::setw(2) << (int)tokenID[i][j] << ' ';
         }
-        ::fprintf(fp, "\n");
+        os << std::endl;
     }
-    QWord anID = GetID();
-    ::fprintf(fp, FMT_UINT64x "\n", anID);
+     os << "ID: " << GetID() << std::endl;
 }
 
 QWord KPboard::GetID() const

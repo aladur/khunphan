@@ -23,6 +23,7 @@
 #define __kpidhash_h__
 
 #include "misc1.h"
+#include <ostream>
 
 #define HASHTABLE_SIZE  4097
 
@@ -53,8 +54,8 @@ public:
     void Add(const QWord &d, void *pObj = NULL);
     bool Contains(const QWord &d) const;
     void ClearAll(void);
-    void fprintf(FILE *fp) const;
-    void Check(FILE *fp) const;
+    void print(std::ostream &os) const;
+    void Check(std::ostream &os) const;
 };
 
 #endif  // __ kpidhash_h__

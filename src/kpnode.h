@@ -22,8 +22,8 @@
 #ifndef __kpnode_h__
 #define __kpnode_h__
 
-#include <stdio.h>
 #include <exception>
+#include <ostream>
 #include "misc1.h"
 #include "kpboard.h"
 
@@ -80,7 +80,7 @@ public:
     };
     inline bool  AddNextMoves(void);
     inline const KPnode &GetNext(void) const;
-    void fprintfr(FILE *) const;
+    void print(std::ostream &os) const;
 
     static void finalize();
     static KPnode *GetNodeFor(const KPboard &b);
@@ -102,7 +102,7 @@ public:
     {
         return iterationCount * 10 / 4333923;
     };
-    static void PrintSolveCount(FILE *fp);
+    static void PrintSolveCount(std::ostream &os);
     static int  GetSolutionsCount(void);
     static bool IsSolveCountAvailable(void)
     {

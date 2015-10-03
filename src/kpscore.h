@@ -24,7 +24,7 @@
 #define KPSCORE_H
 
 
-#include <stdio.h>
+#include <ostream>
 #include <time.h>
 #include "misc1.h" // Needed for NULL
 #include <string>
@@ -64,7 +64,7 @@ public:
     }
     void ReadFromFile();
     void WriteToFile();
-    void PrintTo(FILE *fp);
+    void print(std::ostream &os);
     std::string GetFileName();
     void SetFileName(const char *fileName);
     bool Add   (const char *aName, unsigned int aPlayTime, unsigned int aMoves,

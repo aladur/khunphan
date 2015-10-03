@@ -24,7 +24,7 @@
 #include <windows.h>
 #endif
 #include <signal.h>
-#include <stdio.h>
+#include <ostream>
 #include "misc1.h"
 #ifdef HAVE_MCHECK_H
 #include <mcheck.h>
@@ -130,7 +130,7 @@ int main (int argc, char **argv)
                        TEX_ILLUMINANCE_ALPHA);
         if ( out.WriteTextureToFile("/home/spock/tmp/characters1.png") )
         {
-            fprintf(stdout, "Write was successfull\n");
+            std::cout << "Write was successfull" << std::endl;
             in1.ReadTextureFromFile("/home/spock/tmp/characters1.png",
                                     TEX_WITH_ALPHA);
         }
@@ -158,7 +158,7 @@ int main (int argc, char **argv)
                        TEX_ILLUMINANCE_ALPHA);
         if ( out.WriteTextureToFile("/home/spock/tmp/logo1.png") )
         {
-            fprintf(stdout, "Write was successfull\n");
+            std::cout << "Write was successfull" << std::endl;
             in1.ReadTextureFromFile("/home/spock/tmp/logo1.png",
                                     TEX_WITH_ALPHA);
         }

@@ -38,7 +38,6 @@
 #include <sys/stat.h>
 #endif
 #include <sstream>
-#include <stdio.h>
 #include <libxml/tree.h>
 #include "kpconfig.h"
 #include "bdir.h"

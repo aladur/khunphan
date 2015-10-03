@@ -24,11 +24,6 @@
 #include <sys/types.h>
 #include <unistd.h>  // needed for sleep
 #endif
-#ifdef HAVE_STDLIB_H
-/* on some systems stdio.h is a prerequisite to stdlib.h */
-#include <stdio.h>
-#include <stdlib.h>
-#endif
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -161,8 +156,8 @@ inline bool KPnode::AddNextMoves()
                     KPnode::LLAddLast(*pn);
                     KPboard::idHash.Add(pn->GetID(), pn);
 #ifdef DEBUG_OUTPUT
-                    ::fprintf(stdout, "%u. New:\n", count);
-                    pn->fprintf(stdout);
+                    std::cout << count << ". New: " << std::endl;
+                    pn->print(std::cout);
 #endif
                 }
                 else
@@ -181,21 +176,21 @@ inline bool KPnode::AddNextMoves()
     return true;
 }
 
-void KPnode::fprintfr(FILE *fp) const
+void KPnode::print(std::ostream &os) const
 {
     unsigned short i;
 
-    ::fprintf(fp, "Node:\n");
-    this->fprintf(fp);
+    os << "Node:" << std::endl;
+    KPboard::print(os);
     for (i = 0; i < MOVES_MAX; i++)
     {
         if (pchild[i] != NULL)
         {
-            ::fprintf(fp, "%d. Child:\n", i+1);
-            pchild[i]->fprintf(fp);
+            os << i+1 << ". Child:" << std::endl;
+            pchild[i]->print(os);
         }
     }
-    ::fprintf(fp, "\n");
+    os << std::endl;
 }
 
 KPnode *KPnode::GetNodeFor(const KPboard &b)
@@ -292,7 +287,7 @@ void KPnode::CreateSolveTree(KPnode &n)
             LLGetFirst().AddNextMoves();
         }
         //if (LLGetFirst().IsSolved())
-        //  LLGetFirst().fprintfr(stdout);
+        //  LLGetFirst().print(std::cout);
         LLSkipFirst();
     }
 }
@@ -390,12 +385,11 @@ void KPnode::ModifySolveCount(short n) const
     }
 }
 
-void KPnode::PrintSolveCount(FILE *fp)
+void KPnode::PrintSolveCount(std::ostream &os)
 {
-
     if (!IsSolveCountAvailable())
     {
-        ::fprintf(fp, "KPnode: Solve count not yet available!\n");
+        os << "KPnode: Solve count not yet available!" << std::endl;
         return;
     }
     else
@@ -404,7 +398,7 @@ void KPnode::PrintSolveCount(FILE *fp)
         while (!KPnode::LLIsEmpty())
         {
             const KPnode *n = &LLGetFirst();
-            ::fprintf(fp, " %d\n", n->GetMovesToSolve());
+            os << ' ' << n->GetMovesToSolve() << std::endl;
             LLSkipFirst();
         }
     }

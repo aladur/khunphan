@@ -26,10 +26,6 @@
 #include <windows.h>
 #endif
 #include <ctype.h>
-#ifdef HAVE_STDARG_H
-#include <stdarg.h>
-#endif
-#include <stdio.h>
 #include <string>
 #include "sprinter.h"
 
@@ -46,13 +42,13 @@ void message(tMsgType type, const char *format, ...)
     switch (type)
     {
         case mtError:
-            fprintf(stderr, "%s", msg.c_str());
+            std::cerr << msg << std::endl;
             break;
         case mtMessage:
-            fprintf(stdout, "%s", msg.c_str());
+            std::cout << msg << std::endl;
             break;
         case mtWarning:
-            fprintf(stderr, "%s", msg.c_str());
+            std::cerr << msg << std::endl;
             break;
     }
 #endif

@@ -353,23 +353,23 @@ void KPscore::ReadFromFile()
     }
 }
 
-void KPscore::PrintTo(FILE *fp)
+void KPscore::print(std::ostream &os)
 {
 #ifndef WIN32
     if (GetEntryCount() <= 0)
     {
-        fprintf(fp, "Current KhunPhan Score list is empty\n");
+        os << "Current KhunPhan Score list is empty" << std::endl;
     }
     else
     {
-        fprintf(fp, "Current KhunPhan Score list:\n");
+        os << "Current KhunPhan Score list:" << std::endl;
         for (int i = 0; i < GetEntryCount(); i++)
         {
-            fprintf(fp, "   Name: '%s' PlayTime: %d ms Moves: %d Time: %s",
-                    pScore[i].Name.c_str(), pScore[i].PlayTime, pScore[i].Moves,
-                    ctime(&pScore[i].Timestamp));
+            os << "   Name: '" << pScore[i].Name << "' PlayTime: "
+               << pScore[i].PlayTime << " ms Moves: " << pScore[i].Moves
+               << " Time: " << ctime(&pScore[i].Timestamp) ;
         }
-        fprintf(fp, "\n");
+        os << std::endl;
     }
 #endif
 }

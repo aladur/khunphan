@@ -26,11 +26,6 @@
 #endif
 #include <GL/gl.h>
 #include <math.h>
-#ifdef HAVE_STDLIB_H
-/* on some systems stdio.h is a prerequisite to stdlib.h */
-#include <stdio.h>
-#include <stdlib.h>
-#endif
 #include "kpprogressbar.h"
 
 #define PROGRESS_MARGIN (0.1f)

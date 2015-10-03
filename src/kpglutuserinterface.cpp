@@ -19,8 +19,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <stdio.h>
-
+#include <ostream>
 #include "misc1.h"
 
 /* If either GLUT or freeglut is available use it */
@@ -107,7 +106,7 @@ void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
         glutGameModeString(modeString.str().c_str());
         if (!glutGameModeGet(GLUT_GAME_MODE_POSSIBLE))
         {
-            printf ("  No Game Mode possible!\n\n");
+            std::cout << "  No Game Mode possible!" << std::endl << std::endl;
         }
         glutFullScreen();
     }

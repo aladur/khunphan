@@ -10,7 +10,6 @@
 #include <windows.h>
 #endif
 #include <GL/gl.h>
-#include <stdio.h>
 #include "light.h"
 #include "misc1.h"
 

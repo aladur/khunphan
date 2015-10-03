@@ -19,7 +19,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <stdio.h>
+#include <iomanip>
 #include "kpidhash.h"
 
 #ifdef WIN32
@@ -162,13 +162,13 @@ tIdHash KPIdHash::GetHash(QWord d) const
     */
 }
 
-void KPIdHash::fprintf(FILE *fp) const
+void KPIdHash::print(std::ostream &os) const
 {
     unsigned int i, sum;
     KPIdHashEntry *e;
 
     sum = 0;
-    ::fprintf(fp, "KpIdHash:\n");
+    os << "KpIdHash:" << std::endl;
     for (i = 0; i < HASHTABLE_SIZE; i++)
     {
         unsigned int n = 0;
@@ -179,17 +179,19 @@ void KPIdHash::fprintf(FILE *fp) const
             e = e->pnext;
         }
         sum += n;
-        ::fprintf(fp, "  Hash %u, %u entries\n", i, n);
+        os << "  Hash " << i << ", "
+           << std::setw(2) << n << " entries" << std::endl;
     }
-    ::fprintf(fp, "  Total: %u entries\n", sum);
+    os << "  Total: " << sum << " entries" << std::endl;
 }
 
-void KPIdHash::Check(FILE *fp) const
+void KPIdHash::Check(std::ostream &os) const
 {
     int i;
     KPIdHashEntry *p, *n;
 
-    ::fprintf(fp, "Checking KpIdHash\n");
+    os << "Checking KpIdHash" << std::endl;
+
     for (i = 0; i < HASHTABLE_SIZE; i++)
     {
         if ((p = hashTable[i]) == NULL)
@@ -199,12 +201,15 @@ void KPIdHash::Check(FILE *fp) const
         while ((n = p->pnext) != NULL)
         {
             if (p->data == n->data)
-                ::fprintf(fp, "Hash id %d: same data: "
-                          FMT_UINT64x "\n", i, p->data);
+            {
+                os << "Hash id " << i << ": same data: "
+                   << p->data << std::endl;
+            }
             if (p->data > n->data)
-                ::fprintf(fp, "Hash id %d: wrong order: "
-                          FMT_UINT64x ", " FMT_UINT64x "\n",
-                          i, p->data, n->data);
+            {
+                os << "Hash id " << i << ": wrong order: " << p->data
+                   << ", " << n->data << std::endl; 
+            }
             p = p->pnext;
         }
     }
