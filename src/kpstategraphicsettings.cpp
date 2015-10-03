@@ -716,7 +716,7 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext)
             KPConfig::Instance().Nearest,
             false );
 
-        pContext->GetMenu().Update( KPConfig::Instance().TextureName.c_str(),
+        pContext->GetMenu().Update( KPConfig::Instance().TextureName,
                                     KPConfig::Instance().MenuTextureSize,
                                     KPConfig::Instance().Nearest,
                                     false );
@@ -811,7 +811,7 @@ void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
             KPConfig::Instance().MenuTextureSize = 1;
             break;
     }
-    pContext->GetMenu().Update( KPConfig::Instance().TextureName.c_str(),
+    pContext->GetMenu().Update( KPConfig::Instance().TextureName,
                                 KPConfig::Instance().MenuTextureSize,
                                 KPConfig::Instance().Nearest );
 }
@@ -821,7 +821,7 @@ void KPstateGraphicSettings::ToggleTextureInterpolation(
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     KPConfig::Instance().Nearest = !KPConfig::Instance().Nearest;
-    pContext->GetMenu().Update( KPConfig::Instance().TextureName.c_str(),
+    pContext->GetMenu().Update( KPConfig::Instance().TextureName,
                                 KPConfig::Instance().MenuTextureSize,
                                 KPConfig::Instance().Nearest );
     pContext->GetBoardView().InitializeTextures(
@@ -917,7 +917,7 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
     pContext->GetLight().Update(KPConfig::Instance().AmbientLight,
                                 KPConfig::Instance().LightSources,
                                 KPConfig::Instance().Reflections);
-    pContext->GetMenu().Update( KPConfig::Instance().TextureName.c_str(),
+    pContext->GetMenu().Update( KPConfig::Instance().TextureName,
                                 KPConfig::Instance().MenuTextureSize,
                                 KPConfig::Instance().Nearest );
     pContext->GetBoardView().InitializeTextures(

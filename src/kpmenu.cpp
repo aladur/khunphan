@@ -26,6 +26,7 @@
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <stdio.h>
+#include <string>
 #include "misc1.h"
 #include "kpmenu.h"
 #include "kpconfig.h"
@@ -37,19 +38,16 @@ KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(KPState_Invalid)
 {
 }
 
-bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
+bool KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
                         int Language /* = 0*/)
 {
-    plates[PLATE_MENUBACKGROUND] = Plate();
-    plates[PLATE_SHADER] = Plate();
+    plates[PLATE_MENUBACKGROUND] = Plate(0.7f, 0.7f, 0.7f);
+    plates[PLATE_SHADER] = Plate(0.0, 0.0, 0.0);
     plates[PLATE_LOGO] = Plate();
     plates[PLATE_SOUND_ON] = Plate();
     plates[PLATE_SOUND_OFF] = Plate();
     plates[PLATE_MUSIC_ON] = Plate();
     plates[PLATE_MUSIC_OFF] = Plate();
-
-    plates[PLATE_MENUBACKGROUND].Initialize(0.7f, 0.7f, 0.7f);
-    plates[PLATE_SHADER].Initialize(0.0, 0.0, 0.0);
 
     Update(TextureName, TextureSize, Nearest);
 
@@ -83,22 +81,22 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
     return true;
 }
 
-void KPmenu::Update(const char *TextureName, int TextureSize, bool Nearest,
+void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest,
                     bool always)
 {
     //Create texture for labels
     Label::PreInitialize(TextureName, TextureSize, Nearest,
                          &KPConfig::Instance(), always);
 
-    plates[PLATE_LOGO].Initialize(TextureName, TextureSize, Nearest,
+    plates[PLATE_LOGO].Update(TextureName, TextureSize, Nearest,
                       true, "logo", &KPConfig::Instance(), always);
-    plates[PLATE_SOUND_ON].Initialize(TextureName, TextureSize, Nearest,
+    plates[PLATE_SOUND_ON].Update(TextureName, TextureSize, Nearest,
                       true, "sound_on", &KPConfig::Instance(), always);
-    plates[PLATE_SOUND_OFF].Initialize(TextureName, TextureSize, Nearest,
+    plates[PLATE_SOUND_OFF].Update(TextureName, TextureSize, Nearest,
                       true, "soundmusic_off", &KPConfig::Instance(), always);
-    plates[PLATE_MUSIC_ON].Initialize(TextureName, TextureSize, Nearest,
+    plates[PLATE_MUSIC_ON].Update(TextureName, TextureSize, Nearest,
                       true, "music_on", &KPConfig::Instance(), always);
-    plates[PLATE_MUSIC_OFF].Initialize(TextureName, TextureSize, Nearest,
+    plates[PLATE_MUSIC_OFF].Update(TextureName, TextureSize, Nearest,
                       true, "soundmusic_off", &KPConfig::Instance(), always);
 }
 

@@ -10,6 +10,7 @@
 
 
 #include "misc1.h"
+#include <string>
 
 class KPUIBase;
 class KPConfig;
@@ -18,10 +19,9 @@ class KPConfig;
 class Plate
 {
 public:
-    Plate();
-    void Initialize(float R = 1.0, float G = 1.0, float B = 1.0);
-    bool Initialize(const char *, unsigned int, bool, bool, const char *,
-                    const KPConfig *config, bool always = true);
+    Plate(float R = 1.0, float G = 1.0, float B = 1.0);
+    bool Update(std::string &, unsigned int, bool, bool, const char *,
+                const KPConfig *config, bool always = true);
     void Draw();
     void SetPosition(float,float,float,float);
     void SetFadeOut();

@@ -25,22 +25,45 @@
 #include "kpuibase.h"
 
 
-Plate::Plate() :     DisplayList(0), Type(0), AspectRatio(0.0),
+Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
+    DisplayList(0), Type(0), AspectRatio(0.0),
     ax(0), ay(0), bx(0), by(0), Alpha(0),
     target_ax(0), target_ay(0), target_bx(0), target_by(0), target_Alpha(0),
     old_ax(0),  old_ay(0), old_bx(0),  old_by(0), old_Alpha(0),
     InAnimation(0), Signal(0), Time(0),
-    r(1.0), g(1.0), b(1.0), texture(0), textureSource(0)
+    r(R), g(G), b(B), texture(0), textureSource(0)
 {
+    DisplayList = glGenLists(1);
+    glNewList(DisplayList, GL_COMPILE);
+    glDisable(GL_TEXTURE_2D);
+    glBegin(GL_QUADS);
+    glVertex2f(0.0,0.0);
+    glVertex2f(1.0,0.0);
+    glVertex2f(1.0,1.0);
+    glVertex2f(0.0,1.0);
+    glEnd();
+    glEndList();
+
+    ax = old_ax = target_ax = 8;
+    ay = old_ay = target_ay = 6;
+    bx = old_bx = target_bx = 8.1f;
+    by = old_by = target_by = 6.1f;
+
+    Alpha = old_Alpha = target_Alpha = MOD_FADEOUT;
+    InAnimation = 0;
+
+    AspectRatio = 0.0;
+
+    Type = 3;
 }
 
-bool Plate::Initialize(const char     *TextureName,
-                       unsigned int    TextureSize,
-                       bool            Nearest,
-                       bool            withAlpha,
-                       const char     *Name,
-                       const KPConfig *pConfig,
-                       bool            always)
+bool Plate::Update(std::string    &TextureName,
+                   unsigned int    TextureSize,
+                   bool            Nearest,
+                   bool            withAlpha,
+                   const char     *Name,
+                   const KPConfig *pConfig,
+                   bool            always /*=true*/)
 {
     // The texture size must be a power of 2 (1, 2, 4, 8, ...)
     if (BTexture::GetExpToBase2(TextureSize) == -1)
@@ -148,40 +171,6 @@ bool Plate::Initialize(const char     *TextureName,
     delete pTexture;
 
     return true;
-}
-
-void Plate::Initialize(float R, float G, float B)
-{
-    r = R;
-    g = G;
-    b = B;
-
-    if (!DisplayList)
-    {
-        DisplayList = glGenLists(1);
-    }
-
-    glNewList(DisplayList, GL_COMPILE);
-    glDisable(GL_TEXTURE_2D);
-    glBegin(GL_QUADS);
-    glVertex2f(0.0,0.0);
-    glVertex2f(1.0,0.0);
-    glVertex2f(1.0,1.0);
-    glVertex2f(0.0,1.0);
-    glEnd();
-    glEndList();
-
-    ax = old_ax = target_ax = 8;
-    ay = old_ay = target_ay = 6;
-    bx = old_bx = target_bx = 8.1f;
-    by = old_by = target_by = 6.1f;
-
-    Alpha = old_Alpha = target_Alpha = MOD_FADEOUT;
-    InAnimation = 0;
-
-    AspectRatio = 0.0;
-
-    Type = 3;
 }
 
 void Plate::Draw()

@@ -124,9 +124,9 @@ public:
 
     KPmenu();
 
-    bool Initialize(const char *TextureName, int TextureSize, bool Nearest,
+    bool Initialize(std::string &TextureName, int TextureSize, bool Nearest,
                     int Language = 0);
-    void Update(const char *TextureName, int TextureSize, bool Nearest,
+    void Update(std::string &TextureName, int TextureSize, bool Nearest,
                 bool always = true);
     void Draw();
     void Update(int factor);

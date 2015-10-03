@@ -120,7 +120,7 @@ bool KPUIBase::InitializeAfterOpen()
 
     LOG1("Menu initialization");
 
-    if (!pMenu->Initialize(KPConfig::Instance().TextureName.c_str(),
+    if (!pMenu->Initialize(KPConfig::Instance().TextureName,
                            KPConfig::Instance().MenuTextureSize,
                            KPConfig::Instance().Nearest,
                            KPConfig::Instance().Language))
