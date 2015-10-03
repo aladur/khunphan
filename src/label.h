@@ -38,7 +38,7 @@ public:
     void Draw();
     void SetPosition(float,float,float,tKPAlignment pos = A_LEFT);
     void SetTextOrFormat(const std::string &textOrFormat);
-    int  FormatText(...);
+    int  FormatText(int count, ...);
     inline bool HasInputFocus()
     {
         return hasInputFocus;

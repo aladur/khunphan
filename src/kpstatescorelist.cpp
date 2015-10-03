@@ -92,12 +92,12 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
 
         KPscore::Instance().Get(i, Name, &PlayTime, &Moves);
 
-        menu.labels[T_S_NAME1 + i].FormatText(Name.c_str());
-        menu.labels[T_S_PLAYTIME1 + i].FormatText(
+        menu.labels[T_S_NAME1 + i].FormatText(1, Name.c_str());
+        menu.labels[T_S_PLAYTIME1 + i].FormatText(3,
                 PlayTime / 3600000,
                 (PlayTime % 3600000) / 60000,
                 (PlayTime % 60000) / 1000 );
-        menu.labels[T_S_MOVES1 + i].FormatText(Moves);
+        menu.labels[T_S_MOVES1 + i].FormatText(1, Moves);
 
 
         menu.labels[T_S_NAME1 + i].SetPosition(2, y, 0.6f);

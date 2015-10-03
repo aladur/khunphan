@@ -289,7 +289,7 @@ void Label::SetTextOrFormat(const std::string &textOrFormat)
     RecreateDisplayList();
 }
 
-int Label::FormatText(...)
+int Label::FormatText(int count, ...)
 {
     int result = 0;
 
@@ -298,8 +298,8 @@ int Label::FormatText(...)
         va_list arg_ptr;
 
         oldLabelText = labelText;
-        va_start(arg_ptr, NULL);
-        result = sprinter::vsprintf(labelText, format, arg_ptr);
+        va_start(arg_ptr, count);
+        result = sprinter::vsprintf(labelText, format.c_str(), arg_ptr);
         va_end(arg_ptr);
 
         RecreateDisplayList();
@@ -520,7 +520,6 @@ void Label::RecreateDisplayList()
         std::string::size_type start     = 0;
         std::string::size_type Pos       = 0;
         std::string::size_type lastSpace = 0;
-        GLuint character                 = 0;
         GLint spaceCount                 = 0;
         GLfloat lineWidth                = 0.0;
         GLfloat lineWidthUntilLastSpace  = 0.0;
@@ -532,6 +531,8 @@ void Label::RecreateDisplayList()
 
         while (Pos < labelText.size())
         {
+            GLuint c = 0;
+
             start      = Pos;
             spaceCount = 0;
             lastSpace  = 0;
@@ -539,14 +540,14 @@ void Label::RecreateDisplayList()
 
             while (Pos < labelText.size() && (lineWidth < maxWidth * 1.05))
             {
-                character = static_cast<unsigned char>(labelText[Pos]);
-                if (character == ' ')
+                c = static_cast<unsigned char>(labelText[Pos]);
+                if (c == ' ')
                 {
                     lineWidthUntilLastSpace = lineWidth;
                     lastSpace = Pos;
                     spaceCount++;
                 }
-                lineWidth += (right[character] - left[character] + 4) / 64.0f;
+                lineWidth += (right[c] - left[c] + 4) / 64.0f;
                 Pos++;
             }
 
@@ -561,7 +562,7 @@ void Label::RecreateDisplayList()
 
                 while (Pos < labelText.size() && Pos < lastSpace)
                 {
-                    character = static_cast<unsigned char>(labelText[Pos++]);
+                    c = static_cast<unsigned char>(labelText[Pos++]);
                     glTranslatef(-left[c] / 64.0f, 0, 0);
                     glBindTexture(GL_TEXTURE_2D, texture);
                     glBegin(GL_QUADS);
@@ -598,7 +599,7 @@ void Label::RecreateDisplayList()
                 Pos=start;
                 while (Pos < labelText.size())
                 {
-                    character = static_cast<unsigned char>(labelText[Pos++]);
+                    c = static_cast<unsigned char>(labelText[Pos++]);
                     glTranslatef(-left[c] / 64.0f, 0, 0);
                     glBindTexture(GL_TEXTURE_2D, texture);
                     glBegin(GL_QUADS);

@@ -255,7 +255,7 @@ void KPstateGame::Update(KPstateContext *pContext, int factor)
         // update approx. 8 times per second
         counter -= TOTAL_ANIMATIONTIME;
         pContext->GetMenu().labels[T_TIME].FormatText(
-                pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS).c_str());
+                1, pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS).c_str());
     }
 }
 
