@@ -25,10 +25,10 @@
 #endif
 #include <GL/glu.h>
 #include <GL/gl.h>
-#include <stdio.h>
 #include <string>
 #include "misc1.h"
 #include "kpmenu.h"
+#include "kplocale.h"
 #include "kpconfig.h"
 #include "sprinter.h"
 #include "kpstate.h"
@@ -103,72 +103,50 @@ void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest,
 
 bool KPmenu::LoadLanguage(int Language)
 {
-    char temp[MAX_LINE];
-    int  index;
-
-    FILE *f = NULL;
     std::string file;
 
     if (labels.find(Language) != labels.end())
     {
         LOG2(" ", labels[Language].GetText().c_str());
     }
+
     sprinter::sprintf(file,
                       "%s%d.lang",
                       KPConfig::Instance().GetDirectory(KP_LOCALE_DIR).c_str(),
                       Language);
-#ifdef WIN32
-    f=fopen(file.c_str(), "rb");
-#endif
-#ifdef LINUX
-    f=fopen(file.c_str(), "r");
-#endif
-    if (f)
+
+    KPlocale locale(file);
+    tIdToString strings = locale.GetStrings();
+
+    if (strings.size() == 0)
     {
-        char wort[MAX_LINE];
-
-        GLint nummer;
-        while (!feof(f))
-        {
-            int  i;
-
-            fgets(temp,MAX_LINE,f);
-            i = strlen(temp);
-            while (i && (temp[--i] == 0x0a || temp[i] == 0x0d ||
-                         temp[i] == ' '    || temp[i] == '\t'))
-            {
-                temp[i]=0;
-            }
-            if (sscanf(temp,"%d %n", &nummer, &index) < 1)
-            {
-                continue;
-            }
-
-            strcpy(wort, &temp[index]);
-            AddOrSetLabel(nummer, wort);
-        }
-        fclose(f);
-        // Single source for Package Name and Version
-        std::stringstream text;
-        text << PACKAGE << " V" << VERSION;
-        AddOrSetLabel(0, text.str().c_str());
-        return true;
+        return false;
     }
-    return false;
+
+    tIdToString::iterator it;
+
+    for (it = strings.begin(); it != strings.end(); ++it)
+    {
+        AddOrSetLabel(it->first, it->second);
+    }
+
+    // Single source for Package Name and Version
+    std::stringstream text;
+    text << PACKAGE << " V" << VERSION;
+    AddOrSetLabel(0, text.str());
+
+    return true;
 }
 
-void KPmenu::AddOrSetLabel(int number, const char word[])
+void KPmenu::AddOrSetLabel(int number, const std::string &text)
 {
-    if (word != NULL)
+    if (labels.find(number) != labels.end())
     {
-        if (labels.find(number) != labels.end())
-        {
-            labels[number].SetTextOrFormat(word);
-        }
-        else
-        {
-            labels[number] = Label(word);
-        }
+        labels[number].SetTextOrFormat(text);
+    }
+    else
+    {
+        labels[number] = Label(text);
     }
 }
 

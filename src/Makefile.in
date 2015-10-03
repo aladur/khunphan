@@ -141,7 +141,7 @@ am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-kpnode.$(OBJEXT) khunphan-misc1.$(OBJEXT) \
 	khunphan-kpboard.$(OBJEXT) khunphan-KhunPhan.$(OBJEXT) \
 	khunphan-kpstatelighttest.$(OBJEXT) \
-	khunphan-sprinter.$(OBJEXT)
+	khunphan-sprinter.$(OBJEXT) khunphan-kplocale.$(OBJEXT)
 khunphan_OBJECTS = $(am_khunphan_OBJECTS)
 khunphan_DEPENDENCIES =
 khunphan_LINK = $(CXXLD) $(khunphan_CXXFLAGS) $(CXXFLAGS) \
@@ -422,7 +422,8 @@ khunphan_SOURCES = \
         kpboard.cpp \
         KhunPhan.cpp \
         kpstatelighttest.cpp \
-        sprinter.cpp
+        sprinter.cpp \
+        kplocale.cpp
 
 khunphan_CXXFLAGS = @GLU_CFLAGS@ @GLUT_CFLAGS@ @XML_CPPFLAGS@ @LIBPNG_CFLAGS@
 khunphan_LDADD = @GLU_LIBS@ @GLUT_LIBS@ @XML_LIBS@ @LIBPNG_LIBS@
@@ -485,6 +486,7 @@ EXTRA_DIST = \
         bsingle.h \
         kpstatelighttest.h \
         sprinter.h \
+        kplocale.h \
         KhunPhan.rc \
         icon.ico
 
@@ -663,6 +665,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpconfig.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpglutuserinterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpidhash.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kplocale.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpmenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpnode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpprogressbar.Po@am__quote@
@@ -1456,6 +1459,20 @@ khunphan-sprinter.obj: sprinter.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='sprinter.cpp' object='khunphan-sprinter.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-sprinter.obj `if test -f 'sprinter.cpp'; then $(CYGPATH_W) 'sprinter.cpp'; else $(CYGPATH_W) '$(srcdir)/sprinter.cpp'; fi`
+
+khunphan-kplocale.o: kplocale.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kplocale.o -MD -MP -MF $(DEPDIR)/khunphan-kplocale.Tpo -c -o khunphan-kplocale.o `test -f 'kplocale.cpp' || echo '$(srcdir)/'`kplocale.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kplocale.Tpo $(DEPDIR)/khunphan-kplocale.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kplocale.cpp' object='khunphan-kplocale.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kplocale.o `test -f 'kplocale.cpp' || echo '$(srcdir)/'`kplocale.cpp
+
+khunphan-kplocale.obj: kplocale.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kplocale.obj -MD -MP -MF $(DEPDIR)/khunphan-kplocale.Tpo -c -o khunphan-kplocale.obj `if test -f 'kplocale.cpp'; then $(CYGPATH_W) 'kplocale.cpp'; else $(CYGPATH_W) '$(srcdir)/kplocale.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kplocale.Tpo $(DEPDIR)/khunphan-kplocale.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kplocale.cpp' object='khunphan-kplocale.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kplocale.obj `if test -f 'kplocale.cpp'; then $(CYGPATH_W) 'kplocale.cpp'; else $(CYGPATH_W) '$(srcdir)/kplocale.cpp'; fi`
 install-nobase_dist_pkgdataDATA: $(nobase_dist_pkgdata_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(nobase_dist_pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \

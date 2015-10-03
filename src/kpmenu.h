@@ -34,9 +34,6 @@
 #include "kpstate.h"
 
 
-#define MAX_LINE     2000
-#define MAX_FILENAME 1000
-
 typedef enum
 {
     PLATE_MENUBACKGROUND,
@@ -143,7 +140,7 @@ public:
 
 protected:
     bool LoadLanguage(int Language) ;
-    void AddOrSetLabel(int number, const char word[]);
+    void AddOrSetLabel(int number, const std::string &text);
     void FadeOutAllPlates();
     void FadeOutAllLabels();
 
