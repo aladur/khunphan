@@ -96,7 +96,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
     float y = 7.5;
-    menu.labels[T_SOLVED1].FormatText(
+    menu.labels[T_SOLVED1].FormatText(2,
             statistics.GetEventCounter(MOVE_COUNTER),
             statistics.GetTotalTime(RTIME_MM_ss).c_str());
     menu.labels[T_SOLVED1].SetPosition(8,y,0.6f,A_CENTERED);
@@ -106,7 +106,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
     if (it != menu.labels.end())
     {
         menu.labels[tf_index].FormatText(
-                statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
+                1, statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
         menu.labels[tf_index].SetPosition(8,y,0.6f,A_CENTERED);
         y-= 0.6f;
     }

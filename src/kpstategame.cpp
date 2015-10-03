@@ -80,9 +80,9 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
     menu.plates[PLATE_LOGO].SetSignal(S_LOGO);
 
     pContext->GetMenu().labels[T_MINMOVECOUNT].FormatText(
-            pContext->GetBoardView().GetMovesToSolve());
+            1, pContext->GetBoardView().GetMovesToSolve());
     pContext->GetMenu().labels[T_MOVECOUNT].FormatText(
-            pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
+            1, pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
 
     if (KPConfig::Instance().SolutionHint)
     {
