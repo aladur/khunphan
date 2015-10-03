@@ -75,22 +75,19 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
         it = menu.labels.find(T_S_NAME1 + i);
         if (it == menu.labels.end())
         {
-            menu.labels[T_S_NAME1 + i] = Label();
-            menu.labels[T_S_NAME1 + i].Initialize("%s");
+            menu.labels[T_S_NAME1 + i] = Label("%s");
         }
 
         it = menu.labels.find(T_S_PLAYTIME1 + i);
         if (it == menu.labels.end())
         {
-            menu.labels[T_S_PLAYTIME1 + i] = Label();
-            menu.labels[T_S_PLAYTIME1 + i].Initialize("%d:%02d:%02d");
+            menu.labels[T_S_PLAYTIME1 + i] = Label("%d:%02d:%02d");
         }
 
         it = menu.labels.find(T_S_MOVES1 + i);
         if (it == menu.labels.end())
         {
-            menu.labels[T_S_MOVES1 + i] = Label();
-            menu.labels[T_S_MOVES1 + i].Initialize("%u");
+            menu.labels[T_S_MOVES1 + i] = Label("%u");
         }
 
         KPscore::Instance().Get(i, Name, &PlayTime, &Moves);

@@ -143,7 +143,7 @@ public:
 
 protected:
     bool LoadLanguage(int Language) ;
-    void AddTextField(int number, const char word[]);
+    void AddOrSetLabel(int number, const char word[]);
     void FadeOutAllPlates();
     void FadeOutAllLabels();
 

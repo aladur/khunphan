@@ -54,7 +54,7 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
     {
         menu.labels[T_NAME_LABEL] = Label();
     }
-    menu.labels[T_NAME_LABEL].SetText("");
+    menu.labels[T_NAME_LABEL].SetTextOrFormat("");
 
 
     if (statistics.GetEventCounter(USED_CHEATS_CNT) != 0)

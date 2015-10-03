@@ -29,17 +29,15 @@ typedef std::set<Label *> tActivated;
 class Label
 {
 public:
-    Label();
+    Label(const std::string &textOrFormat = std::string(""));
     virtual ~Label();
     static void PreInitialize(const std::string &, unsigned int, bool,
                               const KPConfig *, bool always = true);
     static void FadeOutAll();
     static void SetActive(Label *pLabel);
-    void Initialize();
-    void Initialize(const std::string &textOrFormat);
     void Draw();
     void SetPosition(float,float,float,tKPAlignment pos = A_LEFT);
-    void SetText(const std::string &text);
+    void SetTextOrFormat(const std::string &textOrFormat);
     int  FormatText(...);
     inline bool HasInputFocus()
     {
@@ -79,10 +77,14 @@ public:
 private:
     static tActivated activated;
     static unsigned int texture;
+    static const int   left[];
+    static const int   right[];
+    static short textureSource;
 
     void StartAnimation();
     std::string format;
     std::string labelText;
+    std::string oldLabelText;
     int   size;
     float AspectRatio;
     float x, y, Height, Alpha;
@@ -97,10 +99,6 @@ private:
     int lineCount;
     unsigned int MaxCharacters;
     float maxWidth;
-
-    static int   left[];
-    static int   right[];
-    static short textureSource;
 };
 
 #endif

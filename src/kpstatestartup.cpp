@@ -49,9 +49,8 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     it = pContext->GetMenu().labels.find(T_COPYRIGHT2);
     if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().labels[T_COPYRIGHT2] = Label();
-        pContext->GetMenu().labels[T_COPYRIGHT2].SetText(
-            "© 2002-2015 Wolfgang Schwotzer");
+        pContext->GetMenu().labels[T_COPYRIGHT2] =
+           Label("© 2002-2015 Wolfgang Schwotzer");
     }
 
     it = pContext->GetMenu().labels.find(T_COPYRIGHT3);
@@ -63,17 +62,15 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     it = pContext->GetMenu().labels.find(T_COPYRIGHT5);
     if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().labels[T_COPYRIGHT5] = Label();
-        pContext->GetMenu().labels[T_COPYRIGHT5].SetText(
-            "© 2001-2006 Nicklas Nygren");
+        pContext->GetMenu().labels[T_COPYRIGHT5] =
+            Label("© 2001-2006 Nicklas Nygren");
     }
 
     it = pContext->GetMenu().labels.find(T_COPYRIGHT6);
     if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().labels[T_COPYRIGHT6] = Label();
-        pContext->GetMenu().labels[T_COPYRIGHT6].SetText(
-            "http://nifflas.ni2.se/");
+        pContext->GetMenu().labels[T_COPYRIGHT6] =
+            Label("http://nifflas.ni2.se/");
     }
 
     UpdateDisplay(pContext);

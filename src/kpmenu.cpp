@@ -86,7 +86,7 @@ bool KPmenu::Initialize(const char *TextureName, int TextureSize, bool Nearest,
 void KPmenu::Update(const char *TextureName, int TextureSize, bool Nearest,
                     bool always)
 {
-    //Create texture for TextFeldArray
+    //Create texture for labels
     Label::PreInitialize(TextureName, TextureSize, Nearest,
                          &KPConfig::Instance(), always);
 
@@ -146,30 +146,29 @@ bool KPmenu::LoadLanguage(int Language)
             }
 
             strcpy(wort, &temp[index]);
-            AddTextField(nummer, wort);
+            AddOrSetLabel(nummer, wort);
         }
         fclose(f);
         // Single source for Package Name and Version
         std::stringstream text;
         text << PACKAGE << " V" << VERSION;
-        AddTextField(0, text.str().c_str());
+        AddOrSetLabel(0, text.str().c_str());
         return true;
     }
     return false;
 }
 
-void KPmenu::AddTextField(int number, const char word[])
+void KPmenu::AddOrSetLabel(int number, const char word[])
 {
     if (word != NULL)
     {
         if (labels.find(number) != labels.end())
         {
-            labels[number].Initialize(word);
+            labels[number].SetTextOrFormat(word);
         }
         else
         {
-            labels[number] = Label();
-            labels[number].Initialize(word);
+            labels[number] = Label(word);
         }
     }
 }

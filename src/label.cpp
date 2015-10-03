@@ -19,13 +19,14 @@
 #include <unistd.h>  // needed for access
 #endif
 #include <string>
+#include <stdexcept>
 #include "btexture.h"
 #include "label.h"
 #include "kpuibase.h"
 #include "sprinter.h"
 
 
-int Label::left[] =
+const int Label::left[] =
 {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -46,7 +47,7 @@ int Label::left[] =
     9,  9,  8,  8,  8,  8,  8,  0,  7,  8,  8,  8,  8,  6,  8,  6
 };
 
-int Label::right[]=
+const int Label::right[]=
 {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -72,14 +73,28 @@ short        Label::textureSource = 0;
 
 tActivated Label::activated;
 
-Label::Label() : size(0), x(0), y(0),
-    Height(0), AspectRatio(0), Alpha(0),
-    old_x(0),  old_y(0),  old_Height(0),  old_Alpha(0),
-    target_x(0), target_y(0), target_Height(0), target_Alpha(0),
-    Alignment(0), InAnimation(false), Signal(0), Time(0),
+Label::Label(const std::string &textOrFormat) :
+    size(0), AspectRatio(0), x(0), y(0),
+    Height(0), Alpha(0.0f),
+    old_x(0),  old_y(0),  old_Height(0),  old_Alpha(0.0f),
+    target_x(0), target_y(0), target_Height(0), target_Alpha(0.0f),
+    Alignment(A_LEFT), InAnimation(false), Signal(0), Time(0),
     DisplayList(0), hasInputFocus(false), lineCount(0),
     MaxCharacters(32), maxWidth(0)
 {
+    if (texture == 0)
+    {
+        throw std::logic_error("Label::PreInitialize has to be called first");
+    }
+
+    if (sprinter::isformatstring(textOrFormat))
+    {
+       format = textOrFormat;
+    } else {
+       labelText = textOrFormat;
+    }
+
+    RecreateDisplayList();
 }
 
 Label::~Label()
@@ -195,32 +210,6 @@ void Label::PreInitialize(const std::string &TextureName,
     delete pTexture;
 }
 
-void Label::Initialize()
-{
-    x = y = Height = AspectRatio = Alpha = 0.0;
-    old_x = old_y = old_Height = old_Alpha = 0.0;
-    target_x = target_y = target_Height = target_Alpha = 0.0;
-    Alignment = A_LEFT;
-    InAnimation = false;
-    Signal = 0;
-    Time = 0;
-    hasInputFocus = false;
-    format.clear();
-    labelText.clear();
-}
-
-void Label::Initialize(const std::string &textOrFormat)
-{
-    Initialize();
-
-    if (sprinter::isformatstring(textOrFormat))
-    {
-       format = textOrFormat;
-    } else {
-       labelText = textOrFormat;
-    }
-}
-
 void Label::Draw()
 {
     if (Alpha)
@@ -286,9 +275,17 @@ void Label::SetPosition(float X, float Y, float H, tKPAlignment A)
     StartAnimation();
 }
 
-void Label::SetText(const std::string &text)
+void Label::SetTextOrFormat(const std::string &textOrFormat)
 {
-    labelText = text;
+    oldLabelText = labelText;
+
+    if (sprinter::isformatstring(textOrFormat))
+    {
+       format = textOrFormat;
+    } else {
+       labelText = textOrFormat;
+    }
+
     RecreateDisplayList();
 }
 
@@ -300,6 +297,7 @@ int Label::FormatText(...)
     {
         va_list arg_ptr;
 
+        oldLabelText = labelText;
         va_start(arg_ptr, NULL);
         result = sprinter::vsprintf(labelText, format, arg_ptr);
         va_end(arg_ptr);
@@ -319,6 +317,7 @@ bool Label::AddCharacter(char key)
             // Valid ASCII character so add it if it fits in
             if (labelText.size() < MaxCharacters)
             {
+                oldLabelText = labelText;
                 labelText.push_back(key);
                 RecreateDisplayList();
             }
@@ -330,6 +329,7 @@ bool Label::AddCharacter(char key)
             // Delete last character
             if (!labelText.empty())
             {
+                oldLabelText = labelText;
                 labelText = labelText.substr(0, labelText.size() - 1);
                 RecreateDisplayList();
             }
@@ -462,13 +462,20 @@ void Label::StartAnimation()
 
 void Label::RecreateDisplayList()
 {
+    bool isForceRecreate = false;
+    int x,y;
+    const float w  = 1.0 / 16.0;
+
     if (!DisplayList)
     {
         DisplayList = glGenLists(1);
+        isForceRecreate = true;
     }
 
-    int x,y;
-    const float w  = 1.0 / 16.0;
+    if (!isForceRecreate && oldLabelText.compare(labelText) == 0)
+    {
+        return;
+    }
 
     if (!maxWidth)
     {
@@ -673,6 +680,7 @@ void Label::SetMaxWidth(float maxWidth_)
 void Label::DebugPrint(void)
 {
     std::cout << "format='" << format
+              << "' old text='" << oldLabelText << "'"
               << "' text='" << labelText << "'"
               << std::endl;
 }
