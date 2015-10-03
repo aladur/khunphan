@@ -200,6 +200,8 @@ void KPSdlUserInterface::MouseClick( int button, int event, int x, int y )
 bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         bool reInitialize /* = false */)
 {
+    KPConfig &config = KPConfig::Instance();
+
     if (!reInitialize)
     {
         LOG1("Audio and Music initialization");
@@ -231,9 +233,9 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
 
     while (soundFile[i] != NULL)
     {
-        file1 = KPConfig::Instance().GetDirectory(KP_SOUND_DIR) + textureName +
+        file1 = config.GetDirectory(KP_SOUND_DIR) + textureName +
                 PATHSEPARATORSTRING + soundFile[i];
-        file2 = KPConfig::Instance().GetDirectory(KP_SOUND_DIR) + soundFile[i];
+        file2 = config.GetDirectory(KP_SOUND_DIR) + soundFile[i];
 
         if (soundSource[i] == file1 ||
             (access(file1.c_str(), R_OK) && soundSource[i] == file2))
@@ -268,10 +270,9 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
 
     if (!reInitialize)
     {
-        SetSoundVolume(KPConfig::Instance().SoundVolume);
+        SetSoundVolume(config.SoundVolume);
 
-        musicFiles = BDirectory::GetFiles(KPConfig::Instance().GetDirectory(
-                                              KP_MUSIC_DIR));
+        musicFiles = BDirectory::GetFiles(config.GetDirectory(KP_MUSIC_DIR));
         std::sort(musicFiles.begin(), musicFiles.end());
 
         musicIndex = 0;

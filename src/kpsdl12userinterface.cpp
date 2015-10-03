@@ -55,6 +55,7 @@ void KPSdl12UserInterface::SetWindowMode(bool /* FullScreen */) const
 
 bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
+    KPConfig &config = KPConfig::Instance();
     int flags = SDL_OPENGL | SDL_RESIZABLE;
     const SDL_version *pVersion;
 
@@ -80,15 +81,15 @@ bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
         return false;
     }
 
-    if (KPConfig::Instance().FullScreen)
+    if (config.FullScreen)
     {
         flags |= SDL_FULLSCREEN;
     }
 
     screen = SDL_SetVideoMode(
-                 KPConfig::Instance().ScreenXResolution,
-                 (KPConfig::Instance().ScreenXResolution*3)/4,
-                 KPConfig::Instance().ColorDepth,
+                 config.ScreenXResolution,
+                 (config.ScreenXResolution*3)/4,
+                 config.ColorDepth,
                  flags);
     if (screen == NULL)
     {
@@ -99,7 +100,7 @@ bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     SDL_WM_SetCaption(GetWindowTitle().c_str(), GetWindowTitle().c_str());
 
     DebugPrintOpenGLVersion();
-    InitializeAudio(KPConfig::Instance().TextureName.c_str());
+    InitializeAudio(config.TextureName.c_str());
     return InitializeAfterOpen();
 }
 

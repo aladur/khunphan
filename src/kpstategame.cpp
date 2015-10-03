@@ -40,28 +40,28 @@ void KPstateGame::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, pOldState);
 
+    KPConfig &config = KPConfig::Instance();
+    KPStatistics &statistics = pContext->GetStatistics();
+
     // Do some initialization stuff here:
 
-    pContext->GetStatistics().Reset();
-    if (KPConfig::Instance().SavedGame != 0)
+    statistics.Reset();
+    if (config.SavedGame != 0)
     {
         // In this case restore a already started game
-        pContext->GetBoardView().SetBoard(KPConfig::Instance().SavedGame);
-        pContext->GetStatistics().SetPlayingTime(KPConfig::Instance().PlayTime);
-        pContext->GetStatistics().SetEventCounter(MOVE_COUNTER,
-                KPConfig::Instance().Moves        );
-        pContext->GetStatistics().SetEventCounter(MOVE_WITH_HELP_CNT,
-                KPConfig::Instance().MovesWithHint);
-        pContext->GetStatistics().SetEventCounter(USED_CHEATS_CNT,
-                KPConfig::Instance().CheatCount   );
+        pContext->GetBoardView().SetBoard(config.SavedGame);
+        statistics.SetPlayingTime(config.PlayTime);
+        statistics.SetEventCounter(MOVE_COUNTER, config.Moves);
+        statistics.SetEventCounter(MOVE_WITH_HELP_CNT, config.MovesWithHint);
+        statistics.SetEventCounter(USED_CHEATS_CNT, config.CheatCount);
     }
     else
     {
         pContext->GetBoardView().ResetBoard();
     }
 
-    pContext->GetCamera().SetPosition(KPConfig::Instance().CameraPosition);
-    pContext->GetStatistics().Start();
+    pContext->GetCamera().SetPosition(config.CameraPosition);
+    statistics.Start();
 
     UpdateDisplay(pContext);
 }
@@ -70,21 +70,22 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
 {
     KPstate::UpdateDisplay(pContext);
 
-    KPmenu &menu = pContext->GetMenu();
+    KPmenu &menu     = pContext->GetMenu();
+    KPConfig &config = KPConfig::Instance();
 
-    pContext->GetUserInterface().SetSoundVolume(KPConfig::Instance().SoundOn ?
-            KPConfig::Instance().SoundVolume : 0);
-    pContext->GetUserInterface().PlayMusic(KPConfig::Instance().MusicOn, false);
+    pContext->GetUserInterface().SetSoundVolume(config.SoundOn ?
+            config.SoundVolume : 0);
+    pContext->GetUserInterface().PlayMusic(config.MusicOn, false);
 
     menu.plates[PLATE_LOGO].SetPosition(0,11,4,12);
     menu.plates[PLATE_LOGO].SetSignal(S_LOGO);
 
-    pContext->GetMenu().labels[T_MINMOVECOUNT].FormatText(
+    menu.labels[T_MINMOVECOUNT].FormatText(
             1, pContext->GetBoardView().GetMovesToSolve());
-    pContext->GetMenu().labels[T_MOVECOUNT].FormatText(
+    menu.labels[T_MOVECOUNT].FormatText(
             1, pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
 
-    if (KPConfig::Instance().SolutionHint)
+    if (config.SolutionHint)
     {
         menu.labels[T_MINMOVECOUNT].SetPosition(7,0.1f,0.6f);
     }
@@ -92,9 +93,9 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_MOVECOUNT].SetPosition(4,0.1f,0.6f);
     menu.labels[T_TIME].SetPosition(12.5,0.1f,0.6f);
 
-    if (KPConfig::Instance().UserInterface == 0)
+    if (config.UserInterface == 0)
     {
-        if (KPConfig::Instance().SoundOn)
+        if (config.SoundOn)
         {
             menu.plates[PLATE_SOUND_ON].SetPosition(0.3f,0.1f,1,0.5);
             menu.plates[PLATE_SOUND_ON].SetSignal(S_TOGGLE_SOUND_ON);
@@ -106,7 +107,7 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
             menu.plates[PLATE_SOUND_OFF].SetSignal(S_TOGGLE_SOUND_ON);
             menu.plates[PLATE_SOUND_OFF].SetFullyVisible();
         }
-        if (KPConfig::Instance().MusicOn)
+        if (config.MusicOn)
         {
             menu.plates[PLATE_MUSIC_ON].SetPosition(1.0f,0.1f,1.6f,0.5);
             menu.plates[PLATE_MUSIC_ON].SetSignal(S_TOGGLE_MUSIC_ON);
@@ -187,6 +188,8 @@ void  KPstateGame::MouseClick (KPstateContext *pContext,
                                tMouseButton button, tMouseEvent event,
                                int x, int y)
 {
+    KPConfig &config = KPConfig::Instance();
+
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     if (!bIsPause && !bGameIsSolved)
@@ -197,19 +200,18 @@ void  KPstateGame::MouseClick (KPstateContext *pContext,
                 pContext->GetCamera().SetRoundtrip(true);
                 pContext->GetStatistics().Stop();
                 SaveGameStatus(pContext);
-                pContext->GetUserInterface().SetSoundVolume(
-                    KPConfig::Instance().SoundVolume);
+                pContext->GetUserInterface().SetSoundVolume(config.SoundVolume);
                 pContext->GetUserInterface().PlayMusic(false);
                 pContext->ChangeState(KPState_MainMenu);
                 break;
             case S_TOGGLE_SOUND_ON:
-                KPConfig::Instance().SoundOn = !KPConfig::Instance().SoundOn;
-                KPConfig::Instance().WriteToFile();
+                config.SoundOn = !config.SoundOn;
+                config.WriteToFile();
                 UpdateDisplay(pContext);
                 break;
             case S_TOGGLE_MUSIC_ON:
-                KPConfig::Instance().MusicOn = !KPConfig::Instance().MusicOn;
-                KPConfig::Instance().WriteToFile();
+                config.MusicOn = !config.MusicOn;
+                config.WriteToFile();
                 UpdateDisplay(pContext);
                 break;
             default:
@@ -255,7 +257,7 @@ void KPstateGame::Update(KPstateContext *pContext, int factor)
         // update approx. 8 times per second
         counter -= TOTAL_ANIMATIONTIME;
         pContext->GetMenu().labels[T_TIME].FormatText(
-                1, pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS).c_str());
+               1, pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS).c_str());
     }
 }
 
@@ -324,14 +326,14 @@ void KPstateGame::Cheat1(KPstateContext *pContext)
 
 void KPstateGame::SaveGameStatus(KPstateContext *pContext)
 {
-    KPConfig::Instance().SavedGame = pContext->GetBoardView().GetBoardId();
-    KPConfig::Instance().PlayTime = pContext->GetStatistics().GetTotalTime();
-    KPConfig::Instance().Moves =
-        pContext->GetStatistics().GetEventCounter(MOVE_COUNTER);
-    KPConfig::Instance().MovesWithHint =
-        pContext->GetStatistics().GetEventCounter(MOVE_WITH_HELP_CNT);
-    KPConfig::Instance().CheatCount =
-        pContext->GetStatistics().GetEventCounter(USED_CHEATS_CNT);
+    KPConfig &config = KPConfig::Instance();
+    KPStatistics &statistics = pContext->GetStatistics();
+
+    config.SavedGame     = pContext->GetBoardView().GetBoardId();
+    config.PlayTime      = statistics.GetTotalTime();
+    config.Moves         = statistics.GetEventCounter(MOVE_COUNTER);
+    config.MovesWithHint = statistics.GetEventCounter(MOVE_WITH_HELP_CNT);
+    config.CheatCount    = statistics.GetEventCounter(USED_CHEATS_CNT);
 }
 
 void KPstateGame::PlayAudioForInitialize(KPstateContext *pContext)

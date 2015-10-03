@@ -231,6 +231,8 @@ void KPstate::StartAnimation()
 tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
                                         unsigned char key, int, int)
 {
+    KPConfig &config = KPConfig::Instance();
+
     // Default key handling which can be used in every state
     switch (key)
     {
@@ -243,13 +245,12 @@ tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
             UpdateDisplay(pContext);
             break;
         case 'D' - 'A' + 1:
-            KPConfig::Instance().DisplayFPS = !KPConfig::Instance().DisplayFPS;
+            config.DisplayFPS = !config.DisplayFPS;
             UpdateDisplay(pContext);
             break;
         case 'F' - 'A' + 1:
-            KPConfig::Instance().FullScreen = !KPConfig::Instance().FullScreen;
-            pContext->GetUserInterface().SetWindowMode(
-                KPConfig::Instance().FullScreen != 0);
+            config.FullScreen = !config.FullScreen;
+            pContext->GetUserInterface().SetWindowMode(config.FullScreen != 0);
             //UpdateDisplay(pContext);
             break;
     }

@@ -88,6 +88,7 @@ bool KPGlutUserInterface::CanToggleFullScreen() const
 #if defined(FREEGLUT) || defined(OPENGLUT)
 void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
 {
+    KPConfig &config = KPConfig::Instance();
 
     if (windowID == 0 || !CanToggleFullScreen())
     {
@@ -99,9 +100,9 @@ void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
         std::stringstream modeString;
 
         modeString
-             << KPConfig::Instance().ScreenXResolution << 'x'
-             << ((KPConfig::Instance().ScreenXResolution*3)/4) << ':'
-             << KPConfig::Instance().ColorDepth;
+             << config.ScreenXResolution << 'x'
+             << ((config.ScreenXResolution*3)/4) << ':'
+             << config.ColorDepth;
 
         glutGameModeString(modeString.str().c_str());
         if (!glutGameModeGet(GLUT_GAME_MODE_POSSIBLE))
@@ -112,8 +113,8 @@ void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
     }
     else
     {
-        glutReshapeWindow(KPConfig::Instance().ScreenXResolution,
-                          (KPConfig::Instance().ScreenXResolution*3)/4);
+        glutReshapeWindow(config.ScreenXResolution,
+                          (config.ScreenXResolution*3)/4);
         glutPositionWindow(1, 0);
         glutPositionWindow(0, 0);
     }

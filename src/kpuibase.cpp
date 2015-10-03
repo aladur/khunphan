@@ -89,6 +89,8 @@ bool KPUIBase::IsInitialized()
 
 bool KPUIBase::InitializeAfterOpen()
 {
+    KPConfig &config = KPConfig::Instance();
+
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
 
@@ -103,16 +105,16 @@ bool KPUIBase::InitializeAfterOpen()
     pStatistics = new KPStatistics();
 
     pBoardView = new KPboardView();
-    if (!pBoardView->Initialize(KPConfig::Instance().TextureName.c_str(),
-                                KPConfig::Instance().TextureSize,
-                                KPConfig::Instance().Nearest))
+    if (!pBoardView->Initialize(config.TextureName.c_str(),
+                                config.TextureSize,
+                                config.Nearest))
     {
         return false;
     }
 
-    pLight = new Light(KPConfig::Instance().AmbientLight,
-                       KPConfig::Instance().LightSources,
-                       KPConfig::Instance().Reflections);
+    pLight = new Light(config.AmbientLight,
+                       config.LightSources,
+                       config.Reflections);
 
     pCamera = new Camera();
 
@@ -120,10 +122,10 @@ bool KPUIBase::InitializeAfterOpen()
 
     LOG1("Menu initialization");
 
-    if (!pMenu->Initialize(KPConfig::Instance().TextureName,
-                           KPConfig::Instance().MenuTextureSize,
-                           KPConfig::Instance().Nearest,
-                           KPConfig::Instance().Language))
+    if (!pMenu->Initialize(config.TextureName,
+                           config.MenuTextureSize,
+                           config.Nearest,
+                           config.Language))
     {
         return false;
     }

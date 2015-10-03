@@ -98,6 +98,8 @@ void KhunPhanApp::InitializeSolutionTree()
 
 bool KhunPhanApp::Initialize(int argc, char **argv)
 {
+    KPConfig &config = KPConfig::Instance();
+
     appName = argv[0];
 
     LOG1(PACKAGE " V" VERSION);
@@ -114,10 +116,10 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
         }
     }
 
-    KPConfig::Instance().SetDefaultValues();
-    KPConfig::Instance().ReadCommandLineParams(argc, argv);
-    KPConfig::Instance().ReadFromFile();
-    KPConfig::Instance().DebugPrint();
+    config.SetDefaultValues();
+    config.ReadCommandLineParams(argc, argv);
+    config.ReadFromFile();
+    config.DebugPrint();
 
     return true;
 }
