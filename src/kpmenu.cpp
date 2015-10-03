@@ -52,9 +52,10 @@ bool KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
     Update(TextureName, TextureSize, Nearest);
 
     LOG1("Loading languages");
+    // In the first step load strings for all supported languages
     LoadLanguage(T_LANGUAGE_MAX);
-    LoadLanguage(T_LANGUAGE1);
-    LoadLanguage(T_LANGUAGE1 + 1);
+    // In a second step load english as default
+    LoadLanguage(T_LANGUAGE2);
 
     if (Language)
     {

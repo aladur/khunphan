@@ -253,5 +253,6 @@
 #define T_TUTORIAL_END     799
 
 #define T_LANGUAGE1        900
+#define T_LANGUAGE2        901
 #define T_LANGUAGE_MAX     999
 
