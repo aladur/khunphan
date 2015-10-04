@@ -68,17 +68,6 @@ bool KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
         return false;
     }
 
-    LOG1("Generating Menu Display Lists");
-
-    tIdToLabel::iterator it;
-
-    for (it = labels.begin(); it != labels.end(); ++it)
-    {
-        it->second.RecreateDisplayList();
-    }
-
-    progressBar.Initialize();
-
     return true;
 }
 

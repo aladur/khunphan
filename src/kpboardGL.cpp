@@ -26,6 +26,7 @@
 #include <GL/gl.h>
 #include <math.h>
 #include <limits.h>
+#include <stdexcept>
 #include "misc1.h"   // needed for memset and NULL
 #include "kpconfig.h"
 #include "kpboardGL.h"
@@ -58,10 +59,17 @@ KPboardView::KPboardView(void) : pSolveTree(NULL),
     emphasizedToken(TK_EMPTY), animatedToken(TK_EMPTY),
     old_x(0.0), old_y(0.0), new_x(0.0), new_y(0.0),
     ax(0.0), ay(0.0), Time(0.0), textureSource(NULL),
-    callList(0)
+    DisplayList(0)
 {
     srand(327);
-    callList = glGenLists(KBP_ENTRY_COUNT);
+    DisplayList = glGenLists(KBP_ENTRY_COUNT);
+    if (DisplayList == 0)
+    {
+        // Could be caused if display list has no space left
+        // for contiguous elements or any other error.
+        throw std::runtime_error("Error creating a display list");
+    }
+
     for (int i = 0; i < MAX_BOARD_TEXTURES; i++)
     {
         textureId[i] = 0;
@@ -70,7 +78,7 @@ KPboardView::KPboardView(void) : pSolveTree(NULL),
 
 KPboardView::~KPboardView()
 {
-    glDeleteLists(callList, KBP_ENTRY_COUNT);
+    glDeleteLists(DisplayList, KBP_ENTRY_COUNT);
     glDeleteTextures(MAX_BOARD_TEXTURES, textureId);
     delete [] textureSource;
 }
@@ -222,7 +230,7 @@ bool KPboardView::Initialize(const char *TextureName,
 {
     InitializeTextures(TextureName, TextureSize, Nearest);
 
-    glNewList(callList + BRONZE_MATERIAL, GL_COMPILE);
+    glNewList(DisplayList + BRONZE_MATERIAL, GL_COMPILE);
     {
         GLfloat mat_ambient[]  = {0.50f,0.50f,0.50f,1.0f};
         GLfloat mat_diffuse[]  = {0.60f,0.60f,0.60f,1.0f};
@@ -241,7 +249,7 @@ bool KPboardView::Initialize(const char *TextureName,
     glEndList();
 
     // define a Display List BOARD containing the Khun Phan board
-    glNewList(callList + BOARD, GL_COMPILE);
+    glNewList(DisplayList + BOARD, GL_COMPILE);
 
     // Front end (with gap for Khun Phan to escape :-)
     CreateCuboid(
@@ -283,43 +291,43 @@ bool KPboardView::Initialize(const char *TextureName,
 
     // define a Display List CUBOID_1X1 containing a cuboid with size 1 x 1
 
-    glNewList(callList + CUBOID_1X1_1, GL_COMPILE);
+    glNewList(DisplayList + CUBOID_1X1_1, GL_COMPILE);
     CreateCuboid(DX, DY, DZ, 0, 0, 0, true);
     glEndList();
-    glNewList(callList + CUBOID_1X1_2, GL_COMPILE);
+    glNewList(DisplayList + CUBOID_1X1_2, GL_COMPILE);
     CreateCuboid(DX, DY, DZ, 0, 0, 0, true);
     glEndList();
-    glNewList(callList + CUBOID_1X1_3, GL_COMPILE);
+    glNewList(DisplayList + CUBOID_1X1_3, GL_COMPILE);
     CreateCuboid(DX, DY, DZ, 0, 0, 0, true);
     glEndList();
-    glNewList(callList + CUBOID_1X1_4, GL_COMPILE);
+    glNewList(DisplayList + CUBOID_1X1_4, GL_COMPILE);
     CreateCuboid(DX, DY, DZ, 0, 0, 0, true);
     glEndList();
 
     // define a Display List CUBOID_1X2 containing a cuboid with size 1 x 2
 
-    glNewList(callList + CUBOID_1X2_1, GL_COMPILE);
+    glNewList(DisplayList + CUBOID_1X2_1, GL_COMPILE);
     CreateCuboid(DX, 2 * DY + DGAP, DZ, 0, 0, 0, true);
     glEndList();
-    glNewList(callList + CUBOID_1X2_2, GL_COMPILE);
+    glNewList(DisplayList + CUBOID_1X2_2, GL_COMPILE);
     CreateCuboid(DX, 2 * DY + DGAP, DZ, 0, 0, 0, true);
     glEndList();
-    glNewList(callList + CUBOID_1X2_3, GL_COMPILE);
+    glNewList(DisplayList + CUBOID_1X2_3, GL_COMPILE);
     CreateCuboid(DX, 2 * DY + DGAP, DZ, 0, 0, 0, true);
     glEndList();
-    glNewList(callList + CUBOID_1X2_4, GL_COMPILE);
+    glNewList(DisplayList + CUBOID_1X2_4, GL_COMPILE);
     CreateCuboid(DX, 2 * DY + DGAP, DZ, 0, 0, 0, true);
     glEndList();
 
     // define a Display List CUBOID_2X1 containing a cuboid with size 2 x 1
 
-    glNewList(callList + CUBOID_2X1, GL_COMPILE);
+    glNewList(DisplayList + CUBOID_2X1, GL_COMPILE);
     CreateCuboid(2 * DX + DGAP, DY, DZ, 0, 0, 0, true);
     glEndList();
 
     // define a Display List CUBOID_2X2 containing a cuboid with size 2 x 2
 
-    glNewList(callList + CUBOID_2X2, GL_COMPILE);
+    glNewList(DisplayList + CUBOID_2X2, GL_COMPILE);
     CreateCuboid(2 * DX + DGAP, 2 * DY + DGAP, DZ * 2 / 3, 0, 0, 0, true);
     glEndList();
 
@@ -586,7 +594,7 @@ void KPboardView::Draw(bool render /* = true */) const
     tKPTokenID i;
 
     // set material
-    glCallList(callList + BRONZE_MATERIAL);
+    glCallList(DisplayList + BRONZE_MATERIAL);
 
     ///////////////////////////////////////////////////////////////////////
     // Draw all Tokens
@@ -646,7 +654,7 @@ void KPboardView::Draw(bool render /* = true */) const
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     if (render)
     {
-        glCallList(callList + BOARD);
+        glCallList(DisplayList + BOARD);
     }
 
     ////////////////////////////////////////////////////////////
@@ -682,34 +690,34 @@ void KPboardView::DrawToken(const tKPTokenID i) const
     switch (i)
     {
         case TK_GREEN1:
-            glCallList(callList + CUBOID_1X1_1);
+            glCallList(DisplayList + CUBOID_1X1_1);
             break;
         case TK_GREEN2:
-            glCallList(callList + CUBOID_1X1_2);
+            glCallList(DisplayList + CUBOID_1X1_2);
             break;
         case TK_GREEN3:
-            glCallList(callList + CUBOID_1X1_3);
+            glCallList(DisplayList + CUBOID_1X1_3);
             break;
         case TK_GREEN4:
-            glCallList(callList + CUBOID_1X1_4);
+            glCallList(DisplayList + CUBOID_1X1_4);
             break;
         case TK_WHITE1:
-            glCallList(callList + CUBOID_1X2_1);
+            glCallList(DisplayList + CUBOID_1X2_1);
             break;
         case TK_WHITE2:
-            glCallList(callList + CUBOID_1X2_2);
+            glCallList(DisplayList + CUBOID_1X2_2);
             break;
         case TK_WHITE3:
-            glCallList(callList + CUBOID_1X2_3);
+            glCallList(DisplayList + CUBOID_1X2_3);
             break;
         case TK_WHITE4:
-            glCallList(callList + CUBOID_1X2_4);
+            glCallList(DisplayList + CUBOID_1X2_4);
             break;
         case TK_WHITE5:
-            glCallList(callList + CUBOID_2X1);
+            glCallList(DisplayList + CUBOID_2X1);
             break;
         case TK_RED1:
-            glCallList(callList + CUBOID_2X2);
+            glCallList(DisplayList + CUBOID_2X2);
             break;
         default:
             break;
@@ -840,7 +848,7 @@ void KPboardView::DrawCuboid(float deltaAngle) const// Only for test purposes
         glRotatef(rquad,1.0f,1.0f,1.0f);       // Rotate The Cube On X, Y & Z
     }
 
-    glCallList(callList + CUBOID_1X1_1);
+    glCallList(DisplayList + CUBOID_1X1_1);
 
     if (without_camera)
     {

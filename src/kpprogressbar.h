@@ -29,7 +29,6 @@ public:
     KPprogressBar();
     virtual ~KPprogressBar();
 
-    void Initialize();
     void SetFadeOut();
     void SetFadeIn();
     void SetFullyVisible();
@@ -51,7 +50,7 @@ protected:
     float width,  old_Width,  target_Width;
     int   Time;
     int   percent;
-    int   displayList;
+    int   DisplayList;
     float barColor[4];
 };
 

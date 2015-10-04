@@ -101,7 +101,7 @@ private:
     float old_x, old_y, new_x, new_y, ax, ay, Time;
     unsigned int textureId[MAX_BOARD_TEXTURES];
     std::string *textureSource;
-    int callList;
+    int DisplayList;
 };
 
 #endif

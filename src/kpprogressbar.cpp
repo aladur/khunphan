@@ -26,6 +26,7 @@
 #endif
 #include <GL/gl.h>
 #include <math.h>
+#include <stdexcept>
 #include "kpprogressbar.h"
 
 #define PROGRESS_MARGIN (0.1f)
@@ -37,7 +38,7 @@ KPprogressBar::KPprogressBar() : InAnimation(false),
     alpha(0),  old_Alpha(0),  target_Alpha(0),
     height(0), old_Height(0), target_Height(0),
     width(0),  old_Width(0),  target_Width(0),
-    Time(0),   percent(0),    displayList(0)
+    Time(0),   percent(0),    DisplayList(0)
 {
     barColor[0] = 1.0;
     barColor[1] = 1.0;
@@ -46,15 +47,11 @@ KPprogressBar::KPprogressBar() : InAnimation(false),
 
 KPprogressBar::~KPprogressBar()
 {
-    if (displayList)
+    if (DisplayList)
     {
-        glDeleteLists(displayList, 2);
+        glDeleteLists(DisplayList, 2);
     }
-    displayList = 0;
-}
-
-void KPprogressBar::Initialize()
-{
+    DisplayList = 0;
 }
 
 void KPprogressBar::SetFadeIn()
@@ -183,12 +180,18 @@ void KPprogressBar::RecreateDisplayList()
 {
     GLfloat mw = height * PROGRESS_MARGIN;
 
-    if (displayList == 0)
+    if (DisplayList == 0)
     {
-        displayList = glGenLists(2);
+        DisplayList = glGenLists(2);
+        if (DisplayList == 0)
+        {
+            // Could be caused if display list has no space left
+            // for two contiguous elements or any other error.
+            throw std::runtime_error("Error creating a display list");
+        }
     }
 
-    glNewList(displayList, GL_COMPILE);
+    glNewList(DisplayList, GL_COMPILE);
     glPushMatrix();
     glBegin(GL_QUADS);
     glVertex3f(0.0,        0.0,         0.0);
@@ -214,7 +217,7 @@ void KPprogressBar::RecreateDisplayList()
     glPopMatrix();
     glEndList();
 
-    glNewList(displayList + 1, GL_COMPILE);
+    glNewList(DisplayList + 1, GL_COMPILE);
     glPushMatrix();
     glBegin(GL_QUADS);
     glVertex3f(mw,                                  mw,          0.0);
@@ -233,10 +236,10 @@ void KPprogressBar::Draw()
         glPushMatrix();
         glTranslatef(x, y, 0);
         glColor4f(1.0, 1.0, 1.0, alpha);
-        glCallList(displayList);
+        glCallList(DisplayList);
         barColor[3] = alpha;
         glColor4fv(barColor);
-        glCallList(displayList + 1);
+        glCallList(DisplayList + 1);
         glPopMatrix();
     }
 }

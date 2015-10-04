@@ -468,6 +468,12 @@ void Label::RecreateDisplayList()
     if (!DisplayList)
     {
         DisplayList = glGenLists(1);
+        if (DisplayList == 0)
+        {
+            // Could be caused if display list is totally full
+            // or any other error.
+            throw std::runtime_error("Error creating a display list");
+        }
         isForceRecreate = true;
     }
 

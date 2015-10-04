@@ -18,6 +18,7 @@
 #include <sys/types.h>
 #include <unistd.h>  // needed for access
 #endif
+#include <stdexcept>
 #include "kpconfig.h"
 #include "plate.h"
 #include "btexture.h"
@@ -33,6 +34,13 @@ Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
     r(R), g(G), b(B), texture(0), textureSource(0)
 {
     DisplayList = glGenLists(1);
+    if (DisplayList == 0)
+    {
+        // Could be caused if display list is totally full
+        // or any other error.
+        throw std::runtime_error("Error creating a display list");
+    }
+
     glNewList(DisplayList, GL_COMPILE);
     glDisable(GL_TEXTURE_2D);
     glBegin(GL_QUADS);
@@ -54,6 +62,10 @@ Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
     AspectRatio = 0.0;
 
     Type = 3;
+}
+
+Plate::~Plate()
+{
 }
 
 bool Plate::Update(std::string    &TextureName,
@@ -125,10 +137,6 @@ bool Plate::Update(std::string    &TextureName,
                 file2.c_str());
     }
 
-    if (DisplayList == 0)
-    {
-        DisplayList = glGenLists(1);
-    }
     if (texture == 0)
     {
         glGenTextures(1, &texture);

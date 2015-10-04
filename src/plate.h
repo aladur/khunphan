@@ -20,6 +20,7 @@ class Plate
 {
 public:
     Plate(float R = 1.0, float G = 1.0, float B = 1.0);
+    virtual ~Plate();
     bool Update(std::string &, unsigned int, bool, bool, const char *,
                 const KPConfig *config, bool always = true);
     void Draw();
