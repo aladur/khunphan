@@ -54,7 +54,7 @@ private:
     int Signal;
     int Time;
     float r, g, b; // Color
-    std::string File;
+    std::string TextureSource;
     unsigned int Texture;
     unsigned int TextureSize;
     bool Nearest;

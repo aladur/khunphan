@@ -68,7 +68,7 @@ const int Label::right[]=
 };
 
 unsigned int Label::Texture = 0;
-std::string Label::File;
+std::string Label::TextureSource;
 
 tActivated Label::activated;
 
@@ -194,12 +194,12 @@ void Label::PreInitialize(const std::string &TextureName,
         }
         else
         {
-            File = file2;
+            TextureSource = file2;
         }
     }
     else
     {
-        File = file1;
+        TextureSource = file1;
     }
 
     if (BTexture::GetExpToBase2(TextureSize) == -1)

@@ -63,7 +63,7 @@ Plate::Plate(const Plate &src) :
     old_ax(src.old_ax),  old_ay(src.old_ay),
     old_bx(src.old_bx),  old_by(src.old_by), old_Alpha(src.old_Alpha),
     InAnimation(src.InAnimation), Signal(src.Signal), Time(src.Time),
-    r(src.r), g(src.g), b(src.b), File(src.File),
+    r(src.r), g(src.g), b(src.b), TextureSource(src.TextureSource),
     Texture(0), TextureSize(src.TextureSize), Nearest(src.Nearest),
     WithAlpha(src.WithAlpha)
 {
@@ -82,11 +82,11 @@ Plate::Plate(const Plate &src) :
     {
         const char *texels;
 
-        if ((texels = texture.ReadTextureFromFile(File.c_str(),
+        if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
             WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
         {
             message(mtError, "*** Error reading texture from file '%s'\n",
-            File.c_str());
+            TextureSource.c_str());
             exit(1);
         }
 
@@ -124,7 +124,7 @@ Plate &Plate::operator=(const Plate &src)
     r = src.r;
     g = src.g;
     b = src.b;
-    File = src.File;
+    TextureSource = src.TextureSource;
     TextureSize = src.TextureSize;
     Nearest = src.Nearest;
     WithAlpha = src.WithAlpha;
@@ -133,11 +133,11 @@ Plate &Plate::operator=(const Plate &src)
     {
         const char *texels;
 
-        if ((texels = texture.ReadTextureFromFile(File.c_str(),
+        if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
             WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
         {
             message(mtError, "*** Error reading texture from file '%s'\n",
-            File.c_str());
+            TextureSource.c_str());
             exit(1);
         }
 
@@ -200,12 +200,12 @@ bool Plate::Update(std::string    &TextureName,
         }
         else
         {
-            File = file2;
+            TextureSource = file2;
         }
     }
     else
     {
-        File = file1;
+        TextureSource = file1;
     }
 
     RecreateDisplayList(&texture);
@@ -230,7 +230,7 @@ void Plate::RecreateDisplayList(BTexture *pTexture /* = NULL */)
 	    {
                 message(mtWarning,
                 "*** Warning: width or height of '%s' is not a power of 2\n",
-                File.c_str());
+                TextureSource.c_str());
 	    }
 
 	    if (Texture == 0)

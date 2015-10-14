@@ -78,7 +78,7 @@ public:
 private:
     static tActivated activated;
     static unsigned int Texture;
-    static std::string File;
+    static std::string TextureSource;
     static const int   left[];
     static const int   right[];
 
