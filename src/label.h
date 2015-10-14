@@ -18,7 +18,6 @@
 #include "kpconfig.h"
 
 
-
 class Label;
 class KPConfig;
 class KPUIBase;
@@ -30,9 +29,11 @@ class Label
 {
 public:
     Label(const std::string &textOrFormat = std::string(""));
+    Label(const Label &src);
     virtual ~Label();
+    Label &operator=(const Label &src);
     static void PreInitialize(const std::string &, unsigned int, bool,
-                              const KPConfig *, bool always = true);
+                              const KPConfig &);
     static void FadeOutAll();
     static void SetActive(Label *pLabel);
     void Draw();
@@ -76,10 +77,10 @@ public:
 
 private:
     static tActivated activated;
-    static unsigned int texture;
+    static unsigned int Texture;
+    static std::string File;
     static const int   left[];
     static const int   right[];
-    static short textureSource;
 
     void StartAnimation();
     std::string format;

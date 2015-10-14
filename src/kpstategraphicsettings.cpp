@@ -732,8 +732,7 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext)
 
         pContext->GetMenu().Update( config.TextureName,
                                     config.MenuTextureSize,
-                                    config.Nearest,
-                                    false );
+                                    config.Nearest);
         pContext->GetUserInterface().InitializeAudio(
             config.TextureName.c_str(), true);
 

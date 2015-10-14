@@ -67,8 +67,8 @@ const int Label::right[]=
     28, 27, 28, 28, 28, 28, 28,  0, 28, 26, 26, 26, 26, 25, 28, 25
 };
 
-unsigned int Label::texture       = 0;
-short        Label::textureSource = 0;
+unsigned int Label::Texture = 0;
+std::string Label::File;
 
 tActivated Label::activated;
 
@@ -81,7 +81,7 @@ Label::Label(const std::string &textOrFormat) :
     DisplayList(0), hasInputFocus(false), lineCount(0),
     MaxCharacters(32), maxWidth(0)
 {
-    if (texture == 0)
+    if (Texture == 0)
     {
         throw std::logic_error("Label::PreInitialize has to be called first");
     }
@@ -92,12 +92,62 @@ Label::Label(const std::string &textOrFormat) :
     } else {
        labelText = textOrFormat;
     }
+}
 
-    RecreateDisplayList();
+Label::Label(const Label &src) :
+    format(src.format),
+    labelText(src.labelText), oldLabelText(src.oldLabelText),
+    size(src.size), AspectRatio(src.AspectRatio), x(src.x), y(src.y),
+    Height(src.Height), Alpha(src.Alpha),
+    old_x(src.old_x),  old_y(src.old_y),
+    old_Height(src.old_Height), old_Alpha(src.old_Alpha),
+    target_x(src.target_x), target_y(src.target_y),
+    target_Height(src.target_Height), target_Alpha(src.target_Alpha),
+    Alignment(src.Alignment), InAnimation(src.InAnimation),
+    Signal(src.Signal), Time(src.Time),
+    DisplayList(0), hasInputFocus(src.hasInputFocus), lineCount(src.lineCount),
+    MaxCharacters(src.MaxCharacters), maxWidth(src.maxWidth)
+{
 }
 
 Label::~Label()
 {
+    if (DisplayList != 0)
+    {
+        glDeleteLists(DisplayList, 1);
+        DisplayList = 0;
+    }
+}
+
+Label &Label::operator=(const Label &src)
+{
+    format = src.format;
+    labelText = src.labelText;
+    oldLabelText = src.oldLabelText;
+    size = src.size;
+    AspectRatio = src.AspectRatio;
+    x = src.x;
+    y = src.y;
+    Height = src.Height;
+    Alpha = src.Alpha;
+    old_x = src.old_x;
+    old_y = src.old_y;
+    old_Height = src.old_Height;
+    old_Alpha = src.old_Alpha;
+    target_x = src.target_x;
+    target_y = src.target_y;
+    target_Height = src.target_Height;
+    target_Alpha = src.target_Alpha;
+    Alignment = src.Alignment;
+    InAnimation = src.InAnimation;
+    Signal = src.Signal;
+    Time = src.Time;
+    hasInputFocus = src.hasInputFocus;
+    lineCount = src.lineCount;
+    MaxCharacters = src.MaxCharacters;
+    maxWidth = src.maxWidth;
+
+    RecreateDisplayList();
 }
 
 void Label::FadeOutAll()
@@ -122,61 +172,48 @@ void Label::SetActive(Label *pLabel)
 
 void Label::PreInitialize(const std::string &TextureName,
                           unsigned int TextureSize,
-                          bool Nearest, const KPConfig *pConfig,
-                          bool always /*= true*/)
+                          bool Nearest, const KPConfig &config)
 {
-    BTexture *pTexture = new BTexture;
+    BTexture texture;
     std::string file1, file2;
     const char *texels;
 
-    file1 = pConfig->GetDirectory(KP_TEXTURE_DIR) + TextureName +
+    file1 = config.GetDirectory(KP_TEXTURE_DIR) + TextureName +
             PATHSEPARATORSTRING + "characters.png";
-    file2 = pConfig->GetDirectory(KP_TEXTURE_DIR) + "characters.png";
+    file2 = config.GetDirectory(KP_TEXTURE_DIR) + "characters.png";
 
-    if (!always)
-    {
-        if ((!access(file1.c_str(), R_OK) && textureSource == 1) ||
-            (!access(file2.c_str(), R_OK) && textureSource == 2))
-        {
-            delete pTexture;
-            return; // texture from file1 or file2 already loaded
-        }
-    }
-
-    if ((texels = pTexture->ReadTextureFromFile(file1.c_str(),
+    if ((texels = texture.ReadTextureFromFile(file1.c_str(),
                  TEX_WITH_ALPHA)) == NULL)
     {
-        if ((texels = pTexture->ReadTextureFromFile(file2.c_str(),
+        if ((texels = texture.ReadTextureFromFile(file2.c_str(),
                       TEX_WITH_ALPHA)) == NULL)
         {
             message(mtError, "*** Error reading texture from file '%s'\n",
                     file2.c_str());
-            delete pTexture;
             exit(1);
         }
         else
         {
-            textureSource = 2;
+            File = file2;
         }
     }
     else
     {
-        textureSource = 1;
+        File = file1;
     }
 
     if (BTexture::GetExpToBase2(TextureSize) == -1)
     {
         message(mtError, " *** Error scaling texture %s. Program aborted\n",
                 file2.c_str());
-        delete pTexture;
         exit(1);
     }
 
-    texels = pTexture->Rescale(BTexture::GetExpToBase2(TextureSize),
-                               TEX_SMALLER | TEX_RESCALE_AVG );
+    texels = texture.Rescale(BTexture::GetExpToBase2(TextureSize),
+                             TEX_SMALLER | TEX_RESCALE_AVG );
 
-    unsigned int width  = pTexture->GetWidth();
-    unsigned int height = pTexture->GetHeight();
+    unsigned int width  = texture.GetWidth();
+    unsigned int height = texture.GetHeight();
 
     if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
     {
@@ -185,12 +222,12 @@ void Label::PreInitialize(const std::string &TextureName,
                 file2.c_str());
     }
 
-    if (texture == 0)
+    if (Texture == 0)
     {
-        glGenTextures(1, &texture);
+        glGenTextures(1, &Texture);
     }
 
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, Texture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_PRIORITY,   1.0);
 
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
@@ -205,12 +242,12 @@ void Label::PreInitialize(const std::string &TextureName,
                  GL_UNSIGNED_BYTE, texels);
 
     glBindTexture(GL_TEXTURE_2D, 0);
-
-    delete pTexture;
 }
 
 void Label::Draw()
 {
+    RecreateDisplayList();
+
     if (Alpha)
     {
         glPushMatrix();
@@ -500,7 +537,7 @@ void Label::RecreateDisplayList()
             c = static_cast<unsigned char>(labelText[pos]);
             AspectRatio += (right[c] - left[c] + 4) / 64.0f; // Sw: added
             glTranslatef(-left[c] / 64.0f, 0,0);
-            glBindTexture(GL_TEXTURE_2D, texture);
+            glBindTexture(GL_TEXTURE_2D, Texture);
             glBegin(GL_QUADS);
             x = c % 16;
             y = 15 - (c / 16);
@@ -569,7 +606,7 @@ void Label::RecreateDisplayList()
                 {
                     c = static_cast<unsigned char>(labelText[Pos++]);
                     glTranslatef(-left[c] / 64.0f, 0, 0);
-                    glBindTexture(GL_TEXTURE_2D, texture);
+                    glBindTexture(GL_TEXTURE_2D, Texture);
                     glBegin(GL_QUADS);
                     x = c % 16;
                     y = 15 - (c / 16);
@@ -606,7 +643,7 @@ void Label::RecreateDisplayList()
                 {
                     c = static_cast<unsigned char>(labelText[Pos++]);
                     glTranslatef(-left[c] / 64.0f, 0, 0);
-                    glBindTexture(GL_TEXTURE_2D, texture);
+                    glBindTexture(GL_TEXTURE_2D, Texture);
                     glBegin(GL_QUADS);
                     x = c % 16;
                     y = 15 - (c / 16);

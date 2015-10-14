@@ -31,8 +31,11 @@ Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
     target_ax(0), target_ay(0), target_bx(0), target_by(0), target_Alpha(0),
     old_ax(0),  old_ay(0), old_bx(0),  old_by(0), old_Alpha(0),
     InAnimation(0), Signal(0), Time(0),
-    r(R), g(G), b(B), texture(0), textureSource(0)
+    r(R), g(G), b(B), Texture(0), TextureSize(0), Nearest(false),
+    WithAlpha(false)
 {
+    Type = 3;
+
     DisplayList = glGenLists(1);
     if (DisplayList == 0)
     {
@@ -41,143 +44,250 @@ Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
         throw std::runtime_error("Error creating a display list");
     }
 
-    glNewList(DisplayList, GL_COMPILE);
-    glDisable(GL_TEXTURE_2D);
-    glBegin(GL_QUADS);
-    glVertex2f(0.0,0.0);
-    glVertex2f(1.0,0.0);
-    glVertex2f(1.0,1.0);
-    glVertex2f(0.0,1.0);
-    glEnd();
-    glEndList();
-
     ax = old_ax = target_ax = 8;
     ay = old_ay = target_ay = 6;
     bx = old_bx = target_bx = 8.1f;
     by = old_by = target_by = 6.1f;
 
     Alpha = old_Alpha = target_Alpha = MOD_FADEOUT;
-    InAnimation = 0;
 
-    AspectRatio = 0.0;
+    RecreateDisplayList();
+}
 
-    Type = 3;
+Plate::Plate(const Plate &src) :
+    DisplayList(0), Type(src.Type), AspectRatio(src.AspectRatio),
+    ax(src.ax), ay(src.ay), bx(src.bx), by(src.by), Alpha(src.Alpha),
+    target_ax(src.target_ax), target_ay(src.target_ay),
+    target_bx(src.target_bx), target_by(src.target_by),
+    target_Alpha(src.target_Alpha),
+    old_ax(src.old_ax),  old_ay(src.old_ay),
+    old_bx(src.old_bx),  old_by(src.old_by), old_Alpha(src.old_Alpha),
+    InAnimation(src.InAnimation), Signal(src.Signal), Time(src.Time),
+    r(src.r), g(src.g), b(src.b), File(src.File),
+    Texture(0), TextureSize(src.TextureSize), Nearest(src.Nearest),
+    WithAlpha(src.WithAlpha)
+{
+    BTexture texture;
+    BTexture *pTexture = NULL;
+
+    DisplayList = glGenLists(1);
+    if (DisplayList == 0)
+    {
+        // Could be caused if display list is totally full
+        // or any other error.
+        throw std::runtime_error("Error creating a display list");
+    }
+
+    if (Type == 1)
+    {
+        const char *texels;
+
+        if ((texels = texture.ReadTextureFromFile(File.c_str(),
+            WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+        {
+            message(mtError, "*** Error reading texture from file '%s'\n",
+            File.c_str());
+            exit(1);
+        }
+
+        pTexture = &texture;
+    }
+
+    RecreateDisplayList(pTexture);
+}
+
+Plate &Plate::operator=(const Plate &src)
+{
+    BTexture texture;
+    BTexture *pTexture = NULL;
+
+    Type = src.Type;
+    AspectRatio = src.AspectRatio;
+    ax = src.ax;
+    ay = src.ay;
+    bx = src.bx;
+    by = src.by;
+    Alpha = src.Alpha;
+    target_ax = src.target_ax;
+    target_ay = src.target_ay;
+    target_bx = src.target_bx;
+    target_by = src.target_by;
+    target_Alpha = src.target_Alpha;
+    old_ax = src.old_ax;
+    old_ay = src.old_ay;
+    old_bx = src.old_bx;
+    old_by = src.old_by;
+    old_Alpha = src.old_Alpha;
+    InAnimation = src.InAnimation;
+    Signal = src.Signal;
+    Time = src.Time;
+    r = src.r;
+    g = src.g;
+    b = src.b;
+    File = src.File;
+    TextureSize = src.TextureSize;
+    Nearest = src.Nearest;
+    WithAlpha = src.WithAlpha;
+
+    if (Type == 1)
+    {
+        const char *texels;
+
+        if ((texels = texture.ReadTextureFromFile(File.c_str(),
+            WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+        {
+            message(mtError, "*** Error reading texture from file '%s'\n",
+            File.c_str());
+            exit(1);
+        }
+
+        pTexture = &texture;
+    }
+
+    RecreateDisplayList(pTexture);
 }
 
 Plate::~Plate()
 {
+    if (DisplayList != 0)
+    {
+        glDeleteLists(DisplayList, 1);
+        DisplayList = 0;
+    }
+    if (Texture != 0)
+    {
+        glDeleteTextures(1, &Texture);
+        Texture = 0;
+    }
 }
 
 bool Plate::Update(std::string    &TextureName,
-                   unsigned int    TextureSize,
-                   bool            Nearest,
+                   unsigned int    textureSize,
+                   bool            nearest,
                    bool            withAlpha,
                    const char     *Name,
-                   const KPConfig *pConfig,
-                   bool            always /*=true*/)
+                   const KPConfig &config)
 {
+    std::string file1, file2;
+    const char *texels;
+    BTexture texture;
+
     // The texture size must be a power of 2 (1, 2, 4, 8, ...)
-    if (BTexture::GetExpToBase2(TextureSize) == -1)
+    if (BTexture::GetExpToBase2(textureSize) == -1)
     {
         return false;
     }
 
-    BTexture *pTexture = NULL;
-    std::string file1, file2;
-    const char *texels;
+    Type = 1;
 
-    file1 = pConfig->GetDirectory(KP_TEXTURE_DIR) + TextureName +
+    Nearest     = nearest;
+    WithAlpha   = withAlpha;
+    TextureSize = textureSize;
+
+    file1 = config.GetDirectory(KP_TEXTURE_DIR) + TextureName +
             PATHSEPARATORSTRING + Name + ".png";
-    file2 = pConfig->GetDirectory(KP_TEXTURE_DIR) + Name + ".png";
+    file2 = config.GetDirectory(KP_TEXTURE_DIR) + Name + ".png";
 
-    if (!always)
-    {
-        if ((!always && !access(file1.c_str(), R_OK) && textureSource == 1) ||
-            (!always && !access(file2.c_str(), R_OK) && textureSource == 2))
-        {
-            return true; // texture from file1 already loaded
-        }
-    }
-
-    pTexture = new BTexture;
-
-    // TEX_WITH_ALPHA
-    if ((texels = pTexture->ReadTextureFromFile(file1.c_str(),
+    if ((texels = texture.ReadTextureFromFile(file1.c_str(),
                   withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
     {
-        if ((texels = pTexture->ReadTextureFromFile(file2.c_str(),
+        if ((texels = texture.ReadTextureFromFile(file2.c_str(),
                       withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
         {
             message(mtError, "*** Error reading texture from file '%s'\n",
                     file2.c_str());
-            delete pTexture;
             exit(1);
         }
         else
         {
-            textureSource = 2;
+            File = file2;
         }
     }
     else
     {
-        textureSource = 1;
+        File = file1;
     }
 
+    RecreateDisplayList(&texture);
+}
 
-    texels = pTexture->Rescale(BTexture::GetExpToBase2(TextureSize),
-                               TEX_SMALLER | TEX_RESCALE_AVG);
+void Plate::RecreateDisplayList(BTexture *pTexture /* = NULL */)
+{
+    const char *texels;
+    unsigned int width;
+    unsigned int height;
 
-    unsigned int width  = pTexture->GetWidth();
-    unsigned int height = pTexture->GetHeight();
-
-    if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
+    switch (Type)
     {
-        message(mtWarning,
+        case 1:
+	    texels = pTexture->Rescale(BTexture::GetExpToBase2(TextureSize),
+				       TEX_SMALLER | TEX_RESCALE_AVG);
+
+	    width  = pTexture->GetWidth();
+	    height = pTexture->GetHeight();
+
+	    if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
+	    {
+                message(mtWarning,
                 "*** Warning: width or height of '%s' is not a power of 2\n",
-                file2.c_str());
+                File.c_str());
+	    }
+
+	    if (Texture == 0)
+	    {
+		glGenTextures(1, &Texture);
+	    }
+
+	    glBindTexture(GL_TEXTURE_2D, Texture);
+	    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_PRIORITY,   1.0);
+
+	    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+	    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+			    (Nearest ? GL_NEAREST : GL_LINEAR));
+	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+			    (Nearest ? GL_NEAREST : GL_LINEAR));
+
+	    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
+			 WithAlpha ? GL_RGBA : GL_RGB,
+                         GL_UNSIGNED_BYTE, texels);
+
+	    glNewList(DisplayList, GL_COMPILE);
+	    glBindTexture(GL_TEXTURE_2D, Texture);
+	    glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+	    glBegin(GL_QUADS);
+	    glTexCoord2f(0.0,0.0);
+	    glVertex2f(0.0,0.0);
+	    glTexCoord2f(1.0,0.0);
+	    glVertex2f(1.0,0.0);
+	    glTexCoord2f(1.0,1.0);
+	    glVertex2f(1.0,1.0);
+	    glTexCoord2f(0.0,1.0);
+	    glVertex2f(0.0,1.0);
+	    glEnd();
+	    glEndList();
+
+	    AspectRatio = (width + 1.0f) / (height + 1.0f);
+            break;
+
+        case 3:
+	    glNewList(DisplayList, GL_COMPILE);
+	    glDisable(GL_TEXTURE_2D);
+	    glBegin(GL_QUADS);
+	    glVertex2f(0.0,0.0);
+	    glVertex2f(1.0,0.0);
+	    glVertex2f(1.0,1.0);
+	    glVertex2f(0.0,1.0);
+	    glEnd();
+	    glEndList();
+
+            break;
+
+        default:
+            message(mtError, "*** Plate has invalid type '%d'\n", Type);
+            exit(1);
     }
-
-    if (texture == 0)
-    {
-        glGenTextures(1, &texture);
-    }
-
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_PRIORITY,   1.0);
-
-    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                    (Nearest ? GL_NEAREST : GL_LINEAR));
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    (Nearest ? GL_NEAREST : GL_LINEAR));
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
-                 withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, texels);
-
-    glNewList(DisplayList, GL_COMPILE);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0.0,0.0);
-    glVertex2f(0.0,0.0);
-    glTexCoord2f(1.0,0.0);
-    glVertex2f(1.0,0.0);
-    glTexCoord2f(1.0,1.0);
-    glVertex2f(1.0,1.0);
-    glTexCoord2f(0.0,1.0);
-    glVertex2f(0.0,1.0);
-    glEnd();
-    glEndList();
-    //glBindTexture(GL_TEXTURE_2D, 0);
-
-    AspectRatio = (width + 1.0f) / (height + 1.0f);
-
-    Type = 1;
-    delete pTexture;
-
-    return true;
 }
 
 void Plate::Draw()
@@ -188,10 +298,10 @@ void Plate::Draw()
         glPushMatrix();
         glTranslatef(ax,ay,0);
         glScalef(bx-ax,by-ay,1);
-        if (texture != 0)
+        if (Texture != 0)
         {
             glEnable(GL_TEXTURE_2D);
-            /*glTexEnvfv(GL_TEXTURE_ENV,GL_TEXTURE_ENV_COLOR,color);*/
+            glTexEnvfv(GL_TEXTURE_ENV,GL_TEXTURE_ENV_COLOR,color);
         }
         glColor4fv(color);
         glCallList(DisplayList);

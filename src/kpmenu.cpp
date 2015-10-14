@@ -71,23 +71,22 @@ bool KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
     return true;
 }
 
-void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest,
-                    bool always)
+void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest)
 {
     //Create texture for labels
     Label::PreInitialize(TextureName, TextureSize, Nearest,
-                         &KPConfig::Instance(), always);
+                         KPConfig::Instance());
 
     plates[PLATE_LOGO].Update(TextureName, TextureSize, Nearest,
-                      true, "logo", &KPConfig::Instance(), always);
+                      true, "logo", KPConfig::Instance());
     plates[PLATE_SOUND_ON].Update(TextureName, TextureSize, Nearest,
-                      true, "sound_on", &KPConfig::Instance(), always);
+                      true, "sound_on", KPConfig::Instance());
     plates[PLATE_SOUND_OFF].Update(TextureName, TextureSize, Nearest,
-                      true, "soundmusic_off", &KPConfig::Instance(), always);
+                      true, "soundmusic_off", KPConfig::Instance());
     plates[PLATE_MUSIC_ON].Update(TextureName, TextureSize, Nearest,
-                      true, "music_on", &KPConfig::Instance(), always);
+                      true, "music_on", KPConfig::Instance());
     plates[PLATE_MUSIC_OFF].Update(TextureName, TextureSize, Nearest,
-                      true, "soundmusic_off", &KPConfig::Instance(), always);
+                      true, "soundmusic_off", KPConfig::Instance());
 }
 
 bool KPmenu::LoadLanguage(int Language)

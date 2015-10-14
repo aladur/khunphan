@@ -14,15 +14,18 @@
 
 class KPUIBase;
 class KPConfig;
+class BTexture;
 
 
 class Plate
 {
 public:
     Plate(float R = 1.0, float G = 1.0, float B = 1.0);
+    Plate(const Plate &src);
     virtual ~Plate();
+    Plate &operator=(const Plate &src);
     bool Update(std::string &, unsigned int, bool, bool, const char *,
-                const KPConfig *config, bool always = true);
+                const KPConfig &config);
     void Draw();
     void SetPosition(float,float,float,float);
     void SetFadeOut();
@@ -33,6 +36,7 @@ public:
     int Animate(int);
     int MouseEvent(tMouseButton,tMouseEvent,int,int, KPUIBase &);
     void SetSignal(int);
+    void RecreateDisplayList(BTexture *pTexture = NULL);
 private:
     int DisplayList;
     int Type;
@@ -50,8 +54,11 @@ private:
     int Signal;
     int Time;
     float r, g, b; // Color
-    unsigned int texture;
-    unsigned short textureSource;
+    std::string File;
+    unsigned int Texture;
+    unsigned int TextureSize;
+    bool Nearest;
+    bool WithAlpha;
 };
 
 #endif // #ifndef __PLATE_H__

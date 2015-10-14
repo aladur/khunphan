@@ -123,8 +123,7 @@ public:
 
     bool Initialize(std::string &TextureName, int TextureSize, bool Nearest,
                     int Language = 0);
-    void Update(std::string &TextureName, int TextureSize, bool Nearest,
-                bool always = true);
+    void Update(std::string &TextureName, int TextureSize, bool Nearest);
     void Draw();
     void Update(int factor);
     void UpdateFPS(int fps, float renderTime = 0.0);
