@@ -148,6 +148,8 @@ Label &Label::operator=(const Label &src)
     maxWidth = src.maxWidth;
 
     RecreateDisplayList();
+
+    return *this;
 }
 
 void Label::FadeOutAll()

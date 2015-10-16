@@ -145,6 +145,8 @@ Plate &Plate::operator=(const Plate &src)
     }
 
     RecreateDisplayList(pTexture);
+
+    return *this;
 }
 
 Plate::~Plate()
@@ -209,6 +211,8 @@ bool Plate::Update(std::string    &TextureName,
     }
 
     RecreateDisplayList(&texture);
+
+    return true;
 }
 
 void Plate::RecreateDisplayList(BTexture *pTexture /* = NULL */)
