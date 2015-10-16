@@ -23,7 +23,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
-#include <png.h>
+#include <ios>
 #include "misc1.h"
 #include "btexture.h"
 
@@ -81,64 +81,75 @@ bool BTexture::IsPowerOf2(unsigned int value)
 bool BTexture::CheckFileFormat(const char *pFile)
 {
     png_byte header[HEADER_BYTES_READ];
-    FILE *fp = fopen(pFile, "rb");
+    std::ifstream fs;
     bool is_png = false;
 
-    if (fp)
+    fs.open(pFile, std::ios::binary | std::ios::in);
+
+    if (fs.is_open())
     {
-        fread(header, 1, HEADER_BYTES_READ, fp);
-        is_png = !png_sig_cmp(header, 0, HEADER_BYTES_READ);
-        fclose(fp);
+        fs.read(reinterpret_cast<char *>(header), sizeof(header));
+        is_png = (fs.gcount() == sizeof(header));
+        is_png &= !png_sig_cmp(header, 0, HEADER_BYTES_READ);
+        fs.close();
     }
+
     return is_png;
 }
 
-const char *BTexture::ReadTextureFromFile(const char *pFile, int flags)
+const char *BTexture::ReadTextureFromFile(const char *pFile, int flags/*= 0 */)
 {
-    FILE *fp = fopen(pFile, "rb");
-    if (!fp)
+    std::ifstream fs;
+
+    fs.open(pFile, std::ios::binary | std::ios::in);
+
+    if (!fs.is_open())
     {
         return NULL;
     }
 
     LOG3("Reading '", pFile, "'");
 
-    const char *texels = ReadTextureFromFile(fp, flags);
-    fclose(fp);
+    const char *texels = ReadTextureFromFile(fs, flags);
+    fs.close();
 
     return static_cast<const char *>(texels);
 }
 
-const char *BTexture::ReadTextureFromFile(FILE *fp, int flags)
+const char *BTexture::ReadTextureFromFile(std::ifstream &fs, int flags/* = 0 */)
 {
-    char header[5];
+    png_byte header[HEADER_BYTES_READ];
 
-    if (!fp)
+    if (!fs.is_open())
     {
         return NULL;
     }
 
-    fseek(fp, 0, SEEK_SET);
+    fs.seekg(0);
 
     // Do a simple check for PNG file format
-    fread(header, 1, 4, fp);
+    fs.read(reinterpret_cast<char *>(header), sizeof(header));
 
-    if (!strncmp(&header[1], "PNG", 3))
+    if (fs.gcount() == sizeof(header) &&
+        !png_sig_cmp(header, 0, sizeof(header)))
     {
-        return ReadTextureFromPngFile(fp, flags);
+        return ReadTextureFromPngFile(fs, flags);
     }
 
     return NULL;
 }
 
-const char *BTexture::ReadTextureFromPngFile(FILE *fp, int flags)
+const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
+                                             int flags /* = 0 */)
 {
     png_byte header[HEADER_BYTES_READ];
 
-    fseek(fp, 0, SEEK_SET);
+    fs.seekg(0);
 
-    fread(header, 1, HEADER_BYTES_READ, fp);
-    if (png_sig_cmp(header, 0, HEADER_BYTES_READ))
+    fs.read(reinterpret_cast<char *>(header), sizeof(header));
+
+    if (fs.gcount() != sizeof(header) ||
+        png_sig_cmp(header, 0, sizeof(header)))
     {
         return NULL;
     }
@@ -169,8 +180,8 @@ const char *BTexture::ReadTextureFromPngFile(FILE *fp, int flags)
         return NULL;
     }
 
-    // Assign the already opened file pointer
-    png_init_io(png_ptr, fp);
+    // Assign user defined read function to read from input file stream
+    png_set_read_fn(png_ptr, reinterpret_cast<png_voidp>(&fs), read_data_fn);
 
     // Already HEADER_BYTES_READ bytes are read from the header
     png_set_sig_bytes(png_ptr, HEADER_BYTES_READ);
@@ -187,7 +198,7 @@ const char *BTexture::ReadTextureFromPngFile(FILE *fp, int flags)
     channels = png_get_channels(png_ptr, info_ptr);
     rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
-    //fprintInfo(stdout);
+    //printInfo(std::cout);
 
     // convert paletted image with bit_depth <= 8 to RGB
     if (color_type == PNG_COLOR_TYPE_PALETTE && bit_depth <= 8)
@@ -263,7 +274,7 @@ const char *BTexture::ReadTextureFromPngFile(FILE *fp, int flags)
     channels = png_get_channels(png_ptr, info_ptr);
     rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
-    //fprintInfo(stdout);
+    //printInfo(std::cout);
 
     png_bytepp row_pointers;
 
@@ -439,7 +450,7 @@ bool BTexture::CreateSubImage(int x, int y, int w, int h, char *subTexels)
     return true;
 }
 
-void BTexture::fprintInfo(FILE *fp)
+void BTexture::printInfo(std::ostream &os)
 {
     const char *pColorType;
     const char *pInterlaceType;
@@ -490,41 +501,44 @@ void BTexture::fprintInfo(FILE *fp)
             pCompressionType = static_cast<const char *>("???");
     }
 
-    fprintf(fp, "Info about png-file:\n");
-    fprintf(fp, "   Width:            %u\n", width);
-    fprintf(fp, "   Height:           %u\n", height);
-    fprintf(fp, "   bit_depth:        %d\n", bit_depth);
-    fprintf(fp, "   color_type:       %s\n", pColorType);
-    fprintf(fp, "   interlace_type:   %s\n", pInterlaceType);
-    fprintf(fp, "   compression_type: %s\n", pCompressionType);
-    fprintf(fp, "   filter_type:      %d\n", filter_type);
-    fprintf(fp, "   channels:         %u\n", channels);
-    fprintf(fp, "   rowbytes:         %u\n", rowbytes);
-    fprintf(fp, "\n");
+    os << "Info about png-file:" << std::endl
+       << "   Width:            " << width << std::endl
+       << "   Height:           " << height << std::endl
+       << "   bit_depth:        " << bit_depth << std::endl
+       << "   color_type:       " << pColorType << std::endl
+       << "   interlace_type:   " << pInterlaceType << std::endl
+       << "   compression_type: " << pCompressionType << std::endl
+       << "   filter_type:      " << filter_type << std::endl
+       << "   channels:         " << channels << std::endl
+       << "   rowbytes:         " << rowbytes << std::endl
+       << std::endl;
 }
 
-bool BTexture::WriteTextureToFile(const char *pFile, int flags)
+bool BTexture::WriteTextureToFile(const char *pFile, int flags /* = 0 */)
 {
-    FILE *fp = fopen(pFile, "wb");
-    if (!fp)
+    std::ofstream fs;
+
+    fs.open(pFile, std::ios::binary | std::ios::out);
+
+    if (!fs.is_open())
     {
         return false;
     }
 
-    bool success = WriteTextureToFile(fp, flags);
-    fclose(fp);
+    bool success = WriteTextureToFile(fs, flags);
+    fs.close();
 
     return success;
 }
 
-bool BTexture::WriteTextureToFile(FILE *fp, int flags)
+bool BTexture::WriteTextureToFile(std::ofstream &fs, int flags /* = 0 */)
 {
-    if (!fp)
+    if (!fs.is_open())
     {
         return false;
     }
 
-    return WriteTextureToPngFile(fp, flags);
+    return WriteTextureToPngFile(fs, flags);
 }
 
 bool BTexture::SetTexels(const char *pTexels, unsigned int aWidth,
@@ -565,9 +579,9 @@ bool BTexture::SetTexels(const char *pTexels, unsigned int aWidth,
     return true;
 }
 
-bool BTexture::WriteTextureToPngFile (FILE *fp, int)
+bool BTexture::WriteTextureToPngFile (std::ofstream &fs, int)
 {
-    if (fp == NULL)
+    if (!fs.is_open())
     {
         return false;
     }
@@ -593,7 +607,11 @@ bool BTexture::WriteTextureToPngFile (FILE *fp, int)
         return false;
     }
 
-    png_init_io(png_ptr, fp);
+    // Assign user defined write and flush function
+    // to write to output file stream
+    png_set_write_fn(png_ptr, reinterpret_cast<png_voidp>(&fs),
+                     write_data_fn,
+                     flush_fn);
 
     png_set_filter(png_ptr, 0, PNG_ALL_FILTERS);
     //png_set_filter(png_ptr, 0, PNG_FILTER_NONE);
@@ -754,3 +772,60 @@ const char *BTexture::Rescale(int exp, int format)
     }
     return NULL;
 }
+
+void BTexture::read_data_fn(png_structp png_ptr,
+                            png_bytep data,
+                            png_size_t length)
+{
+    png_voidp io_ptr = png_get_io_ptr(png_ptr);
+
+    if (io_ptr == NULL)
+    {
+        return;
+    }
+
+    std::ifstream &fs = *(std::ifstream*)io_ptr;
+
+    fs.read(reinterpret_cast<char *>(data), length);
+
+    if (fs.gcount() != length)
+    {
+        png_error(png_ptr, "Read less bytes than requested.");
+    }
+}
+
+void BTexture::write_data_fn(png_structp png_ptr,
+                             png_bytep data,
+                             png_size_t length)
+{
+    png_voidp io_ptr = png_get_io_ptr(png_ptr);
+
+    if (io_ptr == NULL)
+    {
+        return;
+    }
+
+    std::ofstream &fs = *(std::ofstream*)io_ptr;
+
+    fs.write(reinterpret_cast<char *>(data), length);
+
+    if (fs.bad())
+    {
+        png_error(png_ptr, "Non-recoverable write error occured.");
+    }
+}
+
+void BTexture::flush_fn(png_structp png_ptr)
+{
+    png_voidp io_ptr = png_get_io_ptr(png_ptr);
+
+    if (io_ptr == NULL)
+    {
+        return;
+    }
+
+    std::ofstream &fs = *(std::ofstream*)io_ptr;
+
+    fs.flush();
+}
+

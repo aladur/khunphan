@@ -22,7 +22,8 @@
 #ifndef _BTEXTURE_H_
 #define _BTEXTURE_H_
 
-#include <stdio.h>
+#include <fstream>
+#include <png.h>
 
 
 enum tTextureFormat
@@ -63,9 +64,9 @@ public:
     BTexture();
     virtual ~BTexture();
     const char *ReadTextureFromFile(const char *pFile, int flags = 0);
-    const char *ReadTextureFromFile(FILE *fp, int flags = 0);
+    const char *ReadTextureFromFile(std::ifstream &fs, int flags = 0);
     bool        WriteTextureToFile (const char *pFile, int flags = 0);
-    bool        WriteTextureToFile (FILE *fp, int flags = 0);
+    bool        WriteTextureToFile (std::ofstream &fs, int flags = 0);
     bool        SetTexels (const char *texels, unsigned int width,
                            unsigned int height, unsigned int channels,
                            int format);
@@ -76,7 +77,7 @@ public:
     bool        CreateSubImage(int x, int y, int width, int height,
                                char *texels);
     const char *Rescale(int exp, int format);
-    void        fprintInfo(FILE *fp);
+    void        printInfo(std::ostream &fs);
 
     inline unsigned int GetWidth()
     {
@@ -122,9 +123,15 @@ public:
     // it's format is supported
 
 protected:
-    bool        WriteTextureToPngFile (FILE *fp, int flags = 0);
-    const char *ReadTextureFromPngFile(FILE *fp, int flags);
-
+    static void read_data_fn(png_structp png_ptr,
+                             png_bytep data,
+                             png_size_t length);
+    static void write_data_fn(png_structp png_ptr,
+                             png_bytep data,
+                             png_size_t length);
+    static void flush_fn(png_structp png_ptr);
+    bool        WriteTextureToPngFile (std::ofstream &fs, int flags = 0);
+    const char *ReadTextureFromPngFile(std::ifstream &fs, int flags = 0);
     unsigned char *texels;
     unsigned long width;
     unsigned long height;
