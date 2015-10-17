@@ -100,7 +100,11 @@ void KPnode::CopyFrom(const KPnode &src)
 
 KPnode &KPnode::operator= (const KPnode &b)
 {
-    CopyFrom(b);
+    if (&b != this)
+    {
+        CopyFrom(b);
+    }
+
     return *this;
 }
 

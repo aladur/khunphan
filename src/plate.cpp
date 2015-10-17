@@ -98,53 +98,56 @@ Plate::Plate(const Plate &src) :
 
 Plate &Plate::operator=(const Plate &src)
 {
-    BTexture texture;
-    BTexture *pTexture = NULL;
-
-    Type = src.Type;
-    AspectRatio = src.AspectRatio;
-    ax = src.ax;
-    ay = src.ay;
-    bx = src.bx;
-    by = src.by;
-    Alpha = src.Alpha;
-    target_ax = src.target_ax;
-    target_ay = src.target_ay;
-    target_bx = src.target_bx;
-    target_by = src.target_by;
-    target_Alpha = src.target_Alpha;
-    old_ax = src.old_ax;
-    old_ay = src.old_ay;
-    old_bx = src.old_bx;
-    old_by = src.old_by;
-    old_Alpha = src.old_Alpha;
-    InAnimation = src.InAnimation;
-    Signal = src.Signal;
-    Time = src.Time;
-    r = src.r;
-    g = src.g;
-    b = src.b;
-    TextureSource = src.TextureSource;
-    TextureSize = src.TextureSize;
-    Nearest = src.Nearest;
-    WithAlpha = src.WithAlpha;
-
-    if (Type == 1)
+    if (&src != this)
     {
-        const char *texels;
+        BTexture texture;
+        BTexture *pTexture = NULL;
 
-        if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
-            WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+        Type = src.Type;
+        AspectRatio = src.AspectRatio;
+        ax = src.ax;
+        ay = src.ay;
+        bx = src.bx;
+        by = src.by;
+        Alpha = src.Alpha;
+        target_ax = src.target_ax;
+        target_ay = src.target_ay;
+        target_bx = src.target_bx;
+        target_by = src.target_by;
+        target_Alpha = src.target_Alpha;
+        old_ax = src.old_ax;
+        old_ay = src.old_ay;
+        old_bx = src.old_bx;
+        old_by = src.old_by;
+        old_Alpha = src.old_Alpha;
+        InAnimation = src.InAnimation;
+        Signal = src.Signal;
+        Time = src.Time;
+        r = src.r;
+        g = src.g;
+        b = src.b;
+        TextureSource = src.TextureSource;
+        TextureSize = src.TextureSize;
+        Nearest = src.Nearest;
+        WithAlpha = src.WithAlpha;
+
+        if (Type == 1)
         {
-            message(mtError, "*** Error reading texture from file '%s'\n",
-            TextureSource.c_str());
-            exit(1);
+            const char *texels;
+
+            if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
+                WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+            {
+                message(mtError, "*** Error reading texture from file '%s'\n",
+                TextureSource.c_str());
+                exit(1);
+            }
+
+            pTexture = &texture;
         }
 
-        pTexture = &texture;
+        RecreateDisplayList(pTexture);
     }
-
-    RecreateDisplayList(pTexture);
 
     return *this;
 }

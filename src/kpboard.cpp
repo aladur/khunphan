@@ -52,7 +52,11 @@ void KPboard::CopyFrom(const KPboard &src)
 
 KPboard &KPboard::operator= (const KPboard &b)
 {
-    CopyFrom(b);
+    if (&b != this)
+    {
+        CopyFrom(b);
+    }
+
     return *this;
 }
 
