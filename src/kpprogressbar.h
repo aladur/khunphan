@@ -27,8 +27,10 @@ class KPprogressBar
 {
 public:
     KPprogressBar();
+    KPprogressBar(const KPprogressBar &src);
     virtual ~KPprogressBar();
 
+    KPprogressBar& operator=(const KPprogressBar &src);
     void SetFadeOut();
     void SetFadeIn();
     void SetFullyVisible();

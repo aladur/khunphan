@@ -32,7 +32,8 @@
 #define PROGRESS_MARGIN (0.1f)
 
 
-KPprogressBar::KPprogressBar() : InAnimation(false),
+KPprogressBar::KPprogressBar() :
+    InAnimation(false),
     x(0),      old_x(0),      target_x(0),
     y(0),      old_y(0),      target_y(0),
     alpha(0),  old_Alpha(0),  target_Alpha(0),
@@ -43,6 +44,57 @@ KPprogressBar::KPprogressBar() : InAnimation(false),
     barColor[0] = 1.0;
     barColor[1] = 1.0;
     barColor[2] = 1.0;
+    barColor[3] = 1.0; // = alpha
+}
+
+KPprogressBar::KPprogressBar(const KPprogressBar &src) :
+    InAnimation(src.InAnimation),
+    x(src.x), old_x(src.old_x), target_x(src.target_x),
+    y(src.y), old_y(src.old_y), target_y(src.target_y),
+    alpha(src.alpha), old_Alpha(src.old_Alpha),
+    target_Alpha(src.target_Alpha),
+    height(src.height), old_Height(src.old_Height),
+    target_Height(src.target_Height),
+    width(src.width), old_Width(src.old_Width),
+    target_Width(src.target_Width),
+    Time(src.Time), percent(src.percent), DisplayList(0)
+{
+    barColor[0] = src.barColor[0];
+    barColor[1] = src.barColor[1];
+    barColor[2] = src.barColor[2];
+    barColor[3] = src.barColor[3]; // = alpha
+}
+
+KPprogressBar& KPprogressBar::operator=(const KPprogressBar &src)
+{
+    if (&src != this)
+    {
+        InAnimation = src.InAnimation;
+        x = src.x;
+        old_x = src.old_x;
+        target_x = src.target_x;
+        y = src.y;
+        old_y = src.old_y;
+        target_y = src.target_y;
+        alpha = src.alpha;
+        old_Alpha = src.old_Alpha;
+        target_Alpha = src.target_Alpha;
+        height = src.height;
+        old_Height = src.old_Height;
+        target_Height = src.target_Height;
+        width = src.width;
+        old_Width = src.old_Width;
+        target_Width = src.target_Width;
+        Time = src.Time;
+        percent = src.percent;
+        DisplayList = 0;
+        barColor[0] = src.barColor[0];
+        barColor[1] = src.barColor[1];
+        barColor[2] = src.barColor[2];
+        barColor[3] = src.barColor[3]; // = alpha
+    }
+
+    return *this;
 }
 
 KPprogressBar::~KPprogressBar()
