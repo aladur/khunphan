@@ -121,33 +121,36 @@ Label::~Label()
 
 Label &Label::operator=(const Label &src)
 {
-    format = src.format;
-    labelText = src.labelText;
-    oldLabelText = src.oldLabelText;
-    size = src.size;
-    AspectRatio = src.AspectRatio;
-    x = src.x;
-    y = src.y;
-    Height = src.Height;
-    Alpha = src.Alpha;
-    old_x = src.old_x;
-    old_y = src.old_y;
-    old_Height = src.old_Height;
-    old_Alpha = src.old_Alpha;
-    target_x = src.target_x;
-    target_y = src.target_y;
-    target_Height = src.target_Height;
-    target_Alpha = src.target_Alpha;
-    Alignment = src.Alignment;
-    InAnimation = src.InAnimation;
-    Signal = src.Signal;
-    Time = src.Time;
-    hasInputFocus = src.hasInputFocus;
-    lineCount = src.lineCount;
-    MaxCharacters = src.MaxCharacters;
-    maxWidth = src.maxWidth;
+    if (&src != this)
+    {
+        format = src.format;
+        labelText = src.labelText;
+        oldLabelText = src.oldLabelText;
+        size = src.size;
+        AspectRatio = src.AspectRatio;
+        x = src.x;
+        y = src.y;
+        Height = src.Height;
+        Alpha = src.Alpha;
+        old_x = src.old_x;
+        old_y = src.old_y;
+        old_Height = src.old_Height;
+        old_Alpha = src.old_Alpha;
+        target_x = src.target_x;
+        target_y = src.target_y;
+        target_Height = src.target_Height;
+        target_Alpha = src.target_Alpha;
+        Alignment = src.Alignment;
+        InAnimation = src.InAnimation;
+        Signal = src.Signal;
+        Time = src.Time;
+        hasInputFocus = src.hasInputFocus;
+        lineCount = src.lineCount;
+        MaxCharacters = src.MaxCharacters;
+        maxWidth = src.maxWidth;
 
-    RecreateDisplayList();
+        RecreateDisplayList();
+    }
 
     return *this;
 }
