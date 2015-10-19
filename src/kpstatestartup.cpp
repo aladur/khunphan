@@ -163,7 +163,7 @@ void KPstateStartUp::Update(KPstateContext *pContext, int factor)
     if (!fullInitialized)
     {
         pContext->GetMenu().progressBar.SetPercentage(
-            KPnode::SetSolveCountPercentFinished());
+            KPnode::CalculateSolveCountPercentFinished());
     }
 
     if (KPnode::IsSolveCountAvailable())

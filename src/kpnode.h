@@ -22,24 +22,10 @@
 #ifndef __kpnode_h__
 #define __kpnode_h__
 
-#include <exception>
 #include <ostream>
 #include "misc1.h"
 #include "kpboard.h"
 
-#ifdef WIN32
-using std::exception;
-#endif
-
-class ex : public std::exception
-{
-    const char *what() const throw()
-    {
-        return NULL;
-    };
-};
-
-static ex e;
 
 class KPnode;
 
@@ -95,10 +81,10 @@ public:
     static KPnode &LLGetLast(void);
     static unsigned int LLGetSize(void);
     static void CreateSolveTree(KPnode &n);
-    static void SetSolveCount(void);
+    static void CalculateSolveCount(void);
     // this is a hack to get a percentage value (1 .. 100) how long it will take
-    // to finish the calculation of function SetSolveCount()
-    static int SetSolveCountPercentFinished()
+    // to finish the calculation of function CalculateSolveCount()
+    static int CalculateSolveCountPercentFinished()
     {
         return iterationCount * 10 / 4333923;
     };

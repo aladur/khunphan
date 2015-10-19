@@ -26,5 +26,5 @@
 
 void KPThreadSolveCount::Run()
 {
-    KPnode::SetSolveCount();
+    KPnode::CalculateSolveCount();
 }

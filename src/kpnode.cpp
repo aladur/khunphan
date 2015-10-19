@@ -28,6 +28,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
+#include <stdexcept>
 #include <limits.h>
 #include "kpnode.h"
 #include "btime.h"
@@ -312,7 +313,7 @@ int KPnode::GetSolutionsCount(void)
     return i;
 }
 
-void KPnode::SetSolveCount(void)
+void KPnode::CalculateSolveCount(void)
 {
     BTime time;
 
@@ -334,7 +335,7 @@ void KPnode::SetSolveCount(void)
             p = p->pnext;
         }
     }
-    catch (ex &/* e */)
+    catch (std::exception &e)
     {
         return;  // ignore exception during finalize
     };
@@ -347,7 +348,7 @@ void KPnode::ModifySolveCount(short n) const
 {
     if ( finalizeInProgress )
     {
-        throw e;
+        throw std::logic_error("Process shutdown in progress.");
     }
 
     iterationCount++;
