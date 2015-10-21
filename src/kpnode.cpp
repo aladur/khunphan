@@ -56,7 +56,6 @@ KPnode::KPnode() : pnext(NULL), movesToSolve(SHRT_MAX)
 KPnode::KPnode(const KPnode &src) : KPboard (src), pnext(NULL),
     movesToSolve(SHRT_MAX)
 {
-    KPboard::CopyFrom(src);
     movesToSolve = src.GetMovesToSolve();
     for (int i = 0; i < MOVES_MAX; i++)
     {
@@ -70,7 +69,6 @@ KPnode::KPnode(const KPnode &src) : KPboard (src), pnext(NULL),
 KPnode::KPnode(const KPboard &src) : KPboard (src), pnext(NULL),
     movesToSolve(SHRT_MAX)
 {
-    KPboard::CopyFrom(src);
     for (int i = 0; i < MOVES_MAX; i++)
     {
         pchild[i]  = NULL;
@@ -78,44 +76,49 @@ KPnode::KPnode(const KPboard &src) : KPboard (src), pnext(NULL),
     }
 }
 
-void KPnode::CopyFrom(const KPnode &src)
+KPnode &KPnode::operator= (const KPnode &src)
 {
-    KPboard::CopyFrom(src);
-    // ATTENTION: pparent and pnext not assigned!
-    for (int i = 0; i < MOVES_MAX; i++)
+    if (&src != this)
     {
-        if (pchild[i]  != NULL)
+        for (int i = 0; i < MOVES_MAX; i++)
         {
-            delete pchild[i];
+            if (pchild[i] != NULL)
+            {
+                delete pchild[i];
+            }
+            if (pparent[i] != NULL)
+            {
+                delete pparent[i];
+            }
+            (src.pchild[i] != NULL) ? pchild[i] =
+                new KPnode(*src.pchild[i]) : pchild[i] = NULL;
+            (src.pparent[i] != NULL) ? pparent[i] =
+                new KPnode(*src.pparent[i]) : pparent[i] = NULL;
         }
-        if (pparent[i] != NULL)
-        {
-            delete pparent[i];
-        }
-        ( src.pchild[i]  != NULL ) ? pchild[i]  = new KPnode(*src.pchild[i]) :
-        pchild[i]  = NULL;
-        ( src.pparent[i] != NULL ) ? pparent[i] = new KPnode(*src.pparent[i]) :
-        pparent[i] = NULL;
-    }
-}
-
-KPnode &KPnode::operator= (const KPnode &b)
-{
-    if (&b != this)
-    {
-        CopyFrom(b);
     }
 
     return *this;
 }
 
-KPnode::~KPnode()
-{
-}
-
 int KPnode::GetNextFreeParentIdx(void) const
 {
+    int i = GetParentCount();
+
+    if (i >= MOVES_MAX)
+    {
+        // Should not happen:
+        LOG2("KPnode::GetNextFreeParentIdx: Too much parents in one node: ", i);
+
+        i = 0;
+    }
+
+    return i;
+}
+
+int KPnode::GetParentCount(void) const
+{
     int i = 0;
+
     while (i < MOVES_MAX)
     {
         if ( pparent[i] == NULL)
@@ -124,16 +127,13 @@ int KPnode::GetNextFreeParentIdx(void) const
         }
         i++;
     }
-    // Should not happen:
-    LOG2("KPnode::GetNextFreeParentIdx: Too much parents in one node: ", i);
 
-    return 0;
+    return i;
 }
 
 inline bool KPnode::AddNextMoves()
 {
     KPnode *pn;
-    KPboard b;
     unsigned short i = 0;
     tKPTokenID id = TK_GREEN1;
 
@@ -144,7 +144,8 @@ inline bool KPnode::AddNextMoves()
         direction = MOVE_UP;
         do
         {
-            b.CopyFrom(*this);
+            KPboard b(*this);
+
             if (b.Move(id, direction))
             {
                 if (!b.IsMemberOf())
@@ -351,42 +352,28 @@ void KPnode::ModifySolveCount(short n) const
         throw std::logic_error("Process shutdown in progress.");
     }
 
+    // Solutions with more than 200 moves are not of interest.
+    // => Abort recursion.
+    if (n > 200)
+    {
+        return;
+    }
+
     iterationCount++;
     SetMovesToSolve(n);
-    //for (i = 0; i < MOVES_MAX; i++) {
-    //  if ( pparent[i] != NULL && (pparent[i]->GetMovesToSolve() > (n + 1)) )
-    //    pparent[i]->ModifySolveCount(n + 1);
-    //}
-    // Loop expanded for performance reasons
-    // Attention: Repetition count depends on value MOVES_MAX!
-    short n_p_1 = n + 1;
-    if ( pparent[0] != NULL && (pparent[0]->GetMovesToSolve() > n_p_1))
+
+    for (int i = 0; i < MOVES_MAX ; i++)
     {
-        pparent[0]->ModifySolveCount(n_p_1);
-    }
-    if ( pparent[1] != NULL && (pparent[1]->GetMovesToSolve() > n_p_1))
-    {
-        pparent[1]->ModifySolveCount(n_p_1);
-    }
-    if ( pparent[2] != NULL && (pparent[2]->GetMovesToSolve() > n_p_1))
-    {
-        pparent[2]->ModifySolveCount(n_p_1);
-    }
-    if ( pparent[3] != NULL && (pparent[3]->GetMovesToSolve() > n_p_1))
-    {
-        pparent[3]->ModifySolveCount(n_p_1);
-    }
-    if ( pparent[4] != NULL && (pparent[4]->GetMovesToSolve() > n_p_1))
-    {
-        pparent[4]->ModifySolveCount(n_p_1);
-    }
-    if ( pparent[5] != NULL && (pparent[5]->GetMovesToSolve() > n_p_1))
-    {
-        pparent[5]->ModifySolveCount(n_p_1);
-    }
-    if ( pparent[6] != NULL && (pparent[6]->GetMovesToSolve() > n_p_1))
-    {
-        pparent[6]->ModifySolveCount(n_p_1);
+        if (pparent[i] != NULL)
+        {
+            if (pparent[i]->GetMovesToSolve() > n + 1)
+            {
+                pparent[i]->ModifySolveCount(n + 1);
+            }
+        } else
+        {
+            return;
+        }
     }
 }
 

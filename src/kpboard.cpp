@@ -29,39 +29,6 @@ KPIdHash KPboard::idHash;
 
 KPboard::KPboard()
 {
-    Init();
-}
-
-KPboard::KPboard(const KPboard &b)
-{
-    CopyFrom(b);
-}
-
-bool KPboard::operator == (const KPboard &b) const
-{
-    return GetID() == b.GetID();
-}
-
-void KPboard::CopyFrom(const KPboard &src)
-{
-    id = 0;
-    memcpy(token, src.token, sizeof(token));
-    memcpy(tokenID, src.tokenID, sizeof(tokenID));
-}
-
-
-KPboard &KPboard::operator= (const KPboard &b)
-{
-    if (&b != this)
-    {
-        CopyFrom(b);
-    }
-
-    return *this;
-}
-
-void KPboard::Init(void)
-{
     id = 0;
     for (int i = 0; i < TOKEN_MAX; ++i)
     {
@@ -70,8 +37,34 @@ void KPboard::Init(void)
     memset(tokenID, TK_EMPTY, sizeof(tokenID));
 }
 
-KPboard::~KPboard()
+KPboard::KPboard(const KPboard &src)
 {
+    id = 0;
+    for (int i = 0; i < TOKEN_MAX; ++i)
+    {
+        token[i] = src.token[i];
+    }
+    memcpy(tokenID, src.tokenID, sizeof(tokenID));
+}
+
+bool KPboard::operator == (const KPboard &b) const
+{
+    return GetID() == b.GetID();
+}
+
+KPboard &KPboard::operator= (const KPboard &src)
+{
+    if (&src != this)
+    {
+        id = 0;
+        for (int i = 0; i < TOKEN_MAX; ++i)
+        {
+            token[i] = src.token[i];
+        }
+        memcpy(tokenID, src.tokenID, sizeof(tokenID));
+    }
+
+    return *this;
 }
 
 inline void KPboard::SetPosition(tKPTokenID aTokenId, int x, int y, int xExtend,

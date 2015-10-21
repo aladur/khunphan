@@ -29,7 +29,7 @@
 
 class KPnode;
 
-class KPnode : virtual public KPboard
+class KPnode : public KPboard
 {
 private:
     KPnode *pchild[MOVES_MAX];
@@ -50,12 +50,10 @@ private:
 public:
 
     KPnode();
-    KPnode(const KPnode  &n);
-    KPnode(const KPboard &b);
-    virtual ~KPnode();
+    KPnode(const KPnode &src);
+    KPnode(const KPboard &src);
 
-    virtual void CopyFrom(const KPnode &src);
-    KPnode &operator= (const KPnode &n);
+    KPnode &operator= (const KPnode &src);
     inline short GetMovesToSolve(void) const
     {
         return movesToSolve;
@@ -99,9 +97,9 @@ public:
         return solveTime;
     };
 
-
 private:
     int GetNextFreeParentIdx(void) const;
+    int GetParentCount(void) const;
     void ModifySolveCount(short i) const;
 };
 

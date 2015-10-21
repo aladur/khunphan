@@ -47,20 +47,17 @@ public:
 
     KPboard();
     KPboard(const KPboard &b);
-    virtual ~KPboard();
 
     bool operator == (const KPboard &b) const;
     KPboard &operator = (const KPboard &b);
-    virtual void Init();
     bool IsMemberOf(void);
-    virtual void print(std::ostream &os) const;
+    void print(std::ostream &os) const;
     bool InitializeToken (tKPTokenID id, const char *color, int x, int y,
                           int xExtend, int yExtend);
     inline void SetPosition(tKPTokenID id, int x, int y, int xExtend,
                             int yExtend);
     bool Move(tKPTokenID id, tKPDirection d);
     bool CanMove(tKPTokenID aTokenID, tKPDirection d) const;
-    virtual void CopyFrom(const KPboard &src);
     QWord GetID() const;
     static KPIdHash idHash;
     bool IsSolved(void) const;
