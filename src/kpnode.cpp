@@ -331,7 +331,7 @@ void KPnode::CalculateSolveCount(void)
             if (p->IsSolved())
             {
                 // recursively modify the solve count
-                p->ModifySolveCount(0);
+                p->RecursiveUpdateSolveCount(0);
             }
             p = p->pnext;
         }
@@ -345,16 +345,17 @@ void KPnode::CalculateSolveCount(void)
     solveCountAvailable = true;
 }
 
-void KPnode::ModifySolveCount(short n) const
+void KPnode::RecursiveUpdateSolveCount(short n)
 {
     if ( finalizeInProgress )
     {
         throw std::logic_error("Process shutdown in progress.");
     }
 
-    // Solutions with more than 200 moves are not of interest.
+    // Solutions with more than 120 moves are not of interest.
     // => Abort recursion.
-    if (n > 200)
+    // This tremendously reduces the calculation time.
+    if (n > 120 || (GetMovesToSolve() <= n))
     {
         return;
     }
@@ -362,18 +363,9 @@ void KPnode::ModifySolveCount(short n) const
     iterationCount++;
     SetMovesToSolve(n);
 
-    for (int i = 0; i < MOVES_MAX ; i++)
+    for (int i = 0; i < MOVES_MAX && (pparent[i] != NULL); i++)
     {
-        if (pparent[i] != NULL)
-        {
-            if (pparent[i]->GetMovesToSolve() > n + 1)
-            {
-                pparent[i]->ModifySolveCount(n + 1);
-            }
-        } else
-        {
-            return;
-        }
+        pparent[i]->RecursiveUpdateSolveCount(n + 1);
     }
 }
 

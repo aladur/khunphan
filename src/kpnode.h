@@ -35,7 +35,7 @@ private:
     KPnode *pchild[MOVES_MAX];
     KPnode *pparent[MOVES_MAX];
     KPnode *pnext;
-    mutable short movesToSolve;
+    short movesToSolve;
     static bool finalizeInProgress;
     static unsigned int count;
 
@@ -58,7 +58,7 @@ public:
     {
         return movesToSolve;
     };
-    inline void  SetMovesToSolve(short m) const
+    inline void  SetMovesToSolve(short m)
     {
         movesToSolve = m;
     };
@@ -100,7 +100,7 @@ public:
 private:
     int GetNextFreeParentIdx(void) const;
     int GetParentCount(void) const;
-    void ModifySolveCount(short i) const;
+    void RecursiveUpdateSolveCount(short i);
 };
 
 #endif
