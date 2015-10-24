@@ -309,16 +309,16 @@ void KPstateGame::Cheat1(KPstateContext *pContext)
 {
     KPnode n;
 
-    n.InitializeToken(TK_GREEN1, "green", 0, 0, 1, 1);
-    n.InitializeToken(TK_GREEN2, "green", 3, 3, 1, 1);
-    n.InitializeToken(TK_GREEN3, "green", 3, 4, 1, 1);
-    n.InitializeToken(TK_GREEN4, "green", 1, 2, 1, 1);
-    n.InitializeToken(TK_WHITE1, "white", 0, 1, 1, 2);
-    n.InitializeToken(TK_WHITE2, "white", 1, 0, 1, 2);
-    n.InitializeToken(TK_WHITE3, "white", 2, 0, 1, 2);
-    n.InitializeToken(TK_WHITE4, "white", 3, 0, 1, 2);
-    n.InitializeToken(TK_WHITE5, "white", 2, 2, 2, 1);
-    n.InitializeToken(TK_RED1,   "red",   0, 3, 2, 2);
+    n.InitializeToken(TK_GREEN1, 0, 0);
+    n.InitializeToken(TK_GREEN2, 3, 3);
+    n.InitializeToken(TK_GREEN3, 3, 4);
+    n.InitializeToken(TK_GREEN4, 1, 2);
+    n.InitializeToken(TK_WHITE1, 0, 1);
+    n.InitializeToken(TK_WHITE2, 1, 0);
+    n.InitializeToken(TK_WHITE3, 2, 0);
+    n.InitializeToken(TK_WHITE4, 3, 0);
+    n.InitializeToken(TK_WHITE5, 2, 2);
+    n.InitializeToken(TK_RED1,   0, 3);
 
     pContext->GetBoardView().SetBoard(&n);
     pContext->GetStatistics().IncEventCounter(USED_CHEATS_CNT);

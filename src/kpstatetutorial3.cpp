@@ -256,16 +256,16 @@ void KPstateTutorial3::InitializeBoardWithTokens(KPstateContext *pContext)
 {
     KPnode n;
 
-    n.InitializeToken(TK_GREEN1, "green", 1, 4, 1, 1);
-    n.InitializeToken(TK_GREEN2, "green", 0, 4, 1, 1);
-    n.InitializeToken(TK_GREEN3, "green", 3, 4, 1, 1);
-    n.InitializeToken(TK_GREEN4, "green", 1, 3, 1, 1);
-    n.InitializeToken(TK_WHITE1, "white", 0, 0, 1, 2);
-    n.InitializeToken(TK_WHITE2, "white", 3, 0, 1, 2);
-    n.InitializeToken(TK_WHITE3, "white", 0, 2, 1, 2);
-    n.InitializeToken(TK_WHITE4, "white", 3, 2, 1, 2);
-    n.InitializeToken(TK_WHITE5, "white", 1, 2, 2, 1);
-    n.InitializeToken(TK_RED1,   "red",   1, 0, 2, 2);
+    n.InitializeToken(TK_GREEN1, 1, 4);
+    n.InitializeToken(TK_GREEN2, 0, 4);
+    n.InitializeToken(TK_GREEN3, 3, 4);
+    n.InitializeToken(TK_GREEN4, 1, 3);
+    n.InitializeToken(TK_WHITE1, 0, 0);
+    n.InitializeToken(TK_WHITE2, 3, 0);
+    n.InitializeToken(TK_WHITE3, 0, 2);
+    n.InitializeToken(TK_WHITE4, 3, 2);
+    n.InitializeToken(TK_WHITE5, 1, 2);
+    n.InitializeToken(TK_RED1,   1, 0);
 
     pContext->GetBoardView().SetBoard(&n);
 }

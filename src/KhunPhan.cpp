@@ -66,16 +66,16 @@ void KhunPhanApp::InitializeSolutionTree()
     proot = new KPnode;
 
     // initialize all the tokens
-    proot->InitializeToken(TK_GREEN1, "green", 1, 3, 1, 1);
-    proot->InitializeToken(TK_GREEN2, "green", 2, 3, 1, 1);
-    proot->InitializeToken(TK_GREEN3, "green", 1, 4, 1, 1);
-    proot->InitializeToken(TK_GREEN4, "green", 2, 4, 1, 1);
-    proot->InitializeToken(TK_WHITE1, "white", 0, 0, 1, 2);
-    proot->InitializeToken(TK_WHITE2, "white", 3, 0, 1, 2);
-    proot->InitializeToken(TK_WHITE3, "white", 0, 3, 1, 2);
-    proot->InitializeToken(TK_WHITE4, "white", 3, 3, 1, 2);
-    proot->InitializeToken(TK_WHITE5, "white", 1, 2, 2, 1);
-    proot->InitializeToken(TK_RED1,   "red",   1, 0, 2, 2);
+    proot->InitializeToken(TK_GREEN1, 1, 3);
+    proot->InitializeToken(TK_GREEN2, 2, 3);
+    proot->InitializeToken(TK_GREEN3, 1, 4);
+    proot->InitializeToken(TK_GREEN4, 2, 4);
+    proot->InitializeToken(TK_WHITE1, 0, 0);
+    proot->InitializeToken(TK_WHITE2, 3, 0);
+    proot->InitializeToken(TK_WHITE3, 0, 3);
+    proot->InitializeToken(TK_WHITE4, 3, 3);
+    proot->InitializeToken(TK_WHITE5, 1, 2);
+    proot->InitializeToken(TK_RED1,   1, 0);
 
     KPnode::CreateSolveTree(*proot);
     // The solve count will be calculated in a separate thread

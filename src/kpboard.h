@@ -38,10 +38,18 @@ enum
 
 class KPboard
 {
+    typedef struct
+    {
+        unsigned char x;
+        unsigned char y;
+    } tPosition;
+
 private:
     mutable QWord id;
-    unsigned short token[TOKEN_MAX];
-    unsigned char  tokenID[HORIZONTAL_MAX][VERTICAL_MAX];
+    tPosition position[TOKEN_MAX];
+    unsigned char tokenID[HORIZONTAL_MAX][VERTICAL_MAX];
+    static const char xExtend[TOKEN_MAX];
+    static const char yExtend[TOKEN_MAX];
 
 public:
 
@@ -50,21 +58,37 @@ public:
 
     bool operator == (const KPboard &b) const;
     KPboard &operator = (const KPboard &b);
-    bool IsMemberOf(void);
     void print(std::ostream &os) const;
-    bool InitializeToken (tKPTokenID id, const char *color, int x, int y,
-                          int xExtend, int yExtend);
-    inline void SetPosition(tKPTokenID id, int x, int y, int xExtend,
-                            int yExtend);
+    void InitializeToken (tKPTokenID id, int x, int y);
+    inline void SetPosition(tKPTokenID id, int x, int y);
     bool Move(tKPTokenID id, tKPDirection d);
-    bool CanMove(tKPTokenID aTokenID, tKPDirection d) const;
+    bool CanMove(tKPTokenID aTokenId, tKPDirection d) const;
     QWord GetID() const;
     static KPIdHash idHash;
-    bool IsSolved(void) const;
-    int GetX(tKPTokenID aTokenID) const;
-    int GetY(tKPTokenID aTokenID) const;
-    inline int GetXExtend(tKPTokenID aTokenID) const;
-    inline int GetYExtend(tKPTokenID aTokenID) const;
+    inline bool IsMemberOf(void)
+    {
+        return KPboard::idHash.Contains(GetID());
+    }
+    inline bool IsSolved(void) const
+    {
+        return (position[TK_RED1].x == 1 && position[TK_RED1].y == 3);
+    }
+    inline int GetX(tKPTokenID aTokenId) const
+    {
+        return (aTokenId == TK_EMPTY) ? 0 : position[aTokenId].x;
+    }
+    inline int GetY(tKPTokenID aTokenId) const
+    {
+        return (aTokenId == TK_EMPTY) ? 0 : position[aTokenId].y;
+    }
+    static inline int GetXExtend(tKPTokenID aTokenId)
+    {
+        return (aTokenId == TK_EMPTY) ? 1 : xExtend[aTokenId];
+    }
+    static inline int GetYExtend(tKPTokenID aTokenId)
+    {
+        return (aTokenId == TK_EMPTY) ? 1 : yExtend[aTokenId];
+    }
 };
 
 #endif
