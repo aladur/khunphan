@@ -57,7 +57,6 @@ public:
     KPboard(const KPboard &b);
 
     bool operator == (const KPboard &b) const;
-    KPboard &operator = (const KPboard &b);
     void print(std::ostream &os) const;
     void InitializeToken (tKPTokenID id, int x, int y);
     inline void SetPosition(tKPTokenID id, int x, int y);

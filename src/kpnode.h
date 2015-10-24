@@ -23,6 +23,7 @@
 #define __kpnode_h__
 
 #include <ostream>
+#include <vector>
 #include "misc1.h"
 #include "kpboard.h"
 
@@ -32,10 +33,11 @@ class KPnode;
 class KPnode : public KPboard
 {
 private:
-    KPnode *pchild[MOVES_MAX];
-    KPnode *pparent[MOVES_MAX];
     KPnode *pnext;
+    std::vector<KPnode *> childs;
+    std::vector<KPnode *> parents;
     short movesToSolve;
+
     static bool finalizeInProgress;
     static unsigned int count;
 
@@ -64,7 +66,7 @@ public:
     };
     inline bool  AddNextMoves(void);
     inline const KPnode &GetNext(void) const;
-    void print(std::ostream &os) const;
+    void print(std::ostream &os, bool with_childs = false) const;
 
     static void finalize();
     static KPnode *GetNodeFor(const KPboard &b);
@@ -98,8 +100,11 @@ public:
     };
 
 private:
-    int GetNextFreeParentIdx(void) const;
-    int GetParentCount(void) const;
+    inline int GetParentCount(void) const
+    {
+        return parents.size();
+    }
+
     void RecursiveUpdateSolveCount(short i);
 };
 

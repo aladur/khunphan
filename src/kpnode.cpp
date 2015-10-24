@@ -46,95 +46,37 @@ double KPnode::solveTime = 0.0;
 
 KPnode::KPnode() : pnext(NULL), movesToSolve(SHRT_MAX)
 {
-    for (int i = 0; i < MOVES_MAX; i++)
-    {
-        pchild[i]  = NULL;
-        pparent[i] = NULL;
-    }
 }
 
 KPnode::KPnode(const KPnode &src) : KPboard (src), pnext(NULL),
-    movesToSolve(SHRT_MAX)
+    childs(src.childs), parents(src.parents), movesToSolve(SHRT_MAX)
 {
     movesToSolve = src.GetMovesToSolve();
-    for (int i = 0; i < MOVES_MAX; i++)
-    {
-        ( src.pchild[i]  != NULL ) ? pchild[i]  = new KPnode(*src.pchild[i]) :
-        pchild[i]  = NULL;
-        ( src.pparent[i] != NULL ) ? pparent[i] = new KPnode(*src.pparent[i]) :
-        pparent[i] = NULL;
-    }
 }
 
 KPnode::KPnode(const KPboard &src) : KPboard (src), pnext(NULL),
     movesToSolve(SHRT_MAX)
 {
-    for (int i = 0; i < MOVES_MAX; i++)
-    {
-        pchild[i]  = NULL;
-        pparent[i] = NULL;
-    }
 }
 
 KPnode &KPnode::operator= (const KPnode &src)
 {
     if (&src != this)
     {
-        for (int i = 0; i < MOVES_MAX; i++)
-        {
-            if (pchild[i] != NULL)
-            {
-                delete pchild[i];
-            }
-            if (pparent[i] != NULL)
-            {
-                delete pparent[i];
-            }
-            (src.pchild[i] != NULL) ? pchild[i] =
-                new KPnode(*src.pchild[i]) : pchild[i] = NULL;
-            (src.pparent[i] != NULL) ? pparent[i] =
-                new KPnode(*src.pparent[i]) : pparent[i] = NULL;
-        }
+        KPboard::operator= (src);
+
+        pnext = NULL;
+        movesToSolve = src.movesToSolve;
+        childs = src.childs;
+        parents = src.parents;
     }
 
     return *this;
 }
 
-int KPnode::GetNextFreeParentIdx(void) const
-{
-    int i = GetParentCount();
-
-    if (i >= MOVES_MAX)
-    {
-        // Should not happen:
-        LOG2("KPnode::GetNextFreeParentIdx: Too much parents in one node: ", i);
-
-        i = 0;
-    }
-
-    return i;
-}
-
-int KPnode::GetParentCount(void) const
-{
-    int i = 0;
-
-    while (i < MOVES_MAX)
-    {
-        if ( pparent[i] == NULL)
-        {
-            return i;
-        }
-        i++;
-    }
-
-    return i;
-}
-
 inline bool KPnode::AddNextMoves()
 {
     KPnode *pn;
-    unsigned short i = 0;
     tKPTokenID id = TK_GREEN1;
 
     do
@@ -144,36 +86,30 @@ inline bool KPnode::AddNextMoves()
         direction = MOVE_UP;
         do
         {
-            KPboard b(*this);
+            KPboard board(*this);
 
-            if (b.Move(id, direction))
+            if (board.Move(id, direction))
             {
-                if (!b.IsMemberOf())
+                if (!board.IsMemberOf())
                 {
-                    if (i >= MOVES_MAX)
-                    {
-                        LOG2("KPnode::AddNextMoves: Too much moves in "
-                             "one node: ", i);
-                    }
-                    pn = new KPnode(b);
-                    pchild[i++] = pn;
-                    pn->pparent[pn->GetNextFreeParentIdx()] = this;
                     ++count;
+                    pn = new KPnode(board);
                     KPnode::LLAddLast(*pn);
-                    KPboard::idHash.Add(pn->GetID(), pn);
+                    KPboard::idHash.Add(LLGetLast().GetID(), &LLGetLast());
+                    pn = &LLGetLast();
 #ifdef DEBUG_OUTPUT
                     std::cout << count << ". New: " << std::endl;
-                    pn->print(std::cout);
+                    LLGetLast().print(std::cout);
 #endif
                 }
                 else
                 {
                     // position already in tree
                     // Create parent and child links to existing node
-                    pn = GetNodeFor(b);
-                    pchild[i++] = pn;
-                    pn->pparent[pn->GetNextFreeParentIdx()] = this;
+                    pn = GetNodeFor(board);
                 }
+                childs.push_back(pn);
+                pn->parents.push_back(this);
             } // if
         }
         while (++direction != MOVE_UP);
@@ -182,18 +118,21 @@ inline bool KPnode::AddNextMoves()
     return true;
 }
 
-void KPnode::print(std::ostream &os) const
+void KPnode::print(std::ostream &os, bool with_childs /* = false */) const
 {
-    unsigned short i;
-
     os << "Node:" << std::endl;
     KPboard::print(os);
-    for (i = 0; i < MOVES_MAX; i++)
+
+    if (with_childs)
     {
-        if (pchild[i] != NULL)
+        std::vector<KPnode *>::const_iterator it;
+        int i = 1;
+
+        for (it = childs.begin(); it != childs.end(); ++it)
         {
-            os << i+1 << ". Child:" << std::endl;
-            pchild[i]->print(os);
+            os << i << ". Child:" << std::endl;
+            (*it)->print(os);
+            ++i;
         }
     }
     os << std::endl;
@@ -363,9 +302,11 @@ void KPnode::RecursiveUpdateSolveCount(short n)
     iterationCount++;
     SetMovesToSolve(n);
 
-    for (int i = 0; i < MOVES_MAX && (pparent[i] != NULL); i++)
+    std::vector<KPnode *>::iterator it;
+
+    for (it = parents.begin(); it != parents.end(); ++it)
     {
-        pparent[i]->RecursiveUpdateSolveCount(n + 1);
+        (*it)->RecursiveUpdateSolveCount(n + 1);
     }
 }
 

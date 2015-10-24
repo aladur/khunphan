@@ -58,22 +58,6 @@ bool KPboard::operator == (const KPboard &b) const
     return GetID() == b.GetID();
 }
 
-KPboard &KPboard::operator= (const KPboard &src)
-{
-    if (&src != this)
-    {
-        id = 0;
-        for (int i = 0; i < TOKEN_MAX; ++i)
-        {
-            position[i].x = src.position[i].x;
-            position[i].y = src.position[i].y;
-        }
-        memcpy(tokenID, src.tokenID, sizeof(tokenID));
-    }
-
-    return *this;
-}
-
 inline void KPboard::SetPosition(tKPTokenID aTokenId, int x, int y)
 {
     if (aTokenId == TK_EMPTY)
