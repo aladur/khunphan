@@ -30,11 +30,13 @@
 #include "kpconfig.h"
 #include "kpstate.h"
 
+class KPboard;
+
 class KPGlutUserInterface : public KPUIBase
 {
 public:
     // public interface
-    KPGlutUserInterface(KPnode &rootNode);
+    KPGlutUserInterface(KPboard &);
     virtual ~KPGlutUserInterface();
 
     bool OpenWindow(int argc, char **argv);

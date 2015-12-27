@@ -18,25 +18,10 @@
     <ClCompile Include="src\bdir.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bposixthreadimp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\btexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bthread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\bthreadfactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\bthreadimp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\btime.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\bwin32threadimp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KhunPhan.cpp">
@@ -54,16 +39,10 @@
     <ClCompile Include="src\kpglutuserinterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\kpidhash.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\kpmenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\kpnode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\kpprogressbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\kpscore.cpp">
@@ -138,9 +117,6 @@
     <ClCompile Include="src\kpstatistics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\kpthreadsolvecount.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\kpuibase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -185,28 +161,13 @@
     <ClInclude Include="src\bdir.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\bposixthreadimp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\bsingle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\btexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\bthread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\bthreadfactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\bthreadimp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\btime.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\bwin32threadimp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\confdefs.h">
@@ -224,16 +185,10 @@
     <ClInclude Include="src\kpglutuserinterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\kpidhash.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\kpmenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\kpnode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\kpprogressbar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\kpscore.h">
@@ -309,9 +264,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\kpstatistics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\kpthreadsolvecount.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\kpuibase.h">

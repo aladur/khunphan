@@ -24,7 +24,7 @@
 #define __khunphan_h__
 
 #include <string>
-#include "kpnode.h"
+#include "kpboard.h"
 
 class KPUIBase;
 
@@ -50,7 +50,7 @@ public:
         return appName.c_str();
     };
 
-    KPnode rootNode;
+    KPboard rootBoard;
 
 private:
     KhunPhanApp();

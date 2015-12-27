@@ -51,7 +51,7 @@ void KPstateGame::Initialize(KPstateContext *pContext,
     {
         // In this case restore a already started game
         const KPnode &node = pContext->GetNodes().GetNodeFor(config.SavedGame);
-        pContext->GetBoardView().SetBoard(node);
+        pContext->GetBoardView().SetBoard(node.GetBoard());
         statistics.SetPlayingTime(config.PlayTime);
         statistics.SetEventCounter(MOVE_COUNTER, config.Moves);
         statistics.SetEventCounter(MOVE_WITH_HELP_CNT, config.MovesWithHint);
@@ -60,7 +60,7 @@ void KPstateGame::Initialize(KPstateContext *pContext,
     else
     {
         const KPnode &node = pContext->GetNodes().GetRootNode();
-        pContext->GetBoardView().SetBoard(node);
+        pContext->GetBoardView().SetBoard(node.GetBoard());
     }
 
     pContext->GetCamera().SetPosition(config.CameraPosition);
@@ -311,20 +311,20 @@ void KPstateGame::UpdateMoveCount(KPstateContext *pContext)
 
 void KPstateGame::Cheat1(KPstateContext *pContext)
 {
-    KPnode n;
+    KPboard board;
 
-    n.InitializeToken(TK_GREEN1, 0, 0);
-    n.InitializeToken(TK_GREEN2, 3, 3);
-    n.InitializeToken(TK_GREEN3, 3, 4);
-    n.InitializeToken(TK_GREEN4, 1, 2);
-    n.InitializeToken(TK_WHITE1, 0, 1);
-    n.InitializeToken(TK_WHITE2, 1, 0);
-    n.InitializeToken(TK_WHITE3, 2, 0);
-    n.InitializeToken(TK_WHITE4, 3, 0);
-    n.InitializeToken(TK_WHITE5, 2, 2);
-    n.InitializeToken(TK_RED1,   0, 3);
+    board.InitializeToken(TK_GREEN1, 0, 0);
+    board.InitializeToken(TK_GREEN2, 3, 3);
+    board.InitializeToken(TK_GREEN3, 3, 4);
+    board.InitializeToken(TK_GREEN4, 1, 2);
+    board.InitializeToken(TK_WHITE1, 0, 1);
+    board.InitializeToken(TK_WHITE2, 1, 0);
+    board.InitializeToken(TK_WHITE3, 2, 0);
+    board.InitializeToken(TK_WHITE4, 3, 0);
+    board.InitializeToken(TK_WHITE5, 2, 2);
+    board.InitializeToken(TK_RED1,   0, 3);
 
-    pContext->GetBoardView().SetBoard(n);
+    pContext->GetBoardView().SetBoard(board);
     pContext->GetStatistics().IncEventCounter(USED_CHEATS_CNT);
 }
 

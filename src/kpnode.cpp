@@ -42,13 +42,13 @@ KPnode::KPnode() : movesToSolve(SHRT_MAX)
 {
 }
 
-KPnode::KPnode(const KPnode &src) : KPboard (src),
+KPnode::KPnode(const KPnode &src) : board(src.board),
     childs(src.childs), parents(src.parents), movesToSolve(SHRT_MAX)
 {
     movesToSolve = src.GetMovesToSolve();
 }
 
-KPnode::KPnode(const KPboard &src) : KPboard (src),
+KPnode::KPnode(const KPboard &src) : board(src),
     movesToSolve(SHRT_MAX)
 {
 }
@@ -57,8 +57,7 @@ KPnode &KPnode::operator= (const KPnode &src)
 {
     if (&src != this)
     {
-        KPboard::operator= (src);
-
+        board = src.board;
         movesToSolve = src.movesToSolve;
         childs = src.childs;
         parents = src.parents;
@@ -79,13 +78,13 @@ void KPnode::AddNextMoves(KPnodes &nodes)
         direction = MOVE_UP;
         do
         {
-            KPboard board(*this);
+            KPboard boardMoved(board);
 
-            if (board.Move(id, direction))
+            if (boardMoved.Move(id, direction))
             {
-                if (!nodes.Includes(board.GetID()))
+                if (!nodes.Includes(boardMoved.GetID()))
                 {
-                    KPnode node(board);
+                    KPnode node(boardMoved);
 
                     pnode = &nodes.Add(node);
 #ifdef DEBUG_OUTPUT
@@ -97,7 +96,7 @@ void KPnode::AddNextMoves(KPnodes &nodes)
                 {
                     // position already in tree
                     // Create parent and child links to existing node
-                    pnode = &nodes.GetNodeFor(board.GetID());
+                    pnode = &nodes.GetNodeFor(boardMoved.GetID());
                 }
                 childs.push_back(pnode);
                 pnode->parents.push_back(this);
@@ -111,7 +110,7 @@ void KPnode::AddNextMoves(KPnodes &nodes)
 void KPnode::print(std::ostream &os, bool with_childs /* = false */) const
 {
     os << "Node:" << std::endl;
-    KPboard::print(os);
+    GetBoard().print(os);
 
     if (with_childs)
     {

@@ -27,7 +27,6 @@
 #include <stdexcept>
 #include "KhunPhan.h"
 #include "kpconfig.h"
-#include "bthread.h"
 #include "kpsdl12userinterface.h"
 #include "kpsdl2userinterface.h"
 #include "kpglutuserinterface.h"
@@ -103,34 +102,34 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
     config.DebugPrint();
 
     // initialize all the tokens
-    rootNode.InitializeToken(TK_GREEN1, 1, 3);
-    rootNode.InitializeToken(TK_GREEN2, 2, 3);
-    rootNode.InitializeToken(TK_GREEN3, 1, 4);
-    rootNode.InitializeToken(TK_GREEN4, 2, 4);
-    rootNode.InitializeToken(TK_WHITE1, 0, 0);
-    rootNode.InitializeToken(TK_WHITE2, 3, 0);
-    rootNode.InitializeToken(TK_WHITE3, 0, 3);
-    rootNode.InitializeToken(TK_WHITE4, 3, 3);
-    rootNode.InitializeToken(TK_WHITE5, 1, 2);
-    rootNode.InitializeToken(TK_RED1,   1, 0);
+    rootBoard.InitializeToken(TK_GREEN1, 1, 3);
+    rootBoard.InitializeToken(TK_GREEN2, 2, 3);
+    rootBoard.InitializeToken(TK_GREEN3, 1, 4);
+    rootBoard.InitializeToken(TK_GREEN4, 2, 4);
+    rootBoard.InitializeToken(TK_WHITE1, 0, 0);
+    rootBoard.InitializeToken(TK_WHITE2, 3, 0);
+    rootBoard.InitializeToken(TK_WHITE3, 0, 3);
+    rootBoard.InitializeToken(TK_WHITE4, 3, 3);
+    rootBoard.InitializeToken(TK_WHITE5, 1, 2);
+    rootBoard.InitializeToken(TK_RED1,   1, 0);
 
     switch (KPConfig::Instance().UserInterface)
     {
 #ifdef HAVE_SDL2
         case 0:
-            userInterface = new KPSdl2UserInterface(rootNode);
+            userInterface = new KPSdl2UserInterface(rootBoard);
             break;
 #else
 #ifdef HAVE_SDL
         case 0:
-            userInterface = new KPSdl12UserInterface(rootNode);
+            userInterface = new KPSdl12UserInterface(rootBoard);
             break;
 #endif
 #endif
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
         case 1:
-            userInterface = new KPGlutUserInterface(rootNode);
+            userInterface = new KPGlutUserInterface(rootBoard);
             break;
 #endif
         default:

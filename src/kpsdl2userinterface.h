@@ -27,12 +27,13 @@
 
 #include "kpsdluserinterface.h"
 
+class KPboard;
 
 class KPSdl2UserInterface : public KPSdlUserInterface
 {
 public:
     // public interface
-    KPSdl2UserInterface(KPnode &rootNode);
+    KPSdl2UserInterface(KPboard &);
     virtual ~KPSdl2UserInterface();
 
     bool OpenWindow(int argc, char **argv);

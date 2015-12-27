@@ -34,15 +34,13 @@
 #include "btime.h"
 
 
-KPnodes::KPnodes(KPnode &rootNode) :
-                 solveCountAvailable(false), solveTime(0.0)
+KPnodes::KPnodes(KPboard &rootBoard) : solveTime(0.0)
 {
-    CreateSolveTree(rootNode);
+    CreateSolveTree(rootBoard);
 }
 
 KPnodes::~KPnodes()
 {
-    solveCountAvailable = false;
 }
 
 void KPnodes::Initialize()
@@ -53,7 +51,7 @@ void KPnodes::Initialize()
 
 KPnode &KPnodes::Add(KPnode &node)
 {
-    QWord id = node.GetID();
+    QWord id = node.GetBoard().GetID();
 
     ids.push_back(id);
     nodesForId[id] = node;
@@ -77,17 +75,19 @@ KPnode &KPnodes::GetNodeFor(QWord id)
     }
 }
 
-void KPnodes::CreateSolveTree(KPnode &rootNode)
+void KPnodes::CreateSolveTree(KPboard &rootBoard)
 {
+    KPnode rootNode(rootBoard);
     int index;
 
     Initialize();
+
     Add(rootNode);
 
     for (index = 0; index < ids.size(); ++index)
     {
         KPnode &node = GetNodeFor(ids[index]);
-        if (!node.IsSolved())
+        if (!node.GetBoard().IsSolved())
         {
             node.AddNextMoves(*this);
         }
@@ -103,7 +103,7 @@ int KPnodes::GetSolutionsCount(void)
 
     for (it = nodesForId.begin(); it != nodesForId.end(); ++it)
     {
-        if (it->second.IsSolved())
+        if (it->second.GetBoard().IsSolved())
         {
             ++count;
         }
@@ -118,35 +118,25 @@ void KPnodes::CalculateSolveCount(void)
 
     time.ResetRelativeTime();
     KPnode::ClearIterationCount();
-    solveCountAvailable = false;
     tIds::const_iterator it;
  
     for (it = ids.begin(); it != ids.end(); ++it)
     {
         KPnode &node = GetNodeFor(*it);
 
-        if (node.IsSolved())
+        if (node.GetBoard().IsSolved())
         {
             // recursively modify the solve count
             node.RecursiveUpdateSolveCount(0);
         }
     }
 
-//    PrintSolveCount(std::cout);
-    solveCountAvailable = true;
     solveTime = time.GetRelativeTimeUsf(true);
 
 }
 
 void KPnodes::PrintSolveCount(std::ostream &os)
 {
-/*
-    if (!solveCountAvailable)
-    {
-        os << "KPnodes: Solve count not yet available!" << std::endl;
-        return;
-    }
-*/
     tNodesForId::const_iterator it;
 
     for (it = nodesForId.begin(); it != nodesForId.end(); ++it)

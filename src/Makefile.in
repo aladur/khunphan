@@ -109,12 +109,6 @@ am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-kpuibase.$(OBJEXT) khunphan-btime.$(OBJEXT) \
 	khunphan-kpstatescorelist.$(OBJEXT) khunphan-kpscore.$(OBJEXT) \
 	khunphan-btexture.$(OBJEXT) khunphan-kpstatistics.$(OBJEXT) \
-	khunphan-kpprogressbar.$(OBJEXT) \
-	khunphan-kpthreadsolvecount.$(OBJEXT) \
-	khunphan-bposixthreadimp.$(OBJEXT) \
-	khunphan-bwin32threadimp.$(OBJEXT) \
-	khunphan-bthreadimp.$(OBJEXT) \
-	khunphan-bthreadfactory.$(OBJEXT) khunphan-bthread.$(OBJEXT) \
 	khunphan-kpstatemovetoken.$(OBJEXT) \
 	khunphan-kpstatetutorial4.$(OBJEXT) \
 	khunphan-kpstatetutorial3.$(OBJEXT) \
@@ -381,13 +375,6 @@ khunphan_SOURCES = \
         kpscore.cpp \
         btexture.cpp \
         kpstatistics.cpp \
-        kpprogressbar.cpp \
-        kpthreadsolvecount.cpp \
-        bposixthreadimp.cpp \
-        bwin32threadimp.cpp \
-        bthreadimp.cpp \
-        bthreadfactory.cpp \
-        bthread.cpp \
         kpstatemovetoken.cpp \
         kpstatetutorial4.cpp \
         kpstatetutorial3.cpp \
@@ -463,12 +450,6 @@ EXTRA_DIST = \
         kpstatetutorial3.h \
         kpstatetutorial4.h \
         kpstatemovetoken.h \
-        bthread.h \
-        bthreadfactory.h \
-        bthreadimp.h \
-        bposixthreadimp.h \
-        kpthreadsolvecount.h \
-        kpprogressbar.h \
         kpstatistics.h \
         btexture.h \
         kpscore.h \
@@ -480,7 +461,6 @@ EXTRA_DIST = \
         kpsdl12userinterface.h \
         kpsdl2userinterface.h \
         bdir.h \
-        bwin32threadimp.h \
         resource.h \
         bdelete.h \
         bsingle.h \
@@ -651,13 +631,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-KhunPhan.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bdir.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bposixthreadimp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-btexture.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bthread.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bthreadfactory.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bthreadimp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-btime.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bwin32threadimp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-camera.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-extendedcamera.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpboard.Po@am__quote@
@@ -668,7 +643,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpmenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpnode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpnodes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpprogressbar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpscore.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpsdl12userinterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpsdl2userinterface.Po@am__quote@
@@ -695,7 +669,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstatetutorial3.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstatetutorial4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpstatistics.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpthreadsolvecount.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpuibase.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-label.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-light.Po@am__quote@
@@ -871,104 +844,6 @@ khunphan-kpstatistics.obj: kpstatistics.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpstatistics.cpp' object='khunphan-kpstatistics.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpstatistics.obj `if test -f 'kpstatistics.cpp'; then $(CYGPATH_W) 'kpstatistics.cpp'; else $(CYGPATH_W) '$(srcdir)/kpstatistics.cpp'; fi`
-
-khunphan-kpprogressbar.o: kpprogressbar.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpprogressbar.o -MD -MP -MF $(DEPDIR)/khunphan-kpprogressbar.Tpo -c -o khunphan-kpprogressbar.o `test -f 'kpprogressbar.cpp' || echo '$(srcdir)/'`kpprogressbar.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpprogressbar.Tpo $(DEPDIR)/khunphan-kpprogressbar.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpprogressbar.cpp' object='khunphan-kpprogressbar.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpprogressbar.o `test -f 'kpprogressbar.cpp' || echo '$(srcdir)/'`kpprogressbar.cpp
-
-khunphan-kpprogressbar.obj: kpprogressbar.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpprogressbar.obj -MD -MP -MF $(DEPDIR)/khunphan-kpprogressbar.Tpo -c -o khunphan-kpprogressbar.obj `if test -f 'kpprogressbar.cpp'; then $(CYGPATH_W) 'kpprogressbar.cpp'; else $(CYGPATH_W) '$(srcdir)/kpprogressbar.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpprogressbar.Tpo $(DEPDIR)/khunphan-kpprogressbar.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpprogressbar.cpp' object='khunphan-kpprogressbar.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpprogressbar.obj `if test -f 'kpprogressbar.cpp'; then $(CYGPATH_W) 'kpprogressbar.cpp'; else $(CYGPATH_W) '$(srcdir)/kpprogressbar.cpp'; fi`
-
-khunphan-kpthreadsolvecount.o: kpthreadsolvecount.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpthreadsolvecount.o -MD -MP -MF $(DEPDIR)/khunphan-kpthreadsolvecount.Tpo -c -o khunphan-kpthreadsolvecount.o `test -f 'kpthreadsolvecount.cpp' || echo '$(srcdir)/'`kpthreadsolvecount.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpthreadsolvecount.Tpo $(DEPDIR)/khunphan-kpthreadsolvecount.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpthreadsolvecount.cpp' object='khunphan-kpthreadsolvecount.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpthreadsolvecount.o `test -f 'kpthreadsolvecount.cpp' || echo '$(srcdir)/'`kpthreadsolvecount.cpp
-
-khunphan-kpthreadsolvecount.obj: kpthreadsolvecount.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpthreadsolvecount.obj -MD -MP -MF $(DEPDIR)/khunphan-kpthreadsolvecount.Tpo -c -o khunphan-kpthreadsolvecount.obj `if test -f 'kpthreadsolvecount.cpp'; then $(CYGPATH_W) 'kpthreadsolvecount.cpp'; else $(CYGPATH_W) '$(srcdir)/kpthreadsolvecount.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpthreadsolvecount.Tpo $(DEPDIR)/khunphan-kpthreadsolvecount.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpthreadsolvecount.cpp' object='khunphan-kpthreadsolvecount.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpthreadsolvecount.obj `if test -f 'kpthreadsolvecount.cpp'; then $(CYGPATH_W) 'kpthreadsolvecount.cpp'; else $(CYGPATH_W) '$(srcdir)/kpthreadsolvecount.cpp'; fi`
-
-khunphan-bposixthreadimp.o: bposixthreadimp.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bposixthreadimp.o -MD -MP -MF $(DEPDIR)/khunphan-bposixthreadimp.Tpo -c -o khunphan-bposixthreadimp.o `test -f 'bposixthreadimp.cpp' || echo '$(srcdir)/'`bposixthreadimp.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bposixthreadimp.Tpo $(DEPDIR)/khunphan-bposixthreadimp.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bposixthreadimp.cpp' object='khunphan-bposixthreadimp.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bposixthreadimp.o `test -f 'bposixthreadimp.cpp' || echo '$(srcdir)/'`bposixthreadimp.cpp
-
-khunphan-bposixthreadimp.obj: bposixthreadimp.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bposixthreadimp.obj -MD -MP -MF $(DEPDIR)/khunphan-bposixthreadimp.Tpo -c -o khunphan-bposixthreadimp.obj `if test -f 'bposixthreadimp.cpp'; then $(CYGPATH_W) 'bposixthreadimp.cpp'; else $(CYGPATH_W) '$(srcdir)/bposixthreadimp.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bposixthreadimp.Tpo $(DEPDIR)/khunphan-bposixthreadimp.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bposixthreadimp.cpp' object='khunphan-bposixthreadimp.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bposixthreadimp.obj `if test -f 'bposixthreadimp.cpp'; then $(CYGPATH_W) 'bposixthreadimp.cpp'; else $(CYGPATH_W) '$(srcdir)/bposixthreadimp.cpp'; fi`
-
-khunphan-bwin32threadimp.o: bwin32threadimp.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bwin32threadimp.o -MD -MP -MF $(DEPDIR)/khunphan-bwin32threadimp.Tpo -c -o khunphan-bwin32threadimp.o `test -f 'bwin32threadimp.cpp' || echo '$(srcdir)/'`bwin32threadimp.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bwin32threadimp.Tpo $(DEPDIR)/khunphan-bwin32threadimp.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bwin32threadimp.cpp' object='khunphan-bwin32threadimp.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bwin32threadimp.o `test -f 'bwin32threadimp.cpp' || echo '$(srcdir)/'`bwin32threadimp.cpp
-
-khunphan-bwin32threadimp.obj: bwin32threadimp.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bwin32threadimp.obj -MD -MP -MF $(DEPDIR)/khunphan-bwin32threadimp.Tpo -c -o khunphan-bwin32threadimp.obj `if test -f 'bwin32threadimp.cpp'; then $(CYGPATH_W) 'bwin32threadimp.cpp'; else $(CYGPATH_W) '$(srcdir)/bwin32threadimp.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bwin32threadimp.Tpo $(DEPDIR)/khunphan-bwin32threadimp.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bwin32threadimp.cpp' object='khunphan-bwin32threadimp.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bwin32threadimp.obj `if test -f 'bwin32threadimp.cpp'; then $(CYGPATH_W) 'bwin32threadimp.cpp'; else $(CYGPATH_W) '$(srcdir)/bwin32threadimp.cpp'; fi`
-
-khunphan-bthreadimp.o: bthreadimp.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bthreadimp.o -MD -MP -MF $(DEPDIR)/khunphan-bthreadimp.Tpo -c -o khunphan-bthreadimp.o `test -f 'bthreadimp.cpp' || echo '$(srcdir)/'`bthreadimp.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bthreadimp.Tpo $(DEPDIR)/khunphan-bthreadimp.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bthreadimp.cpp' object='khunphan-bthreadimp.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bthreadimp.o `test -f 'bthreadimp.cpp' || echo '$(srcdir)/'`bthreadimp.cpp
-
-khunphan-bthreadimp.obj: bthreadimp.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bthreadimp.obj -MD -MP -MF $(DEPDIR)/khunphan-bthreadimp.Tpo -c -o khunphan-bthreadimp.obj `if test -f 'bthreadimp.cpp'; then $(CYGPATH_W) 'bthreadimp.cpp'; else $(CYGPATH_W) '$(srcdir)/bthreadimp.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bthreadimp.Tpo $(DEPDIR)/khunphan-bthreadimp.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bthreadimp.cpp' object='khunphan-bthreadimp.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bthreadimp.obj `if test -f 'bthreadimp.cpp'; then $(CYGPATH_W) 'bthreadimp.cpp'; else $(CYGPATH_W) '$(srcdir)/bthreadimp.cpp'; fi`
-
-khunphan-bthreadfactory.o: bthreadfactory.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bthreadfactory.o -MD -MP -MF $(DEPDIR)/khunphan-bthreadfactory.Tpo -c -o khunphan-bthreadfactory.o `test -f 'bthreadfactory.cpp' || echo '$(srcdir)/'`bthreadfactory.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bthreadfactory.Tpo $(DEPDIR)/khunphan-bthreadfactory.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bthreadfactory.cpp' object='khunphan-bthreadfactory.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bthreadfactory.o `test -f 'bthreadfactory.cpp' || echo '$(srcdir)/'`bthreadfactory.cpp
-
-khunphan-bthreadfactory.obj: bthreadfactory.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bthreadfactory.obj -MD -MP -MF $(DEPDIR)/khunphan-bthreadfactory.Tpo -c -o khunphan-bthreadfactory.obj `if test -f 'bthreadfactory.cpp'; then $(CYGPATH_W) 'bthreadfactory.cpp'; else $(CYGPATH_W) '$(srcdir)/bthreadfactory.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bthreadfactory.Tpo $(DEPDIR)/khunphan-bthreadfactory.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bthreadfactory.cpp' object='khunphan-bthreadfactory.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bthreadfactory.obj `if test -f 'bthreadfactory.cpp'; then $(CYGPATH_W) 'bthreadfactory.cpp'; else $(CYGPATH_W) '$(srcdir)/bthreadfactory.cpp'; fi`
-
-khunphan-bthread.o: bthread.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bthread.o -MD -MP -MF $(DEPDIR)/khunphan-bthread.Tpo -c -o khunphan-bthread.o `test -f 'bthread.cpp' || echo '$(srcdir)/'`bthread.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bthread.Tpo $(DEPDIR)/khunphan-bthread.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bthread.cpp' object='khunphan-bthread.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bthread.o `test -f 'bthread.cpp' || echo '$(srcdir)/'`bthread.cpp
-
-khunphan-bthread.obj: bthread.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-bthread.obj -MD -MP -MF $(DEPDIR)/khunphan-bthread.Tpo -c -o khunphan-bthread.obj `if test -f 'bthread.cpp'; then $(CYGPATH_W) 'bthread.cpp'; else $(CYGPATH_W) '$(srcdir)/bthread.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-bthread.Tpo $(DEPDIR)/khunphan-bthread.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='bthread.cpp' object='khunphan-bthread.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-bthread.obj `if test -f 'bthread.cpp'; then $(CYGPATH_W) 'bthread.cpp'; else $(CYGPATH_W) '$(srcdir)/bthread.cpp'; fi`
 
 khunphan-kpstatemovetoken.o: kpstatemovetoken.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpstatemovetoken.o -MD -MP -MF $(DEPDIR)/khunphan-kpstatemovetoken.Tpo -c -o khunphan-kpstatemovetoken.o `test -f 'kpstatemovetoken.cpp' || echo '$(srcdir)/'`kpstatemovetoken.cpp

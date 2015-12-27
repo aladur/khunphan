@@ -91,9 +91,9 @@ bool KPUIBase::IsInitialized()
     return instance != NULL;
 }
 
-void KPUIBase::Initialize(KPnode &rootNode)
+void KPUIBase::Initialize(KPboard &rootBoard)
 {
-    pNodes = new KPnodes(rootNode);
+    pNodes = new KPnodes(rootBoard);
 
     pStatistics = new KPStatistics();
 }
@@ -113,7 +113,7 @@ void KPUIBase::InitializeAfterOpen()
     glClearDepth(1.0);
     glDepthFunc(GL_LESS);
 
-    pBoardView = new KPboardView(GetNodes().GetRootNode(),
+    pBoardView = new KPboardView(GetNodes().GetRootNode().GetBoard(),
                                  config.TextureName.c_str(),
                                  config.TextureSize,
                                  config.Nearest);

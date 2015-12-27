@@ -23,13 +23,13 @@
 #ifdef HAVE_SDL
 
 #include "kpsdl12userinterface.h"
-#include "kpnode.h"
+#include "kpboard.h"
 
 
-KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode) :
+KPSdl12UserInterface::KPSdl12UserInterface(KPboard &rootBoard) :
     KPSdlUserInterface(), screen(NULL)
 {
-    Initialize(rootNode);
+    Initialize(rootBoard);
 }
 
 KPSdl12UserInterface::~KPSdl12UserInterface()

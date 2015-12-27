@@ -29,7 +29,6 @@
 #include <map>
 #include "plate.h"
 #include "label.h"
-#include "kpprogressbar.h"
 #include "language.h"
 #include "kpstate.h"
 
@@ -143,9 +142,7 @@ protected:
     void FadeOutAllPlates();
     void FadeOutAllLabels();
 
-    KPprogressBar progressBar;
-
-    tIdToPlate   plates;
+    tIdToPlate plates;
     tIdToLabel labels;
 
     tKPMenuState lastState;

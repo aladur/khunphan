@@ -29,7 +29,7 @@
 #include "btime.h"
 
 
-class KPnode;
+class KPboard;
 class KPnodes;
 class KPboardView;
 class Camera;
@@ -91,7 +91,7 @@ public:
                             int x, int y) = 0;
 
 protected:
-    void Initialize(KPnode &rootNode);
+    void Initialize(KPboard &rootBoard);
     void DisplayFPS();
     void InitializeAfterOpen();
 

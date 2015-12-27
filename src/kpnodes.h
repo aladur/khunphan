@@ -35,12 +35,12 @@ class KPnodes
 private:
     tIds ids;
     tNodesForId nodesForId;
-    bool solveCountAvailable;
     double solveTime;
 
 public:
+    friend KPnode;
 
-    KPnodes(KPnode &rootNode);
+    KPnodes(KPboard &rootBoard);
     ~KPnodes();
 
     inline bool Includes(QWord id)
@@ -59,20 +59,15 @@ public:
     void CalculateSolveCount(void);
     void PrintSolveCount(std::ostream &os);
     int  GetSolutionsCount(void);
-    bool IsSolveCountAvailable(void)
-    {
-        return solveCountAvailable;
-    };
     double GetSolveTime(void)
     {
         return solveTime;
     };
-    friend KPnode;
 
 private:
     void Initialize(void);
     KPnode &Add(KPnode &);
-    void CreateSolveTree(KPnode &rootNode);
+    void CreateSolveTree(KPboard &rootBoard);
 };
 
 #endif

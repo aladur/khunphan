@@ -101,13 +101,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\bdir.cpp" />
-    <ClCompile Include="src\bposixthreadimp.cpp" />
     <ClCompile Include="src\btexture.cpp" />
-    <ClCompile Include="src\bthread.cpp" />
-    <ClCompile Include="src\bthreadfactory.cpp" />
-    <ClCompile Include="src\bthreadimp.cpp" />
     <ClCompile Include="src\btime.cpp" />
-    <ClCompile Include="src\bwin32threadimp.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\extendedcamera.cpp" />
     <ClCompile Include="src\KhunPhan.cpp" />
@@ -115,10 +110,8 @@
     <ClCompile Include="src\kpboardGL.cpp" />
     <ClCompile Include="src\kpconfig.cpp" />
     <ClCompile Include="src\kpglutuserinterface.cpp" />
-    <ClCompile Include="src\kpidhash.cpp" />
     <ClCompile Include="src\kpmenu.cpp" />
     <ClCompile Include="src\kpnode.cpp" />
-    <ClCompile Include="src\kpprogressbar.cpp" />
     <ClCompile Include="src\kpscore.cpp" />
     <ClCompile Include="src\kpsdl12userinterface.cpp" />
     <ClCompile Include="src\kpsdl2userinterface.cpp" />
@@ -145,7 +138,6 @@
     <ClCompile Include="src\kpstatetutorial3.cpp" />
     <ClCompile Include="src\kpstatetutorial4.cpp" />
     <ClCompile Include="src\kpstatistics.cpp" />
-    <ClCompile Include="src\kpthreadsolvecount.cpp" />
     <ClCompile Include="src\kpuibase.cpp" />
     <ClCompile Include="src\label.cpp" />
     <ClCompile Include="src\light.cpp" />
@@ -158,14 +150,9 @@
   <ItemGroup>
     <ClInclude Include="src\bdelete.h" />
     <ClInclude Include="src\bdir.h" />
-    <ClInclude Include="src\bposixthreadimp.h" />
     <ClInclude Include="src\bsingle.h" />
     <ClInclude Include="src\btexture.h" />
-    <ClInclude Include="src\bthread.h" />
-    <ClInclude Include="src\bthreadfactory.h" />
-    <ClInclude Include="src\bthreadimp.h" />
     <ClInclude Include="src\btime.h" />
-    <ClInclude Include="src\bwin32threadimp.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\extendedcamera.h" />
     <ClInclude Include="src\confdefs.h" />
@@ -173,10 +160,8 @@
     <ClInclude Include="src\kpboardGL.h" />
     <ClInclude Include="src\kpconfig.h" />
     <ClInclude Include="src\kpglutuserinterface.h" />
-    <ClInclude Include="src\kpidhash.h" />
     <ClInclude Include="src\kpmenu.h" />
     <ClInclude Include="src\kpnode.h" />
-    <ClInclude Include="src\kpprogressbar.h" />
     <ClInclude Include="src\kpscore.h" />
     <ClInclude Include="src\kpsdl12userinterface.h" />
     <ClInclude Include="src\kpsdl2userinterface.h" />
@@ -204,7 +189,6 @@
     <ClInclude Include="src\kpstatetutorial3.h" />
     <ClInclude Include="src\kpstatetutorial4.h" />
     <ClInclude Include="src\kpstatistics.h" />
-    <ClInclude Include="src\kpthreadsolvecount.h" />
     <ClInclude Include="src\kpuibase.h" />
     <ClInclude Include="src\label.h" />
     <ClInclude Include="src\light.h" />

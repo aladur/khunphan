@@ -184,8 +184,6 @@ void KPmenu::Draw()
 
     glDisable(GL_TEXTURE_2D);
 
-    progressBar.Draw();
-
     // This should always be the last one because it
     // should shade all other drawing primitives
     plates[PLATE_SHADER].Draw();

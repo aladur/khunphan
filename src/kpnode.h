@@ -30,7 +30,7 @@
 
 class KPnodes;
 
-class KPnode : public KPboard
+class KPnode
 {
     static unsigned int iterations;
     std::vector<KPnode *> childs;   // non-owning pointer
@@ -38,7 +38,6 @@ class KPnode : public KPboard
     int movesToSolve;
 
 public:
-
     KPnode();
     KPnode(const KPnode &src);
     KPnode(const KPboard &src);
@@ -56,6 +55,14 @@ public:
     {
         return iterations * 10 / 4333923;
     };
+    const KPboard &GetBoard() const
+    {
+        return board;
+    }
+    void SetBoard(const KPboard &src)
+    {
+        board = src;
+    }
     friend KPnodes;
 
 private:
@@ -69,6 +76,7 @@ private:
     {
         iterations = 0;
     }
+    KPboard board;
 };
 
 #endif

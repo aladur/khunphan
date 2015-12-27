@@ -66,7 +66,6 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
 
     menu.FadeOutAllPlates();
     menu.FadeOutAllLabels();
-    menu.progressBar.SetFadeOut();
 
     float y = 11.7f;
 
@@ -124,8 +123,6 @@ void KPstate::Update(KPstateContext *pContext, int factor)
             tit->second.Animate(factor);
         }
     }
-
-    menu.progressBar.Animate(factor);
 
     pContext->GetBoardView().Animate(factor);
 

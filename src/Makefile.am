@@ -12,13 +12,6 @@ khunphan_SOURCES = \
         kpscore.cpp \
         btexture.cpp \
         kpstatistics.cpp \
-        kpprogressbar.cpp \
-        kpthreadsolvecount.cpp \
-        bposixthreadimp.cpp \
-        bwin32threadimp.cpp \
-        bthreadimp.cpp \
-        bthreadfactory.cpp \
-        bthread.cpp \
         kpstatemovetoken.cpp \
         kpstatetutorial4.cpp \
         kpstatetutorial3.cpp \
@@ -95,12 +88,6 @@ EXTRA_DIST = \
         kpstatetutorial3.h \
         kpstatetutorial4.h \
         kpstatemovetoken.h \
-        bthread.h \
-        bthreadfactory.h \
-        bthreadimp.h \
-        bposixthreadimp.h \
-        kpthreadsolvecount.h \
-        kpprogressbar.h \
         kpstatistics.h \
         btexture.h \
         kpscore.h \
@@ -112,7 +99,6 @@ EXTRA_DIST = \
         kpsdl12userinterface.h \
         kpsdl2userinterface.h \
         bdir.h \
-        bwin32threadimp.h \
         resource.h \
         bdelete.h \
         bsingle.h \

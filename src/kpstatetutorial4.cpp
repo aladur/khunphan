@@ -53,20 +53,20 @@ tKPTokenID KPstateTutorial4::GetEmphasizedTokenId()
 
 void KPstateTutorial4::InitializeBoardWithTokens(KPstateContext *pContext)
 {
-    KPnode n;
+    KPboard board;
 
-    n.InitializeToken(TK_GREEN1, 1, 4);
-    n.InitializeToken(TK_GREEN2, 0, 4);
-    n.InitializeToken(TK_GREEN3, 1, 3);
-    n.InitializeToken(TK_GREEN4, 2, 4);
-    n.InitializeToken(TK_WHITE1, 0, 0);
-    n.InitializeToken(TK_WHITE2, 3, 0);
-    n.InitializeToken(TK_WHITE3, 0, 2);
-    n.InitializeToken(TK_WHITE4, 3, 2);
-    n.InitializeToken(TK_WHITE5, 1, 2);
-    n.InitializeToken(TK_RED1,   1, 0);
+    board.InitializeToken(TK_GREEN1, 1, 4);
+    board.InitializeToken(TK_GREEN2, 0, 4);
+    board.InitializeToken(TK_GREEN3, 1, 3);
+    board.InitializeToken(TK_GREEN4, 2, 4);
+    board.InitializeToken(TK_WHITE1, 0, 0);
+    board.InitializeToken(TK_WHITE2, 3, 0);
+    board.InitializeToken(TK_WHITE3, 0, 2);
+    board.InitializeToken(TK_WHITE4, 3, 2);
+    board.InitializeToken(TK_WHITE5, 1, 2);
+    board.InitializeToken(TK_RED1,   1, 0);
 
-    pContext->GetBoardView().SetBoard(n);
+    pContext->GetBoardView().SetBoard(board);
 }
 
 void KPstateTutorial4::PlayAudioForInitialize(KPstateContext *pContext)

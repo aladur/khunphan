@@ -30,7 +30,7 @@
 #include "language.h"
 #include "misc1.h"
 
-KPstateStartUp::KPstateStartUp() : fullInitialized(false)
+KPstateStartUp::KPstateStartUp()
 {
 }
 
@@ -40,12 +40,6 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     tIdToLabel::const_iterator it;
 
     KPstate::Initialize(pContext, pOldState);
-
-    // Do some initialization stuff here:
-    if (KPConfig::Instance().SkipProgressBar != 0)
-    {
-        fullInitialized = true;
-    }
 
     it = pContext->GetMenu().labels.find(T_COPYRIGHT2);
     if (it == pContext->GetMenu().labels.end())
@@ -90,12 +84,6 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
 
     menu.plates[PLATE_LOGO].SetPosition(5,9,11,11);
 
-    if (!fullInitialized)
-    {
-        menu.progressBar.SetBarColor(1.0, 0.0, 0.0);
-        menu.progressBar.SetPosition(8, 6, 6, 1.5, A_CENTERED);
-    }
-
     float y = 3.0f;
     menu.labels[T_COPYRIGHT1].SetPosition(8, y, 0.4f, A_CENTERED);
     y -= 0.4f;
@@ -130,7 +118,7 @@ void KPstateStartUp::MouseClick (KPstateContext *pContext,
                                  tMouseButton, tMouseEvent event,
                                  int, int)
 {
-    if (fullInitialized && event == KP_BUTTON_RELEASE)
+    if (event == KP_BUTTON_RELEASE)
     {
         if (KPConfig::Instance().Language)
         {
@@ -149,34 +137,8 @@ void KPstateStartUp::Draw(KPstateContext *pContext)
 
     pContext->GetCamera().Draw();
 
-    if (fullInitialized)
-    {
-        pContext->GetBoardView().Draw();
-    }
+    pContext->GetBoardView().Draw();
 
     pContext->GetMenu().Draw();
-}
-
-void KPstateStartUp::Update(KPstateContext *pContext, int factor)
-{
-    KPstate::Update(pContext, factor);
-
-    if (!fullInitialized)
-    {
-        pContext->GetMenu().progressBar.SetPercentage(
-            KPnode::CalculateSolveCountPercentFinished());
-    }
-
-    if (pContext->GetNodes().IsSolveCountAvailable())
-    {
-        if (!fullInitialized)
-        {
-            fullInitialized = true;
-            LOG5(std::fixed, std::setprecision(3),
-                 "Time to calculate all solutions: ",
-                 pContext->GetNodes().GetSolveTime() / 1000000.0, " s");
-            UpdateDisplay(pContext);
-        }
-    }
 }
 
