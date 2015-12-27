@@ -28,6 +28,7 @@
 #include "camera.h"
 #include "kpstatistics.h"
 #include "kpuibase.h"
+#include "kpnodes.h"
 
 
 KPstateGame::KPstateGame() : animationFinishedCallback(NULL),
@@ -49,7 +50,8 @@ void KPstateGame::Initialize(KPstateContext *pContext,
     if (config.SavedGame != 0)
     {
         // In this case restore a already started game
-        pContext->GetBoardView().SetBoard(config.SavedGame);
+        const KPnode &node = pContext->GetNodes().GetNodeFor(config.SavedGame);
+        pContext->GetBoardView().SetBoard(node);
         statistics.SetPlayingTime(config.PlayTime);
         statistics.SetEventCounter(MOVE_COUNTER, config.Moves);
         statistics.SetEventCounter(MOVE_WITH_HELP_CNT, config.MovesWithHint);
@@ -57,7 +59,8 @@ void KPstateGame::Initialize(KPstateContext *pContext,
     }
     else
     {
-        pContext->GetBoardView().ResetBoard();
+        const KPnode &node = pContext->GetNodes().GetRootNode();
+        pContext->GetBoardView().SetBoard(node);
     }
 
     pContext->GetCamera().SetPosition(config.CameraPosition);
@@ -80,8 +83,9 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
     menu.plates[PLATE_LOGO].SetPosition(0,11,4,12);
     menu.plates[PLATE_LOGO].SetSignal(S_LOGO);
 
-    menu.labels[T_MINMOVECOUNT].FormatText(
-            1, pContext->GetBoardView().GetMovesToSolve());
+    QWord id = pContext->GetBoardView().GetBoardId();
+    int movesToSolve = pContext->GetNodes().GetNodeFor(id).GetMovesToSolve();
+    menu.labels[T_MINMOVECOUNT].FormatText(1, movesToSolve);
     menu.labels[T_MOVECOUNT].FormatText(
             1, pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
 
@@ -320,7 +324,7 @@ void KPstateGame::Cheat1(KPstateContext *pContext)
     n.InitializeToken(TK_WHITE5, 2, 2);
     n.InitializeToken(TK_RED1,   0, 3);
 
-    pContext->GetBoardView().SetBoard(&n);
+    pContext->GetBoardView().SetBoard(n);
     pContext->GetStatistics().IncEventCounter(USED_CHEATS_CNT);
 }
 

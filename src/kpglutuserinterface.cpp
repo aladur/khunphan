@@ -47,8 +47,11 @@
 
 #include "kpglutuserinterface.h"
 
-KPGlutUserInterface::KPGlutUserInterface() : windowID(0)
+KPGlutUserInterface::KPGlutUserInterface(KPnode &rootNode) :
+    KPUIBase(),
+    windowID(0)
 {
+    Initialize(rootNode);
 }
 
 KPGlutUserInterface::~KPGlutUserInterface()
@@ -167,7 +170,9 @@ bool KPGlutUserInterface::OpenWindow(int argc, char **argv)
         return false;
     }
 
-    return InitializeAfterOpen();
+    InitializeAfterOpen();
+
+    return true;
 }
 
 void KPGlutUserInterface::MainLoop()

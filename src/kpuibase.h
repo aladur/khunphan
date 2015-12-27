@@ -30,6 +30,7 @@
 
 
 class KPnode;
+class KPnodes;
 class KPboardView;
 class Camera;
 class Light;
@@ -71,7 +72,6 @@ public:
     };
     virtual std::string GetWindowTitle() const;
 
-    void UpdateDataModel(KPnode *pRoot);
     bool IsInitialized();
     void DebugPrintOpenGLVersion()  const;
     std::string GetOpenGLVendor()   const;
@@ -91,14 +91,14 @@ public:
                             int x, int y) = 0;
 
 protected:
+    void Initialize(KPnode &rootNode);
     void DisplayFPS();
-    bool InitializeAfterOpen();
+    void InitializeAfterOpen();
 
     virtual void InitializeEvents() = 0;
     virtual void SwapBuffers() = 0;
     virtual void PostWindowRedisplay() = 0;
 
-    KPnode *proot;  // unfinished
     BTime   fpsTime;
 
 // Sw: unfinished: should be protected
@@ -107,6 +107,7 @@ public:
     Camera       *pCamera;
     Light        *pLight;
     KPmenu       *pMenu;
+    KPnodes      *pNodes;
     KPStatistics *pStatistics;
 
 protected:
@@ -129,12 +130,13 @@ public:
     virtual void StopMusicCallback();
 
 // KPstateContext interface
-protected:
+public:
     virtual void ChangeState( int stateID );
     virtual KPboardView     &GetBoardView();
     virtual Camera          &GetCamera();
     virtual Light           &GetLight();
     virtual KPmenu          &GetMenu();
+    virtual KPnodes         &GetNodes();
     virtual KPStatistics    &GetStatistics();
     virtual KPUIBase        &GetUserInterface();
 };

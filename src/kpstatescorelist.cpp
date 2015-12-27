@@ -70,7 +70,7 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
     y -= 0.7f;
     for (i = 0; i < max; i++)
     {
-        tIdToLabel::iterator it;
+        tIdToLabel::const_iterator it;
 
         it = menu.labels.find(T_S_NAME1 + i);
         if (it == menu.labels.end())

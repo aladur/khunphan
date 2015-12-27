@@ -24,7 +24,7 @@
 
 #include <string>
 #include "misc1.h"
-#include "kpnode.h"
+#include "kpboard.h"
 
 
 #define   BOARD                 0
@@ -47,6 +47,7 @@
 
 class Camera;
 class Light;
+class KPboard;
 
 #define MAX_BOARD_TEXTURES  4
 
@@ -54,21 +55,16 @@ class Light;
 class KPboardView
 {
 public:
-    KPboardView(void);
+    KPboardView(const KPboard &currentBoard, const char *TextureName,
+                unsigned int TextureSize = 1, bool Nearest = true);
     virtual ~KPboardView();
 
-    bool Initialize(const char *TextureName, unsigned int TextureSize = 1,
-                    bool Nearest = true);
     void InitializeTextures(const char *TextureName,
                             unsigned int TextureSize = 1,
                             bool Nearest = true, bool always = true);
     void Draw(bool render = true) const;
-    void SetSolveTree(KPnode *n);
-    void ResetBoard();
-    QWord GetBoardId();
-    void SetBoard(KPnode *n);
-    void SetBoard(QWord id);
-    short GetMovesToSolve() const;
+    QWord GetBoardId() const;
+    void SetBoard(const KPboard &);
     tKPTokenID Selection(const Camera *pCamera, int x, int y) const;
     bool Move(tKPTokenID id, tKPDirection d);
     bool CanMove(tKPTokenID id, tKPDirection d);
@@ -80,6 +76,9 @@ public:
     bool IsSolved();
 
 private:
+    void Initialize(const char *TextureName,
+                    unsigned int TextureSize = 1,
+                    bool Nearest = true);
     void DrawToken(const tKPTokenID i) const;
     void DrawCuboid(float deltaAngle) const; // Only for test purposes
     void CreateCuboid(float dx, float dy, float dz,
@@ -90,7 +89,6 @@ private:
     void GetTokenCoordinates(tKPTokenID i, float *x, float *y) const;
     float getRnd(void) const;
 
-    KPnode *pSolveTree; // Pointer to game model
     KPboard current;
     static const char *textureFile[MAX_BOARD_TEXTURES + 1];
 

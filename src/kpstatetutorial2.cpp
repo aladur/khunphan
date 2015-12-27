@@ -25,6 +25,7 @@
 #include "kpboardGL.h"
 #include "camera.h"
 #include "kpuibase.h"
+#include "kpnode.h"
 
 
 void KPstateTutorial2::Initialize(KPstateContext *pContext,
@@ -137,7 +138,7 @@ void KPstateTutorial2::InitializeBoardWithTokens(KPstateContext *pContext)
     n.InitializeToken(TK_WHITE5, 2, 2);
     n.InitializeToken(TK_RED1,   1, 3);
 
-    pContext->GetBoardView().SetBoard(&n);
+    pContext->GetBoardView().SetBoard(n);
 }
 
 void KPstateTutorial2::PlayAudioForInitialize(KPstateContext *pContext)

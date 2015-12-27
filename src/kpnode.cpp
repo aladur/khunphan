@@ -31,30 +31,24 @@
 #include <stdexcept>
 #include <limits.h>
 #include "kpnode.h"
+#include "kpnodes.h"
 #include "btime.h"
 
+//#define DEBUG_OUTPUT 1
 
-KPnode *KPnode::proot  = NULL;
-KPnode *KPnode::pfirst = NULL;
-KPnode *KPnode::plast  = NULL;
-unsigned int KPnode::LLSize = 0;
-bool KPnode::solveCountAvailable = false;
-int  KPnode::iterationCount = 0;
-bool KPnode::finalizeInProgress = false;
-unsigned int KPnode::count = 0;
-double KPnode::solveTime = 0.0;
+unsigned int  KPnode::iterations = 0;
 
-KPnode::KPnode() : pnext(NULL), movesToSolve(SHRT_MAX)
+KPnode::KPnode() : movesToSolve(SHRT_MAX)
 {
 }
 
-KPnode::KPnode(const KPnode &src) : KPboard (src), pnext(NULL),
+KPnode::KPnode(const KPnode &src) : KPboard (src),
     childs(src.childs), parents(src.parents), movesToSolve(SHRT_MAX)
 {
     movesToSolve = src.GetMovesToSolve();
 }
 
-KPnode::KPnode(const KPboard &src) : KPboard (src), pnext(NULL),
+KPnode::KPnode(const KPboard &src) : KPboard (src),
     movesToSolve(SHRT_MAX)
 {
 }
@@ -65,7 +59,6 @@ KPnode &KPnode::operator= (const KPnode &src)
     {
         KPboard::operator= (src);
 
-        pnext = NULL;
         movesToSolve = src.movesToSolve;
         childs = src.childs;
         parents = src.parents;
@@ -74,9 +67,9 @@ KPnode &KPnode::operator= (const KPnode &src)
     return *this;
 }
 
-inline bool KPnode::AddNextMoves()
+void KPnode::AddNextMoves(KPnodes &nodes)
 {
-    KPnode *pn;
+    KPnode *pnode;
     tKPTokenID id = TK_GREEN1;
 
     do
@@ -90,32 +83,29 @@ inline bool KPnode::AddNextMoves()
 
             if (board.Move(id, direction))
             {
-                if (!board.IsMemberOf())
+                if (!nodes.Includes(board.GetID()))
                 {
-                    ++count;
-                    pn = new KPnode(board);
-                    KPnode::LLAddLast(*pn);
-                    KPboard::idHash.Add(LLGetLast().GetID(), &LLGetLast());
-                    pn = &LLGetLast();
+                    KPnode node(board);
+
+                    pnode = &nodes.Add(node);
 #ifdef DEBUG_OUTPUT
-                    std::cout << count << ". New: " << std::endl;
-                    LLGetLast().print(std::cout);
+                    std::cout << nodes.GetSize() << ". New: " << std::endl;
+                    pnode->print(std::cout);
 #endif
                 }
                 else
                 {
                     // position already in tree
                     // Create parent and child links to existing node
-                    pn = GetNodeFor(board);
+                    pnode = &nodes.GetNodeFor(board.GetID());
                 }
-                childs.push_back(pn);
-                pn->parents.push_back(this);
+                childs.push_back(pnode);
+                pnode->parents.push_back(this);
             } // if
         }
         while (++direction != MOVE_UP);
     }
     while (++id != TK_GREEN1);
-    return true;
 }
 
 void KPnode::print(std::ostream &os, bool with_childs /* = false */) const
@@ -138,217 +128,24 @@ void KPnode::print(std::ostream &os, bool with_childs /* = false */) const
     os << std::endl;
 }
 
-KPnode *KPnode::GetNodeFor(const KPboard &b)
+void KPnode::RecursiveUpdateSolveCount(int count)
 {
-    return static_cast<KPnode *>(KPboard::idHash.GetObjectWith(b.GetID()));
-}
-
-KPnode *KPnode::GetNodeFor(QWord id)
-{
-    return static_cast<KPnode *>(KPboard::idHash.GetObjectWith(id));
-}
-
-inline const KPnode &KPnode::GetNext(void) const
-{
-    return *pnext;
-}
-
-void KPnode::InitializeRoot(KPnode &n)
-{
-    // add root object to hash table
-    KPboard::idHash.Add(n.GetID(), &n);
-    proot = &n;
-    atexit( KPnode::finalize );
-}
-
-void KPnode::LLInitialize(KPnode &n)
-{
-    pfirst = &n;
-    plast  = &n;
-    LLSize = 1;
-}
-
-void KPnode::LLAddLast(KPnode &n)
-{
-    plast->pnext  = &n;
-    plast = &n;
-    LLSize++;
-}
-
-void KPnode::LLSkipFirst(void)
-{
-    pfirst = pfirst->pnext;
-    LLSize--;
-}
-
-KPnode &KPnode::LLGetFirst(void)
-{
-    return *pfirst;
-}
-
-KPnode &KPnode::LLGetLast(void)
-{
-    return *plast;
-}
-bool KPnode::LLIsEmpty(void)
-{
-    return (pfirst == NULL);
-}
-
-unsigned int KPnode::LLGetSize(void)
-{
-    return LLSize;
-}
-
-unsigned int KPnode::LLSetFirstToRoot(void)
-{
-    KPnode *p;
-
-    LLSize = 1;
-    p = pfirst = proot;
-    while (p != plast)
-    {
-        p = p->pnext;
-        LLSize++;
-    }
-    return LLSize;
-}
-
-void KPnode::CreateSolveTree(KPnode &n)
-{
-    if (proot != NULL)
-    {
-        delete proot;
-        proot = NULL;
-    }
-    idHash.ClearAll();
-
-    InitializeRoot(n);
-    LLInitialize(n);
-    while (!LLIsEmpty())
-    {
-        if (!LLGetFirst().IsSolved())
-        {
-            LLGetFirst().AddNextMoves();
-        }
-        //if (LLGetFirst().IsSolved())
-        //  LLGetFirst().print(std::cout);
-        LLSkipFirst();
-    }
-}
-
-int KPnode::GetSolutionsCount(void)
-{
-    int i = 0;
-
-    KPnode::LLSetFirstToRoot();
-    while (!KPnode::LLIsEmpty())
-    {
-        if (KPnode::LLGetFirst().IsSolved())
-        {
-            i++;
-        }
-        KPnode::LLSkipFirst();
-    }
-    return i;
-}
-
-void KPnode::CalculateSolveCount(void)
-{
-    BTime time;
-
-    time.ResetRelativeTime();
- 
-    try
-    {
-        KPnode *p;
-        iterationCount = 0;
-        solveCountAvailable = false;
-        p = proot;
-        while (p != NULL)
-        {
-            if (p->IsSolved())
-            {
-                // recursively modify the solve count
-                p->RecursiveUpdateSolveCount(0);
-            }
-            p = p->pnext;
-        }
-    }
-    catch (std::exception &e)
-    {
-        return;  // ignore exception during finalize
-    };
-
-    solveTime = time.GetRelativeTimeUsf(true);
-    solveCountAvailable = true;
-}
-
-void KPnode::RecursiveUpdateSolveCount(short n)
-{
-    if ( finalizeInProgress )
-    {
-        throw std::logic_error("Process shutdown in progress.");
-    }
-
-    // Solutions with more than 120 moves are not of interest.
-    // => Abort recursion.
+    // Every game position can be solved in less or equal than 126 moves.
+    // => For higher values abort the recursion.
+    // In addition only recurse if solve count is lower than the 
+    // already estimated solve count.
     // This tremendously reduces the calculation time.
-    if (n > 120 || (GetMovesToSolve() <= n))
+    if (count <= 126 && (count < GetMovesToSolve()))
     {
-        return;
-    }
+        std::vector<KPnode *>::iterator it;
 
-    iterationCount++;
-    SetMovesToSolve(n);
+        movesToSolve = count;
 
-    std::vector<KPnode *>::iterator it;
+        ++iterations;
 
-    for (it = parents.begin(); it != parents.end(); ++it)
-    {
-        (*it)->RecursiveUpdateSolveCount(n + 1);
-    }
-}
-
-void KPnode::PrintSolveCount(std::ostream &os)
-{
-    if (!IsSolveCountAvailable())
-    {
-        os << "KPnode: Solve count not yet available!" << std::endl;
-        return;
-    }
-    else
-    {
-        KPnode::LLSetFirstToRoot();
-        while (!KPnode::LLIsEmpty())
+        for (it = parents.begin(); it != parents.end(); ++it)
         {
-            const KPnode *n = &LLGetFirst();
-            os << ' ' << n->GetMovesToSolve() << std::endl;
-            LLSkipFirst();
+            (*it)->RecursiveUpdateSolveCount(count + 1);
         }
     }
-}
-
-void KPnode::finalize(void)
-{
-    KPnode *p, *pn;
-    finalizeInProgress = true;
-
-#ifdef LINUX
-    sleep(1);
-#endif
-#ifdef WIN32
-    Sleep(200);  // 200 ms should be enough
-#endif
-    p = proot;
-    proot = pfirst = plast = NULL;
-    LLSize              = 0;
-    iterationCount      = 0;
-    solveCountAvailable = false;
-    while (p != NULL)
-    {
-        pn = p->pnext;
-        delete p;
-        p = pn;
-    };
 }

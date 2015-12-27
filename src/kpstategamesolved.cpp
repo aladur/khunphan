@@ -37,7 +37,7 @@ KPstateGameSolved::KPstateGameSolved() : addToScoreList(false),
 void KPstateGameSolved::Initialize(KPstateContext *pContext,
                                    const KPstate *pOldState)
 {
-    tIdToLabel::iterator it;
+    tIdToLabel::const_iterator it;
 
     KPstate::Initialize(pContext, pOldState);
 
@@ -82,7 +82,7 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
 
 void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
 {
-    tIdToLabel::iterator it;
+    tIdToLabel::const_iterator it;
 
     KPstate::UpdateDisplay(pContext);
 

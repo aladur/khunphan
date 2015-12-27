@@ -26,9 +26,11 @@
 #include "kpsdl2userinterface.h"
 
 
-KPSdl2UserInterface::KPSdl2UserInterface() :
-    KPSdlUserInterface(), window(NULL), renderer(NULL)
+KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode) :
+    KPSdlUserInterface(),
+    window(NULL), renderer(NULL)
 {
+    Initialize(rootNode);
 }
 
 KPSdl2UserInterface::~KPSdl2UserInterface()
@@ -125,7 +127,9 @@ bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
     DebugPrintOpenGLVersion();
     InitializeAudio(config.TextureName.c_str());
-    return InitializeAfterOpen();
+    InitializeAfterOpen();
+
+    return true;
 }
 
 void KPSdl2UserInterface::MainLoop()
@@ -203,7 +207,6 @@ void KPSdl2UserInterface::Close()
         SDL_Quit();
     }
     KPConfig::Instance().WriteToFile();
-
     exit(0);
 }
 

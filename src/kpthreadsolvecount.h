@@ -24,11 +24,17 @@
 #define KPTHREADSOLVECOUNT_H
 
 #include "bthread.h"
+#include "kpnodes.h"
 
 class KPThreadSolveCount : public BThread
 {
 public:
+    KPThreadSolveCount(KPnodes &n) : nodes(n)
+    {
+    }
     void Run();
+private:
+    KPnodes &nodes;
 };
 
 #endif

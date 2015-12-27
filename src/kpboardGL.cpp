@@ -19,6 +19,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -33,6 +34,8 @@
 #include "camera.h"
 #include "light.h"
 #include "btexture.h"
+#include "kpboard.h"
+#include "kpnode.h"
 
 
 #define   DY    25.0f
@@ -54,7 +57,11 @@ const char *KPboardView::textureFile[MAX_BOARD_TEXTURES + 1] =
     NULL
 };
 
-KPboardView::KPboardView(void) : pSolveTree(NULL),
+KPboardView::KPboardView(const KPboard &currentBoard,
+                         const char *TextureName,
+                         unsigned int TextureSize /*=1*/,
+                         bool Nearest /*=true*/) :
+    current(currentBoard),
     mat_value(0.0), xValue (0.0),
     emphasizedToken(TK_EMPTY), animatedToken(TK_EMPTY),
     old_x(0.0), old_y(0.0), new_x(0.0), new_y(0.0),
@@ -74,6 +81,8 @@ KPboardView::KPboardView(void) : pSolveTree(NULL),
     {
         textureId[i] = 0;
     }
+
+    Initialize(TextureName, TextureSize, Nearest);
 }
 
 KPboardView::~KPboardView()
@@ -83,50 +92,14 @@ KPboardView::~KPboardView()
     delete [] textureSource;
 }
 
-void KPboardView::SetSolveTree(KPnode *n)
-{
-    pSolveTree = n;
-    ResetBoard();
-}
-
-void KPboardView::ResetBoard()
-{
-    // set all tokens to their start position (for starting a new game)
-    current = *dynamic_cast<KPboard *>(pSolveTree);
-}
-
-QWord KPboardView::GetBoardId()
+QWord KPboardView::GetBoardId() const
 {
     return current.GetID();
 }
 
-void KPboardView::SetBoard(KPnode *n)
+void KPboardView::SetBoard(const KPboard &board)
 {
-    current = *dynamic_cast<KPboard *>(n);
-}
-
-void KPboardView::SetBoard(QWord id)
-{
-    const KPnode *pn = KPnode::GetNodeFor(id);
-    if (pn == NULL)
-    {
-        ResetBoard();
-    }
-    else
-    {
-        current = *pn;
-    }
-}
-
-short KPboardView::GetMovesToSolve() const
-{
-    const KPnode *pn = KPnode::GetNodeFor(current);
-    // hack to avoid access violations and to have a support hint
-    if (pn == (const KPnode *)NULL)
-    {
-        return -1;
-    }
-    return pn->GetMovesToSolve();
+    current = board;
 }
 
 bool KPboardView::CreateTexture(unsigned int TextureSize, const char *pFile,
@@ -224,7 +197,7 @@ void KPboardView::InitializeTextures(const char  *TextureName,
     }
 }
 
-bool KPboardView::Initialize(const char *TextureName,
+void KPboardView::Initialize(const char *TextureName,
                              unsigned int TextureSize /*=1*/,
                              bool Nearest /*=true*/)
 {
@@ -330,8 +303,6 @@ bool KPboardView::Initialize(const char *TextureName,
     glNewList(DisplayList + CUBOID_2X2, GL_COMPILE);
     CreateCuboid(2 * DX + DGAP, 2 * DY + DGAP, DZ * 2 / 3, 0, 0, 0, true);
     glEndList();
-
-    return true;
 }
 
 float KPboardView::getRnd(void) const
@@ -585,10 +556,6 @@ void KPboardView::Draw(bool render /* = true */) const
     DrawCuboid(-0.5);
     return;
 #else
-    if (pSolveTree == NULL)
-    {
-        return;
-    }
 
     GLfloat    x0, y0;
     tKPTokenID i;

@@ -34,7 +34,7 @@ class KPGlutUserInterface : public KPUIBase
 {
 public:
     // public interface
-    KPGlutUserInterface();
+    KPGlutUserInterface(KPnode &rootNode);
     virtual ~KPGlutUserInterface();
 
     bool OpenWindow(int argc, char **argv);

@@ -23,11 +23,13 @@
 #ifdef HAVE_SDL
 
 #include "kpsdl12userinterface.h"
+#include "kpnode.h"
 
 
-KPSdl12UserInterface::KPSdl12UserInterface() :
+KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode) :
     KPSdlUserInterface(), screen(NULL)
 {
+    Initialize(rootNode);
 }
 
 KPSdl12UserInterface::~KPSdl12UserInterface()
@@ -101,7 +103,9 @@ bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
     DebugPrintOpenGLVersion();
     InitializeAudio(config.TextureName.c_str());
-    return InitializeAfterOpen();
+    InitializeAfterOpen();
+
+    return true;
 }
 
 void KPSdl12UserInterface::MainLoop()

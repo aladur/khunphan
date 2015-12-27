@@ -25,7 +25,6 @@
 
 #include <ostream>
 #include "misc1.h"
-#include "kpidhash.h"
 
 
 enum
@@ -59,15 +58,9 @@ public:
     bool operator == (const KPboard &b) const;
     void print(std::ostream &os) const;
     void InitializeToken (tKPTokenID id, int x, int y);
-    inline void SetPosition(tKPTokenID id, int x, int y);
     bool Move(tKPTokenID id, tKPDirection d);
     bool CanMove(tKPTokenID aTokenId, tKPDirection d) const;
     QWord GetID() const;
-    static KPIdHash idHash;
-    inline bool IsMemberOf(void)
-    {
-        return KPboard::idHash.Contains(GetID());
-    }
     inline bool IsSolved(void) const
     {
         return (position[TK_RED1].x == 1 && position[TK_RED1].y == 3);
@@ -88,6 +81,9 @@ public:
     {
         return (aTokenId == TK_EMPTY) ? 1 : yExtend[aTokenId];
     }
+
+private:
+    inline void SetPosition(tKPTokenID id, int x, int y);
 };
 
 #endif

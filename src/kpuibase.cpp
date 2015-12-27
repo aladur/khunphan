@@ -44,6 +44,7 @@
 #include "kpconfig.h"
 #include "kpstate.h"
 #include "kpstatistics.h"
+#include "kpnodes.h"
 
 // Uncomment the following line to
 // compile for a specific light test version
@@ -52,9 +53,10 @@
 
 KPUIBase *KPUIBase::instance = NULL;
 
-KPUIBase::KPUIBase() : proot(NULL), pBoardView(NULL), pCamera(NULL),
-    pLight(NULL),
-    pMenu(NULL),  pStatistics(NULL), pState(NULL),
+KPUIBase::KPUIBase() :
+    pBoardView(NULL), pCamera(NULL),
+    pLight(NULL), pMenu(NULL),
+    pNodes(NULL), pStatistics(NULL), pState(NULL),
     lastFrameTimestamp(0), oldTime(0), frameCount(0)
 
 {
@@ -71,6 +73,8 @@ KPUIBase::~KPUIBase()
     pLight      = NULL;
     delete pMenu;
     pMenu       = NULL;
+    delete pNodes;
+    pNodes      = NULL;
     delete pState;
     pState      = NULL;
     delete pStatistics;
@@ -87,7 +91,14 @@ bool KPUIBase::IsInitialized()
     return instance != NULL;
 }
 
-bool KPUIBase::InitializeAfterOpen()
+void KPUIBase::Initialize(KPnode &rootNode)
+{
+    pNodes = new KPnodes(rootNode);
+
+    pStatistics = new KPStatistics();
+}
+
+void KPUIBase::InitializeAfterOpen()
 {
     KPConfig &config = KPConfig::Instance();
 
@@ -102,15 +113,10 @@ bool KPUIBase::InitializeAfterOpen()
     glClearDepth(1.0);
     glDepthFunc(GL_LESS);
 
-    pStatistics = new KPStatistics();
-
-    pBoardView = new KPboardView();
-    if (!pBoardView->Initialize(config.TextureName.c_str(),
-                                config.TextureSize,
-                                config.Nearest))
-    {
-        return false;
-    }
+    pBoardView = new KPboardView(GetNodes().GetRootNode(),
+                                 config.TextureName.c_str(),
+                                 config.TextureSize,
+                                 config.Nearest);
 
     pLight = new Light(config.AmbientLight,
                        config.LightSources,
@@ -120,16 +126,10 @@ bool KPUIBase::InitializeAfterOpen()
 
     pMenu = new KPmenu();
 
-    LOG1("Menu initialization");
-
-    if (!pMenu->Initialize(config.TextureName,
-                           config.MenuTextureSize,
-                           config.Nearest,
-                           config.Language))
-    {
-        return false;
-    }
-
+    pMenu->Initialize(config.TextureName,
+                      config.MenuTextureSize,
+                      config.Nearest,
+                      config.Language);
 #ifdef DEBUG_LIGHT_TEST
     ChangeState(KPState_LightTest);
 #else
@@ -137,8 +137,6 @@ bool KPUIBase::InitializeAfterOpen()
 #endif
 
     InitializeEvents();
-
-    return true;
 }
 
 std::string KPUIBase::GetWindowTitle() const
@@ -148,11 +146,6 @@ std::string KPUIBase::GetWindowTitle() const
     title << PACKAGE << " V" << VERSION;
 
     return title.str();
-}
-
-void KPUIBase::UpdateDataModel(KPnode *pRoot)
-{
-    pBoardView->SetSolveTree(pRoot);
 }
 
 std::string KPUIBase::GetOpenGLVendor() const
@@ -315,27 +308,32 @@ void KPUIBase::ChangeState( int stateID )
     }
 }
 
-KPboardView     &KPUIBase::GetBoardView()
+KPboardView &KPUIBase::GetBoardView()
 {
     return *pBoardView;
 }
-Camera          &KPUIBase::GetCamera()
+Camera &KPUIBase::GetCamera()
 {
     return *pCamera;
 }
-Light           &KPUIBase::GetLight()
+Light &KPUIBase::GetLight()
 {
     return *pLight;
 }
-KPmenu          &KPUIBase::GetMenu()
+KPmenu &KPUIBase::GetMenu()
 {
     return *pMenu;
 }
-KPStatistics    &KPUIBase::GetStatistics()
+KPStatistics &KPUIBase::GetStatistics()
 {
     return *pStatistics;
 }
-KPUIBase        &KPUIBase::GetUserInterface()
+KPnodes &KPUIBase::GetNodes()
+{
+    return *pNodes;
+}
+
+KPUIBase &KPUIBase::GetUserInterface()
 {
     return *instance;
 }

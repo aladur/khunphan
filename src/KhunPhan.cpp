@@ -24,13 +24,14 @@
 #include <windows.h>
 #endif
 #include <ostream>
+#include <stdexcept>
 #include "KhunPhan.h"
-#include "kpnode.h"
 #include "kpconfig.h"
 #include "bthread.h"
 #include "kpsdl12userinterface.h"
 #include "kpsdl2userinterface.h"
 #include "kpglutuserinterface.h"
+#include "kpnodes.h"
 
 
 KhunPhanApp *KhunPhanApp::instance = NULL;
@@ -39,7 +40,7 @@ KhunPhanApp *KhunPhanApp::instance = NULL;
 // Class KhunPhanApp
 /////////////////////////////////////////////////////////////////////
 
-KhunPhanApp::KhunPhanApp() : proot(NULL), userInterface(NULL)
+KhunPhanApp::KhunPhanApp() : userInterface(NULL)
 {
 }
 
@@ -47,7 +48,6 @@ KhunPhanApp::~KhunPhanApp()
 {
     delete userInterface;
     userInterface = NULL;
-    proot    = NULL;
     instance = NULL;
 }
 
@@ -63,37 +63,18 @@ KhunPhanApp &KhunPhanApp::Instance()
 
 void KhunPhanApp::InitializeSolutionTree()
 {
-    proot = new KPnode;
+    KPstateContext *pContext = userInterface;
 
-    // initialize all the tokens
-    proot->InitializeToken(TK_GREEN1, 1, 3);
-    proot->InitializeToken(TK_GREEN2, 2, 3);
-    proot->InitializeToken(TK_GREEN3, 1, 4);
-    proot->InitializeToken(TK_GREEN4, 2, 4);
-    proot->InitializeToken(TK_WHITE1, 0, 0);
-    proot->InitializeToken(TK_WHITE2, 3, 0);
-    proot->InitializeToken(TK_WHITE3, 0, 3);
-    proot->InitializeToken(TK_WHITE4, 3, 3);
-    proot->InitializeToken(TK_WHITE5, 1, 2);
-    proot->InitializeToken(TK_RED1,   1, 0);
+    pContext->GetNodes().CalculateSolveCount();
 
-    KPnode::CreateSolveTree(*proot);
-    // The solve count will be calculated in a separate thread
-    // because it takes some time (~16 sec with AMD Athlon 900 MHz)
-    // there is a static function KPnode::IsSolveCountAvailable()
-    // which can be check for the result available
-    if (!thread.Start())
-    {
-        // if starting Thread fails start the procedure sequentially
-        // and inform user
-        message(mtWarning, " Could not start Thread. Please wait...\n");
-        thread.Run();
-    }
+    int positions = pContext->GetNodes().GetSize();
+    int solutionsCount = pContext->GetNodes().GetSolutionsCount();
 
-    // several checks:
-    //KPboard::idHash.Check(std::cout);
-    LOG2("Total positions found: ", KPnode::LLSetFirstToRoot());
-    LOG2("Total solutions found: ", KPnode::GetSolutionsCount());
+    LOG2("Total positions found: ", positions);
+    LOG2("Total solutions found: ", solutionsCount);
+    LOG5(std::fixed, std::setprecision(3),
+         "Time to calculate solve count for all positions: ",
+         pContext->GetNodes().GetSolveTime() / 1000000.0, " s");
 }
 
 bool KhunPhanApp::Initialize(int argc, char **argv)
@@ -121,44 +102,48 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
     config.ReadFromFile();
     config.DebugPrint();
 
-    return true;
-}
-
-bool KhunPhanApp::Run(int argc, char **argv)
-{
+    // initialize all the tokens
+    rootNode.InitializeToken(TK_GREEN1, 1, 3);
+    rootNode.InitializeToken(TK_GREEN2, 2, 3);
+    rootNode.InitializeToken(TK_GREEN3, 1, 4);
+    rootNode.InitializeToken(TK_GREEN4, 2, 4);
+    rootNode.InitializeToken(TK_WHITE1, 0, 0);
+    rootNode.InitializeToken(TK_WHITE2, 3, 0);
+    rootNode.InitializeToken(TK_WHITE3, 0, 3);
+    rootNode.InitializeToken(TK_WHITE4, 3, 3);
+    rootNode.InitializeToken(TK_WHITE5, 1, 2);
+    rootNode.InitializeToken(TK_RED1,   1, 0);
 
     switch (KPConfig::Instance().UserInterface)
     {
 #ifdef HAVE_SDL2
         case 0:
-            userInterface = new KPSdl2UserInterface();
+            userInterface = new KPSdl2UserInterface(rootNode);
             break;
 #else
 #ifdef HAVE_SDL
         case 0:
-            userInterface = new KPSdl12UserInterface();
+            userInterface = new KPSdl12UserInterface(rootNode);
             break;
 #endif
 #endif
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
         case 1:
-            userInterface = new KPGlutUserInterface();
+            userInterface = new KPGlutUserInterface(rootNode);
             break;
 #endif
         default:
-            userInterface = NULL;
+            throw std::runtime_error("No user interface initialized");
     }
-
-    if ( userInterface == NULL || !userInterface->OpenWindow(argc, argv) )
-    {
-        return false;
-    }
-
-    userInterface->UpdateDataModel(proot);
-    userInterface->MainLoop();
 
     return true;
+}
+
+void KhunPhanApp::Run(int argc, char **argv)
+{
+    userInterface->OpenWindow(argc, argv);
+    userInterface->MainLoop();
 }
 
 void KhunPhanApp::Shutdown()

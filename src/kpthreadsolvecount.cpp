@@ -21,10 +21,9 @@
 */
 
 #include "kpthreadsolvecount.h"
-#include "kpnode.h"
 
 
 void KPThreadSolveCount::Run()
 {
-    KPnode::CalculateSolveCount();
+    nodes.CalculateSolveCount();
 }

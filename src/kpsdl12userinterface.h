@@ -32,7 +32,7 @@ class KPSdl12UserInterface : public KPSdlUserInterface
 {
 public:
     // public interface
-    KPSdl12UserInterface();
+    KPSdl12UserInterface(KPnode &rootNode);
     virtual ~KPSdl12UserInterface();
 
     bool OpenWindow(int argc, char **argv);

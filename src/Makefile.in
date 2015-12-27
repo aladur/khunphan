@@ -137,8 +137,8 @@ am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-main.$(OBJEXT) khunphan-kpconfig.$(OBJEXT) \
 	khunphan-kpboardGL.$(OBJEXT) khunphan-camera.$(OBJEXT) \
 	khunphan-extendedcamera.$(OBJEXT) khunphan-label.$(OBJEXT) \
-	khunphan-plate.$(OBJEXT) khunphan-kpidhash.$(OBJEXT) \
-	khunphan-kpnode.$(OBJEXT) khunphan-misc1.$(OBJEXT) \
+	khunphan-plate.$(OBJEXT) khunphan-kpnode.$(OBJEXT) \
+	khunphan-kpnodes.$(OBJEXT) khunphan-misc1.$(OBJEXT) \
 	khunphan-kpboard.$(OBJEXT) khunphan-KhunPhan.$(OBJEXT) \
 	khunphan-kpstatelighttest.$(OBJEXT) \
 	khunphan-sprinter.$(OBJEXT) khunphan-kplocale.$(OBJEXT)
@@ -416,8 +416,8 @@ khunphan_SOURCES = \
         extendedcamera.cpp \
         label.cpp \
         plate.cpp \
-        kpidhash.cpp \
         kpnode.cpp \
+        kpnodes.cpp \
         misc1.cpp \
         kpboard.cpp \
         KhunPhan.cpp \
@@ -433,7 +433,7 @@ EXTRA_DIST = \
         kpboard.h \
         misc1.h \
         kpnode.h \
-        kpidhash.h \
+        kpnodes.h \
         plate.h \
         language.h \
         label.h \
@@ -664,10 +664,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpboardGL.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpconfig.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpglutuserinterface.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpidhash.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kplocale.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpmenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpnode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpnodes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpprogressbar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpscore.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-kpsdl12userinterface.Po@am__quote@
@@ -1362,20 +1362,6 @@ khunphan-plate.obj: plate.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-plate.obj `if test -f 'plate.cpp'; then $(CYGPATH_W) 'plate.cpp'; else $(CYGPATH_W) '$(srcdir)/plate.cpp'; fi`
 
-khunphan-kpidhash.o: kpidhash.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpidhash.o -MD -MP -MF $(DEPDIR)/khunphan-kpidhash.Tpo -c -o khunphan-kpidhash.o `test -f 'kpidhash.cpp' || echo '$(srcdir)/'`kpidhash.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpidhash.Tpo $(DEPDIR)/khunphan-kpidhash.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpidhash.cpp' object='khunphan-kpidhash.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpidhash.o `test -f 'kpidhash.cpp' || echo '$(srcdir)/'`kpidhash.cpp
-
-khunphan-kpidhash.obj: kpidhash.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpidhash.obj -MD -MP -MF $(DEPDIR)/khunphan-kpidhash.Tpo -c -o khunphan-kpidhash.obj `if test -f 'kpidhash.cpp'; then $(CYGPATH_W) 'kpidhash.cpp'; else $(CYGPATH_W) '$(srcdir)/kpidhash.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpidhash.Tpo $(DEPDIR)/khunphan-kpidhash.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpidhash.cpp' object='khunphan-kpidhash.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpidhash.obj `if test -f 'kpidhash.cpp'; then $(CYGPATH_W) 'kpidhash.cpp'; else $(CYGPATH_W) '$(srcdir)/kpidhash.cpp'; fi`
-
 khunphan-kpnode.o: kpnode.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpnode.o -MD -MP -MF $(DEPDIR)/khunphan-kpnode.Tpo -c -o khunphan-kpnode.o `test -f 'kpnode.cpp' || echo '$(srcdir)/'`kpnode.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpnode.Tpo $(DEPDIR)/khunphan-kpnode.Po
@@ -1389,6 +1375,20 @@ khunphan-kpnode.obj: kpnode.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpnode.cpp' object='khunphan-kpnode.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpnode.obj `if test -f 'kpnode.cpp'; then $(CYGPATH_W) 'kpnode.cpp'; else $(CYGPATH_W) '$(srcdir)/kpnode.cpp'; fi`
+
+khunphan-kpnodes.o: kpnodes.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpnodes.o -MD -MP -MF $(DEPDIR)/khunphan-kpnodes.Tpo -c -o khunphan-kpnodes.o `test -f 'kpnodes.cpp' || echo '$(srcdir)/'`kpnodes.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpnodes.Tpo $(DEPDIR)/khunphan-kpnodes.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpnodes.cpp' object='khunphan-kpnodes.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpnodes.o `test -f 'kpnodes.cpp' || echo '$(srcdir)/'`kpnodes.cpp
+
+khunphan-kpnodes.obj: kpnodes.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kpnodes.obj -MD -MP -MF $(DEPDIR)/khunphan-kpnodes.Tpo -c -o khunphan-kpnodes.obj `if test -f 'kpnodes.cpp'; then $(CYGPATH_W) 'kpnodes.cpp'; else $(CYGPATH_W) '$(srcdir)/kpnodes.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-kpnodes.Tpo $(DEPDIR)/khunphan-kpnodes.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpnodes.cpp' object='khunphan-kpnodes.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpnodes.obj `if test -f 'kpnodes.cpp'; then $(CYGPATH_W) 'kpnodes.cpp'; else $(CYGPATH_W) '$(srcdir)/kpnodes.cpp'; fi`
 
 khunphan-misc1.o: misc1.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-misc1.o -MD -MP -MF $(DEPDIR)/khunphan-misc1.Tpo -c -o khunphan-misc1.o `test -f 'misc1.cpp' || echo '$(srcdir)/'`misc1.cpp

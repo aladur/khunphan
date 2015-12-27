@@ -47,8 +47,8 @@ khunphan_SOURCES = \
         extendedcamera.cpp \
         label.cpp \
         plate.cpp \
-        kpidhash.cpp \
         kpnode.cpp \
+        kpnodes.cpp \
         misc1.cpp \
         kpboard.cpp \
         KhunPhan.cpp \
@@ -65,7 +65,7 @@ EXTRA_DIST = \
         kpboard.h \
         misc1.h \
         kpnode.h \
-        kpidhash.h \
+        kpnodes.h \
         plate.h \
         language.h \
         label.h \

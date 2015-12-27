@@ -29,6 +29,7 @@ class Light;
 class KPmenu;
 class KPStatistics;
 class KPUIBase;
+class KPnodes;
 
 
 class KPstateContext
@@ -39,6 +40,7 @@ public:
     virtual Camera          &GetCamera()        = 0;
     virtual Light           &GetLight()         = 0;
     virtual KPmenu          &GetMenu()          = 0;
+    virtual KPnodes         &GetNodes()         = 0;
     virtual KPStatistics    &GetStatistics()    = 0;
     virtual KPUIBase        &GetUserInterface() = 0;
 };

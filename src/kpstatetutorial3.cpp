@@ -27,6 +27,7 @@
 #include "camera.h"
 #include "language.h"
 #include "kpuibase.h"
+#include "kpnodes.h"
 
 
 KPstateTutorial3::KPstateTutorial3() : tutorialState(KP_TUT_STARTED)
@@ -180,9 +181,11 @@ void  KPstateTutorial3::KeyPressed (KPstateContext *pContext, unsigned char key,
 
 tKPMenuState KPstateTutorial3::ESCKeyAction (KPstateContext *pContext)
 {
-    pContext->GetCamera().SetRoundtrip(true);
-    pContext->GetBoardView().ResetBoard();
+    const KPnode &node = pContext->GetNodes().GetRootNode();
+    pContext->GetBoardView().SetBoard(node);
     pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
+    pContext->GetCamera().SetRoundtrip(true);
+
     return pContext->GetMenu().RestoreLastStateId();
 }
 
@@ -194,9 +197,10 @@ void KPstateTutorial3::ContinueWithNextState(KPstateContext *pContext,
         return;
     }
 
-    pContext->GetCamera().SetRoundtrip(true);
-    pContext->GetBoardView().ResetBoard();
+    const KPnode &node = pContext->GetNodes().GetRootNode();
+    pContext->GetBoardView().SetBoard(node);
     pContext->GetBoardView().EmphasizeToken( TK_EMPTY );
+    pContext->GetCamera().SetRoundtrip(true);
     pContext->ChangeState( KPState_Tutorial4 );
 }
 
@@ -267,7 +271,7 @@ void KPstateTutorial3::InitializeBoardWithTokens(KPstateContext *pContext)
     n.InitializeToken(TK_WHITE5, 1, 2);
     n.InitializeToken(TK_RED1,   1, 0);
 
-    pContext->GetBoardView().SetBoard(&n);
+    pContext->GetBoardView().SetBoard(n);
 }
 
 void KPstateTutorial3::PlayAudioForInitialize(KPstateContext *pContext)

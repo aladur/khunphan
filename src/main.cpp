@@ -90,18 +90,13 @@ int main (int argc, char **argv)
     (void)signal(SIGINT, _interrupt);
 #endif
 
-    if ( !KhunPhanApp::Instance().Initialize(argc, argv) )
+    if (!KhunPhanApp::Instance().Initialize(argc, argv))
     {
         KPConfig::Instance().finalize();
-        return returnCode;
+        return 0;
     }
     KhunPhanApp::Instance().InitializeSolutionTree();
-    if (!KhunPhanApp::Instance().Run(argc, argv))
-    {
-        KPConfig::Instance().finalize();
-        return returnCode;
-    }
-
+    KhunPhanApp::Instance().Run(argc, argv);
     KhunPhanApp::Instance().Shutdown();
 
     KPConfig::Instance().finalize();

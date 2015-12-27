@@ -26,6 +26,7 @@
 #include "kpboardGL.h"
 #include "kpconfig.h"
 #include "kpnode.h"
+#include "kpnodes.h"
 #include "language.h"
 #include "misc1.h"
 
@@ -36,7 +37,7 @@ KPstateStartUp::KPstateStartUp() : fullInitialized(false)
 void KPstateStartUp::Initialize(KPstateContext *pContext,
                                 const KPstate *pOldState)
 {
-    tIdToLabel::iterator it;
+    tIdToLabel::const_iterator it;
 
     KPstate::Initialize(pContext, pOldState);
 
@@ -166,14 +167,14 @@ void KPstateStartUp::Update(KPstateContext *pContext, int factor)
             KPnode::CalculateSolveCountPercentFinished());
     }
 
-    if (KPnode::IsSolveCountAvailable())
+    if (pContext->GetNodes().IsSolveCountAvailable())
     {
         if (!fullInitialized)
         {
             fullInitialized = true;
             LOG5(std::fixed, std::setprecision(3),
                  "Time to calculate all solutions: ",
-                 KPnode::GetSolveTime() / 1000000.0, " s");
+                 pContext->GetNodes().GetSolveTime() / 1000000.0, " s");
             UpdateDisplay(pContext);
         }
     }

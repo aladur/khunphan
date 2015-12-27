@@ -28,26 +28,14 @@
 #include "kpboard.h"
 
 
-class KPnode;
+class KPnodes;
 
 class KPnode : public KPboard
 {
-private:
-    KPnode *pnext;
-    std::vector<KPnode *> childs;
-    std::vector<KPnode *> parents;
-    short movesToSolve;
-
-    static bool finalizeInProgress;
-    static unsigned int count;
-
-    static KPnode *proot;
-    static KPnode *pfirst;
-    static KPnode *plast;
-    static unsigned int LLSize;
-    static int    iterationCount;
-    static bool   solveCountAvailable;
-    static double solveTime;
+    static unsigned int iterations;
+    std::vector<KPnode *> childs;   // non-owning pointer
+    std::vector<KPnode *> parents;  // non-owning pointer
+    int movesToSolve;
 
 public:
 
@@ -56,56 +44,31 @@ public:
     KPnode(const KPboard &src);
 
     KPnode &operator= (const KPnode &src);
-    inline short GetMovesToSolve(void) const
+    inline int GetMovesToSolve(void) const
     {
         return movesToSolve;
     };
-    inline void  SetMovesToSolve(short m)
-    {
-        movesToSolve = m;
-    };
-    inline bool  AddNextMoves(void);
-    inline const KPnode &GetNext(void) const;
     void print(std::ostream &os, bool with_childs = false) const;
 
-    static void finalize();
-    static KPnode *GetNodeFor(const KPboard &b);
-    static KPnode *GetNodeFor(QWord id);
-    static void InitializeRoot(KPnode &n);
-    static void LLInitialize(KPnode &n);
-    static void LLAddLast(KPnode &n);
-    static bool LLIsEmpty(void);
-    static void LLSkipFirst(void);
-    static unsigned int LLSetFirstToRoot(void);
-    static KPnode &LLGetFirst(void);
-    static KPnode &LLGetLast(void);
-    static unsigned int LLGetSize(void);
-    static void CreateSolveTree(KPnode &n);
-    static void CalculateSolveCount(void);
     // this is a hack to get a percentage value (1 .. 100) how long it will take
     // to finish the calculation of function CalculateSolveCount()
     static int CalculateSolveCountPercentFinished()
     {
-        return iterationCount * 10 / 4333923;
+        return iterations * 10 / 4333923;
     };
-    static void PrintSolveCount(std::ostream &os);
-    static int  GetSolutionsCount(void);
-    static bool IsSolveCountAvailable(void)
-    {
-        return solveCountAvailable;
-    };
-    static double GetSolveTime(void)
-    {
-        return solveTime;
-    };
+    friend KPnodes;
 
 private:
-    inline int GetParentCount(void) const
+    void AddNextMoves(KPnodes &nodes);
+    void RecursiveUpdateSolveCount(int i);
+    inline void SetMovesToSolve(int m)
     {
-        return parents.size();
+        movesToSolve = m;
+    };
+    static inline void ClearIterationCount(void)
+    {
+        iterations = 0;
     }
-
-    void RecursiveUpdateSolveCount(short i);
 };
 
 #endif

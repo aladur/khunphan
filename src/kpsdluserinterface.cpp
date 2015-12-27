@@ -34,6 +34,7 @@
 #include <limits.h>
 #include "kpsdluserinterface.h"
 #include "bdir.h"
+#include "kpnode.h"
 
 
 const char *KPSdlUserInterface::soundFile[KP_SND_MAX+1] =
@@ -48,7 +49,8 @@ const char *KPSdlUserInterface::soundFile[KP_SND_MAX+1] =
     NULL
 };
 
-KPSdlUserInterface::KPSdlUserInterface() : KPUIBase(),
+KPSdlUserInterface::KPSdlUserInterface() :
+    KPUIBase(),
     sound(NULL), soundSource(NULL),
     music(NULL), rate(22050), musicIndex(0), musicPosition(0.0)
 {

@@ -24,9 +24,8 @@
 #define __khunphan_h__
 
 #include <string>
-#include "kpthreadsolvecount.h"
+#include "kpnode.h"
 
-class KPnode;
 class KPUIBase;
 
 
@@ -44,20 +43,19 @@ public:
     // public interface
     bool Initialize(int argc, char **argv);
     void InitializeSolutionTree();
-    bool Run(int argc, char **argv);
+    void Run(int argc, char **argv);
     void Shutdown();
     const char *GetAppName()
     {
         return appName.c_str();
     };
 
-    KPnode *proot;
+    KPnode rootNode;
 
 private:
     KhunPhanApp();
     virtual ~KhunPhanApp();
     std::string appName;
-    KPThreadSolveCount thread;
     KPUIBase *userInterface;
 
     static KhunPhanApp *instance;

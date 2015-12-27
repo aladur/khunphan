@@ -26,6 +26,7 @@
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <string>
+#include <stdexcept>
 #include "misc1.h"
 #include "kpmenu.h"
 #include "kplocale.h"
@@ -38,9 +39,11 @@ KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(KPState_Invalid)
 {
 }
 
-bool KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
+void KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
                         int Language /* = 0*/)
 {
+    LOG1("Menu initialization");
+
     plates[PLATE_MENUBACKGROUND] = Plate(0.7f, 0.7f, 0.7f);
     plates[PLATE_SHADER] = Plate(0.0, 0.0, 0.0);
     plates[PLATE_LOGO] = Plate();
@@ -64,11 +67,8 @@ bool KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
 
     if (labels.empty())
     {
-        message(mtError, " *** Error loading language. Program aborted\n");
-        return false;
+        throw std::runtime_error("Error loading language.");
     }
-
-    return true;
 }
 
 void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest)
@@ -111,7 +111,7 @@ bool KPmenu::LoadLanguage(int Language)
         return false;
     }
 
-    tIdToString::iterator it;
+    tIdToString::const_iterator it;
 
     for (it = strings.begin(); it != strings.end(); ++it)
     {
