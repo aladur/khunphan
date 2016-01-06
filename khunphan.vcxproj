@@ -124,6 +124,7 @@
     <ClCompile Include="src\kpglutuserinterface.cpp" />
     <ClCompile Include="src\kpmenu.cpp" />
     <ClCompile Include="src\kpnode.cpp" />
+    <ClCompile Include="src\kpnodes.cpp" />
     <ClCompile Include="src\kpscore.cpp" />
     <ClCompile Include="src\kpsdl12userinterface.cpp" />
     <ClCompile Include="src\kpsdl2userinterface.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="src\kpglutuserinterface.h" />
     <ClInclude Include="src\kpmenu.h" />
     <ClInclude Include="src\kpnode.h" />
+    <ClInclude Include="src\kpnodes.h" />
     <ClInclude Include="src\kpscore.h" />
     <ClInclude Include="src\kpsdl12userinterface.h" />
     <ClInclude Include="src\kpsdl2userinterface.h" />

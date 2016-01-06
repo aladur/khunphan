@@ -69,7 +69,7 @@ KPnode &KPnodes::GetNodeFor(QWord id)
 
 void KPnodes::CreateSolveTree(KPnode &rootNode)
 {
-    int index;
+    size_t index;
 
     Initialize();
 
