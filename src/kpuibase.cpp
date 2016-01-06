@@ -91,9 +91,9 @@ bool KPUIBase::IsInitialized()
     return instance != NULL;
 }
 
-void KPUIBase::Initialize(KPboard &rootBoard)
+void KPUIBase::Initialize(KPnode &rootNode)
 {
-    pNodes = new KPnodes(rootBoard);
+    pNodes = new KPnodes(rootNode);
 
     pStatistics = new KPStatistics();
 }

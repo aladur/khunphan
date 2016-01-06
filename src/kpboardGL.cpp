@@ -34,8 +34,6 @@
 #include "camera.h"
 #include "light.h"
 #include "btexture.h"
-#include "kpboard.h"
-#include "kpnode.h"
 
 
 #define   DY    25.0f

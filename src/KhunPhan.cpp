@@ -31,6 +31,7 @@
 #include "kpsdl2userinterface.h"
 #include "kpglutuserinterface.h"
 #include "kpnodes.h"
+#include "kpsolutionscountfunction.h"
 
 
 KhunPhanApp *KhunPhanApp::instance = NULL;
@@ -63,17 +64,19 @@ KhunPhanApp &KhunPhanApp::Instance()
 void KhunPhanApp::InitializeSolutionTree()
 {
     KPstateContext *pContext = userInterface;
+    KPsolutionsCountFunction fct;
 
     pContext->GetNodes().CalculateSolveCount();
 
     int positions = pContext->GetNodes().GetSize();
-    int solutionsCount = pContext->GetNodes().GetSolutionsCount();
+    pContext->GetNodes().Iterate(fct);
+    int solutionsCount = fct.GetCount();
 
     LOG2("Total positions found: ", positions);
     LOG2("Total solutions found: ", solutionsCount);
-    LOG5(std::fixed, std::setprecision(3),
+    LOG5(std::fixed, std::setprecision(2),
          "Time to calculate solve count for all positions: ",
-         pContext->GetNodes().GetSolveTime() / 1000000.0, " s");
+         pContext->GetNodes().GetSolveTime() / 1000.0, " ms");
 }
 
 bool KhunPhanApp::Initialize(int argc, char **argv)
@@ -113,23 +116,25 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
     rootBoard.InitializeToken(TK_WHITE5, 1, 2);
     rootBoard.InitializeToken(TK_RED1,   1, 0);
 
+    KPnode rootNode(rootBoard);
+
     switch (KPConfig::Instance().UserInterface)
     {
 #ifdef HAVE_SDL2
         case 0:
-            userInterface = new KPSdl2UserInterface(rootBoard);
+            userInterface = new KPSdl2UserInterface(rootNode);
             break;
 #else
 #ifdef HAVE_SDL
         case 0:
-            userInterface = new KPSdl12UserInterface(rootBoard);
+            userInterface = new KPSdl12UserInterface(rootNode);
             break;
 #endif
 #endif
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
         case 1:
-            userInterface = new KPGlutUserInterface(rootBoard);
+            userInterface = new KPGlutUserInterface(rootNode);
             break;
 #endif
         default:

@@ -40,10 +40,10 @@ private:
 public:
     friend KPnode;
 
-    KPnodes(KPboard &rootBoard);
+    KPnodes(KPnode rootNode);
     ~KPnodes();
 
-    inline bool Includes(QWord id)
+    bool Includes(QWord id)
     {
         return nodesForId.find(id) != nodesForId.end();
     }
@@ -57,8 +57,16 @@ public:
         return nodesForId[*ids.begin()];
     }
     void CalculateSolveCount(void);
-    void PrintSolveCount(std::ostream &os);
-    int  GetSolutionsCount(void);
+    void PrintSolveCount(std::ostream &os) const;
+    template<typename F>
+    void Iterate(F &f)
+    {
+        for (int index = 0; index < ids.size(); ++index)
+        {
+            f.Iterate(GetNodeFor(ids[index]));
+        }
+    }
+
     double GetSolveTime(void)
     {
         return solveTime;
@@ -67,7 +75,7 @@ public:
 private:
     void Initialize(void);
     KPnode &Add(KPnode &);
-    void CreateSolveTree(KPboard &rootBoard);
+    void CreateSolveTree(KPnode &rootNode);
 };
 
 #endif

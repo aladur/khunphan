@@ -26,11 +26,11 @@
 #include "kpsdl2userinterface.h"
 
 
-KPSdl2UserInterface::KPSdl2UserInterface(KPboard &rootBoard) :
+KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode) :
     KPSdlUserInterface(),
     window(NULL), renderer(NULL)
 {
-    Initialize(rootBoard);
+    Initialize(rootNode);
 }
 
 KPSdl2UserInterface::~KPSdl2UserInterface()

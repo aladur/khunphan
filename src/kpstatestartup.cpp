@@ -25,8 +25,6 @@
 #include "light.h"
 #include "kpboardGL.h"
 #include "kpconfig.h"
-#include "kpnode.h"
-#include "kpnodes.h"
 #include "language.h"
 #include "misc1.h"
 

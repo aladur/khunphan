@@ -20,10 +20,6 @@
 */
 
 #include "misc1.h"
-#ifdef HAVE_UNISTD_H
-#include <sys/types.h>
-#include <unistd.h>  // needed for sleep
-#endif
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -34,9 +30,9 @@
 #include "btime.h"
 
 
-KPnodes::KPnodes(KPboard &rootBoard) : solveTime(0.0)
+KPnodes::KPnodes(KPnode rootNode) : solveTime(0.0)
 {
-    CreateSolveTree(rootBoard);
+    CreateSolveTree(rootNode);
 }
 
 KPnodes::~KPnodes()
@@ -75,9 +71,8 @@ KPnode &KPnodes::GetNodeFor(QWord id)
     }
 }
 
-void KPnodes::CreateSolveTree(KPboard &rootBoard)
+void KPnodes::CreateSolveTree(KPnode &rootNode)
 {
-    KPnode rootNode(rootBoard);
     int index;
 
     Initialize();
@@ -87,29 +82,9 @@ void KPnodes::CreateSolveTree(KPboard &rootBoard)
     for (index = 0; index < ids.size(); ++index)
     {
         KPnode &node = GetNodeFor(ids[index]);
-        if (!node.GetBoard().IsSolved())
-        {
-            node.AddNextMoves(*this);
-        }
-        //if (it->IsSolved())
-        //  it->print(std::cout);
+
+        node.AddNextMoves(*this);
     }
-}
-
-int KPnodes::GetSolutionsCount(void)
-{
-    tNodesForId::const_iterator it;
-    int count = 0;
-
-    for (it = nodesForId.begin(); it != nodesForId.end(); ++it)
-    {
-        if (it->second.GetBoard().IsSolved())
-        {
-            ++count;
-        }
-    }
-
-    return count;
 }
 
 void KPnodes::CalculateSolveCount(void)
@@ -123,18 +98,15 @@ void KPnodes::CalculateSolveCount(void)
     {
         KPnode &node = GetNodeFor(*it);
 
-        if (node.GetBoard().IsSolved())
-        {
-            // recursively modify the solve count
-            node.RecursiveUpdateSolveCount(0);
-        }
+        // recursively modify the solve count
+        node.RecursiveUpdateSolveCount(0, true);
     }
 
     solveTime = time.GetRelativeTimeUsf(true);
 
 }
 
-void KPnodes::PrintSolveCount(std::ostream &os)
+void KPnodes::PrintSolveCount(std::ostream &os) const
 {
     tNodesForId::const_iterator it;
 

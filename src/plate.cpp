@@ -14,10 +14,6 @@
 #include <math.h>
 #include <limits.h>
 #include "misc1.h"
-#ifdef HAVE_UNISTD_H
-#include <sys/types.h>
-#include <unistd.h>  // needed for access
-#endif
 #include <stdexcept>
 #include "kpconfig.h"
 #include "plate.h"

@@ -60,7 +60,7 @@ public:
 
 private:
     void AddNextMoves(KPnodes &nodes);
-    void RecursiveUpdateSolveCount(int i);
+    void RecursiveUpdateSolveCount(int count, bool start);
     inline void SetMovesToSolve(int m)
     {
         movesToSolve = m;

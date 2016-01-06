@@ -25,7 +25,7 @@
 #include "kpboardGL.h"
 #include "camera.h"
 #include "kpuibase.h"
-#include "kpnode.h"
+#include "kpboard.h"
 
 
 void KPstateTutorial1::Initialize(KPstateContext *pContext,

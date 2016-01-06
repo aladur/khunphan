@@ -34,7 +34,6 @@
 #include <limits.h>
 #include "kpsdluserinterface.h"
 #include "bdir.h"
-#include "kpnode.h"
 
 
 const char *KPSdlUserInterface::soundFile[KP_SND_MAX+1] =

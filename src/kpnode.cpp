@@ -20,19 +20,13 @@
 */
 
 #include "misc1.h"
-#ifdef HAVE_UNISTD_H
-#include <sys/types.h>
-#include <unistd.h>  // needed for sleep
-#endif
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
-#include <stdexcept>
 #include <limits.h>
 #include "kpnode.h"
 #include "kpnodes.h"
-#include "btime.h"
 
 //#define DEBUG_OUTPUT 1
 
@@ -70,40 +64,43 @@ void KPnode::AddNextMoves(KPnodes &nodes)
     KPnode *pnode;
     tKPTokenID id = TK_GREEN1;
 
-    do
+    if (!GetBoard().IsSolved() && childs.empty())
     {
-        tKPDirection direction;
-
-        direction = MOVE_UP;
         do
         {
-            KPboard boardMoved(board);
+            tKPDirection direction;
 
-            if (boardMoved.Move(id, direction))
+            direction = MOVE_UP;
+            do
             {
-                if (!nodes.Includes(boardMoved.GetID()))
-                {
-                    KPnode node(boardMoved);
+                KPboard boardMoved(board);
 
-                    pnode = &nodes.Add(node);
-#ifdef DEBUG_OUTPUT
-                    std::cout << nodes.GetSize() << ". New: " << std::endl;
-                    pnode->print(std::cout);
-#endif
-                }
-                else
+                if (boardMoved.Move(id, direction))
                 {
-                    // position already in tree
-                    // Create parent and child links to existing node
-                    pnode = &nodes.GetNodeFor(boardMoved.GetID());
-                }
-                childs.push_back(pnode);
-                pnode->parents.push_back(this);
-            } // if
+                    if (!nodes.Includes(boardMoved.GetID()))
+                    {
+                        KPnode node(boardMoved);
+
+                        pnode = &nodes.Add(node);
+#ifdef DEBUG_OUTPUT
+                        std::cout << nodes.GetSize() << ". New: " << std::endl;
+                        pnode->print(std::cout);
+#endif
+                    }
+                    else
+                    {
+                        // position already in tree
+                        // Create parent and child links to existing node
+                        pnode = &nodes.GetNodeFor(boardMoved.GetID());
+                    }
+                    childs.push_back(pnode);
+                    pnode->parents.push_back(this);
+                } // if
+            }
+            while (++direction != MOVE_UP);
         }
-        while (++direction != MOVE_UP);
+        while (++id != TK_GREEN1);
     }
-    while (++id != TK_GREEN1);
 }
 
 void KPnode::print(std::ostream &os, bool with_childs /* = false */) const
@@ -126,14 +123,15 @@ void KPnode::print(std::ostream &os, bool with_childs /* = false */) const
     os << std::endl;
 }
 
-void KPnode::RecursiveUpdateSolveCount(int count)
+void KPnode::RecursiveUpdateSolveCount(int count, bool start)
 {
     // Every game position can be solved in less or equal than 126 moves.
     // => For higher values abort the recursion.
     // In addition only recurse if solve count is lower than the 
     // already estimated solve count.
     // This tremendously reduces the calculation time.
-    if (count <= 126 && (count < GetMovesToSolve()))
+    if ((start && (GetBoard().IsSolved())) ||
+        (!start && (count <= 126) && (count < GetMovesToSolve())))
     {
         std::vector<KPnode *>::iterator it;
 
@@ -141,7 +139,7 @@ void KPnode::RecursiveUpdateSolveCount(int count)
 
         for (it = parents.begin(); it != parents.end(); ++it)
         {
-            (*it)->RecursiveUpdateSolveCount(count + 1);
+            (*it)->RecursiveUpdateSolveCount(count + 1, false);
         }
     }
 }

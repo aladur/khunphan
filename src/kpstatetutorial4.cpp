@@ -25,7 +25,7 @@
 #include "kpmenu.h"
 #include "camera.h"
 #include "kpuibase.h"
-#include "kpnode.h"
+#include "kpboard.h"
 
 
 void KPstateTutorial4::ContinueWithNextState(KPstateContext *pContext,

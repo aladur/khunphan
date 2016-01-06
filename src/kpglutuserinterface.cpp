@@ -47,11 +47,12 @@
 
 #include "kpglutuserinterface.h"
 
-KPGlutUserInterface::KPGlutUserInterface(KPboard &rootBoard) :
+
+KPGlutUserInterface::KPGlutUserInterface(KPnode &rootNode) :
     KPUIBase(),
     windowID(0)
 {
-    Initialize(rootBoard);
+    Initialize(rootNode);
 }
 
 KPGlutUserInterface::~KPGlutUserInterface()
