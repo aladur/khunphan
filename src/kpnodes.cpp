@@ -117,7 +117,6 @@ void KPnodes::CalculateSolveCount(void)
     BTime time;
 
     time.ResetRelativeTime();
-    KPnode::ClearIterationCount();
     tIds::const_iterator it;
  
     for (it = ids.begin(); it != ids.end(); ++it)

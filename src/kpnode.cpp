@@ -36,7 +36,6 @@
 
 //#define DEBUG_OUTPUT 1
 
-unsigned int  KPnode::iterations = 0;
 
 KPnode::KPnode() : movesToSolve(SHRT_MAX)
 {
@@ -139,8 +138,6 @@ void KPnode::RecursiveUpdateSolveCount(int count)
         std::vector<KPnode *>::iterator it;
 
         movesToSolve = count;
-
-        ++iterations;
 
         for (it = parents.begin(); it != parents.end(); ++it)
         {

@@ -135,7 +135,7 @@ bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 void KPSdl2UserInterface::MainLoop()
 {
     // This is the event loop
-    bool done = 0;
+    bool done = false;
     unsigned char key;
 
     while ( ! done )

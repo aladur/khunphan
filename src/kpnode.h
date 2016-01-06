@@ -32,7 +32,6 @@ class KPnodes;
 
 class KPnode
 {
-    static unsigned int iterations;
     std::vector<KPnode *> childs;   // non-owning pointer
     std::vector<KPnode *> parents;  // non-owning pointer
     int movesToSolve;
@@ -49,12 +48,6 @@ public:
     };
     void print(std::ostream &os, bool with_childs = false) const;
 
-    // this is a hack to get a percentage value (1 .. 100) how long it will take
-    // to finish the calculation of function CalculateSolveCount()
-    static int CalculateSolveCountPercentFinished()
-    {
-        return iterations * 10 / 4333923;
-    };
     const KPboard &GetBoard() const
     {
         return board;
@@ -72,10 +65,6 @@ private:
     {
         movesToSolve = m;
     };
-    static inline void ClearIterationCount(void)
-    {
-        iterations = 0;
-    }
     KPboard board;
 };
 
