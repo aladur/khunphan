@@ -22,9 +22,9 @@
 #ifndef KPSTATE_H
 #define KPSTATE_H
 
+#include "stdafx.h"
 #include "KPstateContext.h"
 #include "language.h"
-#include "misc1.h"
 
 
 enum tKPMenuState

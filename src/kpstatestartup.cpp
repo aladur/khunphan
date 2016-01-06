@@ -19,6 +19,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include "stdafx.h"
 #include "kpstatestartup.h"
 #include "kpmenu.h"
 #include "camera.h"
@@ -26,7 +27,6 @@
 #include "kpboardGL.h"
 #include "kpconfig.h"
 #include "language.h"
-#include "misc1.h"
 
 KPstateStartUp::KPstateStartUp()
 {

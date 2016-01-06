@@ -23,8 +23,8 @@
 #ifndef KPSTATEMOVETOKEN_H
 #define KPSTATEMOVETOKEN_H
 
+#include "stdafx.h"
 #include "kpstate.h"
-#include "misc1.h"
 
 class KPstateContext;
 

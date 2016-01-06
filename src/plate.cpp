@@ -5,15 +5,10 @@
 **
 *******************************************************************************/
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <io.h>
-#endif
+#include "stdafx.h"
 #include <GL/gl.h>
 #include <math.h>
 #include <limits.h>
-#include "misc1.h"
 #include <stdexcept>
 #include "kpconfig.h"
 #include "plate.h"

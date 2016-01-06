@@ -20,11 +20,11 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "misc1.h"  // needed for memset and NULL
-#include "kpboard.h"
+#include "stdafx.h"
 #include <stdexcept>
 #include <ostream>
 #include <iomanip>
+#include "kpboard.h"
 
 
 const char KPboard::xExtend[TOKEN_MAX] = { 1, 1, 1, 1, 1, 1, 1, 1, 2, 2 };

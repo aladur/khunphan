@@ -19,26 +19,18 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include "stdafx.h"
 #include <ostream>
-#include "misc1.h"
 
 /* If either GLUT or freeglut is available use it */
 /* otherwise check for OpenGLUT                   */
 #ifdef HAVE_LIBGLUT
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
 #include <GL/glut.h>
 #ifdef FREEGLUT
 #include <GL/freeglut_ext.h>
 #endif
 #else
 #ifdef HAVE_LIBOPENGLUT
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
 #include <GL/openglut.h>
 #endif
 #endif

@@ -22,8 +22,8 @@
 #ifndef _KPBOARD_H__
 #define _KPBOARD_H__
 
+//#include "stdafx.h"
 #include <string>
-#include "misc1.h"
 #include "kpboard.h"
 
 

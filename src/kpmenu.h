@@ -22,10 +22,6 @@
 #ifndef KPMENU_H
 #define KPMENU_H
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
 #include <map>
 #include "plate.h"
 #include "label.h"

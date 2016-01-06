@@ -24,9 +24,9 @@
 #define KPSCORE_H
 
 
+#include "stdafx.h"
 #include <ostream>
 #include <time.h>
-#include "misc1.h" // Needed for NULL
 #include <string>
 
 #define MAX_SCORE_ENTRIES 10

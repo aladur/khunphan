@@ -20,11 +20,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
-#include "misc1.h"
+#include "stdafx.h"
 #include <stdio.h>
 #include <sys/stat.h>
 #ifdef HAVE_UNISTD_H

@@ -22,7 +22,7 @@
 #ifndef KPGLUTUSERINTERFACE_H
 #define KPGLUTUSERINTERFACE_H
 
-#include "misc1.h"
+#include "stdafx.h"
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
 

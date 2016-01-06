@@ -20,6 +20,7 @@
 */
 
 
+#include "stdafx.h"
 #include <stdio.h>
 #include <stdexcept>
 #include "sprinter.h"

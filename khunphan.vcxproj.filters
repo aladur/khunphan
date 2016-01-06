@@ -153,6 +153,9 @@
     <ClCompile Include="src\kplocale.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bdelete.h">
@@ -303,6 +306,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\kplocale.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kpsolutionscountfunction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

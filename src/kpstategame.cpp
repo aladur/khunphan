@@ -20,7 +20,7 @@
 */
 
 
-#include "misc1.h"
+#include "stdafx.h"
 #include "kpstategame.h"
 #include "kpmenu.h"
 #include "kpconfig.h"

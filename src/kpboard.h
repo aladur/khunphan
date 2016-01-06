@@ -23,8 +23,8 @@
 #ifndef __kpboard_h__
 #define __kpboard_h__
 
+//#include "stdafx.h"
 #include <ostream>
-#include "misc1.h"
 
 
 enum

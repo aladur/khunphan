@@ -22,9 +22,9 @@
 #ifndef __kpnode_h__
 #define __kpnode_h__
 
+#include "stdafx.h"
 #include <ostream>
 #include <vector>
-#include "misc1.h"
 #include "kpboard.h"
 
 

@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "misc1.h"
 
+#include "stdafx.h"
 #ifdef HAVE_SDL2
 
 #include "kpsdl2userinterface.h"

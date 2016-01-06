@@ -23,7 +23,7 @@
 #define __SPRINTER_H__
 
 
-#include "misc1.h"
+#include "stdafx.h"
 
 #ifdef HAVE_STDARG_H
 #include <stdarg.h>

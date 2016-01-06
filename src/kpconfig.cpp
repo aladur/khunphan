@@ -21,14 +21,12 @@
 */
 
 
+#include "stdafx.h"
 #ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <shlwapi.h>
 #pragma comment(lib,"shlwapi.lib")
 #include "shlobj.h"
 #endif
-#include "misc1.h"
 #ifdef HAVE_UNISTD_H
 #include <sys/types.h>
 #include <unistd.h>

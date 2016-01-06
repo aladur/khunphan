@@ -20,6 +20,7 @@
 */
 
 
+#include "stdafx.h"
 #include "kpstatekeyboardhelp.h"
 #include "kpmenu.h"
 #include "kpuibase.h"

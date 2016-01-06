@@ -19,8 +19,9 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "kpstategraphicsettings.h"
+#include "stdafx.h"
 #include <algorithm>
+#include "kpstategraphicsettings.h"
 #include "kpmenu.h"
 #include "kpboardGL.h"
 #include "kpconfig.h"

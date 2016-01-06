@@ -22,7 +22,7 @@
 #ifndef KPSDL12USERINTERFACE_H
 #define KPSDL12USERINTERFACE_H
 
-#include "misc1.h"
+#include "stdafx.h"
 #ifdef HAVE_SDL
 
 #include "kpsdluserinterface.h"

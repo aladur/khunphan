@@ -5,13 +5,9 @@
 **
 *******************************************************************************/
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
+#include "stdafx.h"
 #include <GL/gl.h>
 #include "light.h"
-#include "misc1.h"
 
 Light::Light(bool AmbientLight /* = true*/, int LightSources /*= 1*/,
              bool Reflections /*= true*/) : posX (100.0), posY (180.0),

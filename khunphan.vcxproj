@@ -68,6 +68,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\iconv\include;..\libxml2\include\libxml2;..\libSDL2\include;..\libpng\include;..\freeglut\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\libpng\projects\visualc71\Win32_DLL_Debug;..\freeglut\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -76,6 +78,11 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -90,13 +97,18 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <OptimizeReferences>
+      </OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -146,6 +158,10 @@
     <ClCompile Include="src\plate.cpp" />
     <ClCompile Include="src\sprinter.cpp" />
     <ClCompile Include="src\kplocale.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bdelete.h" />
@@ -166,6 +182,7 @@
     <ClInclude Include="src\kpsdl12userinterface.h" />
     <ClInclude Include="src\kpsdl2userinterface.h" />
     <ClInclude Include="src\kpsdluserinterface.h" />
+    <ClInclude Include="src\kpsolutionscountfunction.h" />
     <ClInclude Include="src\kpstate.h" />
     <ClInclude Include="src\kpstateaudiosettings.h" />
     <ClInclude Include="src\KPstateContext.h" />
@@ -198,6 +215,7 @@
     <ClInclude Include="src\sprache.h" />
     <ClInclude Include="src\sprinter.h" />
     <ClInclude Include="src\kplocale.h" />
+    <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\KhunPhan.rc" />

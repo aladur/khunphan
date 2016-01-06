@@ -22,7 +22,7 @@
 #ifndef KPSDLUSERINTERFACE_H
 #define KPSDLUSERINTERFACE_H
 
-#include "misc1.h"
+#include "stdafx.h"
 #if defined (HAVE_SDL) || defined (HAVE_SDL2)
 
 #include <SDL.h>

@@ -20,6 +20,7 @@
 */
 
 
+#include "stdafx.h"
 #include "kpstatelighttest.h"
 #include "kpmenu.h"
 #include "light.h"

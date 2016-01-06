@@ -19,14 +19,9 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "misc1.h"
+#include "stdafx.h"
 #if defined (HAVE_SDL) || defined (HAVE_SDL2)
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <io.h>
-#endif
 #ifdef HAVE_UNISTD_H
 #include <sys/types.h>
 #include <unistd.h>  // needed for access

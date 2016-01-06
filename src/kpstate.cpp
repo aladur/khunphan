@@ -19,7 +19,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "misc1.h"
+#include "stdafx.h"
 #include "kpstate.h"
 #include "KPstateContext.h"
 #include "kpmenu.h"

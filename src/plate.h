@@ -9,7 +9,7 @@
 #define __PLATE_H__
 
 
-#include "misc1.h"
+#include "stdafx.h"
 #include <string>
 
 class KPUIBase;

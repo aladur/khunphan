@@ -19,15 +19,11 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
+#include "stdafx.h"
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <string>
 #include <stdexcept>
-#include "misc1.h"
 #include "kpmenu.h"
 #include "kplocale.h"
 #include "kpconfig.h"

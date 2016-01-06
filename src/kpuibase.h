@@ -22,8 +22,8 @@
 #ifndef KPUIBASE_H
 #define KPUIBASE_H
 
+#include "stdafx.h"
 #include <string>
-#include "misc1.h"
 #include "KPstateContext.h"
 #include "kpmenu.h"
 #include "btime.h"

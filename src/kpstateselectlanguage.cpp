@@ -20,6 +20,7 @@
 */
 
 
+#include "stdafx.h"
 #include "kpstateselectlanguage.h"
 #include "kpmenu.h"
 #include "kpconfig.h"

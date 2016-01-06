@@ -20,7 +20,7 @@
 */
 
 
-#include "misc1.h"
+#include "stdafx.h"
 #include "kpstatistics.h"
 #include "sprinter.h"
 

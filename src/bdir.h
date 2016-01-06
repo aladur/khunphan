@@ -23,7 +23,7 @@
 #ifndef __bdir_h__
 #define __bdir_h__
 
-#include "misc1.h"
+#include "stdafx.h"
 #include <vector>
 #include <string>
 

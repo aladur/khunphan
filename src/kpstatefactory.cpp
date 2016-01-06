@@ -20,10 +20,9 @@
 */
 
 
-#include "misc1.h"
+#include "stdafx.h"
 #include "kpstatefactory.h"
 #include "kpstate.h"
-
 #include "kpstatestartup.h"
 #include "kpstatemainmenu.h"
 #include "kpstatefinish.h"

@@ -5,15 +5,11 @@
 **
 *******************************************************************************/
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
+#include "stdafx.h"
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <math.h>
 #include "camera.h"
-#include "misc1.h"
 
 
 // define constant for degree per radian */

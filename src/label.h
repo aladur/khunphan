@@ -8,7 +8,7 @@
 #ifndef __LABEL_H__
 #define __LABEL_H__
 
-#include "misc1.h"
+#include "stdafx.h"
 
 #include <set>
 #ifdef HAVE_STDARG_H

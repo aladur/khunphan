@@ -20,15 +20,11 @@
 */
 
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
+#include "stdafx.h"
 #include <GL/gl.h>
 #include <math.h>
 #include <limits.h>
 #include <stdexcept>
-#include "misc1.h"   // needed for memset and NULL
 #include "kpconfig.h"
 #include "kpboardGL.h"
 #include "camera.h"

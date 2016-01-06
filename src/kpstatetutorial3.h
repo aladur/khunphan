@@ -23,8 +23,8 @@
 #ifndef KPSTATETUTORIAL3_H
 #define KPSTATETUTORIAL3_H
 
+#include "stdafx.h"
 #include "kpstatemovetoken.h"
-#include "misc1.h"
 
 enum tTutState
 {

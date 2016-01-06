@@ -19,7 +19,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "misc1.h"
+#include "stdafx.h"
 #ifdef TIME_WITH_SYS_TIME
 #include <sys/time.h>
 #include <time.h>
@@ -29,10 +29,6 @@
 #else
 #include <time.h>
 #endif
-#endif
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #endif
 #include <GL/gl.h>
 #include <GL/glu.h> // needed for GLU version

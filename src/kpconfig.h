@@ -28,9 +28,9 @@
 #ifndef KPCONFIG_H
 #define KPCONFIG_H
 
+#include "stdafx.h"
 #include <vector>
 #include <string>
-#include "misc1.h"
 
 
 enum tKPDir

@@ -6,10 +6,7 @@
 **
 *******************************************************************************/
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
+#include "stdafx.h"
 #include <GL/gl.h>
 #include <math.h>
 #include "extendedcamera.h"
@@ -348,4 +345,3 @@ void ExtendedCamera::FocusUp3(float focus_x, float focus_y)
     SetTargetPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
     IsRoundtrip = false;
 }
-

@@ -23,7 +23,7 @@
 #ifndef BTIME_H
 #define BTIME_H
 
-#include "misc1.h"
+#include "stdafx.h"
 
 
 class BTime
