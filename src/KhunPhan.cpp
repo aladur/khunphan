@@ -2,7 +2,7 @@
     KhunPhan.cpp
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2001-2015  W. Schwotzer
+    Copyright (C) 2001-2016  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
     appName = argv[0];
 
     LOG1(PACKAGE " V" VERSION);
-    LOG1("Copyright (C) 2002-2015 Wolfgang Schwotzer");
+    LOG1("Copyright (C) 2002-2016 Wolfgang Schwotzer");
     LOG1("This is free software; see the source for copying conditions");
     LOG1("There is NO warranty; not even for MERCHANTABILITY or FITNESS");
     LOG1("FOR A PARTICULAR PURPOSE.");
