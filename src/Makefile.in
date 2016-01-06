@@ -135,7 +135,8 @@ am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-kpnodes.$(OBJEXT) khunphan-misc1.$(OBJEXT) \
 	khunphan-kpboard.$(OBJEXT) khunphan-KhunPhan.$(OBJEXT) \
 	khunphan-kpstatelighttest.$(OBJEXT) \
-	khunphan-sprinter.$(OBJEXT) khunphan-kplocale.$(OBJEXT)
+	khunphan-sprinter.$(OBJEXT) khunphan-kplocale.$(OBJEXT) \
+	khunphan-stdafx.$(OBJEXT)
 khunphan_OBJECTS = $(am_khunphan_OBJECTS)
 khunphan_DEPENDENCIES =
 khunphan_LINK = $(CXXLD) $(khunphan_CXXFLAGS) $(CXXFLAGS) \
@@ -410,7 +411,8 @@ khunphan_SOURCES = \
         KhunPhan.cpp \
         kpstatelighttest.cpp \
         sprinter.cpp \
-        kplocale.cpp
+        kplocale.cpp \
+        stdafx.cpp
 
 khunphan_CXXFLAGS = @GLU_CFLAGS@ @GLUT_CFLAGS@ @XML_CPPFLAGS@ @LIBPNG_CFLAGS@
 khunphan_LDADD = @GLU_LIBS@ @GLUT_LIBS@ @XML_LIBS@ @LIBPNG_LIBS@
@@ -467,6 +469,7 @@ EXTRA_DIST = \
         kpstatelighttest.h \
         sprinter.h \
         kplocale.h \
+        stdafx.h \
         KhunPhan.rc \
         icon.ico
 
@@ -676,6 +679,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-misc1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-plate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-sprinter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-stdafx.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -1348,6 +1352,20 @@ khunphan-kplocale.obj: kplocale.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kplocale.cpp' object='khunphan-kplocale.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kplocale.obj `if test -f 'kplocale.cpp'; then $(CYGPATH_W) 'kplocale.cpp'; else $(CYGPATH_W) '$(srcdir)/kplocale.cpp'; fi`
+
+khunphan-stdafx.o: stdafx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-stdafx.o -MD -MP -MF $(DEPDIR)/khunphan-stdafx.Tpo -c -o khunphan-stdafx.o `test -f 'stdafx.cpp' || echo '$(srcdir)/'`stdafx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-stdafx.Tpo $(DEPDIR)/khunphan-stdafx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='stdafx.cpp' object='khunphan-stdafx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-stdafx.o `test -f 'stdafx.cpp' || echo '$(srcdir)/'`stdafx.cpp
+
+khunphan-stdafx.obj: stdafx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-stdafx.obj -MD -MP -MF $(DEPDIR)/khunphan-stdafx.Tpo -c -o khunphan-stdafx.obj `if test -f 'stdafx.cpp'; then $(CYGPATH_W) 'stdafx.cpp'; else $(CYGPATH_W) '$(srcdir)/stdafx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-stdafx.Tpo $(DEPDIR)/khunphan-stdafx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='stdafx.cpp' object='khunphan-stdafx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-stdafx.obj `if test -f 'stdafx.cpp'; then $(CYGPATH_W) 'stdafx.cpp'; else $(CYGPATH_W) '$(srcdir)/stdafx.cpp'; fi`
 install-nobase_dist_pkgdataDATA: $(nobase_dist_pkgdata_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(nobase_dist_pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \

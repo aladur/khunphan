@@ -47,7 +47,8 @@ khunphan_SOURCES = \
         KhunPhan.cpp \
         kpstatelighttest.cpp \
         sprinter.cpp \
-        kplocale.cpp
+        kplocale.cpp \
+        stdafx.cpp
 
 khunphan_CXXFLAGS  = @GLU_CFLAGS@ @GLUT_CFLAGS@ @XML_CPPFLAGS@ @LIBPNG_CFLAGS@
 khunphan_LDADD     = @GLU_LIBS@ @GLUT_LIBS@ @XML_LIBS@ @LIBPNG_LIBS@
@@ -105,6 +106,7 @@ EXTRA_DIST = \
         kpstatelighttest.h \
         sprinter.h \
         kplocale.h \
+        stdafx.h \
         KhunPhan.rc \
         icon.ico
 

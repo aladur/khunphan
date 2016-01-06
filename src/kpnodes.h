@@ -22,8 +22,8 @@
 #ifndef __kpnodes_h__
 #define __kpnodes_h__
 
+#include "stdafx.h"
 #include <map>
-#include "misc1.h"
 #include "kpnode.h"
 
 
