@@ -45,7 +45,7 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     if (it == pContext->GetMenu().labels.end())
     {
         pContext->GetMenu().labels[T_COPYRIGHT2] =
-           Label("© 2002-2015 Wolfgang Schwotzer");
+           Label("© 2002-2016 Wolfgang Schwotzer");
     }
 
     it = pContext->GetMenu().labels.find(T_COPYRIGHT3);
