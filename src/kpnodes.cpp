@@ -26,9 +26,16 @@
 #include "btime.h"
 
 
-KPnodes::KPnodes(KPnode rootNode) : solveTime(0.0)
+KPnodes::KPnodes(KPnode rootNode) :
+    calculateSolveCountTime(0.0), createSolveTreeTime(0.0)
 {
+    BTime time;
+
+    time.ResetRelativeTime();
+
     CreateSolveTree(rootNode);
+
+    createSolveTreeTime = time.GetRelativeTimeUsf(true);
 }
 
 KPnodes::~KPnodes()
@@ -98,7 +105,7 @@ void KPnodes::CalculateSolveCount(void)
         node.RecursiveUpdateSolveCount(0, true);
     }
 
-    solveTime = time.GetRelativeTimeUsf(true);
+    calculateSolveCountTime = time.GetRelativeTimeUsf(true);
 
 }
 

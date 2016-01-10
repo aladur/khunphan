@@ -32,11 +32,6 @@ typedef std::vector<QWord> tIds;
 
 class KPnodes
 {
-private:
-    tIds ids;
-    tNodesForId nodesForId;
-    double solveTime;
-
 public:
     friend KPnode;
 
@@ -67,15 +62,24 @@ public:
         }
     }
 
-    double GetSolveTime(void)
+    double GetCalculateSolveCountTime(void)
     {
-        return solveTime;
+        return calculateSolveCountTime;
+    };
+    double GetCreateSolveTreeTime(void)
+    {
+        return createSolveTreeTime;
     };
 
 private:
     void Initialize(void);
     KPnode &Add(KPnode &);
     void CreateSolveTree(KPnode &rootNode);
+
+    tIds ids;
+    tNodesForId nodesForId;
+    double createSolveTreeTime;
+    double calculateSolveCountTime;
 };
 
 #endif

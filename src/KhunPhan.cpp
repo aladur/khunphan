@@ -72,8 +72,11 @@ void KhunPhanApp::InitializeSolutionTree()
     LOG2("Total positions found: ", positions);
     LOG2("Total solutions found: ", solutionsCount);
     LOG5(std::fixed, std::setprecision(2),
+         "Time to calculate all game positions: ",
+         pContext->GetNodes().GetCreateSolveTreeTime() / 1000.0, " ms");
+    LOG5(std::fixed, std::setprecision(2),
          "Time to calculate solve count for all positions: ",
-         pContext->GetNodes().GetSolveTime() / 1000.0, " ms");
+         pContext->GetNodes().GetCalculateSolveCountTime() / 1000.0, " ms");
 }
 
 bool KhunPhanApp::Initialize(int argc, char **argv)
