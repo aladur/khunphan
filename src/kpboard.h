@@ -23,8 +23,9 @@
 #ifndef __kpboard_h__
 #define __kpboard_h__
 
-//#include "stdafx.h"
+#include "stdafx.h"
 #include <ostream>
+#include <vector>
 
 
 enum
@@ -37,6 +38,44 @@ enum
 
 class KPboard
 {
+public:
+    class KPmove
+    {
+    public:
+        KPmove() : token(TK_EMPTY), direction(MOVE_NO)
+        {
+        }
+        KPmove(tKPTokenID t, tKPDirection d) : token(t), direction(d)
+        {
+        }
+        KPmove(const KPmove &src)
+        {
+            token = src.token;
+            direction = src.direction;
+        }
+        KPmove &operator=(const KPmove &src)
+        {
+            token = src.token;
+            direction = src.direction;
+            return *this;
+        }
+        bool operator==(const KPmove &rhs)
+        {
+            return token == rhs.token && (direction == rhs.direction);
+        }
+        inline tKPTokenID GetToken() const
+        {
+            return token;
+        }
+        inline tKPDirection GetDirection() const
+        {
+            return direction;
+        }
+    private:
+        tKPTokenID token;
+        tKPDirection direction;
+    };
+
     typedef struct
     {
         unsigned char x;
@@ -58,8 +97,13 @@ public:
     bool operator == (const KPboard &b) const;
     void print(std::ostream &os) const;
     void InitializeToken (tKPTokenID id, int x, int y);
+    inline bool Move(const KPmove &move)
+    {
+        return Move(move.GetToken(), move.GetDirection());
+    }
     bool Move(tKPTokenID id, tKPDirection d);
     bool CanMove(tKPTokenID aTokenId, tKPDirection d) const;
+    std::vector<KPboard::KPmove> GetPossibleMoves(void) const;
     QWord GetID() const;
     inline bool IsSolved(void) const
     {

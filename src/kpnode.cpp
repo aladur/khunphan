@@ -57,45 +57,39 @@ KPnode &KPnode::operator= (const KPnode &src)
 
 void KPnode::AddNextMoves(KPnodes &nodes)
 {
+    KPboard boardMoved;
     KPnode *pnode;
-    tKPTokenID id = TK_GREEN1;
 
     if (!GetBoard().IsSolved() && childs.empty())
     {
-        do
+        std::vector<KPboard::KPmove> moves = board.GetPossibleMoves();
+        std::vector<KPboard::KPmove>::const_iterator it;
+
+        for (it = moves.begin(); it != moves.end(); ++it)
         {
-            tKPDirection direction;
+            boardMoved = board;
 
-            direction = MOVE_UP;
-            do
+            boardMoved.Move(*it);
+
+            if (!nodes.Includes(boardMoved.GetID()))
             {
-                KPboard boardMoved(board);
+                KPnode node(boardMoved);
 
-                if (boardMoved.Move(id, direction))
-                {
-                    if (!nodes.Includes(boardMoved.GetID()))
-                    {
-                        KPnode node(boardMoved);
-
-                        pnode = &nodes.Add(node);
+                pnode = &nodes.Add(node);
 #ifdef DEBUG_OUTPUT
-                        std::cout << nodes.GetSize() << ". New: " << std::endl;
-                        pnode->print(std::cout);
+                std::cout << nodes.GetSize() << ". New: " << std::endl;
+                pnode->print(std::cout);
 #endif
-                    }
-                    else
-                    {
-                        // position already in tree
-                        // Create parent and child links to existing node
-                        pnode = &nodes.GetNodeFor(boardMoved.GetID());
-                    }
-                    childs.push_back(pnode);
-                    pnode->parents.push_back(this);
-                } // if
             }
-            while (++direction != MOVE_UP);
+            else
+            {
+                // position already in tree
+                // Create parent and child links to existing node
+                pnode = &nodes.GetNodeFor(boardMoved.GetID());
+            }
+            childs.push_back(pnode);
+            pnode->parents.push_back(this);
         }
-        while (++id != TK_GREEN1);
     }
 }
 

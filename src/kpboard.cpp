@@ -24,6 +24,7 @@
 #include <stdexcept>
 #include <ostream>
 #include <iomanip>
+#include <algorithm>
 #include "kpboard.h"
 
 
@@ -283,6 +284,80 @@ bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection d) const
     } // switch
 
     return true;  // the default
+}
+
+std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
+{
+    std::vector<KPboard::KPmove> moves;
+
+    for (int i = 0; i < HORIZONTAL_MAX; i++)
+    {
+        for (int j = 0; j < VERTICAL_MAX; j++)
+        {
+            tKPTokenID token;
+
+            if (tokenID[i][j] == TK_EMPTY)
+            {
+                // Try to move token above of TK_EMPTY
+                if ((j > 0) &&
+                    (token = static_cast<tKPTokenID>(tokenID[i][j-1]),
+                    CanMove(token, MOVE_DOWN)))
+                {
+                   KPboard::KPmove move(token, MOVE_DOWN);
+
+                   if (std::find(moves.begin(), moves.end(), move) ==
+                       moves.end())
+                   {
+                       moves.push_back(move);
+                   }
+                }
+
+                // Try to move token below of TK_EMPTY
+                if ((j < VERTICAL_MAX - 1) &&
+                    (token = static_cast<tKPTokenID>(tokenID[i][j+1]),
+                    CanMove(token, MOVE_UP)))
+                {
+                   KPmove move(token, MOVE_UP);
+
+                   if (std::find(moves.begin(), moves.end(), move) ==
+                       moves.end())
+                   {
+                       moves.push_back(move);
+                   }
+                }
+
+                // Try to move token left of TK_EMPTY
+                if ((i > 0) &&
+                    (token = static_cast<tKPTokenID>(tokenID[i-1][j]),
+                    CanMove(token, MOVE_RIGHT)))
+                {
+                   KPmove move(token, MOVE_RIGHT);
+
+                   if (std::find(moves.begin(), moves.end(), move) ==
+                       moves.end())
+                   {
+                       moves.push_back(move);
+                   }
+                }
+
+                // Try to move token right of TK_EMPTY
+                if ((i < HORIZONTAL_MAX - 1) &&
+                    (token = static_cast<tKPTokenID>(tokenID[i+1][j]),
+                    CanMove(token, MOVE_LEFT)))
+                {
+                   KPmove move(token, MOVE_LEFT);
+
+                   if (std::find(moves.begin(), moves.end(), move) ==
+                       moves.end())
+                   {
+                       moves.push_back(move);
+                   }
+                }
+            }
+        }
+    }
+
+    return moves;
 }
 
 void KPboard::print(std::ostream &os) const

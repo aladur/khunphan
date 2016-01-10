@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef _KPBOARD_H__
-#define _KPBOARD_H__
+#ifndef _KPBOARDGL_H__
+#define _KPBOARDGL_H__
 
 //#include "stdafx.h"
 #include <string>
