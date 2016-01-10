@@ -53,9 +53,9 @@ KPboard::KPboard(const KPboard &src)
     memcpy(tokenID, src.tokenID, sizeof(tokenID));
 }
 
-bool KPboard::operator == (const KPboard &b) const
+bool KPboard::operator == (const KPboard &src) const
 {
-    return GetID() == b.GetID();
+    return GetID() == src.GetID();
 }
 
 inline void KPboard::SetPosition(tKPTokenID aTokenId, int x, int y)
@@ -90,9 +90,9 @@ void KPboard::InitializeToken(tKPTokenID aTokenId, int x, int y)
     SetPosition(aTokenId, x, y);
 }
 
-bool KPboard::Move(tKPTokenID aTokenId, tKPDirection d)
+bool KPboard::Move(tKPTokenID aTokenId, tKPDirection direction)
 {
-    if ( aTokenId == TK_EMPTY || d == MOVE_NO )
+    if ( aTokenId == TK_EMPTY || direction == MOVE_NO )
     {
         return false;
     }
@@ -105,7 +105,7 @@ bool KPboard::Move(tKPTokenID aTokenId, tKPDirection d)
     xExtend = GetXExtend(aTokenId);
     yExtend = GetYExtend(aTokenId);
 
-    switch (d)
+    switch (direction)
     {
 
         case MOVE_UP:
@@ -205,7 +205,7 @@ bool KPboard::Move(tKPTokenID aTokenId, tKPDirection d)
 // Check if token aTokenId can move in direction d
 // return true if it can move
 
-bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection d) const
+bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection direction) const
 {
     if (aTokenId == TK_EMPTY)
     {
@@ -220,7 +220,7 @@ bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection d) const
     xExtend = GetXExtend(aTokenId);
     yExtend = GetYExtend(aTokenId);
 
-    switch (d)
+    switch (direction)
     {
 
         case MOVE_UP:
