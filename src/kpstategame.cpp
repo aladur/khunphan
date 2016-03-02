@@ -326,6 +326,8 @@ void KPstateGame::Cheat1(KPstateContext *pContext)
 
     pContext->GetBoardView().SetBoard(board);
     pContext->GetStatistics().IncEventCounter(USED_CHEATS_CNT);
+
+    UpdateDisplay(pContext);
 }
 
 void KPstateGame::SaveGameStatus(KPstateContext *pContext)

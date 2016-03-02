@@ -47,8 +47,6 @@ enum tTimeFormat
     RTIME_MM_ss      = 326   // Format:   +MM.ss
 };
 
-#define MAX_COUNTER (sizeof(tEventCounter) / sizeof(MOVE_COUNTER))
-
 
 class KPStatistics
 {

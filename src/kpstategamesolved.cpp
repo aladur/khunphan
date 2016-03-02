@@ -58,13 +58,13 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
     menu.labels[T_NAME_LABEL].SetTextOrFormat("");
 
     if (statistics.GetEventCounter(USED_CHEATS_CNT) != 0)
-        // Game solved but cheats used
     {
+        // Game solved but cheats used
         tf_index = T_SOLVED2_3;
     }
     else if (statistics.GetEventCounter(MOVE_WITH_HELP_CNT) != 0)
-        // Game solved with solution hint
     {
+        // Game solved with solution hint
         tf_index = T_SOLVED2_2;
     }
     else
