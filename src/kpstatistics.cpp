@@ -36,7 +36,7 @@ void KPStatistics::Reset()
     stopWatchActive = false;
     counter.push_back(0);
     counter.push_back(0);
-//    counter.push_back(0);
+    counter.push_back(0);
 }
 
 void KPStatistics::Start()
