@@ -23,6 +23,7 @@
 #define _KPSTATISTICS_H_
 
 #include <string>
+#include <vector>
 #include "btime.h"
 
 // Time display formats:
@@ -61,27 +62,24 @@ public:
     {
         playingTime = t;
     };
-    unsigned long GetTotalTime();             // Returns the total elapsed time
-    // in milliseconds
-    std::string GetTotalTime(tTimeFormat      // Return a formatted time string
+    unsigned long GetTotalTime();              // Returns the total elapsed time
+                                               // in milliseconds
+    std::string GetTotalTime(tTimeFormat       // Return a formatted time string
                              formatID);
-    void SetEventCounter(tEventCounter i,     // sets the current value of
-                         unsigned int n);     // event counter i to n
-    int  GetEventCounter(tEventCounter i);    // returns the current value of
-    // event counter i
-    void IncEventCounter(tEventCounter i,
-                         unsigned int n = 1); // increment event counter i by n
-    void DecEventCounter(tEventCounter i,
-                         unsigned int n = 1); // decrement event counter i by n
-    void ResetEventCounter(tEventCounter i);  // Reset event counter i
+    void SetEventCounter(tEventCounter type,   // sets the current value of
+                         unsigned int n);      // event counter to n
+    int  GetEventCounter(tEventCounter type);  // returns the current value of
+                                               // event counter
+    void IncEventCounter(tEventCounter type);  // increment event counter by 1
+    void DecEventCounter(tEventCounter type);  // decrement event counter by 1
+    void ResetEventCounter(tEventCounter type);// Reset event counter
 protected:
     std::string FormatTime(tTimeFormat formatID, unsigned int t);
 
 private:
     BTime time;
-    unsigned int counter[MAX_COUNTER];
+    std::vector<unsigned int> counter;
     unsigned long  playingTime;
     bool stopWatchActive;
 };
-
 #endif

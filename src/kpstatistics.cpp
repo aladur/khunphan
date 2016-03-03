@@ -34,9 +34,9 @@ void KPStatistics::Reset()
 {
     playingTime     = 0;
     stopWatchActive = false;
-    ResetEventCounter(MOVE_COUNTER);
-    ResetEventCounter(MOVE_WITH_HELP_CNT);
-    ResetEventCounter(USED_CHEATS_CNT);
+    counter.push_back(0);
+    counter.push_back(0);
+//    counter.push_back(0);
 }
 
 void KPStatistics::Start()
@@ -66,45 +66,29 @@ unsigned long KPStatistics::GetTotalTime()
     }
 }
 
-int KPStatistics::GetEventCounter(tEventCounter i)
+int KPStatistics::GetEventCounter(tEventCounter type)
 {
-    if (i < MAX_COUNTER)
-    {
-        return counter[i];
-    }
-    return 0;
+    return counter.at(type);
 }
 
-void KPStatistics::SetEventCounter(tEventCounter i, unsigned int n)
+void KPStatistics::SetEventCounter(tEventCounter type, unsigned int n)
 {
-    if (i < MAX_COUNTER)
-    {
-        counter[i] = n;
-    }
+    counter.at(type) = n;
 }
 
-void KPStatistics::IncEventCounter(tEventCounter i, unsigned int n /*= 1*/)
+void KPStatistics::IncEventCounter(tEventCounter type)
 {
-    if (i < MAX_COUNTER)
-    {
-        counter[i] += n;
-    }
+    counter.at(type)++;
 }
 
-void KPStatistics::DecEventCounter(tEventCounter i, unsigned int n /*= 1*/)
+void KPStatistics::DecEventCounter(tEventCounter type)
 {
-    if (i < MAX_COUNTER)
-    {
-        counter[i] -= n;
-    }
+    counter.at(type)--;
 }
 
-void KPStatistics::ResetEventCounter(tEventCounter i)
+void KPStatistics::ResetEventCounter(tEventCounter type)
 {
-    if (i < MAX_COUNTER)
-    {
-        counter[i] = 0;
-    }
+    counter.at(type) = 0;
 }
 
 std::string KPStatistics::GetTotalTime(tTimeFormat formatID)

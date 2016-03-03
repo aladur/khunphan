@@ -255,8 +255,7 @@ enum tEventCounter
 {
     MOVE_COUNTER,
     MOVE_WITH_HELP_CNT,
-    USED_CHEATS_CNT,
-    MAX_COUNTER  // Should be always the last value
+    USED_CHEATS_CNT
 };
 
 enum tMouseEvent
