@@ -32,15 +32,9 @@ class KPUIBase;
 class KhunPhanApp
 {
 public:
-    // static member function for singleton pattern
-    static KhunPhanApp &Instance();
-    static void finalize()
-    {
-        delete instance;
-        instance = NULL;
-    };
+    KhunPhanApp();
+    ~KhunPhanApp();
 
-    // public interface
     bool Initialize(int argc, char **argv);
     void InitializeSolutionTree();
     void Run(int argc, char **argv);
@@ -53,12 +47,8 @@ public:
     KPboard rootBoard;
 
 private:
-    KhunPhanApp();
-    virtual ~KhunPhanApp();
     std::string appName;
     KPUIBase *userInterface;
-
-    static KhunPhanApp *instance;
 };
 
 #endif

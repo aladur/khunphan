@@ -74,6 +74,7 @@ static void scanCmdLine(LPSTR lpCmdLine, int *argc, char **argv)
 
 int main (int argc, char **argv)
 {
+    KhunPhanApp application;
     int returnCode = EXIT_FAILURE;
 
 #ifdef HAVE_MCHECK_H
@@ -86,14 +87,14 @@ int main (int argc, char **argv)
     (void)signal(SIGINT, _interrupt);
 #endif
 
-    if (!KhunPhanApp::Instance().Initialize(argc, argv))
+    if (!application.Initialize(argc, argv))
     {
         KPConfig::Instance().finalize();
         return 0;
     }
-    KhunPhanApp::Instance().InitializeSolutionTree();
-    KhunPhanApp::Instance().Run(argc, argv);
-    KhunPhanApp::Instance().Shutdown();
+    application.InitializeSolutionTree();
+    application.Run(argc, argv);
+    application.Shutdown();
 
     KPConfig::Instance().finalize();
 

@@ -31,8 +31,6 @@
 #include "kpsolutionscountfunction.h"
 
 
-KhunPhanApp *KhunPhanApp::instance = NULL;
-
 /////////////////////////////////////////////////////////////////////
 // Class KhunPhanApp
 /////////////////////////////////////////////////////////////////////
@@ -45,17 +43,6 @@ KhunPhanApp::~KhunPhanApp()
 {
     delete userInterface;
     userInterface = NULL;
-    instance = NULL;
-}
-
-KhunPhanApp &KhunPhanApp::Instance()
-{
-    if (instance == NULL)
-    {
-        instance = new KhunPhanApp();
-        atexit ( KhunPhanApp::finalize );
-    }
-    return *instance;
 }
 
 void KhunPhanApp::InitializeSolutionTree()
