@@ -75,7 +75,7 @@ static void scanCmdLine(LPSTR lpCmdLine, int *argc, char **argv)
 int main (int argc, char **argv)
 {
     KhunPhanApp application;
-    int returnCode = EXIT_FAILURE;
+    int returnCode = EXIT_SUCCESS;
 
 #ifdef HAVE_MCHECK_H
 #ifdef CHECK_MEMORY_LEAKS
@@ -87,14 +87,11 @@ int main (int argc, char **argv)
     (void)signal(SIGINT, _interrupt);
 #endif
 
-    if (!application.Initialize(argc, argv))
+    if (application.Initialize(argc, argv))
     {
-        KPConfig::Instance().finalize();
-        return 0;
+        application.Run(argc, argv);
+        application.Shutdown();
     }
-    application.InitializeSolutionTree();
-    application.Run(argc, argv);
-    application.Shutdown();
 
     KPConfig::Instance().finalize();
 

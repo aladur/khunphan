@@ -70,8 +70,6 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
 {
     KPConfig &config = KPConfig::Instance();
 
-    appName = argv[0];
-
     LOG1(PACKAGE " V" VERSION);
     LOG1("Copyright (C) 2002-2016 Wolfgang Schwotzer");
     LOG1("This is free software; see the source for copying conditions");
@@ -127,6 +125,8 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
         default:
             throw std::runtime_error("No user interface initialized");
     }
+
+    InitializeSolutionTree();
 
     return true;
 }

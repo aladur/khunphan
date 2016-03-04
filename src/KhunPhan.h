@@ -23,7 +23,6 @@
 #ifndef __khunphan_h__
 #define __khunphan_h__
 
-#include <string>
 #include "kpboard.h"
 
 class KPUIBase;
@@ -36,18 +35,14 @@ public:
     ~KhunPhanApp();
 
     bool Initialize(int argc, char **argv);
-    void InitializeSolutionTree();
     void Run(int argc, char **argv);
     void Shutdown();
-    const char *GetAppName()
-    {
-        return appName.c_str();
-    };
 
     KPboard rootBoard;
 
 private:
-    std::string appName;
+    void InitializeSolutionTree();
+
     KPUIBase *userInterface;
 };
 
