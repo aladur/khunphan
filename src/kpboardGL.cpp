@@ -180,10 +180,11 @@ void KPboardView::InitializeTextures(const char  *TextureName,
             if (!CreateTexture(TextureSize, file.c_str(), Nearest,
                                &textureId[i]))
             {
-                message(mtError,
-                        "*** Error creating texture from image file '%s'\n",
-                        file.c_str());
-                exit(1);
+                std::stringstream message;
+
+                message << "*** Error creating texture from image file '"
+                        << file << "'";
+                throw std::runtime_error(message.str());
             }
         }
         textureSource[i] = file;

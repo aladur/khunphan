@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include <algorithm>
+#include <stdexcept>
 #include "kpstategraphicsettings.h"
 #include "kpmenu.h"
 #include "kpboardGL.h"
@@ -46,8 +47,7 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
     textureNameList     = config.GetTextureNames();
     if (textureNameList.empty())
     {
-        message(mtError, "*** Error: No texture directories found\n");
-        exit(1);
+        throw std::runtime_error("*** Error: No texture directories found");
     }
     std::sort(textureNameList.begin(), textureNameList.end());
     for (unsigned int i = 0; i < textureNameList.size(); i++)
@@ -55,10 +55,12 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
         if (pContext->GetMenu().labels.find(T_TEXTURE1 + i) ==
             pContext->GetMenu().labels.end())
         {
-            message(mtError, "*** Error: Not enough Language entries for %d "
-                    "Textures\n",
-                    textureNameList.size());
-            exit(1);
+            std::stringstream message;
+
+            message << "*** Error: Not enough Language entries for "
+                    << textureNameList.size()
+                    << " Textures";
+            throw std::runtime_error(message.str());
         }
     }
 

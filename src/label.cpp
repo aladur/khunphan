@@ -184,9 +184,10 @@ void Label::PreInitialize(const std::string &TextureName,
         if ((texels = texture.ReadTextureFromFile(file2.c_str(),
                       TEX_WITH_ALPHA)) == NULL)
         {
-            message(mtError, "*** Error reading texture from file '%s'\n",
-                    file2.c_str());
-            exit(1);
+            std::stringstream message;
+
+            message << "*** Error reading texture from file '" << file2 << "'";
+            throw std::runtime_error(message.str());
         }
         else
         {
@@ -200,9 +201,10 @@ void Label::PreInitialize(const std::string &TextureName,
 
     if (BTexture::GetExpToBase2(TextureSize) == -1)
     {
-        message(mtError, " *** Error scaling texture %s. Program aborted\n",
-                file2.c_str());
-        exit(1);
+        std::stringstream message;
+
+        message << "*** Error scaling texture from file '" << file2 << "'";
+        throw std::runtime_error(message.str());
     }
 
     texels = texture.Rescale(BTexture::GetExpToBase2(TextureSize),

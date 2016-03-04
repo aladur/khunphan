@@ -76,9 +76,11 @@ Plate::Plate(const Plate &src) :
         if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
             WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
         {
-            message(mtError, "*** Error reading texture from file '%s'\n",
-            TextureSource.c_str());
-            exit(1);
+            std::stringstream message;
+
+            message << "*** Error reading texture from file '"
+                    << TextureSource << "'";
+            throw std::runtime_error(message.str());
         }
 
         pTexture = &texture;
@@ -129,9 +131,11 @@ Plate &Plate::operator=(const Plate &src)
             if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
                 WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
             {
-                message(mtError, "*** Error reading texture from file '%s'\n",
-                TextureSource.c_str());
-                exit(1);
+                std::stringstream message;
+
+                message << "*** Error reading texture from file '"
+                        << TextureSource << "'";
+                throw std::runtime_error(message.str());
             }
 
             pTexture = &texture;
@@ -190,9 +194,11 @@ bool Plate::Update(std::string    &TextureName,
         if ((texels = texture.ReadTextureFromFile(file2.c_str(),
                       withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
         {
-            message(mtError, "*** Error reading texture from file '%s'\n",
-                    file2.c_str());
-            exit(1);
+            std::stringstream message;
+
+            message << "*** Error reading texture from file '"
+                    << file2 << "'";
+            throw std::runtime_error(message.str());
         }
         else
         {
@@ -283,8 +289,10 @@ void Plate::RecreateDisplayList(BTexture *pTexture /* = NULL */)
             break;
 
         default:
-            message(mtError, "*** Plate has invalid type '%d'\n", Type);
-            exit(1);
+            std::stringstream message;
+
+            message << "*** Plate has invalid type " << Type;
+            throw std::runtime_error(message.str());
     }
 }
 
