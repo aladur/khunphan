@@ -166,9 +166,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\bdelete.h" />
     <ClInclude Include="src\bdir.h" />
-    <ClInclude Include="src\bsingle.h" />
     <ClInclude Include="src\btexture.h" />
     <ClInclude Include="src\btime.h" />
     <ClInclude Include="src\camera.h" />

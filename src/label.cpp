@@ -522,7 +522,6 @@ void Label::RecreateDisplayList()
         AspectRatio   = 0.0;
         GLint  p = 0;
         GLuint c = 0;
-        std::string::size_type pos;
         std::string::const_iterator it;
 
         lineCount= 1;

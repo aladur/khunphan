@@ -19,12 +19,13 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include "stdafx.h"
 #include "cmdline.h"
 
 #ifdef WIN32
 // Extension for Win32: Scan command line parameters based
 // on a static command line parameter string
-static void CmdLine::Scan(LPSTR lpCmdLine, int *argc, char **argv)
+void CmdLine::Scan(LPSTR lpCmdLine, int *argc, char **argv)
 {
     *argc = 1;
     *(argv + 0) = PACKAGE;
