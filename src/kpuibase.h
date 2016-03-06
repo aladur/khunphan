@@ -61,10 +61,11 @@ public:
     KPUIBase();
     virtual ~KPUIBase();
 
-    virtual bool OpenWindow(int argc, char **argv) = 0;
+    virtual void OpenWindow(int argc, char **argv) = 0;
     virtual void SetWindowMode(bool FullScreen) const = 0;
     virtual void MainLoop() = 0;
     virtual void Close() = 0;
+    virtual void RequestForClose() = 0;
     virtual int  GetValue(int what) const = 0;
     virtual bool CanToggleFullScreen() const
     {
@@ -72,7 +73,6 @@ public:
     };
     virtual std::string GetWindowTitle() const;
 
-    bool IsInitialized();
     void DebugPrintOpenGLVersion()  const;
     std::string GetOpenGLVendor()   const;
     std::string GetOpenGLRenderer() const;
@@ -83,7 +83,6 @@ public:
     void KeyPressed ( unsigned char keyPressed,  int x, int y );
     void KeyReleased( unsigned char keyReleased, int x, int y );
     void Idle();
-    void Visible (int vis) const;
     void Display();
     void Reshape(int x, int y);
     virtual void Timer(int value) = 0;
@@ -101,8 +100,7 @@ protected:
 
     BTime   fpsTime;
 
-// Sw: unfinished: should be protected
-public:
+private:
     KPboardView  *pBoardView;
     Camera       *pCamera;
     Light        *pLight;

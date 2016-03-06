@@ -71,7 +71,6 @@ KPConfig &KPConfig::Instance()
     if (instance == NULL)
     {
         instance = new KPConfig;
-        atexit (KPConfig::finalize);
     };
     return *instance;
 }
@@ -361,6 +360,7 @@ void KPConfig::ReadFromFile()
     {
         fileVersion = _FROM(version);
     }
+    xmlFree(version);
 
     xmlNodePtr tree = cur->xmlChildrenNode;
 

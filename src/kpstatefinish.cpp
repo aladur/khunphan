@@ -70,7 +70,7 @@ void  KPstateFinish::MouseClick (KPstateContext *pContext, tMouseButton button,
     switch (Signal)
     {
         case S_FINISH:
-            pContext->ChangeState(KPState_Shutdown);
+            pContext->GetUserInterface().RequestForClose();
             break;
         case S_BACK:
             pContext->ChangeState(oldStateId);

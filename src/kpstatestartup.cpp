@@ -26,6 +26,7 @@
 #include "light.h"
 #include "kpboardGL.h"
 #include "kpconfig.h"
+#include "kpuibase.h"
 #include "language.h"
 
 KPstateStartUp::KPstateStartUp()
@@ -101,9 +102,11 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
     StartAnimation();
 }
 
-tKPMenuState KPstateStartUp::ESCKeyAction (KPstateContext *)
+tKPMenuState KPstateStartUp::ESCKeyAction (KPstateContext *pContext)
 {
-    return KPState_Shutdown;
+    pContext->GetUserInterface().RequestForClose();
+
+    return KPState_Invalid;
 }
 
 void KPstateStartUp::KeyPressed (KPstateContext *pContext, unsigned char key,

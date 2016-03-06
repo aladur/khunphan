@@ -25,6 +25,7 @@
 #include "kpmenu.h"
 #include "light.h"
 #include "camera.h"
+#include "kpuibase.h"
 
 
 KPstateLightTest::KPstateLightTest() : mouse_x(0), mouse_y(0)
@@ -78,7 +79,9 @@ void  KPstateLightTest::KeyPressed (KPstateContext *pContext, unsigned char key,
 
 tKPMenuState KPstateLightTest::ESCKeyAction (KPstateContext *pContext)
 {
-    return KPState_Shutdown;
+    pContext->GetUserInterface().RequestForClose();
+
+    return KPState_Invalid;
 }
 
 void  KPstateLightTest::MouseClick (KPstateContext *pContext,
@@ -90,7 +93,7 @@ void  KPstateLightTest::MouseClick (KPstateContext *pContext,
     switch (Signal)
     {
         case S_BACK:
-            pContext->ChangeState(KPState_Shutdown);
+            pContext->GetUserInterface().RequestForClose();
             break;
         default:
             HandleMouseClick(pContext, button, event, x, y);

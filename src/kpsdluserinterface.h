@@ -55,6 +55,7 @@ protected:
     Mix_Chunk *LoadSoundFile(const char *pFile);
     void StopMusicCallback();
     virtual void SetStopMusicCallback() = 0;
+    virtual void RequestForClose();
 
     Mix_Chunk    **sound;
     std::string  *soundSource;
@@ -68,6 +69,9 @@ public:
     void PlayAudio(int soundId) const;
     void PlayMusic(bool On, bool resetPos = false);
     void LoadNextMusic();
+
+protected:
+    static const int REQUEST_FOR_CLOSE;
 
 private:
     unsigned int rate;

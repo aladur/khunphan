@@ -523,6 +523,7 @@ void Label::RecreateDisplayList()
         GLint  p = 0;
         GLuint c = 0;
         std::string::size_type pos;
+        std::string::const_iterator it;
 
         lineCount= 1;
         glNewList(DisplayList, GL_COMPILE);
@@ -530,9 +531,9 @@ void Label::RecreateDisplayList()
         glPushMatrix();
         p=0;
 
-        for (pos = 0; pos < labelText.size(); ++pos)
+        for (it = labelText.begin(); it != labelText.end(); ++it)
         {
-            c = static_cast<unsigned char>(labelText[pos]);
+            c = static_cast<unsigned char>(*it);
             AspectRatio += (right[c] - left[c] + 4) / 64.0f; // Sw: added
             glTranslatef(-left[c] / 64.0f, 0,0);
             glBindTexture(GL_TEXTURE_2D, Texture);

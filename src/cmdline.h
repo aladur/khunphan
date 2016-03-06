@@ -1,8 +1,8 @@
 /*
-    bdelete.h
+    cmdline.h
 
-    Basic class for automatic instance destruction
-    Copyright (C) 1997-2016  W. Schwotzer
+    Automatic solution finder for KhunPhan game
+    Copyright (C) 2016  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,35 +19,15 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef _BDELETE_H_
-#define _BDELETE_H_
+#ifndef CMDLINE_H
+#define CMDLINE_H
 
-
-template <class T>
-class BDeleter
+#ifdef WIN32
+class CmdLine
 {
-private:
-    T *object;
-
-    BDeleter();
-    BDeleter(const BDeleter &);
-    BDeleter &operator=(const BDeleter &);
 public:
-    BDeleter(T *anObject);
-    virtual ~BDeleter();
+    static void Scan(LPSTR lpCmdLine, int *argc, char **argv);
 };
 
-template <class T>
-BDeleter<T>::BDeleter(T *anObject) : object(NULL)
-{
-    object = anObject;
-}
-
-template <class T>
-BDeleter<T>::~BDeleter()
-{
-    delete object;
-    object = NULL;
-}
 #endif
-
+#endif

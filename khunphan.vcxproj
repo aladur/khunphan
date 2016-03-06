@@ -159,6 +159,7 @@
     <ClCompile Include="src\plate.cpp" />
     <ClCompile Include="src\sprinter.cpp" />
     <ClCompile Include="src\kplocale.cpp" />
+    <ClCompile Include="src\cmdline.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -217,6 +218,7 @@
     <ClInclude Include="src\sprache.h" />
     <ClInclude Include="src\sprinter.h" />
     <ClInclude Include="src\kplocale.h" />
+    <ClInclude Include="src\cmdline.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>

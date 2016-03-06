@@ -36,7 +36,7 @@ public:
     KPSdl12UserInterface(KPnode &);
     virtual ~KPSdl12UserInterface();
 
-    bool OpenWindow(int argc, char **argv);
+    void OpenWindow(int argc, char **argv);
     void SetWindowMode(bool FullScreen) const;
     void MainLoop();
     void Close();

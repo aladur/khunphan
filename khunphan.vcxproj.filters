@@ -159,15 +159,12 @@
     <ClCompile Include="src\kpnodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\cmdline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\bdelete.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\bdir.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\bsingle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\btexture.h">
@@ -318,6 +315,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\kpnodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cmdline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

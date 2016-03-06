@@ -48,8 +48,7 @@ enum tKPMenuState
     KPState_Tutorial3       = 16,
     KPState_Tutorial4       = 17,
     KPState_ScoreList       = 18,
-    KPState_LightTest       = 19,
-    KPState_Shutdown        = 99
+    KPState_LightTest       = 19
 };
 
 #define CHECK_DEFAULT_KEY_PRESSED(p1, p2, p3, p4)                 \

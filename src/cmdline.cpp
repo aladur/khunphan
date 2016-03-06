@@ -1,9 +1,8 @@
 /*
-    KhunPhan.h
-
+    cmdline.cpp
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2001-2016  W. Schwotzer
+    Copyright (C) 2016  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,29 +19,32 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __khunphan_h__
-#define __khunphan_h__
+#include "cmdline.h"
 
-#include "kpboard.h"
-
-class KPUIBase;
-
-
-class KhunPhanApp
+#ifdef WIN32
+// Extension for Win32: Scan command line parameters based
+// on a static command line parameter string
+static void CmdLine::Scan(LPSTR lpCmdLine, int *argc, char **argv)
 {
-public:
-    KhunPhanApp();
-    ~KhunPhanApp();
-
-    bool Initialize(int argc, char **argv);
-    void Run(int argc, char **argv);
-
-private:
-    void InitializeSolutionTree();
-
-    KPboard rootBoard;
-    KPUIBase *userInterface;
-};
+    *argc = 1;
+    *(argv + 0) = PACKAGE;
+    while (*lpCmdLine)
+    {
+        *(argv + *argc) = lpCmdLine;
+        while (*lpCmdLine && *lpCmdLine != ' ' && *lpCmdLine != '\t')
+        {
+            lpCmdLine++;
+        }
+        if (*lpCmdLine)
+        {
+            *(lpCmdLine++) = '\0';
+        }
+        while (*lpCmdLine && (*lpCmdLine == ' ' || *lpCmdLine == '\t'))
+        {
+            lpCmdLine++;
+        }
+        (*argc)++;
+    }
+}
 
 #endif
-

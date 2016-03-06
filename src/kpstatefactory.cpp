@@ -21,6 +21,7 @@
 
 
 #include "stdafx.h"
+#include <stdexcept>
 #include "kpstatefactory.h"
 #include "kpstate.h"
 #include "kpstatestartup.h"
@@ -43,21 +44,9 @@
 #include "kpstatelighttest.h"
 
 
-KPstateFactory *KPstateFactory::instance = NULL;
-
 /////////////////////////////////////////////////////////////////////
 // Public Interface
 /////////////////////////////////////////////////////////////////////
-
-KPstateFactory &KPstateFactory::Instance()
-{
-    if (instance == NULL)
-    {
-        instance = new KPstateFactory();
-        atexit ( KPstateFactory::finalize );
-    }
-    return *instance;
-}
 
 KPstate *KPstateFactory::CreateState(int stateID)
 {
@@ -99,8 +88,12 @@ KPstate *KPstateFactory::CreateState(int stateID)
             return new KPstateScoreList;
         case KPState_LightTest:
             return new KPstateLightTest;
-        case KPState_Shutdown:
-            return NULL; // pseudo state to shutdown the Application
+        default:
+            std::stringstream message;
+
+            message << "*** Error in KPstateFactory::CreateState: Unknown state "
+                    << stateID;
+            throw std::runtime_error(message.str());
     }
 
     LOG3("*** Error in State-factory: There is no state with ID ", stateID,
@@ -109,14 +102,3 @@ KPstate *KPstateFactory::CreateState(int stateID)
     return NULL;
 }
 
-/////////////////////////////////////////////////////////////////////
-// Constructor / Destructor
-/////////////////////////////////////////////////////////////////////
-
-KPstateFactory::KPstateFactory()
-{
-}
-
-KPstateFactory::~KPstateFactory()
-{
-}

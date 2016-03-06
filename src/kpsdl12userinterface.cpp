@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #ifdef HAVE_SDL
 
+#include <stdexcept>
 #include "kpsdl12userinterface.h"
 
 
@@ -33,11 +34,7 @@ KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode) :
 
 KPSdl12UserInterface::~KPSdl12UserInterface()
 {
-    if ( screen )
-    {
-        SDL_Quit();
-        screen = NULL;
-    }
+    Close();
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -54,7 +51,7 @@ void KPSdl12UserInterface::SetWindowMode(bool /* FullScreen */) const
     SDL_WM_ToggleFullScreen(screen);
 }
 
-bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
+void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
     KPConfig &config = KPConfig::Instance();
     int flags = SDL_OPENGL | SDL_RESIZABLE;
@@ -79,7 +76,10 @@ bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     // Open OpenGL Window with SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE) < 0)
     {
-        return false;
+        std::stringstream message;
+
+        message << "*** Error in SDL_Init: " << SDL_GetError();
+        throw std::runtime_error(message.str());
     }
 
     if (config.FullScreen)
@@ -94,8 +94,11 @@ bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
                  flags);
     if (screen == NULL)
     {
+        std::stringstream message;
+
+        message << "*** Error in SDL_SetVideoMode: " << SDL_GetError();
         SDL_Quit();
-        return false;
+        throw std::runtime_error(message.str());
     }
 
     SDL_WM_SetCaption(GetWindowTitle().c_str(), GetWindowTitle().c_str());
@@ -103,14 +106,12 @@ bool KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     DebugPrintOpenGLVersion();
     InitializeAudio(config.TextureName.c_str());
     InitializeAfterOpen();
-
-    return true;
 }
 
 void KPSdl12UserInterface::MainLoop()
 {
     // This is the event loop
-    bool done = 0;
+    bool done = false;
     unsigned char key;
 
     while ( ! done )
@@ -135,12 +136,21 @@ void KPSdl12UserInterface::MainLoop()
                     }
                     else
                     {
-                        // unable to set video mode -> Quit
-                        done = 1;
+                        std::stringstream message;
+
+                        message << "*** Error in SDL_SetVideoMode: "
+                                << SDL_GetError();
+                        throw std::runtime_error(message.str());
+                    }
+                    break;
+                case SDL_USEREVENT:
+                    if (event.user.code == REQUEST_FOR_CLOSE)
+                    {
+                        done = true;
                     }
                     break;
                 case SDL_QUIT:
-                    done = 1;
+                    done = true;
                     break;
                 case SDL_MOUSEMOTION:
                     MouseMotion(event.motion.x, event.motion.y);
@@ -179,14 +189,11 @@ void KPSdl12UserInterface::MainLoop()
 
 void KPSdl12UserInterface::Close()
 {
-    if ( screen )
+    if (screen)
     {
         SDL_Quit();
         screen = NULL;
     }
-    KPConfig::Instance().WriteToFile();
-
-    exit(0);
 }
 
 int KPSdl12UserInterface::GetValue(int what) const

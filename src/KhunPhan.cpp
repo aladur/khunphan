@@ -41,8 +41,12 @@ KhunPhanApp::KhunPhanApp() : userInterface(NULL)
 
 KhunPhanApp::~KhunPhanApp()
 {
-    delete userInterface;
-    userInterface = NULL;
+    if (userInterface != NULL)
+    {
+        userInterface->Close();
+        delete userInterface;
+        userInterface = NULL;
+    }
 }
 
 void KhunPhanApp::InitializeSolutionTree()
@@ -135,14 +139,5 @@ void KhunPhanApp::Run(int argc, char **argv)
 {
     userInterface->OpenWindow(argc, argv);
     userInterface->MainLoop();
-}
-
-void KhunPhanApp::Shutdown()
-{
-    if (userInterface->IsInitialized())
-    {
-        userInterface->Close();
-    }
-    delete this;
 }
 

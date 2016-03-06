@@ -31,6 +31,8 @@
 #include "bdir.h"
 
 
+const int KPSdlUserInterface::REQUEST_FOR_CLOSE = 99;
+
 const char *KPSdlUserInterface::soundFile[KP_SND_MAX+1] =
 {
     "openmenu.ogg",      // KP_SND_OPENMENU
@@ -187,6 +189,17 @@ void KPSdlUserInterface::MouseClick( int button, int event, int x, int y )
     {
         pState->MouseClick(this, kpButton, kpEvent, x, y);
     }
+}
+
+void KPSdlUserInterface::RequestForClose()
+{
+    SDL_Event user_event;
+
+    user_event.type = SDL_USEREVENT;
+    user_event.user.code = REQUEST_FOR_CLOSE;
+    user_event.user.data1 = NULL;
+    user_event.user.data2 = NULL;
+    SDL_PushEvent(&user_event);
 }
 
 /////////////////////////////////////////////////////////////////////

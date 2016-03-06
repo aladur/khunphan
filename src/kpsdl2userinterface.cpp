@@ -23,6 +23,7 @@
 #include "stdafx.h"
 #ifdef HAVE_SDL2
 
+#include <stdexcept>
 #include "kpsdl2userinterface.h"
 
 
@@ -35,14 +36,7 @@ KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode) :
 
 KPSdl2UserInterface::~KPSdl2UserInterface()
 {
-    if (window != NULL)
-    {
-        SDL_DestroyRenderer(renderer);
-        renderer = NULL;
-        SDL_DestroyWindow(window);
-        window = NULL;
-        SDL_Quit();
-    }
+    Close();
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -60,7 +54,7 @@ void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
                             isfullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
 }
 
-bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
+void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
     KPConfig &config = KPConfig::Instance();
     int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
@@ -91,9 +85,13 @@ bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
          MIX_MAJOR_VERSION, '.', MIX_MINOR_VERSION, '.', MIX_PATCHLEVEL);
 
     // Open OpenGL Window with SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
     {
-        return false;
+        std::stringstream message;
+
+        message << "*** Error in SDL_Init: " << SDL_GetError();
+        SDL_Quit();
+        throw std::runtime_error(message.str());
     }
 
     if (config.FullScreen)
@@ -111,25 +109,27 @@ bool KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
     if (window == NULL)
     {
-        printf("*** SDL_CreateWindow Error: %s\n", SDL_GetError());
+        std::stringstream message;
+
+        message << "*** Error in SDL_CreateWindow: " << SDL_GetError();
         SDL_Quit();
-        return false;
+        throw std::runtime_error(message.str());
     }
 
     renderer = SDL_CreateRenderer(window, -1, 0);
     if (renderer == NULL)
     {
-        printf("*** SDL_CreateRenderer Error: %s\n", SDL_GetError());
+        std::stringstream message;
+
+        message << "*** Error in SDL_CreateRenderer: " << SDL_GetError();
         SDL_DestroyWindow(window);
         SDL_Quit();
-        return false;
+        throw std::runtime_error(message.str());
     }
 
     DebugPrintOpenGLVersion();
     InitializeAudio(config.TextureName.c_str());
     InitializeAfterOpen();
-
-    return true;
 }
 
 void KPSdl2UserInterface::MainLoop()
@@ -158,8 +158,13 @@ void KPSdl2UserInterface::MainLoop()
                             break;
                     }
                     break;
+                case SDL_USEREVENT:
+                    if (event.user.code == REQUEST_FOR_CLOSE)
+                    {
+                        done = true;
+                    }
                 case SDL_QUIT:
-                    done = 1;
+                    done = true;
                     break;
                 case SDL_MOUSEMOTION:
                     MouseMotion(event.motion.x, event.motion.y);
@@ -206,8 +211,6 @@ void KPSdl2UserInterface::Close()
         window = NULL;
         SDL_Quit();
     }
-    KPConfig::Instance().WriteToFile();
-    exit(0);
 }
 
 int KPSdl2UserInterface::GetValue(int what) const

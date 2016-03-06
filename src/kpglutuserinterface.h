@@ -39,9 +39,10 @@ public:
     KPGlutUserInterface(KPnode &);
     virtual ~KPGlutUserInterface();
 
-    bool OpenWindow(int argc, char **argv);
+    void OpenWindow(int argc, char **argv);
     void SetWindowMode(bool FullScreen) const;
     void MainLoop();
+    void RequestForClose();
     void Close();
     int  GetValue(int what) const;
     bool CanToggleFullScreen() const;
@@ -54,7 +55,6 @@ public:
     static void KeyPressedEvent ( unsigned char keyPressed,  int x, int y );
     static void KeyReleasedEvent( unsigned char keyReleased, int x, int y );
     static void IdleEvent();
-    static void VisibleEvent (int vis);
     static void DisplayEvent();
     static void ReshapeEvent(int x, int y);
     static void TimerEvent(int value);

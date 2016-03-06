@@ -32,6 +32,7 @@
 #endif
 #include <GL/gl.h>
 #include <GL/glu.h> // needed for GLU version
+#include <stdexcept>
 #include "kpuibase.h"
 #include "kpstatefactory.h"
 #include "kpboardGL.h"
@@ -46,7 +47,6 @@
 // compile for a specific light test version
 // #define DEBUG_LIGHT_TEST
 
-
 KPUIBase *KPUIBase::instance = NULL;
 
 KPUIBase::KPUIBase() :
@@ -56,7 +56,16 @@ KPUIBase::KPUIBase() :
     lastFrameTimestamp(0), oldTime(0), frameCount(0)
 
 {
-    instance = this;
+    // the instance is needed for callback handling.
+    // Concequence: Only one UserInterface instance is
+    // supported at a time
+    if (instance != NULL)
+    {
+        throw std::runtime_error(
+           "*** Error: Only one UserInterface instance allowed at a time");
+    } else {
+        instance = this;
+    }
 }
 
 KPUIBase::~KPUIBase()
@@ -81,11 +90,6 @@ KPUIBase::~KPUIBase()
 /////////////////////////////////////////////////////////////////////
 // Public Interface
 /////////////////////////////////////////////////////////////////////
-
-bool KPUIBase::IsInitialized()
-{
-    return instance != NULL;
-}
 
 void KPUIBase::Initialize(KPnode &rootNode)
 {
@@ -251,13 +255,6 @@ void KPUIBase::DisplayFPS()
     }
 }
 
-void KPUIBase::Visible (int /* vis */) const
-{
-    // unfinished
-//  if (vis == GLUT_VISIBLE)
-//    ;
-}
-
 void KPUIBase::MouseMotion( int x, int y )
 {
     pState->MouseMotion(this, x, y);
@@ -280,28 +277,10 @@ void KPUIBase::KeyReleased( unsigned char keyReleased, int x, int y )
 void KPUIBase::ChangeState( int stateID )
 {
     KPstate *pOldState = pState;
-    pState = KPstateFactory::Instance().CreateState( stateID );
-    if (pState)
-    {
-        pState->Initialize(this, pOldState);
-    }
+
+    pState = KPstateFactory::CreateState( stateID );
+    pState->Initialize(this, pOldState);
     delete pOldState;
-    if (pState == NULL)
-    {
-        delete pBoardView;
-        pBoardView  = NULL;
-        delete pCamera;
-        pCamera     = NULL;
-        delete pLight;
-        pLight      = NULL;
-        delete pMenu;
-        pMenu       = NULL;
-        delete pState;
-        pState      = NULL;
-        delete pStatistics;
-        pStatistics = NULL;
-        Close();
-    }
 }
 
 KPboardView &KPUIBase::GetBoardView()
@@ -331,7 +310,7 @@ KPnodes &KPUIBase::GetNodes()
 
 KPUIBase &KPUIBase::GetUserInterface()
 {
-    return *instance;
+    return *this;
 }
 
 /////////////////////////////////////////////////////////////////////

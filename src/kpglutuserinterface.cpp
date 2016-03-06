@@ -21,6 +21,8 @@
 
 #include "stdafx.h"
 #include <ostream>
+#include <stdexcept>
+#include "kpscore.h"
 
 /* If either GLUT or freeglut is available use it */
 /* otherwise check for OpenGLUT                   */
@@ -49,6 +51,11 @@ KPGlutUserInterface::KPGlutUserInterface(KPnode &rootNode) :
 
 KPGlutUserInterface::~KPGlutUserInterface()
 {
+    if (windowID > 0)
+    {
+        glutDestroyWindow(windowID);
+        windowID = 0;
+    }
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -64,7 +71,6 @@ void KPGlutUserInterface::InitializeEvents()
     glutKeyboardFunc  (KPGlutUserInterface::KeyPressedEvent);
     glutKeyboardUpFunc(KPGlutUserInterface::KeyReleasedEvent);
 
-    glutVisibilityFunc(KPGlutUserInterface::VisibleEvent);
     glutIdleFunc      (KPGlutUserInterface::IdleEvent);
     glutDisplayFunc   (KPGlutUserInterface::DisplayEvent);
     glutReshapeFunc   (KPGlutUserInterface::ReshapeEvent);
@@ -121,7 +127,7 @@ void KPGlutUserInterface::SetWindowMode(bool /* FullScreen */) const
 }
 #endif
 
-bool KPGlutUserInterface::OpenWindow(int argc, char **argv)
+void KPGlutUserInterface::OpenWindow(int argc, char **argv)
 {
     glutInit(&argc, argv);
     LOG1("GLUT UserInterface initialization");
@@ -160,12 +166,10 @@ bool KPGlutUserInterface::OpenWindow(int argc, char **argv)
     DebugPrintOpenGLVersion();
     if ( windowID <= 0)
     {
-        return false;
+        throw std::runtime_error("*** Error in glutCreateWindow");
     }
 
     InitializeAfterOpen();
-
-    return true;
 }
 
 void KPGlutUserInterface::MainLoop()
@@ -173,16 +177,22 @@ void KPGlutUserInterface::MainLoop()
     glutMainLoop();
 }
 
+void KPGlutUserInterface::RequestForClose()
+{
+    Close();
+}
+
 void KPGlutUserInterface::Close()
 {
-    if (windowID > 0)
-    {
-        glutDestroyWindow(windowID);
-    }
-    windowID = 0;
+    // glutMainLoop never returns. For this reason
+    // this is the exit point.
+    // And yes, there are some memory leaks. They have
+    // a constant size independent of the playing time.
+    delete this;
+
     KPConfig::Instance().WriteToFile();
-    // The Destruction of the singleton instances
-    // is done with the atexit() function
+    KPConfig::Instance().finalize();
+    KPscore::Instance().finalize();
     exit(0);
 }
 
@@ -222,11 +232,6 @@ void KPGlutUserInterface::KeyReleasedEvent( unsigned char keyReleased, int x,
         int y )
 {
     KPGlutUserInterface::instance->KeyReleased(keyReleased, x, y);
-}
-
-void KPGlutUserInterface::VisibleEvent (int vis)
-{
-    KPGlutUserInterface::instance->Visible(vis);
 }
 
 void KPGlutUserInterface::DisplayEvent()

@@ -50,7 +50,6 @@ KPscore &KPscore::Instance()
     if (instance == NULL)
     {
         instance = new KPscore;
-        atexit ( KPscore::finalize );
     };
     return *instance;
 }
