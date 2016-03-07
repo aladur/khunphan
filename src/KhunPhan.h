@@ -31,17 +31,21 @@ class KPUIBase;
 class KhunPhanApp
 {
 public:
-    KhunPhanApp();
+    KhunPhanApp(int argc, char **argv);
     ~KhunPhanApp();
 
-    bool Initialize(int argc, char **argv);
-    void Run(int argc, char **argv);
+    void Run();
 
 private:
+    KhunPhanApp();
+    bool Initialize();
     void InitializeSolutionTree();
 
     KPboard rootBoard;
     KPUIBase *userInterface;
+    int argc;
+    char **argv;
+    bool canRun;
 };
 
 #endif

@@ -35,8 +35,15 @@
 // Class KhunPhanApp
 /////////////////////////////////////////////////////////////////////
 
-KhunPhanApp::KhunPhanApp() : userInterface(NULL)
+KhunPhanApp::KhunPhanApp() :
+    userInterface(NULL), argc(0), argv(NULL), canRun(false)
 {
+}
+
+KhunPhanApp::KhunPhanApp(int p_argc, char **p_argv) :
+    userInterface(NULL), argc(p_argc), argv(p_argv), canRun(true)
+{
+    Initialize();
 }
 
 KhunPhanApp::~KhunPhanApp()
@@ -70,7 +77,7 @@ void KhunPhanApp::InitializeSolutionTree()
          pContext->GetNodes().GetCalculateSolveCountTime() / 1000.0, " ms");
 }
 
-bool KhunPhanApp::Initialize(int argc, char **argv)
+bool KhunPhanApp::Initialize()
 {
     KPConfig &config = KPConfig::Instance();
 
@@ -80,17 +87,15 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
     LOG1("There is NO warranty; not even for MERCHANTABILITY or FITNESS");
     LOG1("FOR A PARTICULAR PURPOSE.");
 
-    for (int i = 1; i < argc; i++)
-    {
-        if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0)
-        {
-            return false;
-        }
-    }
-
     config.SetDefaultValues();
     config.ReadCommandLineParams(argc, argv);
     config.ReadFromFile();
+    if (config.DisplayVersionOnly)
+    {
+        canRun = false;
+        return false;
+    }
+
     config.DebugPrint();
 
     // initialize all the tokens
@@ -135,9 +140,12 @@ bool KhunPhanApp::Initialize(int argc, char **argv)
     return true;
 }
 
-void KhunPhanApp::Run(int argc, char **argv)
+void KhunPhanApp::Run()
 {
-    userInterface->OpenWindow(argc, argv);
-    userInterface->MainLoop();
+    if (argv != NULL && canRun)
+    {
+        userInterface->OpenWindow(argc, argv);
+        userInterface->MainLoop();
+    }
 }
 

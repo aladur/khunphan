@@ -56,7 +56,7 @@ KPConfig::KPConfig() :
     SoundVolume(100), MusicVolume(100),
     SavedGame(0), PlayTime(0), Moves(0), MovesWithHint(0),
     CheatCount(0),
-    TextureName("wood"),
+    TextureName("wood"), DisplayVersionOnly(false),
     PerformanceLog(false), SkipProgressBar(false)
 {
 }
@@ -713,6 +713,8 @@ void KPConfig::SetDefaultValues()
 
     PerformanceLog       = false;
     SkipProgressBar      = false;
+
+    DisplayVersionOnly   = false;
 }
 
 void KPConfig::ReadCommandLineParams(int argc,char **argv)
@@ -804,6 +806,10 @@ void KPConfig::ReadCommandLineParams(int argc,char **argv)
             std::istringstream iss(argv[i]);
 
             iss >> MouseSpeed;
+        }
+        else if (!strcmp(argv[i],"-v")||!strcmp(argv[i],"--version"))
+        {
+            DisplayVersionOnly = true;
         }
 
         i++;

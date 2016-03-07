@@ -95,6 +95,8 @@ public:
 
     std::string TextureName;
 
+    bool DisplayVersionOnly;
+
     // only for debugging:
     bool PerformanceLog;
     bool SkipProgressBar;

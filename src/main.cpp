@@ -54,16 +54,13 @@ int main (int argc, char **argv)
     mtrace();
 #endif
 
-    KhunPhanApp *application = new KhunPhanApp();
+    KhunPhanApp *application = new KhunPhanApp(argc, argv);
 
 #ifdef SIGINT
     (void)signal(SIGINT, _interrupt);
 #endif
 
-    if (application->Initialize(argc, argv))
-    {
-        application->Run(argc, argv);
-    }
+    application->Run();
 
     delete application;
 
