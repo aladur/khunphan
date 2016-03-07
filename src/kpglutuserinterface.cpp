@@ -74,8 +74,6 @@ void KPGlutUserInterface::InitializeEvents()
     glutIdleFunc      (KPGlutUserInterface::IdleEvent);
     glutDisplayFunc   (KPGlutUserInterface::DisplayEvent);
     glutReshapeFunc   (KPGlutUserInterface::ReshapeEvent);
-//  glutTimerFunc     (10, KPGlutUserInterface::TimerEvent, 10); // Timer event
-    // every 10 ms
 }
 
 bool KPGlutUserInterface::CanToggleFullScreen() const
@@ -249,11 +247,6 @@ void KPGlutUserInterface::IdleEvent()
     KPGlutUserInterface::instance->Idle();
 }
 
-void KPGlutUserInterface::TimerEvent(int)
-{
-    //KPGlutUserInterface::instance->Timer(value);
-}
-
 /////////////////////////////////////////////////////////////////////
 // Event Handling
 /////////////////////////////////////////////////////////////////////
@@ -261,12 +254,6 @@ void KPGlutUserInterface::TimerEvent(int)
 void KPGlutUserInterface::SwapBuffers()
 {
     glutSwapBuffers();
-}
-
-void KPGlutUserInterface::Timer(int)
-{
-    Idle();
-    glutTimerFunc(10, KPGlutUserInterface::TimerEvent, 10);
 }
 
 void KPGlutUserInterface::PostWindowRedisplay()

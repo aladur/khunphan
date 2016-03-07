@@ -38,16 +38,6 @@
 // $ mtrace ./khunphan mtrace.log
 //#define CHECK_MEMORY_LEAKS
 
-//#ifndef WIN32
-#define RETSIGTYPE void
-
-extern "C" RETSIGTYPE _interrupt(int)
-{
-    LOG1(PACKAGE " aborted by user");
-    exit(0);
-}
-//#endif
-
 int main (int argc, char **argv)
 {
 #if defined(HAVE_MCHECK_H) && defined(CHECK_MEMORY_LEAKS)
@@ -55,10 +45,6 @@ int main (int argc, char **argv)
 #endif
 
     KhunPhanApp *application = new KhunPhanApp(argc, argv);
-
-#ifdef SIGINT
-    (void)signal(SIGINT, _interrupt);
-#endif
 
     application->Run();
 

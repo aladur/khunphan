@@ -140,11 +140,6 @@ bool KPSdlUserInterface::mapKey(int mod, int sym, unsigned char *pKey)
 // Event Handling
 /////////////////////////////////////////////////////////////////////
 
-void KPSdlUserInterface::Timer(int)
-{
-    // unused
-}
-
 void KPSdlUserInterface::PostWindowRedisplay()
 {
     // Is there something to do here?
