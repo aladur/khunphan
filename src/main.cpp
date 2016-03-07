@@ -30,11 +30,12 @@
 #include "cmdline.h"
 #include "KhunPhan.h"
 
-// uncomment the following line to activate memory leak checking
-// memory leak checking is used in the following way:
-// (dont strip khunphan)
-// $ MALLOC_TRACE=mlog khunphan
-// $ mtrace khunphan mlog
+// Uncomment the following define to activate GNU C library memory leak
+// checking.
+// Run khunphan with memory leak checking (don't strip khunphan executable):
+// $ MALLOC_TRACE=mtrace.log ./khunphan
+// Output memory leak check results:
+// $ mtrace ./khunphan mtrace.log
 //#define CHECK_MEMORY_LEAKS
 
 //#ifndef WIN32
@@ -51,10 +52,8 @@ int main (int argc, char **argv)
 {
     KhunPhanApp *application = new KhunPhanApp();
 
-#ifdef HAVE_MCHECK_H
-#ifdef CHECK_MEMORY_LEAKS
+#if defined(HAVE_MCHECK_H) && defined(CHECK_MEMORY_LEAKS)
     mtrace();
-#endif
 #endif
 
 #ifdef SIGINT

@@ -84,7 +84,7 @@ AC_HEADER_TIME
 AC_CHECK_HEADERS(sys/time.h sys/types.h sys/stat.h)
 AC_CHECK_HEADERS(string.h strings.h stdlib.h stdarg.h)
 AC_CHECK_HEADER(unistd.h)
-AC_CHECK_HEADER(mcheck.h)
+AC_CHECK_HEADERS(mcheck.h)
 
 AC_CONFIG_FILES([ Makefile ])
 AC_CONFIG_FILES([ src/Makefile ])

@@ -13,6 +13,9 @@
 /* Define to 1 if library and header file for libglut is available. */
 #undef HAVE_LIBGLUT
 
+/* Define to 1 if you have the <mcheck.h> header file. */
+#undef HAVE_MCHECK_H
+
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 

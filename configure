@@ -7935,11 +7935,17 @@ if test "x$ac_cv_header_unistd_h" = xyes; then :
 fi
 
 
-ac_fn_c_check_header_mongrel "$LINENO" "mcheck.h" "ac_cv_header_mcheck_h" "$ac_includes_default"
+for ac_header in mcheck.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "mcheck.h" "ac_cv_header_mcheck_h" "$ac_includes_default"
 if test "x$ac_cv_header_mcheck_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_MCHECK_H 1
+_ACEOF
 
 fi
 
+done
 
 
 ac_config_files="$ac_config_files Makefile"
