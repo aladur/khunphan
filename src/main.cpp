@@ -50,11 +50,11 @@ extern "C" RETSIGTYPE _interrupt(int)
 
 int main (int argc, char **argv)
 {
-    KhunPhanApp *application = new KhunPhanApp();
-
 #if defined(HAVE_MCHECK_H) && defined(CHECK_MEMORY_LEAKS)
     mtrace();
 #endif
+
+    KhunPhanApp *application = new KhunPhanApp();
 
 #ifdef SIGINT
     (void)signal(SIGINT, _interrupt);
