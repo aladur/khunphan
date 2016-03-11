@@ -78,9 +78,6 @@ typedef enum
     S_TOGGLE_MUSIC_VOLUME         = 146,
     S_TOGGLE_USER_INTERFACE       = 147,
 
-    S_PLAYTIME                    = 150,
-    S_MOVES                       = 151,
-
     S_TOGGLE_SOUND_ON             = 160,
     S_TOGGLE_MUSIC_ON             = 161
 } tSignal;

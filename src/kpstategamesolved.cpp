@@ -46,7 +46,7 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
     KPStatistics &statistics = pContext->GetStatistics();
 
     // Do some initialization stuff here:
-    KPscore::Instance().ReadFromFile();
+    KPscore scoreList;
 
     KPConfig::Instance().SavedGame = 0;
 
@@ -71,7 +71,7 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
     {
         // Game solved without any help
         tf_index = T_SOLVED2_1;
-        if (KPscore::Instance().CanAdd("", statistics.GetTotalTime(),
+        if (scoreList.CanAdd("", statistics.GetTotalTime(),
                                       statistics.GetEventCounter(MOVE_COUNTER)))
         {
             addToScoreList = true;
@@ -187,12 +187,13 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext)
 
     if (addToScoreList && !name.empty())
     {
+        KPscore scoreList;
 
-        KPscore::Instance().Add(name.c_str(),
-                                pContext->GetStatistics().GetTotalTime(),
-                                pContext->GetStatistics()
-                                .GetEventCounter(MOVE_COUNTER), 0);
-        KPscore::Instance().WriteToFile();
+        scoreList.Add(name.c_str(),
+                      pContext->GetStatistics().GetTotalTime(),
+                      pContext->GetStatistics()
+                        .GetEventCounter(MOVE_COUNTER), 0);
+        scoreList.WriteToFile();
         pContext->GetCamera().SetRoundtrip(true);
         newState = KPState_ScoreList;
     }

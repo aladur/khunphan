@@ -190,7 +190,6 @@ void KPGlutUserInterface::Close()
 
     KPConfig::Instance().WriteToFile();
     KPConfig::Instance().finalize();
-    KPscore::Instance().finalize();
     exit(0);
 }
 

@@ -45,9 +45,9 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
     std::string  Name;
     unsigned int PlayTime;
     unsigned int Moves;
+    KPscore scoreList;
 
-    KPscore::Instance().ReadFromFile();
-    max = KPscore::Instance().GetEntryCount();
+    max = scoreList.GetEntryCount();
     if (max > 10)
     {
         max = 10;
@@ -64,9 +64,7 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
     float y = 7.5;
     menu.labels[T_S_NAME].SetPosition(2, y, 0.7f);
     menu.labels[T_S_PLAYTIME].SetPosition(8, y, 0.7f);
-    menu.labels[T_S_PLAYTIME].SetSignal(S_PLAYTIME);
     menu.labels[T_S_MOVES].SetPosition(11,y, 0.7f);
-    menu.labels[T_S_MOVES].SetSignal(S_MOVES);
 
     y -= 0.7f;
     for (i = 0; i < max; i++)
@@ -91,7 +89,7 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
             menu.labels[T_S_MOVES1 + i] = Label("%u");
         }
 
-        KPscore::Instance().Get(i, Name, &PlayTime, &Moves);
+        scoreList.Get(i, Name, &PlayTime, &Moves);
 
         menu.labels[T_S_NAME1 + i].FormatText(1, Name.c_str());
         menu.labels[T_S_PLAYTIME1 + i].FormatText(3,
@@ -107,8 +105,6 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
 
         y -= 0.5f;
     }
-
-    KPscore::Instance().CheckPlayTime(true);
 
     menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
@@ -133,14 +129,6 @@ void  KPstateScoreList::MouseClick (KPstateContext *pContext,
         case S_CONTINUE:
             pContext->ChangeState(KPState_MainMenu);
             return;
-        case S_PLAYTIME:
-            KPscore::Instance().CheckPlayTime(true);
-            UpdateDisplay(pContext);
-            break;
-        case S_MOVES:
-            KPscore::Instance().CheckPlayTime(false);
-            UpdateDisplay(pContext);
-            break;
     }
 }
 

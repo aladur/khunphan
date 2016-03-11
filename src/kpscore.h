@@ -25,15 +25,15 @@
 
 
 #include "stdafx.h"
+#include <vector>
 #include <ostream>
 #include <time.h>
 #include <string>
 
-#define MAX_SCORE_ENTRIES 10
 
 class KPscore
 {
-protected:
+public:
     typedef struct
     {
         std::string  Name;
@@ -42,58 +42,47 @@ protected:
         time_t       Timestamp;
     } tKpScoreStruct;
 
-public:
-    static KPscore &Instance();
-    static void finalize()
-    {
-        delete instance;
-        instance = NULL;
-    }
+    KPscore(const char *fileName = NULL);
 
-    int  GetMaxEntries()
+    unsigned int GetMaxEntries() const
     {
         return MAX_SCORE_ENTRIES;
     }
-    int  GetEntryCount()
+    unsigned int GetEntryCount() const
     {
-        return entryCount;
+        return scoreList.size();
     }
-    std::string GetFileVersion()
+    std::string GetFileName() const
+    {
+        return fileName;
+    }
+    std::string GetFileVersion() const
     {
         return fileVersion;
     }
-    void ReadFromFile();
-    void WriteToFile();
-    void print(std::ostream &os);
-    std::string GetFileName();
-    void SetFileName(const char *fileName);
-    bool Add   (const char *aName, unsigned int aPlayTime, unsigned int aMoves,
-                time_t aTime = 0);
+    void WriteToFile() const;
+    void print(std::ostream &os) const;
+    void SetFileName(const char *fileName = NULL);
+    bool Add(const char *aName, unsigned int aPlayTime, unsigned int aMoves,
+             time_t aTime = 0);
     bool CanAdd(const char *aName, unsigned int aPlayTime, unsigned int aMoves,
                 time_t aTime = 0);
     void ClearAll();
-    bool Get(int index, std::string &aName, unsigned int *aPlayTime = NULL,
-             unsigned int *aMoves = NULL, time_t *aTime = NULL);
-    // CheckPlayTime = true:  Use PlayTime for the highscore
-    // CheckPlayTime = false: Use Moves    for the highscore
-    void CheckPlayTime(bool state)
-    {
-        checkPlayTime = state;
-    }
-
-protected:
-    KPscore();
-    virtual ~KPscore();
-    int PositionToInsert(const char *aName, unsigned int aPlayTime,
-                         unsigned int aMoves, time_t aTime = 0);
-    std::string fileName;
-    std::string fileVersion;
-    int     entryCount;
-    bool    checkPlayTime;
-    tKpScoreStruct *pScore;
+    bool Get(unsigned int index, std::string &aName,
+             unsigned int *aPlayTime = NULL,
+             unsigned int *aMoves = NULL, time_t *aTime = NULL) const;
 
 private:
-    static KPscore *instance;
+    void ReadFromFile();
+    std::vector<KPscore::tKpScoreStruct>::iterator PositionToInsert(
+                         const char *aName, unsigned int aPlayTime,
+                         unsigned int aMoves, time_t aTime = 0);
+
+    std::string fileName;
+    std::string fileVersion;
+    std::vector<tKpScoreStruct> scoreList;
+
+    static const unsigned int MAX_SCORE_ENTRIES;
 };
 
 #endif

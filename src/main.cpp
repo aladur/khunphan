@@ -52,7 +52,6 @@ int main (int argc, char **argv)
 
     KPConfig::Instance().WriteToFile();
     KPConfig::Instance().finalize();
-    KPscore::Instance().finalize();
 
     return EXIT_SUCCESS;
 }

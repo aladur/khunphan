@@ -23,6 +23,7 @@
 #include "stdafx.h"
 #include <sstream>
 #include <libxml/tree.h>
+#include <sys/stat.h>
 #include "kpscore.h"
 #ifdef WIN32
 #include <shlwapi.h>
@@ -33,25 +34,12 @@
 #define _TO(type)   reinterpret_cast<const xmlChar *>(type)
 #define _FROM(type) reinterpret_cast<const char *>(type)
 
-KPscore *KPscore::instance = NULL;
+const unsigned int KPscore::MAX_SCORE_ENTRIES = 10;
 
-KPscore::KPscore() : entryCount(0), checkPlayTime(true), pScore(NULL)
+KPscore::KPscore(const char *fileName /* = NULL */)
 {
-    pScore = new tKpScoreStruct [GetMaxEntries()];
-}
-
-KPscore::~KPscore()
-{
-    delete [] pScore;
-}
-
-KPscore &KPscore::Instance()
-{
-    if (instance == NULL)
-    {
-        instance = new KPscore;
-    };
-    return *instance;
+    SetFileName(fileName);
+    ReadFromFile();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,123 +49,103 @@ KPscore &KPscore::Instance()
 bool KPscore::Add(const char *aName, unsigned int aPlayTime,
                   unsigned int aMoves, time_t aTimestamp)
 {
-    int i, j;
-
-    i = PositionToInsert(aName, aPlayTime, aMoves, aTimestamp);
-    if (i < 0 || i >= GetMaxEntries())
+    if (CanAdd(aName, aPlayTime, aMoves, aTimestamp))
     {
-        return false;
+        tKpScoreStruct newItem;
+
+        newItem.Name      = aName;
+        newItem.PlayTime  = aPlayTime;
+        newItem.Moves     = aMoves;
+        newItem.Timestamp = (aTimestamp != 0) ? aTimestamp : time(NULL);
+
+        std::vector<tKpScoreStruct>::iterator it =
+            PositionToInsert(aName, aPlayTime, aMoves, aTimestamp);
+
+        scoreList.insert(it, newItem);
+
+        if (scoreList.size() > MAX_SCORE_ENTRIES)
+        {
+            // erase last element
+            it = scoreList.end();
+            --it;
+            scoreList.erase(it);
+        }
+
+        return true;
     }
 
-    j = (GetEntryCount() >= GetMaxEntries()) ? GetEntryCount() - 2 :
-        GetEntryCount() - 1;
-
-    while ( j >= i)
-    {
-        pScore[j+1].Name      = pScore[j].Name;
-        pScore[j+1].PlayTime  = pScore[j].PlayTime;
-        pScore[j+1].Moves     = pScore[j].Moves;
-        pScore[j+1].Timestamp = pScore[j].Timestamp;
-        j--;
-    }
-    pScore[i].Name      = aName;
-    pScore[i].PlayTime  = aPlayTime;
-    pScore[i].Moves     = aMoves;
-    pScore[i].Timestamp = (aTimestamp != 0) ? aTimestamp : time(NULL);
-
-    if (GetEntryCount() < GetMaxEntries())
-    {
-        entryCount++;
-    }
-
-    return true;
+    return false;
 }
 
 bool KPscore::CanAdd(const char *aName, unsigned int aPlayTime,
                      unsigned int aMoves, time_t aTimestamp)
 {
-    if (GetEntryCount() >= GetMaxEntries())
-    {
-        return false;
-    }
+    std::vector<tKpScoreStruct>::iterator it =
+        PositionToInsert(aName, aPlayTime, aMoves, aTimestamp);
 
-    int i = PositionToInsert(aName, aPlayTime, aMoves, aTimestamp);
-    return (i >= 0 && i < GetMaxEntries());
+    return (it != scoreList.end() || scoreList.size() < MAX_SCORE_ENTRIES);
 }
 
 void KPscore::ClearAll()
 {
-    entryCount  = 0;
+    scoreList.clear();
     fileVersion = "";
 }
 
-bool KPscore::Get(int i, std::string &pName, unsigned int *pPlayTime,
-                  unsigned int *pMoves, time_t *pTimestamp)
+bool KPscore::Get(unsigned int index, std::string &pName,
+                  unsigned int *pPlayTime,
+                  unsigned int *pMoves, time_t *pTimestamp) const
 {
-    if (i < 0 || i >= GetEntryCount())
+    if (index >= scoreList.size())
     {
         return false;
     }
 
-    pName           = pScore[i].Name;
+    pName = scoreList[index].Name;
     if (pPlayTime  != NULL)
     {
-        *pPlayTime  = pScore[i].PlayTime;
+        *pPlayTime = scoreList[index].PlayTime;
     }
-    if (pMoves     != NULL)
+    if (pMoves != NULL)
     {
-        *pMoves     = pScore[i].Moves;
+        *pMoves = scoreList[index].Moves;
     }
     if (pTimestamp != NULL)
     {
-        *pTimestamp = pScore[i].Timestamp;
+        *pTimestamp = scoreList[index].Timestamp;
     }
 
     return true;
 }
 
-int KPscore::PositionToInsert(const char *, unsigned int aPlayTime,
+std::vector<KPscore::tKpScoreStruct>::iterator KPscore::PositionToInsert(
+                              const char *, unsigned int aPlayTime,
                               unsigned int aMoves, time_t)
 {
-    if ( GetEntryCount() <= 0)
+    if (scoreList.empty())
     {
-        return 0;
+        return scoreList.end();
     }
 
-    int i;
+    std::vector<tKpScoreStruct>::iterator it = scoreList.begin();
 
-    for (i = 0; i < GetEntryCount(); i++)
+    for (; it != scoreList.end(); ++it)
     {
-        if (!checkPlayTime && (aMoves    < pScore[i].Moves))
-        {
-            break;
-        }
-        if (checkPlayTime  && (aPlayTime < pScore[i].PlayTime))
+        if (aPlayTime < it->PlayTime)
         {
             break;
         }
     }
 
-    return i;
+    return it;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // File interface
 ////////////////////////////////////////////////////////////////////////////////
 
-std::string KPscore::GetFileName()
-{
-    // Lazy initialization
-    if ( fileName.length() == 0 )
-    {
-        SetFileName( NULL );
-    }
-
-    return fileName;
-}
-
 // if aFileName is NULL initialize it to the default
-void KPscore::SetFileName(const char *aFileName)
+void KPscore::SetFileName(const char *aFileName /* = NULL */)
 {
     if (aFileName != NULL)
     {
@@ -213,9 +181,9 @@ void KPscore::SetFileName(const char *aFileName)
     }
 }
 
-void KPscore::WriteToFile()
+void KPscore::WriteToFile() const
 {
-    if (GetEntryCount() <= 0)
+    if (scoreList.empty())
     {
         return;
     }
@@ -227,22 +195,25 @@ void KPscore::WriteToFile()
 
     xmlNodePtr tree = xmlNewChild(doc->children, ns, _TO("Scores"), NULL);
 
-    for (int i = 0; i < GetEntryCount(); i++)
+    std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
+
+    for (; it != scoreList.end(); ++it)
     {
         xmlNodePtr subtree = xmlNewChild(tree, ns, _TO("Score"), NULL);
 
-        xmlNewTextChild(subtree, ns, _TO("Name"), _TO(pScore[i].Name.c_str()));
+        xmlNewTextChild(subtree, ns, _TO("Name"),
+            _TO(it->Name.c_str()));
 
         std::ostringstream iss1;
-        iss1 << pScore[i].PlayTime;
+        iss1 << it->PlayTime;
         xmlNewChild(subtree, ns, _TO("PlayTime"), _TO(iss1.str().c_str()));
 
         std::ostringstream iss2;
-        iss2 << pScore[i].Moves;
+        iss2 << it->Moves;
         xmlNewChild(subtree, ns, _TO("Moves"), _TO(iss2.str().c_str()));
 
         std::ostringstream iss3;
-        iss3 << pScore[i].Timestamp;
+        iss3 << it->Timestamp;
         xmlNewChild(subtree, ns, _TO("Timestamp"), _TO(iss3.str().c_str()));
     }
 
@@ -253,7 +224,14 @@ void KPscore::WriteToFile()
 
 void KPscore::ReadFromFile()
 {
+    struct stat statbuf;
+
     ClearAll();
+
+    if (stat(GetFileName().c_str(), &statbuf) != 0)
+    {
+        return;
+    }
 
     xmlDocPtr doc = xmlParseFile(GetFileName().c_str());
 
@@ -352,21 +330,24 @@ void KPscore::ReadFromFile()
     }
 }
 
-void KPscore::print(std::ostream &os)
+void KPscore::print(std::ostream &os) const
 {
 #ifndef WIN32
-    if (GetEntryCount() <= 0)
+    if (scoreList.empty())
     {
         os << "Current KhunPhan Score list is empty" << std::endl;
     }
     else
     {
         os << "Current KhunPhan Score list:" << std::endl;
-        for (int i = 0; i < GetEntryCount(); i++)
+        std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
+
+        for (; it != scoreList.end(); ++it)
         {
-            os << "   Name: '" << pScore[i].Name << "' PlayTime: "
-               << pScore[i].PlayTime << " ms Moves: " << pScore[i].Moves
-               << " Time: " << ctime(&pScore[i].Timestamp) ;
+            os << "   Name: '" << it->Name
+               << "' PlayTime: " << it->PlayTime
+               << " ms Moves: " << it->Moves
+               << " Time: " << ctime(&it->Timestamp) ;
         }
         os << std::endl;
     }
