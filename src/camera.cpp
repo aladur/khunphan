@@ -47,7 +47,7 @@ Camera::Camera() :   AspectRatio(0.0),
     Positions.push_back(SPosition(0.0f, 0.0f, 300.0f, 0.0f, 180.0f, 38.6f));
 
     // Position with index 6
-    Positions.push_back(SPosition(-60.0f, 160.0f, 140.0f, 45.0f, 155.0f, 38.6f));
+    Positions.push_back(SPosition(-60.f, 160.0f, 140.0f, 45.0f, 155.0f, 38.6f));
 
     // Position with index 7
     Positions.push_back(SPosition(60.0f, 160.0f, 140.0f, 45.0f, 205.0f, 38.6f));
