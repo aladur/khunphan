@@ -106,6 +106,7 @@ private:
     KPmenu       *pMenu;
     KPnodes      *pNodes;
     KPStatistics *pStatistics;
+    tKPMenuState  previousStateId;
 
 protected:
     KPstate *pState;
@@ -128,7 +129,9 @@ public:
 
 // KPstateContext interface
 public:
-    virtual void ChangeState( int stateID );
+    virtual void ChangeState(tKPMenuState stateID);
+    virtual tKPMenuState GetPreviousState() const;
+    virtual void SetPreviousState(tKPMenuState stateID); 
     virtual KPboardView     &GetBoardView();
     virtual Camera          &GetCamera();
     virtual Light           &GetLight();

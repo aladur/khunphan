@@ -25,31 +25,8 @@
 #include "stdafx.h"
 #include "KPstateContext.h"
 #include "language.h"
+#include "kpstates.h"
 
-
-enum tKPMenuState
-{
-    KPState_Invalid         = 0,
-    KPState_StartUp         = 1,
-    KPState_Game            = 2,
-    KPState_SelectLanguage  = 3,
-    KPState_MainMenu        = 4,
-    KPState_Finish          = 5,
-    KPState_Settings        = 6,
-    KPState_ControlSettings = 7,
-    KPState_GraphicSettings = 8,
-    KPState_GraphicHint     = 9,
-    KPState_AudioSettings   = 10,
-    KPState_Help            = 11,
-    KPState_KeyboardHelp    = 12,
-    KPState_GameSolved      = 13,
-    KPState_Tutorial1       = 14,
-    KPState_Tutorial2       = 15,
-    KPState_Tutorial3       = 16,
-    KPState_Tutorial4       = 17,
-    KPState_ScoreList       = 18,
-    KPState_LightTest       = 19
-};
 
 #define CHECK_DEFAULT_KEY_PRESSED(p1, p2, p3, p4)                 \
   {                                                               \
@@ -71,7 +48,7 @@ public:
         return KPState_Invalid;
     };
     virtual void Initialize(KPstateContext *pContext, const KPstate *pOldState);
-    virtual void Update(KPstateContext *pContext, int factor);
+    virtual void Animate(KPstateContext *pContext, unsigned int duration);
     virtual void Draw(KPstateContext *pContext);
     virtual void MouseClick           (KPstateContext *pContext,
                                        tMouseButton button, tMouseEvent event,
@@ -99,8 +76,6 @@ protected:
 
     int  AnimationTime;
     bool InAnimation;
-    bool menuLocked;
-    tKPMenuState oldStateId;
 };
 
 inline void KPstate::ChangeState( KPstateContext *pContext,

@@ -37,7 +37,7 @@ public:
     Camera();
     void MoveIn(float);
     void MoveOut(float);
-    void Run(int);
+    void Animate(unsigned int);
     void Draw(int x=-1, int y=-1) const;
     void SetPosition(int);
     void Roundtrip(int);

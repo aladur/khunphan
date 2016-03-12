@@ -32,8 +32,7 @@
 #include "btime.h"
 
 
-KPstate::KPstate() : AnimationTime(0), InAnimation(false), menuLocked(false),
-    oldStateId(KPState_Invalid)
+KPstate::KPstate() : AnimationTime(0), InAnimation(false)
 {
 }
 
@@ -41,15 +40,16 @@ KPstate::~KPstate()
 {
 }
 
-void KPstate::Initialize(KPstateContext *pContext, const KPstate *pOldState)
+void KPstate::Initialize(KPstateContext *pContext, const KPstate *pPreviousState)
 {
     KPmenu &menu = pContext->GetMenu();
+    tKPMenuState previousStateId = KPState_Invalid;
 
-    oldStateId = KPState_Invalid;
-    if (pOldState != NULL)
+    if (pPreviousState != NULL)
     {
-        oldStateId = pOldState->GetId();
+        previousStateId = pPreviousState->GetId();
     }
+    pContext->SetPreviousState(previousStateId);
 
     // Sw: unfinished. Should be enough in UpdateDisplay
     menu.FadeOutAllPlates();
@@ -92,14 +92,14 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
     }
 }
 
-void KPstate::Update(KPstateContext *pContext, int factor)
+void KPstate::Animate(KPstateContext *pContext, unsigned int duration)
 {
     KPmenu &menu = pContext->GetMenu();
 
 
     if (InAnimation)
     {
-        AnimationTime += factor;
+        AnimationTime += duration;
         if (AnimationTime >= TOTAL_ANIMATIONTIME)
         {
             AnimationTime = TOTAL_ANIMATIONTIME;
@@ -112,7 +112,7 @@ void KPstate::Update(KPstateContext *pContext, int factor)
         for (sit = menu.plates.begin(); sit != menu.plates.end();
              ++sit)
         {
-            sit->second.Animate(factor);
+            sit->second.Animate(duration);
         }
 
         tIdToLabel::iterator tit;
@@ -120,13 +120,13 @@ void KPstate::Update(KPstateContext *pContext, int factor)
         for (tit = menu.labels.begin(); tit != menu.labels.end();
              ++tit)
         {
-            tit->second.Animate(factor);
+            tit->second.Animate(duration);
         }
     }
 
-    pContext->GetBoardView().Animate(factor);
+    pContext->GetBoardView().Animate(duration);
 
-    pContext->GetCamera().Run(factor);
+    pContext->GetCamera().Animate(duration);
 }
 
 void KPstate::Draw(KPstateContext *pContext)
@@ -260,13 +260,13 @@ void KPstate::HookAfterAnimationFinished(KPstateContext *)
     // to be reimplemented in subclass
 }
 
-tKPMenuState KPstate::ESCKeyAction (KPstateContext *)
+tKPMenuState KPstate::ESCKeyAction (KPstateContext *pContext)
 {
     // This is the default behaviour. To be
     // reimplemented in subclass if state has
     // to be changed return the next
     // state otherwise return KPState_Invalid
-    return oldStateId;
+    return pContext->GetPreviousState();
 }
 
 void KPstate::PlayAudioForInitialize(KPstateContext *pContext)

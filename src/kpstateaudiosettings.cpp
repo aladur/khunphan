@@ -26,9 +26,9 @@
 #include "kpuibase.h"
 
 void KPstateAudioSettings::Initialize(KPstateContext *pContext,
-                                      const KPstate *pOldState)
+                                      const KPstate *pPreviousState)
 {
-    KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pPreviousState);
 
     // Do some initialization stuff here:
 
@@ -194,14 +194,14 @@ void  KPstateAudioSettings::MouseClick (KPstateContext *pContext,
 
         case S_BACK:
             SaveChanges(pContext);
-            pContext->ChangeState(oldStateId);
+            pContext->ChangeState(pContext->GetPreviousState());
     }
 }
 
 tKPMenuState KPstateAudioSettings::ESCKeyAction (KPstateContext *pContext)
 {
     SaveChanges(pContext);
-    return oldStateId;
+    return pContext->GetPreviousState();
 }
 
 void KPstateAudioSettings::SaveChanges(KPstateContext *pContext)

@@ -106,6 +106,7 @@ EXTRA_DIST = \
         sprinter.h \
         kplocale.h \
         cmdline.h \
+        states.h \
         stdafx.h \
         KhunPhan.rc \
         icon.ico

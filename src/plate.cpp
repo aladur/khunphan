@@ -21,7 +21,7 @@ Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
     ax(0), ay(0), bx(0), by(0), Alpha(0),
     target_ax(0), target_ay(0), target_bx(0), target_by(0), target_Alpha(0),
     old_ax(0),  old_ay(0), old_bx(0),  old_by(0), old_Alpha(0),
-    InAnimation(0), Signal(0), Time(0),
+    InAnimation(false), Signal(0), Time(0),
     r(R), g(G), b(B), Texture(0), TextureSize(0), Nearest(false),
     WithAlpha(false)
 {
@@ -413,7 +413,7 @@ void Plate::SetFullyVisible()
 
 void Plate::StartAnimation()
 {
-    InAnimation = 1;
+    InAnimation = true;
     Time = 0;
     old_ax = ax;
     old_ay = ay;
@@ -422,34 +422,33 @@ void Plate::StartAnimation()
     old_Alpha = Alpha;
 }
 
-int Plate::Animate(int factor)
+// duration is the time since the last call to Animate() in ms
+void Plate::Animate(unsigned int duration)
 {
-    if (!InAnimation)
+    if (InAnimation)
     {
-        return 0;
-    }
-    Time += factor;
-    if (Time >= TOTAL_ANIMATIONTIME)
-    {
-        ax = target_ax;
-        ay = target_ay;
-        bx = target_bx;
-        by = target_by;
-        Alpha = target_Alpha;
-        InAnimation = 0;
-        return 1;
-    }
-    else
-    {
-        GLfloat localFactor;
+        Time += duration;
 
-        localFactor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
-        ax   = (target_ax - old_ax) * localFactor + old_ax;
-        ay   = (target_ay - old_ay) * localFactor + old_ay;
-        bx   = (target_bx - old_bx) * localFactor + old_bx;
-        by   = (target_by - old_by) * localFactor + old_by;
-        Alpha= (target_Alpha - old_Alpha) * localFactor + old_Alpha;
-        return 0;
+        if (Time >= TOTAL_ANIMATIONTIME)
+        {
+            ax = target_ax;
+            ay = target_ay;
+            bx = target_bx;
+            by = target_by;
+            Alpha = target_Alpha;
+            InAnimation = false;
+        }
+        else
+        {
+            GLfloat localFactor;
+
+            localFactor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
+            ax   = (target_ax - old_ax) * localFactor + old_ax;
+            ay   = (target_ay - old_ay) * localFactor + old_ay;
+            bx   = (target_bx - old_bx) * localFactor + old_bx;
+            by   = (target_by - old_by) * localFactor + old_by;
+            Alpha= (target_Alpha - old_Alpha) * localFactor + old_Alpha;
+        }
     }
 }
 

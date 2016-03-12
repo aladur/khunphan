@@ -30,9 +30,9 @@
 
 
 void KPstateTutorial2::Initialize(KPstateContext *pContext,
-                                  const KPstate *pOldState)
+                                  const KPstate *pPreviousState)
 {
-    KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pPreviousState);
 
     // Do some initialization stuff here:
     pContext->GetBoardView().EmphasizeToken(TK_RED1);

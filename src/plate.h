@@ -33,7 +33,7 @@ public:
     void SetFadeIn();
     void SetFullyVisible();
     void StartAnimation();
-    int Animate(int);
+    void Animate(unsigned int);
     int MouseEvent(tMouseButton,tMouseEvent,int,int, KPUIBase &);
     void SetSignal(int);
     void RecreateDisplayList(BTexture *pTexture = NULL);
@@ -50,9 +50,9 @@ private:
     float old_ax, old_ay;
     float old_bx, old_by;
     float old_Alpha;
-    int InAnimation;
+    bool InAnimation;
     int Signal;
-    int Time;
+    unsigned int Time;
     float r, g, b; // Color
     std::string TextureSource;
     unsigned int Texture;

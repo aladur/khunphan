@@ -36,11 +36,11 @@ KPstateGameSolved::KPstateGameSolved() : addToScoreList(false),
 }
 
 void KPstateGameSolved::Initialize(KPstateContext *pContext,
-                                   const KPstate *pOldState)
+                                   const KPstate *pPreviousState)
 {
     tIdToLabel::const_iterator it;
 
-    KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pPreviousState);
 
     KPmenu &menu             = pContext->GetMenu();
     KPStatistics &statistics = pContext->GetStatistics();

@@ -40,7 +40,7 @@ public:
     void MouseClick (KPstateContext *pContext, tMouseButton button,
                      tMouseEvent event, int x, int y);
     void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-    void Update(KPstateContext *pContext, int factor);
+    void Animate(KPstateContext *pContext, unsigned int duration);
     void UpdateDisplay(KPstateContext *pContext);
     tKPMenuState ESCKeyAction (KPstateContext *);
 

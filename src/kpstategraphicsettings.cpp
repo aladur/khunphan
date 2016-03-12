@@ -31,9 +31,9 @@
 
 
 void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
-                                        const KPstate *pOldState)
+                                        const KPstate *pPreviousState)
 {
-    KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pPreviousState);
 
     KPConfig &config = KPConfig::Instance();
 
@@ -571,7 +571,7 @@ tKPMenuState KPstateGraphicSettings::ESCKeyAction (KPstateContext *pContext)
 // Take over changes and change state
 /////////////////////////////////////////////////////////////////////
 
-tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *)
+tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext)
 {
     bool ResolutionChanged = false;
     KPConfig &config = KPConfig::Instance();
@@ -613,7 +613,7 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *)
     }
     else
     {
-        return oldStateId;
+        return pContext->GetPreviousState();
     }
 }
 

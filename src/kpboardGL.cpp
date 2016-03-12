@@ -686,9 +686,10 @@ void KPboardView::DrawToken(const tKPTokenID i) const
     }
 }
 
-void KPboardView::Animate(int Factor)
+// duration is the time since the last call to Animate() in ms
+void KPboardView::Animate(unsigned int duration)
 {
-    xValue +=  Factor * 2 * M_PIf / TOTAL_ANIMATIONTIME;
+    xValue +=  duration * 2 * M_PIf / TOTAL_ANIMATIONTIME;
     if (xValue >= 2 * M_PI)
     {
         xValue -= 2 * M_PIf;
@@ -700,17 +701,18 @@ void KPboardView::Animate(int Factor)
         return;
     }
 
-    Time += 3 * Factor;
-    if ( Time >= TOTAL_ANIMATIONTIME )
+    Time += 2 * duration;
+    if (Time >= TOTAL_ANIMATIONTIME)
     {
         animatedToken = TK_EMPTY;
     }
     else
     {
-        GLfloat Factor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
+        GLfloat localFactor;
 
-        ax = (new_x - old_x) * Factor + old_x;
-        ay = (new_y - old_y) * Factor + old_y;
+        localFactor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
+        ax = (new_x - old_x) * localFactor + old_x;
+        ay = (new_y - old_y) * localFactor + old_y;
     }
 }
 

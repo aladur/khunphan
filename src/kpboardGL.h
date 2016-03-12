@@ -68,7 +68,7 @@ public:
     tKPTokenID Selection(const Camera *pCamera, int x, int y) const;
     bool Move(tKPTokenID id, tKPDirection d);
     bool CanMove(tKPTokenID id, tKPDirection d);
-    void Animate(int Factor);
+    void Animate(unsigned int duration);
     void EmphasizeToken(tKPTokenID id = TK_EMPTY)
     {
         emphasizedToken = id;

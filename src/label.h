@@ -62,7 +62,7 @@ public:
     void SetSelected();
     void SetFadeIn();
     void SetFullyVisible();
-    int Animate(int);
+    void Animate(unsigned int);
     void SetSignal(int);
     inline int GetSignal(void)
     {
@@ -94,7 +94,7 @@ private:
     int Alignment;
     bool  InAnimation;
     int Signal;
-    int Time;
+    unsigned int Time;
     int DisplayList;
     bool  hasInputFocus;
     int lineCount;

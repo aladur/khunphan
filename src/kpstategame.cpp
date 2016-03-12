@@ -37,9 +37,9 @@ KPstateGame::KPstateGame() : animationFinishedCallback(NULL),
 }
 
 void KPstateGame::Initialize(KPstateContext *pContext,
-                             const KPstate *pOldState)
+                             const KPstate *pPreviousState)
 {
-    KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pPreviousState);
 
     KPConfig &config = KPConfig::Instance();
     KPStatistics &statistics = pContext->GetStatistics();
@@ -251,11 +251,11 @@ void KPstateGame::HookAfterAnimationFinished(KPstateContext *pContext)
     }
 }
 
-void KPstateGame::Update(KPstateContext *pContext, int factor)
+void KPstateGame::Animate(KPstateContext *pContext, unsigned int duration)
 {
-    KPstate::Update(pContext, factor);
+    KPstate::Animate(pContext, duration);
 
-    counter += 16 * factor;
+    counter += 16 * duration;
     if (counter > TOTAL_ANIMATIONTIME)
     {
         // update approx. 8 times per second

@@ -28,14 +28,14 @@
 
 
 void KPstateMainMenu::Initialize(KPstateContext *pContext,
-                                 const KPstate *pOldState)
+                                 const KPstate *pPreviousState)
 {
-    KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pPreviousState);
 
     // Do some initialization stuff here:
-    if (pOldState->GetId() == KPState_Game)
+    if (pPreviousState->GetId() == KPState_Game)
     {
-        pContext->GetMenu().SaveLastStateId(pOldState->GetId());
+        pContext->GetMenu().SaveLastStateId(pPreviousState->GetId());
     }
     else
     {

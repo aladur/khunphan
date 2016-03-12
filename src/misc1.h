@@ -279,7 +279,7 @@ enum tMouseButton
 
 enum
 {
-    TOTAL_ANIMATIONTIME = 100
+    TOTAL_ANIMATIONTIME = 1000
 };
 
 #ifndef M_PI

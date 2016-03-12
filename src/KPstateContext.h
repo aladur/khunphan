@@ -22,6 +22,8 @@
 #ifndef __kpstatecontext_h__
 #define __kpstatecontext_h__
 
+#include "kpstates.h"
+
 class KPstate;
 class KPboardView;
 class Camera;
@@ -35,13 +37,15 @@ class KPnodes;
 class KPstateContext
 {
 public:
-    virtual void ChangeState( int stateID )     = 0;
-    virtual KPboardView     &GetBoardView()     = 0;
-    virtual Camera          &GetCamera()        = 0;
-    virtual Light           &GetLight()         = 0;
-    virtual KPmenu          &GetMenu()          = 0;
-    virtual KPnodes         &GetNodes()         = 0;
-    virtual KPStatistics    &GetStatistics()    = 0;
-    virtual KPUIBase        &GetUserInterface() = 0;
+    virtual void ChangeState(tKPMenuState stateID) = 0;
+    virtual tKPMenuState GetPreviousState() const = 0;
+    virtual void SetPreviousState(tKPMenuState stateID) = 0;
+    virtual KPboardView &GetBoardView() = 0;
+    virtual Camera &GetCamera() = 0;
+    virtual Light &GetLight() = 0;
+    virtual KPmenu &GetMenu() = 0;
+    virtual KPnodes &GetNodes() = 0;
+    virtual KPStatistics &GetStatistics() = 0;
+    virtual KPUIBase &GetUserInterface() = 0;
 };
 #endif

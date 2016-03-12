@@ -449,32 +449,31 @@ void Label::SetFullyVisible()
     }
 }
 
-int Label::Animate(int factor)
+// duration is the time since the last call to Animate() in ms
+void Label::Animate(unsigned int duration)
 {
-    if (!InAnimation)
+    if (InAnimation)
     {
-        return 0;
-    }
-    Time += factor;
-    if (Time >= TOTAL_ANIMATIONTIME)
-    {
-        x = target_x;
-        y = target_y;
-        Height = target_Height;
-        Alpha = target_Alpha;
-        InAnimation = false;
-        return 1;
-    }
-    else
-    {
-        GLfloat localFactor;
+        Time += duration;
 
-        localFactor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
-        x      = (target_x - old_x) * localFactor + old_x;
-        y      = (target_y - old_y) * localFactor + old_y;
-        Height = (target_Height - old_Height) * localFactor + old_Height;
-        Alpha  = (target_Alpha - old_Alpha) * localFactor + old_Alpha;
-        return 0;
+        if (Time >= TOTAL_ANIMATIONTIME)
+        {
+            x = target_x;
+            y = target_y;
+            Height = target_Height;
+            Alpha = target_Alpha;
+            InAnimation = false;
+        }
+        else
+        {
+            GLfloat localFactor;
+
+            localFactor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
+            x      = (target_x - old_x) * localFactor + old_x;
+            y      = (target_y - old_y) * localFactor + old_y;
+            Height = (target_Height - old_Height) * localFactor + old_Height;
+            Alpha  = (target_Alpha - old_Alpha) * localFactor + old_Alpha;
+        }
     }
 }
 

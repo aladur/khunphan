@@ -492,9 +492,10 @@ void Camera::SetTargetPosition(float tgtPosx, float tgtPosy,float tgtPosz,
     IsRoundtrip = false;
 }
 
-void Camera::Run(int factor)
+// duration is the time since the last call to Animate() in ms
+void Camera::Animate(unsigned int duration)
 {
-    for (int i=0; i < factor; i++)
+    for (int i=0; i < duration / 10; i++)
     {
 
         if (target_Beta - Beta < -180)
@@ -521,12 +522,11 @@ void Camera::Run(int factor)
         FOV   += d_FOV;
 
         RecalculateViewFrustum();
-
     }
 
     if (IsRoundtrip)
     {
-        Roundtrip(factor);
+        Roundtrip(duration);
     }
 }
 
@@ -604,16 +604,17 @@ void Camera::RecalculateViewFrustum()
 }
 
 
-void Camera::Roundtrip(int factor)
+void Camera::Roundtrip(int duration)
 {
     if (target_Pos_y == 0)
     {
         target_Pos_y = 0.00001f;
     }
 
-    //target_Beta = factor * 0.1f + atan(target_Pos_x / target_Pos_y) * degprad;
+    //target_Beta = duration * 0.01f +
+    //                  atan(target_Pos_x / target_Pos_y) * degprad;
     //if (target_Pos_y > 0) {target_Beta -= 180;}
-    target_Beta += 0.1f * factor;
+    target_Beta += 0.01f * duration;
     target_Pos_x = (-30.0f * sin(target_Beta * M_PIf / 180.0f) - 280.0f) *
                     sin(target_Beta * M_PIf / 180.0f);
     target_Pos_y = (-30.0f * sin(target_Beta * M_PIf / 180.0f) - 280.0f) *

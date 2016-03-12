@@ -52,7 +52,8 @@ KPUIBase *KPUIBase::instance = NULL;
 KPUIBase::KPUIBase() :
     pBoardView(NULL), pCamera(NULL),
     pLight(NULL), pMenu(NULL),
-    pNodes(NULL), pStatistics(NULL), pState(NULL),
+    pNodes(NULL), pStatistics(NULL), previousStateId(KPState_Invalid),
+    pState(NULL),
     lastFrameTimestamp(0), oldTime(0), frameCount(0)
 
 {
@@ -228,12 +229,14 @@ void KPUIBase::Idle()
     }
 
     unsigned long frameTimestamp = fpsTime.GetTimeMsl();
-    unsigned long factor = frameTimestamp - lastFrameTimestamp;
+    // duration is the time difference to the previous cyclic update in ms
+    unsigned long duration = frameTimestamp - lastFrameTimestamp;
 
-    if (factor >= 10)
+    if (duration >= 10)
     {
-
-        pState->Update(this, factor / 10);  // Updating is delegated to KPstate
+        // Animate approx. each 10 ms
+        // Animation is delegated to KPstate
+        pState->Animate(this, duration);
 
         lastFrameTimestamp = frameTimestamp;
 
@@ -274,13 +277,23 @@ void KPUIBase::KeyReleased( unsigned char keyReleased, int x, int y )
 // Implementation of State interface
 /////////////////////////////////////////////////////////////////////
 
-void KPUIBase::ChangeState( int stateID )
+void KPUIBase::ChangeState(tKPMenuState stateID)
 {
-    KPstate *pOldState = pState;
+    KPstate *pPreviousState = pState;
 
-    pState = KPstateFactory::CreateState( stateID );
-    pState->Initialize(this, pOldState);
-    delete pOldState;
+    pState = KPstateFactory::CreateState(stateID);
+    pState->Initialize(this, pPreviousState);
+    delete pPreviousState;
+}
+
+tKPMenuState KPUIBase::GetPreviousState() const
+{
+    return previousStateId;
+}
+
+void KPUIBase::SetPreviousState(tKPMenuState stateID)
+{
+    previousStateId = stateID;
 }
 
 KPboardView &KPUIBase::GetBoardView()

@@ -34,11 +34,11 @@ KPstateStartUp::KPstateStartUp()
 }
 
 void KPstateStartUp::Initialize(KPstateContext *pContext,
-                                const KPstate *pOldState)
+                                const KPstate *pPreviousState)
 {
     tIdToLabel::const_iterator it;
 
-    KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pPreviousState);
 
     it = pContext->GetMenu().labels.find(T_COPYRIGHT2);
     if (it == pContext->GetMenu().labels.end())

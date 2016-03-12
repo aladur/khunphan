@@ -26,9 +26,9 @@
 
 
 void KPstateFinish::Initialize(KPstateContext *pContext,
-                               const KPstate *pOldState)
+                               const KPstate *pPreviousState)
 {
-    KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pPreviousState);
 
     // Do some initialization stuff here:
 
@@ -73,7 +73,7 @@ void  KPstateFinish::MouseClick (KPstateContext *pContext, tMouseButton button,
             pContext->GetUserInterface().RequestForClose();
             break;
         case S_BACK:
-            pContext->ChangeState(oldStateId);
+            pContext->ChangeState(pContext->GetPreviousState());
             break;
     }
 }

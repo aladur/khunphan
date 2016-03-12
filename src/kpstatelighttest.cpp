@@ -33,9 +33,9 @@ KPstateLightTest::KPstateLightTest() : mouse_x(0), mouse_y(0)
 }
 
 void KPstateLightTest::Initialize(KPstateContext *pContext,
-                                  const KPstate *pOldState)
+                                  const KPstate *pPreviousState)
 {
-    KPstate::Initialize(pContext, pOldState);
+    KPstate::Initialize(pContext, pPreviousState);
 
     // Do some initialization stuff here:
 
