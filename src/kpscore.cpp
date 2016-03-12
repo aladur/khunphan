@@ -78,9 +78,9 @@ bool KPscore::Add(const char *aName, unsigned int aPlayTime,
 }
 
 bool KPscore::CanAdd(const char *aName, unsigned int aPlayTime,
-                     unsigned int aMoves, time_t aTimestamp)
+                     unsigned int aMoves, time_t aTimestamp) const
 {
-    std::vector<tKpScoreStruct>::iterator it =
+    std::vector<tKpScoreStruct>::const_iterator it =
         PositionToInsert(aName, aPlayTime, aMoves, aTimestamp);
 
     return (it != scoreList.end() || scoreList.size() < MAX_SCORE_ENTRIES);
@@ -122,12 +122,24 @@ std::vector<KPscore::tKpScoreStruct>::iterator KPscore::PositionToInsert(
                               const char *, unsigned int aPlayTime,
                               unsigned int aMoves, time_t)
 {
-    if (scoreList.empty())
+    std::vector<tKpScoreStruct>::iterator it = scoreList.begin();
+
+    for (; it != scoreList.end(); ++it)
     {
-        return scoreList.end();
+        if (aPlayTime < it->PlayTime)
+        {
+            break;
+        }
     }
 
-    std::vector<tKpScoreStruct>::iterator it = scoreList.begin();
+    return it;
+}
+
+std::vector<KPscore::tKpScoreStruct>::const_iterator KPscore::PositionToInsert(
+                              const char *, unsigned int aPlayTime,
+                              unsigned int aMoves, time_t) const
+{
+    std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
 
     for (; it != scoreList.end(); ++it)
     {

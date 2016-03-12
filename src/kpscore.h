@@ -66,7 +66,7 @@ public:
     bool Add(const char *aName, unsigned int aPlayTime, unsigned int aMoves,
              time_t aTime = 0);
     bool CanAdd(const char *aName, unsigned int aPlayTime, unsigned int aMoves,
-                time_t aTime = 0);
+                time_t aTime = 0) const;
     void ClearAll();
     bool Get(unsigned int index, std::string &aName,
              unsigned int *aPlayTime = NULL,
@@ -77,6 +77,9 @@ private:
     std::vector<KPscore::tKpScoreStruct>::iterator PositionToInsert(
                          const char *aName, unsigned int aPlayTime,
                          unsigned int aMoves, time_t aTime = 0);
+    std::vector<KPscore::tKpScoreStruct>::const_iterator PositionToInsert(
+                         const char *aName, unsigned int aPlayTime,
+                         unsigned int aMoves, time_t aTime = 0) const;
 
     std::string fileName;
     std::string fileVersion;
