@@ -495,7 +495,7 @@ void Camera::SetTargetPosition(float tgtPosx, float tgtPosy,float tgtPosz,
 // duration is the time since the last call to Animate() in ms
 void Camera::Animate(unsigned int duration)
 {
-    for (int i=0; i < duration / 10; i++)
+    for (unsigned int i=0; i < duration / 10; i++)
     {
 
         if (target_Beta - Beta < -180)
