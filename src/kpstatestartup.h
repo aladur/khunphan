@@ -34,12 +34,13 @@ public:
         return KPState_StartUp;
     };
     void Initialize(KPstateContext *pContext, const KPstate *pOldState);
-    void Draw(KPstateContext *pContext);
+    void Draw(KPstateContext *pContext) const;
     void MouseClick (KPstateContext *pContext, tMouseButton button,
                      tMouseEvent event, int x, int y);
-    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-    tKPMenuState ESCKeyAction (KPstateContext *);
-    void UpdateDisplay(KPstateContext *pContext);
+    void KeyPressed (KPstateContext *pContext, unsigned char key,
+                     int x, int y) const;
+    tKPMenuState ESCKeyAction(KPstateContext *) const;
+    void UpdateDisplay(KPstateContext *pContext) const;
 };
 
 #endif

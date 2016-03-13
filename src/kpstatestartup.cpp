@@ -72,7 +72,7 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     pContext->GetCamera().SetRoundtrip(true);
 }
 
-void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
+void KPstateStartUp::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -99,10 +99,10 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_NOWARRANTY].SetPosition(8, 0, 0.5, A_CENTERED);
     menu.labels[T_VERSION].SetPosition(0.1f, 0, 0.5);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
-tKPMenuState KPstateStartUp::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateStartUp::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().RequestForClose();
 
@@ -110,7 +110,7 @@ tKPMenuState KPstateStartUp::ESCKeyAction (KPstateContext *pContext)
 }
 
 void KPstateStartUp::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                 int x, int y)
+                                 int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
@@ -132,7 +132,7 @@ void KPstateStartUp::MouseClick (KPstateContext *pContext,
     }
 }
 
-void KPstateStartUp::Draw(KPstateContext *pContext)
+void KPstateStartUp::Draw(KPstateContext *pContext) const
 {
     pContext->GetLight().Draw();
 

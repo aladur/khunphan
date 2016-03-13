@@ -48,38 +48,37 @@ public:
         return KPState_Invalid;
     };
     virtual void Initialize(KPstateContext *pContext, const KPstate *pOldState);
-    virtual void Animate(KPstateContext *pContext, unsigned int duration);
-    virtual void Draw(KPstateContext *pContext);
-    virtual void MouseClick           (KPstateContext *pContext,
-                                       tMouseButton button, tMouseEvent event,
-                                       int x, int y);
-    virtual void MouseMotion          (KPstateContext *pContext, int x, int y);
-    virtual void KeyPressed           (KPstateContext *pContext,
-                                       unsigned char key, int x, int y);
-    virtual void KeyReleased          (KPstateContext *pContext,
-                                       unsigned char key, int x, int y);
-    virtual tKPMenuState ESCKeyAction (KPstateContext *pContext);
+    virtual void AnimateAll(KPstateContext *pContext,
+                            unsigned int duration) const;
+    virtual void Animate(KPstateContext *pContext, unsigned int duration) const;
+    virtual void Draw(KPstateContext *pContext) const;
+    virtual void MouseClick(KPstateContext *pContext,
+                            tMouseButton button, tMouseEvent event,
+                            int x, int y);
+    virtual void MouseMotion(KPstateContext *pContext, int x, int y);
+    virtual void KeyPressed(KPstateContext *pContext,
+                            unsigned char key, int x, int y) const;
+    virtual void KeyReleased(KPstateContext *pContext,
+                             unsigned char key, int x, int y);
+    virtual tKPMenuState ESCKeyAction(KPstateContext *pContext) const;
 
 protected:
-    virtual void HookAfterAnimationFinished(KPstateContext *pContext);
-    virtual void UpdateDisplay(KPstateContext *pContext);
-    virtual void PlayAudioForInitialize(KPstateContext *pContext);
+    virtual void HookAfterAnimationFinished(KPstateContext *pContext) const;
+    virtual void UpdateDisplay(KPstateContext *pContext) const;
+    virtual void PlayAudioForInitialize(KPstateContext *pContext) const;
 
     int  EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
                             tMouseEvent event, int x, int y);
-    bool EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
-                             int x, int y);
+    bool EvaluateKeyPressed(KPstateContext *pContext, unsigned char key,
+                             int x, int y) const;
     tKPMenuState DefaultKeyPressed(KPstateContext *pContext, unsigned char key,
-                                   int x, int y);
-    void ChangeState( KPstateContext *pContext, tKPMenuState stateID );
-    void StartAnimation();
-
-    int  AnimationTime;
-    bool InAnimation;
+                                   int x, int y) const;
+    void ChangeState(KPstateContext *pContext, tKPMenuState stateID) const;
+    void StartAnimation(KPstateContext *pContext) const;
 };
 
-inline void KPstate::ChangeState( KPstateContext *pContext,
-                                  tKPMenuState stateID )
+inline void KPstate::ChangeState(KPstateContext *pContext,
+                                 tKPMenuState stateID) const
 {
     if (pContext)
     {

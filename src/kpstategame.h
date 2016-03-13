@@ -36,30 +36,26 @@ public:
     {
         return KPState_Game;
     };
-    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-    void MouseClick (KPstateContext *pContext, tMouseButton button,
+    void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick(KPstateContext *pContext, tMouseButton button,
                      tMouseEvent event, int x, int y);
-    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-    void Animate(KPstateContext *pContext, unsigned int duration);
-    void UpdateDisplay(KPstateContext *pContext);
-    tKPMenuState ESCKeyAction (KPstateContext *);
+    void KeyPressed(KPstateContext *pContext, unsigned char key,
+                     int x, int y) const;
+    void AnimateAll(KPstateContext *pContext, unsigned int duration) const;
+    void UpdateDisplay(KPstateContext *pContext) const;
+    tKPMenuState ESCKeyAction(KPstateContext *) const;
 
 protected:
-    virtual void HookAfterAnimationFinished(KPstateContext *);
-    void UpdateMoveCount(KPstateContext *pContext);
-    void Pause(KPstateContext *pContext, bool On = true);
-    void GameIsSolved(KPstateContext *pContext);
-    void Cheat1(KPstateContext *pContext);
-    void SaveGameStatus(KPstateContext *pContext);
-    tCallbackFct animationFinishedCallback;
-    void PlayAudioForInitialize(KPstateContext *pContext);
+    virtual void HookAfterAnimationFinished(KPstateContext *) const;
+    void UpdateMoveCount(KPstateContext *pContext) const;
+    void Pause(KPstateContext *pContext, bool On = true) const;
+    void GameIsSolved(KPstateContext *pContext) const;
+    void Cheat1(KPstateContext *pContext) const;
+    void SaveGameStatus(KPstateContext *pContext) const;
+    void PlayAudioForInitialize(KPstateContext *pContext) const;
 // KPstateMoveToken interface
     void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
                              tKPDirection direction, bool SuccessfullyMoved);
-
-    bool bIsPause;
-    bool bGameIsSolved;
-    int counter;
 };
 
 #endif

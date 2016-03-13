@@ -35,7 +35,7 @@ void KPstateKeyboardHelp::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext)
+void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -88,11 +88,11 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void KPstateKeyboardHelp::KeyPressed (KPstateContext *pContext,
-                                      unsigned char key, int x, int y)
+                                      unsigned char key, int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }

@@ -53,7 +53,7 @@ KPUIBase::KPUIBase() :
     pBoardView(NULL), pCamera(NULL),
     pLight(NULL), pMenu(NULL),
     pNodes(NULL), pStatistics(NULL), previousStateId(KPState_Invalid),
-    pState(NULL),
+    animationTimer(TOTAL_ANIMATIONTIME, false), pState(NULL),
     lastFrameTimestamp(0), oldTime(0), frameCount(0)
 
 {
@@ -236,7 +236,7 @@ void KPUIBase::Idle()
     {
         // Animate approx. each 10 ms
         // Animation is delegated to KPstate
-        pState->Animate(this, duration);
+        pState->AnimateAll(this, duration);
 
         lastFrameTimestamp = frameTimestamp;
 
@@ -324,6 +324,11 @@ KPnodes &KPUIBase::GetNodes()
 KPUIBase &KPUIBase::GetUserInterface()
 {
     return *this;
+}
+
+BManualTimer &KPUIBase::GetAnimationTimer()
+{
+    return animationTimer;
 }
 
 /////////////////////////////////////////////////////////////////////

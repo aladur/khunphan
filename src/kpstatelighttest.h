@@ -35,15 +35,16 @@ public:
     {
         return KPState_LightTest;
     };
-    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-    void MouseClick (KPstateContext *pContext, tMouseButton button,
-                     tMouseEvent event, int x, int y);
-    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-    void UpdateDisplay(KPstateContext *pContext);
-    tKPMenuState ESCKeyAction (KPstateContext *);
+    void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick(KPstateContext *pContext, tMouseButton button,
+                    tMouseEvent event, int x, int y);
+    void KeyPressed(KPstateContext *pContext, unsigned char key,
+                    int x, int y) const;
+    void UpdateDisplay(KPstateContext *pContext) const;
+    tKPMenuState ESCKeyAction(KPstateContext *) const;
 protected:
-    void HandleMouseClick (KPstateContext *pContext, tMouseButton button,
-                           tMouseEvent event, int x, int y);
+    void HandleMouseClick(KPstateContext *pContext, tMouseButton button,
+                          tMouseEvent event, int x, int y);
     int mouse_x, mouse_y;
 };
 

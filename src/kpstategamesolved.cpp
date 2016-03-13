@@ -81,7 +81,7 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
+void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
 {
     tIdToLabel::const_iterator it;
 
@@ -137,11 +137,11 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void KPstateGameSolved::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                    int x, int y)
+                                    int x, int y) const
 {
     if (EvaluateKeyPressed(pContext, key, x, y))
     {
@@ -160,7 +160,7 @@ void KPstateGameSolved::KeyPressed (KPstateContext *pContext, unsigned char key,
     }
 }
 
-tKPMenuState KPstateGameSolved::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateGameSolved::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetCamera().SetRoundtrip(true);
     return KPState_Finish;
@@ -180,7 +180,7 @@ void KPstateGameSolved::MouseClick (KPstateContext *pContext,
     }
 }
 
-void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext)
+void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext) const
 {
     tKPMenuState newState = KPState_MainMenu;
     std::string name(pContext->GetMenu().labels[T_NAME_LABEL].GetText());
@@ -200,7 +200,7 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext)
     pContext->ChangeState(newState);
 }
 
-void KPstateGameSolved::PlayAudioForInitialize(KPstateContext *pContext)
+void KPstateGameSolved::PlayAudioForInitialize(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_GAMESOLVED);
 }

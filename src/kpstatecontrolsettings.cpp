@@ -39,7 +39,7 @@ void KPstateControlSettings::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext)
+void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -101,11 +101,11 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void KPstateControlSettings::KeyPressed (KPstateContext *pContext,
-        unsigned char key, int x, int y)
+        unsigned char key, int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
@@ -169,13 +169,14 @@ void  KPstateControlSettings::ToggleSolutionHint(KPstateContext *pContext)
     E_SolutionHint = E_SolutionHint ? 0 : 1;
 }
 
-tKPMenuState KPstateControlSettings::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateControlSettings::ESCKeyAction(
+                                         KPstateContext *pContext) const
 {
     SaveChanges(pContext);
     return pContext->GetPreviousState();
 }
 
-void KPstateControlSettings::SaveChanges(KPstateContext *)
+void KPstateControlSettings::SaveChanges(KPstateContext *) const
 {
     KPConfig::Instance().MouseSpeed   = E_MouseSpeed;
     KPConfig::Instance().SolutionHint = E_SolutionHint;

@@ -21,9 +21,9 @@ Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
     ax(0), ay(0), bx(0), by(0), Alpha(0),
     target_ax(0), target_ay(0), target_bx(0), target_by(0), target_Alpha(0),
     old_ax(0),  old_ay(0), old_bx(0),  old_by(0), old_Alpha(0),
-    InAnimation(false), Signal(0), Time(0),
+    Signal(0),
     r(R), g(G), b(B), Texture(0), TextureSize(0), Nearest(false),
-    WithAlpha(false)
+    WithAlpha(false), animationTimer(TOTAL_ANIMATIONTIME, false)
 {
     Type = 3;
 
@@ -53,10 +53,10 @@ Plate::Plate(const Plate &src) :
     target_Alpha(src.target_Alpha),
     old_ax(src.old_ax),  old_ay(src.old_ay),
     old_bx(src.old_bx),  old_by(src.old_by), old_Alpha(src.old_Alpha),
-    InAnimation(src.InAnimation), Signal(src.Signal), Time(src.Time),
+    Signal(src.Signal),
     r(src.r), g(src.g), b(src.b), TextureSource(src.TextureSource),
     Texture(0), TextureSize(src.TextureSize), Nearest(src.Nearest),
-    WithAlpha(src.WithAlpha)
+    WithAlpha(src.WithAlpha), animationTimer(src.animationTimer)
 {
     BTexture texture;
     BTexture *pTexture = NULL;
@@ -113,9 +113,7 @@ Plate &Plate::operator=(const Plate &src)
         old_bx = src.old_bx;
         old_by = src.old_by;
         old_Alpha = src.old_Alpha;
-        InAnimation = src.InAnimation;
         Signal = src.Signal;
-        Time = src.Time;
         r = src.r;
         g = src.g;
         b = src.b;
@@ -123,6 +121,7 @@ Plate &Plate::operator=(const Plate &src)
         TextureSize = src.TextureSize;
         Nearest = src.Nearest;
         WithAlpha = src.WithAlpha;
+        animationTimer = src.animationTimer;
 
         if (Type == 1)
         {
@@ -413,8 +412,7 @@ void Plate::SetFullyVisible()
 
 void Plate::StartAnimation()
 {
-    InAnimation = true;
-    Time = 0;
+    animationTimer.Restart();
     old_ax = ax;
     old_ay = ay;
     old_bx = bx;
@@ -425,24 +423,22 @@ void Plate::StartAnimation()
 // duration is the time since the last call to Animate() in ms
 void Plate::Animate(unsigned int duration)
 {
-    if (InAnimation)
+    if (animationTimer.IsStarted())
     {
-        Time += duration;
-
-        if (Time >= TOTAL_ANIMATIONTIME)
+        if (animationTimer.Add(duration))
         {
             ax = target_ax;
             ay = target_ay;
             bx = target_bx;
             by = target_by;
             Alpha = target_Alpha;
-            InAnimation = false;
         }
         else
         {
             GLfloat localFactor;
 
-            localFactor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
+            localFactor = 0.5f - 0.5f *
+                cos(M_PIf * animationTimer.GetRelativeTime());
             ax   = (target_ax - old_ax) * localFactor + old_ax;
             ay   = (target_ay - old_ay) * localFactor + old_ay;
             bx   = (target_bx - old_bx) * localFactor + old_bx;

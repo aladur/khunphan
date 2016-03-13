@@ -68,9 +68,10 @@ Label::Label(const std::string &textOrFormat) :
     Height(0), Alpha(0.0f),
     old_x(0),  old_y(0),  old_Height(0),  old_Alpha(0.0f),
     target_x(0), target_y(0), target_Height(0), target_Alpha(0.0f),
-    Alignment(A_LEFT), InAnimation(false), Signal(0), Time(0),
+    Alignment(A_LEFT), Signal(0),
     DisplayList(0), hasInputFocus(false), lineCount(0),
-    MaxCharacters(32), maxWidth(0)
+    MaxCharacters(32), maxWidth(0),
+    animationTimer(TOTAL_ANIMATIONTIME, false)
 {
     if (Texture == 0)
     {
@@ -94,10 +95,11 @@ Label::Label(const Label &src) :
     old_Height(src.old_Height), old_Alpha(src.old_Alpha),
     target_x(src.target_x), target_y(src.target_y),
     target_Height(src.target_Height), target_Alpha(src.target_Alpha),
-    Alignment(src.Alignment), InAnimation(src.InAnimation),
-    Signal(src.Signal), Time(src.Time),
+    Alignment(src.Alignment),
+    Signal(src.Signal),
     DisplayList(0), hasInputFocus(src.hasInputFocus), lineCount(src.lineCount),
-    MaxCharacters(src.MaxCharacters), maxWidth(src.maxWidth)
+    MaxCharacters(src.MaxCharacters), maxWidth(src.maxWidth),
+    animationTimer(src.animationTimer)
 {
 }
 
@@ -132,13 +134,12 @@ Label &Label::operator=(const Label &src)
         target_Height = src.target_Height;
         target_Alpha = src.target_Alpha;
         Alignment = src.Alignment;
-        InAnimation = src.InAnimation;
         Signal = src.Signal;
-        Time = src.Time;
         hasInputFocus = src.hasInputFocus;
         lineCount = src.lineCount;
         MaxCharacters = src.MaxCharacters;
         maxWidth = src.maxWidth;
+        animationTimer = src.animationTimer;
 
         RecreateDisplayList();
     }
@@ -452,23 +453,21 @@ void Label::SetFullyVisible()
 // duration is the time since the last call to Animate() in ms
 void Label::Animate(unsigned int duration)
 {
-    if (InAnimation)
+    if (animationTimer.IsStarted())
     {
-        Time += duration;
-
-        if (Time >= TOTAL_ANIMATIONTIME)
+        if (animationTimer.Add(duration))
         {
             x = target_x;
             y = target_y;
             Height = target_Height;
             Alpha = target_Alpha;
-            InAnimation = false;
         }
         else
         {
             GLfloat localFactor;
 
-            localFactor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
+            localFactor = 0.5f - 0.5f *
+                              cos(M_PIf * animationTimer.GetRelativeTime());
             x      = (target_x - old_x) * localFactor + old_x;
             y      = (target_y - old_y) * localFactor + old_y;
             Height = (target_Height - old_Height) * localFactor + old_Height;
@@ -485,8 +484,7 @@ void Label::SetSignal(int NewSignal)
 void Label::StartAnimation()
 {
     SetActive(this);
-    InAnimation = true;
-    Time = 0;
+    animationTimer.Restart();
     old_x = x;
     old_y = y;
     old_Height = Height;

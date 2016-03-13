@@ -36,12 +36,12 @@ public:
     void MouseClick (KPstateContext *pContext, tMouseButton button,
                      tMouseEvent event, int x, int y);
     void KeyPressed (KPstateContext *pContext, unsigned char key,
-                     int x, int y);
-    void UpdateDisplay(KPstateContext *pContext);
-    tKPMenuState ESCKeyAction (KPstateContext *pContext);
+                     int x, int y) const;
+    void UpdateDisplay(KPstateContext *pContext) const;
+    tKPMenuState ESCKeyAction(KPstateContext *pContext) const;
 
 protected:
-    void SaveChanges(KPstateContext *pContext);
+    void SaveChanges(KPstateContext *pContext) const;
     void ToggleMusicVolume(KPstateContext *pContext);
     void ToggleSoundVolume(KPstateContext *pContext);
 

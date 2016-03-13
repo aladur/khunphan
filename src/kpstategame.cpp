@@ -31,8 +31,7 @@
 #include "kpnodes.h"
 
 
-KPstateGame::KPstateGame() : animationFinishedCallback(NULL),
-    bIsPause(false), bGameIsSolved(false), counter(0)
+KPstateGame::KPstateGame()
 {
 }
 
@@ -44,7 +43,7 @@ void KPstateGame::Initialize(KPstateContext *pContext,
     KPConfig &config = KPConfig::Instance();
     KPStatistics &statistics = pContext->GetStatistics();
 
-    // Do some initialization stuff here:
+    pContext->SetPause(false);
 
     statistics.Reset();
     if (config.SavedGame != 0)
@@ -69,7 +68,7 @@ void KPstateGame::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateGame::UpdateDisplay(KPstateContext *pContext)
+void KPstateGame::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -125,13 +124,13 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext)
         }
     }
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void  KPstateGame::KeyPressed (KPstateContext *pContext, unsigned char key,
-                               int x, int y)
+                               int x, int y) const
 {
-    if (bIsPause)
+    if (pContext->IsPause())
     {
         if (key == 'P' || key == 'p' || key == 27)
         {
@@ -177,7 +176,7 @@ void  KPstateGame::KeyPressed (KPstateContext *pContext, unsigned char key,
     }
 }
 
-tKPMenuState KPstateGame::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateGame::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetCamera().SetRoundtrip(true);
     pContext->GetStatistics().Stop();
@@ -196,7 +195,7 @@ void  KPstateGame::MouseClick (KPstateContext *pContext,
 
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    if (!bIsPause && !bGameIsSolved)
+    if (!pContext->IsPause() && !pContext->GetBoardView().IsSolved())
     {
         switch (Signal)
         {
@@ -235,52 +234,43 @@ void KPstateGame::HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID id,
         UpdateMoveCount(pContext);
         if (pContext->GetBoardView().IsSolved())
         {
-            bGameIsSolved = true;
             pContext->GetStatistics().Stop();
-            animationFinishedCallback = &KPstateGame::GameIsSolved;
-            StartAnimation();
+            StartAnimation(pContext);
         }
     }
 }
 
-void KPstateGame::HookAfterAnimationFinished(KPstateContext *pContext)
+void KPstateGame::HookAfterAnimationFinished(KPstateContext *pContext) const
 {
-    if (animationFinishedCallback != NULL)
+    if (pContext->GetBoardView().IsSolved())
     {
-        (this->*animationFinishedCallback)(pContext);
+        GameIsSolved(pContext);
     }
 }
 
-void KPstateGame::Animate(KPstateContext *pContext, unsigned int duration)
+void KPstateGame::AnimateAll(KPstateContext *pContext,
+                             unsigned int duration) const
 {
-    KPstate::Animate(pContext, duration);
+    KPstate::AnimateAll(pContext, duration);
 
-    counter += 16 * duration;
-    if (counter > TOTAL_ANIMATIONTIME)
-    {
-        // update approx. 8 times per second
-        counter -= TOTAL_ANIMATIONTIME;
-        pContext->GetMenu().labels[T_TIME].FormatText(
-               1, pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS).c_str());
-    }
+    pContext->GetMenu().UpdatePlayTime(pContext, duration);
 }
 
-void KPstateGame::GameIsSolved(KPstateContext *pContext)
+void KPstateGame::GameIsSolved(KPstateContext *pContext) const
 {
-    animationFinishedCallback = NULL;
     pContext->GetUserInterface().SetSoundVolume(
         KPConfig::Instance().SoundVolume);
     pContext->GetUserInterface().PlayMusic(false);
     pContext->ChangeState(KPState_GameSolved);
 }
 
-void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */)
+void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */) const
 {
     KPmenu &menu = pContext->GetMenu();
 
-    bIsPause = On;
+    pContext->SetPause(On);
 
-    if (bIsPause)
+    if (pContext->IsPause())
     {
         menu.plates[PLATE_LOGO].SetPosition(4,9,12,11);
         menu.plates[PLATE_SHADER].SetPosition(0,0,16,12);
@@ -295,10 +285,10 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */)
         menu.plates[PLATE_SHADER].SetFadeOut();
         menu.labels[T_PAUSE].SetFadeOut();
     }
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
-void KPstateGame::UpdateMoveCount(KPstateContext *pContext)
+void KPstateGame::UpdateMoveCount(KPstateContext *pContext) const
 {
     pContext->GetStatistics().IncEventCounter(MOVE_COUNTER);
     if (KPConfig::Instance().SolutionHint)
@@ -309,7 +299,7 @@ void KPstateGame::UpdateMoveCount(KPstateContext *pContext)
     UpdateDisplay(pContext);
 }
 
-void KPstateGame::Cheat1(KPstateContext *pContext)
+void KPstateGame::Cheat1(KPstateContext *pContext) const
 {
     KPboard board;
 
@@ -330,7 +320,7 @@ void KPstateGame::Cheat1(KPstateContext *pContext)
     UpdateDisplay(pContext);
 }
 
-void KPstateGame::SaveGameStatus(KPstateContext *pContext)
+void KPstateGame::SaveGameStatus(KPstateContext *pContext) const
 {
     KPConfig &config = KPConfig::Instance();
     KPStatistics &statistics = pContext->GetStatistics();
@@ -342,7 +332,7 @@ void KPstateGame::SaveGameStatus(KPstateContext *pContext)
     config.CheatCount    = statistics.GetEventCounter(USED_CHEATS_CNT);
 }
 
-void KPstateGame::PlayAudioForInitialize(KPstateContext *pContext)
+void KPstateGame::PlayAudioForInitialize(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_OPENGAME);
 }

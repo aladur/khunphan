@@ -16,6 +16,7 @@
 #endif
 #include <string>
 #include "kpconfig.h"
+#include "bmanualtimer.h"
 
 
 class Label;
@@ -92,14 +93,13 @@ private:
     float old_x, old_y, old_Height, old_Alpha;
     float target_x, target_y, target_Height, target_Alpha;
     int Alignment;
-    bool  InAnimation;
     int Signal;
-    unsigned int Time;
     int DisplayList;
     bool  hasInputFocus;
     int lineCount;
     unsigned int MaxCharacters;
     float maxWidth;
+    BManualTimer animationTimer;
 };
 
 #endif

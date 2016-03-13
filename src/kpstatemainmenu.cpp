@@ -45,7 +45,7 @@ void KPstateMainMenu::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext)
+void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -86,11 +86,11 @@ void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_QUIT].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_QUIT].SetSignal(S_FINISH);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void  KPstateMainMenu::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                   int x, int y)
+                                   int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
@@ -126,7 +126,7 @@ void  KPstateMainMenu::MouseClick (KPstateContext *pContext,
     }
 }
 
-tKPMenuState KPstateMainMenu::ESCKeyAction (KPstateContext *)
+tKPMenuState KPstateMainMenu::ESCKeyAction(KPstateContext *) const
 {
     return KPState_Finish;
 }

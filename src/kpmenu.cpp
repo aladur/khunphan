@@ -29,9 +29,11 @@
 #include "kpconfig.h"
 #include "sprinter.h"
 #include "kpstate.h"
+#include "kpstatistics.h"
 
 
-KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(KPState_Invalid)
+KPmenu::KPmenu() : IsDisplayOpenGLInfo(false), lastState(KPState_Invalid),
+                   playTimeUpdateTimer(100, true, true)
 {
 }
 
@@ -149,6 +151,23 @@ void KPmenu::FadeOutAllLabels()
     Label::FadeOutAll();
 }
 
+void KPmenu::Animate(unsigned int duration)
+{
+    tIdToPlate::iterator sit;
+
+    for (sit = plates.begin(); sit != plates.end(); ++sit)
+    {
+        sit->second.Animate(duration);
+    }
+
+    tIdToLabel::iterator tit;
+
+    for (tit = labels.begin(); tit != labels.end(); ++tit)
+    {
+        tit->second.Animate(duration);
+    }
+}
+
 void KPmenu::Draw()
 {
     glDisable(GL_DEPTH_TEST);
@@ -193,3 +212,15 @@ void KPmenu::UpdateFPS(int fps, float renderTime)
 {
     labels[T_FPS].FormatText(2, fps, renderTime);
 }
+
+void KPmenu::UpdatePlayTime(KPstateContext *pContext, unsigned int duration)
+{
+    if (playTimeUpdateTimer.Add(duration))
+    {
+        // Cyclically update play time each 100 ms
+        std::string timeString =
+            pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS);
+        labels[T_TIME].FormatText(1, timeString.c_str());
+    }
+}
+

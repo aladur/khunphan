@@ -42,7 +42,7 @@ void KPstateTutorial2::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext)
+void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -83,11 +83,11 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void KPstateTutorial2::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                   int x, int y)
+                                   int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 
@@ -100,7 +100,7 @@ void KPstateTutorial2::KeyPressed (KPstateContext *pContext, unsigned char key,
     }
 }
 
-tKPMenuState KPstateTutorial2::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateTutorial2::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetCamera().SetRoundtrip(true);
     pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
@@ -124,7 +124,7 @@ void  KPstateTutorial2::MouseClick (KPstateContext *pContext,
     }
 }
 
-void KPstateTutorial2::InitializeBoardWithTokens(KPstateContext *pContext)
+void KPstateTutorial2::InitializeBoardWithTokens(KPstateContext *pContext) const
 {
     KPboard board;
 
@@ -142,7 +142,7 @@ void KPstateTutorial2::InitializeBoardWithTokens(KPstateContext *pContext)
     pContext->GetBoardView().SetBoard(board);
 }
 
-void KPstateTutorial2::PlayAudioForInitialize(KPstateContext *pContext)
+void KPstateTutorial2::PlayAudioForInitialize(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_TUTORIALNEXT);
 }

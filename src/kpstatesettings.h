@@ -35,10 +35,11 @@ public:
     void Initialize (KPstateContext *pContext, const KPstate *pOldState);
     void MouseClick (KPstateContext *pContext, tMouseButton button,
                      tMouseEvent event, int x, int y);
-    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-    void UpdateDisplay(KPstateContext *pContext);
+    void KeyPressed (KPstateContext *pContext, unsigned char key,
+                     int x, int y) const;
+    void UpdateDisplay(KPstateContext *pContext) const;
 protected:
-    tKPMenuState ESCKeyAction (KPstateContext *);
+    tKPMenuState ESCKeyAction(KPstateContext *) const;
 };
 
 #endif

@@ -218,6 +218,7 @@
     <ClInclude Include="src\kplocale.h" />
     <ClInclude Include="src\cmdline.h" />
     <ClInclude Include="src\states.h" />
+    <ClInclude Include="src\bmanualtimer.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>

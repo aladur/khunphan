@@ -34,7 +34,7 @@ void KPstateGraphicHint::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateGraphicHint::UpdateDisplay(KPstateContext *pContext)
+void KPstateGraphicHint::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -58,11 +58,11 @@ void KPstateGraphicHint::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_OK].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_OK].SetSignal(S_BACK);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void KPstateGraphicHint::KeyPressed (KPstateContext *pContext,
-                                     unsigned char key, int x, int y)
+                                     unsigned char key, int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
@@ -81,7 +81,7 @@ void  KPstateGraphicHint::MouseClick (KPstateContext *pContext,
     }
 }
 
-tKPMenuState KPstateGraphicHint::ESCKeyAction (KPstateContext *)
+tKPMenuState KPstateGraphicHint::ESCKeyAction(KPstateContext *) const
 {
     return KPState_Settings;
 }

@@ -27,6 +27,7 @@
 #include "label.h"
 #include "language.h"
 #include "kpstate.h"
+#include "bmanualtimer.h"
 
 
 typedef enum
@@ -117,7 +118,6 @@ public:
                     int Language = 0);
     void Update(std::string &TextureName, int TextureSize, bool Nearest);
     void Draw();
-    void Update(int factor);
     void UpdateFPS(int fps, float renderTime = 0.0);
     void SaveLastStateId(tKPMenuState stateId)
     {
@@ -134,11 +134,15 @@ protected:
     void AddOrSetLabel(int number, const std::string &text);
     void FadeOutAllPlates();
     void FadeOutAllLabels();
+    void Animate(unsigned int duration);
+    void UpdatePlayTime(KPstateContext *pContext, unsigned int duration);
 
     tIdToPlate plates;
     tIdToLabel labels;
 
     tKPMenuState lastState;
+
+    BManualTimer playTimeUpdateTimer;
 };
 
 #endif

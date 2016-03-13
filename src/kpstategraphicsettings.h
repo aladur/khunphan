@@ -38,14 +38,16 @@ public:
     void Initialize (KPstateContext *pContext, const KPstate *pOldState);
     void MouseClick (KPstateContext *pContext, tMouseButton button,
                      tMouseEvent event, int x, int y);
-    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-    void UpdateDisplay(KPstateContext *pContext);
-    tKPMenuState ESCKeyAction(KPstateContext *pContext);
+    void KeyPressed (KPstateContext *pContext, unsigned char key,
+                     int x, int y) const;
+    void UpdateDisplay(KPstateContext *pContext) const;
+    tKPMenuState ESCKeyAction(KPstateContext *pContext) const;
 
 protected:
-    int  GetTextureIndex(std::string &TextureName);
-    tKPMenuState SaveChanges(KPstateContext *pContext);
-    void ToggleFPS(KPstateContext *pContext);
+    void UpdateQuality(KPstateContext *pContext);
+    int  GetTextureIndex(std::string &TextureName) const;
+    tKPMenuState SaveChanges(KPstateContext *pContext) const;
+    void ToggleFPS(KPstateContext *pContext) const;
     void ToggleTextures(KPstateContext *pContext);
     void ToggleMenuTextures(KPstateContext *pContext);
     void ToggleScreenMode(KPstateContext *pContext);
@@ -53,23 +55,18 @@ protected:
     void ToggleColorDepth(KPstateContext *pContext);
     void ToggleReflections(KPstateContext *pContext);
     void ToggleShadows(KPstateContext *pContext);
-    void ToggleTextureInterpolation(KPstateContext *pContext);
-    void ToggleAmbientLight(KPstateContext *pContext);
+    void ToggleTextureInterpolation(KPstateContext *pContext) const;
+    void ToggleAmbientLight(KPstateContext *pContext) const;
     void ToggleLamps(KPstateContext *pContext);
     void ToggleUserInterface(KPstateContext *pContext);
     void ToggleQuality(KPstateContext *pContext);
-    void ToggleTextureName(KPstateContext *pContext);
+    void ToggleTextureName(KPstateContext *pContext) const;
 
     int Quality;
-
     int  E_ScreenXResolution;
     bool E_FullScreen;
     int  E_ColorDepth;
     int  E_UserInterface;
-
-    bool firstTexture;
-    int  textureIndex;
-    std::vector<std::string> textureNameList;
 };
 
 #endif

@@ -107,6 +107,7 @@ EXTRA_DIST = \
         kplocale.h \
         cmdline.h \
         states.h \
+        bmanualtimer.h \
         stdafx.h \
         KhunPhan.rc \
         icon.ico

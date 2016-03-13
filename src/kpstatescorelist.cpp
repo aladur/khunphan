@@ -35,7 +35,7 @@ void KPstateScoreList::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
+void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -109,11 +109,11 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void KPstateScoreList::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                   int x, int y)
+                                   int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
@@ -132,7 +132,7 @@ void  KPstateScoreList::MouseClick (KPstateContext *pContext,
     }
 }
 
-tKPMenuState KPstateScoreList::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateScoreList::ESCKeyAction(KPstateContext *pContext) const
 {
     return pContext->GetMenu().RestoreLastStateId();
 }

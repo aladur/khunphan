@@ -49,19 +49,20 @@ public:
     void Initialize (KPstateContext *pContext, const KPstate *pOldState);
     void MouseClick (KPstateContext *pContext, tMouseButton button,
                      tMouseEvent event, int x, int y);
-    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-    void UpdateDisplay(KPstateContext *pContext);
-    tKPMenuState ESCKeyAction (KPstateContext *);
+    void KeyPressed (KPstateContext *pContext, unsigned char key,
+                     int x, int y) const;
+    void UpdateDisplay(KPstateContext *pContext) const;
+    tKPMenuState ESCKeyAction(KPstateContext *) const;
 
 protected:
-    virtual int  GetTextOffset();
-    virtual tKPTokenID GetEmphasizedTokenId();
-    virtual void InitializeBoardWithTokens(KPstateContext *pContext);
+    virtual int GetTextOffset() const;
+    virtual tKPTokenID GetEmphasizedTokenId() const;
+    virtual void InitializeBoardWithTokens(KPstateContext *pContext) const;
     virtual void ContinueWithNextState(KPstateContext *pContext,
-                                       bool valid = true);
+                                       bool valid = true) const;
     void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
                              tKPDirection direction, bool successfullyMoved);
-    void PlayAudioForInitialize(KPstateContext *pContext);
+    void PlayAudioForInitialize(KPstateContext *pContext) const;
 
     tTutState tutorialState;
 };

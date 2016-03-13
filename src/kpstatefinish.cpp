@@ -35,7 +35,7 @@ void KPstateFinish::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateFinish::UpdateDisplay(KPstateContext *pContext)
+void KPstateFinish::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -53,11 +53,11 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void KPstateFinish::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                int x, int y)
+                                int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
@@ -78,7 +78,7 @@ void  KPstateFinish::MouseClick (KPstateContext *pContext, tMouseButton button,
     }
 }
 
-void KPstateFinish::PlayAudioForInitialize(KPstateContext *pContext)
+void KPstateFinish::PlayAudioForInitialize(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_QUITGAME);
 }

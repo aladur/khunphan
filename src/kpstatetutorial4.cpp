@@ -30,7 +30,7 @@
 
 
 void KPstateTutorial4::ContinueWithNextState(KPstateContext *pContext,
-        bool valid /* = true */)
+        bool valid /* = true */) const
 {
     if (!valid)
     {
@@ -42,17 +42,17 @@ void KPstateTutorial4::ContinueWithNextState(KPstateContext *pContext,
     pContext->ChangeState( pContext->GetMenu().RestoreLastStateId() );
 }
 
-int KPstateTutorial4::GetTextOffset()
+int KPstateTutorial4::GetTextOffset() const
 {
     return T_TUTORIAL4;
 }
 
-tKPTokenID KPstateTutorial4::GetEmphasizedTokenId()
+tKPTokenID KPstateTutorial4::GetEmphasizedTokenId() const
 {
     return TK_GREEN4;
 }
 
-void KPstateTutorial4::InitializeBoardWithTokens(KPstateContext *pContext)
+void KPstateTutorial4::InitializeBoardWithTokens(KPstateContext *pContext) const
 {
     KPboard board;
 
@@ -70,7 +70,7 @@ void KPstateTutorial4::InitializeBoardWithTokens(KPstateContext *pContext)
     pContext->GetBoardView().SetBoard(board);
 }
 
-void KPstateTutorial4::PlayAudioForInitialize(KPstateContext *pContext)
+void KPstateTutorial4::PlayAudioForInitialize(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_TUTORIALNEXT);
 }

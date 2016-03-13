@@ -33,11 +33,12 @@ public:
         return KPState_MainMenu;
     };
     void Initialize(KPstateContext *pContext, const KPstate *pOldState);
-    void MouseClick (KPstateContext *pContext, tMouseButton button,
-                     tMouseEvent event, int x, int y);
-    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-    tKPMenuState ESCKeyAction (KPstateContext *pContext);
-    void UpdateDisplay(KPstateContext *pContext);
+    void MouseClick(KPstateContext *pContext, tMouseButton button,
+                    tMouseEvent event, int x, int y);
+    void KeyPressed(KPstateContext *pContext, unsigned char key,
+                    int x, int y) const;
+    tKPMenuState ESCKeyAction(KPstateContext *pContext) const;
+    void UpdateDisplay(KPstateContext *pContext) const;
 };
 
 #endif

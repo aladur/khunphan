@@ -38,13 +38,12 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
     KPConfig &config = KPConfig::Instance();
 
     E_ScreenXResolution = config.ScreenXResolution;
-    E_ColorDepth        = config.ColorDepth;
-    E_UserInterface     = config.UserInterface;
-    E_FullScreen        = config.FullScreen;
-    Quality             = 0;
+    E_ColorDepth = config.ColorDepth;
+    E_UserInterface = config.UserInterface;
+    E_FullScreen = config.FullScreen;
+    Quality = 0;
+    std::vector<std::string> textureNameList = config.GetTextureNames();
 
-    textureIndex        = 0;
-    textureNameList     = config.GetTextureNames();
     if (textureNameList.empty())
     {
         throw std::runtime_error("*** Error: No texture directories found");
@@ -64,25 +63,12 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
         }
     }
 
-    textureIndex = GetTextureIndex(config.TextureName);
-
     UpdateDisplay(pContext);
 }
 
-void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
+void KPstateGraphicSettings::UpdateQuality(KPstateContext *pContext)
 {
-    KPstate::UpdateDisplay(pContext);
-
     KPConfig &config = KPConfig::Instance();
-    KPmenu &menu     = pContext->GetMenu();
-
-    float y;
-    float dy = 0.5;
-
-    if (config.DisplayFPS)
-    {
-        menu.labels[T_FPS].SetPosition(0, 11.7f, 0.3f);
-    }
 
     if (E_FullScreen==false &&
         E_ScreenXResolution==640 &&
@@ -147,6 +133,24 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     else
     {
         Quality=0;
+    }
+}
+
+void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
+{
+    KPstate::UpdateDisplay(pContext);
+
+    KPConfig &config = KPConfig::Instance();
+    KPmenu &menu     = pContext->GetMenu();
+
+    int textureIndex = GetTextureIndex(config.TextureName);
+
+    float y;
+    float dy = 0.5;
+
+    if (config.DisplayFPS)
+    {
+        menu.labels[T_FPS].SetPosition(0, 11.7f, 0.3f);
     }
 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 1.7f, 14, 9.5f);
@@ -475,7 +479,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_BACK].SetPosition(8, 0.7f, 1 ,A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
@@ -554,12 +558,13 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
 }
 
 void KPstateGraphicSettings::KeyPressed (KPstateContext *pContext,
-        unsigned char key, int x, int y)
+        unsigned char key, int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
-tKPMenuState KPstateGraphicSettings::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateGraphicSettings::ESCKeyAction(
+                                         KPstateContext *pContext) const
 {
     tKPMenuState newState;
 
@@ -571,7 +576,7 @@ tKPMenuState KPstateGraphicSettings::ESCKeyAction (KPstateContext *pContext)
 // Take over changes and change state
 /////////////////////////////////////////////////////////////////////
 
-tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext)
+tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
 {
     bool ResolutionChanged = false;
     KPConfig &config = KPConfig::Instance();
@@ -621,13 +626,13 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext)
 // Toggle settings
 /////////////////////////////////////////////////////////////////////
 
-void KPstateGraphicSettings::ToggleFPS(KPstateContext *pContext)
+void KPstateGraphicSettings::ToggleFPS(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     KPConfig::Instance().DisplayFPS = !KPConfig::Instance().DisplayFPS;
 }
 
-void KPstateGraphicSettings::ToggleAmbientLight(KPstateContext *pContext)
+void KPstateGraphicSettings::ToggleAmbientLight(KPstateContext *pContext) const
 {
     KPConfig &config = KPConfig::Instance();
 
@@ -647,6 +652,7 @@ void KPstateGraphicSettings::ToggleReflections(KPstateContext *pContext)
     pContext->GetLight().Update(config.AmbientLight,
                                 config.LightSources,
                                 config.Reflections);
+    UpdateQuality(pContext);
 }
 
 void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
@@ -672,6 +678,7 @@ void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
     pContext->GetLight().Update(config.AmbientLight,
                                 config.LightSources,
                                 config.Reflections);
+    UpdateQuality(pContext);
 }
 
 void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
@@ -701,11 +708,15 @@ void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
         config.TextureName.c_str(),
         config.TextureSize,
         config.Nearest );
+    UpdateQuality(pContext);
 }
 
-void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext)
+void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext) const
 {
     KPConfig &config = KPConfig::Instance();
+    std::vector<std::string> textureNameList = config.GetTextureNames();
+
+    std::sort(textureNameList.begin(), textureNameList.end());
 
     if (textureNameList.size() > 1)
     {
@@ -726,7 +737,6 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext)
             }
         }
         config.TextureName = *it;
-        textureIndex = GetTextureIndex(config.TextureName);
         pContext->GetBoardView().InitializeTextures(
             config.TextureName.c_str(),
             config.TextureSize,
@@ -747,6 +757,7 @@ void KPstateGraphicSettings::ToggleScreenMode(KPstateContext *pContext)
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     E_FullScreen = !E_FullScreen;
+    UpdateQuality(pContext);
 }
 
 void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
@@ -773,6 +784,7 @@ void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
             E_ScreenXResolution = 800;
             break;
     }
+    UpdateQuality(pContext);
 }
 
 void KPstateGraphicSettings::ToggleColorDepth(KPstateContext *pContext)
@@ -787,6 +799,7 @@ void KPstateGraphicSettings::ToggleColorDepth(KPstateContext *pContext)
             E_ColorDepth = 16;
             break;
     }
+    UpdateQuality(pContext);
 }
 
 void KPstateGraphicSettings::ToggleUserInterface(KPstateContext *pContext)
@@ -810,6 +823,7 @@ void KPstateGraphicSettings::ToggleShadows(KPstateContext *pContext)
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     KPConfig::Instance().Shadows = !KPConfig::Instance().Shadows;
+    UpdateQuality(pContext);
 }
 
 void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
@@ -832,10 +846,11 @@ void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
     pContext->GetMenu().Update( config.TextureName,
                                 config.MenuTextureSize,
                                 config.Nearest );
+    UpdateQuality(pContext);
 }
 
 void KPstateGraphicSettings::ToggleTextureInterpolation(
-    KPstateContext *pContext)
+    KPstateContext *pContext) const
 {
     KPConfig &config = KPConfig::Instance();
 
@@ -855,7 +870,7 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
     KPConfig &config = KPConfig::Instance();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
-    switch(Quality)
+    switch (Quality)
     {
         case 1:
         {
@@ -948,10 +963,13 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
         config.Nearest );
 }
 
-int KPstateGraphicSettings::GetTextureIndex(std::string &TextureName)
+int KPstateGraphicSettings::GetTextureIndex(std::string &TextureName) const
 {
+    std::vector<std::string> textureNameList =
+        KPConfig::Instance().GetTextureNames();
     int index = 0;
 
+    std::sort(textureNameList.begin(), textureNameList.end());
     std::vector<std::string>::const_iterator it = textureNameList.begin();
 
     while (it != textureNameList.end() && *it != TextureName)

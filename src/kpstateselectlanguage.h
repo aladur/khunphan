@@ -37,11 +37,12 @@ public:
     void Initialize (KPstateContext *pContext, const KPstate *pOldState);
     void MouseClick (KPstateContext *pContext, tMouseButton button,
                      tMouseEvent event, int x, int y);
-    void KeyPressed (KPstateContext *pContext, unsigned char key, int x, int y);
-    void UpdateDisplay(KPstateContext *pContext);
-    tKPMenuState ESCKeyAction (KPstateContext *);
+    void KeyPressed (KPstateContext *pContext, unsigned char key,
+                     int x, int y) const;
+    void UpdateDisplay(KPstateContext *pContext) const;
+    tKPMenuState ESCKeyAction(KPstateContext *) const;
 private:
-    void SetLanguage(KPstateContext *pContext, int Language);
+    void SetLanguage(KPstateContext *pContext, int Language) const;
 };
 
 #endif

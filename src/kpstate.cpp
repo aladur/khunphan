@@ -32,7 +32,7 @@
 #include "btime.h"
 
 
-KPstate::KPstate() : AnimationTime(0), InAnimation(false)
+KPstate::KPstate()
 {
 }
 
@@ -58,7 +58,7 @@ void KPstate::Initialize(KPstateContext *pContext,
     PlayAudioForInitialize(pContext);
 }
 
-void KPstate::UpdateDisplay(KPstateContext *pContext)
+void KPstate::UpdateDisplay(KPstateContext *pContext) const
 {
     KPmenu   &menu          = pContext->GetMenu();
     KPUIBase &userInterface = pContext->GetUserInterface();
@@ -93,44 +93,29 @@ void KPstate::UpdateDisplay(KPstateContext *pContext)
     }
 }
 
-void KPstate::Animate(KPstateContext *pContext, unsigned int duration)
+void KPstate::Animate(KPstateContext *pContext, unsigned int duration) const
 {
-    KPmenu &menu = pContext->GetMenu();
+    BManualTimer &animationTimer = pContext->GetAnimationTimer();
 
-
-    if (InAnimation)
+    if (animationTimer.IsStarted())
     {
-        AnimationTime += duration;
-        if (AnimationTime >= TOTAL_ANIMATIONTIME)
+        if (animationTimer.Add(duration))
         {
-            AnimationTime = TOTAL_ANIMATIONTIME;
-            InAnimation = false;
             HookAfterAnimationFinished(pContext);
         }
-
-        tIdToPlate::iterator sit;
-
-        for (sit = menu.plates.begin(); sit != menu.plates.end();
-             ++sit)
-        {
-            sit->second.Animate(duration);
-        }
-
-        tIdToLabel::iterator tit;
-
-        for (tit = menu.labels.begin(); tit != menu.labels.end();
-             ++tit)
-        {
-            tit->second.Animate(duration);
-        }
     }
+}
 
+void KPstate::AnimateAll(KPstateContext *pContext, unsigned int duration) const
+{
+    Animate(pContext, duration);
+
+    pContext->GetMenu().Animate(duration);
     pContext->GetBoardView().Animate(duration);
-
     pContext->GetCamera().Animate(duration);
 }
 
-void KPstate::Draw(KPstateContext *pContext)
+void KPstate::Draw(KPstateContext *pContext) const
 {
     double timeBoardView, timeMenu;
     BTime time;
@@ -203,7 +188,7 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
 }
 
 bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
-                                  int, int)
+                                  int, int) const
 {
     // returns true if key has been evaluated
     KPmenu &menu = pContext->GetMenu();
@@ -220,14 +205,13 @@ bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
     return done;
 }
 
-void KPstate::StartAnimation()
+void KPstate::StartAnimation(KPstateContext *pContext) const
 {
-    InAnimation   = true;
-    AnimationTime = 0;
+    pContext->GetAnimationTimer().Restart();
 }
 
 tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
-                                        unsigned char key, int, int)
+                                        unsigned char key, int, int) const
 {
     KPConfig &config = KPConfig::Instance();
 
@@ -256,12 +240,12 @@ tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
 }
 
 
-void KPstate::HookAfterAnimationFinished(KPstateContext *)
+void KPstate::HookAfterAnimationFinished(KPstateContext *) const
 {
     // to be reimplemented in subclass
 }
 
-tKPMenuState KPstate::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstate::ESCKeyAction(KPstateContext *pContext) const
 {
     // This is the default behaviour. To be
     // reimplemented in subclass if state has
@@ -270,7 +254,7 @@ tKPMenuState KPstate::ESCKeyAction (KPstateContext *pContext)
     return pContext->GetPreviousState();
 }
 
-void KPstate::PlayAudioForInitialize(KPstateContext *pContext)
+void KPstate::PlayAudioForInitialize(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_OPENMENU);
 }
@@ -287,7 +271,7 @@ void KPstate::MouseMotion(KPstateContext *, int, int)
 {
 }
 
-void KPstate::KeyPressed (KPstateContext *, unsigned char, int, int)
+void KPstate::KeyPressed (KPstateContext *, unsigned char, int, int) const
 {
 }
 

@@ -33,11 +33,12 @@ public:
         return KPState_Tutorial4;
     };
 protected:
-    void InitializeBoardWithTokens(KPstateContext *pContext);
-    int  GetTextOffset();
-    tKPTokenID GetEmphasizedTokenId();
-    void ContinueWithNextState(KPstateContext *pContext, bool valid = true);
-    void PlayAudioForInitialize(KPstateContext *pContext);
+    void InitializeBoardWithTokens(KPstateContext *pContext) const;
+    int  GetTextOffset() const;
+    tKPTokenID GetEmphasizedTokenId() const;
+    void ContinueWithNextState(KPstateContext *pContext,
+                               bool valid = true) const;
+    void PlayAudioForInitialize(KPstateContext *pContext) const;
 };
 
 #endif

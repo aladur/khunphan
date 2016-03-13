@@ -44,7 +44,7 @@ void KPstateLightTest::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateLightTest::UpdateDisplay(KPstateContext *pContext)
+void KPstateLightTest::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -53,11 +53,11 @@ void KPstateLightTest::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_OK].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_OK].SetSignal(S_BACK);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void  KPstateLightTest::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                    int x, int y)
+                                    int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 
@@ -77,7 +77,7 @@ void  KPstateLightTest::KeyPressed (KPstateContext *pContext, unsigned char key,
     }
 }
 
-tKPMenuState KPstateLightTest::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateLightTest::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().RequestForClose();
 

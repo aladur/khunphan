@@ -11,6 +11,7 @@
 
 #include "stdafx.h"
 #include <string>
+#include "bmanualtimer.h"
 
 class KPUIBase;
 class KPConfig;
@@ -50,15 +51,14 @@ private:
     float old_ax, old_ay;
     float old_bx, old_by;
     float old_Alpha;
-    bool InAnimation;
     int Signal;
-    unsigned int Time;
     float r, g, b; // Color
     std::string TextureSource;
     unsigned int Texture;
     unsigned int TextureSize;
     bool Nearest;
     bool WithAlpha;
+    BManualTimer animationTimer;
 };
 
 #endif // #ifndef __PLATE_H__

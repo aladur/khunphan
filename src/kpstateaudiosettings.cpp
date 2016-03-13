@@ -39,7 +39,7 @@ void KPstateAudioSettings::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext)
+void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -166,11 +166,11 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_BACK].SetPosition(8,0.7f,1,A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void KPstateAudioSettings::KeyPressed (KPstateContext *pContext,
-                                       unsigned char key, int x, int y)
+                                       unsigned char key, int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
@@ -198,13 +198,13 @@ void  KPstateAudioSettings::MouseClick (KPstateContext *pContext,
     }
 }
 
-tKPMenuState KPstateAudioSettings::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateAudioSettings::ESCKeyAction(KPstateContext *pContext) const
 {
     SaveChanges(pContext);
     return pContext->GetPreviousState();
 }
 
-void KPstateAudioSettings::SaveChanges(KPstateContext *pContext)
+void KPstateAudioSettings::SaveChanges(KPstateContext *pContext) const
 {
     KPConfig::Instance().MusicVolume = E_MusicVolume;
     KPConfig::Instance().SoundVolume = E_SoundVolume;

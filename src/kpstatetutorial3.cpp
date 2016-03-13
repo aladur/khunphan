@@ -47,7 +47,7 @@ void KPstateTutorial3::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext)
+void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -139,7 +139,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext)
             break;
     }
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void  KPstateTutorial3::MouseClick (KPstateContext *pContext,
@@ -165,7 +165,7 @@ void  KPstateTutorial3::MouseClick (KPstateContext *pContext,
 }
 
 void  KPstateTutorial3::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                    int x, int y)
+                                    int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 
@@ -179,7 +179,7 @@ void  KPstateTutorial3::KeyPressed (KPstateContext *pContext, unsigned char key,
     }
 }
 
-tKPMenuState KPstateTutorial3::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateTutorial3::ESCKeyAction(KPstateContext *pContext) const
 {
     const KPnode &node = pContext->GetNodes().GetRootNode();
     pContext->GetBoardView().SetBoard(node.GetBoard());
@@ -190,7 +190,7 @@ tKPMenuState KPstateTutorial3::ESCKeyAction (KPstateContext *pContext)
 }
 
 void KPstateTutorial3::ContinueWithNextState(KPstateContext *pContext,
-        bool valid /* = true */)
+        bool valid /* = true */) const
 {
     if (!valid)
     {
@@ -246,17 +246,17 @@ void KPstateTutorial3::HookAfterTokenMoved(KPstateContext *pContext,
 // Methods which can be overloaded dep. on the tutorial number
 /////////////////////////////////////////////////////////////////////
 
-int KPstateTutorial3::GetTextOffset()
+int KPstateTutorial3::GetTextOffset() const
 {
     return T_TUTORIAL3;
 }
 
-tKPTokenID KPstateTutorial3::GetEmphasizedTokenId()
+tKPTokenID KPstateTutorial3::GetEmphasizedTokenId() const
 {
     return TK_GREEN1;
 }
 
-void KPstateTutorial3::InitializeBoardWithTokens(KPstateContext *pContext)
+void KPstateTutorial3::InitializeBoardWithTokens(KPstateContext *pContext) const
 {
     KPboard board;
 
@@ -274,7 +274,7 @@ void KPstateTutorial3::InitializeBoardWithTokens(KPstateContext *pContext)
     pContext->GetBoardView().SetBoard(board);
 }
 
-void KPstateTutorial3::PlayAudioForInitialize(KPstateContext *pContext)
+void KPstateTutorial3::PlayAudioForInitialize(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_TUTORIALNEXT);
 }

@@ -27,6 +27,7 @@
 #include "KPstateContext.h"
 #include "kpmenu.h"
 #include "btime.h"
+#include "bmanualtimer.h"
 
 
 class KPnode;
@@ -106,7 +107,9 @@ private:
     KPmenu       *pMenu;
     KPnodes      *pNodes;
     KPStatistics *pStatistics;
+    BManualTimer  animationTimer;
     tKPMenuState  previousStateId;
+    bool          isPause;
 
 protected:
     KPstate *pState;
@@ -132,6 +135,15 @@ public:
     virtual void ChangeState(tKPMenuState stateID);
     virtual tKPMenuState GetPreviousState() const;
     virtual void SetPreviousState(tKPMenuState stateID); 
+    virtual void SetPause(bool on)
+    {
+        isPause = on;
+    }
+    virtual bool IsPause()
+    {
+        return isPause;
+    }
+
     virtual KPboardView     &GetBoardView();
     virtual Camera          &GetCamera();
     virtual Light           &GetLight();
@@ -139,6 +151,7 @@ public:
     virtual KPnodes         &GetNodes();
     virtual KPStatistics    &GetStatistics();
     virtual KPUIBase        &GetUserInterface();
+    virtual BManualTimer    &GetAnimationTimer();
 };
 
 #endif

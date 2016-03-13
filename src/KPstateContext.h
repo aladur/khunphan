@@ -23,6 +23,7 @@
 #define __kpstatecontext_h__
 
 #include "kpstates.h"
+#include "bmanualtimer.h"
 
 class KPstate;
 class KPboardView;
@@ -40,6 +41,8 @@ public:
     virtual void ChangeState(tKPMenuState stateID) = 0;
     virtual tKPMenuState GetPreviousState() const = 0;
     virtual void SetPreviousState(tKPMenuState stateID) = 0;
+    virtual void SetPause(bool on) = 0;
+    virtual bool IsPause() = 0;
     virtual KPboardView &GetBoardView() = 0;
     virtual Camera &GetCamera() = 0;
     virtual Light &GetLight() = 0;
@@ -47,5 +50,6 @@ public:
     virtual KPnodes &GetNodes() = 0;
     virtual KPStatistics &GetStatistics() = 0;
     virtual KPUIBase &GetUserInterface() = 0;
+    virtual BManualTimer &GetAnimationTimer() = 0;
 };
 #endif

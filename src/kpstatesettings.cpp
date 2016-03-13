@@ -35,7 +35,7 @@ void KPstateSettings::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateSettings::UpdateDisplay(KPstateContext *pContext)
+void KPstateSettings::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -67,7 +67,7 @@ void KPstateSettings::UpdateDisplay(KPstateContext *pContext)
     menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void  KPstateSettings::MouseClick (KPstateContext *pContext,
@@ -97,12 +97,12 @@ void  KPstateSettings::MouseClick (KPstateContext *pContext,
 }
 
 void KPstateSettings::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                  int x, int y)
+                                  int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
-tKPMenuState KPstateSettings::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateSettings::ESCKeyAction(KPstateContext *pContext) const
 {
     /*  if (KPConfig::Instance().SavedGame != 0)
         return KPState_Game;

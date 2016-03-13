@@ -36,7 +36,7 @@ void KPstateSelectLanguage::Initialize(KPstateContext *pContext,
     UpdateDisplay(pContext);
 }
 
-void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext)
+void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
@@ -67,7 +67,7 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext)
         menu.labels[T_BACK].SetSignal(S_BACK);
     }
 
-    StartAnimation();
+    StartAnimation(pContext);
 }
 
 void KPstateSelectLanguage::MouseClick (KPstateContext *pContext,
@@ -93,12 +93,12 @@ void KPstateSelectLanguage::MouseClick (KPstateContext *pContext,
 }
 
 void KPstateSelectLanguage::KeyPressed (KPstateContext *pContext,
-                                        unsigned char key, int x, int y)
+                                        unsigned char key, int x, int y) const
 {
     CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
 }
 
-tKPMenuState KPstateSelectLanguage::ESCKeyAction (KPstateContext *pContext)
+tKPMenuState KPstateSelectLanguage::ESCKeyAction(KPstateContext *pContext) const
 {
     if (KPConfig::Instance().Language)
     {
@@ -112,7 +112,8 @@ tKPMenuState KPstateSelectLanguage::ESCKeyAction (KPstateContext *pContext)
     }
 }
 
-void KPstateSelectLanguage::SetLanguage (KPstateContext *pContext, int Language)
+void KPstateSelectLanguage::SetLanguage (KPstateContext *pContext,
+                                         int Language) const
 {
     LOG1("Loading language");
 
