@@ -55,11 +55,8 @@ public:
     virtual void MouseClick(KPstateContext *pContext,
                             tMouseButton button, tMouseEvent event,
                             int x, int y);
-    virtual void MouseMotion(KPstateContext *pContext, int x, int y);
     virtual void KeyPressed(KPstateContext *pContext,
                             unsigned char key, int x, int y) const;
-    virtual void KeyReleased(KPstateContext *pContext,
-                             unsigned char key, int x, int y);
     virtual tKPMenuState ESCKeyAction(KPstateContext *pContext) const;
 
 protected:

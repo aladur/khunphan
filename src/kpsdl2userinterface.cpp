@@ -166,9 +166,6 @@ void KPSdl2UserInterface::MainLoop()
                 case SDL_QUIT:
                     done = true;
                     break;
-                case SDL_MOUSEMOTION:
-                    MouseMotion(event.motion.x, event.motion.y);
-                    break;
                 case SDL_MOUSEBUTTONUP:
                 case SDL_MOUSEBUTTONDOWN:
                     MouseClick(event.button.button, event.button.state,
@@ -181,15 +178,6 @@ void KPSdl2UserInterface::MainLoop()
                         int xm, ym;
                         SDL_GetMouseState(&xm, &ym);
                         KeyPressed(key, xm, ym);
-                    }
-                    break;
-                case SDL_KEYUP:
-                    if (mapKey(event.key.keysym.mod, event.key.keysym.sym,
-                               &key))
-                    {
-                        int xm, ym;
-                        SDL_GetMouseState(&xm, &ym);
-                        KeyReleased(key, xm, ym);
                     }
                     break;
             } // switch

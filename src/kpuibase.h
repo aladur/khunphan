@@ -80,9 +80,7 @@ public:
     std::string GetOpenGLVersion()  const;
 
     // member functions for event handling
-    void MouseMotion(int x, int y);
-    void KeyPressed ( unsigned char keyPressed,  int x, int y );
-    void KeyReleased( unsigned char keyReleased, int x, int y );
+    void KeyPressed(unsigned char keyPressed, int x, int y);
     void Idle();
     void Display();
     void Reshape(int x, int y);

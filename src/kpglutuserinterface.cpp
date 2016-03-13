@@ -67,9 +67,7 @@ void KPGlutUserInterface::InitializeEvents()
     glutIgnoreKeyRepeat(1);
 
     glutMouseFunc     (KPGlutUserInterface::MouseClickEvent);
-    glutMotionFunc    (KPGlutUserInterface::MouseMotionEvent);
     glutKeyboardFunc  (KPGlutUserInterface::KeyPressedEvent);
-    glutKeyboardUpFunc(KPGlutUserInterface::KeyReleasedEvent);
 
     glutIdleFunc      (KPGlutUserInterface::IdleEvent);
     glutDisplayFunc   (KPGlutUserInterface::DisplayEvent);
@@ -214,21 +212,10 @@ void KPGlutUserInterface::MouseClickEvent(int button, int state, int x, int y)
     KPGlutUserInterface::instance->MouseClick(button, state, x, y);
 }
 
-void KPGlutUserInterface::MouseMotionEvent(int x, int y)
-{
-    KPGlutUserInterface::instance->MouseMotion(x, y);
-}
-
-void KPGlutUserInterface::KeyPressedEvent ( unsigned char keyPressed,  int x,
-        int y )
+void KPGlutUserInterface::KeyPressedEvent(unsigned char keyPressed, int x,
+        int y)
 {
     KPGlutUserInterface::instance->KeyPressed(keyPressed, x, y);
-}
-
-void KPGlutUserInterface::KeyReleasedEvent( unsigned char keyReleased, int x,
-        int y )
-{
-    KPGlutUserInterface::instance->KeyReleased(keyReleased, x, y);
 }
 
 void KPGlutUserInterface::DisplayEvent()

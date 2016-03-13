@@ -267,14 +267,7 @@ void KPstate::MouseClick(KPstateContext *, tMouseButton, tMouseEvent, int, int)
 {
 }
 
-void KPstate::MouseMotion(KPstateContext *, int, int)
+void KPstate::KeyPressed(KPstateContext *, unsigned char, int, int) const
 {
 }
 
-void KPstate::KeyPressed (KPstateContext *, unsigned char, int, int) const
-{
-}
-
-void KPstate::KeyReleased(KPstateContext *, unsigned char, int, int)
-{
-}

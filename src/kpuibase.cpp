@@ -258,19 +258,9 @@ void KPUIBase::DisplayFPS()
     }
 }
 
-void KPUIBase::MouseMotion( int x, int y )
-{
-    pState->MouseMotion(this, x, y);
-}
-
 void KPUIBase::KeyPressed( unsigned char keyPressed, int x, int y )
 {
     pState->KeyPressed(this, keyPressed, x, y);
-}
-
-void KPUIBase::KeyReleased( unsigned char keyReleased, int x, int y )
-{
-    pState->KeyReleased(this, keyReleased, x, y);
 }
 
 /////////////////////////////////////////////////////////////////////
