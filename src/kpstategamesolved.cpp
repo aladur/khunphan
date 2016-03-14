@@ -96,9 +96,10 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
     float y = 7.5;
+    std::string playTime = statistics.GetTotalTime(RTIME_HHMMSS);
     menu.labels[T_SOLVED1].FormatText(2,
             statistics.GetEventCounter(MOVE_COUNTER),
-            statistics.GetTotalTime(RTIME_MM_ss).c_str());
+            playTime.c_str());
     menu.labels[T_SOLVED1].SetPosition(8,y,0.6f,A_CENTERED);
     y-= 0.6f;
 

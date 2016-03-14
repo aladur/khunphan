@@ -52,7 +52,7 @@ OpenGL Interface Info
 //Witin Game
 170 Resume Game
 
-171 You have successfully solved the Game with %u Moves after %s Minutes
+171 You have successfully solved the Game with %u Moves in time %s
 172 Congratulation!
 173
 174
