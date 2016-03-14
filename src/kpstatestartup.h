@@ -37,8 +37,6 @@ public:
     void Draw(KPstateContext *pContext) const;
     void MouseClick (KPstateContext *pContext, tMouseButton button,
                      tMouseEvent event, int x, int y);
-    void KeyPressed (KPstateContext *pContext, unsigned char key,
-                     int x, int y) const;
     tKPMenuState ESCKeyAction(KPstateContext *) const;
     void UpdateDisplay(KPstateContext *pContext) const;
 };

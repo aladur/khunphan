@@ -109,12 +109,6 @@ tKPMenuState KPstateStartUp::ESCKeyAction(KPstateContext *pContext) const
     return KPState_Invalid;
 }
 
-void KPstateStartUp::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                 int x, int y) const
-{
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
-}
-
 void KPstateStartUp::MouseClick (KPstateContext *pContext,
                                  tMouseButton, tMouseEvent event,
                                  int, int)

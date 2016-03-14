@@ -144,8 +144,6 @@ void  KPstateGame::KeyPressed (KPstateContext *pContext, unsigned char key,
         return;
     }
 
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
-
     switch (key)
     {
         // Hidden feature for test purposes:
@@ -174,6 +172,8 @@ void  KPstateGame::KeyPressed (KPstateContext *pContext, unsigned char key,
             pContext->GetStatistics().Stop();
             break;
     }
+
+    KPstate::KeyPressed(pContext, key, x, y);
 }
 
 tKPMenuState KPstateGame::ESCKeyAction(KPstateContext *pContext) const

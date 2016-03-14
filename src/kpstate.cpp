@@ -233,7 +233,6 @@ tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
         case 'F' - 'A' + 1:
             config.FullScreen = !config.FullScreen;
             pContext->GetUserInterface().SetWindowMode(config.FullScreen != 0);
-            //UpdateDisplay(pContext);
             break;
     }
     return KPState_Invalid;
@@ -267,7 +266,15 @@ void KPstate::MouseClick(KPstateContext *, tMouseButton, tMouseEvent, int, int)
 {
 }
 
-void KPstate::KeyPressed(KPstateContext *, unsigned char, int, int) const
+void KPstate::KeyPressed(KPstateContext *pContext, unsigned char key,
+                         int x, int y) const
 {
+    tKPMenuState newState = KPstate::DefaultKeyPressed(pContext, key, x, y);
+
+    if (newState != KPState_Invalid)
+    {
+      pContext->ChangeState(newState);
+      return;
+    }
 }
 

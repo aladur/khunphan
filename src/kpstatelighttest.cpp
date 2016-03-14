@@ -56,11 +56,9 @@ void KPstateLightTest::UpdateDisplay(KPstateContext *pContext) const
     StartAnimation(pContext);
 }
 
-void  KPstateLightTest::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                    int x, int y) const
+void  KPstateLightTest::KeyPressed(KPstateContext *pContext, unsigned char key,
+                                   int x, int y) const
 {
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
-
     switch (key)
     {
         case '1':
@@ -75,6 +73,8 @@ void  KPstateLightTest::KeyPressed (KPstateContext *pContext, unsigned char key,
                 KPConfig::Instance().CameraPosition);
             break;
     }
+
+    KPstate::KeyPressed(pContext, key, x, y);
 }
 
 tKPMenuState KPstateLightTest::ESCKeyAction(KPstateContext *pContext) const

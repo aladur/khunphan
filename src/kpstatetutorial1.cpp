@@ -135,20 +135,6 @@ void  KPstateTutorial1::MouseClick (KPstateContext *pContext,
     }
 }
 
-void  KPstateTutorial1::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                    int x, int y) const
-{
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
-
-    switch (key)
-    {
-        case ' ':
-        case 0x0d:
-            pContext->ChangeState(KPState_Tutorial2);
-            break;
-    }
-}
-
 tKPMenuState KPstateTutorial1::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetCamera().SetRoundtrip(true);

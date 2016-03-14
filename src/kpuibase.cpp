@@ -269,11 +269,14 @@ void KPUIBase::KeyPressed( unsigned char keyPressed, int x, int y )
 
 void KPUIBase::ChangeState(tKPMenuState stateID)
 {
-    KPstate *pPreviousState = pState;
+    if (stateID != KPState_Invalid)
+    {
+        KPstate *pPreviousState = pState;
 
-    pState = KPstateFactory::CreateState(stateID);
-    pState->Initialize(this, pPreviousState);
-    delete pPreviousState;
+        pState = KPstateFactory::CreateState(stateID);
+        pState->Initialize(this, pPreviousState);
+        delete pPreviousState;
+    }
 }
 
 tKPMenuState KPUIBase::GetPreviousState() const

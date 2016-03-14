@@ -164,21 +164,6 @@ void  KPstateTutorial3::MouseClick (KPstateContext *pContext,
     }
 }
 
-void  KPstateTutorial3::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                    int x, int y) const
-{
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
-
-    switch (key)
-    {
-        case ' ':
-        case 0x0d:
-            ContinueWithNextState(pContext,
-                                  tutorialState == KP_TUT_RIGHT_TOKEN);
-            return;
-    }
-}
-
 tKPMenuState KPstateTutorial3::ESCKeyAction(KPstateContext *pContext) const
 {
     const KPnode &node = pContext->GetNodes().GetRootNode();

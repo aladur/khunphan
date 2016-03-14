@@ -56,12 +56,6 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext) const
     StartAnimation(pContext);
 }
 
-void KPstateFinish::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                int x, int y) const
-{
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
-}
-
 void  KPstateFinish::MouseClick (KPstateContext *pContext, tMouseButton button,
                                  tMouseEvent event, int x, int y)
 {

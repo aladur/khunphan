@@ -156,7 +156,7 @@ void KPstateGameSolved::KeyPressed (KPstateContext *pContext, unsigned char key,
     }
     else
     {
-        CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
+        KPstate::KeyPressed(pContext, key, x, y);
     }
 }
 

@@ -557,12 +557,6 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
     }
 }
 
-void KPstateGraphicSettings::KeyPressed (KPstateContext *pContext,
-        unsigned char key, int x, int y) const
-{
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
-}
-
 tKPMenuState KPstateGraphicSettings::ESCKeyAction(
                                          KPstateContext *pContext) const
 {

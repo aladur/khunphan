@@ -92,12 +92,6 @@ void KPstateSelectLanguage::MouseClick (KPstateContext *pContext,
     }
 }
 
-void KPstateSelectLanguage::KeyPressed (KPstateContext *pContext,
-                                        unsigned char key, int x, int y) const
-{
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
-}
-
 tKPMenuState KPstateSelectLanguage::ESCKeyAction(KPstateContext *pContext) const
 {
     if (KPConfig::Instance().Language)

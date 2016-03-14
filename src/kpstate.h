@@ -28,15 +28,6 @@
 #include "kpstates.h"
 
 
-#define CHECK_DEFAULT_KEY_PRESSED(p1, p2, p3, p4)                 \
-  {                                                               \
-    tKPMenuState s = KPstate::DefaultKeyPressed (p1, p2, p3, p4); \
-    if (s != KPState_Invalid) {                                   \
-      p1->ChangeState(s);                                         \
-      return;                                                     \
-    }                                                             \
-  }
-
 class KPstate
 {
 public:

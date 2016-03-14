@@ -96,19 +96,7 @@ void  KPstateSettings::MouseClick (KPstateContext *pContext,
     }
 }
 
-void KPstateSettings::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                  int x, int y) const
-{
-    CHECK_DEFAULT_KEY_PRESSED(pContext, key, x, y);
-}
-
 tKPMenuState KPstateSettings::ESCKeyAction(KPstateContext *pContext) const
 {
-    /*  if (KPConfig::Instance().SavedGame != 0)
-        return KPState_Game;
-      else
-        return KPState_MainMenu;
-    */
     return pContext->GetMenu().RestoreLastStateId();
-    //return oldStateId;
 }
