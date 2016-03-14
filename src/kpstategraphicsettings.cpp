@@ -955,6 +955,7 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
         config.TextureName.c_str(),
         config.TextureSize,
         config.Nearest );
+    UpdateQuality(pContext);
 }
 
 int KPstateGraphicSettings::GetTextureIndex(std::string &TextureName) const
