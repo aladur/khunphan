@@ -34,6 +34,7 @@ void KPStatistics::Reset()
 {
     playingTime     = 0;
     stopWatchActive = false;
+    counter.clear();
     counter.push_back(0);
     counter.push_back(0);
     counter.push_back(0);
