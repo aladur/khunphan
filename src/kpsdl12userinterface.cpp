@@ -51,6 +51,11 @@ void KPSdl12UserInterface::SetWindowMode(bool /* FullScreen */) const
     SDL_WM_ToggleFullScreen(screen);
 }
 
+void KPSdl12UserInterface::SetWindowSize(int, int) const
+{
+    // Function not supported
+}
+
 void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
     KPConfig &config = KPConfig::Instance();

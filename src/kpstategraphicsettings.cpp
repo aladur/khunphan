@@ -574,11 +574,14 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
 {
     bool ResolutionChanged = false;
     KPConfig &config = KPConfig::Instance();
+    bool canChangeWindowSize = pContext->GetUserInterface().
+                                   CanChangeWindowSize();
 
-    if (config.ColorDepth        != E_ColorDepth         ||
-        config.FullScreen        != E_FullScreen         ||
-        config.ScreenXResolution != E_ScreenXResolution  ||
-        config.UserInterface     != E_UserInterface)
+    if (config.ColorDepth != E_ColorDepth ||
+        config.FullScreen != E_FullScreen ||
+        (!canChangeWindowSize &&
+         (config.ScreenXResolution != E_ScreenXResolution)) ||
+        config.UserInterface != E_UserInterface)
     {
         ResolutionChanged = true;
     }
@@ -777,6 +780,12 @@ void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
         default:
             E_ScreenXResolution = 800;
             break;
+    }
+    if (pContext->GetUserInterface().CanChangeWindowSize())
+    {
+        pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+        pContext->GetUserInterface().SetWindowSize(E_ScreenXResolution,
+                             (E_ScreenXResolution * 3) / 4);
     }
     UpdateQuality(pContext);
 }

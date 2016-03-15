@@ -206,21 +206,16 @@ void KPUIBase::Display()
     SwapBuffers();
 }
 
-void KPUIBase::Reshape(int x, int y)
+void KPUIBase::Reshape(int width, int height)
 {
-    glViewport(0, 0, x, y);
+    glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    GetCamera().SetAspectRatio(x / static_cast<float>(y));
+    GetCamera().SetAspectRatio(width / static_cast<float>(height));
 }
 
 void KPUIBase::Idle()
 {
-    if (!pState)  // Is Closing in progress?
-    {
-        return;
-    }
-
     if (lastFrameTimestamp == 0)
     {
         // first time initialization

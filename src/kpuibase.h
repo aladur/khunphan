@@ -64,11 +64,16 @@ public:
 
     virtual void OpenWindow(int argc, char **argv) = 0;
     virtual void SetWindowMode(bool FullScreen) const = 0;
+    virtual void SetWindowSize(int width, int height) const = 0;
     virtual void MainLoop() = 0;
     virtual void Close() = 0;
     virtual void RequestForClose() = 0;
     virtual int  GetValue(int what) const = 0;
     virtual bool CanToggleFullScreen() const
+    {
+        return false;
+    };
+    virtual bool CanChangeWindowSize() const
     {
         return false;
     };
@@ -83,7 +88,7 @@ public:
     void KeyPressed(unsigned char keyPressed, int x, int y);
     void Idle();
     void Display();
-    void Reshape(int x, int y);
+    void Reshape(int width, int height);
     virtual void MouseClick(int button, int state,
                             int x, int y) = 0;
 

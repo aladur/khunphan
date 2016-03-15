@@ -41,11 +41,13 @@ public:
 
     void OpenWindow(int argc, char **argv);
     void SetWindowMode(bool FullScreen) const;
+    void SetWindowSize(int width, int height) const;
     void MainLoop();
     void RequestForClose();
     void Close();
     int  GetValue(int what) const;
     bool CanToggleFullScreen() const;
+    bool CanChangeWindowSize() const;
 
 public:
     // static member functions for event handling
@@ -54,7 +56,7 @@ public:
     static void KeyPressedEvent ( unsigned char keyPressed,  int x, int y );
     static void IdleEvent();
     static void DisplayEvent();
-    static void ReshapeEvent(int x, int y);
+    static void ReshapeEvent(int width, int height);
     static void TimerEvent(int value);
 
     // member functions for event handling

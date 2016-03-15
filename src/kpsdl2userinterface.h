@@ -38,9 +38,11 @@ public:
 
     void OpenWindow(int argc, char **argv);
     void SetWindowMode(bool FullScreen) const;
+    void SetWindowSize(int width, int height) const;
     void MainLoop();
     void Close();
     int  GetValue(int what) const;
+    bool CanChangeWindowSize() const;
 
 protected:
     // member functions for event handling

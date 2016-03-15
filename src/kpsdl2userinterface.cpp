@@ -43,6 +43,11 @@ KPSdl2UserInterface::~KPSdl2UserInterface()
 // Public Interface
 /////////////////////////////////////////////////////////////////////
 
+bool KPSdl2UserInterface::CanChangeWindowSize() const
+{
+    return true;
+}
+
 void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
 {
     if (window == NULL || !CanToggleFullScreen())
@@ -52,6 +57,62 @@ void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
 
     SDL_SetWindowFullscreen(window,
                             isfullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
+}
+
+void KPSdl2UserInterface::SetWindowSize(int width, int height) const
+{
+    if (window != NULL && CanChangeWindowSize())
+    {
+        int oldWidth, oldHeight;
+
+        SDL_GetWindowSize(window, &oldWidth, &oldHeight);
+        SDL_SetWindowSize(window, width, height);
+
+        // Try to reposition the new window centered over the old window
+        // Ignore if this is not possible.
+        SDL_Rect rect;
+        int index, result, x, y, oldX, oldY, diff;
+
+        index = SDL_GetWindowDisplayIndex(window);
+        if (index < 0)
+        {
+            LOG2("*** SDL_GetWindowDisplayIndex error: ", SDL_GetError());
+            return;
+        }
+
+        result = SDL_GetDisplayBounds(index, &rect);
+        if (result < 0)
+        {
+            LOG2("*** SDL_GetDisplayBounds error: ", SDL_GetError());
+            return;
+        }
+
+        SDL_GetWindowPosition(window, &oldX, &oldY);
+
+        x = oldX - (width - oldWidth) / 2;
+        y = oldY - (height - oldHeight) / 2;
+
+        if (x < rect.x)
+        {
+            x = rect.x;
+        }
+        diff = x + width - rect.x - rect.w;
+        if (diff > 0)
+        {
+            x -= diff;
+        }
+        if (y < rect.y)
+        {
+            y = rect.y;
+        }
+        diff = y + height - rect.y - rect.h;
+        if (diff > 0)
+        {
+            y -= diff;
+        }
+
+        SDL_SetWindowPosition(window, x, y);
+    }
 }
 
 void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)

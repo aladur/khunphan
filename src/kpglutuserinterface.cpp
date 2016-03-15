@@ -120,8 +120,23 @@ void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
 #else
 void KPGlutUserInterface::SetWindowMode(bool /* FullScreen */) const
 {
+    // Function not supported
 }
 #endif
+
+bool KPGlutUserInterface::CanChangeWindowSize() const
+{
+#if defined(FREEGLUT) || defined(OPENGLUT)
+    return true;
+#else
+    return false;
+#endif
+}
+
+void KPGlutUserInterface::SetWindowSize(int width, int height) const
+{
+    glutReshapeWindow(width, height);
+}
 
 void KPGlutUserInterface::OpenWindow(int argc, char **argv)
 {
@@ -180,15 +195,20 @@ void KPGlutUserInterface::RequestForClose()
 
 void KPGlutUserInterface::Close()
 {
+
+    KPConfig::Instance().WriteToFile();
+    KPConfig::Instance().finalize();
+
+#if defined(FREEGLUT) || defined(OPENGLUT)
+    glutLeaveMainLoop();
+#else
     // glutMainLoop never returns. For this reason
     // this is the exit point.
     // And yes, there are some memory leaks. They have
     // a constant size independent of the playing time.
     delete this;
-
-    KPConfig::Instance().WriteToFile();
-    KPConfig::Instance().finalize();
     exit(0);
+#endif
 }
 
 int KPGlutUserInterface::GetValue(int what) const
@@ -223,9 +243,9 @@ void KPGlutUserInterface::DisplayEvent()
     KPGlutUserInterface::instance->Display();
 }
 
-void KPGlutUserInterface::ReshapeEvent(int x, int y)
+void KPGlutUserInterface::ReshapeEvent(int width, int height)
 {
-    KPGlutUserInterface::instance->Reshape(x, y);
+    KPGlutUserInterface::instance->Reshape(width, height);
 }
 
 void KPGlutUserInterface::IdleEvent()
