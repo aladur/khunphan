@@ -173,9 +173,12 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
         menu.labels[T_RESOLUTION].SetSignal(S_TOGGLE_RESOLUTION);
     }
     y -= dy;
-    menu.labels[T_SCREENMODE].SetPosition(8, y, 0.6f, A_RIGHT);
-    y -= dy;
-    menu.labels[T_SCREENMODE].SetSignal(S_TOGGLE_SCREENMODE);
+    if (pContext->GetUserInterface().CanToggleFullScreen())
+    {
+        menu.labels[T_SCREENMODE].SetPosition(8, y, 0.6f, A_RIGHT);
+        menu.labels[T_SCREENMODE].SetSignal(S_TOGGLE_SCREENMODE);
+        y -= dy;
+    }
     menu.labels[T_MENUTEXTURES].SetPosition(8, y, 0.6f, A_RIGHT);
     y -= dy;
     menu.labels[T_MENUTEXTURES].SetSignal(S_TOGGLE_MENUTEXTURES);
@@ -292,16 +295,19 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
         }
     }
 
-    y -= dy;
-    if (E_FullScreen)
+    if (pContext->GetUserInterface().CanToggleFullScreen())
     {
-        menu.labels[T_FULLSCREEN].SetPosition(8.2f, y, 0.6f);
-        menu.labels[T_FULLSCREEN].SetSignal(S_TOGGLE_SCREENMODE);
-    }
-    else
-    {
-        menu.labels[T_WINDOW].SetPosition(8.2f, y, 0.6f);
-        menu.labels[T_WINDOW].SetSignal(S_TOGGLE_SCREENMODE);
+        y -= dy;
+        if (E_FullScreen)
+        {
+            menu.labels[T_FULLSCREEN].SetPosition(8.2f, y, 0.6f);
+            menu.labels[T_FULLSCREEN].SetSignal(S_TOGGLE_SCREENMODE);
+        }
+        else
+        {
+            menu.labels[T_WINDOW].SetPosition(8.2f, y, 0.6f);
+            menu.labels[T_WINDOW].SetSignal(S_TOGGLE_SCREENMODE);
+        }
     }
 
     y -= dy;
@@ -576,9 +582,12 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
     KPConfig &config = KPConfig::Instance();
     bool canChangeWindowSize = pContext->GetUserInterface().
                                    CanChangeWindowSize();
+    bool canToggleFullScreen = pContext->GetUserInterface().
+                                   CanToggleFullScreen();
 
     if (config.ColorDepth != E_ColorDepth ||
-        config.FullScreen != E_FullScreen ||
+        (!canToggleFullScreen &&
+         (config.FullScreen != E_FullScreen)) ||
         (!canChangeWindowSize &&
          (config.ScreenXResolution != E_ScreenXResolution)) ||
         config.UserInterface != E_UserInterface)
@@ -752,8 +761,12 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext) const
 
 void KPstateGraphicSettings::ToggleScreenMode(KPstateContext *pContext)
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     E_FullScreen = !E_FullScreen;
+    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    if (pContext->GetUserInterface().CanToggleFullScreen())
+    {
+        pContext->GetUserInterface().SetWindowMode(E_FullScreen);
+    }
     UpdateQuality(pContext);
 }
 
@@ -781,9 +794,11 @@ void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
             E_ScreenXResolution = 800;
             break;
     }
+
+    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+
     if (pContext->GetUserInterface().CanChangeWindowSize())
     {
-        pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
         pContext->GetUserInterface().SetWindowSize(E_ScreenXResolution,
                              (E_ScreenXResolution * 3) / 4);
     }
@@ -877,7 +892,10 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
     {
         case 1:
         {
-            E_FullScreen=true;
+            if (pContext->GetUserInterface().CanToggleFullScreen())
+            {
+                E_FullScreen=true;
+            }
             E_ScreenXResolution=1024;
             E_ColorDepth=32;
             config.TextureSize=1;

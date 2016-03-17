@@ -43,12 +43,8 @@ KPSdl12UserInterface::~KPSdl12UserInterface()
 
 void KPSdl12UserInterface::SetWindowMode(bool /* FullScreen */) const
 {
-    if (screen == NULL || !CanToggleFullScreen())
-    {
-        return;
-    }
-
-    SDL_WM_ToggleFullScreen(screen);
+    // Toggle Full-screen and window mode is unreliable in SDL V1.2.
+    // It has been removed.
 }
 
 void KPSdl12UserInterface::SetWindowSize(int, int) const
@@ -87,10 +83,8 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
         throw std::runtime_error(message.str());
     }
 
-    if (config.FullScreen)
-    {
-        flags |= SDL_FULLSCREEN;
-    }
+    // Full-screen mode is not supported. Disable full-screen flag.
+    config.FullScreen = false;
 
     screen = SDL_SetVideoMode(
                  config.ScreenXResolution,

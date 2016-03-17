@@ -48,15 +48,18 @@ bool KPSdl2UserInterface::CanChangeWindowSize() const
     return true;
 }
 
+bool KPSdl2UserInterface::CanToggleFullScreen() const
+{
+    return true;
+}
+
 void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
 {
-    if (window == NULL || !CanToggleFullScreen())
+    if (window != NULL && CanToggleFullScreen())
     {
-        return;
-    }
-
-    SDL_SetWindowFullscreen(window,
+        SDL_SetWindowFullscreen(window,
                             isfullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
+    }
 }
 
 void KPSdl2UserInterface::SetWindowSize(int width, int height) const

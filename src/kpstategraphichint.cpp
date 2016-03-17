@@ -49,7 +49,7 @@ void KPstateGraphicHint::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_HINT].SetFullyVisible();
 
     menu.labels[T_HINT1].SetPosition(8,6.0,0.7f,A_CENTERED);
-    menu.labels[T_HINT1].SetPosition(8,5.5,0.7f,A_CENTERED);
+    menu.labels[T_HINT2].SetPosition(8,5.5,0.7f,A_CENTERED);
     if (menu.labels.find(T_HINT3) != menu.labels.end())
     {
         menu.labels[T_HINT3].SetPosition(8,5.0,0.7f,A_CENTERED);

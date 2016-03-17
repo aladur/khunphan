@@ -42,8 +42,6 @@ public:
     KPSdlUserInterface();
     virtual ~KPSdlUserInterface();
 
-    bool CanToggleFullScreen() const;
-
 protected:
     // member functions for event handling
     void Timer(int value);

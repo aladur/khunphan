@@ -151,17 +151,23 @@ std::string KPUIBase::GetWindowTitle() const
 
 std::string KPUIBase::GetOpenGLVendor() const
 {
-    return reinterpret_cast<const char *>(glGetString(GL_VENDOR));
+    const GLubyte *pString = glGetString(GL_VENDOR);
+    return (pString != NULL) ?
+        std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 
 std::string KPUIBase::GetOpenGLRenderer() const
 {
-    return reinterpret_cast<const char *>(glGetString(GL_RENDERER));
+    const GLubyte *pString = glGetString(GL_RENDERER);
+    return (pString != NULL) ?
+        std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 
 std::string KPUIBase::GetOpenGLVersion() const
 {
-    return reinterpret_cast<const char *>(glGetString(GL_VERSION));
+    const GLubyte *pString = glGetString(GL_VERSION);
+    return (pString != NULL) ?
+        std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 
 void KPUIBase::DebugPrintOpenGLVersion() const

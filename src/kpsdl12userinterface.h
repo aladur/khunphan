@@ -47,7 +47,6 @@ protected:
     // member functions for event handling
     void SwapBuffers();
     void SetStopMusicCallback();
-
     static void stopMusicCallback();
 
     SDL_Surface  *screen;  // SDL Screen ID

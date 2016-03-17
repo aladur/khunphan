@@ -87,11 +87,6 @@ void KPSdlUserInterface::InitializeEvents()
     // nothing to do here
 }
 
-bool KPSdlUserInterface::CanToggleFullScreen() const
-{
-    return true;
-}
-
 bool KPSdlUserInterface::mapKey(int mod, int sym, unsigned char *pKey)
 {
     // this is only a hack for key mapping compatible to GLUT
