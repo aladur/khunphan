@@ -125,6 +125,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     SDL_version compiled;
     SDL_version linked;
     const SDL_version *pVersion;
+    std::stringstream message;
 
     SDL_VERSION(&compiled);
     SDL_GetVersion(&linked);
@@ -140,6 +141,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
          static_cast<unsigned int>(compiled.patch));
     LOG6("SDL Header version: ",
          SDL_MAJOR_VERSION, '.', SDL_MINOR_VERSION, '.', SDL_PATCHLEVEL);
+    LOG2("SDL Revision: ", SDL_GetRevision());
     pVersion = Mix_Linked_Version();
     LOG6("SDL_mixer Linked version: ",
          static_cast<unsigned int>(pVersion->major), '.',
@@ -151,8 +153,6 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     // Open OpenGL Window with SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
     {
-        std::stringstream message;
-
         message << "*** Error in SDL_Init: " << SDL_GetError();
         SDL_Quit();
         throw std::runtime_error(message.str());
@@ -190,6 +190,11 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
         SDL_Quit();
         throw std::runtime_error(message.str());
     }
+    SDL_DisplayMode mode;
+
+    SDL_GetWindowDisplayMode(window, &mode);
+    LOG2("SDL pixel format: ", SDL_GetPixelFormatName(mode.format));
+    LOG3("SDL refresh rate: ", mode.refresh_rate, " Hz");
 
     DebugPrintOpenGLVersion();
     InitializeAudio(config.TextureName.c_str());
