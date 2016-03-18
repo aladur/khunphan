@@ -26,8 +26,8 @@
 #include "kpsdl12userinterface.h"
 
 
-KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode) :
-    KPSdlUserInterface(), screen(NULL)
+KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode, KPConfig &Config) :
+    KPSdlUserInterface(Config), screen(NULL)
 {
     Initialize(rootNode);
 }
@@ -54,7 +54,6 @@ void KPSdl12UserInterface::SetWindowSize(int, int) const
 
 void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
-    KPConfig &config = KPConfig::Instance();
     int flags = SDL_OPENGL | SDL_RESIZABLE;
     const SDL_version *pVersion;
 
@@ -127,7 +126,7 @@ void KPSdl12UserInterface::MainLoop()
             {
                 case SDL_VIDEORESIZE:
                     screen = SDL_SetVideoMode(event.resize.w, event.resize.h,
-                                              KPConfig::Instance().ColorDepth,
+                                              config.ColorDepth,
                                               SDL_OPENGL | SDL_RESIZABLE);
                     if ( screen )
                     {

@@ -42,6 +42,7 @@
 #include "kpstate.h"
 #include "kpstatistics.h"
 #include "kpnodes.h"
+#include "kpconfig.h"
 
 // Uncomment the following line to
 // compile for a specific light test version
@@ -49,7 +50,8 @@
 
 KPUIBase *KPUIBase::instance = NULL;
 
-KPUIBase::KPUIBase() :
+KPUIBase::KPUIBase(KPConfig &Config) :
+    config(Config),
     pBoardView(NULL), pCamera(NULL),
     pLight(NULL), pMenu(NULL),
     pNodes(NULL), pStatistics(NULL), previousStateId(KPState_Invalid),
@@ -101,8 +103,6 @@ void KPUIBase::Initialize(KPnode &rootNode)
 
 void KPUIBase::InitializeAfterOpen()
 {
-    KPConfig &config = KPConfig::Instance();
-
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
 
@@ -115,7 +115,8 @@ void KPUIBase::InitializeAfterOpen()
     glDepthFunc(GL_LESS);
 
     pBoardView = new KPboardView(GetNodes().GetRootNode().GetBoard(),
-                                 config.TextureName.c_str(),
+                                 config.GetDirectory(KP_TEXTURE_DIR),
+                                 config.TextureName,
                                  config.TextureSize,
                                  config.Nearest);
 
@@ -124,7 +125,7 @@ void KPUIBase::InitializeAfterOpen()
 
     pCamera = new Camera();
 
-    pMenu = new KPmenu();
+    pMenu = new KPmenu(config);
 
     pMenu->Initialize(config.TextureName,
                       config.MenuTextureSize,
@@ -200,7 +201,7 @@ void KPUIBase::Display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    if (KPConfig::Instance().DisplayFPS)
+    if (config.DisplayFPS)
     {
         DisplayFPS();
     }
@@ -322,6 +323,11 @@ KPUIBase &KPUIBase::GetUserInterface()
 BManualTimer &KPUIBase::GetAnimationTimer()
 {
     return animationTimer;
+}
+
+KPConfig &KPUIBase::GetConfig()
+{
+    return config;
 }
 
 /////////////////////////////////////////////////////////////////////

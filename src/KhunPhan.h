@@ -24,6 +24,7 @@
 #define __khunphan_h__
 
 #include "kpboard.h"
+#include "kpconfig.h"
 
 class KPUIBase;
 
@@ -42,6 +43,7 @@ private:
     void InitializeSolutionTree();
 
     KPboard rootBoard;
+    KPConfig config;
     KPUIBase *userInterface;
     int argc;
     char **argv;

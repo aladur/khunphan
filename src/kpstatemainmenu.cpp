@@ -77,7 +77,7 @@ void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_SETTINGS].SetPosition(10.5,5,1,A_CENTERED);
     menu.labels[T_SETTINGS].SetSignal(S_SETTINGS);
 
-    if (KPConfig::Instance().SavedGame != 0)
+    if (pContext->GetConfig().SavedGame != 0)
     {
         menu.labels[T_CONTINUEGAME].SetPosition(10.5,3.5,1,A_CENTERED);
         menu.labels[T_CONTINUEGAME].SetSignal(S_CONTINUE);
@@ -98,7 +98,7 @@ void  KPstateMainMenu::MouseClick (KPstateContext *pContext,
     switch (Signal)
     {
         case S_NEW_GAME:
-            KPConfig::Instance().SavedGame = 0;
+            pContext->GetConfig().SavedGame = 0;
         case S_CONTINUE:
             pContext->ChangeState(KPState_Game);
             break;

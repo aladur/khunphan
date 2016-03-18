@@ -52,7 +52,8 @@ const char *KPboardView::textureFile[MAX_BOARD_TEXTURES + 1] =
 };
 
 KPboardView::KPboardView(const KPboard &currentBoard,
-                         const char *TextureName,
+                         const std::string &TextureDirectory,
+                         const std::string &TextureName,
                          unsigned int TextureSize /*=1*/,
                          bool Nearest /*=true*/) :
     current(currentBoard),
@@ -76,7 +77,7 @@ KPboardView::KPboardView(const KPboard &currentBoard,
         textureId[i] = 0;
     }
 
-    Initialize(TextureName, TextureSize, Nearest);
+    Initialize(TextureDirectory, TextureName, TextureSize, Nearest);
 }
 
 KPboardView::~KPboardView()
@@ -140,7 +141,8 @@ bool KPboardView::CreateTexture(unsigned int TextureSize, const char *pFile,
     return true;
 }
 
-void KPboardView::InitializeTextures(const char  *TextureName,
+void KPboardView::InitializeTextures(const std::string &TextureDirectory,
+                                     const std::string &TextureName,
                                      unsigned int TextureSize /*=1*/,
                                      bool         Nearest /*=true*/,
                                      bool         always /*=true*/)
@@ -161,7 +163,7 @@ void KPboardView::InitializeTextures(const char  *TextureName,
     std::string file;
     while (TextureSize && textureFile[i] != NULL)
     {
-        file = KPConfig::Instance().GetDirectory(KP_TEXTURE_DIR) + TextureName +
+        file = TextureDirectory + TextureName +
                PATHSEPARATORSTRING + textureFile[i];
         if (!always && file == textureSource[i])
         {
@@ -170,8 +172,7 @@ void KPboardView::InitializeTextures(const char  *TextureName,
 
         if (!CreateTexture(TextureSize, file.c_str(), Nearest, &textureId[i]))
         {
-            file = KPConfig::Instance().GetDirectory(KP_TEXTURE_DIR) +
-                   textureFile[i];
+            file = TextureDirectory + textureFile[i];
             if (!always && file == textureSource[i])
             {
                 continue;
@@ -192,11 +193,12 @@ void KPboardView::InitializeTextures(const char  *TextureName,
     }
 }
 
-void KPboardView::Initialize(const char *TextureName,
+void KPboardView::Initialize(const std::string &TextureDirectory,
+                             const std::string &TextureName,
                              unsigned int TextureSize /*=1*/,
                              bool Nearest /*=true*/)
 {
-    InitializeTextures(TextureName, TextureSize, Nearest);
+    InitializeTextures(TextureDirectory, TextureName, TextureSize, Nearest);
 
     glNewList(DisplayList + BRONZE_MATERIAL, GL_COMPILE);
     {

@@ -50,9 +50,6 @@ int main (int argc, char **argv)
 
     delete application;
 
-    KPConfig::Instance().WriteToFile();
-    KPConfig::Instance().finalize();
-
     return EXIT_SUCCESS;
 }
 

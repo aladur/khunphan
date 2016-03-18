@@ -44,7 +44,8 @@ public:
 protected:
     int GetCurrentQuality(KPstateContext *pContext);
     void UpdateQuality(KPstateContext *pContext);
-    int  GetTextureIndex(std::string &TextureName) const;
+    int  GetTextureIndex(KPstateContext *pContext,
+                         std::string &TextureName) const;
     tKPMenuState SaveChanges(KPstateContext *pContext) const;
     void ToggleFPS(KPstateContext *pContext) const;
     void ToggleTextures(KPstateContext *pContext);

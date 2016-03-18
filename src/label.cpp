@@ -13,6 +13,7 @@
 #include "btexture.h"
 #include "label.h"
 #include "kpuibase.h"
+#include "kpconfig.h"
 #include "sprinter.h"
 
 

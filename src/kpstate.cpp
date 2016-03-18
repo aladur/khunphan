@@ -70,7 +70,7 @@ void KPstate::UpdateDisplay(KPstateContext *pContext) const
 
     float y = 11.7f;
 
-    if (KPConfig::Instance().DisplayFPS)
+    if (pContext->GetConfig().DisplayFPS)
     {
         menu.labels[T_FPS].SetPosition(0.1f, y, 0.3f);
     }
@@ -124,21 +124,21 @@ void KPstate::Draw(KPstateContext *pContext) const
 
     pContext->GetCamera().Draw();
 
-    if (KPConfig::Instance().PerformanceLog)
+    if (pContext->GetConfig().PerformanceLog)
     {
         time.ResetRelativeTime();
     }
 
     pContext->GetBoardView().Draw();
 
-    if (KPConfig::Instance().PerformanceLog)
+    if (pContext->GetConfig().PerformanceLog)
     {
         timeBoardView = time.GetRelativeTimeUsf(true);
     }
 
     pContext->GetMenu().Draw();
 
-    if (KPConfig::Instance().PerformanceLog)
+    if (pContext->GetConfig().PerformanceLog)
     {
         timeMenu = time.GetRelativeTimeUsf(true);
 
@@ -213,7 +213,7 @@ void KPstate::StartAnimation(KPstateContext *pContext) const
 tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
                                         unsigned char key, int, int) const
 {
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
 
     // Default key handling which can be used in every state
     switch (key)

@@ -23,7 +23,6 @@
 #include <ostream>
 #include <stdexcept>
 #include "KhunPhan.h"
-#include "kpconfig.h"
 #include "kpsdl12userinterface.h"
 #include "kpsdl2userinterface.h"
 #include "kpglutuserinterface.h"
@@ -79,8 +78,6 @@ void KhunPhanApp::InitializeSolutionTree()
 
 bool KhunPhanApp::Initialize()
 {
-    KPConfig &config = KPConfig::Instance();
-
     LOG1(PACKAGE " V" VERSION);
     LOG1("Copyright (C) 2002-2016 Wolfgang Schwotzer");
     LOG1("This is free software; see the source for copying conditions");
@@ -112,23 +109,23 @@ bool KhunPhanApp::Initialize()
 
     KPnode rootNode(rootBoard);
 
-    switch (KPConfig::Instance().UserInterface)
+    switch (config.UserInterface)
     {
 #ifdef HAVE_SDL2
         case 0:
-            userInterface = new KPSdl2UserInterface(rootNode);
+            userInterface = new KPSdl2UserInterface(rootNode, config);
             break;
 #else
 #ifdef HAVE_SDL
         case 0:
-            userInterface = new KPSdl12UserInterface(rootNode);
+            userInterface = new KPSdl12UserInterface(rootNode, config);
             break;
 #endif
 #endif
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
         case 1:
-            userInterface = new KPGlutUserInterface(rootNode);
+            userInterface = new KPGlutUserInterface(rootNode, config);
             break;
 #endif
         default:

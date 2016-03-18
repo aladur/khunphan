@@ -33,8 +33,8 @@ void KPstateAudioSettings::Initialize(KPstateContext *pContext,
     // Do some initialization stuff here:
 
     pContext->GetUserInterface().PlayMusic(true, true);
-    E_MusicVolume = KPConfig::Instance().MusicVolume;
-    E_SoundVolume = KPConfig::Instance().SoundVolume;
+    E_MusicVolume = pContext->GetConfig().MusicVolume;
+    E_SoundVolume = pContext->GetConfig().SoundVolume;
 
     UpdateDisplay(pContext);
 }
@@ -200,10 +200,10 @@ tKPMenuState KPstateAudioSettings::ESCKeyAction(KPstateContext *pContext) const
 
 void KPstateAudioSettings::SaveChanges(KPstateContext *pContext) const
 {
-    KPConfig::Instance().MusicVolume = E_MusicVolume;
-    KPConfig::Instance().SoundVolume = E_SoundVolume;
+    pContext->GetConfig().MusicVolume = E_MusicVolume;
+    pContext->GetConfig().SoundVolume = E_SoundVolume;
 
-    KPConfig::Instance().WriteToFile();
+    pContext->GetConfig().WriteToFile();
 
     pContext->GetUserInterface().PlayMusic(false);
 }

@@ -27,16 +27,16 @@
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
 
 #include "kpuibase.h"
-#include "kpconfig.h"
 #include "kpstate.h"
 
 class KPnode;
+class KPConfig;
 
 class KPGlutUserInterface : public KPUIBase
 {
 public:
     // public interface
-    KPGlutUserInterface(KPnode &);
+    KPGlutUserInterface(KPnode &, KPConfig &);
     virtual ~KPGlutUserInterface();
 
     void OpenWindow(int argc, char **argv);
@@ -69,6 +69,9 @@ protected:
     void PostWindowRedisplay();
 
     int  windowID;  // ID of GLUT window
+
+private:
+    KPGlutUserInterface();
 };
 
 #endif

@@ -30,7 +30,6 @@
 #include <algorithm>
 #include <vector>
 #include "kpuibase.h"
-#include "kpconfig.h"
 #include "kpstate.h"
 #include "btime.h"
 
@@ -39,7 +38,7 @@ class KPSdlUserInterface : public KPUIBase
 {
 public:
     // public interface
-    KPSdlUserInterface();
+    KPSdlUserInterface(KPConfig &);
     virtual ~KPSdlUserInterface();
 
 protected:
@@ -72,6 +71,8 @@ protected:
     static const int REQUEST_FOR_CLOSE;
 
 private:
+    KPSdlUserInterface();
+
     unsigned int rate;
     int musicIndex;
     std::vector<std::string> musicFiles;

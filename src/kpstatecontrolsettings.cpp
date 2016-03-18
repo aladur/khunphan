@@ -33,8 +33,8 @@ void KPstateControlSettings::Initialize(KPstateContext *pContext,
 
     // Do some initialization stuff here:
 
-    E_MouseSpeed   = KPConfig::Instance().MouseSpeed;
-    E_SolutionHint = KPConfig::Instance().SolutionHint;
+    E_MouseSpeed   = pContext->GetConfig().MouseSpeed;
+    E_SolutionHint = pContext->GetConfig().SolutionHint;
 
     UpdateDisplay(pContext);
 }
@@ -170,10 +170,10 @@ tKPMenuState KPstateControlSettings::ESCKeyAction(
     return pContext->GetPreviousState();
 }
 
-void KPstateControlSettings::SaveChanges(KPstateContext *) const
+void KPstateControlSettings::SaveChanges(KPstateContext *pContext) const
 {
-    KPConfig::Instance().MouseSpeed   = E_MouseSpeed;
-    KPConfig::Instance().SolutionHint = E_SolutionHint;
+    pContext->GetConfig().MouseSpeed   = E_MouseSpeed;
+    pContext->GetConfig().SolutionHint = E_SolutionHint;
 
-    KPConfig::Instance().WriteToFile();
+    pContext->GetConfig().WriteToFile();
 }

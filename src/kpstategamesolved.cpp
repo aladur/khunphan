@@ -48,7 +48,7 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
     // Do some initialization stuff here:
     KPscore scoreList;
 
-    KPConfig::Instance().SavedGame = 0;
+    pContext->GetConfig().SavedGame = 0;
 
     it = menu.labels.find(T_NAME_LABEL);
     if (it == menu.labels.end())

@@ -25,10 +25,11 @@
 
 #include <stdexcept>
 #include "kpsdl2userinterface.h"
+#include "kpconfig.h"
 
 
-KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode) :
-    KPSdlUserInterface(),
+KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode, KPConfig &Config) :
+    KPSdlUserInterface(Config),
     window(NULL), renderer(NULL)
 {
     Initialize(rootNode);
@@ -120,7 +121,6 @@ void KPSdl2UserInterface::SetWindowSize(int width, int height) const
 
 void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
-    KPConfig &config = KPConfig::Instance();
     int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
     SDL_version compiled;
     SDL_version linked;

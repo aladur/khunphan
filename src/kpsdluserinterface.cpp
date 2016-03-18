@@ -29,6 +29,7 @@
 #include <limits.h>
 #include "kpsdluserinterface.h"
 #include "bdir.h"
+#include "kpconfig.h"
 
 
 const int KPSdlUserInterface::REQUEST_FOR_CLOSE = 99;
@@ -45,8 +46,8 @@ const char *KPSdlUserInterface::soundFile[KP_SND_MAX+1] =
     NULL
 };
 
-KPSdlUserInterface::KPSdlUserInterface() :
-    KPUIBase(),
+KPSdlUserInterface::KPSdlUserInterface(KPConfig &Config) :
+    KPUIBase(Config),
     sound(NULL), soundSource(NULL),
     music(NULL), rate(22050), musicIndex(0), musicPosition(0.0)
 {
@@ -199,8 +200,6 @@ void KPSdlUserInterface::RequestForClose()
 bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         bool reInitialize /* = false */)
 {
-    KPConfig &config = KPConfig::Instance();
-
     if (!reInitialize)
     {
         LOG1("Audio and Music initialization");
@@ -308,7 +307,7 @@ void KPSdlUserInterface::LoadNextMusic()
             it = musicFiles.begin();
         }
 
-        std::string file = KPConfig::Instance().GetDirectory(KP_MUSIC_DIR) +
+        std::string file = config.GetDirectory(KP_MUSIC_DIR) +
                            *it;
         if ((music = Mix_LoadMUS(file.c_str())) == NULL)
         {
@@ -320,7 +319,7 @@ void KPSdlUserInterface::LoadNextMusic()
         {
             LOG3("Loading '", file, "'");
             musicIndex = index + 1;
-            SetMusicVolume(KPConfig::Instance().MusicVolume);
+            SetMusicVolume(config.MusicVolume);
             break;
         }
     }

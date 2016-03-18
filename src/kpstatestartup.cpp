@@ -115,7 +115,7 @@ void KPstateStartUp::MouseClick (KPstateContext *pContext,
 {
     if (event == KP_BUTTON_RELEASE)
     {
-        if (KPConfig::Instance().Language)
+        if (pContext->GetConfig().Language)
         {
             pContext->ChangeState(KPState_MainMenu);
         }

@@ -26,6 +26,7 @@
 #include "light.h"
 #include "camera.h"
 #include "kpuibase.h"
+#include "kpconfig.h"
 
 
 KPstateLightTest::KPstateLightTest() : mouse_x(0), mouse_y(0)
@@ -39,8 +40,8 @@ void KPstateLightTest::Initialize(KPstateContext *pContext,
 
     // Do some initialization stuff here:
 
-    KPConfig::Instance().CameraPosition = 1;
-    pContext->GetCamera().SetPosition(KPConfig::Instance().CameraPosition);
+    pContext->GetConfig().CameraPosition = 1;
+    pContext->GetCamera().SetPosition(pContext->GetConfig().CameraPosition);
     UpdateDisplay(pContext);
 }
 
@@ -68,9 +69,9 @@ void  KPstateLightTest::KeyPressed(KPstateContext *pContext, unsigned char key,
         case '5':
         case '6':
         case '7':
-            KPConfig::Instance().CameraPosition = key - '1' + 1;
+            pContext->GetConfig().CameraPosition = key - '1' + 1;
             pContext->GetCamera().SetPosition(
-                KPConfig::Instance().CameraPosition);
+                pContext->GetConfig().CameraPosition);
             break;
     }
 

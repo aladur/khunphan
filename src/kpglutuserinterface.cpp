@@ -40,10 +40,11 @@
 #if defined(HAVE_LIBOPENGLUT) || defined(HAVE_LIBGLUT)
 
 #include "kpglutuserinterface.h"
+#include "kpconfig.h"
 
 
-KPGlutUserInterface::KPGlutUserInterface(KPnode &rootNode) :
-    KPUIBase(),
+KPGlutUserInterface::KPGlutUserInterface(KPnode &rootNode, KPConfig &Config) :
+    KPUIBase(Config),
     windowID(0)
 {
     Initialize(rootNode);
@@ -86,8 +87,6 @@ bool KPGlutUserInterface::CanToggleFullScreen() const
 #if defined(FREEGLUT) || defined(OPENGLUT)
 void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
 {
-    KPConfig &config = KPConfig::Instance();
-
     if (windowID == 0 || !CanToggleFullScreen())
     {
         return;
@@ -165,11 +164,11 @@ void KPGlutUserInterface::OpenWindow(int argc, char **argv)
 
     // Open OpenGL Window with GLUT
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize (KPConfig::Instance().ScreenXResolution,
-                        (KPConfig::Instance().ScreenXResolution*3)/4);
+    glutInitWindowSize (config.ScreenXResolution,
+                        (config.ScreenXResolution*3)/4);
     //glutInitWindowPosition (10, 10);
     windowID = glutCreateWindow (GetWindowTitle().c_str());
-    if (KPConfig::Instance().FullScreen)
+    if (config.FullScreen)
     {
         glutFullScreen();
     }
@@ -196,8 +195,7 @@ void KPGlutUserInterface::RequestForClose()
 void KPGlutUserInterface::Close()
 {
 
-    KPConfig::Instance().WriteToFile();
-    KPConfig::Instance().finalize();
+    config.WriteToFile();
 
 #if defined(FREEGLUT) || defined(OPENGLUT)
     glutLeaveMainLoop();

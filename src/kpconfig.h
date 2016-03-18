@@ -20,11 +20,6 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-// The class KPConfig is implemented as Singleton and it can be accessed
-// system wide with the static member function:
-//
-// KPConfig::Instance()
-//
 #ifndef KPCONFIG_H
 #define KPCONFIG_H
 
@@ -44,12 +39,8 @@ enum tKPDir
 class KPConfig
 {
 public:
-    static KPConfig &Instance();
-    static void finalize()
-    {
-        delete instance;
-        instance = NULL;
-    };
+    KPConfig();
+    virtual ~KPConfig();
     static const char *GetUserInterfaceName(int ui);
 
     void SetDefaultValues();
@@ -102,13 +93,8 @@ public:
     bool SkipProgressBar;
 
 protected:
-    KPConfig();
     std::string fileName;
     std::string fileVersion;
-
-private:
-    static KPConfig *instance;
-    virtual ~KPConfig();
 };
 
 #endif

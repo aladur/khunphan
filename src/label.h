@@ -15,7 +15,6 @@
 #include <stdarg.h>
 #endif
 #include <string>
-#include "kpconfig.h"
 #include "bmanualtimer.h"
 
 

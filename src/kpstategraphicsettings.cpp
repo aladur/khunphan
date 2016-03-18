@@ -35,7 +35,7 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, pPreviousState);
 
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
 
     E_ScreenXResolution = config.ScreenXResolution;
     E_UserInterface = config.UserInterface;
@@ -72,7 +72,7 @@ void KPstateGraphicSettings::UpdateQuality(KPstateContext *pContext)
 
 int KPstateGraphicSettings::GetCurrentQuality(KPstateContext *pContext)
 {
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
     bool canToggleFullScreen =
         pContext->GetUserInterface().CanToggleFullScreen();
     int currentQuality = 0;
@@ -134,10 +134,10 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
     KPmenu &menu     = pContext->GetMenu();
 
-    int textureIndex = GetTextureIndex(config.TextureName);
+    int textureIndex = GetTextureIndex(pContext, config.TextureName);
 
     float y;
     float dy = 0.5;
@@ -508,7 +508,7 @@ tKPMenuState KPstateGraphicSettings::ESCKeyAction(
 tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
 {
     bool ChangeNeedsToolRestart = false;
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
     bool canChangeWindowSize = pContext->GetUserInterface().
                                    CanChangeWindowSize();
     bool canToggleFullScreen = pContext->GetUserInterface().
@@ -559,22 +559,22 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
 void KPstateGraphicSettings::ToggleFPS(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
-    KPConfig::Instance().DisplayFPS = !KPConfig::Instance().DisplayFPS;
+    pContext->GetConfig().DisplayFPS = !pContext->GetConfig().DisplayFPS;
 }
 
 void KPstateGraphicSettings::ToggleAmbientLight(KPstateContext *pContext) const
 {
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
-    KPConfig::Instance().AmbientLight = !config.AmbientLight;
+    pContext->GetConfig().AmbientLight = !config.AmbientLight;
     pContext->GetLight().Update(config.AmbientLight,
                                 config.LightSources);
 }
 
 void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
 {
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     switch (config.LightSources)
@@ -599,7 +599,7 @@ void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
 
 void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
 {
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     switch (config.TextureSize)
@@ -621,7 +621,8 @@ void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
             break;
     }
     pContext->GetBoardView().InitializeTextures(
-        config.TextureName.c_str(),
+        config.GetDirectory(KP_TEXTURE_DIR),
+        config.TextureName,
         config.TextureSize,
         config.Nearest );
     UpdateQuality(pContext);
@@ -629,7 +630,7 @@ void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
 
 void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext) const
 {
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
     std::vector<std::string> textureNameList = config.GetTextureNames();
 
     std::sort(textureNameList.begin(), textureNameList.end());
@@ -654,7 +655,8 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext) const
         }
         config.TextureName = *it;
         pContext->GetBoardView().InitializeTextures(
-            config.TextureName.c_str(),
+            config.GetDirectory(KP_TEXTURE_DIR),
+            config.TextureName,
             config.TextureSize,
             config.Nearest,
             false );
@@ -740,7 +742,7 @@ void KPstateGraphicSettings::ToggleUserInterface(KPstateContext *pContext)
 
 void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
 {
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     switch (config.MenuTextureSize)
@@ -764,7 +766,7 @@ void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
 void KPstateGraphicSettings::ToggleTextureInterpolation(
     KPstateContext *pContext) const
 {
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     config.Nearest = !config.Nearest;
@@ -772,14 +774,15 @@ void KPstateGraphicSettings::ToggleTextureInterpolation(
                                 config.MenuTextureSize,
                                 config.Nearest );
     pContext->GetBoardView().InitializeTextures(
-        config.TextureName.c_str(),
+        config.GetDirectory(KP_TEXTURE_DIR),
+        config.TextureName,
         config.TextureSize,
         config.Nearest );
 }
 
 void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
 {
-    KPConfig &config = KPConfig::Instance();
+    KPConfig &config = pContext->GetConfig();
     bool E_FullScreen_before = E_FullScreen;
     int E_ScreenXResolution_before = E_ScreenXResolution;
 
@@ -851,7 +854,8 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
                                 config.MenuTextureSize,
                                 config.Nearest );
     pContext->GetBoardView().InitializeTextures(
-        config.TextureName.c_str(),
+        config.GetDirectory(KP_TEXTURE_DIR),
+        config.TextureName,
         config.TextureSize,
         config.Nearest );
     if (E_FullScreen_before != E_FullScreen &&
@@ -869,10 +873,11 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
     UpdateDisplay(pContext);
 }
 
-int KPstateGraphicSettings::GetTextureIndex(std::string &TextureName) const
+int KPstateGraphicSettings::GetTextureIndex(KPstateContext *pContext,
+                                            std::string &TextureName) const
 {
     std::vector<std::string> textureNameList =
-        KPConfig::Instance().GetTextureNames();
+        pContext->GetConfig().GetTextureNames();
     int index = 0;
 
     std::sort(textureNameList.begin(), textureNameList.end());

@@ -33,6 +33,7 @@ class KPmenu;
 class KPStatistics;
 class KPUIBase;
 class KPnodes;
+class KPConfig;
 
 
 class KPstateContext
@@ -51,5 +52,6 @@ public:
     virtual KPStatistics &GetStatistics() = 0;
     virtual KPUIBase &GetUserInterface() = 0;
     virtual BManualTimer &GetAnimationTimer() = 0;
+    virtual KPConfig &GetConfig() = 0;
 };
 #endif

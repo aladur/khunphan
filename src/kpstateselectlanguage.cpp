@@ -61,7 +61,7 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
         }
     }
 
-    if (KPConfig::Instance().Language)
+    if (pContext->GetConfig().Language)
     {
         menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
         menu.labels[T_BACK].SetSignal(S_BACK);
@@ -94,7 +94,7 @@ void KPstateSelectLanguage::MouseClick (KPstateContext *pContext,
 
 tKPMenuState KPstateSelectLanguage::ESCKeyAction(KPstateContext *pContext) const
 {
-    if (KPConfig::Instance().Language)
+    if (pContext->GetConfig().Language)
     {
         return pContext->GetMenu().RestoreLastStateId();
     }
@@ -120,7 +120,7 @@ void KPstateSelectLanguage::SetLanguage (KPstateContext *pContext,
         it->second.RecreateDisplayList();
     }
 
-    KPConfig::Instance().Language = Language;
-    KPConfig::Instance().WriteToFile();
+    pContext->GetConfig().Language = Language;
+    pContext->GetConfig().WriteToFile();
 }
 

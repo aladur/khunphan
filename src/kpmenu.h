@@ -109,7 +109,7 @@ public:
     friend class KPstateScoreList;
     friend class KPstateLightTest;
 
-    KPmenu();
+    KPmenu(KPConfig &Config);
 
     void Initialize(std::string &TextureName, int TextureSize, bool Nearest,
                     int Language = 0);
@@ -140,6 +140,10 @@ protected:
     tKPMenuState lastState;
 
     BManualTimer playTimeUpdateTimer;
+    KPConfig &config;
+
+private:
+    KPmenu();
 };
 
 #endif

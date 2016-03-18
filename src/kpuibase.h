@@ -36,6 +36,7 @@ class KPboardView;
 class Camera;
 class Light;
 class KPStatistics;
+class KPConfig;
 
 enum tGetValues
 {
@@ -59,7 +60,7 @@ class KPUIBase : public KPstateContext
 {
 public:
     // public interface
-    KPUIBase();
+    KPUIBase(KPConfig &Config);
     virtual ~KPUIBase();
 
     virtual void OpenWindow(int argc, char **argv) = 0;
@@ -116,6 +117,7 @@ private:
 
 protected:
     KPstate *pState;
+    KPConfig &config;
     static  KPUIBase *instance;
 
 private:
@@ -155,6 +157,7 @@ public:
     virtual KPStatistics    &GetStatistics();
     virtual KPUIBase        &GetUserInterface();
     virtual BManualTimer    &GetAnimationTimer();
+    virtual KPConfig        &GetConfig();
 };
 
 #endif

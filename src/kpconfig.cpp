@@ -43,7 +43,6 @@
 #define _TO(type)   reinterpret_cast<const xmlChar *>(type)
 #define _FROM(type) reinterpret_cast<const char *>(type)
 
-KPConfig *KPConfig::instance = NULL;
 
 KPConfig::KPConfig() :
     FullScreen(false), Nearest(true), AmbientLight(false),
@@ -64,15 +63,6 @@ KPConfig::KPConfig() :
 KPConfig::~KPConfig()
 {
     xmlCleanupParser();
-}
-
-KPConfig &KPConfig::Instance()
-{
-    if (instance == NULL)
-    {
-        instance = new KPConfig;
-    };
-    return *instance;
 }
 
 std::string KPConfig::GetFileName()
@@ -803,8 +793,7 @@ const char *KPConfig::GetUserInterfaceName(int ui)
 void KPConfig::DebugPrint()
 {
     LOG1("Current KhunPhan Configuration:");
-    LOG2("  UserInterface :        ",
-                GetUserInterfaceName(UserInterface));
+    LOG2("  UserInterface :        ", GetUserInterfaceName(UserInterface));
     LOG2("  TextureName :          ", TextureName);
     LOG2("  TextureSize :          ", TextureSize);
     LOG2("  MenuTextureSize :      ", MenuTextureSize);

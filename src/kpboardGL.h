@@ -55,11 +55,14 @@ class KPboard;
 class KPboardView
 {
 public:
-    KPboardView(const KPboard &currentBoard, const char *TextureName,
+    KPboardView(const KPboard &currentBoard,
+                const std::string &TextureDirectory,
+                const std::string &TextureName,
                 unsigned int TextureSize = 1, bool Nearest = true);
     virtual ~KPboardView();
 
-    void InitializeTextures(const char *TextureName,
+    void InitializeTextures(const std::string &TextureDirectory,
+                            const std::string &TextureName,
                             unsigned int TextureSize = 1,
                             bool Nearest = true, bool always = true);
     void Draw(bool render = true) const;
@@ -76,7 +79,8 @@ public:
     bool IsSolved();
 
 private:
-    void Initialize(const char *TextureName,
+    void Initialize(const std::string &TextureDirectory,
+                    const std::string &TextureName,
                     unsigned int TextureSize = 1,
                     bool Nearest = true);
     void DrawToken(const tKPTokenID i) const;
