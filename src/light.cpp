@@ -47,7 +47,6 @@ void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,
     LOG1("Light initialization");
     LOG2(" Ambient Light: ", ON_OFF(AmbientLight));
     LOG2(" Light Sources: ", LightSources);
-    LOG2(" Reflections:   ", ON_OFF(Reflections));
     LOG4(" Brightness:    ", std::fixed, std::setprecision(2), Brightness);
 
     glDisable(GL_LIGHT0);

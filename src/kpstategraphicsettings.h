@@ -42,6 +42,7 @@ public:
     tKPMenuState ESCKeyAction(KPstateContext *pContext) const;
 
 protected:
+    int GetCurrentQuality(KPstateContext *pContext);
     void UpdateQuality(KPstateContext *pContext);
     int  GetTextureIndex(std::string &TextureName) const;
     tKPMenuState SaveChanges(KPstateContext *pContext) const;

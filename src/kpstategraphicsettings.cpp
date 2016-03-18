@@ -67,7 +67,15 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
 
 void KPstateGraphicSettings::UpdateQuality(KPstateContext *pContext)
 {
+    Quality = GetCurrentQuality(pContext);
+}
+
+int KPstateGraphicSettings::GetCurrentQuality(KPstateContext *pContext)
+{
     KPConfig &config = KPConfig::Instance();
+    bool canToggleFullScreen =
+        pContext->GetUserInterface().CanToggleFullScreen();
+    int currentQuality = 0;
 
     if (E_FullScreen==false &&
         E_ScreenXResolution==640 &&
@@ -76,48 +84,50 @@ void KPstateGraphicSettings::UpdateQuality(KPstateContext *pContext)
         config.Nearest==true &&
         config.LightSources==2)
     {
-        Quality=1;
+        currentQuality=1; // very fast
     }
     else if (E_FullScreen==false &&
-             E_ScreenXResolution==640 &&
+             E_ScreenXResolution==800 &&
              config.TextureSize==4 &&
              config.MenuTextureSize==2 &&
              config.Nearest==true &&
              config.LightSources==2)
     {
-        Quality=2;
+        currentQuality=2; // fast
     }
     else if (E_FullScreen==false &&
-             E_ScreenXResolution==800 &&
+             E_ScreenXResolution==1024 &&
              config.TextureSize==2 &&
              config.MenuTextureSize==1 &&
              config.Nearest==true &&
              config.LightSources==2)
     {
-        Quality=3;
+        currentQuality=3; // normal
     }
     else if (E_FullScreen==false &&
-             E_ScreenXResolution==1024 &&
+             E_ScreenXResolution==1280 &&
              config.TextureSize==1 &&
              config.MenuTextureSize==1 &&
              config.Nearest==false &&
              config.LightSources==3)
     {
-        Quality=4;
+        currentQuality=4; // high
     }
-    else if (E_FullScreen==true &&
-             E_ScreenXResolution==1024 &&
+    else if (((canToggleFullScreen && (E_FullScreen==true)) ||
+             (!canToggleFullScreen && (E_ScreenXResolution==1600))) &&
              config.TextureSize==1 &&
              config.MenuTextureSize==1 &&
              config.Nearest==false &&
              config.LightSources==3)
     {
-        Quality=5;
+        currentQuality=5; // very high
     }
     else
     {
-        Quality=0;
+        currentQuality=0; // user defined
     }
+
+    return currentQuality;
 }
 
 void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
@@ -667,6 +677,12 @@ void KPstateGraphicSettings::ToggleScreenMode(KPstateContext *pContext)
     {
         pContext->GetUserInterface().SetWindowMode(E_FullScreen);
     }
+    // We also have to set the window size here
+    if (!E_FullScreen && pContext->GetUserInterface().CanChangeWindowSize())
+    {
+        pContext->GetUserInterface().SetWindowSize(E_ScreenXResolution,
+                             (E_ScreenXResolution * 3) / 4);
+    }
     UpdateQuality(pContext);
 }
 
@@ -764,24 +780,20 @@ void KPstateGraphicSettings::ToggleTextureInterpolation(
 void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
 {
     KPConfig &config = KPConfig::Instance();
+    bool E_FullScreen_before = E_FullScreen;
+    int E_ScreenXResolution_before = E_ScreenXResolution;
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
-    switch (Quality)
+    UpdateQuality(pContext);
+    Quality--;
+    if (Quality <= 0)
     {
+        Quality = 5;
+    }
+
+    switch(Quality)
+     {
         case 1:
-        {
-            if (pContext->GetUserInterface().CanToggleFullScreen())
-            {
-                E_FullScreen=true;
-            }
-            E_ScreenXResolution=1024;
-            config.TextureSize=1;
-            config.MenuTextureSize=1;
-            config.Nearest=false;
-            config.LightSources=3;
-        }
-        break;
-        case 2:
         {
             E_FullScreen=false;
             E_ScreenXResolution=640;
@@ -791,12 +803,22 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
             config.LightSources=2;
         }
         break;
+        case 2:
+        {
+            E_FullScreen=false;
+            E_ScreenXResolution=800;
+            config.TextureSize=4;
+            config.MenuTextureSize=2;
+            config.Nearest=true;
+            config.LightSources=2;
+        }
+        break;
         case 3:
         {
             E_FullScreen=false;
-            E_ScreenXResolution=640;
-            config.TextureSize=4;
-            config.MenuTextureSize=2;
+            E_ScreenXResolution=1024;
+            config.TextureSize=2;
+            config.MenuTextureSize=1;
             config.Nearest=true;
             config.LightSources=2;
         }
@@ -804,17 +826,7 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
         case 4:
         {
             E_FullScreen=false;
-            E_ScreenXResolution=800;
-            config.TextureSize=2;
-            config.MenuTextureSize=1;
-            config.Nearest=true;
-            config.LightSources=2;
-        }
-        break;
-        case 5:
-        {
-            E_FullScreen=false;
-            E_ScreenXResolution=1024;
+            E_ScreenXResolution=1280;
             config.TextureSize=1;
             config.MenuTextureSize=1;
             config.Nearest=false;
@@ -823,15 +835,16 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
         break;
         default:
         {
-            E_FullScreen=false;
-            E_ScreenXResolution=800;
-            config.TextureSize=2;
+            E_FullScreen = pContext->GetUserInterface().CanToggleFullScreen();
+            E_ScreenXResolution=1600;
+            config.TextureSize=1;
             config.MenuTextureSize=1;
-            config.Nearest=true;
-            config.LightSources=2;
+            config.Nearest=false;
+            config.LightSources=3;
         }
         break;
-    }
+     }
+
     pContext->GetLight().Update(config.AmbientLight,
                                 config.LightSources);
     pContext->GetMenu().Update( config.TextureName,
@@ -841,7 +854,19 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
         config.TextureName.c_str(),
         config.TextureSize,
         config.Nearest );
-    UpdateQuality(pContext);
+    if (E_FullScreen_before != E_FullScreen &&
+        (pContext->GetUserInterface().CanToggleFullScreen()))
+    {
+        pContext->GetUserInterface().SetWindowMode(E_FullScreen);
+    }
+    if (!E_FullScreen &&
+        (E_ScreenXResolution_before != E_ScreenXResolution) &&
+        (pContext->GetUserInterface().CanChangeWindowSize()))
+    {
+        pContext->GetUserInterface().SetWindowSize(E_ScreenXResolution,
+                             (E_ScreenXResolution * 3) / 4);
+    }
+    UpdateDisplay(pContext);
 }
 
 int KPstateGraphicSettings::GetTextureIndex(std::string &TextureName) const
