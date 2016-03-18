@@ -10,8 +10,8 @@
 #include "light.h"
 
 Light::Light(bool AmbientLight /* = true*/, int LightSources /*= 1*/,
-             bool Reflections /*= true*/) : posX (100.0), posY (180.0),
-    posZ (50.0)
+             bool Reflections /*= false */) :
+    posX (100.0), posY (180.0), posZ (50.0)
 {
     Update(AmbientLight, LightSources, Reflections);
 }
@@ -21,7 +21,7 @@ Light::~Light()
 }
 
 void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,
-                   bool Reflections /*= true*/)
+                   bool Reflections /*= false */)
 {
     LightSources = aLightSources;
 
@@ -95,11 +95,8 @@ void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,
 
     if (Reflections)
     {
-        glLightModelf(33272,33274);
+        glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER,1);
     }
-
-    //glEndList();
-
 }
 
 void Light::SetPosition(float px, float py, float pz)

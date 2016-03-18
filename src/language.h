@@ -102,25 +102,12 @@
 #define T_T_NORMAL       253
 #define T_T_HIGH         254
 
-#define T_REFLECTIONS    260
-#define T_REF_OFF        261
-#define T_REF_ON         262
-
 #define T_RESOLUTION     270
 #define T_RES_640x480    271
 #define T_RES_800x600    272
 #define T_RES_1024x768   273
 #define T_RES_1280x960   274
 #define T_RES_1600x1200  275
-
-#define T_COLORDEPTH     280
-#define T_CD_16          281
-#define T_CD_24          282
-#define T_CD_32          283
-
-#define T_SHADOWS        290
-#define T_S_OFF          291
-#define T_S_ON           292
 
 #define T_TEXTUREINTERPOL 295
 #define T_TI_OFF         296

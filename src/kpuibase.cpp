@@ -120,8 +120,7 @@ void KPUIBase::InitializeAfterOpen()
                                  config.Nearest);
 
     pLight = new Light(config.AmbientLight,
-                       config.LightSources,
-                       config.Reflections);
+                       config.LightSources);
 
     pCamera = new Camera();
 

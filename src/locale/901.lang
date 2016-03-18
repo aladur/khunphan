@@ -93,25 +93,12 @@ OpenGL Interface Info
 253 Standard
 254 High
 
-260 Reflections :
-261 Off
-262 On
-
 270 Screen Resolutions :
 271 640x480
 272 800x600
 273 1024x768
 274 1280x1024
 275 1600x1200
-
-280 Color Depth :
-281 16 Bit
-282 24 Bit
-283 32 Bit
-
-290 Shadows :
-291 Off
-292 On
 
 295 Texture Interpolation :
 296 Off
@@ -126,8 +113,8 @@ OpenGL Interface Info
 306 User Defined
 
 310 Hint
-311 The new screen resolution, color depth or
-312 graphics interface will be applied next time
+311 The new screen resolution or graphics
+312 interface will be applied next time
 313 KhunPhan is started
 
 320 Ambient Light :

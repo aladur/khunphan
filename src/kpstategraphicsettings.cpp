@@ -38,7 +38,6 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
     KPConfig &config = KPConfig::Instance();
 
     E_ScreenXResolution = config.ScreenXResolution;
-    E_ColorDepth = config.ColorDepth;
     E_UserInterface = config.UserInterface;
     E_FullScreen = config.FullScreen;
     Quality = 0;
@@ -72,11 +71,8 @@ void KPstateGraphicSettings::UpdateQuality(KPstateContext *pContext)
 
     if (E_FullScreen==false &&
         E_ScreenXResolution==640 &&
-        E_ColorDepth==16 &&
         config.TextureSize==8 &&
         config.MenuTextureSize==2 &&
-        config.Reflections==false &&
-        config.Shadows==false &&
         config.Nearest==true &&
         config.LightSources==2)
     {
@@ -84,11 +80,8 @@ void KPstateGraphicSettings::UpdateQuality(KPstateContext *pContext)
     }
     else if (E_FullScreen==false &&
              E_ScreenXResolution==640 &&
-             E_ColorDepth==16 &&
              config.TextureSize==4 &&
              config.MenuTextureSize==2 &&
-             config.Reflections==false &&
-             config.Shadows==true &&
              config.Nearest==true &&
              config.LightSources==2)
     {
@@ -96,11 +89,8 @@ void KPstateGraphicSettings::UpdateQuality(KPstateContext *pContext)
     }
     else if (E_FullScreen==false &&
              E_ScreenXResolution==800 &&
-             E_ColorDepth==16 &&
              config.TextureSize==2 &&
              config.MenuTextureSize==1 &&
-             config.Reflections==false &&
-             config.Shadows==true &&
              config.Nearest==true &&
              config.LightSources==2)
     {
@@ -108,11 +98,8 @@ void KPstateGraphicSettings::UpdateQuality(KPstateContext *pContext)
     }
     else if (E_FullScreen==false &&
              E_ScreenXResolution==1024 &&
-             E_ColorDepth==16 &&
              config.TextureSize==1 &&
              config.MenuTextureSize==1 &&
-             config.Reflections==false &&
-             config.Shadows==true &&
              config.Nearest==false &&
              config.LightSources==3)
     {
@@ -120,11 +107,8 @@ void KPstateGraphicSettings::UpdateQuality(KPstateContext *pContext)
     }
     else if (E_FullScreen==true &&
              E_ScreenXResolution==1024 &&
-             E_ColorDepth==32 &&
              config.TextureSize==1 &&
              config.MenuTextureSize==1 &&
-             config.Reflections==true &&
-             config.Shadows==true &&
              config.Nearest==false &&
              config.LightSources==3)
     {
@@ -188,16 +172,6 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_TEXTURENAME].SetPosition(8, y, 0.6f, A_RIGHT);
     y -= dy;
     menu.labels[T_TEXTURENAME].SetSignal(S_TOGGLE_TEXTURENAME);
-    menu.labels[T_REFLECTIONS].SetPosition(8, y, 0.6f, A_RIGHT);
-    y -= dy;
-    menu.labels[T_REFLECTIONS].SetSignal(S_TOGGLE_REFLECTIONS);
-    menu.labels[T_COLORDEPTH].SetPosition(8, y, 0.6f, A_RIGHT);
-    y -= dy;
-    menu.labels[T_COLORDEPTH].SetSignal(S_TOGGLE_COLORDEPTH);
-    // Shadows currently not supported
-    //menu.labels[T_SHADOWS].SetPosition(8,y,0.6f,A_RIGHT);
-    //y -= dy;
-    //menu.labels[T_SHADOWS].SetSignal(S_TOGGLE_SHADOWS);
     menu.labels[T_TEXTUREINTERPOL].SetPosition(8, y, 0.6f, A_RIGHT);
     y -= dy;
     menu.labels[T_TEXTUREINTERPOL].SetSignal(S_TOGGLE_TEXTUREINTERPOL);
@@ -361,49 +335,6 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_TEXTURE1 + textureIndex].SetSignal(S_TOGGLE_TEXTURENAME);
 
     y -= dy;
-    if (config.Reflections)
-    {
-        menu.labels[T_REF_ON].SetPosition(8.2f, y, 0.6f);
-        menu.labels[T_REF_ON].SetSignal(S_TOGGLE_REFLECTIONS);
-    }
-    else
-    {
-        menu.labels[T_REF_OFF].SetPosition(8.2f, y, 0.6f);
-        menu.labels[T_REF_OFF].SetSignal(S_TOGGLE_REFLECTIONS);
-    }
-
-    y -= dy;
-    switch (E_ColorDepth)
-    {
-        case 32:
-        {
-            menu.labels[T_CD_32].SetPosition(8.2f, y, 0.6f);
-            menu.labels[T_CD_32].SetSignal(S_TOGGLE_COLORDEPTH);
-        }
-        break;
-        default:
-        {
-            menu.labels[T_CD_16].SetPosition(8.2f, y, 0.6f);
-            menu.labels[T_CD_16].SetSignal(S_TOGGLE_COLORDEPTH);
-        }
-        break;
-    }
-
-    /*
-    y -= dy;
-    if (config.Shadows)
-    {
-      menu.labels[T_S_ON].SetPosition(8.2f, y, 0.6f);
-      menu.labels[T_S_ON].SetSignal(S_TOGGLE_SHADOWS);
-    }
-    else
-    {
-      menu.labels[T_S_OFF].SetPosition(8.2f, y, 0.6f);
-      menu.labels[T_S_OFF].SetSignal(S_TOGGLE_SHADOWS);
-    }
-    */
-
-    y -= dy;
     if (config.Nearest)
     {
         menu.labels[T_TI_OFF].SetPosition(8.2f, y, 0.6f);
@@ -504,24 +435,12 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
             ToggleLamps(pContext);
             UpdateDisplay(pContext);
             break;
-        case S_TOGGLE_REFLECTIONS:
-            ToggleReflections(pContext);
-            UpdateDisplay(pContext);
-            break;
         case S_TOGGLE_SCREENMODE:
             ToggleScreenMode(pContext);
             UpdateDisplay(pContext);
             break;
         case S_TOGGLE_RESOLUTION:
             ToggleResolution(pContext);
-            UpdateDisplay(pContext);
-            break;
-        case S_TOGGLE_COLORDEPTH:
-            ToggleColorDepth(pContext);
-            UpdateDisplay(pContext);
-            break;
-        case S_TOGGLE_SHADOWS:
-            ToggleShadows(pContext);
             UpdateDisplay(pContext);
             break;
         case S_TOGGLE_TEXTUREINTERPOL:
@@ -578,21 +497,20 @@ tKPMenuState KPstateGraphicSettings::ESCKeyAction(
 
 tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
 {
-    bool ResolutionChanged = false;
+    bool ChangeNeedsToolRestart = false;
     KPConfig &config = KPConfig::Instance();
     bool canChangeWindowSize = pContext->GetUserInterface().
                                    CanChangeWindowSize();
     bool canToggleFullScreen = pContext->GetUserInterface().
                                    CanToggleFullScreen();
 
-    if (config.ColorDepth != E_ColorDepth ||
-        (!canToggleFullScreen &&
+    if ((!canToggleFullScreen &&
          (config.FullScreen != E_FullScreen)) ||
         (!canChangeWindowSize &&
          (config.ScreenXResolution != E_ScreenXResolution)) ||
         config.UserInterface != E_UserInterface)
     {
-        ResolutionChanged = true;
+        ChangeNeedsToolRestart = true;
     }
 
     LOG1("Changed Graphic Settings");
@@ -601,24 +519,20 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
     LOG2("  TextureName :          ", config.TextureName);
     LOG2("  TextureSize :          ", config.TextureSize);
     LOG2("  MenuTextureSize :      ", config.MenuTextureSize);
-    LOG2("  Shadows :              ", ON_OFF(config.Shadows));
     LOG2("  TextureInterpolation : ", ON_OFF(config.Nearest));
     LOG2("  ScreenXResolution :    ", E_ScreenXResolution);
-    LOG2("  ColorDepth :           ", E_ColorDepth);
-    LOG2("  Reflections :          ", ON_OFF(config.Reflections));
-    LOG2("  AmbientLight :         ",
-         ON_OFF(config.AmbientLight));
+    LOG2("  ColorDepth :           ", config.ColorDepth);
+    LOG2("  AmbientLight :         ", ON_OFF(config.AmbientLight));
     LOG2("  LightSources :         ", config.LightSources);
     LOG2("  FullScreen :           ", ON_OFF(E_FullScreen));
 
-    config.ColorDepth        = E_ColorDepth;
     config.FullScreen        = E_FullScreen;
     config.ScreenXResolution = E_ScreenXResolution;
     config.UserInterface     = E_UserInterface;
 
     config.WriteToFile();
 
-    if (ResolutionChanged)
+    if (ChangeNeedsToolRestart)
     {
         return KPState_GraphicHint;
     }
@@ -645,20 +559,7 @@ void KPstateGraphicSettings::ToggleAmbientLight(KPstateContext *pContext) const
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     KPConfig::Instance().AmbientLight = !config.AmbientLight;
     pContext->GetLight().Update(config.AmbientLight,
-                                config.LightSources,
-                                config.Reflections);
-}
-
-void KPstateGraphicSettings::ToggleReflections(KPstateContext *pContext)
-{
-    KPConfig &config = KPConfig::Instance();
-
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
-    config.Reflections = !config.Reflections;
-    pContext->GetLight().Update(config.AmbientLight,
-                                config.LightSources,
-                                config.Reflections);
-    UpdateQuality(pContext);
+                                config.LightSources);
 }
 
 void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
@@ -682,8 +583,7 @@ void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
             break;
     }
     pContext->GetLight().Update(config.AmbientLight,
-                                config.LightSources,
-                                config.Reflections);
+                                config.LightSources);
     UpdateQuality(pContext);
 }
 
@@ -805,21 +705,6 @@ void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
     UpdateQuality(pContext);
 }
 
-void KPstateGraphicSettings::ToggleColorDepth(KPstateContext *pContext)
-{
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
-    switch (E_ColorDepth)
-    {
-        case 16:
-            E_ColorDepth = 32;
-            break;
-        default:
-            E_ColorDepth = 16;
-            break;
-    }
-    UpdateQuality(pContext);
-}
-
 void KPstateGraphicSettings::ToggleUserInterface(KPstateContext *pContext)
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
@@ -835,13 +720,6 @@ void KPstateGraphicSettings::ToggleUserInterface(KPstateContext *pContext)
             E_UserInterface = 0;
             break;
     }
-}
-
-void KPstateGraphicSettings::ToggleShadows(KPstateContext *pContext)
-{
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
-    KPConfig::Instance().Shadows = !KPConfig::Instance().Shadows;
-    UpdateQuality(pContext);
 }
 
 void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
@@ -897,11 +775,8 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
                 E_FullScreen=true;
             }
             E_ScreenXResolution=1024;
-            E_ColorDepth=32;
             config.TextureSize=1;
             config.MenuTextureSize=1;
-            config.Reflections=true;
-            config.Shadows=true;
             config.Nearest=false;
             config.LightSources=3;
         }
@@ -910,11 +785,8 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
         {
             E_FullScreen=false;
             E_ScreenXResolution=640;
-            E_ColorDepth=16;
             config.TextureSize=8;
             config.MenuTextureSize=2;
-            config.Reflections=false;
-            config.Shadows=false;
             config.Nearest=true;
             config.LightSources=2;
         }
@@ -923,11 +795,8 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
         {
             E_FullScreen=false;
             E_ScreenXResolution=640;
-            E_ColorDepth=16;
             config.TextureSize=4;
             config.MenuTextureSize=2;
-            config.Reflections=false;
-            config.Shadows=true;
             config.Nearest=true;
             config.LightSources=2;
         }
@@ -936,11 +805,8 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
         {
             E_FullScreen=false;
             E_ScreenXResolution=800;
-            E_ColorDepth=16;
             config.TextureSize=2;
             config.MenuTextureSize=1;
-            config.Reflections=false;
-            config.Shadows=true;
             config.Nearest=true;
             config.LightSources=2;
         }
@@ -949,11 +815,8 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
         {
             E_FullScreen=false;
             E_ScreenXResolution=1024;
-            E_ColorDepth=16;
             config.TextureSize=1;
             config.MenuTextureSize=1;
-            config.Reflections=false;
-            config.Shadows=true;
             config.Nearest=false;
             config.LightSources=3;
         }
@@ -962,19 +825,15 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
         {
             E_FullScreen=false;
             E_ScreenXResolution=800;
-            E_ColorDepth=16;
             config.TextureSize=2;
             config.MenuTextureSize=1;
-            config.Reflections=false;
-            config.Shadows=true;
             config.Nearest=true;
             config.LightSources=2;
         }
         break;
     }
     pContext->GetLight().Update(config.AmbientLight,
-                                config.LightSources,
-                                config.Reflections);
+                                config.LightSources);
     pContext->GetMenu().Update( config.TextureName,
                                 config.MenuTextureSize,
                                 config.Nearest );

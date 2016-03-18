@@ -49,7 +49,7 @@ KPConfig::KPConfig() :
     FullScreen(false), Nearest(true), AmbientLight(false),
     Reflections(false), Shadows(false), DisplayFPS(false),
     SoundOn(true), MusicOn(true),
-    ScreenXResolution(640), ColorDepth(16), TextureSize(2),
+    ScreenXResolution(640), ColorDepth(32), TextureSize(2),
     MenuTextureSize(2), LightSources(2), Language(0),
     UserInterface(0), CameraPosition(2),
     SolutionHint(0), MouseSpeed(0.4f),
@@ -412,21 +412,6 @@ void KPConfig::ReadFromFile()
                     iss >> ScreenXResolution;
                     xmlFree(key);
                 }
-                else if (!xmlStrcmp(tag, _TO("ColorDepth")))
-                {
-                    key = xmlNodeListGetString(doc, node, 1);
-                    std::istringstream iss(_FROM(key));
-                    iss >> ColorDepth;
-                    xmlFree(key);
-                }
-                else if (!xmlStrcmp(tag, _TO("Reflections")))
-                {
-                    key = xmlNodeListGetString(doc, node, 1);
-                    std::istringstream iss(_FROM(key));
-                    iss >> tmp;
-                    Reflections = (tmp != 0);
-                    xmlFree(key);
-                }
                 else if (!xmlStrcmp(tag, _TO("DisplayFPS")))
                 {
                     key = xmlNodeListGetString(doc, node, 1);
@@ -448,14 +433,6 @@ void KPConfig::ReadFromFile()
                     key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> LightSources;
-                    xmlFree(key);
-                }
-                else if (!xmlStrcmp(tag, _TO("Shadows")))
-                {
-                    key = xmlNodeListGetString(doc, node, 1);
-                    std::istringstream iss(_FROM(key));
-                    iss >> tmp;
-                    Shadows = (tmp != 0);
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("FullScreen")))
@@ -689,7 +666,7 @@ void KPConfig::SetDefaultValues()
     MusicOn              = true;
 
     ScreenXResolution    = 640;
-    ColorDepth           = 16;
+    ColorDepth           = 32;
     TextureSize          = 4;
     MenuTextureSize      = 2;
     LightSources         = 3;
@@ -744,8 +721,6 @@ void KPConfig::ReadCommandLineParams(int argc,char **argv)
             TextureSize          = 2;
             MenuTextureSize      = 2;
             ScreenXResolution    = 1024;
-            ColorDepth           = 32;
-            Reflections          = true;
         }
         else if (!strcmp(argv[i],"-t")||!strcmp(argv[i],"-textures"))
         {
@@ -795,10 +770,6 @@ void KPConfig::ReadCommandLineParams(int argc,char **argv)
                 MenuTextureSize=0;
             }
         }
-        else if (!strcmp(argv[i],"-s")||!strcmp(argv[i],"-shadows"))
-        {
-            Shadows=true;
-        }
         else if (!strcmp(argv[i],"-m")||!strcmp(argv[i],"-mousespeed"))
         {
             i++;
@@ -837,11 +808,9 @@ void KPConfig::DebugPrint()
     LOG2("  TextureName :          ", TextureName);
     LOG2("  TextureSize :          ", TextureSize);
     LOG2("  MenuTextureSize :      ", MenuTextureSize);
-    LOG2("  Shadows :              ", ON_OFF(Shadows));
     LOG2("  TextureInterpolation : ", ON_OFF(Nearest));
     LOG2("  ScreenXResolution :    ", ScreenXResolution);
     LOG2("  ColorDepth :           ", ColorDepth);
-    LOG2("  Reflections :          ", ON_OFF(Reflections));
     LOG2("  DisplayFPS :           ", ON_OFF(DisplayFPS));
     LOG2("  AmbientLight :         ", ON_OFF(AmbientLight));
     LOG2("  LightSources :         ", LightSources);

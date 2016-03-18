@@ -93,25 +93,12 @@
 253 Standard
 254 Hoch
 
-260 Reflektionen :
-261 Aus
-262 Ein
-
 270 Bildschirmauflösung :
 271 640x480
 272 800x600
 273 1024x768
 274 1280x1024
 275 1600x1200
-
-280 Farbtiefe :
-281 16 Bit
-282 24 Bit
-283 32 Bit
-
-290 Schatten :
-291 Aus
-292 Ein
 
 295 Texturinterpolation :
 296 Aus
@@ -126,7 +113,7 @@
 306 Benutzerdefiniert
 
 310 Hinweis
-311 Die neue Bildschirmauflösung, Farbtiefe oder
+311 Die neue Bildschirmauflösung oder
 312 Graphik-Schnittstelle wird erst beim nächsten
 313 Start von KhunPhan übernommen
 

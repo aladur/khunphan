@@ -50,9 +50,6 @@ protected:
     void ToggleMenuTextures(KPstateContext *pContext);
     void ToggleScreenMode(KPstateContext *pContext);
     void ToggleResolution(KPstateContext *pContext);
-    void ToggleColorDepth(KPstateContext *pContext);
-    void ToggleReflections(KPstateContext *pContext);
-    void ToggleShadows(KPstateContext *pContext);
     void ToggleTextureInterpolation(KPstateContext *pContext) const;
     void ToggleAmbientLight(KPstateContext *pContext) const;
     void ToggleLamps(KPstateContext *pContext);
@@ -63,7 +60,6 @@ protected:
     int Quality;
     int  E_ScreenXResolution;
     bool E_FullScreen;
-    int  E_ColorDepth;
     int  E_UserInterface;
 };
 
