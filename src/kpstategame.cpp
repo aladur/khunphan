@@ -326,6 +326,7 @@ void KPstateGame::SaveGameStatus(KPstateContext *pContext) const
     config.Moves         = statistics.GetEventCounter(MOVE_COUNTER);
     config.MovesWithHint = statistics.GetEventCounter(MOVE_WITH_HELP_CNT);
     config.CheatCount    = statistics.GetEventCounter(USED_CHEATS_CNT);
+    config.WriteToFile();
 }
 
 void KPstateGame::PlayAudioForInitialize(KPstateContext *pContext) const
