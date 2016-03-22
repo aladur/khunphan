@@ -77,7 +77,7 @@ private:
     static bool IsMusicFile(const std::string file);
 
     unsigned int rate;
-    int musicIndex;
+    unsigned int musicIndex;
     std::vector<std::string> musicFiles;
     double musicPosition; // save position of music in seconds
     BTime time;

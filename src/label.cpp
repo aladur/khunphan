@@ -466,9 +466,10 @@ void Label::Animate(unsigned int duration)
         else
         {
             GLfloat localFactor;
+            GLdouble relativeTime = animationTimer.GetRelativeTime();
 
             localFactor = 0.5f - 0.5f *
-                              cos(M_PIf * animationTimer.GetRelativeTime());
+                              cos(M_PIf * static_cast<GLfloat>(relativeTime));
             x      = (target_x - old_x) * localFactor + old_x;
             y      = (target_y - old_y) * localFactor + old_y;
             Height = (target_Height - old_Height) * localFactor + old_Height;

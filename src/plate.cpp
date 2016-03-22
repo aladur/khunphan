@@ -428,9 +428,10 @@ void Plate::Animate(unsigned int duration)
         else
         {
             GLfloat localFactor;
+            GLdouble relativeTime = animationTimer.GetRelativeTime();
 
             localFactor = 0.5f - 0.5f *
-                cos(M_PIf * animationTimer.GetRelativeTime());
+                cos(M_PIf * static_cast<GLfloat>(relativeTime));
             ax   = (target_ax - old_ax) * localFactor + old_ax;
             ay   = (target_ay - old_ay) * localFactor + old_ay;
             bx   = (target_bx - old_bx) * localFactor + old_bx;

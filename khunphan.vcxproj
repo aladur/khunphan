@@ -171,7 +171,6 @@
     <ClInclude Include="src\btime.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\extendedcamera.h" />
-    <ClInclude Include="src\confdefs.h" />
     <ClInclude Include="src\kpboard.h" />
     <ClInclude Include="src\kpboardGL.h" />
     <ClInclude Include="src\kpconfig.h" />
@@ -213,11 +212,11 @@
     <ClInclude Include="src\misc1.h" />
     <ClInclude Include="src\plate.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\sprache.h" />
+    <ClInclude Include="src\language.h" />
     <ClInclude Include="src\sprinter.h" />
     <ClInclude Include="src\kplocale.h" />
     <ClInclude Include="src\cmdline.h" />
-    <ClInclude Include="src\states.h" />
+    <ClInclude Include="src\kpstates.h" />
     <ClInclude Include="src\bmanualtimer.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>

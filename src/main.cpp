@@ -63,7 +63,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     char  *argv[50];
 
     CmdLine::Scan(lpCmdLine, &argc, (char **)argv,
-                  sizeof(argv) / sizeof(argv[0]);
+                  sizeof(argv) / sizeof(argv[0]));
     return main(argc, argv);
 }
 #endif

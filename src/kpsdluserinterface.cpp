@@ -27,6 +27,8 @@
 #include <unistd.h>  // needed for access
 #endif
 #include <limits.h>
+#include <string>
+#include <locale>
 #include "kpsdluserinterface.h"
 #include "bdir.h"
 #include "kpconfig.h"
@@ -289,11 +291,11 @@ bool KPSdlUserInterface::IsMusicFile(const std::string file)
 {
     std::string fileExtension = file.substr(file.size() - 4, 4);
     std::string::iterator it = fileExtension.begin();
+    std::locale locale;
 
     for (; it != fileExtension.end(); ++it)
     {
-        *it = std::tolower(*it);
-
+        *it = std::tolower(*it, locale);
     }
 
     return fileExtension.compare(".ogg") || fileExtension.compare(".mp3");

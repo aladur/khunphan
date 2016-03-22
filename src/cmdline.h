@@ -26,7 +26,7 @@
 class CmdLine
 {
 public:
-    static void Scan(LPSTR lpCmdLine, int *argc, char **argv);
+    static void Scan(LPSTR lpCmdLine, int *argc, char **argv, int max_args);
 };
 
 #endif
