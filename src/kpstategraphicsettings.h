@@ -31,6 +31,7 @@
 class KPstateGraphicSettings : public KPstate
 {
 public:
+    KPstateGraphicSettings();
     tKPMenuState GetId() const
     {
         return KPState_GraphicSettings;

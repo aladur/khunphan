@@ -127,7 +127,7 @@ public:
     bool IsDisplayOpenGLInfo;
 
 protected:
-    bool LoadLanguage(int Language) ;
+    bool LoadLanguage(int Language);
     void AddOrSetLabel(int number, const std::string &text);
     void FadeOutAllPlates();
     void FadeOutAllLabels();

@@ -25,7 +25,7 @@
 #include "kpboardGL.h"
 
 
-KPstateMoveToken::KPstateMoveToken() : KPstate(), mouse_x(0), mouse_y(0)
+KPstateMoveToken::KPstateMoveToken() : mouse_x(0), mouse_y(0)
 {
 }
 

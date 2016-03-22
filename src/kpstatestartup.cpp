@@ -80,7 +80,6 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext) const
 
     // every thing which should be permanently be visible within this
     // state should be listed here:
-
     menu.plates[PLATE_LOGO].SetPosition(5,9,11,11);
 
     float y = 3.0f;

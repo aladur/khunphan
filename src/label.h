@@ -11,9 +11,6 @@
 #include "stdafx.h"
 
 #include <set>
-#ifdef HAVE_STDARG_H
-#include <stdarg.h>
-#endif
 #include <string>
 #include "bmanualtimer.h"
 
@@ -30,7 +27,8 @@ class Label
 public:
     Label(const std::string &textOrFormat = std::string(""));
     Label(const Label &src);
-    virtual ~Label();
+    ~Label();
+
     Label &operator=(const Label &src);
     static void PreInitialize(const std::string &, unsigned int, bool,
                               const KPConfig &);

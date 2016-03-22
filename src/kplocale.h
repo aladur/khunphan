@@ -31,14 +31,7 @@ typedef std::map<int, std::string> tIdToString;
 class KPlocale
 {
 public:
-    KPlocale(const std::string &filename);
-    inline tIdToString GetStrings()
-    {
-        return strings;
-    }
-private:
-    KPlocale();
-    tIdToString strings;
+    static tIdToString ReadFromFile(const std::string &filename);
 };
 
 #endif

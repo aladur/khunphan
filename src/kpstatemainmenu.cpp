@@ -32,7 +32,6 @@ void KPstateMainMenu::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, pPreviousState);
 
-    // Do some initialization stuff here:
     if (pPreviousState->GetId() == KPState_Game)
     {
         pContext->GetMenu().SaveLastStateId(pPreviousState->GetId());

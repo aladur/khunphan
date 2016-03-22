@@ -28,6 +28,8 @@
 class KPstateAudioSettings : public KPstate
 {
 public:
+    KPstateAudioSettings();
+
     tKPMenuState GetId() const
     {
         return KPState_AudioSettings;

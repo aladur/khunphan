@@ -106,10 +106,10 @@ const char *BTexture::ReadTextureFromFile(const char *pFile, int flags/*= 0 */)
 
     LOG3("Reading '", pFile, "'");
 
-    const char *texels = ReadTextureFromFile(fs, flags);
+    const char *returned_texels = ReadTextureFromFile(fs, flags);
     fs.close();
 
-    return static_cast<const char *>(texels);
+    return static_cast<const char *>(returned_texels);
 }
 
 const char *BTexture::ReadTextureFromFile(std::ifstream &fs, int flags/* = 0 */)
@@ -295,16 +295,14 @@ const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
 
 const char *BTexture::SetAlphaChannel(int value)
 {
-    if (texels == NULL)
+    if (texels != NULL)
     {
-        return NULL;
-    }
+        unsigned int i;
 
-    unsigned int i;
-
-    for (i = 0; i < rowbytes * height; i += channels)
-    {
-        texels[i+channels-1] = value;
+        for (i = 0; i < rowbytes * height; i += channels)
+        {
+            texels[i+channels-1] = value;
+        }
     }
 
     return reinterpret_cast<const char *>(texels);
@@ -312,31 +310,28 @@ const char *BTexture::SetAlphaChannel(int value)
 
 const char *BTexture::CopyAlphaChannel(int format)
 {
-    if (texels == NULL)
+    if (texels != NULL)
     {
-        return NULL;
-    }
-
-
-    if (format & TEX_MODIFY_ALPHA)
-    {
-        unsigned int i;
-
-        for (i = 0; i < rowbytes * height; i += channels)
+        if (format & TEX_MODIFY_ALPHA)
         {
-            if ((format & TEX_MODIFY_ALPHA) == TEX_USE_RED_FOR_ALPHA)
+            unsigned int i;
+
+            for (i = 0; i < rowbytes * height; i += channels)
             {
-                texels[i+channels-1] = texels[i];
-            }
-            if ((channels > 1) &&
-                ((format & TEX_MODIFY_ALPHA) == TEX_USE_GREEN_FOR_ALPHA))
-            {
-                texels[i+channels-1] = texels[i+1];
-            }
-            if (channels > 2 &&
-                ((format & TEX_MODIFY_ALPHA) == TEX_USE_BLUE_FOR_ALPHA))
-            {
-                texels[i+channels-1] = texels[i+2];
+                if ((format & TEX_MODIFY_ALPHA) == TEX_USE_RED_FOR_ALPHA)
+                {
+                    texels[i+channels-1] = texels[i];
+                }
+                if ((channels > 1) &&
+                    ((format & TEX_MODIFY_ALPHA) == TEX_USE_GREEN_FOR_ALPHA))
+                {
+                    texels[i+channels-1] = texels[i+1];
+                }
+                if (channels > 2 &&
+                    ((format & TEX_MODIFY_ALPHA) == TEX_USE_BLUE_FOR_ALPHA))
+                {
+                    texels[i+channels-1] = texels[i+2];
+                }
             }
         }
     }
@@ -346,46 +341,44 @@ const char *BTexture::CopyAlphaChannel(int format)
 
 const char *BTexture::CopyColor(int format)
 {
-    if (texels == NULL)
+    if (texels != NULL)
     {
-        return NULL;
-    }
-
-    if (format & TEX_COPY_COLOR)
-    {
-        unsigned int i;
-
-        for (i = 0; i < rowbytes * height; i += channels)
+        if (format & TEX_COPY_COLOR)
         {
-            if (channels > 1 &&
-                ((format & TEX_COPY_COLOR) == TEX_COPY_RED_TO_GREEN))
+            unsigned int i;
+
+            for (i = 0; i < rowbytes * height; i += channels)
             {
-                texels[i+1] = texels[i];
-            }
-            if (channels > 2 &&
-                ((format & TEX_COPY_COLOR) == TEX_COPY_RED_TO_BLUE))
-            {
-                texels[i+2] = texels[i];
-            }
-            if (channels > 1 &&
-                ((format & TEX_COPY_COLOR) == TEX_COPY_GREEN_TO_RED))
-            {
-                texels[i]   = texels[i+1];
-            }
-            if (channels > 2 &&
-                ((format & TEX_COPY_COLOR) == TEX_COPY_GREEN_TO_BLUE))
-            {
-                texels[i+2] = texels[i+1];
-            }
-            if (channels > 2 &&
-                ((format & TEX_COPY_COLOR) == TEX_COPY_BLUE_TO_RED))
-            {
-                texels[i]   = texels[i+2];
-            }
-            if (channels > 2 &&
-                ((format & TEX_COPY_COLOR) == TEX_COPY_BLUE_TO_GREEN))
-            {
-                texels[i+1] = texels[i+2];
+                if (channels > 1 &&
+                    ((format & TEX_COPY_COLOR) == TEX_COPY_RED_TO_GREEN))
+                {
+                    texels[i+1] = texels[i];
+                }
+                if (channels > 2 &&
+                    ((format & TEX_COPY_COLOR) == TEX_COPY_RED_TO_BLUE))
+                {
+                    texels[i+2] = texels[i];
+                }
+                if (channels > 1 &&
+                    ((format & TEX_COPY_COLOR) == TEX_COPY_GREEN_TO_RED))
+                {
+                    texels[i]   = texels[i+1];
+                }
+                if (channels > 2 &&
+                    ((format & TEX_COPY_COLOR) == TEX_COPY_GREEN_TO_BLUE))
+                {
+                    texels[i+2] = texels[i+1];
+                }
+                if (channels > 2 &&
+                    ((format & TEX_COPY_COLOR) == TEX_COPY_BLUE_TO_RED))
+                {
+                    texels[i]   = texels[i+2];
+                }
+                if (channels > 2 &&
+                    ((format & TEX_COPY_COLOR) == TEX_COPY_BLUE_TO_GREEN))
+                {
+                    texels[i+1] = texels[i+2];
+                }
             }
         }
     }
@@ -395,31 +388,28 @@ const char *BTexture::CopyColor(int format)
 
 const char *BTexture::SetColors(int format, int red, int green, int blue)
 {
-    if (texels == NULL)
+    if (texels != NULL)
     {
-        return NULL;
-    }
-
-
-    if (format & TEX_SET_COLORS)
-    {
-        unsigned int i;
-
-        for (i = 0; i < rowbytes * height; i += channels)
+        if (format & TEX_SET_COLORS)
         {
-            if ((format & TEX_SET_COLOR_RED) == TEX_SET_COLOR_RED)
+            unsigned int i;
+
+            for (i = 0; i < rowbytes * height; i += channels)
             {
-                texels[i] = red;
-            }
-            if (channels > 1 &&
-                ((format & TEX_SET_COLOR_GREEN) == TEX_SET_COLOR_GREEN))
-            {
-                texels[i+1] = green;
-            }
-            if (channels > 2 &&
-                ((format & TEX_SET_COLOR_BLUE) == TEX_SET_COLOR_BLUE))
-            {
-                texels[i+2] = blue;
+                if ((format & TEX_SET_COLOR_RED) == TEX_SET_COLOR_RED)
+                {
+                    texels[i] = red;
+                }
+                if (channels > 1 &&
+                    ((format & TEX_SET_COLOR_GREEN) == TEX_SET_COLOR_GREEN))
+                {
+                    texels[i+1] = green;
+                }
+                if (channels > 2 &&
+                    ((format & TEX_SET_COLOR_BLUE) == TEX_SET_COLOR_BLUE))
+                {
+                    texels[i+2] = blue;
+                }
             }
         }
     }
@@ -427,7 +417,7 @@ const char *BTexture::SetColors(int format, int red, int green, int blue)
     return reinterpret_cast<const char *>(texels);
 }
 
-bool BTexture::CreateSubImage(int x, int y, int w, int h, char *subTexels)
+bool BTexture::CreateSubImage(int x, int y, int w, int h, char *subTexels) const
 {
     if (subTexels == NULL)
     {
@@ -446,7 +436,7 @@ bool BTexture::CreateSubImage(int x, int y, int w, int h, char *subTexels)
     return true;
 }
 
-void BTexture::printInfo(std::ostream &os)
+void BTexture::printInfo(std::ostream &os) const
 {
     const char *pColorType;
     const char *pInterlaceType;
@@ -510,24 +500,23 @@ void BTexture::printInfo(std::ostream &os)
        << std::endl;
 }
 
-bool BTexture::WriteTextureToFile(const char *pFile, int flags /* = 0 */)
+bool BTexture::WriteTextureToFile(const char *pFile, int flags /* = 0 */) const
 {
     std::ofstream fs;
+    bool success = false;
 
     fs.open(pFile, std::ios::binary | std::ios::out);
 
-    if (!fs.is_open())
+    if (fs.is_open())
     {
-        return false;
+        success = WriteTextureToFile(fs, flags);
+        fs.close();
     }
-
-    bool success = WriteTextureToFile(fs, flags);
-    fs.close();
 
     return success;
 }
 
-bool BTexture::WriteTextureToFile(std::ofstream &fs, int flags /* = 0 */)
+bool BTexture::WriteTextureToFile(std::ofstream &fs, int flags /* = 0 */) const
 {
     if (!fs.is_open())
     {
@@ -575,7 +564,7 @@ bool BTexture::SetTexels(const char *pTexels, unsigned int aWidth,
     return true;
 }
 
-bool BTexture::WriteTextureToPngFile (std::ofstream &fs, int)
+bool BTexture::WriteTextureToPngFile (std::ofstream &fs, int) const
 {
     if (!fs.is_open())
     {
@@ -775,18 +764,16 @@ void BTexture::read_data_fn(png_structp png_ptr,
 {
     png_voidp io_ptr = png_get_io_ptr(png_ptr);
 
-    if (io_ptr == NULL)
+    if (io_ptr != NULL)
     {
-        return;
-    }
+        std::ifstream &fs = *(std::ifstream*)io_ptr;
 
-    std::ifstream &fs = *(std::ifstream*)io_ptr;
+        fs.read(reinterpret_cast<char *>(data), length);
 
-    fs.read(reinterpret_cast<char *>(data), length);
-
-    if (fs.gcount() != length)
-    {
-        png_error(png_ptr, "Read less bytes than requested.");
+        if (fs.gcount() != length)
+        {
+            png_error(png_ptr, "Read less bytes than requested.");
+        }
     }
 }
 
@@ -796,18 +783,16 @@ void BTexture::write_data_fn(png_structp png_ptr,
 {
     png_voidp io_ptr = png_get_io_ptr(png_ptr);
 
-    if (io_ptr == NULL)
+    if (io_ptr != NULL)
     {
-        return;
-    }
+        std::ofstream &fs = *(std::ofstream*)io_ptr;
 
-    std::ofstream &fs = *(std::ofstream*)io_ptr;
+        fs.write(reinterpret_cast<char *>(data), length);
 
-    fs.write(reinterpret_cast<char *>(data), length);
-
-    if (fs.bad())
-    {
-        png_error(png_ptr, "Non-recoverable write error occured.");
+        if (fs.bad())
+        {
+            png_error(png_ptr, "Non-recoverable write error occured.");
+        }
     }
 }
 
@@ -815,13 +800,11 @@ void BTexture::flush_fn(png_structp png_ptr)
 {
     png_voidp io_ptr = png_get_io_ptr(png_ptr);
 
-    if (io_ptr == NULL)
+    if (io_ptr != NULL)
     {
-        return;
+        std::ofstream &fs = *(std::ofstream*)io_ptr;
+
+        fs.flush();
     }
-
-    std::ofstream &fs = *(std::ofstream*)io_ptr;
-
-    fs.flush();
 }
 

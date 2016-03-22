@@ -97,9 +97,6 @@ KPstate *KPstateFactory::CreateState(int stateID)
             throw std::runtime_error(message.str());
     }
 
-    LOG3("*** Error in State-factory: There is no state with ID ", stateID,
-         "defined\n");
-
     return NULL;
 }
 

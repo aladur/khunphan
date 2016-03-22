@@ -25,12 +25,15 @@
 #include "kpconfig.h"
 #include "kpuibase.h"
 
+KPstateAudioSettings::KPstateAudioSettings() :
+    E_MusicVolume(0), E_SoundVolume(0)
+{
+}
+
 void KPstateAudioSettings::Initialize(KPstateContext *pContext,
                                       const KPstate *pPreviousState)
 {
     KPstate::Initialize(pContext, pPreviousState);
-
-    // Do some initialization stuff here:
 
     pContext->GetUserInterface().PlayMusic(true, true);
     E_MusicVolume = pContext->GetConfig().MusicVolume;
@@ -48,7 +51,17 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
     float y;
     float dy = 0.6f;
     int textfeldIdx;
-
+    static const int soundVolumeIndices[11] = {
+        T_SND_VOL_OFF, T_SND_VOL_10, T_SND_VOL_20, T_SND_VOL_30,
+        T_SND_VOL_40, T_SND_VOL_50, T_SND_VOL_60, T_SND_VOL_70,
+        T_SND_VOL_80, T_SND_VOL_90, T_SND_VOL_100
+    };
+    static const int musicVolumeIndices[11] = {
+        T_MSC_VOL_OFF, T_MSC_VOL_10, T_MSC_VOL_20, T_MSC_VOL_30,
+        T_MSC_VOL_40, T_MSC_VOL_50, T_MSC_VOL_60, T_MSC_VOL_70,
+        T_MSC_VOL_80, T_MSC_VOL_90, T_MSC_VOL_100
+    };
+ 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(2,3.5,14,8.5);
 
     menu.plates[PLATE_LOGO].SetPosition(4,9,12,11);
@@ -63,50 +76,7 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_SOUND_VOLUME].SetPosition(8,y,0.71f,A_RIGHT);
     menu.labels[T_SOUND_VOLUME].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
-    if (E_SoundVolume >= 100)
-    {
-        textfeldIdx = T_SND_VOL_100;
-    }
-    else if (E_SoundVolume >= 90)
-    {
-        textfeldIdx = T_SND_VOL_90;
-    }
-    else if (E_SoundVolume >= 80)
-    {
-        textfeldIdx = T_SND_VOL_80;
-    }
-    else if (E_SoundVolume >= 70)
-    {
-        textfeldIdx = T_SND_VOL_70;
-    }
-    else if (E_SoundVolume >= 60)
-    {
-        textfeldIdx = T_SND_VOL_60;
-    }
-    else if (E_SoundVolume >= 50)
-    {
-        textfeldIdx = T_SND_VOL_50;
-    }
-    else if (E_SoundVolume >= 40)
-    {
-        textfeldIdx = T_SND_VOL_40;
-    }
-    else if (E_SoundVolume >= 30)
-    {
-        textfeldIdx = T_SND_VOL_30;
-    }
-    else if (E_SoundVolume >= 20)
-    {
-        textfeldIdx = T_SND_VOL_20;
-    }
-    else if (E_SoundVolume >= 10)
-    {
-        textfeldIdx = T_SND_VOL_10;
-    }
-    else
-    {
-        textfeldIdx = T_SND_VOL_OFF;
-    }
+    textfeldIdx = soundVolumeIndices[E_SoundVolume / 10];
 
     menu.labels[textfeldIdx].SetPosition(8.2f,y,0.71f);
     menu.labels[textfeldIdx].SetSignal(S_TOGGLE_SOUND_VOLUME);
@@ -115,50 +85,7 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_MUSIC_VOLUME].SetPosition(8,y,0.71f,A_RIGHT);
     menu.labels[T_MUSIC_VOLUME].SetSignal(S_TOGGLE_MUSIC_VOLUME);
 
-    if (E_MusicVolume >= 100)
-    {
-        textfeldIdx = T_MSC_VOL_100;
-    }
-    else if (E_MusicVolume >= 90)
-    {
-        textfeldIdx = T_MSC_VOL_90;
-    }
-    else if (E_MusicVolume >= 80)
-    {
-        textfeldIdx = T_MSC_VOL_80;
-    }
-    else if (E_MusicVolume >= 70)
-    {
-        textfeldIdx = T_MSC_VOL_70;
-    }
-    else if (E_MusicVolume >= 60)
-    {
-        textfeldIdx = T_MSC_VOL_60;
-    }
-    else if (E_MusicVolume >= 50)
-    {
-        textfeldIdx = T_MSC_VOL_50;
-    }
-    else if (E_MusicVolume >= 40)
-    {
-        textfeldIdx = T_MSC_VOL_40;
-    }
-    else if (E_MusicVolume >= 30)
-    {
-        textfeldIdx = T_MSC_VOL_30;
-    }
-    else if (E_MusicVolume >= 20)
-    {
-        textfeldIdx = T_MSC_VOL_20;
-    }
-    else if (E_MusicVolume >= 10)
-    {
-        textfeldIdx = T_MSC_VOL_10;
-    }
-    else
-    {
-        textfeldIdx = T_MSC_VOL_OFF;
-    }
+    textfeldIdx = musicVolumeIndices[E_MusicVolume / 10];
 
     menu.labels[textfeldIdx].SetPosition(8.2f,y,0.71f);
     menu.labels[textfeldIdx].SetSignal(S_TOGGLE_MUSIC_VOLUME);

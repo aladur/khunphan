@@ -58,6 +58,7 @@ KPConfig::KPConfig() :
     TextureName("wood"), DisplayVersionOnly(false),
     PerformanceLog(false), SkipProgressBar(false)
 {
+    SetFileName(NULL);
 }
 
 KPConfig::~KPConfig()
@@ -65,18 +66,12 @@ KPConfig::~KPConfig()
     xmlCleanupParser();
 }
 
-std::string KPConfig::GetFileName()
+std::string KPConfig::GetFileName() const
 {
-    // Lazy initialization
-    if (fileName.length() == 0)
-    {
-        SetFileName(NULL);
-    }
-
     return fileName;
 }
 
-std::string KPConfig::GetFileVersion()
+std::string KPConfig::GetFileVersion() const
 {
     return fileVersion;
 }
@@ -194,7 +189,7 @@ std::vector<std::string> KPConfig::GetTextureNames() const
 }
 
 
-void KPConfig::WriteToFile()
+void KPConfig::WriteToFile() const
 {
     xmlNsPtr ns = NULL;
     xmlDocPtr doc  = xmlNewDoc(_TO("1.0"));
@@ -790,7 +785,7 @@ const char *KPConfig::GetUserInterfaceName(int ui)
     }
 }
 
-void KPConfig::DebugPrint()
+void KPConfig::DebugPrint() const
 {
     LOG1("Current KhunPhan Configuration:");
     LOG2("  UserInterface :        ", GetUserInterfaceName(UserInterface));

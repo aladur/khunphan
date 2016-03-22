@@ -31,8 +31,6 @@ void KPstateSelectLanguage::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, pPreviousState);
 
-    // Do some initialization stuff here:
-
     UpdateDisplay(pContext);
 }
 
@@ -84,7 +82,6 @@ void KPstateSelectLanguage::MouseClick (KPstateContext *pContext,
     }
 
     // Language has been changed
-
     if (Signal >= T_LANGUAGE1 && Signal <= T_LANGUAGE_MAX)
     {
         SetLanguage(pContext, Signal);

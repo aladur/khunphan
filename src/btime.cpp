@@ -30,10 +30,6 @@ BTime::BTime() : lapTime(0)
 {
 }
 
-BTime::~BTime()
-{
-}
-
 void BTime::ResetRelativeTime()
 {
     lapTime = GetTimeUsll();

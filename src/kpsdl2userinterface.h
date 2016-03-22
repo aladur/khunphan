@@ -35,7 +35,6 @@ class KPSdl2UserInterface : public KPSdlUserInterface
 public:
     // public interface
     KPSdl2UserInterface(KPnode &, KPConfig &);
-    virtual ~KPSdl2UserInterface();
 
     void OpenWindow(int argc, char **argv);
     void SetWindowMode(bool FullScreen) const;

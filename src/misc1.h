@@ -70,7 +70,7 @@
 #endif // #ifdef WIN32
 
 #ifndef UNIX
-#if defined(LINUX) || defined(__LINUX) || defined(__BSD) || defined(__SOLARIS)
+#if defined(LINUX) || defined(__LINUX)
 #define UNIX
 #endif
 #endif
@@ -127,10 +127,6 @@ typedef long long           SQWord;
 #endif
 #endif
 #endif /* #ifdef _MSC_VER */
-
-#ifdef LINUX
-int stricmp(const char *string1, const char *string2);
-#endif
 
 #ifdef _MSC_VER
 #define R_OK            (4) /* read  permission */

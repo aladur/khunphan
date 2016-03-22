@@ -25,11 +25,12 @@
 #ifdef WIN32
 // Extension for Win32: Scan command line parameters based
 // on a static command line parameter string
-void CmdLine::Scan(LPSTR lpCmdLine, int *argc, char **argv)
+void CmdLine::Scan(LPSTR lpCmdLine, int *argc, char **argv, int max_argc)
 {
     *argc = 1;
     *(argv + 0) = PACKAGE;
-    while (*lpCmdLine)
+
+    while (*lpCmdLine && (*argc < max_argc))
     {
         *(argv + *argc) = lpCmdLine;
         while (*lpCmdLine && *lpCmdLine != ' ' && *lpCmdLine != '\t')

@@ -17,16 +17,15 @@
 
 
 Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
-    DisplayList(0), Type(0), AspectRatio(0.0),
-    ax(0), ay(0), bx(0), by(0), Alpha(0),
-    target_ax(0), target_ay(0), target_bx(0), target_by(0), target_Alpha(0),
-    old_ax(0),  old_ay(0), old_bx(0),  old_by(0), old_Alpha(0),
+    DisplayList(0), Type(3), AspectRatio(0.0),
+    ax(8), ay(6), bx(8.1f), by(6.1f), Alpha(MOD_FADEOUT),
+    target_ax(8), target_ay(6), target_bx(8.1f), target_by(6.1f),
+    target_Alpha(MOD_FADEOUT),
+    old_ax(8), old_ay(6), old_bx(8.1f), old_by(6.1f), old_Alpha(MOD_FADEOUT),
     Signal(0),
     r(R), g(G), b(B), Texture(0), TextureSize(0), Nearest(false),
     WithAlpha(false), animationTimer(TOTAL_ANIMATIONTIME, false)
 {
-    Type = 3;
-
     DisplayList = glGenLists(1);
     if (DisplayList == 0)
     {
@@ -34,13 +33,6 @@ Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
         // or any other error.
         throw std::runtime_error("Error creating a display list");
     }
-
-    ax = old_ax = target_ax = 8;
-    ay = old_ay = target_ay = 6;
-    bx = old_bx = target_bx = 8.1f;
-    by = old_by = target_by = 6.1f;
-
-    Alpha = old_Alpha = target_Alpha = MOD_FADEOUT;
 
     RecreateDisplayList();
 }
@@ -295,7 +287,7 @@ void Plate::RecreateDisplayList(BTexture *pTexture /* = NULL */)
     }
 }
 
-void Plate::Draw()
+void Plate::Draw() const
 {
     if (Alpha)
     {

@@ -31,10 +31,6 @@
 #include "kpnodes.h"
 
 
-KPstateGame::KPstateGame()
-{
-}
-
 void KPstateGame::Initialize(KPstateContext *pContext,
                              const KPstate *pPreviousState)
 {

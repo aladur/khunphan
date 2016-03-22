@@ -52,9 +52,6 @@ void KPstate::Initialize(KPstateContext *pContext,
     }
     pContext->SetPreviousState(previousStateId);
 
-    // Sw: unfinished. Should be enough in UpdateDisplay
-    menu.FadeOutAllPlates();
-    menu.FadeOutAllLabels();
     PlayAudioForInitialize(pContext);
 }
 
@@ -64,7 +61,6 @@ void KPstate::UpdateDisplay(KPstateContext *pContext) const
     KPUIBase &userInterface = pContext->GetUserInterface();
 
     // by default deactivate all drawing primitives
-
     menu.FadeOutAllPlates();
     menu.FadeOutAllLabels();
 

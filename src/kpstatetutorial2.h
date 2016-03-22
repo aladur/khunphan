@@ -24,7 +24,7 @@
 #define KPSTATETUTORIAL2_H
 
 #include "kpstate.h"
-#include "language.h"
+
 
 class KPstateTutorial2 : public KPstate
 {

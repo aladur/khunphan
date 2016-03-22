@@ -38,10 +38,6 @@ KPnodes::KPnodes(KPnode rootNode) :
     createSolveTreeTime = time.GetRelativeTimeUsf(true);
 }
 
-KPnodes::~KPnodes()
-{
-}
-
 void KPnodes::Initialize()
 {
     ids.clear();

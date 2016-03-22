@@ -44,8 +44,6 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
 
     KPmenu &menu             = pContext->GetMenu();
     KPStatistics &statistics = pContext->GetStatistics();
-
-    // Do some initialization stuff here:
     KPscore scoreList;
 
     pContext->GetConfig().SavedGame = 0;

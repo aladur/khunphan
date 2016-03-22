@@ -9,15 +9,12 @@
 #include <GL/gl.h>
 #include "light.h"
 
-Light::Light(bool AmbientLight /* = true*/, int LightSources /*= 1*/,
+Light::Light(bool AmbientLight /* = true*/, int aLightSources /*= 1*/,
              bool Reflections /*= false */) :
+    LightSources(aLightSources),
     posX (100.0), posY (180.0), posZ (50.0)
 {
-    Update(AmbientLight, LightSources, Reflections);
-}
-
-Light::~Light()
-{
+    Update(AmbientLight, aLightSources, Reflections);
 }
 
 void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,

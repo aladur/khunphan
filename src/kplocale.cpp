@@ -24,40 +24,39 @@
 #include "kplocale.h"
 
 
-KPlocale::KPlocale() 
-{
-}
-
-KPlocale::KPlocale(const std::string &filename)
+tIdToString KPlocale::ReadFromFile(const std::string &filename)
 {
     std::ifstream ifs(filename.c_str());
-    std::string text;
-    int id;
+    tIdToString strings;
 
-    if (!ifs)
-    {
-        // Error reading the file is silently ignored here
-        return;
-    }
+    // An error when reading the file is silently ignored here
 
-    while (!ifs.eof())
+    if (ifs.is_open())
     {
-        if (!(ifs >> id))
+        while (!ifs.eof())
         {
-            ifs.clear();
+            std::string text;
+            int id;
+
+            if (!(ifs >> id))
+            {
+                ifs.clear();
+                std::getline(ifs, text);
+                continue;
+            }
+
             std::getline(ifs, text);
-            continue;
+            if (text[0] == ' ' || text[0] == '\t')
+            {
+                text.erase(0, 1);
+            }
+
+            strings[id] = text;
         }
 
-        std::getline(ifs, text);
-        if (text[0] == ' ' || text[0] == '\t')
-        {
-            text.erase(0, 1);
-        }
-
-        strings[id] = text;
+        ifs.close();
     }
 
-    ifs.close();
+    return strings;
 }
 

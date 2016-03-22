@@ -73,7 +73,7 @@ inline void KPstate::ChangeState(KPstateContext *pContext,
         pContext->ChangeState(stateID);
     }
     // No more statements should follow because
-    // this object already is deleted!
+    // the this pointer is already deleted!
 }
 
 #endif

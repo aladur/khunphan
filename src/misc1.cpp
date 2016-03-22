@@ -66,30 +66,6 @@ void message(tMsgType type, const char *format, ...)
 #endif
 }
 
-#ifndef WIN32
-int stricmp(const char *string1, const char *string2)
-{
-    unsigned int i;
-
-    for (i = 0; i < strlen(string1); i++)
-    {
-        if (tolower(*(string1 + i)) < tolower(*(string2 + i)))
-        {
-            return -1;
-        }
-        if (tolower(*(string1 + i)) > tolower(*(string2 + i)))
-        {
-            return 1;
-        }
-        if (!*string1)
-        {
-            return 0;
-        }
-    }
-    return 0;
-} // stricmp
-#endif
-
 tKPTokenID &operator++ (tKPTokenID &d)
 {
     if (d == TK_EMPTY)

@@ -36,9 +36,8 @@ public:
     friend KPnode;
 
     KPnodes(KPnode rootNode);
-    ~KPnodes();
 
-    bool Includes(QWord id)
+    bool Includes(QWord id) const
     {
         return nodesForId.find(id) != nodesForId.end();
     }
@@ -62,11 +61,11 @@ public:
         }
     }
 
-    double GetCalculateSolveCountTime(void)
+    double GetCalculateSolveCountTime(void) const
     {
         return calculateSolveCountTime;
     };
-    double GetCreateSolveTreeTime(void)
+    double GetCreateSolveTreeTime(void) const
     {
         return createSolveTreeTime;
     };

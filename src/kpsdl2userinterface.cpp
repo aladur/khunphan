@@ -35,11 +35,6 @@ KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode, KPConfig &Config) :
     Initialize(rootNode);
 }
 
-KPSdl2UserInterface::~KPSdl2UserInterface()
-{
-    Close();
-}
-
 /////////////////////////////////////////////////////////////////////
 // Public Interface
 /////////////////////////////////////////////////////////////////////

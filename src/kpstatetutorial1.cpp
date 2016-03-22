@@ -36,7 +36,6 @@ void KPstateTutorial1::Initialize(KPstateContext *pContext,
 
     KPmenu &menu = pContext->GetMenu();
 
-    // Do some initialization stuff here:
     menu.SaveLastStateId(pPreviousState->GetId());
 
     pContext->GetBoardView().EmphasizeToken(TK_RED1);

@@ -100,8 +100,7 @@ bool KPmenu::LoadLanguage(int Language)
                       "%s%d.lang",
                       config.GetDirectory(KP_LOCALE_DIR).c_str(), Language);
 
-    KPlocale locale(file);
-    tIdToString strings = locale.GetStrings();
+    tIdToString strings = KPlocale::ReadFromFile(file);
 
     if (strings.size() == 0)
     {
@@ -179,7 +178,7 @@ void KPmenu::Draw()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    tIdToPlate::iterator sit;
+    tIdToPlate::const_iterator sit;
 
     for (sit = plates.begin(); sit != plates.end(); ++sit)
     {

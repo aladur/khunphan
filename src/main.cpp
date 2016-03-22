@@ -36,6 +36,8 @@
 // $ MALLOC_TRACE=mtrace.log ./khunphan
 // Output memory leak check results:
 // $ mtrace ./khunphan mtrace.log
+// See also: https://en.wikipedia.org/wiki/Mtrace
+//
 //#define CHECK_MEMORY_LEAKS
 
 int main (int argc, char **argv)
@@ -44,11 +46,9 @@ int main (int argc, char **argv)
     mtrace();
 #endif
 
-    KhunPhanApp *application = new KhunPhanApp(argc, argv);
+    KhunPhanApp application(argc, argv);
 
-    application->Run();
-
-    delete application;
+    application.Run();
 
     return EXIT_SUCCESS;
 }
@@ -62,7 +62,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     int   argc;
     char  *argv[50];
 
-    CmdLine::Scan(lpCmdLine, &argc, (char **)argv);
+    CmdLine::Scan(lpCmdLine, &argc, (char **)argv,
+                  sizeof(argv) / sizeof(argv[0]);
     return main(argc, argv);
 }
 #endif

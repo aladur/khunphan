@@ -23,7 +23,6 @@
 #define KPSTATELIGHTTEST_H
 
 #include "kpstate.h"
-//#include "kpuibase.h"
 
 
 class KPstateLightTest : public KPstate

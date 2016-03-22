@@ -22,7 +22,6 @@
 #ifndef _KPBOARDGL_H__
 #define _KPBOARDGL_H__
 
-//#include "stdafx.h"
 #include <string>
 #include "kpboard.h"
 
@@ -46,7 +45,6 @@
 
 
 class Camera;
-class Light;
 class KPboard;
 
 #define MAX_BOARD_TEXTURES  4

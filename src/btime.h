@@ -30,14 +30,13 @@ class BTime
 {
 public:
     BTime();
-    virtual ~BTime();
     void     ResetRelativeTime();
     QWord    GetRelativeTimeUsll(bool reset = false);
     double   GetRelativeTimeUsf(bool  reset = false);
     unsigned long GetRelativeTimeMsl(bool reset = false);
-    QWord    GetTimeUsll();
-    double   GetTimeUsf();
-    unsigned long GetTimeMsl();
+    static QWord    GetTimeUsll();
+    static double   GetTimeUsf();
+    static unsigned long GetTimeMsl();
 
 private:
     QWord    lapTime;

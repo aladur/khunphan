@@ -65,8 +65,8 @@ public:
     virtual ~BTexture();
     const char *ReadTextureFromFile(const char *pFile, int flags = 0);
     const char *ReadTextureFromFile(std::ifstream &fs, int flags = 0);
-    bool        WriteTextureToFile (const char *pFile, int flags = 0);
-    bool        WriteTextureToFile (std::ofstream &fs, int flags = 0);
+    bool        WriteTextureToFile (const char *pFile, int flags = 0) const;
+    bool        WriteTextureToFile (std::ofstream &fs, int flags = 0) const;
     bool        SetTexels (const char *texels, unsigned int width,
                            unsigned int height, unsigned int channels,
                            int format);
@@ -75,52 +75,51 @@ public:
     const char *CopyColor(int format);
     const char *SetColors(int format, int red, int green, int blue);
     bool        CreateSubImage(int x, int y, int width, int height,
-                               char *texels);
+                               char *texels) const;
     const char *Rescale(int exp, int format);
-    void        printInfo(std::ostream &fs);
+    void        printInfo(std::ostream &fs) const;
 
-    inline unsigned int GetWidth()
+    inline unsigned int GetWidth() const
     {
         return width;
     };
-    inline unsigned int GetHeight()
+    inline unsigned int GetHeight() const
     {
         return height;
     };
-    inline unsigned int GetRowBytes()
+    inline unsigned int GetRowBytes() const
     {
         return rowbytes;
     };
-    inline unsigned int GetChannels()
+    inline unsigned int GetChannels() const
     {
         return channels;
     };
-    inline int          GetBitDepth()
+    inline int GetBitDepth() const
     {
         return bit_depth;
     };
 
-    static int   GetExpToBase2(unsigned int value);
-    static bool  IsPowerOf2(unsigned int value);
+    static int GetExpToBase2(unsigned int value);
+    static bool IsPowerOf2(unsigned int value);
 
     void SetChannels(unsigned int value)
     {
         channels = value;
         rowbytes = width * channels;
     };
-    void SetWidth   (unsigned int value)
+    void SetWidth(unsigned int value)
     {
         width    = value;
         rowbytes = width * channels;
     };
-    void SetHeight  (unsigned int value)
+    void SetHeight(unsigned int value)
     {
         height   = value;
     };
 
-    static bool CheckFileFormat(const char
-                                *pFile); // Check if file is available and
-    // it's format is supported
+    // Check if file is available and it's format is supported
+    static bool CheckFileFormat(const char *pFile);
 
 protected:
     static void read_data_fn(png_structp png_ptr,
@@ -130,7 +129,7 @@ protected:
                              png_bytep data,
                              png_size_t length);
     static void flush_fn(png_structp png_ptr);
-    bool        WriteTextureToPngFile (std::ofstream &fs, int flags = 0);
+    bool        WriteTextureToPngFile (std::ofstream &fs, int flags = 0) const;
     const char *ReadTextureFromPngFile(std::ifstream &fs, int flags = 0);
     unsigned char *texels;
     unsigned long width;

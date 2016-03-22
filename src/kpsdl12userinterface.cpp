@@ -32,11 +32,6 @@ KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode, KPConfig &Config) :
     Initialize(rootNode);
 }
 
-KPSdl12UserInterface::~KPSdl12UserInterface()
-{
-    Close();
-}
-
 /////////////////////////////////////////////////////////////////////
 // Public Interface
 /////////////////////////////////////////////////////////////////////

@@ -551,9 +551,8 @@ void Label::RecreateDisplayList()
         glPopMatrix();
         glBindTexture(GL_TEXTURE_2D, 0);
         glEndList();
-    }
 
-    if (maxWidth)
+    } else
     {
         std::string::size_type start     = 0;
         std::string::size_type Pos       = 0;
@@ -673,6 +672,7 @@ int Label::MouseEvent(tMouseButton button, tMouseEvent event,
 {
     GLfloat xf = 16.0f * x_ / ui.GetValue(KP_WINDOW_WIDTH);
     GLfloat yf = 12.0f - 12.0f * y_ / ui.GetValue(KP_WINDOW_HEIGHT);
+
     if (target_Alpha > 0.0 &&
         Signal != 0 &&
         x <= xf && xf <= x + Height * AspectRatio &&

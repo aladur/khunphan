@@ -46,10 +46,10 @@ public:
     void SetDefaultValues();
     void ReadCommandLineParams(int argc, char **argv);
     void ReadFromFile();
-    void WriteToFile();
-    void DebugPrint();
-    std::string GetFileName();
-    std::string GetFileVersion();
+    void WriteToFile() const;
+    void DebugPrint() const;
+    std::string GetFileName() const;
+    std::string GetFileVersion() const;
     std::string GetDirectory(tKPDir directoryID) const;
     std::vector<std::string> GetTextureNames() const;
     void SetFileName(const char *fileName);

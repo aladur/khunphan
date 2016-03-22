@@ -30,6 +30,12 @@
 #include "kpuibase.h"
 
 
+KPstateGraphicSettings::KPstateGraphicSettings() :
+         Quality(0), E_ScreenXResolution(0),
+         E_UserInterface(0), E_FullScreen(false)
+{
+}
+
 void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
                                         const KPstate *pPreviousState)
 {

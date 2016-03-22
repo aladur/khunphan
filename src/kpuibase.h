@@ -59,7 +59,6 @@ enum tKPSoundIDs
 class KPUIBase : public KPstateContext
 {
 public:
-    // public interface
     KPUIBase(KPConfig &Config);
     virtual ~KPUIBase();
 

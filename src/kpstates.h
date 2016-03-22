@@ -22,8 +22,6 @@
 #ifndef KPSTATES_H
 #define KPSTATES_H
 
-#include "stdafx.h"
-
 
 enum tKPMenuState
 {

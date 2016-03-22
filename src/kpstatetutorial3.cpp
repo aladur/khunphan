@@ -25,7 +25,6 @@
 #include "kpmenu.h"
 #include "kpboardGL.h"
 #include "camera.h"
-#include "language.h"
 #include "kpuibase.h"
 #include "kpnodes.h"
 
@@ -39,7 +38,6 @@ void KPstateTutorial3::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, pPreviousState);
 
-    // Do some initialization stuff here:
     pContext->GetBoardView().EmphasizeToken( GetEmphasizedTokenId() );
     pContext->GetCamera().SetRoundtrip(false);
     InitializeBoardWithTokens(pContext);

@@ -27,10 +27,9 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
-#include <algorithm>
 #include <vector>
+#include <algorithm>
 #include "kpuibase.h"
-#include "kpstate.h"
 #include "btime.h"
 
 
@@ -40,6 +39,8 @@ public:
     // public interface
     KPSdlUserInterface(KPConfig &);
     virtual ~KPSdlUserInterface();
+
+    void Close();
 
 protected:
     // member functions for event handling
@@ -53,6 +54,7 @@ protected:
     void StopMusicCallback();
     virtual void SetStopMusicCallback() = 0;
     virtual void RequestForClose();
+    void CloseAudio();
 
     Mix_Chunk    **sound;
     std::string  *soundSource;
@@ -72,6 +74,7 @@ protected:
 
 private:
     KPSdlUserInterface();
+    static bool IsMusicFile(const std::string file);
 
     unsigned int rate;
     int musicIndex;

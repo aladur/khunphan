@@ -23,11 +23,12 @@ class Plate
 public:
     Plate(float R = 1.0, float G = 1.0, float B = 1.0);
     Plate(const Plate &src);
-    virtual ~Plate();
+    ~Plate();
+
     Plate &operator=(const Plate &src);
     bool Update(std::string &, unsigned int, bool, bool, const char *,
                 const KPConfig &config);
-    void Draw();
+    void Draw() const;
     void SetPosition(float,float,float,float);
     void SetFadeOut();
     void SetSelected();

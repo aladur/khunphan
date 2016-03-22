@@ -13,7 +13,6 @@ class Light
 public:
     Light(bool AmbientLight = true, int LightSources = 1,
           bool Reflections = false);
-    ~Light();
 
     void Update(bool AmbientLight, int LightSources = 1,
                 bool Reflections = false);

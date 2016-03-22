@@ -38,10 +38,9 @@ void KPstateLightTest::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, pPreviousState);
 
-    // Do some initialization stuff here:
-
     pContext->GetConfig().CameraPosition = 1;
     pContext->GetCamera().SetPosition(pContext->GetConfig().CameraPosition);
+
     UpdateDisplay(pContext);
 }
 

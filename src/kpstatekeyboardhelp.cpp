@@ -30,8 +30,6 @@ void KPstateKeyboardHelp::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, pPreviousState);
 
-    // Do some initialization stuff here:
-
     UpdateDisplay(pContext);
 }
 

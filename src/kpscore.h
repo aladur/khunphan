@@ -27,7 +27,6 @@
 #include "stdafx.h"
 #include <vector>
 #include <ostream>
-#include <time.h>
 #include <string>
 
 

@@ -31,7 +31,6 @@ class KPstateGame : public KPstateMoveToken
     typedef void (KPstateGame::*tCallbackFct)(KPstateContext *);
 
 public:
-    KPstateGame();
     tKPMenuState GetId() const
     {
         return KPState_Game;

@@ -23,9 +23,7 @@
 #define __kpstatecontext_h__
 
 #include "kpstates.h"
-#include "bmanualtimer.h"
 
-class KPstate;
 class KPboardView;
 class Camera;
 class Light;
@@ -34,6 +32,7 @@ class KPStatistics;
 class KPUIBase;
 class KPnodes;
 class KPConfig;
+class BManualTimer;
 
 
 class KPstateContext

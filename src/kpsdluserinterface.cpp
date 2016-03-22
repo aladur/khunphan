@@ -30,6 +30,7 @@
 #include "kpsdluserinterface.h"
 #include "bdir.h"
 #include "kpconfig.h"
+#include "kpstate.h"
 
 
 const int KPSdlUserInterface::REQUEST_FOR_CLOSE = 99;
@@ -55,6 +56,12 @@ KPSdlUserInterface::KPSdlUserInterface(KPConfig &Config) :
 
 KPSdlUserInterface::~KPSdlUserInterface()
 {
+    CloseAudio();
+    Close();
+}
+
+void KPSdlUserInterface::CloseAudio()
+{
     if (sound != NULL)
     {
         for (int i = 0; i < KP_SND_MAX; i++)
@@ -75,8 +82,12 @@ KPSdlUserInterface::~KPSdlUserInterface()
     if (music != NULL)
     {
         Mix_FreeMusic(music);
+        music = NULL;
     }
-    music = NULL;
+}
+
+void KPSdlUserInterface::Close()
+{
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -145,7 +156,6 @@ void KPSdlUserInterface::MouseClick( int button, int event, int x, int y )
 {
     tMouseEvent  kpEvent;
     tMouseButton kpButton;
-    bool isValid = true;
 
     switch (button)
     {
@@ -159,8 +169,7 @@ void KPSdlUserInterface::MouseClick( int button, int event, int x, int y )
             kpButton = KP_RIGHT_MB;
             break;
         default:
-            isValid = false;
-            break;
+            return;
     }
 
     switch (event)
@@ -172,14 +181,10 @@ void KPSdlUserInterface::MouseClick( int button, int event, int x, int y )
             kpEvent = KP_BUTTON_RELEASE;
             break;
         default:
-            isValid = false;
-            break;
+            return;
     }
 
-    if (isValid)
-    {
-        pState->MouseClick(this, kpButton, kpEvent, x, y);
-    }
+    pState->MouseClick(this, kpButton, kpEvent, x, y);
 }
 
 void KPSdlUserInterface::RequestForClose()
@@ -212,7 +217,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
     }
 
     std::string file1, file2;
-    int     i;
+    int i;
 
     if (sound == NULL)
     {
@@ -271,12 +276,27 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         SetSoundVolume(config.SoundVolume);
 
         musicFiles = BDirectory::GetFiles(config.GetDirectory(KP_MUSIC_DIR));
+        std::remove_if(musicFiles.begin(), musicFiles.end(), IsMusicFile);
         std::sort(musicFiles.begin(), musicFiles.end());
 
         musicIndex = 0;
     }
 
     return true;
+}
+
+bool KPSdlUserInterface::IsMusicFile(const std::string file)
+{
+    std::string fileExtension = file.substr(file.size() - 4, 4);
+    std::string::iterator it = fileExtension.begin();
+
+    for (; it != fileExtension.end(); ++it)
+    {
+        *it = std::tolower(*it);
+
+    }
+
+    return fileExtension.compare(".ogg") || fileExtension.compare(".mp3");
 }
 
 void KPSdlUserInterface::LoadNextMusic()
@@ -287,40 +307,32 @@ void KPSdlUserInterface::LoadNextMusic()
         music = NULL;
     }
 
-    while (true)
+    if (!musicFiles.empty())
     {
-        if (musicFiles.empty())
+        while (true)
         {
-            return;
-        }
+            std::vector<std::string>::iterator it = musicFiles.begin();
+            if (musicIndex >= musicFiles.size())
+            {
+                musicIndex = 0;
+            }
+            it += musicIndex;
 
-        int index = 0;
-        std::vector<std::string>::iterator it = musicFiles.begin();
-        while (it != musicFiles.end() && index != musicIndex)
-        {
-            ++it;
-            ++index;
-        }
-        if (it == musicFiles.end())
-        {
-            index = 0;
-            it = musicFiles.begin();
-        }
-
-        std::string file = config.GetDirectory(KP_MUSIC_DIR) +
-                           *it;
-        if ((music = Mix_LoadMUS(file.c_str())) == NULL)
-        {
-            LOG4("*** Error in Mix_LoadMUS(\"", file, "\"): ", Mix_GetError());
-            musicFiles.erase(it);
-            continue;
-        }
-        else
-        {
-            LOG3("Loading '", file, "'");
-            musicIndex = index + 1;
-            SetMusicVolume(config.MusicVolume);
-            break;
+            std::string file = config.GetDirectory(KP_MUSIC_DIR) + *it;
+            if ((music = Mix_LoadMUS(file.c_str())) == NULL)
+            {
+                LOG4("*** Error in Mix_LoadMUS(\"", file, "\"): ",
+                    Mix_GetError());
+                musicFiles.erase(it);
+                continue;
+            }
+            else
+            {
+                LOG3("Loading '", file, "'");
+                musicIndex++;
+                SetMusicVolume(config.MusicVolume);
+                break;
+            }
         }
     }
 }

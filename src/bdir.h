@@ -33,6 +33,8 @@ typedef std::vector<std::string> tPathList;
 class BDirectory
 {
 private:
+    BDirectory();
+
     std::string m_path;
 
 public:
@@ -43,15 +45,13 @@ public:
     static tPathList GetSubDirectories(const std::string &aPath);
     static tPathList GetFiles(const std::string &aPath);
 
-    BDirectory();
-    BDirectory(std::string &path) : m_path(path) { };
-    virtual ~BDirectory();
+    BDirectory(const std::string &path) : m_path(path) { };
 
-    inline void SetPath(std::string &path)
+    inline void SetPath(const std::string &path)
     {
         m_path = path;
     };
-    inline const std::string &GetPath(void) const
+    inline std::string GetPath(void) const
     {
         return m_path;
     };
