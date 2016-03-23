@@ -6,8 +6,8 @@
 **
 *******************************************************************************/
 
-#ifndef __extendedcamera_h__
-#define __extendedcamera_h__
+#ifndef EXTENDEDCAMERA_H
+#define EXTENDEDCAMERA_H
 
 #include <vector>
 #include "camera.h"

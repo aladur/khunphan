@@ -5,8 +5,8 @@
 **
 *******************************************************************************/
 
-#ifndef __LABEL_H__
-#define __LABEL_H__
+#ifndef LABEL_H
+#define LABEL_H
 
 #include "stdafx.h"
 

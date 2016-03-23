@@ -5,8 +5,8 @@
 **
 *******************************************************************************/
 
-#ifndef __PLATE_H__
-#define __PLATE_H__
+#ifndef PLATE_H
+#define PLATE_H
 
 
 #include "stdafx.h"
@@ -62,4 +62,4 @@ private:
     BManualTimer animationTimer;
 };
 
-#endif // #ifndef __PLATE_H__
+#endif

@@ -20,8 +20,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __khunphan_h__
-#define __khunphan_h__
+#ifndef KHUNPHAN_H
+#define KHUNPHAN_H
 
 #include "kpboard.h"
 #include "kpconfig.h"

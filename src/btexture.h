@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef _BTEXTURE_H_
-#define _BTEXTURE_H_
+#ifndef BTEXTURE_H
+#define BTEXTURE_H
 
 #include <fstream>
 #include <png.h>

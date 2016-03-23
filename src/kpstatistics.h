@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef _KPSTATISTICS_H_
-#define _KPSTATISTICS_H_
+#ifndef KPSTATISTICS_H
+#define KPSTATISTICS_H
 
 #include <string>
 #include <vector>

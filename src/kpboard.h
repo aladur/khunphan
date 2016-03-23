@@ -20,8 +20,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __kpboard_h__
-#define __kpboard_h__
+#ifndef KPBOARD_H
+#define KPBOARD_H
 
 #include "stdafx.h"
 #include <ostream>

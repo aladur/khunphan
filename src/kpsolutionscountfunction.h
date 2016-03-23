@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __kpsolutionscountfunction_h__
-#define __kpsolutionscountfunction_h__
+#ifndef KPSOLUTIONSCOUNTFUNCTION_H
+#define KPSOLUTIONSCOUNTFUNCTION_H
 
 
 class KPsolutionsCountFunction

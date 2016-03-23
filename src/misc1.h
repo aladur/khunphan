@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __misc1_h__
-#define __misc1_h__
+#ifndef MISC1_H
+#define MISC1_H
 
 // For best possible portability the following header files only should be
 // included within here. If one of these files is needed to include just
@@ -104,22 +104,18 @@ const char PATHSEPARATOR = '/';
 #ifdef _MSC_VER
 typedef unsigned __int64 QWord;
 typedef __int64 SQWord;
-#define FMT_UINT64x "%I64x"
 #else
 #if defined(HAVE_INTTYPES_H) || defined(HAVE_STDINT_H)
-typedef uint64_t                QWord;
-typedef int64_t                 SQWord;
-#define FMT_UINT64x "%" PRIx64
+typedef uint64_t QWord;
+typedef int64_t SQWord;
 #else
 #if (SIZEOF_LONG == 8)
-typedef unsigned long         QWord;
-typedef long                  SQWord;
-#define FMT_UINT64x "%lx"
+typedef unsigned long QWord;
+typedef long SQWord;
 #else
 #if (SIZEOF_LONG_LONG == 8)
-typedef unsigned long long  QWord;
-typedef long long           SQWord;
-#define FMT_UINT64x "%llx"
+typedef unsigned long long QWord;
+typedef long long SQWord;
 #else
 /* a class with opterator overloading could help here */
 #error No data type of size 8 found
@@ -134,11 +130,7 @@ typedef long long           SQWord;
 #define F_OK            (0) /* file existence   */
 #define S_ISDIR(x)      (x & S_IFDIR)
 #define S_ISREG(x)      (x & S_IFREG)
-#define set_new_handler _set_new_handler
 #define access          _access
-#define UNUSED(param)
-#else
-#define UNUSED(param) param
 #endif
 
 #define ON_OFF(b) ((b) ? "On" : "Off")

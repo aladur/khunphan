@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __kpnode_h__
-#define __kpnode_h__
+#ifndef KPNODE_H
+#define KPNODE_H
 
 #include "stdafx.h"
 #include <ostream>

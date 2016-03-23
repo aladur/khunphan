@@ -20,8 +20,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __bdir_h__
-#define __bdir_h__
+#ifndef BDIR_H
+#define BDIR_H
 
 #include "stdafx.h"
 #include <vector>
@@ -63,4 +63,4 @@ public:
     tPathList GetFiles() const;
 };
 
-#endif // #ifndef __bdir_h__
+#endif

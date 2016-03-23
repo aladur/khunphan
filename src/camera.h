@@ -5,8 +5,8 @@
 **
 *******************************************************************************/
 
-#ifndef __camera_h__
-#define __camera_h__
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #include <vector>
 

@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef _KPLOCALE_H_
-#define _KPLOCALE_H_
+#ifndef KPLOCALE_H
+#define KPLOCALE_H
 
 #include <map>
 #include <string>

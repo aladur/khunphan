@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __SPRINTER_H__
-#define __SPRINTER_H__
+#ifndef SPRINTER_H
+#define SPRINTER_H
 
 
 #include "stdafx.h"

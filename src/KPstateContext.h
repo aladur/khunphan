@@ -19,8 +19,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __kpstatecontext_h__
-#define __kpstatecontext_h__
+#ifndef KPSTATECONTEXT_H
+#define KPSTATECONTEXT_H
 
 #include "kpstates.h"
 

@@ -19,30 +19,31 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef _KPBOARDGL_H__
-#define _KPBOARDGL_H__
+#ifndef KPBOARDGL_H
+#define KPBOARDGL_H
 
 #include <string>
 #include "kpboard.h"
 
-
-#define   BOARD                 0
-#define   WOOD_TEXTURE          1
-#define   RED_MATERIAL          2
-#define   BLINKING_RED_MATERIAL 3
-#define   BRONZE_MATERIAL       4
-#define   CUBOID_1X1_1          5
-#define   CUBOID_1X1_2          6
-#define   CUBOID_1X1_3          7
-#define   CUBOID_1X1_4          8
-#define   CUBOID_2X1            9
-#define   CUBOID_1X2_1          10
-#define   CUBOID_1X2_2          11
-#define   CUBOID_1X2_3          12
-#define   CUBOID_1X2_4          13
-#define   CUBOID_2X2            14
-#define   KBP_ENTRY_COUNT       15
-
+enum tDisplayList
+{
+    BOARD = 0,
+    WOOD_TEXTURE,
+    RED_MATERIAL,
+    BLINKING_RED_MATERIAL,
+    BRONZE_MATERIAL,
+    CUBOID_1X1_1,
+    CUBOID_1X1_2,
+    CUBOID_1X1_3,
+    CUBOID_1X1_4,
+    CUBOID_2X1,
+    CUBOID_1X2_1,
+    CUBOID_1X2_2,
+    CUBOID_1X2_3,
+    CUBOID_1X2_4,
+    CUBOID_2X2,
+    KBP_ENTRY_COUNT
+};
 
 class Camera;
 class KPboard;
