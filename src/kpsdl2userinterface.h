@@ -24,6 +24,7 @@
 
 #include "stdafx.h"
 #ifdef HAVE_SDL2
+#include <SDL_opengl.h>
 
 #include "kpsdluserinterface.h"
 
@@ -54,7 +55,7 @@ protected:
     static void stopMusicCallback();
 
     SDL_Window   *window;  // SDL Window ID
-    SDL_Renderer *renderer;
+    SDL_GLContext glContext;
 };
 
 #endif //#ifdef HAVE_SDL2

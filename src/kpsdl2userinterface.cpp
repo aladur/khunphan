@@ -24,13 +24,14 @@
 #ifdef HAVE_SDL2
 
 #include <stdexcept>
+#include <gl/glew.h>
 #include "kpsdl2userinterface.h"
 #include "kpconfig.h"
 
 
 KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode, KPConfig &Config) :
     KPSdlUserInterface(Config),
-    window(NULL), renderer(NULL)
+    window(NULL), glContext(NULL)
 {
     Initialize(rootNode);
 }
@@ -145,6 +146,11 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     LOG6("SDL_mixer Header version: ",
          MIX_MAJOR_VERSION, '.', MIX_MINOR_VERSION, '.', MIX_PATCHLEVEL);
 
+    // Set OpenGL's context to 2.1 subset functionality profile.
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+
     // Open OpenGL Window with SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
     {
@@ -168,23 +174,34 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
     if (window == NULL)
     {
-        std::stringstream message;
-
         message << "Error in SDL_CreateWindow: " << SDL_GetError();
         SDL_Quit();
         throw std::runtime_error(message.str());
     }
 
-    renderer = SDL_CreateRenderer(window, -1, 0);
-    if (renderer == NULL)
+    glContext = SDL_GL_CreateContext(window);
+    if (glContext == NULL)
     {
-        std::stringstream message;
-
-        message << "Error in SDL_CreateRenderer: " << SDL_GetError();
-        SDL_DestroyWindow(window);
+        message << "Error in SDL_GL_CreateContext: " << SDL_GetError();
         SDL_Quit();
         throw std::runtime_error(message.str());
     }
+
+    GLenum glewReturn = glewInit();
+    if (glewReturn != GLEW_OK)
+    {
+        message << "Error in glewInit: " << glewGetErrorString(glewReturn);
+        SDL_Quit();
+        throw std::runtime_error(message.str());
+    }
+    LOG2("GLEW version: ", glewGetString(GLEW_VERSION));
+
+    int major = 0;
+    int minor = 0;
+    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
+    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
+    LOG4("OpenGL context version: ", major, ".", minor);
+
     SDL_DisplayMode mode;
 
     SDL_GetWindowDisplayMode(window, &mode);
@@ -257,8 +274,8 @@ void KPSdl2UserInterface::Close()
 {
     if (window != NULL)
     {
-        SDL_DestroyRenderer(renderer);
-        renderer = NULL;
+        SDL_GL_DeleteContext(glContext);
+        glContext = NULL;
         SDL_DestroyWindow(window);
         window = NULL;
         SDL_Quit();
@@ -293,10 +310,7 @@ int KPSdl2UserInterface::GetValue(int what) const
 
 void KPSdl2UserInterface::SwapBuffers()
 {
-    if (window != NULL)
-    {
-        SDL_GL_SwapWindow(window);
-    }
+    SDL_GL_SwapWindow(window);
 }
 
 /////////////////////////////////////////////////////////////////////
