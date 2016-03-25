@@ -23,6 +23,12 @@ if test "x$no_glu" = "xyes"; then
    AC_MSG_ERROR([*** No OpenGL or GLU library found!])
 fi
 
+dnl check for GLEW
+AX_CHECK_GLEW
+if test "x$no_glew" = "xyes"; then
+   AC_MSG_ERROR([*** No GLEW library found!])
+fi
+
 dnl check for GLUT
 AX_CHECK_GLUT
 if test "x$no_glut" != "xyes"; then
@@ -62,8 +68,8 @@ if test "x$sdl2" = "xno"; then
 fi
 
  
-CXXFLAGS="$CXXFLAGS $SDL_CFLAGS" 
-LIBS="$LIBS $SDL_LIBS"
+CXXFLAGS="$CXXFLAGS $SDL_CFLAGS $GLEW_CFLAGS"
+LIBS="$LIBS $SDL_LIBS $GLEW_LIBS"
 
 dnl Check for libxml2
 AM_PATH_XML2

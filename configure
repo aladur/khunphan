@@ -638,6 +638,8 @@ PKG_CONFIG_PATH
 PKG_CONFIG
 GLUT_LIBS
 GLUT_CFLAGS
+GLEW_LIBS
+GLEW_CFLAGS
 X_EXTRA_LIBS
 X_LIBS
 X_PRE_LIBS
@@ -6324,6 +6326,138 @@ fi
 fi
 
 
+ax_save_CPPFLAGS="${CPPFLAGS}"
+CPPFLAGS="${GLU_CFLAGS} ${CPPFLAGS}"
+for ac_header in GL/glew.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "GL/glew.h" "ac_cv_header_GL_glew_h" "$ac_includes_default"
+if test "x$ac_cv_header_GL_glew_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_GL_GLEW_H 1
+_ACEOF
+
+fi
+
+done
+
+CPPFLAGS="${ax_save_CPPFLAGS}"
+
+GLEW_CFLAGS=${GLU_CFLAGS}
+GLEW_LIBS=${GLU_LIBS}
+
+
+
+#
+# If X is present, assume GLEW depends on it.
+#
+if test X$no_x != Xyes; then :
+  GLEW_LIBS="${X_PRE_LIBS} -lXmu -lXi ${X_EXTRA_LIBS} ${GLEW_LIBS}"
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GLEW library" >&5
+$as_echo_n "checking for GLEW library... " >&6; }
+if ${ax_cv_check_glew_libglew+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ax_cv_check_glew_libglew="no"
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+ax_save_CPPFLAGS="${CPPFLAGS}"
+CPPFLAGS="${GLEW_CFLAGS} ${CPPFLAGS}"
+ax_save_LIBS="${LIBS}"
+LIBS=""
+ax_check_libs="-lGLEW"
+for ax_lib in ${ax_check_libs}; do
+  if test X$ax_compiler_ms = Xyes; then :
+  ax_try_lib=`echo $ax_lib | sed -e 's/^-l//' -e 's/$/.lib/'`
+else
+  ax_try_lib="${ax_lib}"
+fi
+  LIBS="${ax_try_lib} ${GLEW_LIBS} ${ax_save_LIBS}"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+# if HAVE_WINDOWS_H && defined(_WIN32)
+#   include <windows.h>
+# endif
+# ifdef HAVE_GL_GLEW_H
+#   include <GL/glew.h>
+# else
+#   error no glew.h
+# endif
+int
+main ()
+{
+glewInit()
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ax_cv_check_glew_libglew="${ax_try_lib}"; break
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+done
+
+if test "X$ax_cv_check_glew_libglew" = Xno -a "X$no_x" = Xyes; then :
+  LIBS='-framework GLEW'
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+# if HAVE_WINDOWS_H && defined(_WIN32)
+#   include <windows.h>
+# endif
+# ifdef HAVE_GL_GLEW_H
+#   include <GL/glew.h>
+# else
+#   error no glew.h
+# endif
+int
+main ()
+{
+glewInit()
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ax_cv_check_glew_libglew="$LIBS"
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+fi
+
+CPPFLAGS="${ax_save_CPPFLAGS}"
+LIBS="${ax_save_LIBS}"
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_glew_libglew" >&5
+$as_echo "$ax_cv_check_glew_libglew" >&6; }
+
+if test "X$ax_cv_check_glew_libglew" = Xno; then :
+  no_glew="yes"; GLEW_CFLAGS=""; GLEW_LIBS=""
+else
+  GLEW_LIBS="${ax_cv_check_glew_libglew} ${GLEW_LIBS}"
+fi
+
+
+
+
+if test "x$no_glew" = "xyes"; then
+   as_fn_error $? "*** No GLEW library found!" "$LINENO" 5
+fi
+
+
 if test "X$with_apple_opengl_framework" = "Xyes"; then
   GLUT_CFLAGS="${GLU_CFLAGS}"
   GLUT_LIBS="-framework GLUT -lobjc ${GL_LIBS}"
@@ -7223,8 +7357,8 @@ fi
 fi
 
 
-CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
-LIBS="$LIBS $SDL_LIBS"
+CXXFLAGS="$CXXFLAGS $SDL_CFLAGS $GLEW_CFLAGS"
+LIBS="$LIBS $SDL_LIBS $GLEW_LIBS"
 
 
 

@@ -7,6 +7,9 @@
    */
 #undef HAVE_DIRENT_H
 
+/* Define to 1 if you have the <GL/glew.h> header file. */
+#undef HAVE_GL_GLEW_H
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 

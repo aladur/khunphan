@@ -50,7 +50,7 @@ protected:
     // member functions for event handling
     void SwapBuffers();
     void SetStopMusicCallback();
-
+    void DebugPrintOpenGLContextVersion() const;
 
     static void stopMusicCallback();
 

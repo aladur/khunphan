@@ -91,6 +91,7 @@ DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/ax_check_gl.m4 \
+	$(top_srcdir)/m4/ax_check_glew.m4 \
 	$(top_srcdir)/m4/ax_check_glu.m4 \
 	$(top_srcdir)/m4/ax_check_glut.m4 \
 	$(top_srcdir)/m4/ax_lang_compiler_ms.m4 \
@@ -226,6 +227,8 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+GLEW_CFLAGS = @GLEW_CFLAGS@
+GLEW_LIBS = @GLEW_LIBS@
 GLUT_CFLAGS = @GLUT_CFLAGS@
 GLUT_LIBS = @GLUT_LIBS@
 GLU_CFLAGS = @GLU_CFLAGS@

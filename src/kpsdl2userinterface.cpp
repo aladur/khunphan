@@ -24,7 +24,7 @@
 #ifdef HAVE_SDL2
 
 #include <stdexcept>
-#include <gl/glew.h>
+#include <GL/glew.h>
 #include "kpsdl2userinterface.h"
 #include "kpconfig.h"
 
@@ -179,6 +179,9 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
         throw std::runtime_error(message.str());
     }
 
+    // We intentionally do not use the SDL renderer. It only supports 2D
+    // and on Windows would use DirectX and not the OpenGL backend.
+    // Instead the OpenGL renderer is used together with ligGLEW.
     glContext = SDL_GL_CreateContext(window);
     if (glContext == NULL)
     {
@@ -186,6 +189,8 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
         SDL_Quit();
         throw std::runtime_error(message.str());
     }
+    // Do updates synchronized with VSync
+    SDL_GL_SetSwapInterval(1);
 
     GLenum glewReturn = glewInit();
     if (glewReturn != GLEW_OK)
@@ -196,12 +201,6 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     }
     LOG2("GLEW version: ", glewGetString(GLEW_VERSION));
 
-    int major = 0;
-    int minor = 0;
-    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
-    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
-    LOG4("OpenGL context version: ", major, ".", minor);
-
     SDL_DisplayMode mode;
 
     SDL_GetWindowDisplayMode(window, &mode);
@@ -209,8 +208,40 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     LOG3("SDL refresh rate: ", mode.refresh_rate, " Hz");
 
     DebugPrintOpenGLVersion();
+    DebugPrintOpenGLContextVersion();
     InitializeAudio(config.TextureName.c_str());
     InitializeAfterOpen();
+}
+
+void KPSdl2UserInterface::DebugPrintOpenGLContextVersion() const
+{
+    int index = 0;
+    int major = 0;
+    int minor = 0;
+    int profile = 0;
+    static const int profile2Index[3] = {
+        SDL_GL_CONTEXT_PROFILE_CORE, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY,
+        SDL_GL_CONTEXT_PROFILE_ES
+    };
+    static const char *index2String[4] = {
+        "SDL_GL_CONTEXT_PROFILE_CORE", "SDL_GL_CONTEXT_PROFILE_COMPATIBILITY",
+        "SDL_GL_CONTEXT_PROFILE_ES", "<unknown>"
+    };
+
+    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
+    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
+    SDL_GL_GetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, &profile);
+
+    for (; index < (sizeof(profile2Index) / sizeof(profile2Index[0])); ++index)
+    {
+        if (profile2Index[index] == profile)
+        {
+            break;
+        }
+    }
+
+    LOG4("OpenGL context version: ", major, ".", minor);
+    LOG2("OpenGL context profile: ", index2String[index]);
 }
 
 void KPSdl2UserInterface::MainLoop()

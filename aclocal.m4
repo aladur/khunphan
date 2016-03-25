@@ -1615,6 +1615,7 @@ AC_SUBST([am__untar])
 
 m4_include([m4/acx_pthread.m4])
 m4_include([m4/ax_check_gl.m4])
+m4_include([m4/ax_check_glew.m4])
 m4_include([m4/ax_check_glu.m4])
 m4_include([m4/ax_check_glut.m4])
 m4_include([m4/ax_lang_compiler_ms.m4])
