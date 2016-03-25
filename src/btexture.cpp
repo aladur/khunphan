@@ -23,6 +23,10 @@
 #include <ios>
 #include "btexture.h"
 
+// zlib best compression value
+#ifndef Z_BEST_COMPRESSION
+#define Z_BEST_COMPRESSION 9
+#endif
 
 // BTexture has a public interface for reading
 // image data into a general purpose RGBA buffer
@@ -139,6 +143,8 @@ const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
                                              int flags /* = 0 */)
 {
     png_byte header[HEADER_BYTES_READ];
+    png_uint_32 png_width;
+    png_uint_32 png_height;
 
     fs.seekg(0);
 
@@ -186,10 +192,12 @@ const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
     png_read_info(png_ptr, info_ptr);
 
     png_get_IHDR(png_ptr, info_ptr,
-                 static_cast<png_uint_32 *>(&width),
-                 static_cast<png_uint_32 *>(&height),
+                 &png_width, &png_height,
                  &bit_depth, &color_type, &interlace_type,
                  &compression_type, &filter_type);
+
+    width = static_cast<unsigned int>(png_width),
+    height = static_cast<unsigned int>(png_height),
 
     channels = png_get_channels(png_ptr, info_ptr);
     rowbytes = png_get_rowbytes(png_ptr, info_ptr);
@@ -586,7 +594,7 @@ bool BTexture::WriteTextureToPngFile (std::ofstream &fs, int) const
         return false;
     }
 
-    if (setjmp(png_ptr->jmpbuf))
+    if (setjmp(png_jmpbuf(png_ptr)))
     {
         png_destroy_write_struct(&png_ptr, &info_ptr);
         return false;

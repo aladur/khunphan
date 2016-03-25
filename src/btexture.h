@@ -132,8 +132,8 @@ protected:
     bool        WriteTextureToPngFile (std::ofstream &fs, int flags = 0) const;
     const char *ReadTextureFromPngFile(std::ifstream &fs, int flags = 0);
     unsigned char *texels;
-    unsigned long width;
-    unsigned long height;
+    unsigned int width;
+    unsigned int height;
     unsigned int channels;
     unsigned int rowbytes;
     int bit_depth;
