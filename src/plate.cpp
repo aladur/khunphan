@@ -70,7 +70,7 @@ Plate::Plate(const Plate &src) :
         {
             std::stringstream message;
 
-            message << "*** Error reading texture from file '"
+            message << "Error reading texture from file '"
                     << TextureSource << "'";
             throw std::runtime_error(message.str());
         }
@@ -124,7 +124,7 @@ Plate &Plate::operator=(const Plate &src)
             {
                 std::stringstream message;
 
-                message << "*** Error reading texture from file '"
+                message << "Error reading texture from file '"
                         << TextureSource << "'";
                 throw std::runtime_error(message.str());
             }
@@ -187,7 +187,7 @@ bool Plate::Update(std::string    &TextureName,
         {
             std::stringstream message;
 
-            message << "*** Error reading texture from file '"
+            message << "Error reading texture from file '"
                     << file2 << "'";
             throw std::runtime_error(message.str());
         }
@@ -282,7 +282,7 @@ void Plate::RecreateDisplayList(BTexture *pTexture /* = NULL */)
         default:
             std::stringstream message;
 
-            message << "*** Plate has invalid type " << Type;
+            message << "Plate has invalid type " << Type;
             throw std::runtime_error(message.str());
     }
 }

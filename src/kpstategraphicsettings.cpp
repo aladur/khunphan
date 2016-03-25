@@ -51,7 +51,7 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
 
     if (textureNameList.empty())
     {
-        throw std::runtime_error("*** Error: No texture directories found");
+        throw std::runtime_error("Error: No texture directories found");
     }
     std::sort(textureNameList.begin(), textureNameList.end());
     for (unsigned int i = 0; i < textureNameList.size(); i++)
@@ -61,7 +61,7 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
         {
             std::stringstream message;
 
-            message << "*** Error: Not enough Language entries for "
+            message << "Error: Not enough Language entries for "
                     << textureNameList.size()
                     << " Textures";
             throw std::runtime_error(message.str());

@@ -46,9 +46,15 @@ int main (int argc, char **argv)
     mtrace();
 #endif
 
-    KhunPhanApp application(argc, argv);
+    try {
+        KhunPhanApp application(argc, argv);
 
-    application.Run();
+        application.Run();
+
+    } catch (std::exception &e)
+    {
+        message(mtError, "%s.\nProgram terminates now.", e.what());
+    }
 
     return EXIT_SUCCESS;
 }

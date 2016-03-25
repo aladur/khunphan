@@ -148,7 +148,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     // Open OpenGL Window with SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
     {
-        message << "*** Error in SDL_Init: " << SDL_GetError();
+        message << "Error in SDL_Init: " << SDL_GetError();
         SDL_Quit();
         throw std::runtime_error(message.str());
     }
@@ -170,7 +170,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     {
         std::stringstream message;
 
-        message << "*** Error in SDL_CreateWindow: " << SDL_GetError();
+        message << "Error in SDL_CreateWindow: " << SDL_GetError();
         SDL_Quit();
         throw std::runtime_error(message.str());
     }
@@ -180,7 +180,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     {
         std::stringstream message;
 
-        message << "*** Error in SDL_CreateRenderer: " << SDL_GetError();
+        message << "Error in SDL_CreateRenderer: " << SDL_GetError();
         SDL_DestroyWindow(window);
         SDL_Quit();
         throw std::runtime_error(message.str());

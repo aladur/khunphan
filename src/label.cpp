@@ -188,7 +188,7 @@ void Label::PreInitialize(const std::string &TextureName,
         {
             std::stringstream message;
 
-            message << "*** Error reading texture from file '" << file2 << "'";
+            message << "Error reading texture from file '" << file2 << "'";
             throw std::runtime_error(message.str());
         }
         else
@@ -205,7 +205,7 @@ void Label::PreInitialize(const std::string &TextureName,
     {
         std::stringstream message;
 
-        message << "*** Error scaling texture from file '" << file2 << "'";
+        message << "Error scaling texture from file '" << file2 << "'";
         throw std::runtime_error(message.str());
     }
 

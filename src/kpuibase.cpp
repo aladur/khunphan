@@ -55,7 +55,7 @@ KPUIBase::KPUIBase(KPConfig &Config) :
     if (instance != NULL)
     {
         throw std::runtime_error(
-           "*** Error: Only one UserInterface instance allowed at a time");
+           "Error: Only one UserInterface instance allowed at a time");
     } else {
         instance = this;
     }

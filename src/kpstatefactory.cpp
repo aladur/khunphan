@@ -91,8 +91,7 @@ KPstate *KPstateFactory::CreateState(int stateID)
         default:
             std::stringstream message;
 
-            message << "*** Error in KPstateFactory::CreateState:"
-                           " Unknown state "
+            message << "Error in KPstateFactory::CreateState: Unknown state "
                     << stateID;
             throw std::runtime_error(message.str());
     }

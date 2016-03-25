@@ -73,7 +73,7 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     {
         std::stringstream message;
 
-        message << "*** Error in SDL_Init: " << SDL_GetError();
+        message << "Error in SDL_Init: " << SDL_GetError();
         throw std::runtime_error(message.str());
     }
 
@@ -89,7 +89,7 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     {
         std::stringstream message;
 
-        message << "*** Error in SDL_SetVideoMode: " << SDL_GetError();
+        message << "Error in SDL_SetVideoMode: " << SDL_GetError();
         SDL_Quit();
         throw std::runtime_error(message.str());
     }
@@ -131,7 +131,7 @@ void KPSdl12UserInterface::MainLoop()
                     {
                         std::stringstream message;
 
-                        message << "*** Error in SDL_SetVideoMode: "
+                        message << "Error in SDL_SetVideoMode: "
                                 << SDL_GetError();
                         throw std::runtime_error(message.str());
                     }

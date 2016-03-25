@@ -136,7 +136,9 @@ typedef long long SQWord;
 #define ON_OFF(b) ((b) ? "On" : "Off")
 
 #ifdef WIN32
-#define LOCALLOG(p) OutputDebugString(static_cast<LPCTSTR>(p.str().c_str()))
+#define LOCALLOG(p) \
+    p << std::endl; \
+    OutputDebugString(static_cast<LPCTSTR>(p.str().c_str()))
 #else
 #if defined (LINUX)
 #define LOCALLOG(p) std::cout << p.str() << std::endl

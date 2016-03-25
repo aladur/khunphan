@@ -266,7 +266,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         }
         else
         {
-            LOG3("*** Warning: No sound file available for sound '",
+            LOG3("**** Warning: No sound file available for sound '",
                  soundFile[i], "'");
         }
 

@@ -176,7 +176,7 @@ void KPGlutUserInterface::OpenWindow(int argc, char **argv)
     DebugPrintOpenGLVersion();
     if ( windowID <= 0)
     {
-        throw std::runtime_error("*** Error in glutCreateWindow");
+        throw std::runtime_error("Error in glutCreateWindow");
     }
 
     InitializeAfterOpen();
