@@ -25,9 +25,6 @@ fi
 
 dnl check for GLEW
 AX_CHECK_GLEW
-if test "x$no_glew" = "xyes"; then
-   AC_MSG_ERROR([*** No GLEW library found!])
-fi
 
 dnl check for GLUT
 AX_CHECK_GLUT
@@ -37,14 +34,19 @@ fi
 
 dnl Check for SDL V2.0
 SDL2_VERSION=2.0.0
-sdl2=yes
+have_sdl2=yes
 AM_PATH_SDL2($SDL2_VERSION,
             AC_DEFINE([HAVE_SDL2], 1, [Define to 1 if library and header file for libsdl2 is available.]),
-         sdl2=no
+         have_sdl2=""
 )
 
+dnl Check if SDL2 is available but no GLEW
+if test "x$have_sdl2" = xyes -a "x$no_glew" = xyes; then
+ AC_MSG_ERROR([*** SDL2 needs GLEW library too!])
+fi
+
 dnl Check for SDL2_mixer
-if test "x$sdl2" = "xyes"; then
+if test "x$have_sdl2" = "xyes"; then
  AC_CHECK_LIB(SDL2_mixer,
         main, 
         LIBS="$LIBS -lSDL2_mixer",
@@ -52,7 +54,7 @@ if test "x$sdl2" = "xyes"; then
  )
 fi
 
-if test "x$sdl2" = "xno"; then
+if test "x$have_sdl2" != "xyes"; then
  dnl If SDL V2.0 is not present check for SDL V1.2
  SDL_VERSION=1.2.0
  AM_PATH_SDL($SDL_VERSION,

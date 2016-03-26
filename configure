@@ -6453,9 +6453,6 @@ fi
 
 
 
-if test "x$no_glew" = "xyes"; then
-   as_fn_error $? "*** No GLEW library found!" "$LINENO" 5
-fi
 
 
 if test "X$with_apple_opengl_framework" = "Xyes"; then
@@ -6552,7 +6549,7 @@ $as_echo "#define HAVE_LIBGLUT 1" >>confdefs.h
 fi
 
 SDL2_VERSION=2.0.0
-sdl2=yes
+have_sdl2=yes
 
 
 
@@ -7009,7 +7006,7 @@ rm -f core conftest.err conftest.$ac_objext \
      fi
      SDL_CFLAGS=""
      SDL_LIBS=""
-     sdl2=no
+     have_sdl2=""
 
   fi
 
@@ -7017,7 +7014,11 @@ rm -f core conftest.err conftest.$ac_objext \
   rm -f conf.sdltest
 
 
-if test "x$sdl2" = "xyes"; then
+if test "x$have_sdl2" = xyes -a "x$no_glew" = xyes; then
+ as_fn_error $? "*** SDL2 needs GLEW library too!" "$LINENO" 5
+fi
+
+if test "x$have_sdl2" = "xyes"; then
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lSDL2_mixer" >&5
 $as_echo_n "checking for main in -lSDL2_mixer... " >&6; }
 if ${ac_cv_lib_SDL2_mixer_main+:} false; then :
@@ -7057,7 +7058,7 @@ fi
 
 fi
 
-if test "x$sdl2" = "xno"; then
+if test "x$have_sdl2" != "xyes"; then
   SDL_VERSION=1.2.0
 
 # Check whether --with-sdl-prefix was given.
