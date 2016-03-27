@@ -33,8 +33,9 @@
 
 
 KPmenu::KPmenu(KPConfig &Config) :
-    IsDisplayOpenGLInfo(false), lastState(KPState_Invalid),
-    playTimeUpdateTimer(100, true, true), config(Config)
+    lastState(KPState_Invalid),
+    playTimeUpdateTimer(100, true, true), config(Config),
+    isDisplayOpenGLInfo(false)
 {
 }
 

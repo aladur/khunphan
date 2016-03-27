@@ -72,7 +72,7 @@ void KPstate::UpdateDisplay(KPstateContext *pContext) const
     }
     y -= 0.6f;
 
-    if (menu.IsDisplayOpenGLInfo)
+    if (menu.GetIsDisplayOpenGLInfo())
     {
         menu.labels[T_GL_VENDOR].FormatText(
                 1, userInterface.GetOpenGLVendor().c_str());
@@ -217,8 +217,7 @@ tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
         case 27:
             return ESCKeyAction(pContext);
         case 'O' - 'A' + 1:
-            pContext->GetMenu().IsDisplayOpenGLInfo =
-                !pContext->GetMenu().IsDisplayOpenGLInfo;
+            pContext->GetMenu().InvertIsDisplayOpenGLInfo();
             UpdateDisplay(pContext);
             break;
         case 'D' - 'A' + 1:

@@ -124,7 +124,18 @@ public:
     {
         return lastState;
     };
-    bool IsDisplayOpenGLInfo;
+    bool GetIsDisplayOpenGLInfo(void) const
+    {
+        return isDisplayOpenGLInfo;
+    }
+    void SetIsDisplayOpenGLInfo(bool flag)
+    {
+        isDisplayOpenGLInfo = flag;
+    }
+    void InvertIsDisplayOpenGLInfo(void)
+    {
+        isDisplayOpenGLInfo = !isDisplayOpenGLInfo;
+    }
 
 protected:
     bool LoadLanguage(int Language);
@@ -136,11 +147,10 @@ protected:
 
     tIdToPlate plates;
     tIdToLabel labels;
-
     tKPMenuState lastState;
-
     BManualTimer playTimeUpdateTimer;
     KPConfig &config;
+    bool isDisplayOpenGLInfo;
 
 private:
     KPmenu();
