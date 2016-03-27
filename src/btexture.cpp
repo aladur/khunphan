@@ -778,7 +778,7 @@ void BTexture::read_data_fn(png_structp png_ptr,
 
         fs.read(reinterpret_cast<char *>(data), length);
 
-        if (fs.gcount() != length)
+        if (static_cast<png_size_t>(fs.gcount()) != length)
         {
             png_error(png_ptr, "Read less bytes than requested.");
         }

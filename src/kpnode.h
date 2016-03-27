@@ -56,7 +56,7 @@ public:
     {
         board = src;
     }
-    friend KPnodes;
+    friend class KPnodes;
 
 private:
     void AddNextMoves(KPnodes &nodes);

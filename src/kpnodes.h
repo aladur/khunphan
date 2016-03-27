@@ -33,7 +33,7 @@ typedef std::vector<QWord> tIds;
 class KPnodes
 {
 public:
-    friend KPnode;
+    friend class KPnode;
 
     KPnodes(KPnode rootNode);
 

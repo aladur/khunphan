@@ -41,11 +41,13 @@
 KPUIBase *KPUIBase::instance = NULL;
 
 KPUIBase::KPUIBase(KPConfig &Config) :
-    config(Config),
     pBoardView(NULL), pCamera(NULL),
     pLight(NULL), pMenu(NULL),
-    pNodes(NULL), pStatistics(NULL), previousStateId(KPState_Invalid),
-    animationTimer(TOTAL_ANIMATIONTIME, false), pState(NULL),
+    pNodes(NULL), pStatistics(NULL),
+    animationTimer(TOTAL_ANIMATIONTIME, false),
+    previousStateId(KPState_Invalid), isPause(false),
+    pState(NULL),
+    config(Config),
     lastFrameTimestamp(0), oldTime(0), frameCount(0)
 
 {

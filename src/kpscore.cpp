@@ -120,7 +120,7 @@ bool KPscore::Get(unsigned int index, std::string &pName,
 
 std::vector<KPscore::tKpScoreStruct>::iterator KPscore::PositionToInsert(
                               const char *, unsigned int aPlayTime,
-                              unsigned int aMoves, time_t)
+                              unsigned int, time_t)
 {
     std::vector<tKpScoreStruct>::iterator it = scoreList.begin();
 
@@ -137,7 +137,7 @@ std::vector<KPscore::tKpScoreStruct>::iterator KPscore::PositionToInsert(
 
 std::vector<KPscore::tKpScoreStruct>::const_iterator KPscore::PositionToInsert(
                               const char *, unsigned int aPlayTime,
-                              unsigned int aMoves, time_t) const
+                              unsigned int, time_t) const
 {
     std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
 

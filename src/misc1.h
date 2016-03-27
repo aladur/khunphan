@@ -251,7 +251,7 @@ enum tEventCounter
 enum tMouseEvent
 {
     KP_BUTTON_RELEASE  = 44,
-    KP_BUTTON_PRESS    = 45,
+    KP_BUTTON_PRESS    = 45
 };
 
 enum tMouseButton

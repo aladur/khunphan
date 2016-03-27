@@ -215,7 +215,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
 void KPSdl2UserInterface::DebugPrintOpenGLContextVersion() const
 {
-    int index = 0;
+    size_t index = 0;
     int major = 0;
     int minor = 0;
     int profile = 0;

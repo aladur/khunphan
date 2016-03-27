@@ -151,7 +151,6 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
     KPmenu &menu = pContext->GetMenu();
 
     int Signal = 0;
-    unsigned int i = 0;
 
     tIdToPlate::iterator sit;
 

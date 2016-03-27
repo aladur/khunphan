@@ -519,7 +519,6 @@ void Label::RecreateDisplayList()
     if (!maxWidth)
     {
         AspectRatio   = 0.0;
-        GLint  p = 0;
         GLuint c = 0;
         std::string::const_iterator it;
 
@@ -527,7 +526,6 @@ void Label::RecreateDisplayList()
         glNewList(DisplayList, GL_COMPILE);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glPushMatrix();
-        p=0;
 
         for (it = labelText.begin(); it != labelText.end(); ++it)
         {

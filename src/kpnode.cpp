@@ -31,14 +31,14 @@ KPnode::KPnode() : movesToSolve(SHRT_MAX)
 {
 }
 
-KPnode::KPnode(const KPnode &src) : board(src.board),
-    childs(src.childs), parents(src.parents), movesToSolve(SHRT_MAX)
+KPnode::KPnode(const KPnode &src) :
+    childs(src.childs), parents(src.parents), movesToSolve(SHRT_MAX),
+    board(src.board)
 {
     movesToSolve = src.GetMovesToSolve();
 }
 
-KPnode::KPnode(const KPboard &src) : board(src),
-    movesToSolve(SHRT_MAX)
+KPnode::KPnode(const KPboard &src) : movesToSolve(SHRT_MAX), board(src)
 {
 }
 

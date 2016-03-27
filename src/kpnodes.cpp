@@ -27,7 +27,7 @@
 
 
 KPnodes::KPnodes(KPnode rootNode) :
-    calculateSolveCountTime(0.0), createSolveTreeTime(0.0)
+    createSolveTreeTime(0.0), calculateSolveCountTime(0.0)
 {
     BTime time;
 

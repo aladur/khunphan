@@ -32,7 +32,7 @@
 
 KPstateGraphicSettings::KPstateGraphicSettings() :
          Quality(0), E_ScreenXResolution(0),
-         E_UserInterface(0), E_FullScreen(false)
+         E_FullScreen(false), E_UserInterface(0)
 {
 }
 

@@ -38,7 +38,7 @@ typedef enum
     PLATE_SOUND_OFF,
     PLATE_MUSIC_ON,
     PLATE_MUSIC_OFF,
-    PLATE_SHADER, // should be always the last one
+    PLATE_SHADER // should be always the last one
 } tPlate;
 
 typedef enum
