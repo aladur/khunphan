@@ -46,7 +46,7 @@ unsigned long BTime::GetTimeMsl()
 }
 
 
-#ifdef UNIX
+#ifdef LINUX
 QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 {
     QWord currentTime = GetTimeUsll();
@@ -88,8 +88,7 @@ double BTime::GetTimeUsf()
     gettimeofday(&tv, NULL);
     return (static_cast<double>(tv.tv_sec) * 1000000.0 + tv.tv_usec);
 }
-#endif
-
+#else
 #ifdef WIN32
 QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 {
@@ -148,4 +147,7 @@ double BTime::GetTimeUsf()
     }
 
 }
+#else
+#error "Unsupported platform"
+#endif
 #endif

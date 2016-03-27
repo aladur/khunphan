@@ -58,9 +58,12 @@ int sprinter::sprintf(std::string &s, const char *format, ...)
 #ifdef _MSC_VER
     res = _vsnprintf_s(p, MAX_BUFFER_SIZE, MAX_BUFFER_SIZE - 1,
                        format, arg_ptr);
-#endif
+#else
 #ifdef __GNUC__
     res = vsnprintf(p, MAX_BUFFER_SIZE, format, arg_ptr);
+#else
+#error "Unsupported platform"
+#endif
 #endif
     va_end(arg_ptr);
 
@@ -91,9 +94,12 @@ int sprinter::vsprintf(std::string &s,
 #ifdef _MSC_VER
     res = _vsnprintf_s(p, MAX_BUFFER_SIZE, MAX_BUFFER_SIZE - 1,
                        format, arg_ptr);
-#endif
+#else
 #ifdef __GNUC__
     res = vsnprintf(p, MAX_BUFFER_SIZE, format, arg_ptr);
+#else
+#error "Unsupported platform"
+#endif
 #endif
 
     if (res < 0 || (res >= MAX_BUFFER_SIZE))

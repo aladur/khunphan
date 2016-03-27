@@ -69,12 +69,6 @@
 #define HAVE_STDARG_H    1
 #endif // #ifdef WIN32
 
-#ifndef UNIX
-#if defined(LINUX) || defined(__LINUX)
-#define UNIX
-#endif
-#endif
-
 #ifdef HAVE_STRING_H
 #include <string.h>
 #else
@@ -140,7 +134,7 @@ typedef long long SQWord;
     p << std::endl; \
     OutputDebugString(static_cast<LPCTSTR>(p.str().c_str()))
 #else
-#if defined (LINUX)
+#ifdef LINUX
 #define LOCALLOG(p) std::cout << p.str() << std::endl
 #else
 #error "Unsupported platform"

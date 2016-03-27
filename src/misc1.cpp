@@ -46,7 +46,7 @@ void message(tMsgType type, const char *format, ...)
             std::cerr << msg << std::endl;
             break;
     }
-#endif
+#else
 #ifdef WIN32
     std::string msg1;
     sprinter::sprintf(msg1, "[%s] %s\n", PACKAGE, msg.c_str());
@@ -63,6 +63,9 @@ void message(tMsgType type, const char *format, ...)
             MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK | MB_ICONEXCLAMATION);
             break;
     }
+#else
+#error "Unsupported platform"
+#endif
 #endif
 }
 

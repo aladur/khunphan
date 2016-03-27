@@ -168,7 +168,7 @@ void KPscore::SetFileName(const char *aFileName /* = NULL */)
 #ifdef LINUX
         fileName = getenv("HOME");
         fileName += "/.KhunPhanScores.xml";
-#endif
+#else
 #ifdef WIN32
         PWSTR pwszPath;
         char pszPath[MAX_PATH] = "";
@@ -189,6 +189,9 @@ void KPscore::SetFileName(const char *aFileName /* = NULL */)
         }
         fileName = pszPath;
         fileName += "KhunPhanScores.xml";
+#else
+#error "Unsupported platform"
+#endif
 #endif
     }
 }

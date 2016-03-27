@@ -34,10 +34,8 @@
 #define dirent direct
 #endif
 
-#ifdef WIN32
-# ifdef _MSC_VER
-#  include <direct.h>
-# endif
+#ifdef _MSC_VER
+#include <direct.h>
 #endif
 
 #include "bdir.h"
@@ -56,21 +54,27 @@ bool BDirectory::Exists(const std::string &aPath)
 
 bool BDirectory::Remove(const std::string &aPath)
 {
-#if defined(_MSC_VER) || defined(__MINGW32)
+#ifdef _MSC_VER
     return _rmdir(aPath.c_str()) >= 0;
-#endif
-#if defined(UNIX) || defined(__CYGWIN32)
+#else
+#ifdef __GNUC__
     return rmdir(aPath.c_str()) >= 0;
+#else
+#error "Unsupported platform"
+#endif
 #endif
 }
 
 bool BDirectory::Create(const std::string &aPath, int mode /* = 0x0755 */)
 {
-#if defined(_MSC_VER) || defined(__MINGW32)
+#ifdef _MSC_VER
     return _mkdir(aPath.c_str()) >= 0;
-#endif
-#if defined(UNIX) || defined(__CYGWIN32)
+#else
+#ifdef __GNUC__
     return mkdir(aPath.c_str(), mode) >= 0;
+#else
+#error "Unsupported platform"
+#endif
 #endif
 }
 
@@ -112,6 +116,7 @@ bool BDirectory::RemoveRecursive(const std::string &aPath)
     return true;
 }
 #else
+#ifdef LINUX
 bool BDirectory::RemoveRecursive(const std::string &aPath)
 {
     std::string     basePath;
@@ -147,6 +152,9 @@ bool BDirectory::RemoveRecursive(const std::string &aPath)
     BDirectory::Remove(basePath);
     return true;
 }
+#else
+#error "Unsupported platform"
+#endif
 #endif
 
 #ifdef WIN32
@@ -180,6 +188,7 @@ tPathList BDirectory::GetSubDirectories(const std::string &aPath)
     return subDirList;
 }
 #else
+#ifdef LINUX
 tPathList BDirectory::GetSubDirectories(const std::string &aPath)
 {
     std::vector<std::string> subDirList;
@@ -213,6 +222,9 @@ tPathList BDirectory::GetSubDirectories(const std::string &aPath)
     }
     return subDirList;
 }
+#else
+#error "Unsupported platform"
+#endif
 #endif
 
 tPathList BDirectory::GetFiles(const std::string &aPath)
@@ -245,6 +257,7 @@ tPathList BDirectory::GetFiles(const std::string &aPath)
         FindClose(hdl);
     }
 #else
+#ifdef LINUX
     std::string     dirEntry;
     DIR             *pd;
     struct stat     sbuf;
@@ -269,6 +282,9 @@ tPathList BDirectory::GetFiles(const std::string &aPath)
         } // while
         closedir(pd);
     }
+#else
+#error "Unsupported platform"
+#endif
 #endif
     return fileList;
 }

@@ -88,7 +88,7 @@ void KPConfig::SetFileName(const char *aFileName)
 #ifdef LINUX
         fileName = getenv("HOME");
         fileName += "/.KhunPhan.xml";
-#endif
+#else
 #ifdef WIN32
         PWSTR pwszPath;
         char pszPath[MAX_PATH] = "";
@@ -109,6 +109,9 @@ void KPConfig::SetFileName(const char *aFileName)
         }
         fileName = pszPath;
         fileName += "KhunPhan.xml";
+#else
+#error "Unsupported platform"
+#endif
 #endif
     }
 }
@@ -129,7 +132,7 @@ std::string KPConfig::GetDirectory(tKPDir directoryID) const
         default:
             return "";
     }
-#endif
+#else
 #ifdef LINUX
     std::string dir;
     struct stat sStat;
@@ -180,6 +183,9 @@ std::string KPConfig::GetDirectory(tKPDir directoryID) const
     }
 
     return dir;
+#else
+#error "Unsupported platform"
+#endif
 #endif
 }
 

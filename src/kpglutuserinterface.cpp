@@ -29,7 +29,7 @@
 #ifdef HAVE_LIBGLUT
 #include <GL/glut.h>
 #ifdef FREEGLUT
-#include <GL/freeglut_ext.h>
+#include <GL/freeglut.h>
 #endif
 #else
 #ifdef HAVE_LIBOPENGLUT
