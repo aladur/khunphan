@@ -42,6 +42,7 @@ public:
     void MainLoop();
     void Close();
     int  GetValue(int what) const;
+    bool IsWindowResolutionSupported(int width, int height) const;
 
 protected:
     // member functions for event handling

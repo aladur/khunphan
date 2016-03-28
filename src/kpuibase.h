@@ -69,6 +69,7 @@ public:
     virtual void Close() = 0;
     virtual void RequestForClose() = 0;
     virtual int  GetValue(int what) const = 0;
+    virtual bool IsWindowResolutionSupported(int width, int height) const = 0;
     virtual bool CanToggleFullScreen() const
     {
         return false;

@@ -43,6 +43,7 @@ public:
     void MainLoop();
     void Close();
     int  GetValue(int what) const;
+    bool IsWindowResolutionSupported(int width, int height) const;
     bool CanToggleFullScreen() const;
     bool CanChangeWindowSize() const;
 

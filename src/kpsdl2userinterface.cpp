@@ -164,6 +164,12 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
         flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
 
+    if (!IsWindowResolutionSupported(config.ScreenXResolution,
+                                     (config.ScreenXResolution*3)/4))
+    {
+        config.ScreenXResolution = 640;
+    }
+
     window = SDL_CreateWindow(
                  GetWindowTitle().c_str(),
                  SDL_WINDOWPOS_UNDEFINED,
@@ -334,6 +340,28 @@ int KPSdl2UserInterface::GetValue(int what) const
     return 0;
 }
 
+bool KPSdl2UserInterface::IsWindowResolutionSupported(
+                          int width, int height) const
+{
+    int index, result;
+    SDL_Rect rect;
+
+    index = SDL_GetWindowDisplayIndex(window);
+    if (index < 0)
+    {
+        LOG2("*** SDL_GetWindowDisplayIndex error: ", SDL_GetError());
+        return false;
+    }
+
+    result = SDL_GetDisplayBounds(index, &rect);
+    if (result < 0)
+    {
+        LOG2("*** SDL_GetDisplayBounds error: ", SDL_GetError());
+        return false;
+    }
+
+    return width <= rect.w && (height <= rect.h);
+}
 
 /////////////////////////////////////////////////////////////////////
 // Event Handling

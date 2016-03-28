@@ -189,6 +189,11 @@ int KPSdl12UserInterface::GetValue(int what) const
     return 0;
 }
 
+bool KPSdl12UserInterface::IsWindowResolutionSupported(
+                          int width, int height) const
+{
+    return width <= screen->w && (height <= screen->h);
+}
 
 /////////////////////////////////////////////////////////////////////
 // Event Handling

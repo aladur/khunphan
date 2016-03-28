@@ -59,11 +59,13 @@ protected:
     void ToggleUserInterface(KPstateContext *pContext);
     void ToggleQuality(KPstateContext *pContext);
     void ToggleTextureName(KPstateContext *pContext) const;
+    int GetWindowWidthsIndex(int width) const;
 
     int Quality;
-    int  E_ScreenXResolution;
+    int  E_WindowWidth;
     bool E_FullScreen;
     int  E_UserInterface;
+    static const int windowWidths[];
 };
 
 #endif

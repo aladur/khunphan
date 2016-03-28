@@ -221,6 +221,12 @@ int KPGlutUserInterface::GetValue(int what) const
     return 0;
 }
 
+bool KPGlutUserInterface::IsWindowResolutionSupported(
+                          int width, int height) const
+{
+    return true;
+}
+
 /////////////////////////////////////////////////////////////////////
 // Static Event Handling
 /////////////////////////////////////////////////////////////////////
