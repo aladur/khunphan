@@ -162,6 +162,12 @@ void KPGlutUserInterface::OpenWindow(int argc, char **argv)
           glutVersion          % 100);
 #endif
 
+    if (!IsWindowResolutionSupported(config.ScreenXResolution,
+                                     (config.ScreenXResolution*3)/4))
+    {
+        config.ScreenXResolution = 640;
+    }
+
     // Open OpenGL Window with GLUT
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize (config.ScreenXResolution,
@@ -224,7 +230,8 @@ int KPGlutUserInterface::GetValue(int what) const
 bool KPGlutUserInterface::IsWindowResolutionSupported(
                           int width, int height) const
 {
-    return true;
+    return width <= glutGet(GLUT_SCREEN_WIDTH) &&
+           (height <= glutGet(GLUT_SCREEN_HEIGHT));
 }
 
 /////////////////////////////////////////////////////////////////////

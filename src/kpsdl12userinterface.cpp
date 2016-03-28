@@ -24,6 +24,7 @@
 
 #include <stdexcept>
 #include "kpsdl12userinterface.h"
+#include "kpconfig.h"
 
 
 KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode, KPConfig &Config) :
@@ -79,6 +80,12 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
     // Full-screen mode is not supported. Disable full-screen flag.
     config.FullScreen = false;
+
+    if (!IsWindowResolutionSupported(config.ScreenXResolution,
+                                     (config.ScreenXResolution*3)/4))
+    {
+        config.ScreenXResolution = 640;
+    }
 
     screen = SDL_SetVideoMode(
                  config.ScreenXResolution,
@@ -189,10 +196,11 @@ int KPSdl12UserInterface::GetValue(int what) const
     return 0;
 }
 
-bool KPSdl12UserInterface::IsWindowResolutionSupported(
-                          int width, int height) const
+bool KPSdl12UserInterface::IsWindowResolutionSupported(int, int) const
 {
-    return width <= screen->w && (height <= screen->h);
+    // How to do this? SDL_VideoModeOK doesn't work here.
+    // Maybe the right time to switch to SDL2?
+    return true;
 }
 
 /////////////////////////////////////////////////////////////////////

@@ -137,6 +137,7 @@ enum tTxt
     T_RES_1024x768 = 273,
     T_RES_1280x960 = 274,
     T_RES_1600x1200 = 275,
+    T_RES_1920x1440 = 276,
 
     T_TEXTUREINTERPOL = 295,
     T_TI_OFF = 296,

@@ -29,8 +29,9 @@
 #include "light.h"
 #include "kpuibase.h"
 
-const int KPstateGraphicSettings::windowWidths[] =
-                                              { 640, 800, 1024, 1280, 1600 };
+const int KPstateGraphicSettings::windowWidths[] = {
+    640, 800, 1024, 1280, 1600, 1920
+};
 
 KPstateGraphicSettings::KPstateGraphicSettings() :
          Quality(0), E_WindowWidth(0),
@@ -255,7 +256,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
         int index;
         static const int windowResolutionLabels[] = {
             T_RES_640x480, T_RES_800x600, T_RES_1024x768,
-            T_RES_1280x960, T_RES_1600x1200
+            T_RES_1280x960, T_RES_1600x1200, T_RES_1920x1440
         };
 
         if ((index = GetWindowWidthsIndex(E_WindowWidth)) >= 0)
@@ -679,13 +680,13 @@ void KPstateGraphicSettings::ToggleScreenMode(KPstateContext *pContext)
 void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
 {
     const KPUIBase &userIfc = pContext->GetUserInterface();
-    int index;
 
     userIfc.PlayAudio(KP_SND_CHANGESETTING);
 
-    if ((index = GetWindowWidthsIndex(E_WindowWidth)) >= 0)
+    int index = GetWindowWidthsIndex(E_WindowWidth);
+    if (index >= 0)
     {
-        index = ++index % (sizeof(windowWidths) / sizeof(windowWidths[0]));
+        index = (index+1) % (sizeof(windowWidths) / sizeof(windowWidths[0]));
     } else {
         index = 0;
     }
@@ -764,7 +765,7 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
 {
     KPConfig &config = pContext->GetConfig();
     bool E_FullScreen_before = E_FullScreen;
-    int E_WindowWidth_before = E_WindowWidth_before;
+    int E_WindowWidth_before = E_WindowWidth;
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     UpdateQuality(pContext);
