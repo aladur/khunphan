@@ -119,7 +119,6 @@ if [ -d freeglut ]; then
         # Copy predefined Visual Studio 2015 solution and project
         cp ../freeglut.sln .
         cp ../freeglut.vcxproj .
-        cp ../freeglut.vcxproj.filters .
         # Get Version number from CMakeLists.txt and set it in freeglut.rc, freeglutdll.def and fg_version.h
         vmajor=`sed -n -e "s/set(VERSION_MAJOR\s\+\([0-9]\+\))/\1/p" CMakeLists.txt`
         vminor=`sed -n -e "s/set(VERSION_MINOR\s\+\([0-9]\+\))/\1/p" CMakeLists.txt`

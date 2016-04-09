@@ -46,6 +46,14 @@ x64/
 rebuild.bat
 *.sdf
 *.opensdf
+build/windows/lib*/
+build/windows/freeglut/
+build/windows/glew/
+build/windows/zlib/
+build/windows/lib*/
+build/windows/SDL2*/
+build/windows/*.tar.gz
+build/windows/*.tgz
 
 # vi swap file
 *.swp
