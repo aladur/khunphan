@@ -28,7 +28,7 @@
 //  <string(s)>.h
 //  <stdlib.h>
 
-#ifndef WIN32
+#ifndef _WIN32
 #include "config.h"
 #endif
 
@@ -52,7 +52,7 @@
 # endif
 #endif
 
-#ifdef WIN32
+#ifdef _WIN32
 /* Name of package */
 #define PACKAGE "khunphan"
 
@@ -67,7 +67,7 @@
 #define HAVE_SYS_TYPES_H 1
 #define HAVE_STDLIB_H    1
 #define HAVE_STDARG_H    1
-#endif // #ifdef WIN32
+#endif // #ifdef _WIN32
 
 #ifdef HAVE_STRING_H
 #include <string.h>
@@ -87,7 +87,7 @@
 
 /* PATHSEPARATORSTRING shoud be a define to do */
 /* implicit concatenation by the compiler!     */
-#ifdef WIN32
+#ifdef _WIN32
 const char PATHSEPARATOR = '\\';
 #define PATHSEPARATORSTRING  "\\"
 #else
@@ -129,7 +129,7 @@ typedef long long SQWord;
 
 #define ON_OFF(b) ((b) ? "On" : "Off")
 
-#ifdef WIN32
+#ifdef _WIN32
 #define LOCALLOG(p) \
     p << std::endl; \
     OutputDebugString(static_cast<LPCTSTR>(p.str().c_str()))

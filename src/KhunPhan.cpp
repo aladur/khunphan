@@ -62,7 +62,7 @@ void KhunPhanApp::InitializeSolutionTree()
 
     pContext->GetNodes().CalculateSolveCount();
 
-    int positions = pContext->GetNodes().GetSize();
+    size_t positions = pContext->GetNodes().GetSize();
     pContext->GetNodes().Iterate(fct);
     int solutionsCount = fct.GetCount();
 

@@ -89,7 +89,7 @@ double BTime::GetTimeUsf()
     return (static_cast<double>(tv.tv_sec) * 1000000.0 + tv.tv_usec);
 }
 #else
-#ifdef WIN32
+#ifdef _WIN32
 QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 {
     QWord currentTime = GetTimeUsll();

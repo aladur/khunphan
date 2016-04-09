@@ -305,7 +305,7 @@ const char *BTexture::SetAlphaChannel(int value)
 {
     if (texels != NULL)
     {
-        unsigned int i;
+        size_t i;
 
         for (i = 0; i < rowbytes * height; i += channels)
         {
@@ -322,7 +322,7 @@ const char *BTexture::CopyAlphaChannel(int format)
     {
         if (format & TEX_MODIFY_ALPHA)
         {
-            unsigned int i;
+            size_t i;
 
             for (i = 0; i < rowbytes * height; i += channels)
             {
@@ -353,7 +353,7 @@ const char *BTexture::CopyColor(int format)
     {
         if (format & TEX_COPY_COLOR)
         {
-            unsigned int i;
+            size_t i;
 
             for (i = 0; i < rowbytes * height; i += channels)
             {
@@ -400,7 +400,7 @@ const char *BTexture::SetColors(int format, int red, int green, int blue)
     {
         if (format & TEX_SET_COLORS)
         {
-            unsigned int i;
+            size_t i;
 
             for (i = 0; i < rowbytes * height; i += channels)
             {
@@ -432,7 +432,7 @@ bool BTexture::CreateSubImage(int x, int y, int w, int h, char *subTexels) const
         return false;
     }
 
-    int i = 0;
+    size_t i = 0;
     unsigned int ay;
 
     for ( ay = height - y - h; ay < height - y; ay++ )
@@ -685,7 +685,7 @@ const char *BTexture::Rescale(int exp, int format)
             unsigned int  *pBuffer = new unsigned int[GetChannels()];
             // buffer for one texel
             int            shift   = 2*exp;
-            unsigned int   fChannels = factor * GetChannels();
+            size_t         fChannels = factor * GetChannels();
 
             for (y = 0; y < GetHeight(); y++)
             {

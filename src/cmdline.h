@@ -22,7 +22,7 @@
 #ifndef CMDLINE_H
 #define CMDLINE_H
 
-#ifdef WIN32
+#ifdef _WIN32
 class CmdLine
 {
 public:

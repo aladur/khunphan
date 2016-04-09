@@ -47,7 +47,7 @@ public:
     {
         return MAX_SCORE_ENTRIES;
     }
-    unsigned int GetEntryCount() const
+    size_t GetEntryCount() const
     {
         return scoreList.size();
     }

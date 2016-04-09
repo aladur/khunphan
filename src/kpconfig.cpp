@@ -22,7 +22,7 @@
 
 
 #include "stdafx.h"
-#ifdef WIN32
+#ifdef _WIN32
 #include <shlwapi.h>
 #pragma comment(lib,"shlwapi.lib")
 #include "shlobj.h"
@@ -89,7 +89,7 @@ void KPConfig::SetFileName(const char *aFileName)
         fileName = getenv("HOME");
         fileName += "/.KhunPhan.xml";
 #else
-#ifdef WIN32
+#ifdef _WIN32
         PWSTR pwszPath;
         char pszPath[MAX_PATH] = "";
 
@@ -118,7 +118,7 @@ void KPConfig::SetFileName(const char *aFileName)
 
 std::string KPConfig::GetDirectory(tKPDir directoryID) const
 {
-#ifdef WIN32
+#ifdef _WIN32
     switch (directoryID)
     {
         case KP_TEXTURE_DIR:

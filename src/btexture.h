@@ -24,6 +24,7 @@
 
 #include <fstream>
 #include <png.h>
+#include "misc1.h"
 
 
 enum tTextureFormat
@@ -87,11 +88,11 @@ public:
     {
         return height;
     };
-    inline unsigned int GetRowBytes() const
+    inline size_t GetRowBytes() const
     {
         return rowbytes;
     };
-    inline unsigned int GetChannels() const
+    inline size_t GetChannels() const
     {
         return channels;
     };
@@ -134,8 +135,8 @@ protected:
     unsigned char *texels;
     unsigned int width;
     unsigned int height;
-    unsigned int channels;
-    unsigned int rowbytes;
+    size_t channels;
+    size_t rowbytes;
     int bit_depth;
     int color_type;
     int interlace_type;

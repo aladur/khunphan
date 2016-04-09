@@ -39,13 +39,14 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
 
     KPmenu &menu = pContext->GetMenu();
 
-    int          i, max;
+    unsigned int i;
+    unsigned int max;
     std::string  Name;
     unsigned int PlayTime;
     unsigned int Moves;
     KPscore scoreList;
 
-    max = scoreList.GetEntryCount();
+    max = static_cast<unsigned int>(scoreList.GetEntryCount());
     if (max > 10)
     {
         max = 10;

@@ -41,11 +41,11 @@ libtool
 
 # Visual Studio files
 .vs/
-Debug*/
-Release*/
+Win32/
+x64/
+rebuild.bat
 *.sdf
 *.opensdf
-*.user
 
 # vi swap file
 *.swp

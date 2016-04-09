@@ -22,6 +22,7 @@
 #ifndef KPNODES_H
 #define KPNODES_H
 
+
 #include "stdafx.h"
 #include <map>
 #include "kpnode.h"
@@ -42,7 +43,7 @@ public:
         return nodesForId.find(id) != nodesForId.end();
     }
     KPnode &GetNodeFor(QWord id);
-    unsigned int GetSize(void)
+    size_t GetSize(void)
     {
         return nodesForId.size();
     }

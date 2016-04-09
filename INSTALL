@@ -1,37 +1,37 @@
 Basic Installation
 ==================
 
-1. Win32
-========
+1. Windows
+==========
 
-ATTENTION: Windows is currently (Aug. 2015) not maintained.
-
-To build the KhunPhan executable on Win32 MSVC V6 is necessary.
-A DSW/DSP file is available.
+To build the KhunPhan executable on Windows Microsoft Visual Studio 2015 is
+needed. The khunphan project supports all combinations of Debug/Release, 
+Win32/x64.
 
 For successfull compiling and linking KhunPhan the following
 libraries (incl. headers) are necessary:
 
-   libxml2      (http://xmlsoft.org)
-   libpng       (http://www.libpng.org)
-   libSDL       (http://www.libsdl.org)
-   libSDL_mixer (http://libsdl.org/projects/SDL_mixer/)
-   freeglut     (http://freeglut.sourceforge.net/) is optional
+   libxml2       (http://xmlsoft.org)
+   libiconv      (https://www.gnu.org/software/libiconv/)
+   libpng        (http://www.libpng.org)
+   zlib          (http://zlib.net/)
+   libSDL2       (http://www.libsdl.org)
+   libSDL2_mixer (http://libsdl.org/projects/SDL_mixer/)
+   freeglut      (http://freeglut.sourceforge.net/)
+   glew          (http://glew.sourceforge.net/)
 
-Hints:
-------
+   The whole build process is supported by two shell scripts. They can be
+   executed on git bash.
 
-- Currently the newest SDL_mixer.dll is V1.2.5. But to use the OGG
-  files shipped with KhunPhan SDL_mixer has to be rebuild with newer
-  static ogg/vorbis library files. How to do this:
-  1. Get the SDL_mixer Win32 source distribution
-     (SDL_mixer-1.2.5-win32.zip SDL_mixer-devel-1.2.5-VC6.zip) from
-     http://www.libsdl.org/projects/SDL_mixer/
-  2. Get the Ogg Vorbis Win32 SDK V1.0 from http://www.vorbis.com
-  3. Copy the files ogg_static.lib, vorbis_static.lib, vorbisfile_static.lib
-     into the subdirectory VisualC/vorbis/lib/ of the SDL_mixer
-     source directory
-  4. Recompile and link the Release version of SDL_mixer
+   1. download_and_rebuild_libs.sh Downloads all packages and rebuilds them
+      for all supported platforms and configurations. The result can be found
+      in subdirectory build/windows/lib.
+   2. rebuild_all_and_copy_libs.sh Rebuilds khunphan for all supported
+      configurations and platforms and copies the previously created DLLs into
+      the build directory.
+
+   As a result khunphan can be executed directly from within Visual Studio
+   debugger.
 
 2. Linux
 ========
@@ -48,9 +48,11 @@ In short:
    Needed libraries for the installation:
 
    libxml2      (http://xmlsoft.org)
+   libiconv     (https://www.gnu.org/software/libiconv/)
    libpng       (http://www.libpng.org)
-   libSDL       (http://www.libsdl.org)
-   libSDL_mixer (http://libsdl.org/projects/SDL_mixer/)
+   zlib         (http://zlib.net/)
+   libSDL       (http://www.libsdl.org) (SDL1.2 or SDL2)
+   libSDL_mixer (http://libsdl.org/projects/SDL_mixer/) (SDL_mixer 1.2 or 2.0)
    freeglut     (http://freeglut.sourceforge.net/) is optional
 
    Either install them from a source distribution or by the package

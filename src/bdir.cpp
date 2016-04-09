@@ -78,7 +78,7 @@ bool BDirectory::Create(const std::string &aPath, int mode /* = 0x0755 */)
 #endif
 }
 
-#ifdef WIN32
+#ifdef _WIN32
 bool BDirectory::RemoveRecursive(const std::string &aPath)
 {
     std::string     basePath;
@@ -157,7 +157,7 @@ bool BDirectory::RemoveRecursive(const std::string &aPath)
 #endif
 #endif
 
-#ifdef WIN32
+#ifdef _WIN32
 tPathList BDirectory::GetSubDirectories(const std::string &aPath)
 {
     std::vector<std::string> subDirList;
@@ -232,7 +232,7 @@ tPathList BDirectory::GetFiles(const std::string &aPath)
     std::vector<std::string> fileList;
 
     std::string     basePath;
-#ifdef WIN32
+#ifdef _WIN32
     HANDLE          hdl;
     WIN32_FIND_DATA pentry;
 

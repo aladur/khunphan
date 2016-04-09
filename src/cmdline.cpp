@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "cmdline.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 // Extension for Win32: Scan command line parameters based
 // on a static command line parameter string
 void CmdLine::Scan(LPSTR lpCmdLine, int *argc, char **argv, int max_argc)
