@@ -346,7 +346,14 @@ bool KPSdl2UserInterface::IsWindowResolutionSupported(
     int index, result;
     SDL_Rect rect;
 
-    index = SDL_GetWindowDisplayIndex(window);
+    if (window == NULL)
+    {
+        // If there is no window opened yet we just can make a guess.
+        index = 0;
+    } else {
+        index = SDL_GetWindowDisplayIndex(window);
+    }
+
     if (index < 0)
     {
         LOG2("*** SDL_GetWindowDisplayIndex error: ", SDL_GetError());
