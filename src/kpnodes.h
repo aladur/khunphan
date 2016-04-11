@@ -80,6 +80,7 @@ private:
     tNodesForId nodesForId;
     double createSolveTreeTime;
     double calculateSolveCountTime;
+    bool isReadOnly;
 };
 
 #endif

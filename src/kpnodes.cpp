@@ -27,7 +27,7 @@
 
 
 KPnodes::KPnodes(KPnode rootNode) :
-    createSolveTreeTime(0.0), calculateSolveCountTime(0.0)
+    createSolveTreeTime(0.0), calculateSolveCountTime(0.0), isReadOnly(false)
 {
     BTime time;
 
@@ -42,10 +42,17 @@ void KPnodes::Initialize()
 {
     ids.clear();
     nodesForId.clear();
+    isReadOnly = false;
 }
 
 KPnode &KPnodes::Add(KPnode &node)
 {
+    if (isReadOnly)
+    {
+        throw std::logic_error(
+            "Calling Add is not allowed in read-only mode.");
+    }
+
     QWord id = node.GetBoard().GetID();
 
     ids.push_back(id);
@@ -74,6 +81,12 @@ void KPnodes::CreateSolveTree(KPnode &rootNode)
 {
     size_t index;
 
+    if (isReadOnly)
+    {
+        throw std::logic_error(
+            "Calling CreateSolveTree is not allowed in read-only mode.");
+    }
+
     Initialize();
 
     Add(rootNode);
@@ -84,6 +97,13 @@ void KPnodes::CreateSolveTree(KPnode &rootNode)
 
         node.AddNextMoves(*this);
     }
+
+    // Switch to read-only mode. After this point no nodes can be added
+    // any more.
+    // Reason: The node elements store pointers to other node elements
+    // in the childs and parents members. This only works if the vector
+    // is not changed any more.
+    isReadOnly = true;
 }
 
 void KPnodes::CalculateSolveCount(void)
