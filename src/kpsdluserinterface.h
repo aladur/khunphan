@@ -81,7 +81,7 @@ private:
     std::vector<std::string> musicFiles;
     double musicPosition; // save position of music in seconds
     BTime time;
-    static const char *soundFile[KP_SND_MAX+1];
+    static const char *soundFile[KP_SND_MAX];
 };
 
 #endif //#if defined (HAVE_SDL) || defined (HAVE_SDL2)

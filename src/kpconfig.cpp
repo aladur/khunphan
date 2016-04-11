@@ -116,44 +116,34 @@ void KPConfig::SetFileName(const char *aFileName)
     }
 }
 
-std::string KPConfig::GetDirectory(tKPDir directoryID) const
+std::string KPConfig::GetDirectoryBase(tKPDir directoryID) const
 {
-#ifdef _WIN32
     switch (directoryID)
     {
         case KP_TEXTURE_DIR:
-            return "Textures\\";
+            return "Textures" PATHSEPARATORSTRING;
         case KP_SOUND_DIR:
-            return "Sounds\\";
+            return "Sounds" PATHSEPARATORSTRING;
         case KP_MUSIC_DIR:
-            return "Music\\";
+            return "Music" PATHSEPARATORSTRING;
         case KP_LOCALE_DIR:
-            return "locale\\";
+            return "locale" PATHSEPARATORSTRING;
         default:
             return "";
     }
+}
+
+std::string KPConfig::GetDirectory(tKPDir directoryID) const
+{
+#ifdef _WIN32
+    return GetDirectoryBase(directoryID);
 #else
 #ifdef LINUX
     std::string dir;
     struct stat sStat;
 
-    switch (directoryID)
-    {
-        case KP_TEXTURE_DIR:
-            dir = "Textures/";
-            break;
-        case KP_SOUND_DIR:
-            dir = "Sounds/";
-            break;
-        case KP_MUSIC_DIR:
-            dir = "Music/";
-            break;
-        case KP_LOCALE_DIR:
-            dir = "locale/";
-            break;
-        default:
-            dir = "";
-    }
+    dir = GetDirectoryBase(directoryID);
+ 
     if (!dir.empty() && access(dir.c_str(), F_OK) == 0 &&
         stat(dir.c_str(), &sStat) == 0 && S_ISDIR(sStat.st_mode))
     {
@@ -161,21 +151,7 @@ std::string KPConfig::GetDirectory(tKPDir directoryID) const
     }
 
     dir = DATADIR "/" PACKAGE "/";
-    switch (directoryID)
-    {
-        case KP_TEXTURE_DIR:
-            dir += "Textures/";
-            break;
-        case KP_SOUND_DIR:
-            dir += "Sounds/";
-            break;
-        case KP_MUSIC_DIR:
-            dir += "Music/";
-            break;
-        case KP_LOCALE_DIR:
-            dir += "locale/";
-            break;
-    }
+    dir += GetDirectoryBase(directoryID);
     if (access(dir.c_str(), F_OK) < 0 || stat(dir.c_str(), &sStat) < 0 ||
         !S_ISDIR(sStat.st_mode))
     {

@@ -101,18 +101,23 @@ void  KPstateMainMenu::MouseClick (KPstateContext *pContext,
         case S_CONTINUE:
             pContext->ChangeState(KPState_Game);
             break;
+
         case S_TUTORIAL:
             pContext->ChangeState(KPState_Tutorial1);
             break;
+
         case S_KEYBOARD_HELP:
             pContext->ChangeState(KPState_KeyboardHelp);
             break;
+
         case S_SETTINGS:
             pContext->ChangeState(KPState_Settings);
             break;
+
         case S_SCORELIST:
             pContext->ChangeState(KPState_ScoreList);
             break;
+
         case S_FINISH:
             pContext->ChangeState(KPState_Finish);
             break;

@@ -37,7 +37,7 @@
 
 const int KPSdlUserInterface::REQUEST_FOR_CLOSE = 99;
 
-const char *KPSdlUserInterface::soundFile[KP_SND_MAX+1] =
+const char *KPSdlUserInterface::soundFile[KP_SND_MAX] =
 {
     "openmenu.ogg",      // KP_SND_OPENMENU
     "quitgame.ogg",      // KP_SND_QUITGAME
@@ -45,8 +45,7 @@ const char *KPSdlUserInterface::soundFile[KP_SND_MAX+1] =
     "changesetting.ogg", // KP_SND_CHANGESETTING
     "tutorialnext.ogg",  // KP_SND_TUTORIALNEXT
     "opengame.ogg",      // KP_SND_OPENGAME
-    "gamesolved.ogg",    // KP_SND_GAMESOLVED
-    NULL
+    "gamesolved.ogg"     // KP_SND_GAMESOLVED
 };
 
 KPSdlUserInterface::KPSdlUserInterface(KPConfig &Config) :
@@ -236,7 +235,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
     Mix_HaltChannel(-1);
     Mix_HaltMusic();
 
-    while (soundFile[i] != NULL)
+    while (i < KP_SND_MAX)
     {
         file1 = config.GetDirectory(KP_SOUND_DIR) + textureName +
                 PATHSEPARATORSTRING + soundFile[i];

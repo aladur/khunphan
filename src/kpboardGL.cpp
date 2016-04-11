@@ -42,13 +42,12 @@
 
 //#define   DRAW_TEST   1   // Uncomment this line only for test purposes
 
-const char *KPboardView::textureFile[MAX_BOARD_TEXTURES + 1] =
+const char *KPboardView::textureFile[MAX_BOARD_TEXTURES] =
 {
     "texture1.png",
     "texture2.png",
     "texture3.png",
-    "board.png",
-    NULL
+    "board.png"
 };
 
 KPboardView::KPboardView(const KPboard &currentBoard,
@@ -161,7 +160,7 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
     }
 
     std::string file;
-    while (TextureSize && textureFile[i] != NULL)
+    while (TextureSize && (i < MAX_BOARD_TEXTURES))
     {
         file = TextureDirectory + TextureName +
                PATHSEPARATORSTRING + textureFile[i];

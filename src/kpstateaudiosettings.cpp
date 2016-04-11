@@ -108,6 +108,7 @@ void  KPstateAudioSettings::MouseClick (KPstateContext *pContext,
             ToggleSoundVolume(pContext);
             UpdateDisplay(pContext);
             break;
+
         case S_TOGGLE_MUSIC_VOLUME:
             ToggleMusicVolume(pContext);
             UpdateDisplay(pContext);

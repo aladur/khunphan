@@ -116,6 +116,7 @@ void KPstateControlSettings::MouseClick (KPstateContext *pContext,
             ToggleSolutionHint(pContext);
             UpdateDisplay(pContext);
             break;
+
         case S_TOGGLE_MOUSE_SPEED:
             ToggleMouseSpeed(pContext);
             UpdateDisplay(pContext);

@@ -93,6 +93,8 @@ public:
     bool SkipProgressBar;
 
 protected:
+    std::string GetDirectoryBase(tKPDir directoryID) const;
+
     std::string fileName;
     std::string fileVersion;
 };

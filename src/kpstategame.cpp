@@ -203,16 +203,19 @@ void  KPstateGame::MouseClick (KPstateContext *pContext,
                 pContext->GetUserInterface().PlayMusic(false);
                 pContext->ChangeState(KPState_MainMenu);
                 break;
+
             case S_TOGGLE_SOUND_ON:
                 config.SoundOn = !config.SoundOn;
                 config.WriteToFile();
                 UpdateDisplay(pContext);
                 break;
+
             case S_TOGGLE_MUSIC_ON:
                 config.MusicOn = !config.MusicOn;
                 config.WriteToFile();
                 UpdateDisplay(pContext);
                 break;
+
             default:
                 MouseMoveToken(pContext, button, event, x, y);
                 break;

@@ -93,7 +93,7 @@ private:
     float getRnd(void) const;
 
     KPboard current;
-    static const char *textureFile[MAX_BOARD_TEXTURES + 1];
+    static const char *textureFile[MAX_BOARD_TEXTURES];
 
     // variables for token animation:
     float mat_value, xValue;

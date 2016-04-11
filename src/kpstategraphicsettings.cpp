@@ -430,44 +430,54 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
             ToggleFPS(pContext);
             UpdateDisplay(pContext);
             break;
+
         case S_TOGGLE_LAMPS:
             ToggleLamps(pContext);
             UpdateDisplay(pContext);
             break;
+
         case S_TOGGLE_SCREENMODE:
             ToggleScreenMode(pContext);
             UpdateDisplay(pContext);
             break;
+
         case S_TOGGLE_RESOLUTION:
             ToggleResolution(pContext);
             UpdateDisplay(pContext);
             break;
+
         case S_TOGGLE_TEXTUREINTERPOL:
             ToggleTextureInterpolation(pContext);
             UpdateDisplay(pContext);
             break;
+
         case S_TOGGLE_TEXTURES:
             ToggleTextures(pContext);
             UpdateDisplay(pContext);
             break;
+
         case S_TOGGLE_MENUTEXTURES:
             ToggleMenuTextures(pContext);
             UpdateDisplay(pContext);
             break;
+
         case S_TOGGLE_TEXTURENAME:
             ToggleTextureName(pContext);
             UpdateDisplay(pContext);
             break;
+
         case S_TOGGLE_AMBIENT_LIGHT:
             ToggleAmbientLight(pContext);
             UpdateDisplay(pContext);
             break;
+
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
         case S_TOGGLE_USER_INTERFACE:
             ToggleUserInterface(pContext);
             UpdateDisplay(pContext);
             break;
 #endif
+
         case S_TOGGLE_QUALITY:
             ToggleQuality(pContext);
             UpdateDisplay(pContext);

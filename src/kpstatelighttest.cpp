@@ -95,6 +95,7 @@ void  KPstateLightTest::MouseClick (KPstateContext *pContext,
         case S_BACK:
             pContext->GetUserInterface().RequestForClose();
             break;
+
         default:
             HandleMouseClick(pContext, button, event, x, y);
             break;

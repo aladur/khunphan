@@ -143,20 +143,24 @@ void KPSdl12UserInterface::MainLoop()
                         throw std::runtime_error(message.str());
                     }
                     break;
+
                 case SDL_USEREVENT:
                     if (event.user.code == REQUEST_FOR_CLOSE)
                     {
                         done = true;
                     }
                     break;
+
                 case SDL_QUIT:
                     done = true;
                     break;
+
                 case SDL_MOUSEBUTTONUP:
                 case SDL_MOUSEBUTTONDOWN:
                     MouseClick(event.button.button, event.button.state,
                                event.button.x, event.button.y);
                     break;
+
                 case SDL_KEYDOWN:
                     if (mapKey(event.key.keysym.mod, event.key.keysym.sym,
                                &key))

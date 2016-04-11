@@ -79,15 +79,19 @@ void  KPstateSettings::MouseClick (KPstateContext *pContext,
         case S_CONTROL_SETTINGS:
             pContext->ChangeState(KPState_ControlSettings);
             break;
+
         case S_GRAPHIC_SETTINGS:
             pContext->ChangeState(KPState_GraphicSettings);
             break;
+
         case S_AUDIO_SETTINGS:
             pContext->ChangeState(KPState_AudioSettings);
             break;
+
         case S_SELECT_LANGUAGE:
             pContext->ChangeState(KPState_SelectLanguage);
             break;
+
         case S_BACK:
             pContext->ChangeState(ESCKeyAction(pContext));
             break;
