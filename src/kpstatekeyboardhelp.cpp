@@ -39,59 +39,63 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext) const
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2,2.5,14,9.0);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 2.5, 14, 9.0);
 
-    menu.plates[PLATE_LOGO].SetPosition(5,9,11,11);
+    menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
     bool fullScreen = pContext->GetUserInterface().CanToggleFullScreen();
 
     float y = 8.5;
-    menu.labels[T_H_KEYBOARDHELP].SetPosition(8,y,1,A_CENTERED);
+    menu.labels[T_H_KEYBOARDHELP].SetPosition(8, y, 1, A_CENTERED);
     y -= 1.0f;
     menu.labels[T_H_KEYBOARDHELP].SetFullyVisible();
 
-    menu.labels[T_H_GENERAL].SetPosition(8,y,1,A_CENTERED);
+    menu.labels[T_H_GENERAL].SetPosition(8, y, 1, A_CENTERED);
     y -= 1.0f;
-    menu.labels[T_H_ESC_KEY].SetPosition(3,y,0.6f);
+    menu.labels[T_H_ESC_KEY].SetPosition(3, y, 0.6f);
     y -= 0.6f;
-    menu.labels[T_H_OPENGL_KEY].SetPosition(3,y,0.6f);
+    menu.labels[T_H_OPENGL_KEY].SetPosition(3, y, 0.6f);
     y -= (fullScreen ? 0.6f : 1.0f);
+
     if (fullScreen)
     {
-        menu.labels[T_H_FULLSCREEN_KEY].SetPosition(3,y,0.6f);
+        menu.labels[T_H_FULLSCREEN_KEY].SetPosition(3, y, 0.6f);
         y -= 1.0f;
     }
-    menu.labels[T_H_IN_GAME].SetPosition(8,y,1,A_CENTERED);
+
+    menu.labels[T_H_IN_GAME].SetPosition(8, y, 1, A_CENTERED);
     y -= 1.0f;
-    menu.labels[T_H_PAUSE_KEY].SetPosition(3,y,0.6f);
+    menu.labels[T_H_PAUSE_KEY].SetPosition(3, y, 0.6f);
     y -= 0.6f;
-    menu.labels[T_H_CAMERA_KEY].SetPosition(3,y,0.6f);
+    menu.labels[T_H_CAMERA_KEY].SetPosition(3, y, 0.6f);
     y -= 0.6f;
 
     y = 6.5f;
-    menu.labels[T_H_ESC].SetPosition(6,y,0.6f);
+    menu.labels[T_H_ESC].SetPosition(6, y, 0.6f);
     y -= 0.6f;
-    menu.labels[T_H_OPENGL].SetPosition(6,y,0.6f);
+    menu.labels[T_H_OPENGL].SetPosition(6, y, 0.6f);
     y -= (fullScreen ? 0.6f : 2.0f);
+
     if (fullScreen)
     {
-        menu.labels[T_H_FULLSCREEN].SetPosition(6,y,0.6f);
+        menu.labels[T_H_FULLSCREEN].SetPosition(6, y, 0.6f);
         y -= 2.0f;
     }
-    menu.labels[T_H_PAUSE].SetPosition(6,y,0.6f);
-    y -= 0.6f;
-    menu.labels[T_H_CAMERA].SetPosition(6,y,0.6f);
 
-    menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_H_PAUSE].SetPosition(6, y, 0.6f);
+    y -= 0.6f;
+    menu.labels[T_H_CAMERA].SetPosition(6, y, 0.6f);
+
+    menu.labels[T_BACK].SetPosition(8, 1, 1, A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
     StartAnimation(pContext);
 }
 
-void  KPstateKeyboardHelp::MouseClick (KPstateContext *pContext,
-                                       tMouseButton button, tMouseEvent event,
-                                       int x, int y)
+void  KPstateKeyboardHelp::MouseClick(KPstateContext *pContext,
+                                      tMouseButton button, tMouseEvent event,
+                                      int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 

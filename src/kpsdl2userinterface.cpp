@@ -54,8 +54,8 @@ void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
 {
     if (window != NULL && CanToggleFullScreen())
     {
-        SDL_SetWindowFullscreen(window,
-                            isfullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
+        Uint32 flags = isfullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0;
+        SDL_SetWindowFullscreen(window, flags);
     }
 }
 
@@ -74,6 +74,7 @@ void KPSdl2UserInterface::SetWindowSize(int width, int height) const
         int index, result, x, y, oldX, oldY, diff;
 
         index = SDL_GetWindowDisplayIndex(window);
+
         if (index < 0)
         {
             LOG2("*** SDL_GetWindowDisplayIndex error: ", SDL_GetError());
@@ -81,6 +82,7 @@ void KPSdl2UserInterface::SetWindowSize(int width, int height) const
         }
 
         result = SDL_GetDisplayBounds(index, &rect);
+
         if (result < 0)
         {
             LOG2("*** SDL_GetDisplayBounds error: ", SDL_GetError());
@@ -96,16 +98,21 @@ void KPSdl2UserInterface::SetWindowSize(int width, int height) const
         {
             x = rect.x;
         }
+
         diff = x + width - rect.x - rect.w;
+
         if (diff > 0)
         {
             x -= diff;
         }
+
         if (y < rect.y)
         {
             y = rect.y;
         }
+
         diff = y + height - rect.y - rect.h;
+
         if (diff > 0)
         {
             y -= diff;
@@ -165,7 +172,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     }
 
     if (!IsWindowResolutionSupported(config.ScreenXResolution,
-                                     (config.ScreenXResolution*3)/4))
+                                     (config.ScreenXResolution * 3) / 4))
     {
         config.ScreenXResolution = 640;
     }
@@ -175,7 +182,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
                  SDL_WINDOWPOS_UNDEFINED,
                  SDL_WINDOWPOS_UNDEFINED,
                  config.ScreenXResolution,
-                 (config.ScreenXResolution*3)/4,
+                 (config.ScreenXResolution * 3) / 4,
                  flags);
 
     if (window == NULL)
@@ -189,22 +196,26 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     // and on Windows would use DirectX and not the OpenGL backend.
     // Instead the OpenGL renderer is used together with ligGLEW.
     glContext = SDL_GL_CreateContext(window);
+
     if (glContext == NULL)
     {
         message << "Error in SDL_GL_CreateContext: " << SDL_GetError();
         SDL_Quit();
         throw std::runtime_error(message.str());
     }
+
     // Do updates synchronized with VSync
     SDL_GL_SetSwapInterval(1);
 
     GLenum glewReturn = glewInit();
+
     if (glewReturn != GLEW_OK)
     {
         message << "Error in glewInit: " << glewGetErrorString(glewReturn);
         SDL_Quit();
         throw std::runtime_error(message.str());
     }
+
     LOG2("GLEW version: ", glewGetString(GLEW_VERSION));
 
     SDL_DisplayMode mode;
@@ -225,11 +236,13 @@ void KPSdl2UserInterface::DebugPrintOpenGLContextVersion() const
     int major = 0;
     int minor = 0;
     int profile = 0;
-    static const int profile2Index[3] = {
+    static const int profile2Index[3] =
+    {
         SDL_GL_CONTEXT_PROFILE_CORE, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY,
         SDL_GL_CONTEXT_PROFILE_ES
     };
-    static const char *index2String[4] = {
+    static const char *index2String[4] =
+    {
         "SDL_GL_CONTEXT_PROFILE_CORE", "SDL_GL_CONTEXT_PROFILE_COMPATIBILITY",
         "SDL_GL_CONTEXT_PROFILE_ES", "<unknown>"
     };
@@ -256,7 +269,7 @@ void KPSdl2UserInterface::MainLoop()
     bool done = false;
     unsigned char key;
 
-    while ( ! done )
+    while (! done)
     {
         SDL_Event event;
 
@@ -264,9 +277,9 @@ void KPSdl2UserInterface::MainLoop()
 
         Idle();
 
-        while ( SDL_PollEvent(&event) )
+        while (SDL_PollEvent(&event))
         {
-            switch(event.type)
+            switch (event.type)
             {
                 case SDL_WINDOWEVENT:
                     switch (event.window.event)
@@ -275,20 +288,25 @@ void KPSdl2UserInterface::MainLoop()
                             Reshape(event.window.data1, event.window.data2);
                             break;
                     }
+
                     break;
+
                 case SDL_USEREVENT:
                     if (event.user.code == REQUEST_FOR_CLOSE)
                     {
                         done = true;
                     }
+
                 case SDL_QUIT:
                     done = true;
                     break;
+
                 case SDL_MOUSEBUTTONUP:
                 case SDL_MOUSEBUTTONDOWN:
                     MouseClick(event.button.button, event.button.state,
                                event.button.x, event.button.y);
                     break;
+
                 case SDL_KEYDOWN:
                     if (mapKey(event.key.keysym.mod, event.key.keysym.sym,
                                &key))
@@ -297,9 +315,11 @@ void KPSdl2UserInterface::MainLoop()
                         SDL_GetMouseState(&xm, &ym);
                         KeyPressed(key, xm, ym);
                     }
+
                     break;
             } // switch
         } // event loop
+
         Display();
         PostWindowRedisplay();
 
@@ -332,6 +352,7 @@ int KPSdl2UserInterface::GetValue(int what) const
         {
             case KP_WINDOW_WIDTH:
                 return width;
+
             case KP_WINDOW_HEIGHT:
                 return height;
         }
@@ -341,7 +362,7 @@ int KPSdl2UserInterface::GetValue(int what) const
 }
 
 bool KPSdl2UserInterface::IsWindowResolutionSupported(
-                          int width, int height) const
+    int width, int height) const
 {
     int index, result;
     SDL_Rect rect;
@@ -350,7 +371,9 @@ bool KPSdl2UserInterface::IsWindowResolutionSupported(
     {
         // If there is no window opened yet we just can make a guess.
         index = 0;
-    } else {
+    }
+    else
+    {
         index = SDL_GetWindowDisplayIndex(window);
     }
 
@@ -361,6 +384,7 @@ bool KPSdl2UserInterface::IsWindowResolutionSupported(
     }
 
     result = SDL_GetDisplayBounds(index, &rect);
+
     if (result < 0)
     {
         LOG2("*** SDL_GetDisplayBounds error: ", SDL_GetError());

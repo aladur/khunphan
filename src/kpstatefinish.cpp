@@ -39,23 +39,23 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext) const
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(4.5,4.5,11.5,8.5);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(4.5, 4.5, 11.5, 8.5);
 
-    menu.plates[PLATE_LOGO].SetPosition(4,9,12,11);
+    menu.plates[PLATE_LOGO].SetPosition(4, 9, 12, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[T_QUIT].SetPosition(8,8,1,A_CENTERED);
+    menu.labels[T_QUIT].SetPosition(8, 8, 1, A_CENTERED);
     menu.labels[T_QUIT].SetFullyVisible();
-    menu.labels[T_DOQUIT].SetPosition(8,6,1,A_CENTERED);
+    menu.labels[T_DOQUIT].SetPosition(8, 6, 1, A_CENTERED);
     menu.labels[T_DOQUIT].SetSignal(S_FINISH);
-    menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_BACK].SetPosition(8, 1, 1, A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
     StartAnimation(pContext);
 }
 
-void  KPstateFinish::MouseClick (KPstateContext *pContext, tMouseButton button,
-                                 tMouseEvent event, int x, int y)
+void  KPstateFinish::MouseClick(KPstateContext *pContext, tMouseButton button,
+                                tMouseEvent event, int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 

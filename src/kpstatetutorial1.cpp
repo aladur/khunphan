@@ -42,7 +42,7 @@ void KPstateTutorial1::Initialize(KPstateContext *pContext,
     InitializeBoardWithTokens(pContext);
 
     // Set Tutorial-Text to width  31.2
-    for (int i=T_TUTORIAL1 ; i <= T_TUTORIAL_END ; i++ )
+    for (int i = T_TUTORIAL1 ; i <= T_TUTORIAL_END ; i++)
     {
         if (menu.labels.find(i) != menu.labels.end())
         {
@@ -62,64 +62,77 @@ void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext) const
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(.5,4.0,15.5,11);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(.5, 4.0, 15.5, 11);
 
-    menu.plates[PLATE_LOGO].SetPosition(0,11.0,4,12);
+    menu.plates[PLATE_LOGO].SetPosition(0, 11.0, 4, 12);
     menu.plates[PLATE_LOGO].SetSignal(S_BACK);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[T_TUTORIAL1].SetPosition(8,10.5,1.0,A_CENTERED);
+    menu.labels[T_TUTORIAL1].SetPosition(8, 10.5, 1.0, A_CENTERED);
     menu.labels[T_TUTORIAL1].SetFullyVisible();
 
     float y = 9.5;
-    menu.labels[T_TUTORIAL1_01].SetPosition(1.25,y,0.7f);
+    menu.labels[T_TUTORIAL1_01].SetPosition(1.25, y, 0.7f);
     y -= 1.0;
-    menu.labels[T_TUTORIAL1_02].SetPosition(1.25,y,0.5);
+    menu.labels[T_TUTORIAL1_02].SetPosition(1.25, y, 0.5);
     y -= 0.5;
+
     if (menu.labels.find(T_TUTORIAL1_03) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL1_03].SetPosition(1.25,y,0.5);
-    }
-    y -= 0.5;
-    if (menu.labels.find(T_TUTORIAL1_04) != menu.labels.end())
-    {
-        menu.labels[T_TUTORIAL1_04].SetPosition(1.25,y,0.5);
-    }
-    y -= 0.5;
-    if (menu.labels.find(T_TUTORIAL1_05) != menu.labels.end())
-    {
-        menu.labels[T_TUTORIAL1_05].SetPosition(1.25,y,0.5);
-    }
-    y -= 0.5;
-    if (menu.labels.find(T_TUTORIAL1_06) != menu.labels.end())
-    {
-        menu.labels[T_TUTORIAL1_06].SetPosition(1.25,y,0.5);
-    }
-    y -= 0.5;
-    if (menu.labels.find(T_TUTORIAL1_07) != menu.labels.end())
-    {
-        menu.labels[T_TUTORIAL1_07].SetPosition(1.25,y,0.5);
-    }
-    y -= 0.5;
-    if (menu.labels.find(T_TUTORIAL1_08) != menu.labels.end())
-    {
-        menu.labels[T_TUTORIAL1_08].SetPosition(1.25,y,0.5);
-    }
-    y -= 0.5;
-    if (menu.labels.find(T_TUTORIAL1_09) != menu.labels.end())
-    {
-        menu.labels[T_TUTORIAL1_09].SetPosition(1.25,y,0.5);
+        menu.labels[T_TUTORIAL1_03].SetPosition(1.25, y, 0.5);
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
+    y -= 0.5;
+
+    if (menu.labels.find(T_TUTORIAL1_04) != menu.labels.end())
+    {
+        menu.labels[T_TUTORIAL1_04].SetPosition(1.25, y, 0.5);
+    }
+
+    y -= 0.5;
+
+    if (menu.labels.find(T_TUTORIAL1_05) != menu.labels.end())
+    {
+        menu.labels[T_TUTORIAL1_05].SetPosition(1.25, y, 0.5);
+    }
+
+    y -= 0.5;
+
+    if (menu.labels.find(T_TUTORIAL1_06) != menu.labels.end())
+    {
+        menu.labels[T_TUTORIAL1_06].SetPosition(1.25, y, 0.5);
+    }
+
+    y -= 0.5;
+
+    if (menu.labels.find(T_TUTORIAL1_07) != menu.labels.end())
+    {
+        menu.labels[T_TUTORIAL1_07].SetPosition(1.25, y, 0.5);
+    }
+
+    y -= 0.5;
+
+    if (menu.labels.find(T_TUTORIAL1_08) != menu.labels.end())
+    {
+        menu.labels[T_TUTORIAL1_08].SetPosition(1.25, y, 0.5);
+    }
+
+    y -= 0.5;
+
+    if (menu.labels.find(T_TUTORIAL1_09) != menu.labels.end())
+    {
+        menu.labels[T_TUTORIAL1_09].SetPosition(1.25, y, 0.5);
+    }
+
+    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, A_CENTERED);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);
 }
 
-void  KPstateTutorial1::MouseClick (KPstateContext *pContext,
-                                    tMouseButton button, tMouseEvent event,
-                                    int x, int y)
+void  KPstateTutorial1::MouseClick(KPstateContext *pContext,
+                                   tMouseButton button, tMouseEvent event,
+                                   int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
@@ -128,6 +141,7 @@ void  KPstateTutorial1::MouseClick (KPstateContext *pContext,
         case S_CONTINUE:
             pContext->ChangeState(KPState_Tutorial2);
             break;
+
         case S_BACK:
             pContext->ChangeState(ESCKeyAction(pContext));
             break;

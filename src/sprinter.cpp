@@ -125,10 +125,12 @@ bool sprinter::isformatstring(const std::string &text)
         if (pos != std::string::npos)
         {
             ++pos;
+
             if (text[pos] != '\0' && text[pos] != '%')
             {
                 return true;
             }
+
             ++pos;
         }
     }

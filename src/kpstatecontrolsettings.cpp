@@ -48,31 +48,31 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext) const
     float y;
     float dy = 0.6f;
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2,3.5,14,8.5);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 3.5, 14, 8.5);
 
-    menu.plates[PLATE_LOGO].SetPosition(4,9,12,11);
+    menu.plates[PLATE_LOGO].SetPosition(4, 9, 12, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[T_SETTINGS].SetPosition(4,8,1);
+    menu.labels[T_SETTINGS].SetPosition(4, 8, 1);
     menu.labels[T_SETTINGS].SetFullyVisible();
-    menu.labels[T_CONTROL].SetPosition(12,8,1,A_RIGHT);
+    menu.labels[T_CONTROL].SetPosition(12, 8, 1, A_RIGHT);
     menu.labels[T_CONTROL].SetFullyVisible();
 
     y = 6.0;
     menu.labels[T_MOUSESPEED].SetPosition(8, y, 0.71f, A_RIGHT);
     menu.labels[T_MOUSESPEED].SetSignal(S_TOGGLE_MOUSE_SPEED);
 
-    if (E_MouseSpeed<=.293)
+    if (E_MouseSpeed <= .293)
     {
         menu.labels[T_MS_SLOW].SetPosition(8.2f, y, 0.71f);
         menu.labels[T_MS_SLOW].SetSignal(S_TOGGLE_MOUSE_SPEED);
     }
-    else if (E_MouseSpeed<=.41)
+    else if (E_MouseSpeed <= .41)
     {
         menu.labels[T_MS_MEDIUM].SetPosition(8.2f, y, 0.71f);
         menu.labels[T_MS_MEDIUM].SetSignal(S_TOGGLE_MOUSE_SPEED);
     }
-    else if (E_MouseSpeed<=.575)
+    else if (E_MouseSpeed <= .575)
     {
         menu.labels[T_MS_FAST].SetPosition(8.2f, y, 0.71f);
         menu.labels[T_MS_FAST].SetSignal(S_TOGGLE_MOUSE_SPEED);
@@ -98,15 +98,15 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext) const
         menu.labels[T_SH_OFF].SetSignal(S_TOGGLE_SOLUTION_HINT);
     }
 
-    menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_BACK].SetPosition(8, 1, 1, A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
     StartAnimation(pContext);
 }
 
-void KPstateControlSettings::MouseClick (KPstateContext *pContext,
-        tMouseButton button, tMouseEvent event,
-        int x, int y)
+void KPstateControlSettings::MouseClick(KPstateContext *pContext,
+                                        tMouseButton button, tMouseEvent event,
+                                        int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
@@ -136,6 +136,7 @@ void KPstateControlSettings::MouseClick (KPstateContext *pContext,
 void  KPstateControlSettings::ToggleMouseSpeed(KPstateContext *pContext)
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+
     if (E_MouseSpeed <= 0.21f)
     {
         E_MouseSpeed = 0.8f;
@@ -165,7 +166,7 @@ void  KPstateControlSettings::ToggleSolutionHint(KPstateContext *pContext)
 }
 
 tKPMenuState KPstateControlSettings::ESCKeyAction(
-                                         KPstateContext *pContext) const
+    KPstateContext *pContext) const
 {
     SaveChanges(pContext);
     return pContext->GetPreviousState();

@@ -34,35 +34,43 @@ void message(tMsgType type, const char *format, ...)
     sprinter::vsprintf(msg, format, arg_ptr);
     va_end(arg_ptr);
 #ifdef LINUX
+
     switch (type)
     {
         case mtError:
             std::cerr << msg << std::endl;
             break;
+
         case mtMessage:
             std::cout << msg << std::endl;
             break;
+
         case mtWarning:
             std::cerr << msg << std::endl;
             break;
     }
+
 #else
 #ifdef WIN32
     std::string msg1;
     sprinter::sprintf(msg1, "[%s] %s\n", PACKAGE, msg.c_str());
     OutputDebugString(msg1.c_str());
+
     switch (type)
     {
         case mtError:
             MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK | MB_ICONERROR);
             break;
+
         case mtMessage:
             MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK);
             break;
+
         case mtWarning:
             MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK | MB_ICONEXCLAMATION);
             break;
     }
+
 #else
 #error "Unsupported platform"
 #endif
@@ -75,6 +83,7 @@ tKPTokenID &operator++ (tKPTokenID &d)
     {
         return d;
     }
+
     return d = ((d == TK_RED1) ? TK_GREEN1 : tKPTokenID(d + 1));
 }
 

@@ -48,23 +48,24 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
     else if (button == KP_LEFT_MB && event == KP_BUTTON_RELEASE)
     {
         // Releasing left mouse button: move token
-        if ( token != TK_EMPTY )
+        if (token != TK_EMPTY)
         {
             // calculate mouse direction
             tKPDirection mouseDirection = MOVE_NO;
             int diff_x = x - mouse_x;
             int diff_y = y - mouse_y;
 
-            if ( abs(diff_x) - abs(diff_y) > 1 )
+            if (abs(diff_x) - abs(diff_y) > 1)
             {
                 // Move left or right
-                mouseDirection = ( diff_x > 0 ) ? MOVE_LEFT : MOVE_RIGHT;
+                mouseDirection = (diff_x > 0) ? MOVE_LEFT : MOVE_RIGHT;
             }
-            else if ( abs(diff_y) - abs(diff_x) > 1 )
+            else if (abs(diff_y) - abs(diff_x) > 1)
             {
                 // Move up or down
-                mouseDirection = ( diff_y > 0 ) ? MOVE_DOWN : MOVE_UP;
+                mouseDirection = (diff_y > 0) ? MOVE_DOWN : MOVE_UP;
             }
+
             if (HookDoTheMove(pContext, token, mouseDirection))
             {
                 bool result = pContext->GetBoardView().Move(token,
@@ -77,6 +78,7 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
         {
             HookAfterTokenMoved(pContext, TK_EMPTY, MOVE_NO, false);
         }
+
         return true;
     }
     else

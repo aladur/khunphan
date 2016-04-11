@@ -49,10 +49,12 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
     pContext->GetConfig().SavedGame = 0;
 
     it = menu.labels.find(T_NAME_LABEL);
+
     if (it == menu.labels.end())
     {
         menu.labels[T_NAME_LABEL] = Label();
     }
+
     menu.labels[T_NAME_LABEL].SetTextOrFormat("");
 
     if (statistics.GetEventCounter(USED_CHEATS_CNT) != 0)
@@ -69,8 +71,9 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
     {
         // Game solved without any help
         tf_index = T_SOLVED2_1;
+
         if (scoreList.CanAdd("", statistics.GetTotalTime(),
-                                      statistics.GetEventCounter(MOVE_COUNTER)))
+                             statistics.GetEventCounter(MOVE_COUNTER)))
         {
             addToScoreList = true;
         }
@@ -88,59 +91,63 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
     KPmenu &menu             = pContext->GetMenu();
     KPStatistics &statistics = pContext->GetStatistics();
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(1,3.0,15,8.5);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(1, 3.0, 15, 8.5);
 
-    menu.plates[PLATE_LOGO].SetPosition(5,9,11,11);
+    menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
     float y = 7.5;
     std::string playTime = statistics.GetTotalTime(RTIME_HHMMSS);
     menu.labels[T_SOLVED1].FormatText(2,
-            statistics.GetEventCounter(MOVE_COUNTER),
-            playTime.c_str());
-    menu.labels[T_SOLVED1].SetPosition(8,y,0.6f,A_CENTERED);
-    y-= 0.6f;
+                                      statistics.GetEventCounter(MOVE_COUNTER),
+                                      playTime.c_str());
+    menu.labels[T_SOLVED1].SetPosition(8, y, 0.6f, A_CENTERED);
+    y -= 0.6f;
 
     it = menu.labels.find(tf_index);
+
     if (it != menu.labels.end())
     {
         menu.labels[tf_index].FormatText(
-                1, statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
-        menu.labels[tf_index].SetPosition(8,y,0.6f,A_CENTERED);
-        y-= 0.6f;
+            1, statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
+        menu.labels[tf_index].SetPosition(8, y, 0.6f, A_CENTERED);
+        y -= 0.6f;
     }
 
-    it = menu.labels.find(tf_index+1);
+    it = menu.labels.find(tf_index + 1);
+
     if (it != menu.labels.end())
     {
-        menu.labels[tf_index+1].SetPosition(8,y,0.6f,A_CENTERED);
+        menu.labels[tf_index + 1].SetPosition(8, y, 0.6f, A_CENTERED);
     }
 
-    y-= 0.6f;
-    it = menu.labels.find(tf_index+2);
+    y -= 0.6f;
+    it = menu.labels.find(tf_index + 2);
+
     if (it != menu.labels.end())
     {
-        menu.labels[tf_index+2].SetPosition(8,y,0.6f,A_CENTERED);
+        menu.labels[tf_index + 2].SetPosition(8, y, 0.6f, A_CENTERED);
     }
-    y-= 1.0;
+
+    y -= 1.0;
 
     if (addToScoreList)
     {
-        menu.labels[T_INPUT_NAME].SetPosition(8,y,1,A_CENTERED);
+        menu.labels[T_INPUT_NAME].SetPosition(8, y, 1, A_CENTERED);
         y -= 1.0;
-        menu.labels[T_NAME_LABEL].SetPosition(8,y,1, A_CENTERED);
+        menu.labels[T_NAME_LABEL].SetPosition(8, y, 1, A_CENTERED);
         menu.labels[T_NAME_LABEL].SetMaxCharacters(24);
         menu.labels[T_NAME_LABEL].SetInputFocus(addToScoreList);
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, A_CENTERED);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);
 }
 
-void KPstateGameSolved::KeyPressed (KPstateContext *pContext, unsigned char key,
-                                    int x, int y) const
+void KPstateGameSolved::KeyPressed(KPstateContext *pContext, unsigned char key,
+                                   int x, int y) const
 {
     if (EvaluateKeyPressed(pContext, key, x, y))
     {
@@ -165,9 +172,9 @@ tKPMenuState KPstateGameSolved::ESCKeyAction(KPstateContext *pContext) const
     return KPState_Finish;
 }
 
-void KPstateGameSolved::MouseClick (KPstateContext *pContext,
-                                    tMouseButton button, tMouseEvent event,
-                                    int x, int y)
+void KPstateGameSolved::MouseClick(KPstateContext *pContext,
+                                   tMouseButton button, tMouseEvent event,
+                                   int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
@@ -191,11 +198,12 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext) const
         scoreList.Add(name.c_str(),
                       pContext->GetStatistics().GetTotalTime(),
                       pContext->GetStatistics()
-                        .GetEventCounter(MOVE_COUNTER), 0);
+                      .GetEventCounter(MOVE_COUNTER), 0);
         scoreList.WriteToFile();
         pContext->GetCamera().SetRoundtrip(true);
         newState = KPState_ScoreList;
     }
+
     pContext->ChangeState(newState);
 }
 

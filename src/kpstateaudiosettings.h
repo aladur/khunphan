@@ -34,9 +34,9 @@ public:
     {
         return KPState_AudioSettings;
     };
-    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-    void MouseClick (KPstateContext *pContext, tMouseButton button,
-                     tMouseEvent event, int x, int y);
+    void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick(KPstateContext *pContext, tMouseButton button,
+                    tMouseEvent event, int x, int y);
     void UpdateDisplay(KPstateContext *pContext) const;
     tKPMenuState ESCKeyAction(KPstateContext *pContext) const;
 

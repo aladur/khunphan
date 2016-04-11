@@ -51,6 +51,7 @@ QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 {
     QWord currentTime = GetTimeUsll();
     QWord result = currentTime - lapTime;
+
     if (reset)
     {
         lapTime = currentTime;
@@ -63,6 +64,7 @@ double BTime::GetRelativeTimeUsf(bool  reset /*= false*/)
 {
     QWord currentTime = GetTimeUsll();
     double result = static_cast<double>(currentTime - lapTime);
+
     if (reset)
     {
         lapTime = currentTime;
@@ -94,6 +96,7 @@ QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 {
     QWord currentTime = GetTimeUsll();
     QWord result = currentTime - lapTime;
+
     if (reset)
     {
         lapTime = currentTime;
@@ -106,6 +109,7 @@ double BTime::GetRelativeTimeUsf(bool  reset /*= false*/)
 {
     QWord currentTime = GetTimeUsll();
     double result = (double)(SQWord)(currentTime - lapTime);
+
     if (reset)
     {
         lapTime = currentTime;

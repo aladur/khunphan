@@ -29,14 +29,14 @@ public:
     bool Update(std::string &, unsigned int, bool, bool, const char *,
                 const KPConfig &config);
     void Draw() const;
-    void SetPosition(float,float,float,float);
+    void SetPosition(float, float, float, float);
     void SetFadeOut();
     void SetSelected();
     void SetFadeIn();
     void SetFullyVisible();
     void StartAnimation();
     void Animate(unsigned int);
-    int MouseEvent(tMouseButton,tMouseEvent,int,int, KPUIBase &);
+    int MouseEvent(tMouseButton, tMouseEvent, int, int, KPUIBase &);
     void SetSignal(int);
     void RecreateDisplayList(BTexture *pTexture = NULL);
 private:

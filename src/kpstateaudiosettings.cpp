@@ -51,54 +51,56 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
     float y;
     float dy = 0.6f;
     int textfeldIdx;
-    static const int soundVolumeIndices[11] = {
+    static const int soundVolumeIndices[11] =
+    {
         T_SND_VOL_OFF, T_SND_VOL_10, T_SND_VOL_20, T_SND_VOL_30,
         T_SND_VOL_40, T_SND_VOL_50, T_SND_VOL_60, T_SND_VOL_70,
         T_SND_VOL_80, T_SND_VOL_90, T_SND_VOL_100
     };
-    static const int musicVolumeIndices[11] = {
+    static const int musicVolumeIndices[11] =
+    {
         T_MSC_VOL_OFF, T_MSC_VOL_10, T_MSC_VOL_20, T_MSC_VOL_30,
         T_MSC_VOL_40, T_MSC_VOL_50, T_MSC_VOL_60, T_MSC_VOL_70,
         T_MSC_VOL_80, T_MSC_VOL_90, T_MSC_VOL_100
     };
- 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2,3.5,14,8.5);
 
-    menu.plates[PLATE_LOGO].SetPosition(4,9,12,11);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 3.5, 14, 8.5);
+
+    menu.plates[PLATE_LOGO].SetPosition(4, 9, 12, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[T_SETTINGS].SetPosition(4,8,1);
+    menu.labels[T_SETTINGS].SetPosition(4, 8, 1);
     menu.labels[T_SETTINGS].SetFullyVisible();
-    menu.labels[T_AUDIO].SetPosition(12,8,1,A_RIGHT);
+    menu.labels[T_AUDIO].SetPosition(12, 8, 1, A_RIGHT);
     menu.labels[T_AUDIO].SetFullyVisible();
 
     y = 6.0;
-    menu.labels[T_SOUND_VOLUME].SetPosition(8,y,0.71f,A_RIGHT);
+    menu.labels[T_SOUND_VOLUME].SetPosition(8, y, 0.71f, A_RIGHT);
     menu.labels[T_SOUND_VOLUME].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
     textfeldIdx = soundVolumeIndices[E_SoundVolume / 10];
 
-    menu.labels[textfeldIdx].SetPosition(8.2f,y,0.71f);
+    menu.labels[textfeldIdx].SetPosition(8.2f, y, 0.71f);
     menu.labels[textfeldIdx].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
     y -= dy;
-    menu.labels[T_MUSIC_VOLUME].SetPosition(8,y,0.71f,A_RIGHT);
+    menu.labels[T_MUSIC_VOLUME].SetPosition(8, y, 0.71f, A_RIGHT);
     menu.labels[T_MUSIC_VOLUME].SetSignal(S_TOGGLE_MUSIC_VOLUME);
 
     textfeldIdx = musicVolumeIndices[E_MusicVolume / 10];
 
-    menu.labels[textfeldIdx].SetPosition(8.2f,y,0.71f);
+    menu.labels[textfeldIdx].SetPosition(8.2f, y, 0.71f);
     menu.labels[textfeldIdx].SetSignal(S_TOGGLE_MUSIC_VOLUME);
 
-    menu.labels[T_BACK].SetPosition(8,0.7f,1,A_CENTERED);
+    menu.labels[T_BACK].SetPosition(8, 0.7f, 1, A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
     StartAnimation(pContext);
 }
 
-void  KPstateAudioSettings::MouseClick (KPstateContext *pContext,
-                                        tMouseButton button, tMouseEvent event,
-                                        int x, int y)
+void  KPstateAudioSettings::MouseClick(KPstateContext *pContext,
+                                       tMouseButton button, tMouseEvent event,
+                                       int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
@@ -139,6 +141,7 @@ void KPstateAudioSettings::SaveChanges(KPstateContext *pContext) const
 void KPstateAudioSettings::ToggleMusicVolume(KPstateContext *pContext)
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+
     if (E_MusicVolume >= 100)
     {
         E_MusicVolume = 0;
@@ -147,6 +150,7 @@ void KPstateAudioSettings::ToggleMusicVolume(KPstateContext *pContext)
     {
         E_MusicVolume += 10;
     }
+
     pContext->GetUserInterface().SetMusicVolume(E_MusicVolume);
 }
 
@@ -160,6 +164,7 @@ void KPstateAudioSettings::ToggleSoundVolume(KPstateContext *pContext)
     {
         E_SoundVolume += 10;
     }
+
     pContext->GetUserInterface().SetSoundVolume(E_SoundVolume);
     // First change sound volume than play sound
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);

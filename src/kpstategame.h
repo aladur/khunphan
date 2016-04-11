@@ -37,9 +37,9 @@ public:
     };
     void Initialize(KPstateContext *pContext, const KPstate *pOldState);
     void MouseClick(KPstateContext *pContext, tMouseButton button,
-                     tMouseEvent event, int x, int y);
+                    tMouseEvent event, int x, int y);
     void KeyPressed(KPstateContext *pContext, unsigned char key,
-                     int x, int y) const;
+                    int x, int y) const;
     void AnimateAll(KPstateContext *pContext, unsigned int duration) const;
     void UpdateDisplay(KPstateContext *pContext) const;
     tKPMenuState ESCKeyAction(KPstateContext *) const;
@@ -52,7 +52,7 @@ protected:
     void Cheat1(KPstateContext *pContext) const;
     void SaveGameStatus(KPstateContext *pContext) const;
     void PlayAudioForInitialize(KPstateContext *pContext) const;
-// KPstateMoveToken interface
+    // KPstateMoveToken interface
     void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
                              tKPDirection direction, bool SuccessfullyMoved);
 };

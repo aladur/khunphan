@@ -35,7 +35,7 @@ public:
     static void FadeOutAll();
     static void SetActive(Label *pLabel);
     void Draw();
-    void SetPosition(float,float,float,tKPAlignment pos = A_LEFT);
+    void SetPosition(float, float, float, tKPAlignment pos = A_LEFT);
     void SetTextOrFormat(const std::string &textOrFormat);
     int  FormatText(int count, ...);
     inline bool HasInputFocus()
@@ -66,7 +66,7 @@ public:
     {
         return Signal;
     };
-    int MouseEvent(tMouseButton,tMouseEvent,int,int, KPUIBase &);
+    int MouseEvent(tMouseButton, tMouseEvent, int, int, KPUIBase &);
     void SetMaxWidth(float);
     void SetInputFocus(bool state);
     float GetHeight();

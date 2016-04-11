@@ -33,9 +33,9 @@ public:
     {
         return KPState_KeyboardHelp;
     };
-    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-    void MouseClick (KPstateContext *pContext, tMouseButton button,
-                     tMouseEvent event, int x, int y);
+    void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick(KPstateContext *pContext, tMouseButton button,
+                    tMouseEvent event, int x, int y);
     void UpdateDisplay(KPstateContext *pContext) const;
 };
 

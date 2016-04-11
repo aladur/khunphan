@@ -27,6 +27,7 @@ Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
     WithAlpha(false), animationTimer(TOTAL_ANIMATIONTIME, false)
 {
     DisplayList = glGenLists(1);
+
     if (DisplayList == 0)
     {
         // Could be caused if display list is totally full
@@ -54,6 +55,7 @@ Plate::Plate(const Plate &src) :
     BTexture *pTexture = NULL;
 
     DisplayList = glGenLists(1);
+
     if (DisplayList == 0)
     {
         // Could be caused if display list is totally full
@@ -66,7 +68,7 @@ Plate::Plate(const Plate &src) :
         const char *texels;
 
         if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
-            WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+                      WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
         {
             std::stringstream message;
 
@@ -120,7 +122,7 @@ Plate &Plate::operator=(const Plate &src)
             const char *texels;
 
             if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
-                WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+                          WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
             {
                 std::stringstream message;
 
@@ -145,6 +147,7 @@ Plate::~Plate()
         glDeleteLists(DisplayList, 1);
         DisplayList = 0;
     }
+
     if (Texture != 0)
     {
         glDeleteTextures(1, &Texture);
@@ -215,67 +218,68 @@ void Plate::RecreateDisplayList(BTexture *pTexture /* = NULL */)
     switch (Type)
     {
         case 1:
-	    texels = pTexture->Rescale(BTexture::GetExpToBase2(TextureSize),
-				       TEX_SMALLER | TEX_RESCALE_AVG);
+            texels = pTexture->Rescale(BTexture::GetExpToBase2(TextureSize),
+                                       TEX_SMALLER | TEX_RESCALE_AVG);
 
-	    width  = pTexture->GetWidth();
-	    height = pTexture->GetHeight();
+            width  = pTexture->GetWidth();
+            height = pTexture->GetHeight();
 
-	    if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
-	    {
+            if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
+            {
                 message(mtWarning,
-                "*** Warning: width or height of '%s' is not a power of 2\n",
-                TextureSource.c_str());
-	    }
+                        "*** Warning: width or height of '%s' is not a power "
+                        "of 2\n",
+                        TextureSource.c_str());
+            }
 
-	    if (Texture == 0)
-	    {
-		glGenTextures(1, &Texture);
-	    }
+            if (Texture == 0)
+            {
+                glGenTextures(1, &Texture);
+            }
 
-	    glBindTexture(GL_TEXTURE_2D, Texture);
-	    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_PRIORITY,   1.0);
+            glBindTexture(GL_TEXTURE_2D, Texture);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_PRIORITY,   1.0);
 
-	    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-	    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-			    (Nearest ? GL_NEAREST : GL_LINEAR));
-	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-			    (Nearest ? GL_NEAREST : GL_LINEAR));
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                            (Nearest ? GL_NEAREST : GL_LINEAR));
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                            (Nearest ? GL_NEAREST : GL_LINEAR));
 
-	    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
-			 WithAlpha ? GL_RGBA : GL_RGB,
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
+                         WithAlpha ? GL_RGBA : GL_RGB,
                          GL_UNSIGNED_BYTE, texels);
 
-	    glNewList(DisplayList, GL_COMPILE);
-	    glBindTexture(GL_TEXTURE_2D, Texture);
-	    glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
-	    glBegin(GL_QUADS);
-	    glTexCoord2f(0.0,0.0);
-	    glVertex2f(0.0,0.0);
-	    glTexCoord2f(1.0,0.0);
-	    glVertex2f(1.0,0.0);
-	    glTexCoord2f(1.0,1.0);
-	    glVertex2f(1.0,1.0);
-	    glTexCoord2f(0.0,1.0);
-	    glVertex2f(0.0,1.0);
-	    glEnd();
-	    glEndList();
+            glNewList(DisplayList, GL_COMPILE);
+            glBindTexture(GL_TEXTURE_2D, Texture);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+            glBegin(GL_QUADS);
+            glTexCoord2f(0.0, 0.0);
+            glVertex2f(0.0, 0.0);
+            glTexCoord2f(1.0, 0.0);
+            glVertex2f(1.0, 0.0);
+            glTexCoord2f(1.0, 1.0);
+            glVertex2f(1.0, 1.0);
+            glTexCoord2f(0.0, 1.0);
+            glVertex2f(0.0, 1.0);
+            glEnd();
+            glEndList();
 
-	    AspectRatio = (width + 1.0f) / (height + 1.0f);
+            AspectRatio = (width + 1.0f) / (height + 1.0f);
             break;
 
         case 3:
-	    glNewList(DisplayList, GL_COMPILE);
-	    glDisable(GL_TEXTURE_2D);
-	    glBegin(GL_QUADS);
-	    glVertex2f(0.0,0.0);
-	    glVertex2f(1.0,0.0);
-	    glVertex2f(1.0,1.0);
-	    glVertex2f(0.0,1.0);
-	    glEnd();
-	    glEndList();
+            glNewList(DisplayList, GL_COMPILE);
+            glDisable(GL_TEXTURE_2D);
+            glBegin(GL_QUADS);
+            glVertex2f(0.0, 0.0);
+            glVertex2f(1.0, 0.0);
+            glVertex2f(1.0, 1.0);
+            glVertex2f(0.0, 1.0);
+            glEnd();
+            glEndList();
 
             break;
 
@@ -293,13 +297,15 @@ void Plate::Draw() const
     {
         GLfloat color[] = {r, g, b, Alpha};
         glPushMatrix();
-        glTranslatef(ax,ay,0);
-        glScalef(bx-ax,by-ay,1);
+        glTranslatef(ax, ay, 0);
+        glScalef(bx - ax, by - ay, 1);
+
         if (Texture != 0)
         {
             glEnable(GL_TEXTURE_2D);
-            glTexEnvfv(GL_TEXTURE_ENV,GL_TEXTURE_ENV_COLOR,color);
+            glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, color);
         }
+
         glColor4fv(color);
         glCallList(DisplayList);
         glDisable(GL_TEXTURE_2D);
@@ -313,8 +319,8 @@ void Plate::SetPosition(float ax_, float ay_, float bx_, float by_)
     if (AspectRatio != 0.0 && AspectRatio != (bx_ - ax_) / (by_ - ay_))
     {
         GLfloat cx = (ax_ + bx_) * 0.5f;
-        ax_=cx-AspectRatio * (by_ - ay_) * 0.5f;
-        bx_=cx+AspectRatio * (by_ - ay_) * 0.5f;
+        ax_ = cx - AspectRatio * (by_ - ay_) * 0.5f;
+        bx_ = cx + AspectRatio * (by_ - ay_) * 0.5f;
     }
 
     target_ax = ax_;
@@ -378,6 +384,7 @@ void Plate::SetSelected()
 {
     Alpha = MOD_SELECTED;
     target_Alpha = MOD_FADEIN;
+
     if (target_Alpha != Alpha)
     {
         StartAnimation();
@@ -387,6 +394,7 @@ void Plate::SetSelected()
 void Plate::SetFadeIn()
 {
     target_Alpha = MOD_FADEIN;
+
     if (target_Alpha != Alpha)
     {
         StartAnimation();
@@ -396,6 +404,7 @@ void Plate::SetFadeIn()
 void Plate::SetFullyVisible()
 {
     target_Alpha = MOD_FULLYVISIBLE;
+
     if (target_Alpha != Alpha)
     {
         StartAnimation();
@@ -431,12 +440,12 @@ void Plate::Animate(unsigned int duration)
             GLdouble relativeTime = animationTimer.GetRelativeTime();
 
             localFactor = 0.5f - 0.5f *
-                cos(M_PIf * static_cast<GLfloat>(relativeTime));
+                          cos(M_PIf * static_cast<GLfloat>(relativeTime));
             ax   = (target_ax - old_ax) * localFactor + old_ax;
             ay   = (target_ay - old_ay) * localFactor + old_ay;
             bx   = (target_bx - old_bx) * localFactor + old_bx;
             by   = (target_by - old_by) * localFactor + old_by;
-            Alpha= (target_Alpha - old_Alpha) * localFactor + old_Alpha;
+            Alpha = (target_Alpha - old_Alpha) * localFactor + old_Alpha;
         }
     }
 }
@@ -448,7 +457,7 @@ int Plate::MouseEvent(tMouseButton button, tMouseEvent event,
     GLfloat yf = 12.0f - 12.0f * y / ui.GetValue(KP_WINDOW_HEIGHT);
 
     if (target_Alpha > 0.0 &&
-        Signal !=0 &&
+        Signal != 0 &&
         ax <= xf && xf <= bx && ay <= yf && yf <= by)
     {
         if (button == KP_LEFT_MB)

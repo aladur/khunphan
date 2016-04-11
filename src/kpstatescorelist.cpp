@@ -47,14 +47,15 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
     KPscore scoreList;
 
     max = static_cast<unsigned int>(scoreList.GetEntryCount());
+
     if (max > 10)
     {
         max = 10;
     }
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(1,2.0,15,9);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(1, 2.0, 15, 9);
 
-    menu.plates[PLATE_LOGO].SetPosition(5,9,11,11);
+    menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
     menu.labels[T_SCORELIST].SetPosition(8, 8.5, 1, A_CENTERED);
@@ -63,26 +64,30 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
     float y = 7.5;
     menu.labels[T_S_NAME].SetPosition(2, y, 0.7f);
     menu.labels[T_S_PLAYTIME].SetPosition(8, y, 0.7f);
-    menu.labels[T_S_MOVES].SetPosition(11,y, 0.7f);
+    menu.labels[T_S_MOVES].SetPosition(11, y, 0.7f);
 
     y -= 0.7f;
+
     for (i = 0; i < max; i++)
     {
         tIdToLabel::const_iterator it;
 
         it = menu.labels.find(T_S_NAME1 + i);
+
         if (it == menu.labels.end())
         {
             menu.labels[T_S_NAME1 + i] = Label("%s");
         }
 
         it = menu.labels.find(T_S_PLAYTIME1 + i);
+
         if (it == menu.labels.end())
         {
             menu.labels[T_S_PLAYTIME1 + i] = Label("%d:%02d:%02d");
         }
 
         it = menu.labels.find(T_S_MOVES1 + i);
+
         if (it == menu.labels.end())
         {
             menu.labels[T_S_MOVES1 + i] = Label("%u");
@@ -94,26 +99,26 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
         menu.labels[T_S_PLAYTIME1 + i].FormatText(3,
                 PlayTime / 3600000,
                 (PlayTime % 3600000) / 60000,
-                (PlayTime % 60000) / 1000 );
+                (PlayTime % 60000) / 1000);
         menu.labels[T_S_MOVES1 + i].FormatText(1, Moves);
 
 
         menu.labels[T_S_NAME1 + i].SetPosition(2, y, 0.6f);
         menu.labels[T_S_PLAYTIME1 + i].SetPosition(9, y, 0.6f, A_CENTERED);
-        menu.labels[T_S_MOVES1 + i].SetPosition(12,y, 0.6f, A_CENTERED);
+        menu.labels[T_S_MOVES1 + i].SetPosition(12, y, 0.6f, A_CENTERED);
 
         y -= 0.5f;
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, A_CENTERED);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);
 }
 
-void  KPstateScoreList::MouseClick (KPstateContext *pContext,
-                                    tMouseButton button, tMouseEvent event,
-                                    int x, int y)
+void  KPstateScoreList::MouseClick(KPstateContext *pContext,
+                                   tMouseButton button, tMouseEvent event,
+                                   int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 

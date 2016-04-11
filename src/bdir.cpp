@@ -24,18 +24,18 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #ifdef HAVE_UNISTD_H
-#include <sys/types.h>
-#include <unistd.h>
+    #include <sys/types.h>
+    #include <unistd.h>
 #endif
 #ifdef HAVE_DIRENT_H
-#include <sys/types.h>
-#include <dirent.h>
+    #include <sys/types.h>
+    #include <dirent.h>
 #else
-#define dirent direct
+    #define dirent direct
 #endif
 
 #ifdef _MSC_VER
-#include <direct.h>
+    #include <direct.h>
 #endif
 
 #include "bdir.h"
@@ -87,16 +87,20 @@ bool BDirectory::RemoveRecursive(const std::string &aPath)
     WIN32_FIND_DATA pentry;
 
     basePath = aPath;
-    if (basePath[basePath.length()-1] != PATHSEPARATOR)
+
+    if (basePath[basePath.length() - 1] != PATHSEPARATOR)
     {
         basePath += PATHSEPARATOR;
     }
+
     std::string pattern = basePath + "*.*";
+
     if ((hdl = FindFirstFile(pattern.c_str(), &pentry)) != INVALID_HANDLE_VALUE)
     {
         do
         {
             dirEntry = basePath + pentry.cFileName;
+
             if (pentry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
             {
                 if (pentry.cFileName[0] != '.')
@@ -110,8 +114,10 @@ bool BDirectory::RemoveRecursive(const std::string &aPath)
             }
         }
         while (FindNextFile(hdl, &pentry) != 0);
+
         FindClose(hdl);
     }
+
     BDirectory::Remove(basePath);
     return true;
 }
@@ -125,10 +131,12 @@ bool BDirectory::RemoveRecursive(const std::string &aPath)
     struct stat     sbuf;
 
     basePath = aPath;
-    if (basePath[basePath.length()-1] == PATHSEPARATOR)
+
+    if (basePath[basePath.length() - 1] == PATHSEPARATOR)
     {
         basePath = basePath.substr(0, basePath.length() - 1);
     }
+
     if ((pd = opendir(basePath.c_str())) != NULL)
     {
         struct dirent   *pentry;
@@ -137,6 +145,7 @@ bool BDirectory::RemoveRecursive(const std::string &aPath)
         {
             dirEntry = basePath + PATHSEPARATORSTRING +
                        pentry->d_name;
+
             if (!stat(dirEntry.c_str(), &sbuf) &&
                 (S_ISREG(sbuf.st_mode)))
             {
@@ -147,8 +156,10 @@ bool BDirectory::RemoveRecursive(const std::string &aPath)
                 RemoveRecursive(dirEntry);
             }
         } // while
+
         closedir(pd);
     }
+
     BDirectory::Remove(basePath);
     return true;
 }
@@ -167,11 +178,14 @@ tPathList BDirectory::GetSubDirectories(const std::string &aPath)
     WIN32_FIND_DATA pentry;
 
     basePath = aPath;
-    if (basePath[basePath.length()-1] != PATHSEPARATOR)
+
+    if (basePath[basePath.length() - 1] != PATHSEPARATOR)
     {
         basePath += PATHSEPARATOR;
     }
+
     std::string pattern = basePath + "*.*";
+
     if ((hdl = FindFirstFile(pattern.c_str(), &pentry)) != INVALID_HANDLE_VALUE)
     {
         do
@@ -183,8 +197,10 @@ tPathList BDirectory::GetSubDirectories(const std::string &aPath)
             }
         }
         while (FindNextFile(hdl, &pentry) != 0);
+
         FindClose(hdl);
     }
+
     return subDirList;
 }
 #else
@@ -199,7 +215,8 @@ tPathList BDirectory::GetSubDirectories(const std::string &aPath)
     struct stat   sbuf;
 
     basePath = aPath;
-    if (basePath[basePath.length()-1] == PATHSEPARATOR)
+
+    if (basePath[basePath.length() - 1] == PATHSEPARATOR)
     {
         basePath = basePath.substr(0, basePath.length() - 1);
     }
@@ -211,6 +228,7 @@ tPathList BDirectory::GetSubDirectories(const std::string &aPath)
         while ((pentry = readdir(pd)) != NULL)
         {
             dirEntry = basePath + PATHSEPARATORSTRING + pentry->d_name;
+
             if (stat(dirEntry.c_str(), &sbuf) == 0 &&
                 S_ISDIR(sbuf.st_mode)      &&
                 pentry->d_name[0] != '.')
@@ -218,8 +236,10 @@ tPathList BDirectory::GetSubDirectories(const std::string &aPath)
                 subDirList.push_back(pentry->d_name);
             }
         } // while
+
         closedir(pd);
     }
+
     return subDirList;
 }
 #else
@@ -237,25 +257,30 @@ tPathList BDirectory::GetFiles(const std::string &aPath)
     WIN32_FIND_DATA pentry;
 
     basePath = aPath;
-    if (basePath[basePath.length()-1] != PATHSEPARATOR)
+
+    if (basePath[basePath.length() - 1] != PATHSEPARATOR)
     {
         basePath += PATHSEPARATOR;
     }
+
     std::string pattern = basePath + "*.*";
+
     if ((hdl = FindFirstFile(pattern.c_str(), &pentry)) != INVALID_HANDLE_VALUE)
     {
         do
         {
             if ((pentry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0 &&
-                (pentry.dwFileAttributes & FILE_ATTRIBUTE_OFFLINE  ) == 0 &&
-                (pentry.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM   ) == 0)
+                (pentry.dwFileAttributes & FILE_ATTRIBUTE_OFFLINE) == 0 &&
+                (pentry.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM) == 0)
             {
                 fileList.push_back(pentry.cFileName);
             }
         }
         while (FindNextFile(hdl, &pentry) != 0);
+
         FindClose(hdl);
     }
+
 #else
 #ifdef LINUX
     std::string     dirEntry;
@@ -263,10 +288,12 @@ tPathList BDirectory::GetFiles(const std::string &aPath)
     struct stat     sbuf;
 
     basePath = aPath;
-    if (basePath[basePath.length()-1] == PATHSEPARATOR)
+
+    if (basePath[basePath.length() - 1] == PATHSEPARATOR)
     {
         basePath = basePath.substr(0, basePath.length() - 1);
     }
+
     if ((pd = opendir(basePath.c_str())) != NULL)
     {
         struct dirent   *pentry;
@@ -274,14 +301,17 @@ tPathList BDirectory::GetFiles(const std::string &aPath)
         while ((pentry = readdir(pd)) != NULL)
         {
             dirEntry = basePath + PATHSEPARATORSTRING + pentry->d_name;
+
             if (stat(dirEntry.c_str(), &sbuf) == 0 &&
                 S_ISREG(sbuf.st_mode))
             {
                 fileList.push_back(pentry->d_name);
             }
         } // while
+
         closedir(pd);
     }
+
 #else
 #error "Unsupported platform"
 #endif

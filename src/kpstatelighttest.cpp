@@ -50,7 +50,7 @@ void KPstateLightTest::UpdateDisplay(KPstateContext *pContext) const
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.labels[T_OK].SetPosition(8,1,1,A_CENTERED);
+    menu.labels[T_OK].SetPosition(8, 1, 1, A_CENTERED);
     menu.labels[T_OK].SetSignal(S_BACK);
 
     StartAnimation(pContext);
@@ -84,9 +84,9 @@ tKPMenuState KPstateLightTest::ESCKeyAction(KPstateContext *pContext) const
     return KPState_Invalid;
 }
 
-void  KPstateLightTest::MouseClick (KPstateContext *pContext,
-                                    tMouseButton button, tMouseEvent event,
-                                    int x, int y)
+void  KPstateLightTest::MouseClick(KPstateContext *pContext,
+                                   tMouseButton button, tMouseEvent event,
+                                   int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 

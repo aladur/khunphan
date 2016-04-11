@@ -29,13 +29,14 @@
 #include "light.h"
 #include "kpuibase.h"
 
-const int KPstateGraphicSettings::windowWidths[] = {
+const int KPstateGraphicSettings::windowWidths[] =
+{
     640, 800, 1024, 1280, 1600, 1920
 };
 
 KPstateGraphicSettings::KPstateGraphicSettings() :
-         Quality(0), E_WindowWidth(0),
-         E_FullScreen(false), E_UserInterface(0)
+    Quality(0), E_WindowWidth(0),
+    E_FullScreen(false), E_UserInterface(0)
 {
 }
 
@@ -56,7 +57,9 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
     {
         throw std::runtime_error("Error: No texture directories found");
     }
+
     std::sort(textureNameList.begin(), textureNameList.end());
+
     for (unsigned int i = 0; i < textureNameList.size(); i++)
     {
         if (pContext->GetMenu().labels.find(T_TEXTURE1 + i) ==
@@ -86,54 +89,54 @@ int KPstateGraphicSettings::GetCurrentQuality(KPstateContext *pContext)
         pContext->GetUserInterface().CanToggleFullScreen();
     int currentQuality = 0;
 
-    if (E_FullScreen==false &&
-        E_WindowWidth==640 &&
-        config.TextureSize==8 &&
-        config.MenuTextureSize==2 &&
-        config.Nearest==true &&
-        config.LightSources==2)
+    if (E_FullScreen == false &&
+        E_WindowWidth == 640 &&
+        config.TextureSize == 8 &&
+        config.MenuTextureSize == 2 &&
+        config.Nearest == true &&
+        config.LightSources == 2)
     {
-        currentQuality=1; // very fast
+        currentQuality = 1; // very fast
     }
-    else if (E_FullScreen==false &&
-             E_WindowWidth==800 &&
-             config.TextureSize==4 &&
-             config.MenuTextureSize==2 &&
-             config.Nearest==true &&
-             config.LightSources==2)
+    else if (E_FullScreen == false &&
+             E_WindowWidth == 800 &&
+             config.TextureSize == 4 &&
+             config.MenuTextureSize == 2 &&
+             config.Nearest == true &&
+             config.LightSources == 2)
     {
-        currentQuality=2; // fast
+        currentQuality = 2; // fast
     }
-    else if (E_FullScreen==false &&
-             E_WindowWidth==1024 &&
-             config.TextureSize==2 &&
-             config.MenuTextureSize==1 &&
-             config.Nearest==true &&
-             config.LightSources==2)
+    else if (E_FullScreen == false &&
+             E_WindowWidth == 1024 &&
+             config.TextureSize == 2 &&
+             config.MenuTextureSize == 1 &&
+             config.Nearest == true &&
+             config.LightSources == 2)
     {
-        currentQuality=3; // normal
+        currentQuality = 3; // normal
     }
-    else if (E_FullScreen==false &&
-             E_WindowWidth==1280 &&
-             config.TextureSize==1 &&
-             config.MenuTextureSize==1 &&
-             config.Nearest==false &&
-             config.LightSources==3)
+    else if (E_FullScreen == false &&
+             E_WindowWidth == 1280 &&
+             config.TextureSize == 1 &&
+             config.MenuTextureSize == 1 &&
+             config.Nearest == false &&
+             config.LightSources == 3)
     {
-        currentQuality=4; // high
+        currentQuality = 4; // high
     }
-    else if (((canToggleFullScreen && (E_FullScreen==true)) ||
-             (!canToggleFullScreen && (E_WindowWidth==1600))) &&
-             config.TextureSize==1 &&
-             config.MenuTextureSize==1 &&
-             config.Nearest==false &&
-             config.LightSources==3)
+    else if (((canToggleFullScreen && (E_FullScreen == true)) ||
+              (!canToggleFullScreen && (E_WindowWidth == 1600))) &&
+             config.TextureSize == 1 &&
+             config.MenuTextureSize == 1 &&
+             config.Nearest == false &&
+             config.LightSources == 3)
     {
-        currentQuality=5; // very high
+        currentQuality = 5; // very high
     }
     else
     {
-        currentQuality=0; // user defined
+        currentQuality = 0; // user defined
     }
 
     return currentQuality;
@@ -158,30 +161,34 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 1.7f, 14, 9.5f);
 
-    menu.plates[PLATE_LOGO].SetPosition(4,10,12,12);
+    menu.plates[PLATE_LOGO].SetPosition(4, 10, 12, 12);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[T_SETTINGS].SetPosition(4,9,1);
+    menu.labels[T_SETTINGS].SetPosition(4, 9, 1);
     menu.labels[T_SETTINGS].SetFullyVisible();
-    menu.labels[T_GRAPHICS].SetPosition(12,9,1,A_RIGHT);
+    menu.labels[T_GRAPHICS].SetPosition(12, 9, 1, A_RIGHT);
     menu.labels[T_GRAPHICS].SetFullyVisible();
 
     y = 8.0f;
-    menu.labels[T_QUALITY].SetPosition(8,y,1,A_RIGHT);
+    menu.labels[T_QUALITY].SetPosition(8, y, 1, A_RIGHT);
     menu.labels[T_QUALITY].SetSignal(S_TOGGLE_QUALITY);
     y = 7.4f;
+
     if (E_FullScreen == 0)
     {
         menu.labels[T_RESOLUTION].SetPosition(8, y, 0.6f, A_RIGHT);
         menu.labels[T_RESOLUTION].SetSignal(S_TOGGLE_RESOLUTION);
     }
+
     y -= dy;
+
     if (pContext->GetUserInterface().CanToggleFullScreen())
     {
         menu.labels[T_SCREENMODE].SetPosition(8, y, 0.6f, A_RIGHT);
         menu.labels[T_SCREENMODE].SetSignal(S_TOGGLE_SCREENMODE);
         y -= dy;
     }
+
     menu.labels[T_MENUTEXTURES].SetPosition(8, y, 0.6f, A_RIGHT);
     y -= dy;
     menu.labels[T_MENUTEXTURES].SetSignal(S_TOGGLE_MENUTEXTURES);
@@ -210,6 +217,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_FRAMERATE].SetSignal(S_TOGGLE_FPS);
 
     y = 8.0;
+
     switch (Quality)
     {
         case 1:
@@ -218,30 +226,35 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
             menu.labels[T_Q_VERYFAST].SetSignal(S_TOGGLE_QUALITY);
         }
         break;
+
         case 2:
         {
             menu.labels[T_Q_FAST].SetPosition(8.2f, y, 1);
             menu.labels[T_Q_FAST].SetSignal(S_TOGGLE_QUALITY);
         }
         break;
+
         case 3:
         {
             menu.labels[T_Q_NORMAL].SetPosition(8.2f, y, 1);
             menu.labels[T_Q_NORMAL].SetSignal(S_TOGGLE_QUALITY);
         }
         break;
+
         case 4:
         {
             menu.labels[T_Q_HIGH].SetPosition(8.2f, y, 1);
             menu.labels[T_Q_HIGH].SetSignal(S_TOGGLE_QUALITY);
         }
         break;
+
         case 5:
         {
             menu.labels[T_Q_VERYHIGH].SetPosition(8.2f, y, 1);
             menu.labels[T_Q_VERYHIGH].SetSignal(S_TOGGLE_QUALITY);
         }
         break;
+
         default:
         {
             menu.labels[T_Q_USER].SetPosition(8.2f, y, 1);
@@ -251,10 +264,12 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     }
 
     y = 7.4f;
+
     if (!E_FullScreen)
     {
         int index;
-        static const int windowResolutionLabels[] = {
+        static const int windowResolutionLabels[] =
+        {
             T_RES_640x480, T_RES_800x600, T_RES_1024x768,
             T_RES_1280x960, T_RES_1600x1200, T_RES_1920x1440
         };
@@ -271,6 +286,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     if (pContext->GetUserInterface().CanToggleFullScreen())
     {
         y -= dy;
+
         if (E_FullScreen)
         {
             menu.labels[T_FULLSCREEN].SetPosition(8.2f, y, 0.6f);
@@ -284,6 +300,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     }
 
     y -= dy;
+
     switch (config.MenuTextureSize)
     {
         case 1:
@@ -292,6 +309,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
             menu.labels[T_MT_HIGH].SetSignal(S_TOGGLE_MENUTEXTURES);
         }
         break;
+
         case 2:
         {
             menu.labels[T_MT_NORMAL].SetPosition(8.2f, y, 0.6f);
@@ -301,6 +319,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     }
 
     y -= dy;
+
     switch (config.TextureSize)
     {
         case 1:
@@ -309,18 +328,21 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
             menu.labels[T_T_HIGH].SetSignal(S_TOGGLE_TEXTURES);
         }
         break;
+
         case 2:
         {
             menu.labels[T_T_NORMAL].SetPosition(8.2f, y, 0.6f);
             menu.labels[T_T_NORMAL].SetSignal(S_TOGGLE_TEXTURES);
         }
         break;
+
         case 4:
         {
             menu.labels[T_T_LOW].SetPosition(8.2f, y, 0.6f);
             menu.labels[T_T_LOW].SetSignal(S_TOGGLE_TEXTURES);
         }
         break;
+
         case 8:
         {
             menu.labels[T_T_VERYLOW].SetPosition(8.2f, y, 0.6f);
@@ -334,6 +356,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_TEXTURE1 + textureIndex].SetSignal(S_TOGGLE_TEXTURENAME);
 
     y -= dy;
+
     if (config.Nearest)
     {
         menu.labels[T_TI_OFF].SetPosition(8.2f, y, 0.6f);
@@ -346,6 +369,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     }
 
     y -= dy;
+
     if (config.AmbientLight)
     {
         menu.labels[T_AL_ON].SetPosition(8.2f, y, 0.6f);
@@ -359,6 +383,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     }
 
     y -= dy;
+
     switch (config.LightSources)
     {
         case 1:
@@ -367,12 +392,14 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
             menu.labels[T_ILLUM1].SetSignal(S_TOGGLE_LAMPS);
         }
         break;
+
         case 2:
         {
             menu.labels[T_ILLUM2].SetPosition(8.2f, y, 0.6f);
             menu.labels[T_ILLUM2].SetSignal(S_TOGGLE_LAMPS);
         }
         break;
+
         case 3:
         {
             menu.labels[T_ILLUM3].SetPosition(8.2f, y, 0.6f);
@@ -383,6 +410,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
     y -= dy;
+
     switch (E_UserInterface)
     {
         case 0:
@@ -391,6 +419,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
             menu.labels[T_USERINTERFACE0].SetSignal(S_TOGGLE_USER_INTERFACE);
         }
         break;
+
         case 1:
         {
             menu.labels[T_USERINTERFACE1].SetPosition(8.2f, y, 0.6f);
@@ -398,9 +427,11 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
         }
         break;
     }
+
 #endif
 
     y -= dy;
+
     if (config.DisplayFPS)
     {
         menu.labels[T_FR_ON].SetPosition(8.2f, y, 0.6f);
@@ -412,7 +443,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
         menu.labels[T_FR_OFF].SetSignal(S_TOGGLE_FPS);
     }
 
-    menu.labels[T_BACK].SetPosition(8, 0.7f, 1 ,A_CENTERED);
+    menu.labels[T_BACK].SetPosition(8, 0.7f, 1 , A_CENTERED);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
     StartAnimation(pContext);
@@ -472,6 +503,7 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
             break;
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
+
         case S_TOGGLE_USER_INTERFACE:
             ToggleUserInterface(pContext);
             UpdateDisplay(pContext);
@@ -492,7 +524,7 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
 }
 
 tKPMenuState KPstateGraphicSettings::ESCKeyAction(
-                                         KPstateContext *pContext) const
+    KPstateContext *pContext) const
 {
     tKPMenuState newState;
 
@@ -509,9 +541,9 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
     bool ChangeNeedsToolRestart = false;
     KPConfig &config = pContext->GetConfig();
     bool canChangeWindowSize = pContext->GetUserInterface().
-                                   CanChangeWindowSize();
+                               CanChangeWindowSize();
     bool canToggleFullScreen = pContext->GetUserInterface().
-                                   CanToggleFullScreen();
+                               CanToggleFullScreen();
 
     if ((!canToggleFullScreen &&
          (config.FullScreen != E_FullScreen)) ||
@@ -576,21 +608,26 @@ void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
     KPConfig &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+
     switch (config.LightSources)
     {
         case 1:
             config.LightSources = 2;
             break;
+
         case 2:
             config.LightSources = 3;
             break;
+
         case 3:
             config.LightSources = 1;
             break;
+
         default:
             config.LightSources = 1;
             break;
     }
+
     pContext->GetLight().Update(config.AmbientLight,
                                 config.LightSources);
     UpdateQuality(pContext);
@@ -601,29 +638,35 @@ void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
     KPConfig &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+
     switch (config.TextureSize)
     {
         case 1:
             config.TextureSize  = 2;
             break;
+
         case 2:
             config.TextureSize  = 4;
             break;
+
         case 4:
             config.TextureSize  = 8;
             break;
+
         case 8:
             config.TextureSize  = 1;
             break;
+
         default:
             config.TextureSize = 1;
             break;
     }
+
     pContext->GetBoardView().InitializeTextures(
         config.GetDirectory(KP_TEXTURE_DIR),
         config.TextureName,
         config.TextureSize,
-        config.Nearest );
+        config.Nearest);
     UpdateQuality(pContext);
 }
 
@@ -640,6 +683,7 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext) const
 
         it = std::find(textureNameList.begin(), textureNameList.end(),
                        config.TextureName);
+
         if (it == textureNameList.end())
         {
             it = textureNameList.begin();
@@ -647,22 +691,24 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext) const
         else
         {
             ++it;
+
             if (it == textureNameList.end())
             {
                 it = textureNameList.begin();
             }
         }
+
         config.TextureName = *it;
         pContext->GetBoardView().InitializeTextures(
             config.GetDirectory(KP_TEXTURE_DIR),
             config.TextureName,
             config.TextureSize,
             config.Nearest,
-            false );
+            false);
 
-        pContext->GetMenu().Update( config.TextureName,
-                                    config.MenuTextureSize,
-                                    config.Nearest);
+        pContext->GetMenu().Update(config.TextureName,
+                                   config.MenuTextureSize,
+                                   config.Nearest);
         pContext->GetUserInterface().InitializeAudio(
             config.TextureName.c_str(), true);
 
@@ -674,16 +720,19 @@ void KPstateGraphicSettings::ToggleScreenMode(KPstateContext *pContext)
 {
     E_FullScreen = !E_FullScreen;
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+
     if (pContext->GetUserInterface().CanToggleFullScreen())
     {
         pContext->GetUserInterface().SetWindowMode(E_FullScreen);
     }
+
     // We also have to set the window size here
     if (!E_FullScreen && pContext->GetUserInterface().CanChangeWindowSize())
     {
         pContext->GetUserInterface().SetWindowSize(E_WindowWidth,
-                                                   (E_WindowWidth * 3) / 4);
+                (E_WindowWidth * 3) / 4);
     }
+
     UpdateQuality(pContext);
 }
 
@@ -694,15 +743,20 @@ void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
     userIfc.PlayAudio(KP_SND_CHANGESETTING);
 
     int index = GetWindowWidthsIndex(E_WindowWidth);
+
     if (index >= 0)
     {
-        index = (index+1) % (sizeof(windowWidths) / sizeof(windowWidths[0]));
-    } else {
+        index = (index + 1) % (sizeof(windowWidths) / sizeof(windowWidths[0]));
+    }
+    else
+    {
         index = 0;
     }
 
     E_WindowWidth = windowWidths[index];
-    if (!userIfc.IsWindowResolutionSupported(E_WindowWidth,(E_WindowWidth*3/4)))
+
+    if (!userIfc.IsWindowResolutionSupported(E_WindowWidth,
+            (E_WindowWidth * 3 / 4)))
     {
         E_WindowWidth = windowWidths[0];
     }
@@ -711,20 +765,24 @@ void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
     {
         userIfc.SetWindowSize(E_WindowWidth, (E_WindowWidth * 3) / 4);
     }
+
     UpdateQuality(pContext);
 }
 
 void KPstateGraphicSettings::ToggleUserInterface(KPstateContext *pContext)
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+
     switch (E_UserInterface)
     {
         case 0:
             E_UserInterface = 1;
             break;
+
         case 1:
             E_UserInterface = 0;
             break;
+
         default:
             E_UserInterface = 0;
             break;
@@ -736,21 +794,25 @@ void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
     KPConfig &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+
     switch (config.MenuTextureSize)
     {
         case 1:
             config.MenuTextureSize = 2;
             break;
+
         case 2:
             config.MenuTextureSize = 1;
             break;
+
         default:
             config.MenuTextureSize = 1;
             break;
     }
-    pContext->GetMenu().Update( config.TextureName,
-                                config.MenuTextureSize,
-                                config.Nearest );
+
+    pContext->GetMenu().Update(config.TextureName,
+                               config.MenuTextureSize,
+                               config.Nearest);
     UpdateQuality(pContext);
 }
 
@@ -761,14 +823,14 @@ void KPstateGraphicSettings::ToggleTextureInterpolation(
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     config.Nearest = !config.Nearest;
-    pContext->GetMenu().Update( config.TextureName,
-                                config.MenuTextureSize,
-                                config.Nearest );
+    pContext->GetMenu().Update(config.TextureName,
+                               config.MenuTextureSize,
+                               config.Nearest);
     pContext->GetBoardView().InitializeTextures(
         config.GetDirectory(KP_TEXTURE_DIR),
         config.TextureName,
         config.TextureSize,
-        config.Nearest );
+        config.Nearest);
 }
 
 void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
@@ -780,92 +842,100 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     UpdateQuality(pContext);
     Quality--;
+
     if (Quality <= 0)
     {
         Quality = 5;
     }
 
-    switch(Quality)
-     {
+    switch (Quality)
+    {
         case 1:
         {
-            E_FullScreen=false;
-            E_WindowWidth=640;
-            config.TextureSize=8;
-            config.MenuTextureSize=2;
-            config.Nearest=true;
-            config.LightSources=2;
+            E_FullScreen = false;
+            E_WindowWidth = 640;
+            config.TextureSize = 8;
+            config.MenuTextureSize = 2;
+            config.Nearest = true;
+            config.LightSources = 2;
         }
         break;
+
         case 2:
         {
-            E_FullScreen=false;
-            E_WindowWidth=800;
-            config.TextureSize=4;
-            config.MenuTextureSize=2;
-            config.Nearest=true;
-            config.LightSources=2;
+            E_FullScreen = false;
+            E_WindowWidth = 800;
+            config.TextureSize = 4;
+            config.MenuTextureSize = 2;
+            config.Nearest = true;
+            config.LightSources = 2;
         }
         break;
+
         case 3:
         {
-            E_FullScreen=false;
-            E_WindowWidth=1024;
-            config.TextureSize=2;
-            config.MenuTextureSize=1;
-            config.Nearest=true;
-            config.LightSources=2;
+            E_FullScreen = false;
+            E_WindowWidth = 1024;
+            config.TextureSize = 2;
+            config.MenuTextureSize = 1;
+            config.Nearest = true;
+            config.LightSources = 2;
         }
         break;
+
         case 4:
         {
-            E_FullScreen=false;
-            E_WindowWidth=1280;
-            config.TextureSize=1;
-            config.MenuTextureSize=1;
-            config.Nearest=false;
-            config.LightSources=3;
+            E_FullScreen = false;
+            E_WindowWidth = 1280;
+            config.TextureSize = 1;
+            config.MenuTextureSize = 1;
+            config.Nearest = false;
+            config.LightSources = 3;
         }
         break;
+
         default:
         {
             E_FullScreen = pContext->GetUserInterface().CanToggleFullScreen();
-            E_WindowWidth=1600;
-            config.TextureSize=1;
-            config.MenuTextureSize=1;
-            config.Nearest=false;
-            config.LightSources=3;
+            E_WindowWidth = 1600;
+            config.TextureSize = 1;
+            config.MenuTextureSize = 1;
+            config.Nearest = false;
+            config.LightSources = 3;
         }
         break;
-     }
+    }
 
     pContext->GetLight().Update(config.AmbientLight,
                                 config.LightSources);
-    pContext->GetMenu().Update( config.TextureName,
-                                config.MenuTextureSize,
-                                config.Nearest );
+    pContext->GetMenu().Update(config.TextureName,
+                               config.MenuTextureSize,
+                               config.Nearest);
     pContext->GetBoardView().InitializeTextures(
         config.GetDirectory(KP_TEXTURE_DIR),
         config.TextureName,
         config.TextureSize,
-        config.Nearest );
+        config.Nearest);
+
     if (E_FullScreen_before != E_FullScreen &&
         (pContext->GetUserInterface().CanToggleFullScreen()))
     {
         pContext->GetUserInterface().SetWindowMode(E_FullScreen);
     }
+
     if (!E_FullScreen &&
         (E_WindowWidth_before != E_WindowWidth) &&
         (pContext->GetUserInterface().CanChangeWindowSize()))
     {
         pContext->GetUserInterface().SetWindowSize(E_WindowWidth,
-                                                   (E_WindowWidth * 3) / 4);
+                (E_WindowWidth * 3) / 4);
     }
+
     UpdateDisplay(pContext);
 }
 
 int KPstateGraphicSettings::GetTextureIndex(KPstateContext *pContext,
-                                            std::string &TextureName) const
+        std::string &TextureName) const
 {
     std::vector<std::string> textureNameList =
         pContext->GetConfig().GetTextureNames();
@@ -879,11 +949,13 @@ int KPstateGraphicSettings::GetTextureIndex(KPstateContext *pContext,
         index++;
         ++it;
     }
+
     if (it == textureNameList.end())
     {
         index = 0;
         TextureName = *textureNameList.begin();
     }
+
     return index;
 }
 

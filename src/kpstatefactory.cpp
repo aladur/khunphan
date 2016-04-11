@@ -54,40 +54,58 @@ KPstate *KPstateFactory::CreateState(int stateID)
     {
         case KPState_StartUp:
             return new KPstateStartUp;
+
         case KPState_MainMenu:
             return new KPstateMainMenu;
+
         case KPState_Finish:
             return new KPstateFinish;
+
         case KPState_Settings:
             return new KPstateSettings;
+
         case KPState_ControlSettings:
             return new KPstateControlSettings;
+
         case KPState_GraphicSettings:
             return new KPstateGraphicSettings;
+
         case KPState_GraphicHint:
             return new KPstateGraphicHint;
+
         case KPState_AudioSettings:
             return new KPstateAudioSettings;
+
         case KPState_KeyboardHelp:
             return new KPstateKeyboardHelp;
+
         case KPState_Game:
             return new KPstateGame;
+
         case KPState_GameSolved:
             return new KPstateGameSolved;
+
         case KPState_SelectLanguage:
             return new KPstateSelectLanguage;
+
         case KPState_Tutorial1:
             return new KPstateTutorial1;
+
         case KPState_Tutorial2:
             return new KPstateTutorial2;
+
         case KPState_Tutorial3:
             return new KPstateTutorial3;
+
         case KPState_Tutorial4:
             return new KPstateTutorial4;
+
         case KPState_ScoreList:
             return new KPstateScoreList;
+
         case KPState_LightTest:
             return new KPstateLightTest;
+
         default:
             std::stringstream message;
 

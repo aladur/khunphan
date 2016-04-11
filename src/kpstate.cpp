@@ -50,6 +50,7 @@ void KPstate::Initialize(KPstateContext *pContext,
     {
         previousStateId = pPreviousState->GetId();
     }
+
     pContext->SetPreviousState(previousStateId);
 
     PlayAudioForInitialize(pContext);
@@ -70,16 +71,17 @@ void KPstate::UpdateDisplay(KPstateContext *pContext) const
     {
         menu.labels[T_FPS].SetPosition(0.1f, y, 0.3f);
     }
+
     y -= 0.6f;
 
     if (menu.GetIsDisplayOpenGLInfo())
     {
         menu.labels[T_GL_VENDOR].FormatText(
-                1, userInterface.GetOpenGLVendor().c_str());
+            1, userInterface.GetOpenGLVendor().c_str());
         menu.labels[T_GL_RENDERER].FormatText(
-                1, userInterface.GetOpenGLRenderer().c_str());
+            1, userInterface.GetOpenGLRenderer().c_str());
         menu.labels[T_GL_VERSION].FormatText(
-                1, userInterface.GetOpenGLVersion().c_str());
+            1, userInterface.GetOpenGLVersion().c_str());
 
         menu.labels[T_GL_VENDOR].SetPosition(0.1f, y, 0.3f);
         y -= 0.3f;
@@ -156,7 +158,7 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
 
     for (sit = menu.plates.begin(); sit != menu.plates.end(); ++sit)
     {
-        Signal = sit->second.MouseEvent(button,event,x,y,
+        Signal = sit->second.MouseEvent(button, event, x, y,
                                         pContext->GetUserInterface());
 
         if (Signal)
@@ -182,8 +184,8 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
     return Signal;
 }
 
-bool KPstate::EvaluateKeyPressed (KPstateContext *pContext, unsigned char key,
-                                  int, int) const
+bool KPstate::EvaluateKeyPressed(KPstateContext *pContext, unsigned char key,
+                                 int, int) const
 {
     // returns true if key has been evaluated
     KPmenu &menu = pContext->GetMenu();
@@ -216,19 +218,23 @@ tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
         case 'Q' - 'A' + 1:
         case 27:
             return ESCKeyAction(pContext);
+
         case 'O' - 'A' + 1:
             pContext->GetMenu().InvertIsDisplayOpenGLInfo();
             UpdateDisplay(pContext);
             break;
+
         case 'D' - 'A' + 1:
             config.DisplayFPS = !config.DisplayFPS;
             UpdateDisplay(pContext);
             break;
+
         case 'F' - 'A' + 1:
             config.FullScreen = !config.FullScreen;
             pContext->GetUserInterface().SetWindowMode(config.FullScreen != 0);
             break;
     }
+
     return KPState_Invalid;
 }
 
@@ -267,8 +273,8 @@ void KPstate::KeyPressed(KPstateContext *pContext, unsigned char key,
 
     if (newState != KPState_Invalid)
     {
-      pContext->ChangeState(newState);
-      return;
+        pContext->ChangeState(newState);
+        return;
     }
 }
 

@@ -58,7 +58,7 @@ protected:
     int  EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
                             tMouseEvent event, int x, int y);
     bool EvaluateKeyPressed(KPstateContext *pContext, unsigned char key,
-                             int x, int y) const;
+                            int x, int y) const;
     tKPMenuState DefaultKeyPressed(KPstateContext *pContext, unsigned char key,
                                    int x, int y) const;
     void ChangeState(KPstateContext *pContext, tKPMenuState stateID) const;
@@ -72,6 +72,7 @@ inline void KPstate::ChangeState(KPstateContext *pContext,
     {
         pContext->ChangeState(stateID);
     }
+
     // No more statements should follow because
     // the this pointer is already deleted!
 }

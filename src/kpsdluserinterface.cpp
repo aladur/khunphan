@@ -23,8 +23,8 @@
 #if defined (HAVE_SDL) || defined (HAVE_SDL2)
 
 #ifdef HAVE_UNISTD_H
-#include <sys/types.h>
-#include <unistd.h>  // needed for access
+    #include <sys/types.h>
+    #include <unistd.h>  // needed for access
 #endif
 #include <limits.h>
 #include <string>
@@ -71,15 +71,18 @@ void KPSdlUserInterface::CloseAudio()
             {
                 Mix_FreeChunk(sound[i]);
             }
-         }
+        }
+
         delete [] sound;
         sound = NULL;
     }
+
     if (soundSource != NULL)
     {
         delete [] soundSource;
         soundSource = NULL;
     }
+
     if (music != NULL)
     {
         Mix_FreeMusic(music);
@@ -108,12 +111,14 @@ bool KPSdlUserInterface::mapKey(int mod, int sym, unsigned char *pKey)
         *pKey = static_cast<unsigned char>(sym) & 0x1F;
         return true;
     }
+
     if ((mod & (KMOD_LSHIFT | KMOD_RSHIFT | KMOD_SHIFT)) &&
         sym >= SDLK_a  && sym <= SDLK_z)
     {
         *pKey = sym - 32;
         return true;
     }
+
     if (mod & (KMOD_LSHIFT | KMOD_RSHIFT | KMOD_SHIFT |
                KMOD_LCTRL  | KMOD_RCTRL  |
                KMOD_LALT   | KMOD_RALT))
@@ -126,21 +131,25 @@ bool KPSdlUserInterface::mapKey(int mod, int sym, unsigned char *pKey)
         *pKey = 0x1b;
         return true;
     }
+
     if (sym == SDLK_BACKSPACE)
     {
         *pKey = 0x08;
         return true;
     }
+
     if (sym == SDLK_RETURN)
     {
         *pKey = 0x0D;
         return true;
     }
+
     if (sym >= SDLK_SPACE && sym <= SDLK_z)
     {
         *pKey = sym;
         return true;
     }
+
     return false;
 }
 
@@ -153,7 +162,7 @@ void KPSdlUserInterface::PostWindowRedisplay()
     // Is there something to do here?
 }
 
-void KPSdlUserInterface::MouseClick( int button, int event, int x, int y )
+void KPSdlUserInterface::MouseClick(int button, int event, int x, int y)
 {
     tMouseEvent  kpEvent;
     tMouseButton kpButton;
@@ -163,12 +172,15 @@ void KPSdlUserInterface::MouseClick( int button, int event, int x, int y )
         case SDL_BUTTON_LEFT:
             kpButton = KP_LEFT_MB;
             break;
+
         case SDL_BUTTON_MIDDLE:
             kpButton = KP_MIDDLE_MB;
             break;
+
         case SDL_BUTTON_RIGHT:
             kpButton = KP_RIGHT_MB;
             break;
+
         default:
             return;
     }
@@ -178,9 +190,11 @@ void KPSdlUserInterface::MouseClick( int button, int event, int x, int y )
         case SDL_PRESSED:
             kpEvent = KP_BUTTON_PRESS;
             break;
+
         case SDL_RELEASED:
             kpEvent = KP_BUTTON_RELEASE;
             break;
+
         default:
             return;
     }
@@ -225,6 +239,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         // Initialize sound management variables
         sound            = new Mix_Chunk *[KP_SND_MAX];
         soundSource      = new std::string [KP_SND_MAX];
+
         for (i = 0; i < KP_SND_MAX; i++)
         {
             sound[i] = NULL;
@@ -253,6 +268,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
             Mix_FreeChunk(sound[i]);
             sound[i] = NULL;
         }
+
         soundSource[i] = "";
 
         if (!access(file1.c_str(), R_OK))
@@ -313,17 +329,20 @@ void KPSdlUserInterface::LoadNextMusic()
         while (true)
         {
             std::vector<std::string>::iterator it = musicFiles.begin();
+
             if (musicIndex >= musicFiles.size())
             {
                 musicIndex = 0;
             }
+
             it += musicIndex;
 
             std::string file = config.GetDirectory(KP_MUSIC_DIR) + *it;
+
             if ((music = Mix_LoadMUS(file.c_str())) == NULL)
             {
                 LOG4("*** Error in Mix_LoadMUS(\"", file, "\"): ",
-                    Mix_GetError());
+                     Mix_GetError());
                 musicFiles.erase(it);
                 continue;
             }
@@ -356,6 +375,7 @@ void KPSdlUserInterface::PlayAudio(int soundId) const
             LOG5("*** Error opening Audio file '", soundSource[soundId],
                  "' [", Mix_GetError(), "]");
         }
+
         if (sound[soundId] != NULL)
         {
             LOG3("Reading '", soundSource[soundId], "'");
@@ -423,6 +443,7 @@ void KPSdlUserInterface::StopMusicCallback()
         Mix_FreeMusic(music);
         music = NULL;
     }
+
     PlayMusic(true, true);
 }
 

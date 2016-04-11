@@ -40,37 +40,38 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2,2.5,14,8.5);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 2.5, 14, 8.5);
 
-    menu.plates[PLATE_LOGO].SetPosition(5,9,11,11);
+    menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[T_SELECTLANGUAGE].SetPosition(8,8,1,A_CENTERED);
+    menu.labels[T_SELECTLANGUAGE].SetPosition(8, 8, 1, A_CENTERED);
     menu.labels[T_SELECTLANGUAGE].SetFullyVisible();
 
-    float Pos_y=7;
+    float Pos_y = 7;
+
     for (int i = T_LANGUAGE1; i <= T_LANGUAGE_MAX; i++)
     {
-        if ( menu.labels.find(i) != menu.labels.end() )
+        if (menu.labels.find(i) != menu.labels.end())
         {
-            menu.labels[i].SetPosition(8,Pos_y,0.71f,A_CENTERED);
+            menu.labels[i].SetPosition(8, Pos_y, 0.71f, A_CENTERED);
             menu.labels[i].SetSignal(i);
-            Pos_y-=.5;
+            Pos_y -= .5;
         }
     }
 
     if (pContext->GetConfig().Language)
     {
-        menu.labels[T_BACK].SetPosition(8,1,1,A_CENTERED);
+        menu.labels[T_BACK].SetPosition(8, 1, 1, A_CENTERED);
         menu.labels[T_BACK].SetSignal(S_BACK);
     }
 
     StartAnimation(pContext);
 }
 
-void KPstateSelectLanguage::MouseClick (KPstateContext *pContext,
-                                        tMouseButton button, tMouseEvent event,
-                                        int x, int y)
+void KPstateSelectLanguage::MouseClick(KPstateContext *pContext,
+                                       tMouseButton button, tMouseEvent event,
+                                       int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
@@ -103,8 +104,8 @@ tKPMenuState KPstateSelectLanguage::ESCKeyAction(KPstateContext *pContext) const
     }
 }
 
-void KPstateSelectLanguage::SetLanguage (KPstateContext *pContext,
-                                         int Language) const
+void KPstateSelectLanguage::SetLanguage(KPstateContext *pContext,
+                                        int Language) const
 {
     LOG1("Loading language");
 

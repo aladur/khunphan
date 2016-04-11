@@ -65,10 +65,12 @@ void ExtendedCamera::MoveUp(float factor)
 void ExtendedCamera::MoveDown(float factor)
 {
     target_Pos_z -= MoveFactor * factor;
+
     if (target_Pos_z < 2.8f)
     {
         target_Pos_z = 2.8f;
     }
+
     RecalculateViewFrustum();
     IsRoundtrip = false;
 }
@@ -77,10 +79,12 @@ void ExtendedCamera::MoveDown(float factor)
 void ExtendedCamera::ZoomIn(float factor)
 {
     target_FOV -= MoveFactor * factor;
+
     if (target_FOV < 1)
     {
         target_FOV = 1;
     }
+
     IsRoundtrip = false;
 }
 
@@ -99,12 +103,14 @@ void ExtendedCamera::VertigoIn(float factor)
     target_Pos_y -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
                     cos(target_Beta / degprad);
     target_Pos_z += 2 * MoveFactor * factor * cos(target_Alpha / degprad);
- 
+
     target_FOV = 2077 * cos(target_Alpha / degprad) / target_Pos_z;
+
     if (target_FOV < 1)
     {
         target_FOV = 1;
     }
+
     IsRoundtrip = false;
 }
 
@@ -138,14 +144,17 @@ void ExtendedCamera::RotateLeft(float factor)
 void ExtendedCamera::RotateUp(float factor)
 {
     target_Alpha += factor * RotateFactor;
+
     if (target_Alpha > 90)
     {
         target_Alpha = 90;
     }
+
     if (target_Alpha < 0)
     {
         target_Alpha = 0;
     }
+
     IsRoundtrip = false;
 }
 
@@ -153,14 +162,17 @@ void ExtendedCamera::RotateUp(float factor)
 void ExtendedCamera::RotateDown(float factor)
 {
     target_Alpha -= factor * RotateFactor;
+
     if (target_Alpha > 90)
     {
         target_Alpha = 90;
     }
+
     if (target_Alpha < 0)
     {
         target_Alpha = 0;
     }
+
     IsRoundtrip = false;
 }
 
@@ -222,6 +234,7 @@ void ExtendedCamera::PanUp(float factor, float center_x, float center_y)
         {
             target_Alpha = 0;
         }
+
         if (target_Alpha > 90)
         {
             target_Alpha = 90;
@@ -229,15 +242,17 @@ void ExtendedCamera::PanUp(float factor, float center_x, float center_y)
     }
 
     target_Pos_x = center_x - distance * sin(target_Beta / degprad) *
-                                         sin(target_Alpha / degprad);
+                   sin(target_Alpha / degprad);
     target_Pos_y = center_y - distance * cos(target_Beta / degprad) *
-                                         sin(target_Alpha / degprad);
+                   sin(target_Alpha / degprad);
     target_Pos_z = 2.8f + distance * cos(target_Alpha / degprad);
+
     //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
     if (target_Pos_z < 2.8f)
     {
         target_Pos_z = 2.8f;
     }
+
     RecalculateViewFrustum();
     IsRoundtrip = false;
 }
@@ -262,6 +277,7 @@ void ExtendedCamera::PanDown(float factor, float center_x, float center_y)
         {
             target_Alpha = 0;
         }
+
         if (target_Alpha > 90)
         {
             target_Alpha = 90;
@@ -269,16 +285,18 @@ void ExtendedCamera::PanDown(float factor, float center_x, float center_y)
     }
 
     target_Pos_x = center_x - distance * sin(target_Beta / degprad) *
-                                         sin(target_Alpha / degprad);
+                   sin(target_Alpha / degprad);
     target_Pos_y = center_y - distance * cos(target_Beta / degprad) *
-                                         sin(target_Alpha / degprad);
+                   sin(target_Alpha / degprad);
 
     target_Pos_z = 2.8f + distance * cos(target_Alpha / degprad);
+
     //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
     if (target_Pos_z < 2.8f)
     {
         target_Pos_z = 2.8f;
     }
+
     RecalculateViewFrustum();
     IsRoundtrip = false;
 }
@@ -294,10 +312,12 @@ void ExtendedCamera::FocusUp(float focus_x, float focus_y)
     GLfloat tgtPosz = 20;
     GLfloat tgtAlpha = 71.0167f;
     GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
+
     if (tgtPosy > focus_y)
     {
         tgtBeta -= 180.0f;
     }
+
     GLfloat tgtFOV = 38.6f;
 
     SetTargetPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
@@ -315,10 +335,12 @@ void ExtendedCamera::FocusUp2(float focus_x, float focus_y)
     GLfloat tgtPosz = 50;
     GLfloat tgtAlpha = 72;
     GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
+
     if (tgtPosy > focus_y)
     {
         tgtBeta -= 180.0f;
     }
+
     GLfloat tgtFOV = 38.6f;
 
     SetTargetPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);
@@ -336,10 +358,12 @@ void ExtendedCamera::FocusUp3(float focus_x, float focus_y)
     GLfloat tgtPosz = 50;
     GLfloat tgtAlpha = 58;
     GLfloat tgtBeta = degprad * atan((focus_x - tgtPosx) / (focus_y - tgtPosy));
-    if (tgtPosy>focus_y)
+
+    if (tgtPosy > focus_y)
     {
         tgtBeta -= 180.0f;
     }
+
     GLfloat tgtFOV = 38.6f;
 
     SetTargetPosition(tgtPosx, tgtPosy, tgtPosz, tgtAlpha, tgtBeta, tgtFOV);

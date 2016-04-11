@@ -38,11 +38,11 @@ public:
     void MoveIn(float);
     void MoveOut(float);
     void Animate(unsigned int);
-    void Draw(int x=-1, int y=-1) const;
+    void Draw(int x = -1, int y = -1) const;
     void SetPosition(int);
     void Roundtrip(int);
     void SetTargetPosition(SPosition &target_position);
-    void SetTargetPosition(float,float,float,float,float,float);
+    void SetTargetPosition(float, float, float, float, float, float);
     void RecalculateViewFrustum();
     inline void SetRoundtrip(bool b = true)
     {
@@ -52,11 +52,11 @@ public:
 
 protected:
     float AspectRatio;
-    float Pos_x,Pos_y,Pos_z,Alpha,Beta,FOV;
-    float target_Pos_x,target_Pos_y,target_Pos_z;
-    float target_Alpha,target_Beta,target_FOV;
-    float d_Pos_x,d_Pos_y,d_Pos_z,d_Alpha,d_Beta,d_FOV;
-    float Near,Far;
+    float Pos_x, Pos_y, Pos_z, Alpha, Beta, FOV;
+    float target_Pos_x, target_Pos_y, target_Pos_z;
+    float target_Alpha, target_Beta, target_FOV;
+    float d_Pos_x, d_Pos_y, d_Pos_z, d_Alpha, d_Beta, d_FOV;
+    float Near, Far;
     bool IsRoundtrip;
 
     const float MoveFactor;

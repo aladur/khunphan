@@ -41,19 +41,22 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     KPstate::Initialize(pContext, pPreviousState);
 
     it = pContext->GetMenu().labels.find(T_COPYRIGHT2);
+
     if (it == pContext->GetMenu().labels.end())
     {
         pContext->GetMenu().labels[T_COPYRIGHT2] =
-           Label("© 2002-2016 Wolfgang Schwotzer");
+            Label("© 2002-2016 Wolfgang Schwotzer");
     }
 
     it = pContext->GetMenu().labels.find(T_COPYRIGHT3);
+
     if (it == pContext->GetMenu().labels.end())
     {
         pContext->GetMenu().labels[T_COPYRIGHT3] = Label();
     }
 
     it = pContext->GetMenu().labels.find(T_COPYRIGHT5);
+
     if (it == pContext->GetMenu().labels.end())
     {
         pContext->GetMenu().labels[T_COPYRIGHT5] =
@@ -61,6 +64,7 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
     }
 
     it = pContext->GetMenu().labels.find(T_COPYRIGHT6);
+
     if (it == pContext->GetMenu().labels.end())
     {
         pContext->GetMenu().labels[T_COPYRIGHT6] =
@@ -80,7 +84,7 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext) const
 
     // every thing which should be permanently be visible within this
     // state should be listed here:
-    menu.plates[PLATE_LOGO].SetPosition(5,9,11,11);
+    menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
 
     float y = 3.0f;
     menu.labels[T_COPYRIGHT1].SetPosition(8, y, 0.4f, A_CENTERED);
@@ -108,9 +112,9 @@ tKPMenuState KPstateStartUp::ESCKeyAction(KPstateContext *pContext) const
     return KPState_Invalid;
 }
 
-void KPstateStartUp::MouseClick (KPstateContext *pContext,
-                                 tMouseButton, tMouseEvent event,
-                                 int, int)
+void KPstateStartUp::MouseClick(KPstateContext *pContext,
+                                tMouseButton, tMouseEvent event,
+                                int, int)
 {
     if (event == KP_BUTTON_RELEASE)
     {

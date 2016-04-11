@@ -25,7 +25,7 @@
 
 // zlib best compression value
 #ifndef Z_BEST_COMPRESSION
-#define Z_BEST_COMPRESSION 9
+    #define Z_BEST_COMPRESSION 9
 #endif
 
 // BTexture has a public interface for reading
@@ -50,14 +50,17 @@ BTexture::~BTexture()
 int BTexture::GetExpToBase2(unsigned int value)
 {
     int result = 0;
+
     while (!(value & (1 << result)) && result < 32)
     {
         result++;
     }
+
     if (result >= 32 || (value & ~(1 << result)) != 0)
     {
         return -1;
     }
+
     return result;
 }
 
@@ -71,8 +74,10 @@ bool BTexture::IsPowerOf2(unsigned int value)
         {
             bitCount++;
         }
+
         value >>= 1;
     }
+
     return bitCount == 1;
 }
 
@@ -140,7 +145,7 @@ const char *BTexture::ReadTextureFromFile(std::ifstream &fs, int flags/* = 0 */)
 }
 
 const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
-                                             int flags /* = 0 */)
+        int flags /* = 0 */)
 {
     png_byte header[HEADER_BYTES_READ];
     png_uint_32 png_width;
@@ -163,12 +168,14 @@ const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
                           (PNG_LIBPNG_VER_STRING, (png_voidp)NULL,
                            //user_error_fn, user_warning_fn);
                            NULL, NULL);
+
     if (!png_ptr)
     {
         return NULL;
     }
 
     png_infop info_ptr = png_create_info_struct(png_ptr);
+
     if (!info_ptr)
     {
         png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
@@ -176,6 +183,7 @@ const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
     }
 
     png_infop end_info = png_create_info_struct(png_ptr);
+
     if (!end_info)
     {
         png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
@@ -309,7 +317,7 @@ const char *BTexture::SetAlphaChannel(int value)
 
         for (i = 0; i < rowbytes * height; i += channels)
         {
-            texels[i+channels-1] = value;
+            texels[i + channels - 1] = value;
         }
     }
 
@@ -328,17 +336,19 @@ const char *BTexture::CopyAlphaChannel(int format)
             {
                 if ((format & TEX_MODIFY_ALPHA) == TEX_USE_RED_FOR_ALPHA)
                 {
-                    texels[i+channels-1] = texels[i];
+                    texels[i + channels - 1] = texels[i];
                 }
+
                 if ((channels > 1) &&
                     ((format & TEX_MODIFY_ALPHA) == TEX_USE_GREEN_FOR_ALPHA))
                 {
-                    texels[i+channels-1] = texels[i+1];
+                    texels[i + channels - 1] = texels[i + 1];
                 }
+
                 if (channels > 2 &&
                     ((format & TEX_MODIFY_ALPHA) == TEX_USE_BLUE_FOR_ALPHA))
                 {
-                    texels[i+channels-1] = texels[i+2];
+                    texels[i + channels - 1] = texels[i + 2];
                 }
             }
         }
@@ -360,32 +370,37 @@ const char *BTexture::CopyColor(int format)
                 if (channels > 1 &&
                     ((format & TEX_COPY_COLOR) == TEX_COPY_RED_TO_GREEN))
                 {
-                    texels[i+1] = texels[i];
+                    texels[i + 1] = texels[i];
                 }
+
                 if (channels > 2 &&
                     ((format & TEX_COPY_COLOR) == TEX_COPY_RED_TO_BLUE))
                 {
-                    texels[i+2] = texels[i];
+                    texels[i + 2] = texels[i];
                 }
+
                 if (channels > 1 &&
                     ((format & TEX_COPY_COLOR) == TEX_COPY_GREEN_TO_RED))
                 {
-                    texels[i]   = texels[i+1];
+                    texels[i]   = texels[i + 1];
                 }
+
                 if (channels > 2 &&
                     ((format & TEX_COPY_COLOR) == TEX_COPY_GREEN_TO_BLUE))
                 {
-                    texels[i+2] = texels[i+1];
+                    texels[i + 2] = texels[i + 1];
                 }
+
                 if (channels > 2 &&
                     ((format & TEX_COPY_COLOR) == TEX_COPY_BLUE_TO_RED))
                 {
-                    texels[i]   = texels[i+2];
+                    texels[i]   = texels[i + 2];
                 }
+
                 if (channels > 2 &&
                     ((format & TEX_COPY_COLOR) == TEX_COPY_BLUE_TO_GREEN))
                 {
-                    texels[i+1] = texels[i+2];
+                    texels[i + 1] = texels[i + 2];
                 }
             }
         }
@@ -408,15 +423,17 @@ const char *BTexture::SetColors(int format, int red, int green, int blue)
                 {
                     texels[i] = red;
                 }
+
                 if (channels > 1 &&
                     ((format & TEX_SET_COLOR_GREEN) == TEX_SET_COLOR_GREEN))
                 {
-                    texels[i+1] = green;
+                    texels[i + 1] = green;
                 }
+
                 if (channels > 2 &&
                     ((format & TEX_SET_COLOR_BLUE) == TEX_SET_COLOR_BLUE))
                 {
-                    texels[i+2] = blue;
+                    texels[i + 2] = blue;
                 }
             }
         }
@@ -435,12 +452,13 @@ bool BTexture::CreateSubImage(int x, int y, int w, int h, char *subTexels) const
     size_t i = 0;
     unsigned int ay;
 
-    for ( ay = height - y - h; ay < height - y; ay++ )
+    for (ay = height - y - h; ay < height - y; ay++)
     {
         memcpy(&subTexels[i], &texels[ay * rowbytes + (x * channels)],
                w * channels);
         i += w * channels;
     }
+
     return true;
 }
 
@@ -455,32 +473,41 @@ void BTexture::printInfo(std::ostream &os) const
         case PNG_COLOR_TYPE_GRAY:
             pColorType = static_cast<const char *>("PNG_COLOR_TYPE_GRAY");
             break;
+
         case PNG_COLOR_TYPE_PALETTE:
             pColorType = static_cast<const char *>("PNG_COLOR_TYPE_PALETTE");
             break;
+
         case PNG_COLOR_TYPE_RGB:
             pColorType = static_cast<const char *>("PNG_COLOR_TYPE_RGB");
             break;
+
         case PNG_COLOR_TYPE_RGB_ALPHA:
             pColorType = static_cast<const char *>("PNG_COLOR_TYPE_RGB_ALPHA");
             break;
+
         case PNG_COLOR_TYPE_GRAY_ALPHA:
             pColorType = static_cast<const char *>("PNG_COLOR_TYPE_GRAY_ALPHA");
             break;
+
         default:
             pColorType = static_cast<const char *>("???");
     }
+
     switch (interlace_type)
     {
         case PNG_INTERLACE_NONE:
             pInterlaceType = static_cast<const char *>("PNG_INTERLACE_NONE");
             break;
+
         case PNG_INTERLACE_ADAM7:
             pInterlaceType = static_cast<const char *>("PNG_INTERLACE_ADAM7");
             break;
+
         case PNG_INTERLACE_LAST:
             pInterlaceType = static_cast<const char *>("PNG_INTERLACE_LAST");
             break;
+
         default:
             pInterlaceType = static_cast<const char *>("???");
     }
@@ -491,6 +518,7 @@ void BTexture::printInfo(std::ostream &os) const
             pCompressionType =
                 static_cast<const char *>("PNG_COMPRESSION_TYPE_BASE");
             break;
+
         default:
             pCompressionType = static_cast<const char *>("???");
     }
@@ -545,7 +573,7 @@ bool BTexture::SetTexels(const char *pTexels, unsigned int aWidth,
     width    = aWidth;
     height   = aHeight;
     rowbytes = width * channels;
-    bit_depth= 8;
+    bit_depth = 8;
 
     texels = new unsigned char [rowbytes * height];
     memcpy(texels, pTexels, rowbytes * height);
@@ -555,15 +583,19 @@ bool BTexture::SetTexels(const char *pTexels, unsigned int aWidth,
         case  TEX_ILLUMINANCE:
             color_type = PNG_COLOR_TYPE_GRAY;
             break;
+
         case  TEX_ILLUMINANCE_ALPHA:
             color_type = PNG_COLOR_TYPE_GRAY_ALPHA;
             break;
+
         case  TEX_RGB:
             color_type = PNG_COLOR_TYPE_RGB;
             break;
+
         case  TEX_RGB_ALPHA:
             color_type = PNG_COLOR_TYPE_RGB_ALPHA;
             break;
+
         default:
             color_type = PNG_COLOR_TYPE_RGB_ALPHA;
             break;
@@ -572,7 +604,7 @@ bool BTexture::SetTexels(const char *pTexels, unsigned int aWidth,
     return true;
 }
 
-bool BTexture::WriteTextureToPngFile (std::ofstream &fs, int) const
+bool BTexture::WriteTextureToPngFile(std::ofstream &fs, int) const
 {
     if (!fs.is_open())
     {
@@ -581,6 +613,7 @@ bool BTexture::WriteTextureToPngFile (std::ofstream &fs, int) const
 
     png_structp png_ptr = png_create_write_struct
                           (PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
+
     //user_error_fn, user_warning_fn);
     if (!png_ptr)
     {
@@ -588,6 +621,7 @@ bool BTexture::WriteTextureToPngFile (std::ofstream &fs, int) const
     }
 
     png_infop info_ptr = png_create_info_struct(png_ptr);
+
     if (!info_ptr)
     {
         png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
@@ -656,6 +690,7 @@ const char *BTexture::Rescale(int exp, int format)
         // unfinished
         return NULL;
     }
+
     if ((format & TEX_SMALLER) != 0)
     {
 
@@ -667,7 +702,7 @@ const char *BTexture::Rescale(int exp, int format)
 
         unsigned char *oldTexels = texels;
 
-        SetWidth (GetWidth()  >> exp);
+        SetWidth(GetWidth()  >> exp);
         SetHeight(GetHeight() >> exp);
         texels = new unsigned char[GetHeight() * GetRowBytes()];
 
@@ -684,61 +719,72 @@ const char *BTexture::Rescale(int exp, int format)
             // texel in old texture
             unsigned int  *pBuffer = new unsigned int[GetChannels()];
             // buffer for one texel
-            int            shift   = 2*exp;
+            int            shift   = 2 * exp;
             size_t         fChannels = factor * GetChannels();
 
             for (y = 0; y < GetHeight(); y++)
             {
                 unsigned char *pRow = &texels[ y * GetRowBytes()];
                 pOldTexel0 = &oldTexels[(y * GetRowBytes()) << shift];
+
                 for (x = 0; x < GetWidth(); x++)
                 {
                     for (i = 0; i < GetChannels(); ++i)
                     {
                         pBuffer[i] = 0;
                     }
+
                     for (oy = 0; oy < factor; oy++)
                     {
                         c = 0;
                         pOldTexel = pOldTexel0 + (oy * (GetRowBytes() << exp));
+
                         for (ox = 0; ox < fChannels; ox++)
                         {
                             pBuffer[c] += *(pOldTexel++);
+
                             if (++c == GetChannels())
                             {
                                 c = 0;
                             }
                         }
                     }
+
                     switch (GetChannels())
                     {
                         case 1:
                             *(pRow++) = pBuffer[0] >> shift;
                             break;
+
                         case 2:
                             *(pRow++) = pBuffer[0] >> shift;
                             *(pRow++) = pBuffer[1] >> shift;
                             break;
+
                         case 3:
                             *(pRow++) = pBuffer[0] >> shift;
                             *(pRow++) = pBuffer[1] >> shift;
                             *(pRow++) = pBuffer[2] >> shift;
                             break;
+
                         case 4:
                             *(pRow++) = pBuffer[0] >> shift;
                             *(pRow++) = pBuffer[1] >> shift;
                             *(pRow++) = pBuffer[2] >> shift;
                             *(pRow++) = pBuffer[3] >> shift;
                             break;
+
                         default:
                             for (c = 0; c < GetChannels(); c++)
                             {
                                 *(pRow++) = pBuffer[c] >> shift;
                             }
                     }
+
                     pOldTexel0 += GetChannels() << exp;
                 }
             }
+
             delete [] pBuffer;
         }
         else
@@ -749,7 +795,7 @@ const char *BTexture::Rescale(int exp, int format)
             {
                 unsigned char       *pRow    = &texels   [ y * GetRowBytes()];
                 const unsigned char *pOldRow = &oldTexels[(y * GetRowBytes())
-                                               <<(2*exp)];
+                                               << (2 * exp)];
 
                 for (x = 0; x < GetWidth(); x++)
                 {
@@ -759,10 +805,12 @@ const char *BTexture::Rescale(int exp, int format)
                 }
             }
         }
+
         delete [] oldTexels;
 
         return reinterpret_cast<const char *>(texels);
     }
+
     return NULL;
 }
 
@@ -774,7 +822,7 @@ void BTexture::read_data_fn(png_structp png_ptr,
 
     if (io_ptr != NULL)
     {
-        std::ifstream &fs = *(std::ifstream*)io_ptr;
+        std::ifstream &fs = *(std::ifstream *)io_ptr;
 
         fs.read(reinterpret_cast<char *>(data), length);
 
@@ -793,7 +841,7 @@ void BTexture::write_data_fn(png_structp png_ptr,
 
     if (io_ptr != NULL)
     {
-        std::ofstream &fs = *(std::ofstream*)io_ptr;
+        std::ofstream &fs = *(std::ofstream *)io_ptr;
 
         fs.write(reinterpret_cast<char *>(data), length);
 
@@ -810,7 +858,7 @@ void BTexture::flush_fn(png_structp png_ptr)
 
     if (io_ptr != NULL)
     {
-        std::ofstream &fs = *(std::ofstream*)io_ptr;
+        std::ofstream &fs = *(std::ofstream *)io_ptr;
 
         fs.flush();
     }

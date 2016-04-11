@@ -54,7 +54,7 @@ public:
     // static member functions for event handling
     // necessary for event handling
     static void MouseClickEvent(int button, int state, int x, int y);
-    static void KeyPressedEvent ( unsigned char keyPressed,  int x, int y );
+    static void KeyPressedEvent(unsigned char keyPressed,  int x, int y);
     static void IdleEvent();
     static void DisplayEvent();
     static void ReshapeEvent(int width, int height);

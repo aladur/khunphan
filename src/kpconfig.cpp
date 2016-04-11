@@ -23,17 +23,17 @@
 
 #include "stdafx.h"
 #ifdef _WIN32
-#include <shlwapi.h>
-#pragma comment(lib,"shlwapi.lib")
-#include "shlobj.h"
+    #include <shlwapi.h>
+    #pragma comment(lib,"shlwapi.lib")
+    #include "shlobj.h"
 #endif
 #ifdef HAVE_UNISTD_H
-#include <sys/types.h>
-#include <unistd.h>
+    #include <sys/types.h>
+    #include <unistd.h>
 #endif
 #ifdef HAVE_SYS_STAT_H
-#include <sys/types.h>
-#include <sys/stat.h>
+    #include <sys/types.h>
+    #include <sys/stat.h>
 #endif
 #include <sstream>
 #include <libxml/tree.h>
@@ -102,11 +102,13 @@ void KPConfig::SetFileName(const char *aFileName)
             CoTaskMemFree(pwszPath);
             PathAppend(pszPath, "KhunPhan");
             PathAddBackslash(pszPath);
+
             if (!PathFileExists(pszPath))
             {
                 SHCreateDirectoryEx(NULL, pszPath, NULL);
             }
         }
+
         fileName = pszPath;
         fileName += "KhunPhan.xml";
 #else
@@ -122,12 +124,16 @@ std::string KPConfig::GetDirectoryBase(tKPDir directoryID) const
     {
         case KP_TEXTURE_DIR:
             return "Textures" PATHSEPARATORSTRING;
+
         case KP_SOUND_DIR:
             return "Sounds" PATHSEPARATORSTRING;
+
         case KP_MUSIC_DIR:
             return "Music" PATHSEPARATORSTRING;
+
         case KP_LOCALE_DIR:
             return "locale" PATHSEPARATORSTRING;
+
         default:
             return "";
     }
@@ -143,7 +149,7 @@ std::string KPConfig::GetDirectory(tKPDir directoryID) const
     struct stat sStat;
 
     dir = GetDirectoryBase(directoryID);
- 
+
     if (!dir.empty() && access(dir.c_str(), F_OK) == 0 &&
         stat(dir.c_str(), &sStat) == 0 && S_ISDIR(sStat.st_mode))
     {
@@ -152,6 +158,7 @@ std::string KPConfig::GetDirectory(tKPDir directoryID) const
 
     dir = DATADIR "/" PACKAGE "/";
     dir += GetDirectoryBase(directoryID);
+
     if (access(dir.c_str(), F_OK) < 0 || stat(dir.c_str(), &sStat) < 0 ||
         !S_ISDIR(sStat.st_mode))
     {
@@ -265,6 +272,7 @@ void KPConfig::WriteToFile() const
         xmlNewChild(tree, ns, _TO("PerformanceLog"),
                     _TO(PerformanceLog ? "1" : "0"));
     }
+
     if (SkipProgressBar)
     {
         xmlNewChild(tree, ns, _TO("SkipProgressBar"),
@@ -323,10 +331,12 @@ void KPConfig::ReadFromFile()
     }
 
     xmlChar *version = xmlGetProp(cur, _TO("Version"));
+
     if (version != NULL)
     {
         fileVersion = _FROM(version);
     }
+
     xmlFree(version);
 
     xmlNodePtr tree = cur->xmlChildrenNode;
@@ -417,10 +427,12 @@ void KPConfig::ReadFromFile()
                     iss >> UserInterface;
                     xmlFree(key);
 #if !defined(HAVE_LIBGLUT) && !defined(HAVE_LIBOPENGLUT)
+
                     if (UserInterface == 1)
                     {
                         UserInterface = 0;
                     }
+
 #endif
                 }
                 else if (!xmlStrcmp(tag, _TO("CameraPosition")))
@@ -507,6 +519,7 @@ void KPConfig::ReadFromFile()
                 subtree = subtree->next;
             }
         }
+
         if (!xmlStrcmp(tree->name, _TO("LanguageSettings")))
         {
             xmlNodePtr subtree = tree->xmlChildrenNode;
@@ -522,9 +535,11 @@ void KPConfig::ReadFromFile()
                     iss >> Language;
                     xmlFree(key);
                 }
+
                 subtree = subtree->next;
             }
         }
+
         if (!xmlStrcmp(tree->name, _TO("DebugSettings")))
         {
             xmlNodePtr subtree = tree->xmlChildrenNode;
@@ -661,83 +676,86 @@ void KPConfig::SetDefaultValues()
     DisplayVersionOnly   = false;
 }
 
-void KPConfig::ReadCommandLineParams(int argc,char **argv)
+void KPConfig::ReadCommandLineParams(int argc, char **argv)
 {
 
-    int i=1;
-    while (i<argc)
+    int i = 1;
+
+    while (i < argc)
     {
-        if (!strcmp(argv[i],"-n")||!strcmp(argv[i],"-nearest"))
+        if (!strcmp(argv[i], "-n") || !strcmp(argv[i], "-nearest"))
         {
             Nearest = true;
         }
-        else if (!strcmp(argv[i],"-p")||!strcmp(argv[i],"-performancelog"))
+        else if (!strcmp(argv[i], "-p") || !strcmp(argv[i], "-performancelog"))
         {
             PerformanceLog = true;
         }
-        else if (!strcmp(argv[i],"-f")||!strcmp(argv[i],"-fullscreen"))
+        else if (!strcmp(argv[i], "-f") || !strcmp(argv[i], "-fullscreen"))
         {
             FullScreen = true;
         }
-        else if (!strcmp(argv[i],"-w")||!strcmp(argv[i],"-windowed"))
+        else if (!strcmp(argv[i], "-w") || !strcmp(argv[i], "-windowed"))
         {
             FullScreen = false;
         }
-        else if (!strcmp(argv[i],"-hq")||!strcmp(argv[i],"-highquality"))
+        else if (!strcmp(argv[i], "-hq") || !strcmp(argv[i], "-highquality"))
         {
             TextureSize          = 2;
             MenuTextureSize      = 2;
             ScreenXResolution    = 1024;
         }
-        else if (!strcmp(argv[i],"-t")||!strcmp(argv[i],"-textures"))
+        else if (!strcmp(argv[i], "-t") || !strcmp(argv[i], "-textures"))
         {
             i++;
-            if (!strcmp(argv[i],"1")||!strcmp(argv[i],"full"))
+
+            if (!strcmp(argv[i], "1") || !strcmp(argv[i], "full"))
             {
-                TextureSize=1;
+                TextureSize = 1;
             }
-            else if (!strcmp(argv[i],"2")||!strcmp(argv[i],"half"))
+            else if (!strcmp(argv[i], "2") || !strcmp(argv[i], "half"))
             {
-                TextureSize=2;
+                TextureSize = 2;
             }
-            else if (!strcmp(argv[i],"4")||!strcmp(argv[i],"quater"))
+            else if (!strcmp(argv[i], "4") || !strcmp(argv[i], "quater"))
             {
-                TextureSize=4;
+                TextureSize = 4;
             }
-            else if (!strcmp(argv[i],"8")||!strcmp(argv[i],"eighth"))
+            else if (!strcmp(argv[i], "8") || !strcmp(argv[i], "eighth"))
             {
-                TextureSize=8;
+                TextureSize = 8;
             }
-            else if (!strcmp(argv[i],"0")||!strcmp(argv[i],"off"))
+            else if (!strcmp(argv[i], "0") || !strcmp(argv[i], "off"))
             {
-                TextureSize=0;
+                TextureSize = 0;
             }
         }
-        else if (!strcmp(argv[i],"-at")||!strcmp(argv[i],"-mtextures"))
+        else if (!strcmp(argv[i], "-at") || !strcmp(argv[i], "-mtextures"))
         {
             i++;
-            if (!strcmp(argv[i],"1")||!strcmp(argv[i],"voll"))
+
+            if (!strcmp(argv[i], "1") || !strcmp(argv[i], "voll"))
             {
-                MenuTextureSize=1;
+                MenuTextureSize = 1;
             }
-            else if (!strcmp(argv[i],"2")||!strcmp(argv[i],"half"))
+            else if (!strcmp(argv[i], "2") || !strcmp(argv[i], "half"))
             {
-                MenuTextureSize=2;
+                MenuTextureSize = 2;
             }
-            else if (!strcmp(argv[i],"4")||!strcmp(argv[i],"quater"))
+            else if (!strcmp(argv[i], "4") || !strcmp(argv[i], "quater"))
             {
-                MenuTextureSize=4;
+                MenuTextureSize = 4;
             }
-            else if (!strcmp(argv[i],"8")||!strcmp(argv[i],"eighth"))
+            else if (!strcmp(argv[i], "8") || !strcmp(argv[i], "eighth"))
             {
-                MenuTextureSize=8;
+                MenuTextureSize = 8;
             }
-            else if (!strcmp(argv[i],"0")||!strcmp(argv[i],"off"))
+            else if (!strcmp(argv[i], "0") || !strcmp(argv[i], "off"))
             {
-                MenuTextureSize=0;
+                MenuTextureSize = 0;
             }
         }
-        else if (!strcmp(argv[i],"-m")||!strcmp(argv[i],"-mousespeed"))
+        else if (!strcmp(argv[i], "-m") || !strcmp(argv[i], "-mousespeed"))
         {
             i++;
 
@@ -745,7 +763,7 @@ void KPConfig::ReadCommandLineParams(int argc,char **argv)
 
             iss >> MouseSpeed;
         }
-        else if (!strcmp(argv[i],"-v")||!strcmp(argv[i],"--version"))
+        else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version"))
         {
             DisplayVersionOnly = true;
         }
@@ -756,12 +774,14 @@ void KPConfig::ReadCommandLineParams(int argc,char **argv)
 
 const char *KPConfig::GetUserInterfaceName(int ui)
 {
-    switch(ui)
+    switch (ui)
     {
         case 0:
             return "SDL";
+
         case 1:
             return "GLUT";
+
         default:
             return "";
     }

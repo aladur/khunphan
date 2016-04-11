@@ -46,6 +46,7 @@ tIdToString KPlocale::ReadFromFile(const std::string &filename)
             }
 
             std::getline(ifs, text);
+
             if (text[0] == ' ' || text[0] == '\t')
             {
                 text.erase(0, 1);

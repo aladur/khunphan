@@ -33,18 +33,22 @@ void CmdLine::Scan(LPSTR lpCmdLine, int *argc, char **argv, int max_argc)
     while (*lpCmdLine && (*argc < max_argc))
     {
         *(argv + *argc) = lpCmdLine;
+
         while (*lpCmdLine && *lpCmdLine != ' ' && *lpCmdLine != '\t')
         {
             lpCmdLine++;
         }
+
         if (*lpCmdLine)
         {
             *(lpCmdLine++) = '\0';
         }
+
         while (*lpCmdLine && (*lpCmdLine == ' ' || *lpCmdLine == '\t'))
         {
             lpCmdLine++;
         }
+
         (*argc)++;
     }
 }

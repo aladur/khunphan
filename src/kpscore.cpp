@@ -26,9 +26,9 @@
 #include <sys/stat.h>
 #include "kpscore.h"
 #ifdef WIN32
-#include <shlwapi.h>
-#pragma comment(lib,"shlwapi.lib")
-#include "shlobj.h"
+    #include <shlwapi.h>
+    #pragma comment(lib,"shlwapi.lib")
+    #include "shlobj.h"
 #endif
 
 #define _TO(type)   reinterpret_cast<const xmlChar *>(type)
@@ -102,14 +102,17 @@ bool KPscore::Get(unsigned int index, std::string &pName,
     }
 
     pName = scoreList[index].Name;
+
     if (pPlayTime  != NULL)
     {
         *pPlayTime = scoreList[index].PlayTime;
     }
+
     if (pMoves != NULL)
     {
         *pMoves = scoreList[index].Moves;
     }
+
     if (pTimestamp != NULL)
     {
         *pTimestamp = scoreList[index].Timestamp;
@@ -119,8 +122,8 @@ bool KPscore::Get(unsigned int index, std::string &pName,
 }
 
 std::vector<KPscore::tKpScoreStruct>::iterator KPscore::PositionToInsert(
-                              const char *, unsigned int aPlayTime,
-                              unsigned int, time_t)
+    const char *, unsigned int aPlayTime,
+    unsigned int, time_t)
 {
     std::vector<tKpScoreStruct>::iterator it = scoreList.begin();
 
@@ -136,8 +139,8 @@ std::vector<KPscore::tKpScoreStruct>::iterator KPscore::PositionToInsert(
 }
 
 std::vector<KPscore::tKpScoreStruct>::const_iterator KPscore::PositionToInsert(
-                              const char *, unsigned int aPlayTime,
-                              unsigned int, time_t) const
+    const char *, unsigned int aPlayTime,
+    unsigned int, time_t) const
 {
     std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
 
@@ -182,11 +185,13 @@ void KPscore::SetFileName(const char *aFileName /* = NULL */)
             CoTaskMemFree(pwszPath);
             PathAppend(pszPath, "KhunPhan");
             PathAddBackslash(pszPath);
+
             if (!PathFileExists(pszPath))
             {
                 SHCreateDirectoryEx(NULL, pszPath, NULL);
             }
         }
+
         fileName = pszPath;
         fileName += "KhunPhanScores.xml";
 #else
@@ -217,7 +222,7 @@ void KPscore::WriteToFile() const
         xmlNodePtr subtree = xmlNewChild(tree, ns, _TO("Score"), NULL);
 
         xmlNewTextChild(subtree, ns, _TO("Name"),
-            _TO(it->Name.c_str()));
+                        _TO(it->Name.c_str()));
 
         std::ostringstream iss1;
         iss1 << it->PlayTime;
@@ -265,6 +270,7 @@ void KPscore::ReadFromFile()
     }
 
     xmlChar *version = xmlGetProp(cur, _TO("Version"));
+
     if (version != NULL)
     {
         fileVersion = _FROM(version);
@@ -306,6 +312,7 @@ void KPscore::ReadFromFile()
                 if (!xmlStrcmp(tag, _TO("Name")))
                 {
                     key  = xmlNodeListGetString(doc, node, 1);
+
                     if (key)
                     {
                         Name = _FROM(key);
@@ -348,6 +355,7 @@ void KPscore::ReadFromFile()
 void KPscore::print(std::ostream &os) const
 {
 #ifndef WIN32
+
     if (scoreList.empty())
     {
         os << "Current KhunPhan Score list is empty" << std::endl;
@@ -364,7 +372,9 @@ void KPscore::print(std::ostream &os) const
                << " ms Moves: " << it->Moves
                << " Time: " << ctime(&it->Timestamp) ;
         }
+
         os << std::endl;
     }
+
 #endif
 }

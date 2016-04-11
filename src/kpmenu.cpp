@@ -77,15 +77,15 @@ void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest)
     Label::PreInitialize(TextureName, TextureSize, Nearest, config);
 
     plates[PLATE_LOGO].Update(TextureName, TextureSize, Nearest,
-                      true, "logo", config);
+                              true, "logo", config);
     plates[PLATE_SOUND_ON].Update(TextureName, TextureSize, Nearest,
-                      true, "sound_on", config);
+                                  true, "sound_on", config);
     plates[PLATE_SOUND_OFF].Update(TextureName, TextureSize, Nearest,
-                      true, "soundmusic_off", config);
+                                   true, "soundmusic_off", config);
     plates[PLATE_MUSIC_ON].Update(TextureName, TextureSize, Nearest,
-                      true, "music_on", config);
+                                  true, "music_on", config);
     plates[PLATE_MUSIC_OFF].Update(TextureName, TextureSize, Nearest,
-                      true, "soundmusic_off", config);
+                                   true, "soundmusic_off", config);
 }
 
 bool KPmenu::LoadLanguage(int Language)
@@ -171,11 +171,11 @@ void KPmenu::Draw()
 {
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(0.0,16.0,0.0,12.0);
+    gluOrtho2D(0.0, 16.0, 0.0, 12.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 

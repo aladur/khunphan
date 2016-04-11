@@ -47,39 +47,46 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext) const
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(.5,4.5,15.5,11);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(.5, 4.5, 15.5, 11);
 
-    menu.plates[PLATE_LOGO].SetPosition(0,11.0,4,12);
+    menu.plates[PLATE_LOGO].SetPosition(0, 11.0, 4, 12);
     menu.plates[PLATE_LOGO].SetSignal(S_BACK);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[T_TUTORIAL2].SetPosition(8,10.5,1.0,A_CENTERED);
+    menu.labels[T_TUTORIAL2].SetPosition(8, 10.5, 1.0, A_CENTERED);
     menu.labels[T_TUTORIAL2].SetFullyVisible();
 
     float y = 9.5;
-    menu.labels[T_TUTORIAL2_01].SetPosition(1.25,y,0.5);
+    menu.labels[T_TUTORIAL2_01].SetPosition(1.25, y, 0.5);
     y -= 0.5;
+
     if (menu.labels.find(T_TUTORIAL2_02) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL2_02].SetPosition(1.25,y,0.5);
-    }
-    y -= 0.5;
-    if (menu.labels.find(T_TUTORIAL2_03) != menu.labels.end())
-    {
-        menu.labels[T_TUTORIAL2_03].SetPosition(1.25,y,0.5);
-    }
-    y -= 0.5;
-    if (menu.labels.find(T_TUTORIAL2_04) != menu.labels.end())
-    {
-        menu.labels[T_TUTORIAL2_04].SetPosition(1.25,y,0.5);
-    }
-    y -= 0.5;
-    if (menu.labels.find(T_TUTORIAL2_05) != menu.labels.end())
-    {
-        menu.labels[T_TUTORIAL2_05].SetPosition(1.25,y,0.5);
+        menu.labels[T_TUTORIAL2_02].SetPosition(1.25, y, 0.5);
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
+    y -= 0.5;
+
+    if (menu.labels.find(T_TUTORIAL2_03) != menu.labels.end())
+    {
+        menu.labels[T_TUTORIAL2_03].SetPosition(1.25, y, 0.5);
+    }
+
+    y -= 0.5;
+
+    if (menu.labels.find(T_TUTORIAL2_04) != menu.labels.end())
+    {
+        menu.labels[T_TUTORIAL2_04].SetPosition(1.25, y, 0.5);
+    }
+
+    y -= 0.5;
+
+    if (menu.labels.find(T_TUTORIAL2_05) != menu.labels.end())
+    {
+        menu.labels[T_TUTORIAL2_05].SetPosition(1.25, y, 0.5);
+    }
+
+    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, A_CENTERED);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);
@@ -92,9 +99,9 @@ tKPMenuState KPstateTutorial2::ESCKeyAction(KPstateContext *pContext) const
     return pContext->GetMenu().RestoreLastStateId();
 }
 
-void  KPstateTutorial2::MouseClick (KPstateContext *pContext,
-                                    tMouseButton button, tMouseEvent event,
-                                    int x, int y)
+void  KPstateTutorial2::MouseClick(KPstateContext *pContext,
+                                   tMouseButton button, tMouseEvent event,
+                                   int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
@@ -103,6 +110,7 @@ void  KPstateTutorial2::MouseClick (KPstateContext *pContext,
         case S_CONTINUE:
             pContext->ChangeState(KPState_Tutorial3);
             break;
+
         case S_BACK:
             pContext->ChangeState(ESCKeyAction(pContext));
             break;

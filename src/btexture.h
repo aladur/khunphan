@@ -33,7 +33,7 @@ enum tTextureFormat
 
     TEX_MODIFY_ALPHA       = 0x0C,
     TEX_USE_RED_FOR_ALPHA  = 0x04,
-    TEX_USE_GREEN_FOR_ALPHA= 0x08,
+    TEX_USE_GREEN_FOR_ALPHA = 0x08,
     TEX_USE_BLUE_FOR_ALPHA = 0x0C,
 
     TEX_COPY_COLOR         = 0x70,
@@ -66,11 +66,11 @@ public:
     virtual ~BTexture();
     const char *ReadTextureFromFile(const char *pFile, int flags = 0);
     const char *ReadTextureFromFile(std::ifstream &fs, int flags = 0);
-    bool        WriteTextureToFile (const char *pFile, int flags = 0) const;
-    bool        WriteTextureToFile (std::ofstream &fs, int flags = 0) const;
-    bool        SetTexels (const char *texels, unsigned int width,
-                           unsigned int height, unsigned int channels,
-                           int format);
+    bool        WriteTextureToFile(const char *pFile, int flags = 0) const;
+    bool        WriteTextureToFile(std::ofstream &fs, int flags = 0) const;
+    bool        SetTexels(const char *texels, unsigned int width,
+                          unsigned int height, unsigned int channels,
+                          int format);
     const char *CopyAlphaChannel(int format);
     const char *SetAlphaChannel(int value);
     const char *CopyColor(int format);
@@ -127,10 +127,10 @@ protected:
                              png_bytep data,
                              png_size_t length);
     static void write_data_fn(png_structp png_ptr,
-                             png_bytep data,
-                             png_size_t length);
+                              png_bytep data,
+                              png_size_t length);
     static void flush_fn(png_structp png_ptr);
-    bool        WriteTextureToPngFile (std::ofstream &fs, int flags = 0) const;
+    bool        WriteTextureToPngFile(std::ofstream &fs, int flags = 0) const;
     const char *ReadTextureFromPngFile(std::ifstream &fs, int flags = 0);
     unsigned char *texels;
     unsigned int width;

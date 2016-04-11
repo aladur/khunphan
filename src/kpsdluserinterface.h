@@ -60,7 +60,7 @@ protected:
     std::string  *soundSource;
     Mix_Music    *music;
 
-// Audio/Music Interface
+    // Audio/Music Interface
 public:
     bool InitializeAudio(const char *textureName, bool reInitialize = false);
     void SetSoundVolume(int volume) const;

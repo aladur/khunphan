@@ -125,7 +125,7 @@ private:
     unsigned long oldTime;
     unsigned int frameCount;
 
-// Audio interface
+    // Audio interface
 public:
     virtual bool InitializeAudio(const char *textureName,
                                  bool reInitialize = false);
@@ -135,11 +135,11 @@ public:
     virtual void PlayMusic(bool On, bool resetPos = false);
     virtual void StopMusicCallback();
 
-// KPstateContext interface
+    // KPstateContext interface
 public:
     virtual void ChangeState(tKPMenuState stateID);
     virtual tKPMenuState GetPreviousState() const;
-    virtual void SetPreviousState(tKPMenuState stateID); 
+    virtual void SetPreviousState(tKPMenuState stateID);
     virtual void SetPause(bool on)
     {
         isPause = on;

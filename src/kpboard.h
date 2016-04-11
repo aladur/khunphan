@@ -96,7 +96,7 @@ public:
 
     bool operator == (const KPboard &b) const;
     void print(std::ostream &os) const;
-    void InitializeToken (tKPTokenID id, int x, int y);
+    void InitializeToken(tKPTokenID id, int x, int y);
     inline bool Move(const KPmove &move)
     {
         return Move(move.GetToken(), move.GetDirection());

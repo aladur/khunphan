@@ -57,8 +57,10 @@ KPUIBase::KPUIBase(KPConfig &Config) :
     if (instance != NULL)
     {
         throw std::runtime_error(
-           "Error: Only one UserInterface instance allowed at a time");
-    } else {
+            "Error: Only one UserInterface instance allowed at a time");
+    }
+    else
+    {
         instance = this;
     }
 }
@@ -102,7 +104,7 @@ void KPUIBase::InitializeAfterOpen()
     glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-    glClearColor(0,0,0,0);
+    glClearColor(0, 0, 0, 0);
     glClearDepth(1.0);
     glDepthFunc(GL_LESS);
 
@@ -145,21 +147,21 @@ std::string KPUIBase::GetOpenGLVendor() const
 {
     const GLubyte *pString = glGetString(GL_VENDOR);
     return (pString != NULL) ?
-        std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
+           std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 
 std::string KPUIBase::GetOpenGLRenderer() const
 {
     const GLubyte *pString = glGetString(GL_RENDERER);
     return (pString != NULL) ?
-        std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
+           std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 
 std::string KPUIBase::GetOpenGLVersion() const
 {
     const GLubyte *pString = glGetString(GL_VERSION);
     return (pString != NULL) ?
-        std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
+           std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 
 void KPUIBase::DebugPrintOpenGLVersion() const
@@ -242,6 +244,7 @@ void KPUIBase::DisplayFPS()
     unsigned long t = fpsTime.GetTimeMsl();
 
     frameCount++;
+
     if (t - oldTime > 1000)  // update every second
     {
         pMenu->UpdateFPS(frameCount,
@@ -251,7 +254,7 @@ void KPUIBase::DisplayFPS()
     }
 }
 
-void KPUIBase::KeyPressed( unsigned char keyPressed, int x, int y )
+void KPUIBase::KeyPressed(unsigned char keyPressed, int x, int y)
 {
     pState->KeyPressed(this, keyPressed, x, y);
 }

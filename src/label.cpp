@@ -38,7 +38,7 @@ const int Label::left[] =
     9,  9,  8,  8,  8,  8,  8,  0,  7,  8,  8,  8,  8,  6,  8,  6
 };
 
-const int Label::right[]=
+const int Label::right[] =
 {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -81,9 +81,11 @@ Label::Label(const std::string &textOrFormat) :
 
     if (sprinter::isformatstring(textOrFormat))
     {
-       format = textOrFormat;
-    } else {
-       labelText = textOrFormat;
+        format = textOrFormat;
+    }
+    else
+    {
+        labelText = textOrFormat;
     }
 }
 
@@ -181,7 +183,7 @@ void Label::PreInitialize(const std::string &TextureName,
     file2 = config.GetDirectory(KP_TEXTURE_DIR) + "characters.png";
 
     if ((texels = texture.ReadTextureFromFile(file1.c_str(),
-                 TEX_WITH_ALPHA)) == NULL)
+                  TEX_WITH_ALPHA)) == NULL)
     {
         if ((texels = texture.ReadTextureFromFile(file2.c_str(),
                       TEX_WITH_ALPHA)) == NULL)
@@ -210,7 +212,7 @@ void Label::PreInitialize(const std::string &TextureName,
     }
 
     texels = texture.Rescale(BTexture::GetExpToBase2(TextureSize),
-                             TEX_SMALLER | TEX_RESCALE_AVG );
+                             TEX_SMALLER | TEX_RESCALE_AVG);
 
     unsigned int width  = texture.GetWidth();
     unsigned int height = texture.GetHeight();
@@ -230,7 +232,7 @@ void Label::PreInitialize(const std::string &TextureName,
     glBindTexture(GL_TEXTURE_2D, Texture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_PRIORITY,   1.0);
 
-    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
@@ -254,7 +256,7 @@ void Label::Draw()
         glEnable(GL_TEXTURE_2D);
         glTranslatef(x, y, 0);
         glScalef(Height, Height, 1);
-        glColor4f(1.0,1.0,1.0,Alpha);
+        glColor4f(1.0, 1.0, 1.0, Alpha);
         glCallList(DisplayList);
         glPopMatrix();
     }
@@ -265,7 +267,7 @@ void Label::SetPosition(float X, float Y, float H, tKPAlignment A)
 
     if (A != A_DONTCARE)
     {
-        Alignment=A;
+        Alignment = A;
     }
 
     switch (Alignment)
@@ -275,11 +277,13 @@ void Label::SetPosition(float X, float Y, float H, tKPAlignment A)
             target_x = X;
         }
         break;
+
         case A_CENTERED:
         {
             target_x = X - 0.5f * AspectRatio * H;
         }
         break;
+
         case A_RIGHT:
         {
             target_x = X - AspectRatio * H;
@@ -317,9 +321,11 @@ void Label::SetTextOrFormat(const std::string &textOrFormat)
 
     if (sprinter::isformatstring(textOrFormat))
     {
-       format = textOrFormat;
-    } else {
-       labelText = textOrFormat;
+        format = textOrFormat;
+    }
+    else
+    {
+        labelText = textOrFormat;
     }
 
     RecreateDisplayList();
@@ -378,6 +384,7 @@ bool Label::AddCharacter(char key)
             // the input will be commited with Enter or Line Feed
             target_Alpha = MOD_FADEIN;
             hasInputFocus = false;
+
             if (target_Alpha != Alpha)
             {
                 StartAnimation();
@@ -394,8 +401,8 @@ void Label::SetFadeOut()
 {
     target_Alpha = MOD_FADEOUT;
 
-    target_x=((x - 8) * 1.5f) + 8;
-    target_y=((y - 6) * 1.5f) + 6;
+    target_x = ((x - 8) * 1.5f) + 8;
+    target_y = ((y - 6) * 1.5f) + 6;
     target_Height = Height * 1.5f;
 
     hasInputFocus = false;
@@ -427,7 +434,8 @@ void Label::SetSelected()
 {
     Alpha = MOD_SELECTED;
     target_Alpha = MOD_FADEIN;
-    if (target_Alpha!=Alpha)
+
+    if (target_Alpha != Alpha)
     {
         StartAnimation();
     }
@@ -436,7 +444,8 @@ void Label::SetSelected()
 void Label::SetFadeIn()
 {
     target_Alpha = MOD_FADEIN;
-    if (target_Alpha!=Alpha)
+
+    if (target_Alpha != Alpha)
     {
         StartAnimation();
     }
@@ -444,8 +453,9 @@ void Label::SetFadeIn()
 
 void Label::SetFullyVisible()
 {
-    target_Alpha =MOD_FULLYVISIBLE;
-    if (target_Alpha!=Alpha)
+    target_Alpha = MOD_FULLYVISIBLE;
+
+    if (target_Alpha != Alpha)
     {
         StartAnimation();
     }
@@ -469,7 +479,7 @@ void Label::Animate(unsigned int duration)
             GLdouble relativeTime = animationTimer.GetRelativeTime();
 
             localFactor = 0.5f - 0.5f *
-                              cos(M_PIf * static_cast<GLfloat>(relativeTime));
+                          cos(M_PIf * static_cast<GLfloat>(relativeTime));
             x      = (target_x - old_x) * localFactor + old_x;
             y      = (target_y - old_y) * localFactor + old_y;
             Height = (target_Height - old_Height) * localFactor + old_Height;
@@ -496,18 +506,20 @@ void Label::StartAnimation()
 void Label::RecreateDisplayList()
 {
     bool isForceRecreate = false;
-    int x,y;
+    int x, y;
     const float w  = 1.0 / 16.0;
 
     if (!DisplayList)
     {
         DisplayList = glGenLists(1);
+
         if (DisplayList == 0)
         {
             // Could be caused if display list is totally full
             // or any other error.
             throw std::runtime_error("Error creating a display list");
         }
+
         isForceRecreate = true;
     }
 
@@ -522,7 +534,7 @@ void Label::RecreateDisplayList()
         GLuint c = 0;
         std::string::const_iterator it;
 
-        lineCount= 1;
+        lineCount = 1;
         glNewList(DisplayList, GL_COMPILE);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glPushMatrix();
@@ -531,27 +543,29 @@ void Label::RecreateDisplayList()
         {
             c = static_cast<unsigned char>(*it);
             AspectRatio += (right[c] - left[c] + 4) / 64.0f; // Sw: added
-            glTranslatef(-left[c] / 64.0f, 0,0);
+            glTranslatef(-left[c] / 64.0f, 0, 0);
             glBindTexture(GL_TEXTURE_2D, Texture);
             glBegin(GL_QUADS);
             x = c % 16;
             y = 15 - (c / 16);
-            glTexCoord2f(w*x,     w*y);
-            glVertex2f(0.0,0.0);
-            glTexCoord2f(w*(x+1), w*y);
-            glVertex2f(1.0,0.0);
-            glTexCoord2f(w*(x+1), w*(y+1));
-            glVertex2f(1.0,1.0);
-            glTexCoord2f(w*x,     w*(y+1));
-            glVertex2f(0.0,1.0);
+            glTexCoord2f(w * x,     w * y);
+            glVertex2f(0.0, 0.0);
+            glTexCoord2f(w * (x + 1), w * y);
+            glVertex2f(1.0, 0.0);
+            glTexCoord2f(w * (x + 1), w * (y + 1));
+            glVertex2f(1.0, 1.0);
+            glTexCoord2f(w * x,     w * (y + 1));
+            glVertex2f(0.0, 1.0);
             glEnd();
             glTranslatef((right[c] + 4) / 64.0f, 0, 0);
         }
+
         glPopMatrix();
         glBindTexture(GL_TEXTURE_2D, 0);
         glEndList();
 
-    } else
+    }
+    else
     {
         std::string::size_type start     = 0;
         std::string::size_type Pos       = 0;
@@ -577,24 +591,26 @@ void Label::RecreateDisplayList()
             while (Pos < labelText.size() && (lineWidth < maxWidth * 1.05))
             {
                 c = static_cast<unsigned char>(labelText[Pos]);
+
                 if (c == ' ')
                 {
                     lineWidthUntilLastSpace = lineWidth;
                     lastSpace = Pos;
                     spaceCount++;
                 }
+
                 lineWidth += (right[c] - left[c] + 4) / 64.0f;
                 Pos++;
             }
 
             if (Pos < labelText.size()) // Not at the end: justify left, right
             {
-                GLfloat delta=(maxWidth - lineWidthUntilLastSpace)/
-                              (spaceCount - 1.0f);
+                GLfloat delta = (maxWidth - lineWidthUntilLastSpace) /
+                                (spaceCount - 1.0f);
                 GLuint c;
                 glPushMatrix();
                 glTranslatef(0, -lineCount * 0.7f, 0);
-                Pos=start;
+                Pos = start;
 
                 while (Pos < labelText.size() && Pos < lastSpace)
                 {
@@ -604,35 +620,40 @@ void Label::RecreateDisplayList()
                     glBegin(GL_QUADS);
                     x = c % 16;
                     y = 15 - (c / 16);
-                    glTexCoord2f(w*x,     w*y);
-                    glVertex2f(0.0,0.0);
-                    glTexCoord2f(w*(x+1), w*y);
-                    glVertex2f(1.0,0.0);
-                    glTexCoord2f(w*(x+1), w*(y+1));
-                    glVertex2f(1.0,1.0);
-                    glTexCoord2f(w*x,     w*(y+1));
-                    glVertex2f(0.0,1.0);
+                    glTexCoord2f(w * x,     w * y);
+                    glVertex2f(0.0, 0.0);
+                    glTexCoord2f(w * (x + 1), w * y);
+                    glVertex2f(1.0, 0.0);
+                    glTexCoord2f(w * (x + 1), w * (y + 1));
+                    glVertex2f(1.0, 1.0);
+                    glTexCoord2f(w * x,     w * (y + 1));
+                    glVertex2f(0.0, 1.0);
                     glEnd();
                     glTranslatef((right[c] + 4) / 64.0f, 0, 0);
+
                     if (c == 32)
                     {
-                        glTranslatef(delta,0,0);
+                        glTranslatef(delta, 0, 0);
                     }
                 }
+
                 glPopMatrix();
                 lineCount++;
             }
             else     // At the end: justify left
             {
-                GLfloat delta=0;
+                GLfloat delta = 0;
+
                 if (lineWidth > maxWidth)
                 {
-                    delta=(maxWidth- lineWidth)/(spaceCount + 0.0f);
+                    delta = (maxWidth - lineWidth) / (spaceCount + 0.0f);
                 }
+
                 GLuint c;
                 glPushMatrix();
                 glTranslatef(0, -lineCount * 0.7f, 0);
-                Pos=start;
+                Pos = start;
+
                 while (Pos < labelText.size())
                 {
                     c = static_cast<unsigned char>(labelText[Pos++]);
@@ -641,33 +662,36 @@ void Label::RecreateDisplayList()
                     glBegin(GL_QUADS);
                     x = c % 16;
                     y = 15 - (c / 16);
-                    glTexCoord2f(w*x,     w*y);
-                    glVertex2f(0.0,0.0);
-                    glTexCoord2f(w*(x+1), w*y);
-                    glVertex2f(1.0,0.0);
-                    glTexCoord2f(w*(x+1), w*(y+1));
-                    glVertex2f(1.0,1.0);
-                    glTexCoord2f(w*x,     w*(y+1));
-                    glVertex2f(0.0,1.0);
+                    glTexCoord2f(w * x,     w * y);
+                    glVertex2f(0.0, 0.0);
+                    glTexCoord2f(w * (x + 1), w * y);
+                    glVertex2f(1.0, 0.0);
+                    glTexCoord2f(w * (x + 1), w * (y + 1));
+                    glVertex2f(1.0, 1.0);
+                    glTexCoord2f(w * x,     w * (y + 1));
+                    glVertex2f(0.0, 1.0);
                     glEnd();
                     glTranslatef((right[c] + 4) / 64.0f, 0, 0);
-                    if (c==32)
+
+                    if (c == 32)
                     {
-                        glTranslatef(delta,0,0);
+                        glTranslatef(delta, 0, 0);
                     }
                 }
+
                 glPopMatrix();
                 lineCount++;
                 break;
             }
         }
+
         glBindTexture(GL_TEXTURE_2D, 0);
         glEndList();
     }
 }
 
 int Label::MouseEvent(tMouseButton button, tMouseEvent event,
-                        int x_, int y_, KPUIBase &ui)
+                      int x_, int y_, KPUIBase &ui)
 {
     GLfloat xf = 16.0f * x_ / ui.GetValue(KP_WINDOW_WIDTH);
     GLfloat yf = 12.0f - 12.0f * y_ / ui.GetValue(KP_WINDOW_HEIGHT);
@@ -712,6 +736,7 @@ void Label::SetMaxWidth(float maxWidth_)
     {
         maxWidth_ = 0;
     }
+
     maxWidth = maxWidth_;
 }
 

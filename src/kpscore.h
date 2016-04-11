@@ -74,11 +74,11 @@ public:
 private:
     void ReadFromFile();
     std::vector<KPscore::tKpScoreStruct>::iterator PositionToInsert(
-                         const char *aName, unsigned int aPlayTime,
-                         unsigned int aMoves, time_t aTime = 0);
+        const char *aName, unsigned int aPlayTime,
+        unsigned int aMoves, time_t aTime = 0);
     std::vector<KPscore::tKpScoreStruct>::const_iterator PositionToInsert(
-                         const char *aName, unsigned int aPlayTime,
-                         unsigned int aMoves, time_t aTime = 0) const;
+        const char *aName, unsigned int aPlayTime,
+        unsigned int aMoves, time_t aTime = 0) const;
 
     std::string fileName;
     std::string fileVersion;

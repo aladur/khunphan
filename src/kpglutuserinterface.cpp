@@ -27,14 +27,14 @@
 /* If either GLUT or freeglut is available use it */
 /* otherwise check for OpenGLUT                   */
 #ifdef HAVE_LIBGLUT
-#include <GL/glut.h>
-#ifdef FREEGLUT
-#include <GL/freeglut.h>
-#endif
+    #include <GL/glut.h>
+    #ifdef FREEGLUT
+        #include <GL/freeglut.h>
+    #endif
 #else
-#ifdef HAVE_LIBOPENGLUT
-#include <GL/openglut.h>
-#endif
+    #ifdef HAVE_LIBOPENGLUT
+        #include <GL/openglut.h>
+    #endif
 #endif
 
 #if defined(HAVE_LIBOPENGLUT) || defined(HAVE_LIBGLUT)
@@ -67,12 +67,12 @@ void KPGlutUserInterface::InitializeEvents()
 {
     glutIgnoreKeyRepeat(1);
 
-    glutMouseFunc     (KPGlutUserInterface::MouseClickEvent);
-    glutKeyboardFunc  (KPGlutUserInterface::KeyPressedEvent);
+    glutMouseFunc(KPGlutUserInterface::MouseClickEvent);
+    glutKeyboardFunc(KPGlutUserInterface::KeyPressedEvent);
 
-    glutIdleFunc      (KPGlutUserInterface::IdleEvent);
-    glutDisplayFunc   (KPGlutUserInterface::DisplayEvent);
-    glutReshapeFunc   (KPGlutUserInterface::ReshapeEvent);
+    glutIdleFunc(KPGlutUserInterface::IdleEvent);
+    glutDisplayFunc(KPGlutUserInterface::DisplayEvent);
+    glutReshapeFunc(KPGlutUserInterface::ReshapeEvent);
 }
 
 bool KPGlutUserInterface::CanToggleFullScreen() const
@@ -97,21 +97,23 @@ void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
         std::stringstream modeString;
 
         modeString
-             << config.ScreenXResolution << 'x'
-             << ((config.ScreenXResolution*3)/4) << ':'
-             << config.ColorDepth;
+                << config.ScreenXResolution << 'x'
+                << ((config.ScreenXResolution * 3) / 4) << ':'
+                << config.ColorDepth;
 
         glutGameModeString(modeString.str().c_str());
+
         if (!glutGameModeGet(GLUT_GAME_MODE_POSSIBLE))
         {
             std::cout << "  No Game Mode possible!" << std::endl << std::endl;
         }
+
         glutFullScreen();
     }
     else
     {
         glutReshapeWindow(config.ScreenXResolution,
-                          (config.ScreenXResolution*3)/4);
+                          (config.ScreenXResolution * 3) / 4);
         glutPositionWindow(1, 0);
         glutPositionWindow(0, 0);
     }
@@ -152,35 +154,37 @@ void KPGlutUserInterface::OpenWindow(int argc, char **argv)
     LOG6("FREEGLUT Version ",
          (glutVersion / 10000) % 100, '.',
          (glutVersion /   100) % 100, '.',
-          glutVersion          % 100);
+         glutVersion          % 100);
 #endif
 #ifdef OPENGLUT
     int glutVersion = glutGet(GLUT_VERSION);
     LOG6("OPENGLUT Version ",
          (glutVersion / 10000) % 100, '.',
          (glutVersion /   100) % 100, '.',
-          glutVersion          % 100);
+         glutVersion          % 100);
 #endif
 
     if (!IsWindowResolutionSupported(config.ScreenXResolution,
-                                     (config.ScreenXResolution*3)/4))
+                                     (config.ScreenXResolution * 3) / 4))
     {
         config.ScreenXResolution = 640;
     }
 
     // Open OpenGL Window with GLUT
-    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize (config.ScreenXResolution,
-                        (config.ScreenXResolution*3)/4);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowSize(config.ScreenXResolution,
+                       (config.ScreenXResolution * 3) / 4);
     //glutInitWindowPosition (10, 10);
-    windowID = glutCreateWindow (GetWindowTitle().c_str());
+    windowID = glutCreateWindow(GetWindowTitle().c_str());
+
     if (config.FullScreen)
     {
         glutFullScreen();
     }
 
     DebugPrintOpenGLVersion();
-    if ( windowID <= 0)
+
+    if (windowID <= 0)
     {
         throw std::runtime_error("Error in glutCreateWindow");
     }
@@ -220,15 +224,17 @@ int KPGlutUserInterface::GetValue(int what) const
     switch (what)
     {
         case KP_WINDOW_WIDTH:
-            return  (windowID > 0 ? glutGet(GLUT_WINDOW_WIDTH)  : 0);
+            return (windowID > 0 ? glutGet(GLUT_WINDOW_WIDTH)  : 0);
+
         case KP_WINDOW_HEIGHT:
             return (windowID > 0 ? glutGet(GLUT_WINDOW_HEIGHT) : 0);
     }
+
     return 0;
 }
 
 bool KPGlutUserInterface::IsWindowResolutionSupported(
-                          int width, int height) const
+    int width, int height) const
 {
     return width <= glutGet(GLUT_SCREEN_WIDTH) &&
            (height <= glutGet(GLUT_SCREEN_HEIGHT));
@@ -275,10 +281,10 @@ void KPGlutUserInterface::SwapBuffers()
 
 void KPGlutUserInterface::PostWindowRedisplay()
 {
-    glutPostWindowRedisplay( windowID );
+    glutPostWindowRedisplay(windowID);
 }
 
-void KPGlutUserInterface::MouseClick(int button, int state, int x, int y )
+void KPGlutUserInterface::MouseClick(int button, int state, int x, int y)
 {
     tMouseEvent  kpEvent;
     tMouseButton kpButton;
@@ -289,12 +295,15 @@ void KPGlutUserInterface::MouseClick(int button, int state, int x, int y )
         case GLUT_LEFT_BUTTON:
             kpButton = KP_LEFT_MB;
             break;
+
         case GLUT_MIDDLE_BUTTON:
             kpButton = KP_MIDDLE_MB;
             break;
+
         case GLUT_RIGHT_BUTTON:
             kpButton = KP_RIGHT_MB;
             break;
+
         default:
             isValid = false;
     }
@@ -304,9 +313,11 @@ void KPGlutUserInterface::MouseClick(int button, int state, int x, int y )
         case GLUT_DOWN:
             kpEvent = KP_BUTTON_PRESS;
             break;
+
         case GLUT_UP:
             kpEvent = KP_BUTTON_RELEASE;
             break;
+
         default:
             isValid = false;
     }

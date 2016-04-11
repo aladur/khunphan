@@ -32,9 +32,9 @@ public:
     {
         return KPState_Settings;
     };
-    void Initialize (KPstateContext *pContext, const KPstate *pOldState);
-    void MouseClick (KPstateContext *pContext, tMouseButton button,
-                     tMouseEvent event, int x, int y);
+    void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    void MouseClick(KPstateContext *pContext, tMouseButton button,
+                    tMouseEvent event, int x, int y);
     void UpdateDisplay(KPstateContext *pContext) const;
 protected:
     tKPMenuState ESCKeyAction(KPstateContext *) const;

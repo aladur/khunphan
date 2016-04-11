@@ -87,6 +87,7 @@ void KPnode::AddNextMoves(KPnodes &nodes)
                 // Create parent and child links to existing node
                 pnode = &nodes.GetNodeFor(boardMoved.GetID());
             }
+
             childs.push_back(pnode);
             pnode->parents.push_back(this);
         }
@@ -110,6 +111,7 @@ void KPnode::print(std::ostream &os, bool with_childs /* = false */) const
             ++i;
         }
     }
+
     os << std::endl;
 }
 
@@ -117,7 +119,7 @@ void KPnode::RecursiveUpdateSolveCount(int count, bool start)
 {
     // Every game position can be solved in less or equal than 126 moves.
     // => For higher values abort the recursion.
-    // In addition only recurse if solve count is lower than the 
+    // In addition only recurse if solve count is lower than the
     // already estimated solve count.
     // This tremendously reduces the calculation time.
     if ((start && (GetBoard().IsSolved())) ||

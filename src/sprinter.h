@@ -26,7 +26,7 @@
 #include "stdafx.h"
 
 #ifdef HAVE_STDARG_H
-#include <stdarg.h>
+    #include <stdarg.h>
 #endif
 #include <string>
 

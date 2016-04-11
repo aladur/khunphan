@@ -63,7 +63,7 @@ KPnode &KPnodes::Add(KPnode &node)
 
 // Return node for a given board id.
 // If id is not available an exception is thrown.
-// Before accessing GetNodeFor() it can be checked 
+// Before accessing GetNodeFor() it can be checked
 // with Includes() if a board id is available.
 KPnode &KPnodes::GetNodeFor(QWord id)
 {
@@ -72,7 +72,9 @@ KPnode &KPnodes::GetNodeFor(QWord id)
     if ((it = nodesForId.find(id)) != nodesForId.end())
     {
         return it->second;
-    } else {
+    }
+    else
+    {
         throw std::runtime_error("Invalid board id.");
     }
 }
@@ -112,7 +114,7 @@ void KPnodes::CalculateSolveCount(void)
 
     time.ResetRelativeTime();
     tIds::const_iterator it;
- 
+
     for (it = ids.begin(); it != ids.end(); ++it)
     {
         KPnode &node = GetNodeFor(*it);

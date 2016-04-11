@@ -23,7 +23,7 @@
 #include <signal.h>
 #include <ostream>
 #ifdef HAVE_MCHECK_H
-#include <mcheck.h>
+    #include <mcheck.h>
 #endif
 #include "kpconfig.h"
 #include "kpscore.h"
@@ -40,18 +40,20 @@
 //
 //#define CHECK_MEMORY_LEAKS
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
 #if defined(HAVE_MCHECK_H) && defined(CHECK_MEMORY_LEAKS)
     mtrace();
 #endif
 
-    try {
+    try
+    {
         KhunPhanApp application(argc, argv);
 
         application.Run();
 
-    } catch (std::exception &e)
+    }
+    catch (std::exception &e)
     {
         message(mtError, "%s.\nProgram terminates now.", e.what());
     }

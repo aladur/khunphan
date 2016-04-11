@@ -38,7 +38,7 @@ void KPstateTutorial3::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, pPreviousState);
 
-    pContext->GetBoardView().EmphasizeToken( GetEmphasizedTokenId() );
+    pContext->GetBoardView().EmphasizeToken(GetEmphasizedTokenId());
     pContext->GetCamera().SetRoundtrip(false);
     InitializeBoardWithTokens(pContext);
 
@@ -51,47 +51,57 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
 
     KPmenu &menu = pContext->GetMenu();
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(.5,4.5,15.5,11);
+    menu.plates[PLATE_MENUBACKGROUND].SetPosition(.5, 4.5, 15.5, 11);
 
-    menu.plates[PLATE_LOGO].SetPosition(0,11.0,4,12);
+    menu.plates[PLATE_LOGO].SetPosition(0, 11.0, 4, 12);
     menu.plates[PLATE_LOGO].SetSignal(S_BACK);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[GetTextOffset()].SetPosition(8,10.5,1.0,A_CENTERED);
+    menu.labels[GetTextOffset()].SetPosition(8, 10.5, 1.0, A_CENTERED);
     menu.labels[GetTextOffset()].SetFullyVisible();
 
     float y = 9.5;
-    menu.labels[GetTextOffset() + 2].SetPosition(1.25,y,0.5);
+    menu.labels[GetTextOffset() + 2].SetPosition(1.25, y, 0.5);
     y -= 0.5;
+
     if (menu.labels.find(GetTextOffset() + 3) !=
         menu.labels.end())
     {
-        menu.labels[GetTextOffset() + 3].SetPosition(1.25,y,0.5);
+        menu.labels[GetTextOffset() + 3].SetPosition(1.25, y, 0.5);
     }
+
     y -= 0.5;
+
     if (menu.labels.find(GetTextOffset() + 4) !=
         menu.labels.end())
     {
-        menu.labels[GetTextOffset() + 4].SetPosition(1.25,y,0.5);
+        menu.labels[GetTextOffset() + 4].SetPosition(1.25, y, 0.5);
     }
+
     y -= 0.5;
+
     if (menu.labels.find(GetTextOffset() + 5) !=
         menu.labels.end())
     {
-        menu.labels[GetTextOffset() + 5].SetPosition(1.25,y,0.5);
+        menu.labels[GetTextOffset() + 5].SetPosition(1.25, y, 0.5);
     }
+
     y -= 0.5;
+
     if (menu.labels.find(GetTextOffset() + 6) !=
         menu.labels.end())
     {
-        menu.labels[GetTextOffset() + 6].SetPosition(1.25,y,0.5);
+        menu.labels[GetTextOffset() + 6].SetPosition(1.25, y, 0.5);
     }
+
     y -= 0.5;
+
     if (menu.labels.find(GetTextOffset() + 7) !=
         menu.labels.end())
     {
-        menu.labels[GetTextOffset() + 7].SetPosition(1.25,y,0.5);
+        menu.labels[GetTextOffset() + 7].SetPosition(1.25, y, 0.5);
     }
+
     y -= 0.5;
 
     switch (tutorialState)
@@ -99,39 +109,44 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
         case KP_TUT_RIGHT_TOKEN:
             // Klicked (and evtl. moved) the right token
             // Tutorial can be finished
-            menu.labels[T_CONTINUE].SetPosition(8,1,1,A_CENTERED);
+            menu.labels[T_CONTINUE].SetPosition(8, 1, 1, A_CENTERED);
             menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
-            menu.labels[GetTextOffset() + 1].SetPosition(1.25,y,0.5);
+            menu.labels[GetTextOffset() + 1].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             break;
+
         case KP_TUT_NO_TOKEN:
             // Missed any token
-            menu.labels[T_TUTORIAL34_EMPTY].SetPosition(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_EMPTY].SetPosition(1.25, y, 0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             break;
+
         case KP_TUT_NOMOV_TOKEN:
             // Klicked on an unmovable token
-            menu.labels[T_TUTORIAL34_NOMV].SetPosition(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_NOMV].SetPosition(1.25, y, 0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             break;
+
         case KP_TUT_WRONG_TOKEN:
             // Klicked on the wrong token
-            menu.labels[T_TUTORIAL34_GOOD].SetPosition(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_GOOD].SetPosition(1.25, y, 0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             break;
+
         case KP_TUT_KLICKED_ONLY:
             // Klicked right token, but did not move with the mouse
             // This can only happen in Tutorial 4
-            menu.labels[T_TUTORIAL4_MOVE].SetPosition(1.25,y,0.5);
+            menu.labels[T_TUTORIAL4_MOVE].SetPosition(1.25, y, 0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25,y,0.5);
+            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25, y, 0.5);
             break;
+
         case KP_TUT_STARTED:
         default:
             break;
@@ -140,9 +155,9 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
     StartAnimation(pContext);
 }
 
-void  KPstateTutorial3::MouseClick (KPstateContext *pContext,
-                                    tMouseButton button, tMouseEvent event,
-                                    int x, int y)
+void  KPstateTutorial3::MouseClick(KPstateContext *pContext,
+                                   tMouseButton button, tMouseEvent event,
+                                   int x, int y)
 {
     int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
@@ -151,6 +166,7 @@ void  KPstateTutorial3::MouseClick (KPstateContext *pContext,
         case S_CONTINUE:
             ContinueWithNextState(pContext);
             return;
+
         case S_BACK:
             pContext->ChangeState(ESCKeyAction(pContext));
             return;
@@ -182,9 +198,9 @@ void KPstateTutorial3::ContinueWithNextState(KPstateContext *pContext,
 
     const KPnode &node = pContext->GetNodes().GetRootNode();
     pContext->GetBoardView().SetBoard(node.GetBoard());
-    pContext->GetBoardView().EmphasizeToken( TK_EMPTY );
+    pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
     pContext->GetCamera().SetRoundtrip(true);
-    pContext->ChangeState( KPState_Tutorial4 );
+    pContext->ChangeState(KPState_Tutorial4);
 }
 
 /////////////////////////////////////////////////////////////////////

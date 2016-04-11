@@ -61,17 +61,20 @@ public:
         {
             time += duration;
             isExpired = (time >= maxTime);
- 
+
             if (isExpired)
             {
                 if (isAutoReset)
                 {
                     time -= maxTime;
-                } else {
+                }
+                else
+                {
                     isStarted = false;
                 }
             }
         }
+
         return isExpired;
     }
 

@@ -56,7 +56,7 @@ KPboardView::KPboardView(const KPboard &currentBoard,
                          unsigned int TextureSize /*=1*/,
                          bool Nearest /*=true*/) :
     current(currentBoard),
-    mat_value(0.0), xValue (0.0),
+    mat_value(0.0), xValue(0.0),
     emphasizedToken(TK_EMPTY), animatedToken(TK_EMPTY),
     old_x(0.0), old_y(0.0), new_x(0.0), new_y(0.0),
     ax(0.0), ay(0.0), Time(0.0), textureSource(NULL),
@@ -64,6 +64,7 @@ KPboardView::KPboardView(const KPboard &currentBoard,
 {
     srand(327);
     DisplayList = glGenLists(KBP_ENTRY_COUNT);
+
     if (DisplayList == 0)
     {
         // Could be caused if display list has no space left
@@ -103,6 +104,7 @@ bool KPboardView::CreateTexture(unsigned int TextureSize, const char *pFile,
     BTexture *pTexture = new BTexture;
 
     const char *texels = pTexture->ReadTextureFromFile(pFile, 0);
+
     if (texels == NULL)
     {
         delete pTexture;
@@ -121,7 +123,7 @@ bool KPboardView::CreateTexture(unsigned int TextureSize, const char *pFile,
                 pFile);
     }
 
-    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     glBindTexture(GL_TEXTURE_2D, *pId);
 
@@ -160,10 +162,12 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
     }
 
     std::string file;
+
     while (TextureSize && (i < MAX_BOARD_TEXTURES))
     {
         file = TextureDirectory + TextureName +
                PATHSEPARATORSTRING + textureFile[i];
+
         if (!always && file == textureSource[i])
         {
             continue;
@@ -172,6 +176,7 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
         if (!CreateTexture(TextureSize, file.c_str(), Nearest, &textureId[i]))
         {
             file = TextureDirectory + textureFile[i];
+
             if (!always && file == textureSource[i])
             {
                 continue;
@@ -187,6 +192,7 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
                 throw std::runtime_error(message.str());
             }
         }
+
         textureSource[i] = file;
         i++;
     }
@@ -201,9 +207,9 @@ void KPboardView::Initialize(const std::string &TextureDirectory,
 
     glNewList(DisplayList + BRONZE_MATERIAL, GL_COMPILE);
     {
-        GLfloat mat_ambient[]  = {0.50f,0.50f,0.50f,1.0f};
-        GLfloat mat_diffuse[]  = {0.60f,0.60f,0.60f,1.0f};
-        GLfloat mat_specular[] = {0.15f,0.15f,0.15f,1.0f};
+        GLfloat mat_ambient[]  = {0.50f, 0.50f, 0.50f, 1.0f};
+        GLfloat mat_diffuse[]  = {0.60f, 0.60f, 0.60f, 1.0f};
+        GLfloat mat_specular[] = {0.15f, 0.15f, 0.15f, 1.0f};
         GLfloat mat_shininess  = 20.0f;
 
         glDisable(GL_TEXTURE_2D);
@@ -211,7 +217,7 @@ void KPboardView::Initialize(const std::string &TextureDirectory,
         glMaterialfv(GL_FRONT, GL_AMBIENT,   mat_ambient);
         glMaterialfv(GL_FRONT, GL_DIFFUSE,   mat_diffuse);
         glMaterialfv(GL_FRONT, GL_SPECULAR,  mat_specular);
-        glMaterialf (GL_FRONT, GL_SHININESS, mat_shininess);
+        glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
 
         glEnable(GL_TEXTURE_2D);
     }
@@ -310,7 +316,7 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
                                float z0, bool WithTexture /* = true */) const
 {
     GLfloat tx0, ty0, tdx, tdy;
-    GLfloat nv[] = {0,0,0};
+    GLfloat nv[] = {0, 0, 0};
 
     glBegin(GL_QUADS);
 
@@ -323,28 +329,36 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
     nv[1] = 0;
     nv[2] = 1;
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tx0, ty0);
     }
+
     glVertex3f(x0, y0, z0 + dz);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tdx, ty0);
     }
+
     glVertex3f(x0 + dx, y0, z0 + dz);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tdx, tdy);
     }
+
     glVertex3f(x0 + dx, y0 + dy, z0 + dz);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tx0, tdy);
     }
+
     glVertex3f(x0, y0 + dy, z0 + dz);
 
     // Back Face
@@ -356,28 +370,36 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
     nv[1] = -1;
     nv[2] = 0;
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tx0, ty0);
     }
-    glVertex3f( x0, y0, z0 );
+
+    glVertex3f(x0, y0, z0);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tdx, ty0);
     }
+
     glVertex3f(x0 + dx, y0, z0);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tdx, tdy);
     }
+
     glVertex3f(x0 + dx, y0, z0 + dz);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tx0, tdy);
     }
+
     glVertex3f(x0, y0, z0 + dz);
 
     // Front Face
@@ -389,28 +411,36 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
     nv[1] = 1;
     nv[2] = 0;
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tx0, ty0);
     }
+
     glVertex3f(x0, y0 + dy, z0);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tdx, ty0);
     }
+
     glVertex3f(x0, y0 + dy, z0 + dz);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tdx, tdy);
     }
+
     glVertex3f(x0 + dx, y0 + dy, z0 + dz);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tx0, tdy);
     }
+
     glVertex3f(x0 + dx, y0 + dy, z0);
 
     // Left Face
@@ -422,28 +452,36 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
     nv[1] = 0;
     nv[2] = 0;
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tx0, ty0);
     }
+
     glVertex3f(x0, y0, z0);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tdx, ty0);
     }
+
     glVertex3f(x0, y0, z0 + dz);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tdx, tdy);
     }
+
     glVertex3f(x0, y0 + dy, z0 + dz);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tx0, tdy);
     }
+
     glVertex3f(x0, y0 + dy, z0);
 
     // Right Face
@@ -455,28 +493,36 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
     nv[1] = 0;
     nv[2] = 0;
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tx0, ty0);
     }
+
     glVertex3f(x0 + dx, y0, z0);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tdx, ty0);
     }
+
     glVertex3f(x0 + dx, y0 + dy, z0);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tdx, tdy);
     }
+
     glVertex3f(x0 + dx, y0 + dy, z0 + dz);
     glNormal3fv(nv);
+
     if (WithTexture)
     {
         glTexCoord2f(tx0, tdy);
     }
+
     glVertex3f(x0 + dx, y0, z0 + dz);
 
     /*
@@ -520,12 +566,13 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
 
 void KPboardView::GetTokenCoordinates(tKPTokenID i, float *x, float *y) const
 {
-    if ( i == animatedToken )
+    if (i == animatedToken)
     {
         if (x != NULL)
         {
             *x = ax;
         }
+
         if (y != NULL)
         {
             *y = ay;
@@ -538,6 +585,7 @@ void KPboardView::GetTokenCoordinates(tKPTokenID i, float *x, float *y) const
             *x = ((DX + DGAP) * static_cast<float>(current.GetX(i)) -
                   ((HORIZONTAL_MAX * (DX + DGAP) - DGAP) / 2));
         }
+
         if (y != NULL)
         {
             *y = ((DY + DGAP) * static_cast<float>(current.GetY(i)) -
@@ -566,10 +614,12 @@ void KPboardView::Draw(bool render /* = true */) const
     // One token may be in animation mode or not
     ///////////////////////////////////////////////////////////////////////
     i = TK_GREEN1;
+
     do
     {
-        glColor4f(1.0,1.0,1.0,1.0);
+        glColor4f(1.0, 1.0, 1.0, 1.0);
         glEnable(GL_TEXTURE_2D);
+
         switch (i)
         {
             case TK_GREEN1:
@@ -578,6 +628,7 @@ void KPboardView::Draw(bool render /* = true */) const
             case TK_GREEN4:
                 glBindTexture(GL_TEXTURE_2D, textureId[0]);
                 break;
+
             case TK_WHITE1:
             case TK_WHITE2:
             case TK_WHITE3:
@@ -585,12 +636,15 @@ void KPboardView::Draw(bool render /* = true */) const
             case TK_WHITE5:
                 glBindTexture(GL_TEXTURE_2D, textureId[1]);
                 break;
+
             case TK_RED1:
                 glBindTexture(GL_TEXTURE_2D, textureId[2]);
                 break;
+
             default:
                 break;
         }
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -615,6 +669,7 @@ void KPboardView::Draw(bool render /* = true */) const
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
     if (render)
     {
         glCallList(DisplayList + BOARD);
@@ -625,6 +680,7 @@ void KPboardView::Draw(bool render /* = true */) const
     // readonly and blending over texture and emission color
     ////////////////////////////////////////////////////////////
     i = emphasizedToken;
+
     if (i != TK_EMPTY)
     {
         GetTokenCoordinates(i, &x0, &y0);
@@ -655,33 +711,43 @@ void KPboardView::DrawToken(const tKPTokenID i) const
         case TK_GREEN1:
             glCallList(DisplayList + CUBOID_1X1_1);
             break;
+
         case TK_GREEN2:
             glCallList(DisplayList + CUBOID_1X1_2);
             break;
+
         case TK_GREEN3:
             glCallList(DisplayList + CUBOID_1X1_3);
             break;
+
         case TK_GREEN4:
             glCallList(DisplayList + CUBOID_1X1_4);
             break;
+
         case TK_WHITE1:
             glCallList(DisplayList + CUBOID_1X2_1);
             break;
+
         case TK_WHITE2:
             glCallList(DisplayList + CUBOID_1X2_2);
             break;
+
         case TK_WHITE3:
             glCallList(DisplayList + CUBOID_1X2_3);
             break;
+
         case TK_WHITE4:
             glCallList(DisplayList + CUBOID_1X2_4);
             break;
+
         case TK_WHITE5:
             glCallList(DisplayList + CUBOID_2X1);
             break;
+
         case TK_RED1:
             glCallList(DisplayList + CUBOID_2X2);
             break;
+
         default:
             break;
     }
@@ -691,10 +757,12 @@ void KPboardView::DrawToken(const tKPTokenID i) const
 void KPboardView::Animate(unsigned int duration)
 {
     xValue +=  duration * 2 * M_PIf / TOTAL_ANIMATIONTIME;
+
     if (xValue >= 2 * M_PI)
     {
         xValue -= 2 * M_PIf;
     }
+
     mat_value = 0.5f * sin(xValue) + 0.5f;
 
     if (animatedToken == TK_EMPTY)
@@ -703,6 +771,7 @@ void KPboardView::Animate(unsigned int duration)
     }
 
     Time += 2 * duration;
+
     if (Time >= TOTAL_ANIMATIONTIME)
     {
         animatedToken = TK_EMPTY;
@@ -728,43 +797,52 @@ bool KPboardView::Move(tKPTokenID id, tKPDirection d)
     {
         return false;    // Ignore if Animation in progress
     }
+
     short int i = 0;
     tKPDirection direction = MOVE_NO;
+
     // count the possibilities token id can move to in i
-    if ( current.CanMove(id, MOVE_UP))
+    if (current.CanMove(id, MOVE_UP))
     {
         i++;
         direction = MOVE_UP;
     }
-    if ( current.CanMove(id, MOVE_DOWN))
+
+    if (current.CanMove(id, MOVE_DOWN))
     {
         i++;
         direction = MOVE_DOWN;
     }
-    if ( current.CanMove(id, MOVE_LEFT))
+
+    if (current.CanMove(id, MOVE_LEFT))
     {
         i++;
         direction = MOVE_LEFT;
     }
-    if ( current.CanMove(id, MOVE_RIGHT))
+
+    if (current.CanMove(id, MOVE_RIGHT))
     {
         i++;
         direction = MOVE_RIGHT;
     }
-    if ( i == 0 )
+
+    if (i == 0)
     {
         return false;    // token is not movable at all
     }
-    if ( i >= 2 )
+
+    if (i >= 2)
     {
         // more than one possibility: use mouse motion to get
         // direction
         direction = d;
     }
+
     if (direction == MOVE_NO)
     {
         return false;    // no direction given. No move possible
     }
+
     if (!current.CanMove(id, direction))
     {
         return false;    // Ignore if token id can not be moved in direction d
@@ -809,8 +887,8 @@ void KPboardView::DrawCuboid(float deltaAngle) const// Only for test purposes
     if (without_camera)
     {
         glLoadIdentity();
-        glTranslatef(1.5f,0.0f,-100.0f);       // Move Right And Into The Screen
-        glRotatef(rquad,1.0f,1.0f,1.0f);       // Rotate The Cube On X, Y & Z
+        glTranslatef(1.5f, 0.0f, -100.0f);     // Move Right And Into The Screen
+        glRotatef(rquad, 1.0f, 1.0f, 1.0f);    // Rotate The Cube On X, Y & Z
     }
 
     glCallList(DisplayList + CUBOID_1X1_1);
@@ -820,6 +898,7 @@ void KPboardView::DrawCuboid(float deltaAngle) const// Only for test purposes
         rquad -= deltaAngle;                   // Decrease The Rotation Variable
         // For The Quad
     }
+
     glPopMatrix();
 }
 #else
@@ -856,13 +935,15 @@ tKPTokenID KPboardView::Selection(const Camera *pCamera, int x, int y) const
 
         for (int loop = 1; loop < hits; loop++)
         {
-            if (buffer[loop*4+1] < GLuint(depth))   // store the closest object
+            if (buffer[loop * 4 + 1] < GLuint(depth))
             {
-                choose = static_cast<tKPTokenID>(buffer[loop*4+3]);
-                depth  = buffer[loop*4+1];
+                // store the closest object
+                choose = static_cast<tKPTokenID>(buffer[loop * 4 + 3]);
+                depth  = buffer[loop * 4 + 1];
             }
         }
     }
+
     return choose;
 }
 

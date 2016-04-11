@@ -106,37 +106,43 @@ std::string KPStatistics::FormatTime(tTimeFormat formatID, unsigned int t)
         case RTIME_HH_mm:
             sprinter::sprintf(timeStr, "%02u.%02u",
                               t / 3600000,
-                              (t % 3600000) * 100 / 3600000 );
+                              (t % 3600000) * 100 / 3600000);
             break;
+
         case RTIME_HH_mmmm:
             sprinter::sprintf(timeStr, "%02u.%03u",
                               t / 3600000,
-                              (t % 3600000) * 10000 / 3600000 );
+                              (t % 3600000) * 10000 / 3600000);
             break;
+
         case RTIME_HHMM_ss:
             sprinter::sprintf(timeStr, "%02u:%02u.%02u",
                               t / 3600000,
                               (t % 3600000) / 60000,
-                              (t % 60000) * 100 / 60000 );
+                              (t % 60000) * 100 / 60000);
             break;
+
         case RTIME_HHMMSS_mmm:
             sprinter::sprintf(timeStr, "%02u:%02u:%02u.%03u",
                               t / 3600000,
                               (t % 3600000) / 60000,
                               (t % 60000)   / 1000,
-                              t % 1000                 );
+                              t % 1000);
             break;
+
         case RTIME_HHMMSS:
             sprinter::sprintf(timeStr, "%02u:%02u:%02u",
                               t / 3600000,
                               (t % 3600000) / 60000,
-                              (t % 60000)   / 1000      );
+                              (t % 60000)   / 1000);
             break;
+
         case RTIME_MM_ss:
             sprinter::sprintf(timeStr, "%02u.%02u",
                               t / 60000,
-                              (t % 60000) * 100 / 60000 );
+                              (t % 60000) * 100 / 60000);
             break;
+
         case RTIME_msec:
         default:
             sprinter::sprintf(timeStr, "%u", t);

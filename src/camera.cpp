@@ -23,7 +23,7 @@ Camera::Camera() :   AspectRatio(0.0),
     d_Pos_x(0.0),    d_Pos_y(0.0),     d_Pos_z(0.0),
     d_Alpha(0.0),    d_Beta(0.0),      d_FOV(0.0),
     Near(0.0),        Far(0.0),
-    IsRoundtrip(0),   MoveFactor(0.3f),RotateFactor(0.3f)
+    IsRoundtrip(0),   MoveFactor(0.3f), RotateFactor(0.3f)
 {
     // Initialize default camera positions with the parameter list:
     //   Pos_x, Pos_y, Pos_z, Alpha, Beta, FOV
@@ -85,11 +85,13 @@ void Camera::MoveIn(float factor)
     target_Pos_y += 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
                     cos(target_Beta / degprad);
     target_Pos_z -= 2 * MoveFactor * factor * cos(target_Alpha / degprad);
+
     //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
     if (target_Pos_z < 2.8f)
     {
         target_Pos_z = 2.8f;
     }
+
     RecalculateViewFrustum();
     IsRoundtrip = false;
 }
@@ -103,11 +105,13 @@ void Camera::MoveOut(float factor)
     target_Pos_y -= 2 * MoveFactor * factor * sin(target_Alpha / degprad) *
                     cos(target_Beta / degprad);
     target_Pos_z += 2 * MoveFactor * factor * cos(target_Alpha / degprad);
+
     //  if (Pos_z > 400.0f) {Pos_z = 400.0f;}
     if (target_Pos_z < 2.8f)
     {
         target_Pos_z = 2.8f;
     }
+
     RecalculateViewFrustum();
     IsRoundtrip = false;
 }
@@ -128,16 +132,18 @@ void Camera::SetTargetPosition(SPosition &target_Pos)
     {
         target_Beta -= 360;
     }
+
     if (target_Beta < Beta - 180)
     {
         target_Beta += 360;
     }
+
     RecalculateViewFrustum();
     IsRoundtrip = false;
 }
 
-void Camera::SetTargetPosition(float tgtPosx, float tgtPosy,float tgtPosz,
-                               float tgtAlpha,float tgtBeta,float tgtFOV)
+void Camera::SetTargetPosition(float tgtPosx, float tgtPosy, float tgtPosz,
+                               float tgtAlpha, float tgtBeta, float tgtFOV)
 {
     target_Pos_x = tgtPosx;
     target_Pos_y = tgtPosy;
@@ -153,23 +159,26 @@ void Camera::SetTargetPosition(float tgtPosx, float tgtPosy,float tgtPosz,
     {
         target_Beta -= 360;
     }
+
     if (target_Beta < Beta - 180)
     {
         target_Beta += 360;
     }
+
     IsRoundtrip = false;
 }
 
 // duration is the time since the last call to Animate() in ms
 void Camera::Animate(unsigned int duration)
 {
-    for (unsigned int i=0; i < duration / 10; i++)
+    for (unsigned int i = 0; i < duration / 10; i++)
     {
 
         if (target_Beta - Beta < -180)
         {
             Beta -= 360;
         }
+
         if (target_Beta - Beta > 180)
         {
             Beta += 360;
@@ -207,21 +216,23 @@ void Camera::Draw(int x /* = -1 */, int y /* = -1 */) const
 {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+
     if (x >= 0 && y >= 0)        // only necessary in selection mode:
     {
         GLint   viewport[4];
 
         glGetIntegerv(GL_VIEWPORT, viewport);
-        gluPickMatrix(x, (viewport[3]- y), 1.0f, 1.0f, viewport);
+        gluPickMatrix(x, (viewport[3] - y), 1.0f, 1.0f, viewport);
     }
+
     gluPerspective(FOV, AspectRatio, Near, Far);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();            // Set camera to the origin
 
-    glRotatef(Alpha,-1,0,0);     // Rotate up by Alpha
-    glRotatef(Beta,0,0,1);       // Rotate right by Beta
-    glTranslatef(-Pos_x,-Pos_y,-Pos_z); // Move to the target position
+    glRotatef(Alpha, -1, 0, 0);  // Rotate up by Alpha
+    glRotatef(Beta, 0, 0, 1);    // Rotate right by Beta
+    glTranslatef(-Pos_x, -Pos_y, -Pos_z); // Move to the target position
 }
 
 // Switches to one of the pre-initialized camera positions.
@@ -284,13 +295,14 @@ void Camera::Roundtrip(int duration)
     //if (target_Pos_y > 0) {target_Beta -= 180;}
     target_Beta += 0.01f * duration;
     target_Pos_x = (-30.0f * sin(target_Beta * M_PIf / 180.0f) - 280.0f) *
-                    sin(target_Beta * M_PIf / 180.0f);
+                   sin(target_Beta * M_PIf / 180.0f);
     target_Pos_y = (-30.0f * sin(target_Beta * M_PIf / 180.0f) - 280.0f) *
-                    cos(target_Beta * M_PIf / 180.0f);
+                   cos(target_Beta * M_PIf / 180.0f);
     // Sw: unfinished
     //target_Pos_z=100-50*sin(target_Beta*M_PI/180);
     target_Pos_z = 150.0f - 25.0f * sin(target_Beta * M_PIf / 180.0f);
     target_FOV = 36.8f;
     target_Alpha = degprad * atan(sqrt(target_Pos_x * target_Pos_x +
-                   target_Pos_y * target_Pos_y) / target_Pos_z);
+                                       target_Pos_y * target_Pos_y) /
+                                       target_Pos_z);
 }

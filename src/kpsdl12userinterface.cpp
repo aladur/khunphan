@@ -82,16 +82,17 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     config.FullScreen = false;
 
     if (!IsWindowResolutionSupported(config.ScreenXResolution,
-                                     (config.ScreenXResolution*3)/4))
+                                     (config.ScreenXResolution * 3) / 4))
     {
         config.ScreenXResolution = 640;
     }
 
     screen = SDL_SetVideoMode(
                  config.ScreenXResolution,
-                 (config.ScreenXResolution*3)/4,
+                 (config.ScreenXResolution * 3) / 4,
                  config.ColorDepth,
                  flags);
+
     if (screen == NULL)
     {
         std::stringstream message;
@@ -114,7 +115,7 @@ void KPSdl12UserInterface::MainLoop()
     bool done = false;
     unsigned char key;
 
-    while ( ! done )
+    while (! done)
     {
         SDL_Event event;
 
@@ -122,15 +123,16 @@ void KPSdl12UserInterface::MainLoop()
 
         Idle();
 
-        while ( SDL_PollEvent(&event) )
+        while (SDL_PollEvent(&event))
         {
-            switch(event.type)
+            switch (event.type)
             {
                 case SDL_VIDEORESIZE:
                     screen = SDL_SetVideoMode(event.resize.w, event.resize.h,
                                               config.ColorDepth,
                                               SDL_OPENGL | SDL_RESIZABLE);
-                    if ( screen )
+
+                    if (screen)
                     {
                         Reshape(screen->w, screen->h);
                     }
@@ -142,6 +144,7 @@ void KPSdl12UserInterface::MainLoop()
                                 << SDL_GetError();
                         throw std::runtime_error(message.str());
                     }
+
                     break;
 
                 case SDL_USEREVENT:
@@ -149,6 +152,7 @@ void KPSdl12UserInterface::MainLoop()
                     {
                         done = true;
                     }
+
                     break;
 
                 case SDL_QUIT:
@@ -169,9 +173,11 @@ void KPSdl12UserInterface::MainLoop()
                         SDL_GetMouseState(&xm, &ym);
                         KeyPressed(key, xm, ym);
                     }
+
                     break;
             } // switch
         } // event loop
+
         Display();
         PostWindowRedisplay();
 
@@ -194,9 +200,11 @@ int KPSdl12UserInterface::GetValue(int what) const
     {
         case KP_WINDOW_WIDTH:
             return (screen != NULL ? screen->w : 0);
+
         case KP_WINDOW_HEIGHT:
             return (screen != NULL ? screen->h : 0);
     }
+
     return 0;
 }
 

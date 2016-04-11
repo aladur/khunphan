@@ -87,6 +87,7 @@ bool KhunPhanApp::Initialize()
     config.SetDefaultValues();
     config.ReadCommandLineParams(argc, argv);
     config.ReadFromFile();
+
     if (config.DisplayVersionOnly)
     {
         canRun = false;
@@ -112,11 +113,13 @@ bool KhunPhanApp::Initialize()
     switch (config.UserInterface)
     {
 #ifdef HAVE_SDL2
+
         case 0:
             userInterface = new KPSdl2UserInterface(rootNode, config);
             break;
 #else
 #ifdef HAVE_SDL
+
         case 0:
             userInterface = new KPSdl12UserInterface(rootNode, config);
             break;
@@ -124,10 +127,12 @@ bool KhunPhanApp::Initialize()
 #endif
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
+
         case 1:
             userInterface = new KPGlutUserInterface(rootNode, config);
             break;
 #endif
+
         default:
             throw std::runtime_error("No user interface initialized");
     }

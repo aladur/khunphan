@@ -27,7 +27,7 @@
 
 enum tTxt
 {
-// Titel
+    // Titel
     T_VERSION = 0,
     T_COPYRIGHT1 = 1,
     T_COPYRIGHT2 = 2,
@@ -39,7 +39,7 @@ enum tTxt
     T_COPYRIGHT8 = 8,
     T_NOWARRANTY = 9,
 
-// Main menu
+    // Main menu
     T_MAINMENU = 10,
     T_SETTINGS = 11,
     T_H_KEYBOARDHELP = 12,
@@ -47,21 +47,21 @@ enum tTxt
     T_TUTORIAL = 14,
     T_CONTINUE = 15,
 
-// Settings
+    // Settings
     T_CONTROL = 20,
     T_GRAPHICS = 21,
     T_AUDIO = 22,
     T_LANGUAGE = 23,
 
-// OpenGL interface
+    // OpenGL interface
     T_GL_VENDOR = 30,
     T_GL_RENDERER = 31,
     T_GL_VERSION = 32,
 
-// Display FPS
+    // Display FPS
     T_FPS = 35,
 
-// Keyboard Help
+    // Keyboard Help
     T_H_GENERAL = 40,
     T_H_IN_GAME = 41,
 
@@ -77,7 +77,7 @@ enum tTxt
     T_H_CAMERA = 53,
     T_H_FULLSCREEN = 54,
 
-// General
+    // General
     T_BACK = 100,
     T_STORE = 101,
     T_OK = 102,
@@ -85,7 +85,7 @@ enum tTxt
     T_PAUSE = 104,
     T_DOQUIT = 105,
 
-// Game solved
+    // Game solved
     T_CONTINUEGAME = 170,
     T_SOLVED1 = 171,
 
@@ -104,13 +104,13 @@ enum tTxt
     T_INPUT_NAME = 181,
     T_NAME_LABEL = 182,
 
-// In the game
+    // In the game
     T_NEWGAME = 192,
     T_TIME = 193,
     T_MINMOVECOUNT = 194,
     T_MOVECOUNT = 195,
 
-// Settings
+    // Settings
     T_MOUSESPEED = 200,
     T_MS_SLOW = 201,
     T_MS_MEDIUM = 202,
@@ -177,7 +177,7 @@ enum tTxt
     T_USERINTERFACE0 = 346,
     T_USERINTERFACE1 = 347,
 
-// Settings - Audio
+    // Settings - Audio
     T_SOUND_VOLUME = 350,
     T_SND_VOL_OFF = 351,
     T_SND_VOL_10 = 352,
@@ -209,12 +209,12 @@ enum tTxt
     T_TEXTURE2 = 384,
     T_TEXTURE3 = 385,
 
-// Settings - language
+    // Settings - language
     T_SELECTLANGUAGE = 400,
     T_NATIVE_LANG1 = 401,
     T_NATIVE_LANG2 = 402,
 
-// Score List
+    // Score List
     T_SCORELIST = 500,
     T_S_NAME = 501,
     T_S_PLAYTIME = 502,
@@ -224,7 +224,7 @@ enum tTxt
     T_S_PLAYTIME1 = 520,
     T_S_MOVES1 = 530,
 
-// Tutorial
+    // Tutorial
     T_TUTORIAL1 = 710,
     T_TUTORIAL1_01 = 711,
     T_TUTORIAL1_02 = 712,
