@@ -57,7 +57,7 @@
     #define PACKAGE "khunphan"
 
     /* Version number of package */
-    #define VERSION "0.56"
+    #define VERSION "0.60"
 
     #define HAVE_SDL2        1
     #define HAVE_LIBGLUT     1

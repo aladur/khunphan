@@ -1,8 +1,39 @@
+KhunPhan V0.60
+- Using ANSI coding style with astyle formatter
+- Remove all warnings for gcc-4.9.2 -Wextra and -Wpedantic
+- Replaced most c-style arrays by std::vector
+- Replaced c-style file I/O by iostream
+- Replace c-style casts by explicit casts
+- Support SDL2 with glew
+- Windows: Project files for Visual Studio 2015
+- Windows: Build script for downloading and building dependent libraries
+- Added windows size 1920x1440
+- Only switch to window sizes supported by display
+- Immediately switch window size and fullscreen/window if possible
+- Reduced time for calculating all possible game positions
+- Removed thread classes and progress bar
+- Support libpng-1.6
+- Improved logging and exception handling
+- Improve const correctness
+- Removed unused settings Shadows and Reflections
+- SDL1.2: Removed fullscreen mode, it's not reliable
+- Display play time in HH:MM:SS
+- Several bugfixes
+- Removed dead code
+- Removed memory leaks using valgrind
+- Removed all singletons (except for user interface class)
+- Translated german identifiers and comments to english
+- Use memset only for PODs
+- Replaced most #defines by enums
+- Replaced BString by std::string
+- Improved autotools support
+
 KhunPhan V0.56
 - Update autotool files
 - compile with gcc-4.9.2
 - minor code improvements
 - make c++98 compliant
+
 KhunPhan V0.55
 - Set back max. volume of music to the full range
 - Graphic settings: Changes get into effect immediately
