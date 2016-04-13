@@ -293,7 +293,9 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         SetSoundVolume(config.SoundVolume);
 
         musicFiles = BDirectory::GetFiles(config.GetDirectory(KP_MUSIC_DIR));
-        std::remove_if(musicFiles.begin(), musicFiles.end(), IsMusicFile);
+        std::vector<std::string>::iterator newEndIt =
+            std::remove_if(musicFiles.begin(), musicFiles.end(), NoMusicFile);
+        musicFiles.erase(newEndIt, musicFiles.end());
         std::sort(musicFiles.begin(), musicFiles.end());
 
         musicIndex = 0;
@@ -302,7 +304,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
     return true;
 }
 
-bool KPSdlUserInterface::IsMusicFile(const std::string file)
+bool KPSdlUserInterface::NoMusicFile(const std::string &file)
 {
     std::string fileExtension = file.substr(file.size() - 4, 4);
     std::string::iterator it = fileExtension.begin();
@@ -313,7 +315,7 @@ bool KPSdlUserInterface::IsMusicFile(const std::string file)
         *it = std::tolower(*it, locale);
     }
 
-    return fileExtension.compare(".ogg") || fileExtension.compare(".mp3");
+    return fileExtension.compare(".ogg") && fileExtension.compare(".mp3");
 }
 
 void KPSdlUserInterface::LoadNextMusic()

@@ -74,7 +74,7 @@ protected:
 
 private:
     KPSdlUserInterface();
-    static bool IsMusicFile(const std::string file);
+    static bool NoMusicFile(const std::string &file);
 
     unsigned int rate;
     unsigned int musicIndex;
