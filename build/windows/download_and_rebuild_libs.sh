@@ -8,8 +8,8 @@
 
 delete=
 modified=false
-
-#DEVENVPATH=`echo $VS140COMNTOOLS | sed -e "s/Tools/IDE/"`
+MSBUILDDISABLENODEREUSE=1
+export MSBUILDDISABLENODEREUSE
 
 create_rebuild_script() {
     echo \@echo off >$2
@@ -84,10 +84,8 @@ do
                tar.gz) tar xfz $file ;;
                tgz) tar xfz $file ;;
            esac
-           if [ "$directory" = "libxml2" ]; then
-               # Wait for 2 seconds otherwise the mv could fail
-               sleep 2
-           fi
+           # Wait for 2 seconds otherwise the mv could fail
+           sleep 2
            mv $filebase $directory
        fi
     fi
@@ -253,6 +251,7 @@ if [ -d SDL2_mixer ]; then
         mv $olddir libogg
         cd libogg/win32/VS2010
         sed -i -e "s/\"4.0\"/\"14.0\"/" *.vcxproj
+        sed -i -e 's/\(\s\+<\/Link>.*\)/      <OutputFile>$(OutDir)libogg-0.dll<\/OutputFile>\n\1/' libogg_dynamic.vcxproj
         sed -i -e "s/\(<\/ConfigurationType>\)/\1\n    <PlatformToolset>v140<\/PlatformToolset>/" *.vcxproj
         # Create and execute a batch file to build all four configurations
         create_rebuild_script libogg_dynamic.sln rebuild.bat
@@ -260,6 +259,7 @@ if [ -d SDL2_mixer ]; then
         $COMSPEC //C rebuild.bat   
         cd ../../..
     fi
+
     # libvorbis modify projects and compile with VS2015: 
     if [ ! -d libvorbis ]; then
         modified=true
@@ -267,6 +267,8 @@ if [ -d SDL2_mixer ]; then
         mv $olddir libvorbis
         cd libvorbis/win32/VS2010
         sed -i -e "s/\"4.0\"/\"14.0\"/" */*.vcxproj
+        sed -i -e "s/\([$](OutDir)libvorbis\)\.dll/\1-0.dll/" libvorbis/libvorbis_dynamic.vcxproj
+        sed -i -e "s/\([$](OutDir)libvorbisfile\)\.dll/\1-3.dll/" libvorbisfile/libvorbisfile_dynamic.vcxproj
         sed -i -e "s/\(<\/ConfigurationType>\)/\1\n    <PlatformToolset>v140<\/PlatformToolset>/" */*.vcxproj
         # Create and execute a batch file to build all four configurations
         create_rebuild_script vorbis_dynamic.sln rebuild.bat
@@ -284,14 +286,22 @@ fi
 if [ ! -d lib ]; then
     mkdir lib
     # check existence of result files and copy them to lib directory
-    resultfiles="freeglut/freeglut
-    libpng/lib/libpng16
-    libxml2/lib/libxml2
-    SDL2/VisualC/SDL2
-    SDL2_mixer/VisualC/SDL2_mixer
-    SDL2_mixer/external/libogg/win32/VS2010/libogg
-    SDL2_mixer/external/libvorbis/win32/VS2010/libvorbis
-    SDL2_mixer/external/libvorbis/win32/VS2010/libvorbisfile"
+    resultfiles="freeglut/freeglut.lib
+    freeglut/freeglut.dll
+    libpng/lib/libpng16.lib
+    libpng/lib/libpng16.dll
+    libxml2/lib/libxml2.lib
+    libxml2/lib/libxml2.dll
+    SDL2/VisualC/SDL2.lib
+    SDL2/VisualC/SDL2.dll
+    SDL2_mixer/VisualC/SDL2_mixer.lib
+    SDL2_mixer/VisualC/SDL2_mixer.dll
+    SDL2_mixer/external/libogg/win32/VS2010/libogg.lib
+    SDL2_mixer/external/libogg/win32/VS2010/libogg-0.dll
+    SDL2_mixer/external/libvorbis/win32/VS2010/libvorbis.lib
+    SDL2_mixer/external/libvorbis/win32/VS2010/libvorbis-0.dll
+    SDL2_mixer/external/libvorbis/win32/VS2010/libvorbisfile.lib
+    SDL2_mixer/external/libvorbis/win32/VS2010/libvorbisfile-3.dll"
     
     for platform in Win32 x64
     do
@@ -304,20 +314,20 @@ if [ ! -d lib ]; then
             echo $platform $configuration
             for resultfile in $resultfiles
             do
-                for ext in lib dll
-                do
-                    file=$(basename $resultfile)
-                    if [ $configuration = Debug ]; then
-                        if [ $file = freeglut ]; then file=${file}d; fi
+                file=$(basename $resultfile)
+                if [ $configuration = Debug ]; then
+                    nameonly=${file%%.*}
+                    if [ $nameonly = freeglut ]; then
+                        file=`echo $file | sed -ne "s/\(freeglut\)\(\.[a-z]\+\)/\1d\2/p"`
                     fi
-                    srcpath=$(dirname $resultfile)/${platform}/${configuration}
-                    if [ ! -f $srcpath/$file.$ext ]; then
-                        echo "*** Missing file: $srcpath/$file.$ext"
-                    else
-                        echo "   copying $file.$ext..."
-                        cp -f    $srcpath/$file.$ext lib/${platform}/${configuration}/
-                    fi
-                done
+                fi
+                srcpath=$(dirname $resultfile)/${platform}/${configuration}
+                if [ ! -f $srcpath/$file ]; then
+                    echo "*** Missing file: $srcpath/$file"
+                else
+                    echo "   copying $file..."
+                    cp -f    $srcpath/$file lib/${platform}/${configuration}/
+                fi
             done
         done
     done
