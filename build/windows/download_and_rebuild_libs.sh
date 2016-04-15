@@ -30,6 +30,15 @@ do
     shift
 done
 
+wgetpath=`which wget 2>/dev/null`
+if [ "x$wgetpath" = "x" ]; then
+    echo "*** Error: wget not found."
+    echo "  wget can be downloaded from"
+    echo "  https://sourceforge.net/projects/mingw/Other/mingwPORT/Current%20Release/"
+    echo "  The executable has to be copied into the git installation"
+    echo "  mingw32/bin or mingw64/bin."
+fi
+
 urls="http://downloads.sourceforge.net/project/freeglut/freeglut/3.0.0/freeglut-3.0.0.tar.gz
 http://downloads.sourceforge.net/project/glew/glew/1.13.0/glew-1.13.0.tgz
 http://zlib.net/zlib-1.2.8.tar.gz

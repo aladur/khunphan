@@ -33,6 +33,26 @@ libraries (incl. headers) are necessary:
    As a result khunphan can be executed directly from within Visual Studio
    debugger.
 
+   Step by step build and installation:
+
+   1. Download wget from
+      https://sourceforge.net/projects/mingw/Other/mingwPORT/Current%20Release/
+      Copy wget.exe into the git installation mingw64/bin or mingw32/bin.
+
+   2. Open a git bash shell in folder build/windows
+
+   3. Execute download_and_rebuild_libs.sh, all packages for dependent DLLs
+      are downloaded, extracted and build for all combinations of Win32, x64,
+      Debug and Release.
+
+   4. Execute rebuild_all_and_copy_libs.sh, rebuilds khunphan for all 
+      combinations of Win32, x64, Debug and Release. The dependent DLLs 
+      are copied to the corresponding target directory.
+
+   5. Creating a desktop icon
+      Use the absolute path to khunphan.exe as executable path
+      Use the khunphan src directory as working directory
+
 2. Linux
 ========
 
