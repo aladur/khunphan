@@ -1,3 +1,8 @@
+khunphan_CXXFLAGS = @GLU_CFLAGS@ @GLUT_CFLAGS@ @XML_CPPFLAGS@ @LIBPNG_CFLAGS@ \
+                   $(all_includes) -std=c++98
+khunphan_CPPFLAGS = -DDATADIR=\"$(datadir)\"
+khunphan_LDADD    = @GLU_LIBS@ @GLUT_LIBS@ @XML_LIBS@ @LIBPNG_LIBS@
+
 bin_PROGRAMS = khunphan
 
 khunphan_SOURCES = \
@@ -51,9 +56,6 @@ khunphan_SOURCES = \
         cmdline.cpp \
         stdafx.cpp
 
-khunphan_CXXFLAGS  = @GLU_CFLAGS@ @GLUT_CFLAGS@ @XML_CPPFLAGS@ @LIBPNG_CFLAGS@
-khunphan_LDADD     = @GLU_LIBS@ @GLUT_LIBS@ @XML_LIBS@ @LIBPNG_LIBS@
-
 EXTRA_DIST = \
         config.h \
         KhunPhan.h \
@@ -90,6 +92,7 @@ EXTRA_DIST = \
         kpstatetutorial3.h \
         kpstatetutorial4.h \
         kpstatemovetoken.h \
+        kpsolutionscountfunction.h \
         kpstatistics.h \
         btexture.h \
         kpscore.h \
@@ -106,14 +109,11 @@ EXTRA_DIST = \
         sprinter.h \
         kplocale.h \
         cmdline.h \
-        states.h \
+        kpstates.h \
         bmanualtimer.h \
         stdafx.h \
         KhunPhan.rc \
         icon.ico
-
-AM_CPPFLAGS= $(all_includes) -DLINUX -DDATADIR=\"$(datadir)\"
-#khunphan_LDFLAGS = $(all_libraries) 
 
 nobase_dist_pkgdata_DATA = \
         Music/Cymbals.ogg \

@@ -79,13 +79,12 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 subdir = .
-DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
-	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/configure $(am__configure_deps) COPYING TODO \
-	config/compile config/config.guess config/config.sub \
-	config/depcomp config/install-sh config/missing \
-	config/ltmain.sh $(top_srcdir)/config/compile \
-	$(top_srcdir)/config/config.guess \
+DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
+	$(top_srcdir)/configure $(am__configure_deps) AUTHORS COPYING \
+	ChangeLog INSTALL NEWS README TODO config/compile \
+	config/config.guess config/config.sub config/depcomp \
+	config/install-sh config/missing config/ltmain.sh \
+	$(top_srcdir)/config/compile $(top_srcdir)/config/config.guess \
 	$(top_srcdir)/config/config.sub \
 	$(top_srcdir)/config/install-sh $(top_srcdir)/config/missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -216,7 +215,6 @@ CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
-CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
@@ -340,9 +338,14 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = src
-EXTRA_DIST = NEWS AUTHORS COPYING ChangeLog INSTALL README TODO \
-             KhunPhan.dsp KhunPhan.dsw StateDiagram.fig StateDiagram.pdf \
-             khunphan.lsm
+EXTRA_DIST = NEWS AUTHORS COPYING ChangeLog INSTALL LICENSE README README.md \
+             TODO \
+             khunphan.sln khunphan.vcxproj khunphan.vcxproj.filters \
+             khunphan.vcxproj.user \
+             StateDiagram.fig StateDiagram.pdf \
+             khunphan.lsm \
+             src/khunphan.astyle \
+             build
 
 AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gzip
 all: all-recursive
@@ -354,15 +357,15 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
-	      echo ' cd $(srcdir) && $(AUTOMAKE) --gnu'; \
-	      $(am__cd) $(srcdir) && $(AUTOMAKE) --gnu \
+	      echo ' cd $(srcdir) && $(AUTOMAKE) --foreign'; \
+	      $(am__cd) $(srcdir) && $(AUTOMAKE) --foreign \
 		&& exit 0; \
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu Makefile
+	  $(AUTOMAKE) --foreign Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

@@ -43,7 +43,6 @@ KPstate::~KPstate()
 void KPstate::Initialize(KPstateContext *pContext,
                          const KPstate *pPreviousState)
 {
-    KPmenu &menu = pContext->GetMenu();
     tKPMenuState previousStateId = KPState_Invalid;
 
     if (pPreviousState != NULL)

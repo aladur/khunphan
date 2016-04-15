@@ -33,7 +33,7 @@ void message(tMsgType type, const char *format, ...)
     va_start(arg_ptr, format);
     sprinter::vsprintf(msg, format, arg_ptr);
     va_end(arg_ptr);
-#ifdef LINUX
+#ifdef __linux__
 
     switch (type)
     {
@@ -51,7 +51,7 @@ void message(tMsgType type, const char *format, ...)
     }
 
 #else
-#ifdef WIN32
+#ifdef _WIN32
     std::string msg1;
     sprinter::sprintf(msg1, "[%s] %s\n", PACKAGE, msg.c_str());
     OutputDebugString(msg1.c_str());

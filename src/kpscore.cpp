@@ -25,7 +25,7 @@
 #include <libxml/tree.h>
 #include <sys/stat.h>
 #include "kpscore.h"
-#ifdef WIN32
+#ifdef _WIN32
     #include <shlwapi.h>
     #pragma comment(lib,"shlwapi.lib")
     #include "shlobj.h"
@@ -168,11 +168,11 @@ void KPscore::SetFileName(const char *aFileName /* = NULL */)
     }
     else
     {
-#ifdef LINUX
+#ifdef __linux__
         fileName = getenv("HOME");
         fileName += "/.KhunPhanScores.xml";
 #else
-#ifdef WIN32
+#ifdef _WIN32
         PWSTR pwszPath;
         char pszPath[MAX_PATH] = "";
 
@@ -354,7 +354,7 @@ void KPscore::ReadFromFile()
 
 void KPscore::print(std::ostream &os) const
 {
-#ifndef WIN32
+#ifndef _WIN32
 
     if (scoreList.empty())
     {

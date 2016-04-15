@@ -122,7 +122,7 @@ bool BDirectory::RemoveRecursive(const std::string &aPath)
     return true;
 }
 #else
-#ifdef LINUX
+#ifdef __linux__
 bool BDirectory::RemoveRecursive(const std::string &aPath)
 {
     std::string     basePath;
@@ -204,7 +204,7 @@ tPathList BDirectory::GetSubDirectories(const std::string &aPath)
     return subDirList;
 }
 #else
-#ifdef LINUX
+#ifdef __linux__
 tPathList BDirectory::GetSubDirectories(const std::string &aPath)
 {
     std::vector<std::string> subDirList;
@@ -282,7 +282,7 @@ tPathList BDirectory::GetFiles(const std::string &aPath)
     }
 
 #else
-#ifdef LINUX
+#ifdef __linux__
     std::string     dirEntry;
     DIR             *pd;
     struct stat     sbuf;

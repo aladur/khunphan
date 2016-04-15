@@ -46,7 +46,7 @@ unsigned long BTime::GetTimeMsl()
 }
 
 
-#ifdef LINUX
+#ifdef __linux__
 QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 {
     QWord currentTime = GetTimeUsll();

@@ -85,7 +85,7 @@ void KPConfig::SetFileName(const char *aFileName)
     }
     else
     {
-#ifdef LINUX
+#ifdef __linux__
         fileName = getenv("HOME");
         fileName += "/.KhunPhan.xml";
 #else
@@ -144,7 +144,7 @@ std::string KPConfig::GetDirectory(tKPDir directoryID) const
 #ifdef _WIN32
     return GetDirectoryBase(directoryID);
 #else
-#ifdef LINUX
+#ifdef __linux__
     std::string dir;
     struct stat sStat;
 

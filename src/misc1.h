@@ -134,7 +134,7 @@
     p << std::endl; \
     OutputDebugString(static_cast<LPCTSTR>(p.str().c_str()))
 #else
-#ifdef LINUX
+#ifdef __linux__
     #define LOCALLOG(p) std::cout << p.str() << std::endl
 #else
     #error "Unsupported platform"
