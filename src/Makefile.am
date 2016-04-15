@@ -1,5 +1,5 @@
 khunphan_CXXFLAGS = @GLU_CFLAGS@ @GLUT_CFLAGS@ @XML_CPPFLAGS@ @LIBPNG_CFLAGS@ \
-                   $(all_includes) -std=c++98
+                   $(all_includes) -std=c++14
 khunphan_CPPFLAGS = -DDATADIR=\"$(datadir)\"
 khunphan_LDADD    = @GLU_LIBS@ @GLUT_LIBS@ @XML_LIBS@ @LIBPNG_LIBS@
 
