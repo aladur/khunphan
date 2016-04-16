@@ -304,5 +304,5 @@ void Camera::Roundtrip(int duration)
     target_FOV = 36.8f;
     target_Alpha = degprad * atan(sqrt(target_Pos_x * target_Pos_x +
                                        target_Pos_y * target_Pos_y) /
-                                       target_Pos_z);
+                                  target_Pos_z);
 }
