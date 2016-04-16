@@ -41,7 +41,7 @@ public:
         time_t       Timestamp;
     } tKpScoreStruct;
 
-    KPscore(const char *fileName = NULL);
+    KPscore(const char *fileName = nullptr);
 
     unsigned int GetMaxEntries() const
     {
@@ -61,15 +61,15 @@ public:
     }
     void WriteToFile() const;
     void print(std::ostream &os) const;
-    void SetFileName(const char *fileName = NULL);
+    void SetFileName(const char *fileName = nullptr);
     bool Add(const char *aName, unsigned int aPlayTime, unsigned int aMoves,
              time_t aTime = 0);
     bool CanAdd(const char *aName, unsigned int aPlayTime, unsigned int aMoves,
                 time_t aTime = 0) const;
     void ClearAll();
     bool Get(unsigned int index, std::string &aName,
-             unsigned int *aPlayTime = NULL,
-             unsigned int *aMoves = NULL, time_t *aTime = NULL) const;
+             unsigned int *aPlayTime = nullptr,
+             unsigned int *aMoves = nullptr, time_t *aTime = nullptr) const;
 
 private:
     void ReadFromFile();

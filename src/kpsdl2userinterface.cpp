@@ -31,7 +31,7 @@
 
 KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode, KPConfig &Config) :
     KPSdlUserInterface(Config),
-    window(NULL), glContext(NULL)
+    window(nullptr), glContext(nullptr)
 {
     Initialize(rootNode);
 }
@@ -52,7 +52,7 @@ bool KPSdl2UserInterface::CanToggleFullScreen() const
 
 void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
 {
-    if (window != NULL && CanToggleFullScreen())
+    if (window != nullptr && CanToggleFullScreen())
     {
         auto flags = isfullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0;
         SDL_SetWindowFullscreen(window, flags);
@@ -61,7 +61,7 @@ void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
 
 void KPSdl2UserInterface::SetWindowSize(int width, int height) const
 {
-    if (window != NULL && CanChangeWindowSize())
+    if (window != nullptr && CanChangeWindowSize())
     {
         int oldWidth, oldHeight;
 
@@ -184,7 +184,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
                  (config.ScreenXResolution * 3) / 4,
                  flags);
 
-    if (window == NULL)
+    if (window == nullptr)
     {
         message << "Error in SDL_CreateWindow: " << SDL_GetError();
         SDL_Quit();
@@ -196,7 +196,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     // Instead the OpenGL renderer is used together with ligGLEW.
     glContext = SDL_GL_CreateContext(window);
 
-    if (glContext == NULL)
+    if (glContext == nullptr)
     {
         message << "Error in SDL_GL_CreateContext: " << SDL_GetError();
         SDL_Quit();
@@ -328,19 +328,19 @@ void KPSdl2UserInterface::MainLoop()
 
 void KPSdl2UserInterface::Close()
 {
-    if (window != NULL)
+    if (window != nullptr)
     {
         SDL_GL_DeleteContext(glContext);
-        glContext = NULL;
+        glContext = nullptr;
         SDL_DestroyWindow(window);
-        window = NULL;
+        window = nullptr;
         SDL_Quit();
     }
 }
 
 int KPSdl2UserInterface::GetValue(int what) const
 {
-    if (window != NULL)
+    if (window != nullptr)
     {
         int width;
         int height;
@@ -366,7 +366,7 @@ bool KPSdl2UserInterface::IsWindowResolutionSupported(
     int index;
     SDL_Rect rect;
 
-    if (window == NULL)
+    if (window == nullptr)
     {
         // If there is no window opened yet we just can make a guess.
         index = 0;
@@ -413,7 +413,7 @@ void KPSdl2UserInterface::SetStopMusicCallback()
 
 void KPSdl2UserInterface::stopMusicCallback()
 {
-    if (KPSdl2UserInterface::instance != NULL)
+    if (KPSdl2UserInterface::instance != nullptr)
     {
         KPSdl2UserInterface::instance->StopMusicCallback();
     }

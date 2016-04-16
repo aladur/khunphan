@@ -50,8 +50,8 @@ const char *KPSdlUserInterface::soundFile[KP_SND_MAX] =
 
 KPSdlUserInterface::KPSdlUserInterface(KPConfig &Config) :
     KPUIBase(Config),
-    sound(NULL), soundSource(NULL),
-    music(NULL), rate(22050), musicIndex(0), musicPosition(0.0)
+    sound(nullptr), soundSource(nullptr),
+    music(nullptr), rate(22050), musicIndex(0), musicPosition(0.0)
 {
 }
 
@@ -63,30 +63,30 @@ KPSdlUserInterface::~KPSdlUserInterface()
 
 void KPSdlUserInterface::CloseAudio()
 {
-    if (sound != NULL)
+    if (sound != nullptr)
     {
         for (auto i = 0; i < KP_SND_MAX; i++)
         {
-            if (sound[i] != NULL)
+            if (sound[i] != nullptr)
             {
                 Mix_FreeChunk(sound[i]);
             }
         }
 
         delete [] sound;
-        sound = NULL;
+        sound = nullptr;
     }
 
-    if (soundSource != NULL)
+    if (soundSource != nullptr)
     {
         delete [] soundSource;
-        soundSource = NULL;
+        soundSource = nullptr;
     }
 
-    if (music != NULL)
+    if (music != nullptr)
     {
         Mix_FreeMusic(music);
-        music = NULL;
+        music = nullptr;
     }
 }
 
@@ -208,8 +208,8 @@ void KPSdlUserInterface::RequestForClose()
 
     user_event.type = SDL_USEREVENT;
     user_event.user.code = REQUEST_FOR_CLOSE;
-    user_event.user.data1 = NULL;
-    user_event.user.data2 = NULL;
+    user_event.user.data1 = nullptr;
+    user_event.user.data2 = nullptr;
     SDL_PushEvent(&user_event);
 }
 
@@ -231,7 +231,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         return false;
     }
 
-    if (sound == NULL)
+    if (sound == nullptr)
     {
         // Initialize sound management variables
         sound            = new Mix_Chunk *[KP_SND_MAX];
@@ -239,7 +239,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
 
         for (auto i = 0; i < KP_SND_MAX; i++)
         {
-            sound[i] = NULL;
+            sound[i] = nullptr;
         }
     }
 
@@ -260,10 +260,10 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
             continue;
         }; // right file already prepared to be used
 
-        if (sound[i] != NULL)
+        if (sound[i] != nullptr)
         {
             Mix_FreeChunk(sound[i]);
-            sound[i] = NULL;
+            sound[i] = nullptr;
         }
 
         soundSource[i] = "";
@@ -316,10 +316,10 @@ bool KPSdlUserInterface::NoMusicFile(const std::string &file)
 
 void KPSdlUserInterface::LoadNextMusic()
 {
-    if (music != NULL)
+    if (music != nullptr)
     {
         Mix_FreeMusic(music);
-        music = NULL;
+        music = nullptr;
     }
 
     if (!musicFiles.empty())
@@ -337,7 +337,7 @@ void KPSdlUserInterface::LoadNextMusic()
 
             auto file = config.GetDirectory(KP_MUSIC_DIR) + *it;
 
-            if ((music = Mix_LoadMUS(file.c_str())) == NULL)
+            if ((music = Mix_LoadMUS(file.c_str())) == nullptr)
             {
                 LOG4("*** Error in Mix_LoadMUS(\"", file, "\"): ",
                      Mix_GetError());
@@ -357,30 +357,30 @@ void KPSdlUserInterface::LoadNextMusic()
 
 void KPSdlUserInterface::PlayAudio(int soundId) const
 {
-    if (sound == NULL || soundId < 0 || soundId >= KP_SND_MAX)
+    if (sound == nullptr || soundId < 0 || soundId >= KP_SND_MAX)
     {
         return;
     }
 
     // Lazy initialization: Load the sound when playing first time
-    if (sound[soundId] == NULL && soundSource != NULL &&
+    if (sound[soundId] == nullptr && soundSource != nullptr &&
         !soundSource[soundId].empty())
     {
         if ((sound[soundId] = Mix_LoadWAV_RW(
                                   SDL_RWFromFile(soundSource[soundId].c_str(),
-                                          "rb"), 1)) == NULL)
+                                          "rb"), 1)) == nullptr)
         {
             LOG5("*** Error opening Audio file '", soundSource[soundId],
                  "' [", Mix_GetError(), "]");
         }
 
-        if (sound[soundId] != NULL)
+        if (sound[soundId] != nullptr)
         {
             LOG3("Reading '", soundSource[soundId], "'");
         }
     }
 
-    if (sound[soundId] != NULL)
+    if (sound[soundId] != nullptr)
     {
         Mix_PlayChannel(-1, sound[soundId], 0);
     }
@@ -388,7 +388,7 @@ void KPSdlUserInterface::PlayAudio(int soundId) const
 
 void KPSdlUserInterface::SetSoundVolume(int volume) const
 {
-    if (sound != NULL)
+    if (sound != nullptr)
     {
         Mix_Volume(-1, MIX_MAX_VOLUME * volume / 100);
     }
@@ -396,7 +396,7 @@ void KPSdlUserInterface::SetSoundVolume(int volume) const
 
 void KPSdlUserInterface::SetMusicVolume(int volume) const
 {
-    if (music != NULL)
+    if (music != nullptr)
     {
         Mix_VolumeMusic(MIX_MAX_VOLUME * volume / 100);
     }
@@ -406,12 +406,12 @@ void KPSdlUserInterface::PlayMusic(bool On, bool resetPos)
 {
     if (On)
     {
-        if (music == NULL)
+        if (music == nullptr)
         {
             LoadNextMusic();
         }
 
-        if (music != NULL && !Mix_PlayingMusic())
+        if (music != nullptr && !Mix_PlayingMusic())
         {
             // Fade in music at a previously stored position or at 0.0
             time.ResetRelativeTime();
@@ -420,11 +420,11 @@ void KPSdlUserInterface::PlayMusic(bool On, bool resetPos)
         }
     }
 
-    if (music != NULL && !On && Mix_PlayingMusic())
+    if (music != nullptr && !On && Mix_PlayingMusic())
     {
         // Music switched off: Get relative position in seconds.
         musicPosition = time.GetRelativeTimeUsf(true) / 1000000.0;
-        Mix_HookMusicFinished(NULL);
+        Mix_HookMusicFinished(nullptr);
         Mix_FadeOutMusic(1000);
     }
 
@@ -436,10 +436,10 @@ void KPSdlUserInterface::PlayMusic(bool On, bool resetPos)
 
 void KPSdlUserInterface::StopMusicCallback()
 {
-    if (music != NULL)
+    if (music != nullptr)
     {
         Mix_FreeMusic(music);
-        music = NULL;
+        music = nullptr;
     }
 
     PlayMusic(true, true);

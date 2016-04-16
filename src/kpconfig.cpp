@@ -58,7 +58,7 @@ KPConfig::KPConfig() :
     TextureName("wood"), DisplayVersionOnly(false),
     PerformanceLog(false), SkipProgressBar(false)
 {
-    SetFileName(NULL);
+    SetFileName(nullptr);
 }
 
 KPConfig::~KPConfig()
@@ -76,10 +76,10 @@ std::string KPConfig::GetFileVersion() const
     return fileVersion;
 }
 
-// if aFileName is NULL initialize it to the default
+// if aFileName is nullptr initialize it to the default
 void KPConfig::SetFileName(const char *aFileName)
 {
-    if (aFileName != NULL)
+    if (aFileName != nullptr)
     {
         fileName = aFileName;
     }
@@ -94,18 +94,18 @@ void KPConfig::SetFileName(const char *aFileName)
         char pszPath[MAX_PATH] = "";
 
         if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_LocalAppData,
-                                           KF_FLAG_CREATE, NULL,
+                                           KF_FLAG_CREATE, nullptr,
                                            &pwszPath)))
         {
             WideCharToMultiByte(CP_ACP, 0, pwszPath, -1, pszPath, MAX_PATH,
-                                NULL, NULL);
+                                nullptr, nullptr);
             CoTaskMemFree(pwszPath);
             PathAppend(pszPath, "KhunPhan");
             PathAddBackslash(pszPath);
 
             if (!PathFileExists(pszPath))
             {
-                SHCreateDirectoryEx(NULL, pszPath, NULL);
+                SHCreateDirectoryEx(nullptr, pszPath, nullptr);
             }
         }
 
@@ -179,13 +179,13 @@ std::vector<std::string> KPConfig::GetTextureNames() const
 
 void KPConfig::WriteToFile() const
 {
-    xmlNsPtr ns = NULL;
+    xmlNsPtr ns = nullptr;
     auto doc  = xmlNewDoc(_TO("1.0"));
-    doc->children  = xmlNewDocNode(doc, ns, _TO("KhunPhan"), NULL);
+    doc->children  = xmlNewDocNode(doc, ns, _TO("KhunPhan"), nullptr);
     xmlSetProp(doc->children, _TO("Version"), _TO(VERSION));
 
     /******************** DisplaySettings *******************/
-    auto tree = xmlNewChild(doc->children, ns, _TO("DisplaySettings"), NULL);
+    auto tree = xmlNewChild(doc->children, ns, _TO("DisplaySettings"), nullptr);
 
     xmlNewTextChild(tree, ns, _TO("TextureName"), _TO(TextureName.c_str()));
 
@@ -230,7 +230,7 @@ void KPConfig::WriteToFile() const
     xmlNewChild(tree, ns, _TO("CameraPosition"), _TO(iss7.str().c_str()));
 
     /******************** Game Control *******************/
-    tree = xmlNewChild(doc->children, ns, _TO("GameControl"), NULL);
+    tree = xmlNewChild(doc->children, ns, _TO("GameControl"), nullptr);
 
     std::ostringstream iss8;
     iss8 << MouseSpeed;
@@ -241,7 +241,7 @@ void KPConfig::WriteToFile() const
     xmlNewChild(tree, ns, _TO("SolutionHint"), _TO(iss9.str().c_str()));
 
     /******************** Audio/Music Settings  *******************/
-    tree = xmlNewChild(doc->children, ns, _TO("AudioSettings"), NULL);
+    tree = xmlNewChild(doc->children, ns, _TO("AudioSettings"), nullptr);
 
     std::ostringstream iss10;
     iss10 << SoundVolume;
@@ -256,14 +256,15 @@ void KPConfig::WriteToFile() const
     xmlNewChild(tree, ns, _TO("MusicOn"), _TO(MusicOn ? "1" : "0"));
 
     /******************** Language Settings  *******************/
-    tree = xmlNewChild(doc->children, NULL, _TO("LanguageSettings"), NULL);
+    tree = xmlNewChild(doc->children, nullptr, _TO("LanguageSettings"),
+                       nullptr);
 
     std::ostringstream iss12;
     iss12 << Language;
     xmlNewChild(tree, ns, _TO("Language"), _TO(iss12.str().c_str()));
 
     /******************** Debug Settings  *******************/
-    tree = xmlNewChild(doc->children, ns, _TO("DebugSettings"), NULL);
+    tree = xmlNewChild(doc->children, ns, _TO("DebugSettings"), nullptr);
 
     if (PerformanceLog)
     {
@@ -278,11 +279,11 @@ void KPConfig::WriteToFile() const
     }
 
     /******************** Saved Game *******************/
-    tree = xmlNewChild(doc->children, ns, _TO("SavedGames"), NULL);
+    tree = xmlNewChild(doc->children, ns, _TO("SavedGames"), nullptr);
 
     if (SavedGame != 0)
     {
-        auto subtree = xmlNewChild(tree, ns, _TO("SavedGame"), NULL);
+        auto subtree = xmlNewChild(tree, ns, _TO("SavedGame"), nullptr);
 
         std::ostringstream iss1;
         iss1 << SavedGame;
@@ -314,14 +315,14 @@ void KPConfig::ReadFromFile()
 {
     auto doc = xmlParseFile(GetFileName().c_str());
 
-    if (doc == NULL)
+    if (doc == nullptr)
     {
         return;
     }
 
     auto cur = doc->xmlChildrenNode;
 
-    if (cur == NULL || (cur->ns != NULL) ||
+    if (cur == nullptr || (cur->ns != nullptr) ||
         xmlStrcmp(cur->name, _TO("KhunPhan")))
     {
         xmlFreeDoc(doc);
@@ -330,7 +331,7 @@ void KPConfig::ReadFromFile()
 
     auto version = xmlGetProp(cur, _TO("Version"));
 
-    if (version != NULL)
+    if (version != nullptr)
     {
         fileVersion = _FROM(version);
     }
@@ -339,13 +340,13 @@ void KPConfig::ReadFromFile()
 
     auto tree = cur->xmlChildrenNode;
 
-    while (tree != NULL)
+    while (tree != nullptr)
     {
         if (!xmlStrcmp(tree->name, _TO("DisplaySettings")))
         {
             auto subtree = tree->xmlChildrenNode;
 
-            while (subtree != NULL)
+            while (subtree != nullptr)
             {
                 auto tag = subtree->name;
                 auto node = subtree->xmlChildrenNode;
@@ -447,7 +448,7 @@ void KPConfig::ReadFromFile()
         {
             auto subtree = tree->xmlChildrenNode;
 
-            while (subtree != NULL)
+            while (subtree != nullptr)
             {
                 auto tag = subtree->name;
                 auto node = subtree->xmlChildrenNode;
@@ -474,7 +475,7 @@ void KPConfig::ReadFromFile()
         {
             auto subtree = tree->xmlChildrenNode;
 
-            while (subtree != NULL)
+            while (subtree != nullptr)
             {
                 auto tag = subtree->name;
                 auto node = subtree->xmlChildrenNode;
@@ -519,7 +520,7 @@ void KPConfig::ReadFromFile()
         {
             auto subtree = tree->xmlChildrenNode;
 
-            while (subtree != NULL)
+            while (subtree != nullptr)
             {
                 auto node = subtree->xmlChildrenNode;
 
@@ -539,7 +540,7 @@ void KPConfig::ReadFromFile()
         {
             auto subtree = tree->xmlChildrenNode;
 
-            while (subtree != NULL)
+            while (subtree != nullptr)
             {
                 auto node = subtree->xmlChildrenNode;
                 int tmp;
@@ -568,13 +569,13 @@ void KPConfig::ReadFromFile()
         {
             auto subtree = tree->xmlChildrenNode;
 
-            while (subtree != NULL)
+            while (subtree != nullptr)
             {
                 if (!xmlStrcmp(subtree->name, _TO("SavedGame")))
                 {
                     auto subtree1 = subtree->xmlChildrenNode;
 
-                    while (subtree1 != NULL)
+                    while (subtree1 != nullptr)
                     {
                         auto tag = subtree1->name;
                         auto node = subtree1->xmlChildrenNode;

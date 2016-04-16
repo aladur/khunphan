@@ -36,7 +36,7 @@
 
 const unsigned int KPscore::MAX_SCORE_ENTRIES = 10;
 
-KPscore::KPscore(const char *fileName /* = NULL */)
+KPscore::KPscore(const char *fileName /* = nullptr */)
 {
     SetFileName(fileName);
     ReadFromFile();
@@ -56,7 +56,7 @@ bool KPscore::Add(const char *aName, unsigned int aPlayTime,
         newItem.Name      = aName;
         newItem.PlayTime  = aPlayTime;
         newItem.Moves     = aMoves;
-        newItem.Timestamp = (aTimestamp != 0) ? aTimestamp : time(NULL);
+        newItem.Timestamp = (aTimestamp != 0) ? aTimestamp : time(nullptr);
 
         std::vector<tKpScoreStruct>::iterator it =
             PositionToInsert(aName, aPlayTime, aMoves, aTimestamp);
@@ -103,17 +103,17 @@ bool KPscore::Get(unsigned int index, std::string &pName,
 
     pName = scoreList[index].Name;
 
-    if (pPlayTime  != NULL)
+    if (pPlayTime  != nullptr)
     {
         *pPlayTime = scoreList[index].PlayTime;
     }
 
-    if (pMoves != NULL)
+    if (pMoves != nullptr)
     {
         *pMoves = scoreList[index].Moves;
     }
 
-    if (pTimestamp != NULL)
+    if (pTimestamp != nullptr)
     {
         *pTimestamp = scoreList[index].Timestamp;
     }
@@ -159,10 +159,10 @@ std::vector<KPscore::tKpScoreStruct>::const_iterator KPscore::PositionToInsert(
 // File interface
 ////////////////////////////////////////////////////////////////////////////////
 
-// if aFileName is NULL initialize it to the default
-void KPscore::SetFileName(const char *aFileName /* = NULL */)
+// if aFileName is nullptr initialize it to the default
+void KPscore::SetFileName(const char *aFileName /* = nullptr */)
 {
-    if (aFileName != NULL)
+    if (aFileName != nullptr)
     {
         fileName = aFileName;
     }
@@ -177,18 +177,18 @@ void KPscore::SetFileName(const char *aFileName /* = NULL */)
         char pszPath[MAX_PATH] = "";
 
         if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_LocalAppData,
-                                           KF_FLAG_CREATE, NULL,
+                                           KF_FLAG_CREATE, nullptr,
                                            &pwszPath)))
         {
             WideCharToMultiByte(CP_ACP, 0, pwszPath, -1, pszPath, MAX_PATH,
-                                NULL, NULL);
+                                nullptr, nullptr);
             CoTaskMemFree(pwszPath);
             PathAppend(pszPath, "KhunPhan");
             PathAddBackslash(pszPath);
 
             if (!PathFileExists(pszPath))
             {
-                SHCreateDirectoryEx(NULL, pszPath, NULL);
+                SHCreateDirectoryEx(nullptr, pszPath, nullptr);
             }
         }
 
@@ -208,18 +208,18 @@ void KPscore::WriteToFile() const
         return;
     }
 
-    xmlNsPtr ns = NULL;
+    xmlNsPtr ns = nullptr;
     auto doc = xmlNewDoc(_TO("1.0"));
-    doc->children = xmlNewDocNode(doc, ns, _TO("KhunPhan"), NULL);
+    doc->children = xmlNewDocNode(doc, ns, _TO("KhunPhan"), nullptr);
     xmlSetProp(doc->children, _TO("Version"), _TO(VERSION));
 
-    auto tree = xmlNewChild(doc->children, ns, _TO("Scores"), NULL);
+    auto tree = xmlNewChild(doc->children, ns, _TO("Scores"), nullptr);
 
     std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
 
     for (; it != scoreList.end(); ++it)
     {
-        auto subtree = xmlNewChild(tree, ns, _TO("Score"), NULL);
+        auto subtree = xmlNewChild(tree, ns, _TO("Score"), nullptr);
 
         xmlNewTextChild(subtree, ns, _TO("Name"),
                         _TO(it->Name.c_str()));
@@ -255,14 +255,14 @@ void KPscore::ReadFromFile()
 
     auto doc = xmlParseFile(GetFileName().c_str());
 
-    if (doc == NULL)
+    if (doc == nullptr)
     {
         return;
     }
 
     auto cur = doc->xmlChildrenNode;
 
-    if (cur == NULL || (cur->ns != NULL) ||
+    if (cur == nullptr || (cur->ns != nullptr) ||
         xmlStrcmp(cur->name, _TO("KhunPhan")))
     {
         xmlFreeDoc(doc);
@@ -271,14 +271,14 @@ void KPscore::ReadFromFile()
 
     auto *version = xmlGetProp(cur, _TO("Version"));
 
-    if (version != NULL)
+    if (version != nullptr)
     {
         fileVersion = _FROM(version);
     }
 
     auto tree = cur->xmlChildrenNode;
 
-    while (tree != NULL)
+    while (tree != nullptr)
     {
         if (xmlStrcmp(tree->name, _TO("Scores")))
         {
@@ -288,7 +288,7 @@ void KPscore::ReadFromFile()
 
         auto subtree = tree->xmlChildrenNode;
 
-        while (subtree != NULL)
+        while (subtree != nullptr)
         {
             std::string  Name;
             time_t       Timestamp = 0;
@@ -303,7 +303,7 @@ void KPscore::ReadFromFile()
 
             auto subtree1 = subtree->xmlChildrenNode;
 
-            while (subtree1 != NULL)
+            while (subtree1 != nullptr)
             {
                 auto tag = subtree1->name;
                 auto node = subtree1->xmlChildrenNode;

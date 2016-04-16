@@ -45,7 +45,7 @@ void KPstate::Initialize(KPstateContext *pContext,
 {
     auto previousStateId = KPState_Invalid;
 
-    if (pPreviousState != NULL)
+    if (pPreviousState != nullptr)
     {
         previousStateId = pPreviousState->GetId();
     }

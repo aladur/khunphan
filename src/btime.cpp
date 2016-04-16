@@ -78,7 +78,7 @@ QWord BTime::GetTimeUsll()
 {
     struct timeval tv;
 
-    gettimeofday(&tv, NULL);
+    gettimeofday(&tv, nullptr);
     return (static_cast<QWord>(tv.tv_sec) * 1000000 + tv.tv_usec);
 }
 
@@ -87,7 +87,7 @@ double BTime::GetTimeUsf()
 {
     struct timeval tv;
 
-    gettimeofday(&tv, NULL);
+    gettimeofday(&tv, nullptr);
     return (static_cast<double>(tv.tv_sec) * 1000000.0 + tv.tv_usec);
 }
 #else

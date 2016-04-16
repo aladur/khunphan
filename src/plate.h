@@ -38,7 +38,7 @@ public:
     void Animate(unsigned int);
     int MouseEvent(tMouseButton, tMouseEvent, int, int, KPUIBase &);
     void SetSignal(int);
-    void RecreateDisplayList(BTexture *pTexture = NULL);
+    void RecreateDisplayList(BTexture *pTexture = nullptr);
 private:
     int DisplayList;
     int Type;

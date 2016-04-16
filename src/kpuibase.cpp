@@ -38,15 +38,15 @@
 // compile for a specific light test version
 // #define DEBUG_LIGHT_TEST
 
-KPUIBase *KPUIBase::instance = NULL;
+KPUIBase *KPUIBase::instance = nullptr;
 
 KPUIBase::KPUIBase(KPConfig &Config) :
-    pBoardView(NULL), pCamera(NULL),
-    pLight(NULL), pMenu(NULL),
-    pNodes(NULL), pStatistics(NULL),
+    pBoardView(nullptr), pCamera(nullptr),
+    pLight(nullptr), pMenu(nullptr),
+    pNodes(nullptr), pStatistics(nullptr),
     animationTimer(TOTAL_ANIMATIONTIME, false),
     previousStateId(KPState_Invalid), isPause(false),
-    pState(NULL),
+    pState(nullptr),
     config(Config),
     lastFrameTimestamp(0), oldTime(0), frameCount(0)
 
@@ -54,7 +54,7 @@ KPUIBase::KPUIBase(KPConfig &Config) :
     // the instance is needed for callback handling.
     // Concequence: Only one UserInterface instance is
     // supported at a time
-    if (instance != NULL)
+    if (instance != nullptr)
     {
         throw std::runtime_error(
             "Error: Only one UserInterface instance allowed at a time");
@@ -68,20 +68,20 @@ KPUIBase::KPUIBase(KPConfig &Config) :
 KPUIBase::~KPUIBase()
 {
     delete pBoardView;
-    pBoardView  = NULL;
+    pBoardView  = nullptr;
     delete pCamera;
-    pCamera     = NULL;
+    pCamera     = nullptr;
     delete pLight;
-    pLight      = NULL;
+    pLight      = nullptr;
     delete pMenu;
-    pMenu       = NULL;
+    pMenu       = nullptr;
     delete pNodes;
-    pNodes      = NULL;
+    pNodes      = nullptr;
     delete pState;
-    pState      = NULL;
+    pState      = nullptr;
     delete pStatistics;
-    pStatistics = NULL;
-    instance = NULL;
+    pStatistics = nullptr;
+    instance = nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -146,21 +146,21 @@ std::string KPUIBase::GetWindowTitle() const
 std::string KPUIBase::GetOpenGLVendor() const
 {
     const auto *pString = glGetString(GL_VENDOR);
-    return (pString != NULL) ?
+    return (pString != nullptr) ?
            std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 
 std::string KPUIBase::GetOpenGLRenderer() const
 {
     const auto *pString = glGetString(GL_RENDERER);
-    return (pString != NULL) ?
+    return (pString != nullptr) ?
            std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 
 std::string KPUIBase::GetOpenGLVersion() const
 {
     const auto *pString = glGetString(GL_VERSION);
-    return (pString != NULL) ?
+    return (pString != nullptr) ?
            std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 

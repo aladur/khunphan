@@ -35,23 +35,23 @@
 /////////////////////////////////////////////////////////////////////
 
 KhunPhanApp::KhunPhanApp() :
-    userInterface(NULL), argc(0), argv(NULL), canRun(false)
+    userInterface(nullptr), argc(0), argv(nullptr), canRun(false)
 {
 }
 
 KhunPhanApp::KhunPhanApp(int p_argc, char **p_argv) :
-    userInterface(NULL), argc(p_argc), argv(p_argv), canRun(true)
+    userInterface(nullptr), argc(p_argc), argv(p_argv), canRun(true)
 {
     Initialize();
 }
 
 KhunPhanApp::~KhunPhanApp()
 {
-    if (userInterface != NULL)
+    if (userInterface != nullptr)
     {
         userInterface->Close();
         delete userInterface;
-        userInterface = NULL;
+        userInterface = nullptr;
     }
 }
 
@@ -144,7 +144,7 @@ bool KhunPhanApp::Initialize()
 
 void KhunPhanApp::Run()
 {
-    if (argv != NULL && canRun)
+    if (argv != nullptr && canRun)
     {
         userInterface->OpenWindow(argc, argv);
         userInterface->MainLoop();

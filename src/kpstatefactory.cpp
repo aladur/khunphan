@@ -114,6 +114,6 @@ KPstate *KPstateFactory::CreateState(int stateID)
             throw std::runtime_error(message.str());
     }
 
-    return NULL;
+    return nullptr;
 }
 

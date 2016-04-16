@@ -179,13 +179,13 @@ void Label::PreInitialize(const std::string &TextureName,
 
     auto *texels = texture.ReadTextureFromFile(file1, TEX_WITH_ALPHA);
 
-    if (texels == NULL)
+    if (texels == nullptr)
     {
         auto file2 = config.GetDirectory(KP_TEXTURE_DIR) + "characters.png";
 
         texels = texture.ReadTextureFromFile(file2, TEX_WITH_ALPHA);
 
-        if (texels == NULL)
+        if (texels == nullptr)
         {
             std::stringstream message;
 

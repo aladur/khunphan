@@ -52,7 +52,7 @@ Plate::Plate(const Plate &src) :
     WithAlpha(src.WithAlpha), animationTimer(src.animationTimer)
 {
     BTexture texture;
-    BTexture *pTexture = NULL;
+    BTexture *pTexture = nullptr;
 
     DisplayList = glGenLists(1);
 
@@ -68,7 +68,7 @@ Plate::Plate(const Plate &src) :
         auto flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
         auto *texels = texture.ReadTextureFromFile(TextureSource, flags);
 
-        if (texels == NULL)
+        if (texels == nullptr)
         {
             std::stringstream message;
 
@@ -88,7 +88,7 @@ Plate &Plate::operator=(const Plate &src)
     if (&src != this)
     {
         BTexture texture;
-        BTexture *pTexture = NULL;
+        BTexture *pTexture = nullptr;
 
         Type = src.Type;
         AspectRatio = src.AspectRatio;
@@ -122,7 +122,7 @@ Plate &Plate::operator=(const Plate &src)
             auto flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
             auto *texels = texture.ReadTextureFromFile(TextureSource, flags);
 
-            if (texels == NULL)
+            if (texels == nullptr)
             {
                 std::stringstream message;
 
@@ -182,13 +182,13 @@ bool Plate::Update(std::string    &TextureName,
     auto flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
     auto *texels = texture.ReadTextureFromFile(file1, flags);
 
-    if (texels == NULL)
+    if (texels == nullptr)
     {
         auto file2 = config.GetDirectory(KP_TEXTURE_DIR) + Name + ".png";
 
         texels = texture.ReadTextureFromFile(file2, flags);
 
-        if (texels == NULL)
+        if (texels == nullptr)
         {
             std::stringstream message;
 
@@ -211,7 +211,7 @@ bool Plate::Update(std::string    &TextureName,
     return true;
 }
 
-void Plate::RecreateDisplayList(BTexture *pTexture /* = NULL */)
+void Plate::RecreateDisplayList(BTexture *pTexture /* = nullptr */)
 {
     switch (Type)
     {

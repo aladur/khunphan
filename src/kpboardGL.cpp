@@ -59,7 +59,7 @@ KPboardView::KPboardView(const KPboard &currentBoard,
     mat_value(0.0), xValue(0.0),
     emphasizedToken(TK_EMPTY), animatedToken(TK_EMPTY),
     old_x(0.0), old_y(0.0), new_x(0.0), new_y(0.0),
-    ax(0.0), ay(0.0), Time(0.0), textureSource(NULL),
+    ax(0.0), ay(0.0), Time(0.0), textureSource(nullptr),
     DisplayList(0)
 {
     srand(327);
@@ -106,7 +106,7 @@ bool KPboardView::CreateTexture(unsigned int TextureSize,
 
     auto *texels = pTexture->ReadTextureFromFile(file, 0);
 
-    if (texels == NULL)
+    if (texels == nullptr)
     {
         delete pTexture;
         return false;
@@ -157,7 +157,7 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
         glGenTextures(MAX_BOARD_TEXTURES, &textureId[0]);
     }
 
-    if (textureSource == NULL)
+    if (textureSource == nullptr)
     {
         textureSource = new std::string[MAX_BOARD_TEXTURES];
     }
@@ -566,25 +566,25 @@ void KPboardView::GetTokenCoordinates(tKPTokenID i, float *x, float *y) const
 {
     if (i == animatedToken)
     {
-        if (x != NULL)
+        if (x != nullptr)
         {
             *x = ax;
         }
 
-        if (y != NULL)
+        if (y != nullptr)
         {
             *y = ay;
         }
     }
     else
     {
-        if (x != NULL)
+        if (x != nullptr)
         {
             *x = ((DX + DGAP) * static_cast<float>(current.GetX(i)) -
                   ((HORIZONTAL_MAX * (DX + DGAP) - DGAP) / 2));
         }
 
-        if (y != NULL)
+        if (y != nullptr)
         {
             *y = ((DY + DGAP) * static_cast<float>(current.GetY(i)) -
                   ((VERTICAL_MAX   * (DY + DGAP) - DGAP) / 2));

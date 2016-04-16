@@ -37,7 +37,7 @@
 // the envelope/letter pattern
 // (Each different file reader has a different "letter" class)
 
-BTexture::BTexture() : texels(NULL), width(0), height(0), channels(0),
+BTexture::BTexture() : texels(nullptr), width(0), height(0), channels(0),
     rowbytes(0), bit_depth(0), color_type(0), interlace_type(0),
     compression_type(0), filter_type(0)
 {
@@ -112,7 +112,7 @@ const char *BTexture::ReadTextureFromFile(
 
     if (!fs.is_open())
     {
-        return NULL;
+        return nullptr;
     }
 
     LOG3("Reading '", file.c_str(), "'");
@@ -129,7 +129,7 @@ const char *BTexture::ReadTextureFromFile(std::ifstream &fs, int flags/* = 0 */)
 
     if (!fs.is_open())
     {
-        return NULL;
+        return nullptr;
     }
 
     fs.seekg(0);
@@ -143,7 +143,7 @@ const char *BTexture::ReadTextureFromFile(std::ifstream &fs, int flags/* = 0 */)
         return ReadTextureFromPngFile(fs, flags);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
@@ -160,36 +160,37 @@ const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
     if (fs.gcount() != sizeof(header) ||
         png_sig_cmp(header, 0, sizeof(header)))
     {
-        return NULL;
+        return nullptr;
     }
 
     delete [] texels;
-    texels = NULL;
+    texels = nullptr;
 
     png_structp png_ptr = png_create_read_struct
-                          (PNG_LIBPNG_VER_STRING, (png_voidp)NULL,
+                          (PNG_LIBPNG_VER_STRING, (png_voidp)nullptr,
                            //user_error_fn, user_warning_fn);
-                           NULL, NULL);
+                           nullptr, nullptr);
 
     if (!png_ptr)
     {
-        return NULL;
+        return nullptr;
     }
 
     png_infop info_ptr = png_create_info_struct(png_ptr);
 
     if (!info_ptr)
     {
-        png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
-        return NULL;
+        png_destroy_read_struct(&png_ptr, (png_infopp)nullptr,
+                                (png_infopp)nullptr);
+        return nullptr;
     }
 
     png_infop end_info = png_create_info_struct(png_ptr);
 
     if (!end_info)
     {
-        png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
-        return NULL;
+        png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)nullptr);
+        return nullptr;
     }
 
     // Assign user defined read function to read from input file stream
@@ -313,7 +314,7 @@ const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
 
 const char *BTexture::SetAlphaChannel(int value)
 {
-    if (texels != NULL)
+    if (texels != nullptr)
     {
         size_t i;
 
@@ -328,7 +329,7 @@ const char *BTexture::SetAlphaChannel(int value)
 
 const char *BTexture::CopyAlphaChannel(int format)
 {
-    if (texels != NULL)
+    if (texels != nullptr)
     {
         if (format & TEX_MODIFY_ALPHA)
         {
@@ -361,7 +362,7 @@ const char *BTexture::CopyAlphaChannel(int format)
 
 const char *BTexture::CopyColor(int format)
 {
-    if (texels != NULL)
+    if (texels != nullptr)
     {
         if (format & TEX_COPY_COLOR)
         {
@@ -413,7 +414,7 @@ const char *BTexture::CopyColor(int format)
 
 const char *BTexture::SetColors(int format, int red, int green, int blue)
 {
-    if (texels != NULL)
+    if (texels != nullptr)
     {
         if (format & TEX_SET_COLORS)
         {
@@ -446,7 +447,7 @@ const char *BTexture::SetColors(int format, int red, int green, int blue)
 
 bool BTexture::CreateSubImage(int x, int y, int w, int h, char *subTexels) const
 {
-    if (subTexels == NULL)
+    if (subTexels == nullptr)
     {
         return false;
     }
@@ -570,7 +571,7 @@ bool BTexture::SetTexels(const char *pTexels, unsigned int aWidth,
                          int format)
 {
     delete [] texels;
-    texels = NULL;
+    texels = nullptr;
 
     channels = aChannels;
     width    = aWidth;
@@ -615,7 +616,8 @@ bool BTexture::WriteTextureToPngFile(std::ofstream &fs, int) const
     }
 
     png_structp png_ptr = png_create_write_struct
-                          (PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
+                          (PNG_LIBPNG_VER_STRING, (png_voidp)nullptr,
+                          nullptr, nullptr);
 
     //user_error_fn, user_warning_fn);
     if (!png_ptr)
@@ -627,7 +629,7 @@ bool BTexture::WriteTextureToPngFile(std::ofstream &fs, int) const
 
     if (!info_ptr)
     {
-        png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+        png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
         return false;
     }
 
@@ -691,7 +693,7 @@ const char *BTexture::Rescale(int exp, int format)
     if ((format & TEX_LARGER) != 0)
     {
         // unfinished
-        return NULL;
+        return nullptr;
     }
 
     if ((format & TEX_SMALLER) != 0)
@@ -700,7 +702,7 @@ const char *BTexture::Rescale(int exp, int format)
         // Width and Height must be multiples of factor
         if (GetWidth() % factor != 0 || (GetHeight() % factor != 0))
         {
-            return NULL;
+            return nullptr;
         }
 
         unsigned char *oldTexels = texels;
@@ -717,8 +719,8 @@ const char *BTexture::Rescale(int exp, int format)
             // is the average of all source texels
             unsigned short ox, oy, i;
             unsigned short c;
-            const unsigned char *pOldTexel  = NULL;
-            const unsigned char *pOldTexel0 = NULL; // address of upper left
+            const unsigned char *pOldTexel  = nullptr;
+            const unsigned char *pOldTexel0 = nullptr; // address of upper left
             // texel in old texture
             unsigned int  *pBuffer = new unsigned int[GetChannels()];
             // buffer for one texel
@@ -814,7 +816,7 @@ const char *BTexture::Rescale(int exp, int format)
         return reinterpret_cast<const char *>(texels);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void BTexture::read_data_fn(png_structp png_ptr,
@@ -823,7 +825,7 @@ void BTexture::read_data_fn(png_structp png_ptr,
 {
     png_voidp io_ptr = png_get_io_ptr(png_ptr);
 
-    if (io_ptr != NULL)
+    if (io_ptr != nullptr)
     {
         std::ifstream &fs = *(std::ifstream *)io_ptr;
 
@@ -842,7 +844,7 @@ void BTexture::write_data_fn(png_structp png_ptr,
 {
     png_voidp io_ptr = png_get_io_ptr(png_ptr);
 
-    if (io_ptr != NULL)
+    if (io_ptr != nullptr)
     {
         std::ofstream &fs = *(std::ofstream *)io_ptr;
 
@@ -859,7 +861,7 @@ void BTexture::flush_fn(png_structp png_ptr)
 {
     png_voidp io_ptr = png_get_io_ptr(png_ptr);
 
-    if (io_ptr != NULL)
+    if (io_ptr != nullptr)
     {
         std::ofstream &fs = *(std::ofstream *)io_ptr;
 

@@ -28,7 +28,7 @@
 
 
 KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode, KPConfig &Config) :
-    KPSdlUserInterface(Config), screen(NULL)
+    KPSdlUserInterface(Config), screen(nullptr)
 {
     Initialize(rootNode);
 }
@@ -92,7 +92,7 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
                  config.ColorDepth,
                  flags);
 
-    if (screen == NULL)
+    if (screen == nullptr)
     {
         std::stringstream message;
 
@@ -189,7 +189,7 @@ void KPSdl12UserInterface::Close()
     if (screen)
     {
         SDL_Quit();
-        screen = NULL;
+        screen = nullptr;
     }
 }
 
@@ -198,10 +198,10 @@ int KPSdl12UserInterface::GetValue(int what) const
     switch (what)
     {
         case KP_WINDOW_WIDTH:
-            return (screen != NULL ? screen->w : 0);
+            return (screen != nullptr ? screen->w : 0);
 
         case KP_WINDOW_HEIGHT:
-            return (screen != NULL ? screen->h : 0);
+            return (screen != nullptr ? screen->h : 0);
     }
 
     return 0;
@@ -234,7 +234,7 @@ void KPSdl12UserInterface::SetStopMusicCallback()
 
 void KPSdl12UserInterface::stopMusicCallback()
 {
-    if (KPSdl12UserInterface::instance != NULL)
+    if (KPSdl12UserInterface::instance != nullptr)
     {
         KPSdl12UserInterface::instance->StopMusicCallback();
     }

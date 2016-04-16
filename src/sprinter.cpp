@@ -48,7 +48,7 @@ int sprinter::sprintf(std::string &s, const char *format, ...)
     auto *p = static_cast<char *>(buffer);
     auto res = -1;
 
-    if (format == NULL || strlen(format) == 0)
+    if (format == nullptr || strlen(format) == 0)
     {
         s.clear();
         return 0;
@@ -85,7 +85,7 @@ int sprinter::vsprintf(std::string &s,
     auto *p = static_cast<char *>(buffer);
     auto res = -1;
 
-    if (format == NULL || strlen(format) == 0)
+    if (format == nullptr || strlen(format) == 0)
     {
         s.clear();
         return 0;

@@ -59,15 +59,16 @@ void message(tMsgType type, const char *format, ...)
     switch (type)
     {
         case mtError:
-            MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK | MB_ICONERROR);
+            MessageBox(nullptr, msg.c_str(), PACKAGE, MB_OK | MB_ICONERROR);
             break;
 
         case mtMessage:
-            MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK);
+            MessageBox(nullptr, msg.c_str(), PACKAGE, MB_OK);
             break;
 
         case mtWarning:
-            MessageBox(NULL, msg.c_str(), PACKAGE, MB_OK | MB_ICONEXCLAMATION);
+            auto type = MB_OK | MB_ICONEXCLAMATION;
+            MessageBox(nullptr, msg.c_str(), PACKAGE, type);
             break;
     }
 
