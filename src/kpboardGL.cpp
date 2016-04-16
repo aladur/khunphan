@@ -42,7 +42,7 @@
 
 //#define   DRAW_TEST   1   // Uncomment this line only for test purposes
 
-tTextureFiles KPboardView::textureFiles =
+const KPboardView::tArrayOfString KPboardView::textureFiles =
 {
     "texture1.png",
     "texture2.png",
@@ -59,7 +59,7 @@ KPboardView::KPboardView(const KPboard &currentBoard,
     mat_value(0.0), xValue(0.0),
     emphasizedToken(TK_EMPTY), animatedToken(TK_EMPTY),
     old_x(0.0), old_y(0.0), new_x(0.0), new_y(0.0),
-    ax(0.0), ay(0.0), Time(0.0), textureSource(nullptr),
+    ax(0.0), ay(0.0), Time(0.0),
     DisplayList(0)
 {
     srand(327);
@@ -84,7 +84,6 @@ KPboardView::~KPboardView()
 {
     glDeleteLists(DisplayList, KBP_ENTRY_COUNT);
     glDeleteTextures(MAX_BOARD_TEXTURES, textureId);
-    delete [] textureSource;
 }
 
 QWord KPboardView::GetBoardId() const
@@ -155,11 +154,6 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
     if (textureId[0] == 0)
     {
         glGenTextures(MAX_BOARD_TEXTURES, &textureId[0]);
-    }
-
-    if (textureSource == nullptr)
-    {
-        textureSource = new std::string[MAX_BOARD_TEXTURES];
     }
 
     while (TextureSize && (i < MAX_BOARD_TEXTURES))

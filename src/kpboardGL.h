@@ -51,7 +51,6 @@ class KPboard;
 
 #define MAX_BOARD_TEXTURES  4
 
-typedef std::array<std::string, MAX_BOARD_TEXTURES> tTextureFiles;
 
 class KPboardView
 {
@@ -80,6 +79,8 @@ public:
     bool IsSolved();
 
 private:
+    typedef std::array<std::string, MAX_BOARD_TEXTURES> tArrayOfString;
+
     void Initialize(const std::string &TextureDirectory,
                     const std::string &TextureName,
                     unsigned int TextureSize = 1,
@@ -95,7 +96,7 @@ private:
     float getRnd(void) const;
 
     KPboard current;
-    static tTextureFiles textureFiles;
+    static const tArrayOfString textureFiles;
 
     // variables for token animation:
     float mat_value, xValue;
@@ -103,7 +104,7 @@ private:
     tKPTokenID animatedToken;
     float old_x, old_y, new_x, new_y, ax, ay, Time;
     unsigned int textureId[MAX_BOARD_TEXTURES];
-    std::string *textureSource;
+    tArrayOfString textureSource;
     int DisplayList;
 };
 
