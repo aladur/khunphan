@@ -65,10 +65,10 @@ Plate::Plate(const Plate &src) :
 
     if (Type == 1)
     {
-        const char *texels;
+        auto flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
+        auto *texels = texture.ReadTextureFromFile(TextureSource, flags);
 
-        if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
-                      WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+        if (texels == NULL)
         {
             std::stringstream message;
 
@@ -119,10 +119,10 @@ Plate &Plate::operator=(const Plate &src)
 
         if (Type == 1)
         {
-            const char *texels;
+            auto flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
+            auto *texels = texture.ReadTextureFromFile(TextureSource, flags);
 
-            if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
-                          WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+            if (texels == NULL)
             {
                 std::stringstream message;
 
@@ -162,8 +162,6 @@ bool Plate::Update(std::string    &TextureName,
                    const char     *Name,
                    const KPConfig &config)
 {
-    std::string file1, file2;
-    const char *texels;
     BTexture texture;
 
     // The texture size must be a power of 2 (1, 2, 4, 8, ...)
@@ -178,15 +176,19 @@ bool Plate::Update(std::string    &TextureName,
     WithAlpha   = withAlpha;
     TextureSize = textureSize;
 
-    file1 = config.GetDirectory(KP_TEXTURE_DIR) + TextureName +
-            PATHSEPARATORSTRING + Name + ".png";
-    file2 = config.GetDirectory(KP_TEXTURE_DIR) + Name + ".png";
+    auto file1 = config.GetDirectory(KP_TEXTURE_DIR) + TextureName +
+                 PATHSEPARATORSTRING + Name + ".png";
 
-    if ((texels = texture.ReadTextureFromFile(file1.c_str(),
-                  withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+    auto flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
+    auto *texels = texture.ReadTextureFromFile(file1, flags);
+
+    if (texels == NULL)
     {
-        if ((texels = texture.ReadTextureFromFile(file2.c_str(),
-                      withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+        auto file2 = config.GetDirectory(KP_TEXTURE_DIR) + Name + ".png";
+
+        texels = texture.ReadTextureFromFile(file2, flags);
+
+        if (texels == NULL)
         {
             std::stringstream message;
 
@@ -211,18 +213,14 @@ bool Plate::Update(std::string    &TextureName,
 
 void Plate::RecreateDisplayList(BTexture *pTexture /* = NULL */)
 {
-    const char *texels;
-    unsigned int width;
-    unsigned int height;
-
     switch (Type)
     {
         case 1:
-            texels = pTexture->Rescale(BTexture::GetExpToBase2(TextureSize),
-                                       TEX_SMALLER | TEX_RESCALE_AVG);
-
-            width  = pTexture->GetWidth();
-            height = pTexture->GetHeight();
+        {
+            auto exp = BTexture::GetExpToBase2(TextureSize);
+            auto texels = pTexture->Rescale(exp, TEX_SMALLER | TEX_RESCALE_AVG);
+            auto width  = pTexture->GetWidth();
+            auto height = pTexture->GetHeight();
 
             if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
             {
@@ -269,6 +267,7 @@ void Plate::RecreateDisplayList(BTexture *pTexture /* = NULL */)
 
             AspectRatio = (width + 1.0f) / (height + 1.0f);
             break;
+        }
 
         case 3:
             glNewList(DisplayList, GL_COMPILE);
@@ -318,7 +317,7 @@ void Plate::SetPosition(float ax_, float ay_, float bx_, float by_)
     // Correction for AspectRatio needed here
     if (AspectRatio != 0.0 && AspectRatio != (bx_ - ax_) / (by_ - ay_))
     {
-        GLfloat cx = (ax_ + bx_) * 0.5f;
+        auto cx = (ax_ + bx_) * 0.5f;
         ax_ = cx - AspectRatio * (by_ - ay_) * 0.5f;
         bx_ = cx + AspectRatio * (by_ - ay_) * 0.5f;
     }
@@ -436,11 +435,10 @@ void Plate::Animate(unsigned int duration)
         }
         else
         {
-            GLfloat localFactor;
-            GLdouble relativeTime = animationTimer.GetRelativeTime();
+            auto relativeTime = animationTimer.GetRelativeTime();
 
-            localFactor = 0.5f - 0.5f *
-                          cos(M_PIf * static_cast<GLfloat>(relativeTime));
+            auto localFactor = 0.5f - 0.5f *
+                               cos(M_PIf * static_cast<GLfloat>(relativeTime));
             ax   = (target_ax - old_ax) * localFactor + old_ax;
             ay   = (target_ay - old_ay) * localFactor + old_ay;
             bx   = (target_bx - old_bx) * localFactor + old_bx;
@@ -453,8 +451,8 @@ void Plate::Animate(unsigned int duration)
 int Plate::MouseEvent(tMouseButton button, tMouseEvent event,
                       int x, int y, KPUIBase &ui)
 {
-    GLfloat xf = 16.0f * x / ui.GetValue(KP_WINDOW_WIDTH);
-    GLfloat yf = 12.0f - 12.0f * y / ui.GetValue(KP_WINDOW_HEIGHT);
+    auto xf = 16.0f * x / ui.GetValue(KP_WINDOW_WIDTH);
+    auto yf = 12.0f - 12.0f * y / ui.GetValue(KP_WINDOW_HEIGHT);
 
     if (target_Alpha > 0.0 &&
         Signal != 0 &&

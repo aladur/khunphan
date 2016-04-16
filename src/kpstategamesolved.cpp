@@ -38,17 +38,15 @@ KPstateGameSolved::KPstateGameSolved() : addToScoreList(false),
 void KPstateGameSolved::Initialize(KPstateContext *pContext,
                                    const KPstate *pPreviousState)
 {
-    tIdToLabel::const_iterator it;
-
     KPstate::Initialize(pContext, pPreviousState);
 
-    KPmenu &menu             = pContext->GetMenu();
-    KPStatistics &statistics = pContext->GetStatistics();
+    auto &menu = pContext->GetMenu();
+    auto &statistics = pContext->GetStatistics();
     KPscore scoreList;
 
     pContext->GetConfig().SavedGame = 0;
 
-    it = menu.labels.find(T_NAME_LABEL);
+    auto it = menu.labels.find(T_NAME_LABEL);
 
     if (it == menu.labels.end())
     {
@@ -84,19 +82,17 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
 
 void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
 {
-    tIdToLabel::const_iterator it;
-
     KPstate::UpdateDisplay(pContext);
 
-    KPmenu &menu             = pContext->GetMenu();
-    KPStatistics &statistics = pContext->GetStatistics();
+    auto &menu = pContext->GetMenu();
+    auto &statistics = pContext->GetStatistics();
 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(1, 3.0, 15, 8.5);
 
     menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    float y = 7.5;
+    auto y = 7.5f;
     std::string playTime = statistics.GetTotalTime(RTIME_HHMMSS);
     menu.labels[T_SOLVED1].FormatText(2,
                                       statistics.GetEventCounter(MOVE_COUNTER),
@@ -104,7 +100,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_SOLVED1].SetPosition(8, y, 0.6f, A_CENTERED);
     y -= 0.6f;
 
-    it = menu.labels.find(tf_index);
+    auto it = menu.labels.find(tf_index);
 
     if (it != menu.labels.end())
     {
@@ -129,12 +125,12 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
         menu.labels[tf_index + 2].SetPosition(8, y, 0.6f, A_CENTERED);
     }
 
-    y -= 1.0;
+    y -= 1.0f;
 
     if (addToScoreList)
     {
         menu.labels[T_INPUT_NAME].SetPosition(8, y, 1, A_CENTERED);
-        y -= 1.0;
+        y -= 1.0f;
         menu.labels[T_NAME_LABEL].SetPosition(8, y, 1, A_CENTERED);
         menu.labels[T_NAME_LABEL].SetMaxCharacters(24);
         menu.labels[T_NAME_LABEL].SetInputFocus(addToScoreList);
@@ -176,7 +172,7 @@ void KPstateGameSolved::MouseClick(KPstateContext *pContext,
                                    tMouseButton button, tMouseEvent event,
                                    int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {
@@ -188,8 +184,8 @@ void KPstateGameSolved::MouseClick(KPstateContext *pContext,
 
 void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext) const
 {
-    tKPMenuState newState = KPState_MainMenu;
-    std::string name(pContext->GetMenu().labels[T_NAME_LABEL].GetText());
+    auto newState = KPState_MainMenu;
+    auto name(pContext->GetMenu().labels[T_NAME_LABEL].GetText());
 
     if (addToScoreList && !name.empty())
     {

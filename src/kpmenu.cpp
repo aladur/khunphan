@@ -108,9 +108,7 @@ bool KPmenu::LoadLanguage(int Language)
         return false;
     }
 
-    tIdToString::const_iterator it;
-
-    for (it = strings.begin(); it != strings.end(); ++it)
+    for (auto it = strings.cbegin(); it != strings.cend(); ++it)
     {
         AddOrSetLabel(it->first, it->second);
     }
@@ -137,9 +135,7 @@ void KPmenu::AddOrSetLabel(int number, const std::string &text)
 
 void KPmenu::FadeOutAllPlates()
 {
-    tIdToPlate::iterator it;
-
-    for (it = plates.begin(); it != plates.end(); ++it)
+    for (auto it = plates.begin(); it != plates.end(); ++it)
     {
         it->second.SetFadeOut();
     }
@@ -152,16 +148,12 @@ void KPmenu::FadeOutAllLabels()
 
 void KPmenu::Animate(unsigned int duration)
 {
-    tIdToPlate::iterator sit;
-
-    for (sit = plates.begin(); sit != plates.end(); ++sit)
+    for (auto sit = plates.begin(); sit != plates.end(); ++sit)
     {
         sit->second.Animate(duration);
     }
 
-    tIdToLabel::iterator tit;
-
-    for (tit = labels.begin(); tit != labels.end(); ++tit)
+    for (auto tit = labels.begin(); tit != labels.end(); ++tit)
     {
         tit->second.Animate(duration);
     }
@@ -179,9 +171,7 @@ void KPmenu::Draw()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    tIdToPlate::const_iterator sit;
-
-    for (sit = plates.begin(); sit != plates.end(); ++sit)
+    for (auto sit = plates.cbegin(); sit != plates.cend(); ++sit)
     {
         if (sit->first != PLATE_SHADER)
         {
@@ -189,9 +179,7 @@ void KPmenu::Draw()
         }
     }
 
-    tIdToLabel::iterator tit;
-
-    for (tit = labels.begin(); tit != labels.end(); ++tit)
+    for (auto tit = labels.begin(); tit != labels.end(); ++tit)
     {
         tit->second.Draw();
     }

@@ -35,18 +35,18 @@ void KPstateKeyboardHelp::Initialize(KPstateContext *pContext,
 
 void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext) const
 {
-    KPstate::UpdateDisplay(pContext);
+    auto &menu = pContext->GetMenu();
 
-    KPmenu &menu = pContext->GetMenu();
+    KPstate::UpdateDisplay(pContext);
 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 2.5, 14, 9.0);
 
     menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    bool fullScreen = pContext->GetUserInterface().CanToggleFullScreen();
+    auto fullScreen = pContext->GetUserInterface().CanToggleFullScreen();
 
-    float y = 8.5;
+    auto y = 8.5f;
     menu.labels[T_H_KEYBOARDHELP].SetPosition(8, y, 1, A_CENTERED);
     y -= 1.0f;
     menu.labels[T_H_KEYBOARDHELP].SetFullyVisible();
@@ -97,7 +97,7 @@ void  KPstateKeyboardHelp::MouseClick(KPstateContext *pContext,
                                       tMouseButton button, tMouseEvent event,
                                       int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {

@@ -55,7 +55,7 @@ public:
 
     inline bool Add(unsigned int duration)
     {
-        bool isExpired = false;
+        auto isExpired = false;
 
         if (isStarted)
         {

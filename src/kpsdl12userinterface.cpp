@@ -50,11 +50,10 @@ void KPSdl12UserInterface::SetWindowSize(int, int) const
 
 void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
-    int flags = SDL_OPENGL | SDL_RESIZABLE;
-    const SDL_version *pVersion;
+    auto flags = SDL_OPENGL | SDL_RESIZABLE;
 
     LOG1("SDL UserInterface initialization");
-    pVersion = SDL_Linked_Version();
+    auto pVersion = SDL_Linked_Version();
     LOG6("SDL Linked version: ",
          static_cast<unsigned int>(pVersion->major), '.',
          static_cast<unsigned int>(pVersion->minor), '.',
@@ -112,7 +111,7 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 void KPSdl12UserInterface::MainLoop()
 {
     // This is the event loop
-    bool done = false;
+    auto done = false;
     unsigned char key;
 
     while (! done)

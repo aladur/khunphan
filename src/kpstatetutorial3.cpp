@@ -47,9 +47,9 @@ void KPstateTutorial3::Initialize(KPstateContext *pContext,
 
 void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
 {
-    KPstate::UpdateDisplay(pContext);
+    auto &menu = pContext->GetMenu();
 
-    KPmenu &menu = pContext->GetMenu();
+    KPstate::UpdateDisplay(pContext);
 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(.5, 4.5, 15.5, 11);
 
@@ -60,7 +60,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[GetTextOffset()].SetPosition(8, 10.5, 1.0, A_CENTERED);
     menu.labels[GetTextOffset()].SetFullyVisible();
 
-    float y = 9.5;
+    auto y = 9.5f;
     menu.labels[GetTextOffset() + 2].SetPosition(1.25, y, 0.5);
     y -= 0.5;
 
@@ -96,8 +96,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
 
     y -= 0.5;
 
-    if (menu.labels.find(GetTextOffset() + 7) !=
-        menu.labels.end())
+    if (menu.labels.find(GetTextOffset() + 7) != menu.labels.end())
     {
         menu.labels[GetTextOffset() + 7].SetPosition(1.25, y, 0.5);
     }
@@ -159,7 +158,7 @@ void  KPstateTutorial3::MouseClick(KPstateContext *pContext,
                                    tMouseButton button, tMouseEvent event,
                                    int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {
@@ -180,7 +179,7 @@ void  KPstateTutorial3::MouseClick(KPstateContext *pContext,
 
 tKPMenuState KPstateTutorial3::ESCKeyAction(KPstateContext *pContext) const
 {
-    const KPnode &node = pContext->GetNodes().GetRootNode();
+    const auto &node = pContext->GetNodes().GetRootNode();
     pContext->GetBoardView().SetBoard(node.GetBoard());
     pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
     pContext->GetCamera().SetRoundtrip(true);
@@ -196,7 +195,7 @@ void KPstateTutorial3::ContinueWithNextState(KPstateContext *pContext,
         return;
     }
 
-    const KPnode &node = pContext->GetNodes().GetRootNode();
+    const auto &node = pContext->GetNodes().GetRootNode();
     pContext->GetBoardView().SetBoard(node.GetBoard());
     pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
     pContext->GetCamera().SetRoundtrip(true);
@@ -277,5 +276,4 @@ void KPstateTutorial3::PlayAudioForInitialize(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().PlayAudio(KP_SND_TUTORIALNEXT);
 }
-
 

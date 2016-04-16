@@ -54,7 +54,7 @@ void KPSdl2UserInterface::SetWindowMode(bool isfullscreen) const
 {
     if (window != NULL && CanToggleFullScreen())
     {
-        Uint32 flags = isfullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0;
+        auto flags = isfullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0;
         SDL_SetWindowFullscreen(window, flags);
     }
 }
@@ -71,9 +71,9 @@ void KPSdl2UserInterface::SetWindowSize(int width, int height) const
         // Try to reposition the new window centered over the old window
         // Ignore if this is not possible.
         SDL_Rect rect;
-        int index, result, x, y, oldX, oldY, diff;
+        int oldX, oldY;
 
-        index = SDL_GetWindowDisplayIndex(window);
+        auto index = SDL_GetWindowDisplayIndex(window);
 
         if (index < 0)
         {
@@ -81,7 +81,7 @@ void KPSdl2UserInterface::SetWindowSize(int width, int height) const
             return;
         }
 
-        result = SDL_GetDisplayBounds(index, &rect);
+        auto result = SDL_GetDisplayBounds(index, &rect);
 
         if (result < 0)
         {
@@ -91,15 +91,15 @@ void KPSdl2UserInterface::SetWindowSize(int width, int height) const
 
         SDL_GetWindowPosition(window, &oldX, &oldY);
 
-        x = oldX - (width - oldWidth) / 2;
-        y = oldY - (height - oldHeight) / 2;
+        auto x = oldX - (width - oldWidth) / 2;
+        auto y = oldY - (height - oldHeight) / 2;
 
         if (x < rect.x)
         {
             x = rect.x;
         }
 
-        diff = x + width - rect.x - rect.w;
+        auto diff = x + width - rect.x - rect.w;
 
         if (diff > 0)
         {
@@ -124,10 +124,9 @@ void KPSdl2UserInterface::SetWindowSize(int width, int height) const
 
 void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
-    int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+    auto flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
     SDL_version compiled;
     SDL_version linked;
-    const SDL_version *pVersion;
     std::stringstream message;
 
     SDL_VERSION(&compiled);
@@ -145,7 +144,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     LOG6("SDL Header version: ",
          SDL_MAJOR_VERSION, '.', SDL_MINOR_VERSION, '.', SDL_PATCHLEVEL);
     LOG2("SDL Revision: ", SDL_GetRevision());
-    pVersion = Mix_Linked_Version();
+    auto pVersion = Mix_Linked_Version();
     LOG6("SDL_mixer Linked version: ",
          static_cast<unsigned int>(pVersion->major), '.',
          static_cast<unsigned int>(pVersion->minor), '.',
@@ -207,7 +206,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     // Do updates synchronized with VSync
     SDL_GL_SetSwapInterval(1);
 
-    GLenum glewReturn = glewInit();
+    auto glewReturn = glewInit();
 
     if (glewReturn != GLEW_OK)
     {
@@ -232,7 +231,6 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
 void KPSdl2UserInterface::DebugPrintOpenGLContextVersion() const
 {
-    size_t index = 0;
     int major = 0;
     int minor = 0;
     int profile = 0;
@@ -246,6 +244,7 @@ void KPSdl2UserInterface::DebugPrintOpenGLContextVersion() const
         "SDL_GL_CONTEXT_PROFILE_CORE", "SDL_GL_CONTEXT_PROFILE_COMPATIBILITY",
         "SDL_GL_CONTEXT_PROFILE_ES", "<unknown>"
     };
+    decltype(sizeof(profile2Index)) index = 0;
 
     SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
     SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
@@ -266,7 +265,7 @@ void KPSdl2UserInterface::DebugPrintOpenGLContextVersion() const
 void KPSdl2UserInterface::MainLoop()
 {
     // This is the event loop
-    bool done = false;
+    auto done = false;
     unsigned char key;
 
     while (! done)
@@ -364,7 +363,7 @@ int KPSdl2UserInterface::GetValue(int what) const
 bool KPSdl2UserInterface::IsWindowResolutionSupported(
     int width, int height) const
 {
-    int index, result;
+    int index;
     SDL_Rect rect;
 
     if (window == NULL)
@@ -383,7 +382,7 @@ bool KPSdl2UserInterface::IsWindowResolutionSupported(
         return false;
     }
 
-    result = SDL_GetDisplayBounds(index, &rect);
+    auto result = SDL_GetDisplayBounds(index, &rect);
 
     if (result < 0)
     {

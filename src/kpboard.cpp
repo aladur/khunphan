@@ -35,10 +35,10 @@ KPboard::KPboard()
 {
     id = 0;
 
-    for (int i = 0; i < TOKEN_MAX; ++i)
+    for (auto index = 0; index < TOKEN_MAX; ++index)
     {
-        position[i].x = 0;
-        position[i].y = 0;
+        position[index].x = 0;
+        position[index].y = 0;
     }
 
     memset(tokenID, TK_EMPTY, sizeof(tokenID));
@@ -48,10 +48,10 @@ KPboard::KPboard(const KPboard &src)
 {
     id = 0;
 
-    for (int i = 0; i < TOKEN_MAX; ++i)
+    for (auto index = 0; index < TOKEN_MAX; ++index)
     {
-        position[i].x = src.position[i].x;
-        position[i].y = src.position[i].y;
+        position[index].x = src.position[index].x;
+        position[index].y = src.position[index].y;
     }
 
     memcpy(tokenID, src.tokenID, sizeof(tokenID));
@@ -76,9 +76,9 @@ inline void KPboard::SetPosition(tKPTokenID aTokenId, int x, int y)
         throw std::invalid_argument("x or y out of range");
     }
 
-    for (int i = 0; i < GetXExtend(aTokenId); i++)
+    for (auto i = 0; i < GetXExtend(aTokenId); i++)
     {
-        for (int j = 0; j < GetYExtend(aTokenId); j++)
+        for (auto j = 0; j < GetYExtend(aTokenId); j++)
         {
             tokenID[x + i][y + j] = aTokenId;
         }
@@ -101,13 +101,12 @@ bool KPboard::Move(tKPTokenID aTokenId, tKPDirection direction)
         return false;
     }
 
-    short unsigned int x, y, xExtend, yExtend;
-    short unsigned int i, j;
-
-    x = position[aTokenId].x;
-    y = position[aTokenId].y;
-    xExtend = GetXExtend(aTokenId);
-    yExtend = GetYExtend(aTokenId);
+    auto x = position[aTokenId].x;
+    auto y = position[aTokenId].y;
+    auto xExtend = GetXExtend(aTokenId);
+    auto yExtend = GetYExtend(aTokenId);
+    decltype(xExtend) i;
+    decltype(yExtend) j;
 
     switch (direction)
     {
@@ -231,13 +230,11 @@ bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection direction) const
         return false;
     }
 
-    short unsigned int x, y, xExtend, yExtend;
-    short unsigned int i;
-
-    x = position[aTokenId].x;
-    y = position[aTokenId].y;
-    xExtend = GetXExtend(aTokenId);
-    yExtend = GetYExtend(aTokenId);
+    auto x = position[aTokenId].x;
+    auto y = position[aTokenId].y;
+    auto xExtend = GetXExtend(aTokenId);
+    auto yExtend = GetYExtend(aTokenId);
+    decltype(xExtend) i;
 
     switch (direction)
     {
@@ -317,9 +314,9 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
 {
     std::vector<KPboard::KPmove> moves;
 
-    for (int i = 0; i < HORIZONTAL_MAX; i++)
+    for (auto i = 0; i < HORIZONTAL_MAX; i++)
     {
-        for (int j = 0; j < VERTICAL_MAX; j++)
+        for (auto j = 0; j < VERTICAL_MAX; j++)
         {
             tKPTokenID token;
 
@@ -389,9 +386,9 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
 
 void KPboard::print(std::ostream &os) const
 {
-    for (int j = 0; j < VERTICAL_MAX; j++)
+    for (auto j = 0; j < VERTICAL_MAX; j++)
     {
-        for (int i = 0; i < HORIZONTAL_MAX; i++)
+        for (auto i = 0; i < HORIZONTAL_MAX; i++)
         {
             os << std::setw(2) << static_cast<int>(tokenID[i][j]) << ' ';
         }
@@ -411,23 +408,21 @@ QWord KPboard::GetID() const
         return id;
     }
 
-    unsigned short x, y;
-    unsigned short greens, whites_v;
-    unsigned short index[TOKEN_MAX];
+    int index[TOKEN_MAX];
     bool assigned[TOKEN_MAX];
 
-    for (x = 0; x < TOKEN_MAX; x++)
+    for (auto x = 0; x < TOKEN_MAX; x++)
     {
         index[x]    = 0;
         assigned[x] = false;
     }
 
-    greens   = TK_GREEN1;
-    whites_v = TK_WHITE1;
+    auto greens = TK_GREEN1;
+    auto whites_v = TK_WHITE1;
 
-    for (y = 0; y < VERTICAL_MAX; y++)
+    for (auto y = 0; y < VERTICAL_MAX; y++)
     {
-        for (x = 0; x < HORIZONTAL_MAX; x++)
+        for (auto x = 0; x < HORIZONTAL_MAX; x++)
         {
             if (tokenID[x][y] != TK_EMPTY && !assigned[tokenID[x][y]])
             {
@@ -437,14 +432,16 @@ QWord KPboard::GetID() const
                     case TK_GREEN2:
                     case TK_GREEN3:
                     case TK_GREEN4:
-                        index[greens++] = (x << 3) | y;
+                        index[greens] = (x << 3) | y;
+                        ++greens;
                         break;
 
                     case TK_WHITE1:
                     case TK_WHITE2:
                     case TK_WHITE3:
                     case TK_WHITE4:
-                        index[whites_v++] = (x << 3) | y;
+                        index[whites_v] = (x << 3) | y;
+                        ++whites_v;
                         break;
 
                     case TK_WHITE5:

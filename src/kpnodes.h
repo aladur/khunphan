@@ -56,7 +56,7 @@ public:
     template<typename F>
     void Iterate(F &f)
     {
-        for (size_t index = 0; index < ids.size(); ++index)
+        for (decltype(ids.size()) index = 0; index < ids.size(); ++index)
         {
             f.Iterate(GetNodeFor(ids[index]));
         }

@@ -157,7 +157,7 @@ void KPGlutUserInterface::OpenWindow(int argc, char **argv)
          glutVersion          % 100);
 #endif
 #ifdef OPENGLUT
-    int glutVersion = glutGet(GLUT_VERSION);
+    auto glutVersion = glutGet(GLUT_VERSION);
     LOG6("OPENGLUT Version ",
          (glutVersion / 10000) % 100, '.',
          (glutVersion /   100) % 100, '.',
@@ -288,7 +288,7 @@ void KPGlutUserInterface::MouseClick(int button, int state, int x, int y)
 {
     tMouseEvent  kpEvent;
     tMouseButton kpButton;
-    bool isValid = true;
+    auto isValid = true;
 
     switch (button)
     {

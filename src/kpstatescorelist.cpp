@@ -37,16 +37,14 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
-    KPmenu &menu = pContext->GetMenu();
+    auto &menu = pContext->GetMenu();
 
-    unsigned int i;
-    unsigned int max;
     std::string  Name;
     unsigned int PlayTime;
     unsigned int Moves;
     KPscore scoreList;
 
-    max = static_cast<unsigned int>(scoreList.GetEntryCount());
+    auto max = scoreList.GetEntryCount();
 
     if (max > 10)
     {
@@ -61,18 +59,16 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_SCORELIST].SetPosition(8, 8.5, 1, A_CENTERED);
     menu.labels[T_SCORELIST].SetFullyVisible();
 
-    float y = 7.5;
+    auto y = 7.5f;
     menu.labels[T_S_NAME].SetPosition(2, y, 0.7f);
     menu.labels[T_S_PLAYTIME].SetPosition(8, y, 0.7f);
     menu.labels[T_S_MOVES].SetPosition(11, y, 0.7f);
 
     y -= 0.7f;
 
-    for (i = 0; i < max; i++)
+    for (decltype(max) i = 0; i < max; i++)
     {
-        tIdToLabel::const_iterator it;
-
-        it = menu.labels.find(T_S_NAME1 + i);
+        auto it = menu.labels.find(T_S_NAME1 + i);
 
         if (it == menu.labels.end())
         {
@@ -120,7 +116,7 @@ void  KPstateScoreList::MouseClick(KPstateContext *pContext,
                                    tMouseButton button, tMouseEvent event,
                                    int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {

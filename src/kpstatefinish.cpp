@@ -37,7 +37,7 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
-    KPmenu &menu = pContext->GetMenu();
+    auto &menu = pContext->GetMenu();
 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(4.5, 4.5, 11.5, 8.5);
 
@@ -57,7 +57,7 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext) const
 void  KPstateFinish::MouseClick(KPstateContext *pContext, tMouseButton button,
                                 tMouseEvent event, int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {

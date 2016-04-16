@@ -171,7 +171,7 @@ void Camera::SetTargetPosition(float tgtPosx, float tgtPosy, float tgtPosz,
 // duration is the time since the last call to Animate() in ms
 void Camera::Animate(unsigned int duration)
 {
-    for (unsigned int i = 0; i < duration / 10; i++)
+    for (decltype(duration) i = 0; i < duration / 10; i++)
     {
 
         if (target_Beta - Beta < -180)
@@ -219,7 +219,7 @@ void Camera::Draw(int x /* = -1 */, int y /* = -1 */) const
 
     if (x >= 0 && y >= 0)        // only necessary in selection mode:
     {
-        GLint   viewport[4];
+        GLint viewport[4];
 
         glGetIntegerv(GL_VIEWPORT, viewport);
         gluPickMatrix(x, (viewport[3] - y), 1.0f, 1.0f, viewport);
@@ -244,9 +244,9 @@ void Camera::SetPosition(int index)
 
 void Camera::RecalculateViewFrustum()
 {
-    GLfloat ax = fabs(Pos_x);
-    GLfloat ay = fabs(Pos_y);
-    GLfloat az = Pos_z;
+    auto ax = fabs(Pos_x);
+    auto ay = fabs(Pos_y);
+    auto az = Pos_z;
 
     if (ax < 150)
     {

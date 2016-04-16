@@ -36,9 +36,9 @@ void KPstateSelectLanguage::Initialize(KPstateContext *pContext,
 
 void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
 {
-    KPstate::UpdateDisplay(pContext);
+    auto &menu = pContext->GetMenu();
 
-    KPmenu &menu = pContext->GetMenu();
+    KPstate::UpdateDisplay(pContext);
 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 2.5, 14, 8.5);
 
@@ -48,9 +48,9 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_SELECTLANGUAGE].SetPosition(8, 8, 1, A_CENTERED);
     menu.labels[T_SELECTLANGUAGE].SetFullyVisible();
 
-    float Pos_y = 7;
+    auto Pos_y = 7.0f;
 
-    for (int i = T_LANGUAGE1; i <= T_LANGUAGE_MAX; i++)
+    for (int i = T_LANGUAGE1; i <= T_LANGUAGE_MAX; ++i)
     {
         if (menu.labels.find(i) != menu.labels.end())
         {
@@ -73,7 +73,7 @@ void KPstateSelectLanguage::MouseClick(KPstateContext *pContext,
                                        tMouseButton button, tMouseEvent event,
                                        int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {
@@ -110,9 +110,8 @@ void KPstateSelectLanguage::SetLanguage(KPstateContext *pContext,
     LOG1("Loading language");
 
     pContext->GetMenu().LoadLanguage(Language);
-    tIdToLabel::iterator it;
 
-    for (it = pContext->GetMenu().labels.begin();
+    for (auto it = pContext->GetMenu().labels.begin();
          it != pContext->GetMenu().labels.end(); ++it)
     {
         it->second.RecreateDisplayList();

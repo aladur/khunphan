@@ -32,9 +32,9 @@
 void KPstateTutorial1::Initialize(KPstateContext *pContext,
                                   const KPstate *pPreviousState)
 {
-    KPstate::Initialize(pContext, pPreviousState);
+    auto &menu = pContext->GetMenu();
 
-    KPmenu &menu = pContext->GetMenu();
+    KPstate::Initialize(pContext, pPreviousState);
 
     menu.SaveLastStateId(pPreviousState->GetId());
 
@@ -58,9 +58,9 @@ void KPstateTutorial1::Initialize(KPstateContext *pContext,
 
 void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext) const
 {
-    KPstate::UpdateDisplay(pContext);
+    auto &menu = pContext->GetMenu();
 
-    KPmenu &menu = pContext->GetMenu();
+    KPstate::UpdateDisplay(pContext);
 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(.5, 4.0, 15.5, 11);
 
@@ -71,7 +71,7 @@ void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_TUTORIAL1].SetPosition(8, 10.5, 1.0, A_CENTERED);
     menu.labels[T_TUTORIAL1].SetFullyVisible();
 
-    float y = 9.5;
+    auto y = 9.5f;
     menu.labels[T_TUTORIAL1_01].SetPosition(1.25, y, 0.7f);
     y -= 1.0;
     menu.labels[T_TUTORIAL1_02].SetPosition(1.25, y, 0.5);
@@ -134,7 +134,7 @@ void  KPstateTutorial1::MouseClick(KPstateContext *pContext,
                                    tMouseButton button, tMouseEvent event,
                                    int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {

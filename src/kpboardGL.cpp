@@ -72,7 +72,7 @@ KPboardView::KPboardView(const KPboard &currentBoard,
         throw std::runtime_error("Error creating a display list");
     }
 
-    for (int i = 0; i < MAX_BOARD_TEXTURES; i++)
+    for (auto i = 0; i < MAX_BOARD_TEXTURES; i++)
     {
         textureId[i] = 0;
     }
@@ -97,13 +97,14 @@ void KPboardView::SetBoard(const KPboard &board)
     current = board;
 }
 
-bool KPboardView::CreateTexture(unsigned int TextureSize, const char *pFile,
+bool KPboardView::CreateTexture(unsigned int TextureSize,
+                                const std::string &file,
                                 bool Nearest, unsigned int *pId)
 {
     // define a Display List WOOD_TEXTURE containing light and texture stuff
     BTexture *pTexture = new BTexture;
 
-    const char *texels = pTexture->ReadTextureFromFile(pFile, 0);
+    auto *texels = pTexture->ReadTextureFromFile(file, 0);
 
     if (texels == NULL)
     {
@@ -114,13 +115,13 @@ bool KPboardView::CreateTexture(unsigned int TextureSize, const char *pFile,
     texels = pTexture->Rescale(BTexture::GetExpToBase2(TextureSize),
                                TEX_SMALLER | TEX_RESCALE_AVG);
 
-    unsigned int width  = pTexture->GetWidth();
-    unsigned int height = pTexture->GetHeight();
+    auto width  = pTexture->GetWidth();
+    auto height = pTexture->GetHeight();
 
     if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
     {
         message(mtWarning, "Width or Height of '%s' is not a power of 2\n",
-                pFile);
+                file.c_str());
     }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -149,7 +150,7 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
                                      bool         always /*=true*/)
 {
     // If Textures are enabled read them from PNG files
-    int i = 0;
+    auto i = 0;
 
     if (textureId[0] == 0)
     {
@@ -161,19 +162,17 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
         textureSource = new std::string[MAX_BOARD_TEXTURES];
     }
 
-    std::string file;
-
     while (TextureSize && (i < MAX_BOARD_TEXTURES))
     {
-        file = TextureDirectory + TextureName +
-               PATHSEPARATORSTRING + textureFile[i];
+        auto file = TextureDirectory + TextureName +
+                    PATHSEPARATORSTRING + textureFile[i];
 
         if (!always && file == textureSource[i])
         {
             continue;
         }
 
-        if (!CreateTexture(TextureSize, file.c_str(), Nearest, &textureId[i]))
+        if (!CreateTexture(TextureSize, file, Nearest, &textureId[i]))
         {
             file = TextureDirectory + textureFile[i];
 
@@ -182,7 +181,7 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
                 continue;
             }
 
-            if (!CreateTexture(TextureSize, file.c_str(), Nearest,
+            if (!CreateTexture(TextureSize, file, Nearest,
                                &textureId[i]))
             {
                 std::stringstream message;
@@ -210,7 +209,7 @@ void KPboardView::Initialize(const std::string &TextureDirectory,
         GLfloat mat_ambient[]  = {0.50f, 0.50f, 0.50f, 1.0f};
         GLfloat mat_diffuse[]  = {0.60f, 0.60f, 0.60f, 1.0f};
         GLfloat mat_specular[] = {0.15f, 0.15f, 0.15f, 1.0f};
-        GLfloat mat_shininess  = 20.0f;
+        auto mat_shininess  = 20.0f;
 
         glDisable(GL_TEXTURE_2D);
 
@@ -315,16 +314,15 @@ float KPboardView::getRnd(void) const
 void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
                                float z0, bool WithTexture /* = true */) const
 {
-    GLfloat tx0, ty0, tdx, tdy;
     GLfloat nv[] = {0, 0, 0};
 
     glBegin(GL_QUADS);
 
     // Top Face
-    tx0 = getRnd();
-    ty0 = getRnd();
-    tdx = tx0 + dx / DT;
-    tdy = ty0 + dy / DT;
+    auto tx0 = getRnd();
+    auto ty0 = getRnd();
+    auto tdx = tx0 + dx / DT;
+    auto tdy = ty0 + dy / DT;
     nv[0] = 0;
     nv[1] = 0;
     nv[2] = 1;
@@ -601,8 +599,7 @@ void KPboardView::Draw(bool render /* = true */) const
     return;
 #else
 
-    GLfloat    x0, y0;
-    tKPTokenID i;
+    GLfloat x0, y0;
 
     // set material
     glCallList(DisplayList + BRONZE_MATERIAL);
@@ -613,7 +610,7 @@ void KPboardView::Draw(bool render /* = true */) const
     // Loop for drawing all tokens according to their position on the board
     // One token may be in animation mode or not
     ///////////////////////////////////////////////////////////////////////
-    i = TK_GREEN1;
+    auto i = TK_GREEN1;
 
     do
     {
@@ -778,9 +775,8 @@ void KPboardView::Animate(unsigned int duration)
     }
     else
     {
-        GLfloat localFactor;
-
-        localFactor = 0.5f - 0.5f * cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
+        auto localFactor = 0.5f - 0.5f *
+                           cos(M_PIf * Time / TOTAL_ANIMATIONTIME);
         ax = (new_x - old_x) * localFactor + old_x;
         ay = (new_y - old_y) * localFactor + old_y;
     }
@@ -798,40 +794,40 @@ bool KPboardView::Move(tKPTokenID id, tKPDirection d)
         return false;    // Ignore if Animation in progress
     }
 
-    short int i = 0;
-    tKPDirection direction = MOVE_NO;
+    auto possibleMoves = 0;
+    auto direction = MOVE_NO;
 
     // count the possibilities token id can move to in i
     if (current.CanMove(id, MOVE_UP))
     {
-        i++;
+        possibleMoves++;
         direction = MOVE_UP;
     }
 
     if (current.CanMove(id, MOVE_DOWN))
     {
-        i++;
+        possibleMoves++;
         direction = MOVE_DOWN;
     }
 
     if (current.CanMove(id, MOVE_LEFT))
     {
-        i++;
+        possibleMoves++;
         direction = MOVE_LEFT;
     }
 
     if (current.CanMove(id, MOVE_RIGHT))
     {
-        i++;
+        possibleMoves++;
         direction = MOVE_RIGHT;
     }
 
-    if (i == 0)
+    if (possibleMoves == 0)
     {
         return false;    // token is not movable at all
     }
 
-    if (i >= 2)
+    if (possibleMoves >= 2)
     {
         // more than one possibility: use mouse motion to get
         // direction
@@ -873,8 +869,8 @@ bool KPboardView::IsSolved()
 #ifdef DRAW_TEST
 void KPboardView::DrawCuboid(float deltaAngle) const// Only for test purposes
 {
-    static float rquad = 0.0;
-    GLint without_camera = 0;  // switch to 1 to test without any camera
+    static auto rquad = 0.0f;
+    auto without_camera = 0;  // switch to 1 to test without any camera
     // properties
 
     glPushMatrix();
@@ -916,7 +912,7 @@ const // Only for test purposes
 tKPTokenID KPboardView::Selection(const Camera *pCamera, int x, int y) const
 {
     GLuint  buffer[BUF_SIZE]; // Set Up A Selection Buffer
-    tKPTokenID choose = TK_EMPTY;
+    auto choose = TK_EMPTY;
 
     glSelectBuffer(BUF_SIZE, buffer);
     glRenderMode(GL_SELECT); // Change to Selection mode
@@ -926,14 +922,14 @@ tKPTokenID KPboardView::Selection(const Camera *pCamera, int x, int y) const
     pCamera->Draw(x, y);
     Draw(true); // Draw the tokens (not the board)
 
-    GLint hits = glRenderMode(GL_RENDER);  // Change back to render mode
+    auto hits = glRenderMode(GL_RENDER);  // Change back to render mode
 
     if (hits > 0)
     {
         choose = static_cast<tKPTokenID>(buffer[3]);
-        int depth = buffer[1];
+        auto depth = buffer[1];
 
-        for (int loop = 1; loop < hits; loop++)
+        for (auto loop = 1; loop < hits; loop++)
         {
             if (buffer[loop * 4 + 1] < GLuint(depth))
             {

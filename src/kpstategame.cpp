@@ -36,8 +36,8 @@ void KPstateGame::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, pPreviousState);
 
-    KPConfig &config = pContext->GetConfig();
-    KPStatistics &statistics = pContext->GetStatistics();
+    auto &config = pContext->GetConfig();
+    auto &statistics = pContext->GetStatistics();
 
     pContext->SetPause(false);
 
@@ -46,7 +46,7 @@ void KPstateGame::Initialize(KPstateContext *pContext,
     if (config.SavedGame != 0)
     {
         // In this case restore a already started game
-        const KPnode &node = pContext->GetNodes().GetNodeFor(config.SavedGame);
+        const auto &node = pContext->GetNodes().GetNodeFor(config.SavedGame);
         pContext->GetBoardView().SetBoard(node.GetBoard());
         statistics.SetPlayingTime(config.PlayTime);
         statistics.SetEventCounter(MOVE_COUNTER, config.Moves);
@@ -55,7 +55,7 @@ void KPstateGame::Initialize(KPstateContext *pContext,
     }
     else
     {
-        const KPnode &node = pContext->GetNodes().GetRootNode();
+        const auto &node = pContext->GetNodes().GetRootNode();
         pContext->GetBoardView().SetBoard(node.GetBoard());
     }
 
@@ -69,8 +69,8 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
-    KPmenu &menu     = pContext->GetMenu();
-    KPConfig &config = pContext->GetConfig();
+    auto &menu = pContext->GetMenu();
+    auto &config = pContext->GetConfig();
 
     pContext->GetUserInterface().SetSoundVolume(config.SoundOn ?
             config.SoundVolume : 0);
@@ -79,8 +79,8 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[PLATE_LOGO].SetPosition(0, 11, 4, 12);
     menu.plates[PLATE_LOGO].SetSignal(S_LOGO);
 
-    QWord id = pContext->GetBoardView().GetBoardId();
-    int movesToSolve = pContext->GetNodes().GetNodeFor(id).GetMovesToSolve();
+    auto id = pContext->GetBoardView().GetBoardId();
+    auto movesToSolve = pContext->GetNodes().GetNodeFor(id).GetMovesToSolve();
     menu.labels[T_MINMOVECOUNT].FormatText(1, movesToSolve);
     menu.labels[T_MOVECOUNT].FormatText(
         1, pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
@@ -193,9 +193,9 @@ void  KPstateGame::MouseClick(KPstateContext *pContext,
                               tMouseButton button, tMouseEvent event,
                               int x, int y)
 {
-    KPConfig &config = pContext->GetConfig();
+    auto &config = pContext->GetConfig();
 
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     if (!pContext->IsPause() && !pContext->GetBoardView().IsSolved())
     {
@@ -272,7 +272,7 @@ void KPstateGame::GameIsSolved(KPstateContext *pContext) const
 
 void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */) const
 {
-    KPmenu &menu = pContext->GetMenu();
+    auto &menu = pContext->GetMenu();
 
     pContext->SetPause(On);
 
@@ -330,7 +330,7 @@ void KPstateGame::Cheat1(KPstateContext *pContext) const
 
 void KPstateGame::SaveGameStatus(KPstateContext *pContext) const
 {
-    KPConfig &config = pContext->GetConfig();
+    auto &config = pContext->GetConfig();
     KPStatistics &statistics = pContext->GetStatistics();
 
     config.SavedGame     = pContext->GetBoardView().GetBoardId();

@@ -62,9 +62,9 @@ void KhunPhanApp::InitializeSolutionTree()
 
     pContext->GetNodes().CalculateSolveCount();
 
-    size_t positions = pContext->GetNodes().GetSize();
+    auto positions = pContext->GetNodes().GetSize();
     pContext->GetNodes().Iterate(fct);
-    int solutionsCount = fct.GetCount();
+    auto solutionsCount = fct.GetCount();
 
     LOG2("Total positions found: ", positions);
     LOG2("Total solutions found: ", solutionsCount);

@@ -34,7 +34,7 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
                                       tMouseButton button, tMouseEvent event,
                                       int x, int y)
 {
-    static tKPTokenID token = TK_EMPTY;
+    static auto token = TK_EMPTY;
 
     if (button == KP_LEFT_MB && event == KP_BUTTON_PRESS)
     {
@@ -52,8 +52,8 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
         {
             // calculate mouse direction
             tKPDirection mouseDirection = MOVE_NO;
-            int diff_x = x - mouse_x;
-            int diff_y = y - mouse_y;
+            auto diff_x = x - mouse_x;
+            auto diff_y = y - mouse_y;
 
             if (abs(diff_x) - abs(diff_y) > 1)
             {

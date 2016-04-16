@@ -53,7 +53,7 @@ KPnode &KPnodes::Add(KPnode &node)
             "Calling Add is not allowed in read-only mode.");
     }
 
-    QWord id = node.GetBoard().GetID();
+    auto id = node.GetBoard().GetID();
 
     ids.push_back(id);
     nodesForId[id] = node;
@@ -67,9 +67,9 @@ KPnode &KPnodes::Add(KPnode &node)
 // with Includes() if a board id is available.
 KPnode &KPnodes::GetNodeFor(QWord id)
 {
-    tNodesForId::iterator it;
+    auto it = nodesForId.find(id);
 
-    if ((it = nodesForId.find(id)) != nodesForId.end())
+    if (it != nodesForId.end())
     {
         return it->second;
     }
@@ -81,7 +81,7 @@ KPnode &KPnodes::GetNodeFor(QWord id)
 
 void KPnodes::CreateSolveTree(KPnode &rootNode)
 {
-    size_t index;
+    decltype(ids.size()) index;
 
     if (isReadOnly)
     {
@@ -95,7 +95,7 @@ void KPnodes::CreateSolveTree(KPnode &rootNode)
 
     for (index = 0; index < ids.size(); ++index)
     {
-        KPnode &node = GetNodeFor(ids[index]);
+        auto &node = GetNodeFor(ids[index]);
 
         node.AddNextMoves(*this);
     }
@@ -113,11 +113,10 @@ void KPnodes::CalculateSolveCount(void)
     BTime time;
 
     time.ResetRelativeTime();
-    tIds::const_iterator it;
 
-    for (it = ids.begin(); it != ids.end(); ++it)
+    for (auto it = ids.cbegin(); it != ids.cend(); ++it)
     {
-        KPnode &node = GetNodeFor(*it);
+        auto &node = GetNodeFor(*it);
 
         // recursively modify the solve count
         node.RecursiveUpdateSolveCount(0, true);
@@ -129,9 +128,7 @@ void KPnodes::CalculateSolveCount(void)
 
 void KPnodes::PrintSolveCount(std::ostream &os) const
 {
-    tNodesForId::const_iterator it;
-
-    for (it = nodesForId.begin(); it != nodesForId.end(); ++it)
+    for (auto it = nodesForId.begin(); it != nodesForId.end(); ++it)
     {
         os << ' ' << it->second.GetMovesToSolve() << std::endl;
     }

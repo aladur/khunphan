@@ -45,13 +45,13 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, pPreviousState);
 
-    KPConfig &config = pContext->GetConfig();
+    auto &config = pContext->GetConfig();
 
     E_WindowWidth = config.ScreenXResolution;
     E_UserInterface = config.UserInterface;
     E_FullScreen = config.FullScreen;
     Quality = 0;
-    std::vector<std::string> textureNameList = config.GetTextureNames();
+    auto textureNameList = config.GetTextureNames();
 
     if (textureNameList.empty())
     {
@@ -60,9 +60,11 @@ void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
 
     std::sort(textureNameList.begin(), textureNameList.end());
 
-    for (unsigned int i = 0; i < textureNameList.size(); i++)
+    decltype(textureNameList.size()) index;
+
+    for (index = 0; index < textureNameList.size(); ++index)
     {
-        if (pContext->GetMenu().labels.find(T_TEXTURE1 + i) ==
+        if (pContext->GetMenu().labels.find(T_TEXTURE1 + index) ==
             pContext->GetMenu().labels.end())
         {
             std::stringstream message;
@@ -84,10 +86,10 @@ void KPstateGraphicSettings::UpdateQuality(KPstateContext *pContext)
 
 int KPstateGraphicSettings::GetCurrentQuality(KPstateContext *pContext)
 {
-    KPConfig &config = pContext->GetConfig();
-    bool canToggleFullScreen =
+    auto &config = pContext->GetConfig();
+    auto canToggleFullScreen =
         pContext->GetUserInterface().CanToggleFullScreen();
-    int currentQuality = 0;
+    auto currentQuality = 0;
 
     if (E_FullScreen == false &&
         E_WindowWidth == 640 &&
@@ -144,15 +146,14 @@ int KPstateGraphicSettings::GetCurrentQuality(KPstateContext *pContext)
 
 void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 {
+    auto &config = pContext->GetConfig();
+    auto &menu = pContext->GetMenu();
+
     KPstate::UpdateDisplay(pContext);
 
-    KPConfig &config = pContext->GetConfig();
-    KPmenu &menu     = pContext->GetMenu();
+    auto textureIndex = GetTextureIndex(pContext, config.TextureName);
 
-    int textureIndex = GetTextureIndex(pContext, config.TextureName);
-
-    float y;
-    float dy = 0.5;
+    auto dy = 0.5f;
 
     if (config.DisplayFPS)
     {
@@ -169,7 +170,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_GRAPHICS].SetPosition(12, 9, 1, A_RIGHT);
     menu.labels[T_GRAPHICS].SetFullyVisible();
 
-    y = 8.0f;
+    auto y = 8.0f;
     menu.labels[T_QUALITY].SetPosition(8, y, 1, A_RIGHT);
     menu.labels[T_QUALITY].SetSignal(S_TOGGLE_QUALITY);
     y = 7.4f;
@@ -267,16 +268,17 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 
     if (!E_FullScreen)
     {
-        int index;
         static const int windowResolutionLabels[] =
         {
             T_RES_640x480, T_RES_800x600, T_RES_1024x768,
             T_RES_1280x960, T_RES_1600x1200, T_RES_1920x1440
         };
 
-        if ((index = GetWindowWidthsIndex(E_WindowWidth)) >= 0)
+        auto index = GetWindowWidthsIndex(E_WindowWidth);
+
+        if (index >= 0)
         {
-            int windowResolutionLabel = windowResolutionLabels[index];
+            auto windowResolutionLabel = windowResolutionLabels[index];
 
             menu.labels[windowResolutionLabel].SetPosition(8.2f, y, 0.6f);
             menu.labels[windowResolutionLabel].SetSignal(S_TOGGLE_RESOLUTION);
@@ -453,7 +455,7 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
                                         tMouseButton button, tMouseEvent event,
                                         int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {
@@ -517,7 +519,7 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
 
         case S_BACK:
         {
-            tKPMenuState newState = SaveChanges(pContext);
+            auto newState = SaveChanges(pContext);
             pContext->ChangeState(newState);
         }
     }
@@ -526,9 +528,7 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
 tKPMenuState KPstateGraphicSettings::ESCKeyAction(
     KPstateContext *pContext) const
 {
-    tKPMenuState newState;
-
-    newState = SaveChanges(pContext);
+    auto newState = SaveChanges(pContext);
     return newState;
 }
 
@@ -538,11 +538,11 @@ tKPMenuState KPstateGraphicSettings::ESCKeyAction(
 
 tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
 {
-    bool ChangeNeedsToolRestart = false;
-    KPConfig &config = pContext->GetConfig();
-    bool canChangeWindowSize = pContext->GetUserInterface().
+    auto ChangeNeedsToolRestart = false;
+    auto &config = pContext->GetConfig();
+    auto canChangeWindowSize = pContext->GetUserInterface().
                                CanChangeWindowSize();
-    bool canToggleFullScreen = pContext->GetUserInterface().
+    auto canToggleFullScreen = pContext->GetUserInterface().
                                CanToggleFullScreen();
 
     if ((!canToggleFullScreen &&
@@ -595,7 +595,7 @@ void KPstateGraphicSettings::ToggleFPS(KPstateContext *pContext) const
 
 void KPstateGraphicSettings::ToggleAmbientLight(KPstateContext *pContext) const
 {
-    KPConfig &config = pContext->GetConfig();
+    auto &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     pContext->GetConfig().AmbientLight = !config.AmbientLight;
@@ -605,7 +605,7 @@ void KPstateGraphicSettings::ToggleAmbientLight(KPstateContext *pContext) const
 
 void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
 {
-    KPConfig &config = pContext->GetConfig();
+    auto &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
 
@@ -635,7 +635,7 @@ void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
 
 void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
 {
-    KPConfig &config = pContext->GetConfig();
+    auto &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
 
@@ -672,17 +672,15 @@ void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
 
 void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext) const
 {
-    KPConfig &config = pContext->GetConfig();
-    std::vector<std::string> textureNameList = config.GetTextureNames();
+    auto &config = pContext->GetConfig();
+    auto textureNameList = config.GetTextureNames();
 
     std::sort(textureNameList.begin(), textureNameList.end());
 
     if (textureNameList.size() > 1)
     {
-        std::vector<std::string>::const_iterator it;
-
-        it = std::find(textureNameList.begin(), textureNameList.end(),
-                       config.TextureName);
+        auto it = std::find(textureNameList.begin(), textureNameList.end(),
+                            config.TextureName);
 
         if (it == textureNameList.end())
         {
@@ -738,11 +736,11 @@ void KPstateGraphicSettings::ToggleScreenMode(KPstateContext *pContext)
 
 void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
 {
-    const KPUIBase &userIfc = pContext->GetUserInterface();
+    const auto &userIfc = pContext->GetUserInterface();
 
     userIfc.PlayAudio(KP_SND_CHANGESETTING);
 
-    int index = GetWindowWidthsIndex(E_WindowWidth);
+    auto index = GetWindowWidthsIndex(E_WindowWidth);
 
     if (index >= 0)
     {
@@ -791,7 +789,7 @@ void KPstateGraphicSettings::ToggleUserInterface(KPstateContext *pContext)
 
 void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
 {
-    KPConfig &config = pContext->GetConfig();
+    auto &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
 
@@ -819,7 +817,7 @@ void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
 void KPstateGraphicSettings::ToggleTextureInterpolation(
     KPstateContext *pContext) const
 {
-    KPConfig &config = pContext->GetConfig();
+    auto &config = pContext->GetConfig();
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     config.Nearest = !config.Nearest;
@@ -835,9 +833,9 @@ void KPstateGraphicSettings::ToggleTextureInterpolation(
 
 void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
 {
-    KPConfig &config = pContext->GetConfig();
-    bool E_FullScreen_before = E_FullScreen;
-    int E_WindowWidth_before = E_WindowWidth;
+    auto &config = pContext->GetConfig();
+    auto E_FullScreen_before = E_FullScreen;
+    auto E_WindowWidth_before = E_WindowWidth;
 
     pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
     UpdateQuality(pContext);
@@ -937,14 +935,13 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
 int KPstateGraphicSettings::GetTextureIndex(KPstateContext *pContext,
         std::string &TextureName) const
 {
-    std::vector<std::string> textureNameList =
-        pContext->GetConfig().GetTextureNames();
-    int index = 0;
+    auto textureNameList = pContext->GetConfig().GetTextureNames();
+    auto index = 0;
 
     std::sort(textureNameList.begin(), textureNameList.end());
-    std::vector<std::string>::const_iterator it = textureNameList.begin();
+    auto it = textureNameList.cbegin();
 
-    while (it != textureNameList.end() && *it != TextureName)
+    while (it != textureNameList.cend() && *it != TextureName)
     {
         index++;
         ++it;
@@ -961,8 +958,8 @@ int KPstateGraphicSettings::GetTextureIndex(KPstateContext *pContext,
 
 int KPstateGraphicSettings::GetWindowWidthsIndex(int width) const
 {
-    int index = 0;
-    const int maxSize = sizeof(windowWidths) / sizeof(windowWidths[0]);
+    auto maxSize = sizeof(windowWidths) / sizeof(windowWidths[0]);
+    decltype(maxSize) index = 0;
 
     for (index = 0; index < maxSize; ++index)
     {

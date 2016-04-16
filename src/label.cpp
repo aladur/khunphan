@@ -152,9 +152,7 @@ Label &Label::operator=(const Label &src)
 
 void Label::FadeOutAll()
 {
-    tActivated::iterator it;
-
-    for (it = activated.begin(); it != activated.end(); ++it)
+    for (auto it = activated.begin(); it != activated.end(); ++it)
     {
         (*it)->SetFadeOut();
     }
@@ -175,18 +173,19 @@ void Label::PreInitialize(const std::string &TextureName,
                           bool Nearest, const KPConfig &config)
 {
     BTexture texture;
-    std::string file1, file2;
-    const char *texels;
 
-    file1 = config.GetDirectory(KP_TEXTURE_DIR) + TextureName +
-            PATHSEPARATORSTRING + "characters.png";
-    file2 = config.GetDirectory(KP_TEXTURE_DIR) + "characters.png";
+    auto file1 = config.GetDirectory(KP_TEXTURE_DIR) + TextureName +
+                 PATHSEPARATORSTRING + "characters.png";
 
-    if ((texels = texture.ReadTextureFromFile(file1.c_str(),
-                  TEX_WITH_ALPHA)) == NULL)
+    auto *texels = texture.ReadTextureFromFile(file1, TEX_WITH_ALPHA);
+
+    if (texels == NULL)
     {
-        if ((texels = texture.ReadTextureFromFile(file2.c_str(),
-                      TEX_WITH_ALPHA)) == NULL)
+        auto file2 = config.GetDirectory(KP_TEXTURE_DIR) + "characters.png";
+
+        texels = texture.ReadTextureFromFile(file2, TEX_WITH_ALPHA);
+
+        if (texels == NULL)
         {
             std::stringstream message;
 
@@ -207,21 +206,21 @@ void Label::PreInitialize(const std::string &TextureName,
     {
         std::stringstream message;
 
-        message << "Error scaling texture from file '" << file2 << "'";
+        message << "Error scaling texture from file '" << TextureSource << "'";
         throw std::runtime_error(message.str());
     }
 
     texels = texture.Rescale(BTexture::GetExpToBase2(TextureSize),
                              TEX_SMALLER | TEX_RESCALE_AVG);
 
-    unsigned int width  = texture.GetWidth();
-    unsigned int height = texture.GetHeight();
+    auto width  = texture.GetWidth();
+    auto height = texture.GetHeight();
 
     if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
     {
         message(mtWarning,
                 "*** Warning: width or height of '%s' is not a power of 2\n",
-                file2.c_str());
+                TextureSource.c_str());
     }
 
     if (Texture == 0)
@@ -333,7 +332,7 @@ void Label::SetTextOrFormat(const std::string &textOrFormat)
 
 int Label::FormatText(int count, ...)
 {
-    int result = 0;
+    auto result = 0;
 
     if (!format.empty())
     {
@@ -505,9 +504,9 @@ void Label::StartAnimation()
 
 void Label::RecreateDisplayList()
 {
-    bool isForceRecreate = false;
+    auto isForceRecreate = false;
     int x, y;
-    const float w  = 1.0 / 16.0;
+    const auto w = 1.0f / 16.0f;
 
     if (!DisplayList)
     {
@@ -530,7 +529,7 @@ void Label::RecreateDisplayList()
 
     if (!maxWidth)
     {
-        AspectRatio   = 0.0;
+        AspectRatio = 0.0;
         GLuint c = 0;
         std::string::const_iterator it;
 
@@ -567,12 +566,12 @@ void Label::RecreateDisplayList()
     }
     else
     {
-        std::string::size_type start     = 0;
-        std::string::size_type Pos       = 0;
-        std::string::size_type lastSpace = 0;
-        GLint spaceCount                 = 0;
-        GLfloat lineWidth                = 0.0;
-        GLfloat lineWidthUntilLastSpace  = 0.0;
+        decltype(labelText.size()) start = 0;
+        decltype(start) Pos = 0;
+        decltype(start) lastSpace = 0;
+        auto spaceCount = 0;
+        auto lineWidth = 0.0f;
+        auto lineWidthUntilLastSpace = 0.0f;
 
         AspectRatio = 0.0;
         lineCount   = 0;
@@ -586,7 +585,7 @@ void Label::RecreateDisplayList()
             start      = Pos;
             spaceCount = 0;
             lastSpace  = 0;
-            lineWidth  = 0.0;
+            lineWidth  = 0.0f;
 
             while (Pos < labelText.size() && (lineWidth < maxWidth * 1.05))
             {
@@ -642,7 +641,7 @@ void Label::RecreateDisplayList()
             }
             else     // At the end: justify left
             {
-                GLfloat delta = 0;
+                auto delta = 0.0f;
 
                 if (lineWidth > maxWidth)
                 {
@@ -693,8 +692,8 @@ void Label::RecreateDisplayList()
 int Label::MouseEvent(tMouseButton button, tMouseEvent event,
                       int x_, int y_, KPUIBase &ui)
 {
-    GLfloat xf = 16.0f * x_ / ui.GetValue(KP_WINDOW_WIDTH);
-    GLfloat yf = 12.0f - 12.0f * y_ / ui.GetValue(KP_WINDOW_HEIGHT);
+    auto xf = 16.0f * x_ / ui.GetValue(KP_WINDOW_WIDTH);
+    auto yf = 12.0f - 12.0f * y_ / ui.GetValue(KP_WINDOW_HEIGHT);
 
     if (target_Alpha > 0.0 &&
         Signal != 0 &&

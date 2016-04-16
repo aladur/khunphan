@@ -62,12 +62,11 @@ void KPnode::AddNextMoves(KPnodes &nodes)
 
     if (!GetBoard().IsSolved() && childs.empty())
     {
-        std::vector<KPboard::KPmove> moves = board.GetPossibleMoves();
-        std::vector<KPboard::KPmove>::const_iterator it;
+        auto moves = board.GetPossibleMoves();
 
-        for (it = moves.begin(); it != moves.end(); ++it)
+        for (auto it = moves.cbegin(); it != moves.cend(); ++it)
         {
-            boardMoved = board;
+            auto boardMoved = board;
 
             boardMoved.Move(*it);
 
@@ -101,10 +100,9 @@ void KPnode::print(std::ostream &os, bool with_childs /* = false */) const
 
     if (with_childs)
     {
-        std::vector<KPnode *>::const_iterator it;
-        int i = 1;
+        auto i = 1;
 
-        for (it = childs.begin(); it != childs.end(); ++it)
+        for (auto it = childs.cbegin(); it != childs.cend(); ++it)
         {
             os << i << ". Child:" << std::endl;
             (*it)->print(os);
@@ -125,11 +123,9 @@ void KPnode::RecursiveUpdateSolveCount(int count, bool start)
     if ((start && (GetBoard().IsSolved())) ||
         (!start && (count <= 126) && (count < GetMovesToSolve())))
     {
-        std::vector<KPnode *>::iterator it;
-
         movesToSolve = count;
 
-        for (it = parents.begin(); it != parents.end(); ++it)
+        for (auto it = parents.cbegin(); it != parents.cend(); ++it)
         {
             (*it)->RecursiveUpdateSolveCount(count + 1, false);
         }

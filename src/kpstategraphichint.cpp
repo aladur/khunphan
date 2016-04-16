@@ -34,9 +34,9 @@ void KPstateGraphicHint::Initialize(KPstateContext *pContext,
 
 void KPstateGraphicHint::UpdateDisplay(KPstateContext *pContext) const
 {
-    KPstate::UpdateDisplay(pContext);
+    auto &menu = pContext->GetMenu();
 
-    KPmenu &menu = pContext->GetMenu();
+    KPstate::UpdateDisplay(pContext);
 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 3.5, 15, 8.5);
 
@@ -64,7 +64,7 @@ void  KPstateGraphicHint::MouseClick(KPstateContext *pContext,
                                      tMouseButton button, tMouseEvent event,
                                      int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {

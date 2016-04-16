@@ -49,8 +49,8 @@ unsigned long BTime::GetTimeMsl()
 #ifdef __linux__
 QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 {
-    QWord currentTime = GetTimeUsll();
-    QWord result = currentTime - lapTime;
+    auto currentTime = GetTimeUsll();
+    auto result = currentTime - lapTime;
 
     if (reset)
     {
@@ -62,8 +62,8 @@ QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 
 double BTime::GetRelativeTimeUsf(bool  reset /*= false*/)
 {
-    QWord currentTime = GetTimeUsll();
-    double result = static_cast<double>(currentTime - lapTime);
+    auto currentTime = GetTimeUsll();
+    auto result = static_cast<double>(currentTime - lapTime);
 
     if (reset)
     {
@@ -94,8 +94,8 @@ double BTime::GetTimeUsf()
 #ifdef _WIN32
 QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 {
-    QWord currentTime = GetTimeUsll();
-    QWord result = currentTime - lapTime;
+    auto currentTime = GetTimeUsll();
+    auto result = currentTime - lapTime;
 
     if (reset)
     {
@@ -107,8 +107,8 @@ QWord BTime::GetRelativeTimeUsll(bool reset /*= false*/)
 
 double BTime::GetRelativeTimeUsf(bool  reset /*= false*/)
 {
-    QWord currentTime = GetTimeUsll();
-    double result = (double)(SQWord)(currentTime - lapTime);
+    auto currentTime = GetTimeUsll();
+    auto result = (double)(SQWord)(currentTime - lapTime);
 
     if (reset)
     {
@@ -126,11 +126,12 @@ QWord BTime::GetTimeUsll()
     if (QueryPerformanceCounter(&count))
     {
         QueryPerformanceFrequency(&freq);
-        return (QWord)count.QuadPart * 1000000 / (QWord)freq.QuadPart;
+        return static_cast<QWord>(count.QuadPart) * 1000000 /
+               freq.QuadPart;
     }
     else
     {
-        return 0;
+        return static_cast<QWord>(0);
     }
 
 }
@@ -143,7 +144,8 @@ double BTime::GetTimeUsf()
     if (QueryPerformanceCounter(&count))
     {
         QueryPerformanceFrequency(&freq);
-        return (double)count.QuadPart * 1000000 / (double)freq.QuadPart;
+        return static_cast<QWord>(count.QuadPart) * 1000000 /
+               freq.QuadPart;
     }
     else
     {

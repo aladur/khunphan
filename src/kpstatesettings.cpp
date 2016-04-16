@@ -35,9 +35,9 @@ void KPstateSettings::Initialize(KPstateContext *pContext,
 
 void KPstateSettings::UpdateDisplay(KPstateContext *pContext) const
 {
-    KPstate::UpdateDisplay(pContext);
+    auto &menu = pContext->GetMenu();
 
-    KPmenu &menu = pContext->GetMenu();
+    KPstate::UpdateDisplay(pContext);
 
     menu.plates[PLATE_MENUBACKGROUND].SetPosition(4, 2.5, 12, 8.5);
     menu.plates[PLATE_LOGO].SetPosition(4, 9, 12, 11);
@@ -46,7 +46,7 @@ void KPstateSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_SETTINGS].SetPosition(8, 8, 1, A_CENTERED);
     menu.labels[T_SETTINGS].SetFullyVisible();
 
-    float y = 6.5;
+    auto y = 6.5f;
     menu.labels[T_CONTROL].SetPosition(8, y, 1, A_CENTERED);
     y -= 1.0;
     menu.labels[T_CONTROL].SetSignal(S_CONTROL_SETTINGS);
@@ -72,7 +72,7 @@ void  KPstateSettings::MouseClick(KPstateContext *pContext,
                                   tMouseButton button, tMouseEvent event,
                                   int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {

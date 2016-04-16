@@ -145,21 +145,21 @@ std::string KPUIBase::GetWindowTitle() const
 
 std::string KPUIBase::GetOpenGLVendor() const
 {
-    const GLubyte *pString = glGetString(GL_VENDOR);
+    const auto *pString = glGetString(GL_VENDOR);
     return (pString != NULL) ?
            std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 
 std::string KPUIBase::GetOpenGLRenderer() const
 {
-    const GLubyte *pString = glGetString(GL_RENDERER);
+    const auto *pString = glGetString(GL_RENDERER);
     return (pString != NULL) ?
            std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
 
 std::string KPUIBase::GetOpenGLVersion() const
 {
-    const GLubyte *pString = glGetString(GL_VERSION);
+    const auto *pString = glGetString(GL_VERSION);
     return (pString != NULL) ?
            std::string(reinterpret_cast<const char *>(pString)) : "[unknown]";
 }
@@ -241,7 +241,7 @@ void KPUIBase::Idle()
 
 void KPUIBase::DisplayFPS()
 {
-    unsigned long t = fpsTime.GetTimeMsl();
+    auto t = fpsTime.GetTimeMsl();
 
     frameCount++;
 

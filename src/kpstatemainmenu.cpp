@@ -46,9 +46,9 @@ void KPstateMainMenu::Initialize(KPstateContext *pContext,
 
 void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext) const
 {
-    KPstate::UpdateDisplay(pContext);
+    auto &menu = pContext->GetMenu();
 
-    KPmenu &menu = pContext->GetMenu();
+    KPstate::UpdateDisplay(pContext);
 
     // every thing which should be permanently be visible within this
     // state should be listed here:
@@ -92,7 +92,7 @@ void  KPstateMainMenu::MouseClick(KPstateContext *pContext,
                                   tMouseButton button, tMouseEvent event,
                                   int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {

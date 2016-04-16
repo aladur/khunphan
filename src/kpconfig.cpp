@@ -145,10 +145,9 @@ std::string KPConfig::GetDirectory(tKPDir directoryID) const
     return GetDirectoryBase(directoryID);
 #else
 #ifdef __linux__
-    std::string dir;
     struct stat sStat;
 
-    dir = GetDirectoryBase(directoryID);
+    auto dir = GetDirectoryBase(directoryID);
 
     if (!dir.empty() && access(dir.c_str(), F_OK) == 0 &&
         stat(dir.c_str(), &sStat) == 0 && S_ISDIR(sStat.st_mode))
@@ -181,13 +180,12 @@ std::vector<std::string> KPConfig::GetTextureNames() const
 void KPConfig::WriteToFile() const
 {
     xmlNsPtr ns = NULL;
-    xmlDocPtr doc  = xmlNewDoc(_TO("1.0"));
+    auto doc  = xmlNewDoc(_TO("1.0"));
     doc->children  = xmlNewDocNode(doc, ns, _TO("KhunPhan"), NULL);
     xmlSetProp(doc->children, _TO("Version"), _TO(VERSION));
 
     /******************** DisplaySettings *******************/
-    xmlNodePtr tree = xmlNewChild(doc->children, ns, _TO("DisplaySettings"),
-                                  NULL);
+    auto tree = xmlNewChild(doc->children, ns, _TO("DisplaySettings"), NULL);
 
     xmlNewTextChild(tree, ns, _TO("TextureName"), _TO(TextureName.c_str()));
 
@@ -284,7 +282,7 @@ void KPConfig::WriteToFile() const
 
     if (SavedGame != 0)
     {
-        xmlNodePtr subtree = xmlNewChild(tree, ns, _TO("SavedGame"), NULL);
+        auto subtree = xmlNewChild(tree, ns, _TO("SavedGame"), NULL);
 
         std::ostringstream iss1;
         iss1 << SavedGame;
@@ -314,14 +312,14 @@ void KPConfig::WriteToFile() const
 
 void KPConfig::ReadFromFile()
 {
-    xmlDocPtr doc = xmlParseFile(GetFileName().c_str());
+    auto doc = xmlParseFile(GetFileName().c_str());
 
     if (doc == NULL)
     {
         return;
     }
 
-    xmlNodePtr cur = doc->xmlChildrenNode;
+    auto cur = doc->xmlChildrenNode;
 
     if (cur == NULL || (cur->ns != NULL) ||
         xmlStrcmp(cur->name, _TO("KhunPhan")))
@@ -330,7 +328,7 @@ void KPConfig::ReadFromFile()
         return;
     }
 
-    xmlChar *version = xmlGetProp(cur, _TO("Version"));
+    auto version = xmlGetProp(cur, _TO("Version"));
 
     if (version != NULL)
     {
@@ -339,44 +337,43 @@ void KPConfig::ReadFromFile()
 
     xmlFree(version);
 
-    xmlNodePtr tree = cur->xmlChildrenNode;
+    auto tree = cur->xmlChildrenNode;
 
     while (tree != NULL)
     {
         if (!xmlStrcmp(tree->name, _TO("DisplaySettings")))
         {
-            xmlNodePtr subtree = tree->xmlChildrenNode;
+            auto subtree = tree->xmlChildrenNode;
 
             while (subtree != NULL)
             {
-                const xmlChar *tag = subtree->name;
-                xmlNodePtr node    = subtree->xmlChildrenNode;
-                xmlChar *key;
+                auto tag = subtree->name;
+                auto node = subtree->xmlChildrenNode;
                 int tmp;
 
                 if (!xmlStrcmp(tag, _TO("TextureName")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     TextureName = _FROM(key);
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("TextureSize")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> TextureSize;
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("MenuTextureSize")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> MenuTextureSize;
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("TextureType")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> tmp;
                     Nearest = (tmp != 0);
@@ -384,14 +381,14 @@ void KPConfig::ReadFromFile()
                 }
                 else if (!xmlStrcmp(tag, _TO("ScreenXResolution")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> ScreenXResolution;
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("DisplayFPS")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> tmp;
                     DisplayFPS = (tmp != 0);
@@ -399,7 +396,7 @@ void KPConfig::ReadFromFile()
                 }
                 else if (!xmlStrcmp(tag, _TO("AmbientLight")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> tmp;
                     AmbientLight = (tmp != 0);
@@ -407,14 +404,14 @@ void KPConfig::ReadFromFile()
                 }
                 else if (!xmlStrcmp(tag, _TO("LightSources")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> LightSources;
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("FullScreen")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> tmp;
                     FullScreen = (tmp != 0);
@@ -422,7 +419,7 @@ void KPConfig::ReadFromFile()
                 }
                 else if (!xmlStrcmp(tag, _TO("UserInterface")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> UserInterface;
                     xmlFree(key);
@@ -437,7 +434,7 @@ void KPConfig::ReadFromFile()
                 }
                 else if (!xmlStrcmp(tag, _TO("CameraPosition")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> CameraPosition;
                     xmlFree(key);
@@ -448,24 +445,23 @@ void KPConfig::ReadFromFile()
         }
         else if (!xmlStrcmp(tree->name, _TO("GameControl")))
         {
-            xmlNodePtr subtree = tree->xmlChildrenNode;
+            auto subtree = tree->xmlChildrenNode;
 
             while (subtree != NULL)
             {
-                const xmlChar *tag = subtree->name;
-                xmlNodePtr node    = subtree->xmlChildrenNode;
-                xmlChar *key;
+                auto tag = subtree->name;
+                auto node = subtree->xmlChildrenNode;
 
                 if (!xmlStrcmp(tag, _TO("MouseSpeed")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> MouseSpeed;
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("SolutionHint")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> SolutionHint;
                     xmlFree(key);
@@ -476,32 +472,31 @@ void KPConfig::ReadFromFile()
         }
         else if (!xmlStrcmp(tree->name, _TO("AudioSettings")))
         {
-            xmlNodePtr subtree = tree->xmlChildrenNode;
+            auto subtree = tree->xmlChildrenNode;
 
             while (subtree != NULL)
             {
-                const xmlChar *tag = subtree->name;
-                xmlNodePtr node    = subtree->xmlChildrenNode;
-                xmlChar *key;
+                auto tag = subtree->name;
+                auto node = subtree->xmlChildrenNode;
                 int tmp;
 
                 if (!xmlStrcmp(tag, _TO("SoundVolume")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> SoundVolume;
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("MusicVolume")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> MusicVolume;
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("SoundOn")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> tmp;
                     SoundOn = (tmp != 0);
@@ -509,7 +504,7 @@ void KPConfig::ReadFromFile()
                 }
                 else if (!xmlStrcmp(tag, _TO("MusicOn")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> tmp;
                     MusicOn = (tmp != 0);
@@ -522,15 +517,15 @@ void KPConfig::ReadFromFile()
 
         if (!xmlStrcmp(tree->name, _TO("LanguageSettings")))
         {
-            xmlNodePtr subtree = tree->xmlChildrenNode;
+            auto subtree = tree->xmlChildrenNode;
 
             while (subtree != NULL)
             {
-                xmlNodePtr node = subtree->xmlChildrenNode;
+                auto node = subtree->xmlChildrenNode;
 
                 if (!xmlStrcmp(subtree->name, _TO("Language")))
                 {
-                    xmlChar *key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> Language;
                     xmlFree(key);
@@ -542,16 +537,16 @@ void KPConfig::ReadFromFile()
 
         if (!xmlStrcmp(tree->name, _TO("DebugSettings")))
         {
-            xmlNodePtr subtree = tree->xmlChildrenNode;
+            auto subtree = tree->xmlChildrenNode;
 
             while (subtree != NULL)
             {
-                xmlNodePtr node = subtree->xmlChildrenNode;
+                auto node = subtree->xmlChildrenNode;
                 int tmp;
 
                 if (!xmlStrcmp(subtree->name, _TO("PerformanceLog")))
                 {
-                    xmlChar *key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> tmp;
                     PerformanceLog = (tmp != 0);
@@ -559,7 +554,7 @@ void KPConfig::ReadFromFile()
                 }
                 else if (!xmlStrcmp(subtree->name, _TO("SkipProgressBar")))
                 {
-                    xmlChar *key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> tmp;
                     SkipProgressBar = (tmp != 0);
@@ -571,51 +566,50 @@ void KPConfig::ReadFromFile()
         }
         else if (!xmlStrcmp(tree->name, _TO("SavedGames")))
         {
-            xmlNodePtr subtree = tree->xmlChildrenNode;
+            auto subtree = tree->xmlChildrenNode;
 
             while (subtree != NULL)
             {
                 if (!xmlStrcmp(subtree->name, _TO("SavedGame")))
                 {
-                    xmlNodePtr subtree1 = subtree->xmlChildrenNode;
+                    auto subtree1 = subtree->xmlChildrenNode;
 
                     while (subtree1 != NULL)
                     {
-                        const xmlChar *tag = subtree1->name;
-                        xmlNodePtr node    = subtree1->xmlChildrenNode;
-                        xmlChar *key;
+                        auto tag = subtree1->name;
+                        auto node = subtree1->xmlChildrenNode;
 
                         if (!xmlStrcmp(tag, _TO("Position")))
                         {
-                            key = xmlNodeListGetString(doc, node, 1);
+                            auto key = xmlNodeListGetString(doc, node, 1);
                             std::istringstream iss(_FROM(key));
                             iss >> SavedGame;
                             xmlFree(key);
                         }
                         else if (!xmlStrcmp(tag, _TO("PlayTime")))
                         {
-                            key = xmlNodeListGetString(doc, node, 1);
+                            auto key = xmlNodeListGetString(doc, node, 1);
                             std::istringstream iss(_FROM(key));
                             iss >> PlayTime;
                             xmlFree(key);
                         }
                         else if (!xmlStrcmp(tag, _TO("Moves")))
                         {
-                            key = xmlNodeListGetString(doc, node, 1);
+                            auto key = xmlNodeListGetString(doc, node, 1);
                             std::istringstream iss(_FROM(key));
                             iss >> Moves;
                             xmlFree(key);
                         }
                         else if (!xmlStrcmp(tag, _TO("MovesWithHint")))
                         {
-                            key = xmlNodeListGetString(doc, node, 1);
+                            auto key = xmlNodeListGetString(doc, node, 1);
                             std::istringstream iss(_FROM(key));
                             iss >> MovesWithHint;
                             xmlFree(key);
                         }
                         else if (!xmlStrcmp(tag, _TO("CheatCount")))
                         {
-                            key = xmlNodeListGetString(doc, node, 1);
+                            auto key = xmlNodeListGetString(doc, node, 1);
                             std::istringstream iss(_FROM(key));
                             iss >> CheatCount;
                             xmlFree(key);
@@ -679,7 +673,7 @@ void KPConfig::SetDefaultValues()
 void KPConfig::ReadCommandLineParams(int argc, char **argv)
 {
 
-    int i = 1;
+    auto i = 1;
 
     while (i < argc)
     {

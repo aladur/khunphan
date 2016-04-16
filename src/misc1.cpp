@@ -77,18 +77,18 @@ void message(tMsgType type, const char *format, ...)
 #endif
 }
 
-tKPTokenID &operator++ (tKPTokenID &d)
+tKPTokenID &operator++ (tKPTokenID &id)
 {
-    if (d == TK_EMPTY)
+    if (id == TK_EMPTY)
     {
-        return d;
+        return id;
     }
 
-    return d = ((d == TK_RED1) ? TK_GREEN1 : tKPTokenID(d + 1));
+    return id = ((id == TK_RED1) ? TK_GREEN1 : tKPTokenID(id + 1));
 }
 
-tKPDirection &operator++ (tKPDirection &d)
+tKPDirection &operator++ (tKPDirection &id)
 {
-    return d = ((d == MOVE_RIGHT) ? MOVE_UP : tKPDirection(d + 1));
+    return id = ((id == MOVE_RIGHT) ? MOVE_UP : tKPDirection(id + 1));
 }
 

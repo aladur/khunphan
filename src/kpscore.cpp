@@ -125,7 +125,7 @@ std::vector<KPscore::tKpScoreStruct>::iterator KPscore::PositionToInsert(
     const char *, unsigned int aPlayTime,
     unsigned int, time_t)
 {
-    std::vector<tKpScoreStruct>::iterator it = scoreList.begin();
+    auto it = scoreList.begin();
 
     for (; it != scoreList.end(); ++it)
     {
@@ -142,9 +142,9 @@ std::vector<KPscore::tKpScoreStruct>::const_iterator KPscore::PositionToInsert(
     const char *, unsigned int aPlayTime,
     unsigned int, time_t) const
 {
-    std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
+    auto it = scoreList.cbegin();
 
-    for (; it != scoreList.end(); ++it)
+    for (; it != scoreList.cend(); ++it)
     {
         if (aPlayTime < it->PlayTime)
         {
@@ -209,17 +209,17 @@ void KPscore::WriteToFile() const
     }
 
     xmlNsPtr ns = NULL;
-    xmlDocPtr doc = xmlNewDoc(_TO("1.0"));
+    auto doc = xmlNewDoc(_TO("1.0"));
     doc->children = xmlNewDocNode(doc, ns, _TO("KhunPhan"), NULL);
     xmlSetProp(doc->children, _TO("Version"), _TO(VERSION));
 
-    xmlNodePtr tree = xmlNewChild(doc->children, ns, _TO("Scores"), NULL);
+    auto tree = xmlNewChild(doc->children, ns, _TO("Scores"), NULL);
 
     std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
 
     for (; it != scoreList.end(); ++it)
     {
-        xmlNodePtr subtree = xmlNewChild(tree, ns, _TO("Score"), NULL);
+        auto subtree = xmlNewChild(tree, ns, _TO("Score"), NULL);
 
         xmlNewTextChild(subtree, ns, _TO("Name"),
                         _TO(it->Name.c_str()));
@@ -253,14 +253,14 @@ void KPscore::ReadFromFile()
         return;
     }
 
-    xmlDocPtr doc = xmlParseFile(GetFileName().c_str());
+    auto doc = xmlParseFile(GetFileName().c_str());
 
     if (doc == NULL)
     {
         return;
     }
 
-    xmlNodePtr cur = doc->xmlChildrenNode;
+    auto cur = doc->xmlChildrenNode;
 
     if (cur == NULL || (cur->ns != NULL) ||
         xmlStrcmp(cur->name, _TO("KhunPhan")))
@@ -269,14 +269,14 @@ void KPscore::ReadFromFile()
         return;
     }
 
-    xmlChar *version = xmlGetProp(cur, _TO("Version"));
+    auto *version = xmlGetProp(cur, _TO("Version"));
 
     if (version != NULL)
     {
         fileVersion = _FROM(version);
     }
 
-    xmlNodePtr tree = cur->xmlChildrenNode;
+    auto tree = cur->xmlChildrenNode;
 
     while (tree != NULL)
     {
@@ -286,7 +286,7 @@ void KPscore::ReadFromFile()
             continue;
         }
 
-        xmlNodePtr subtree = tree->xmlChildrenNode;
+        auto subtree = tree->xmlChildrenNode;
 
         while (subtree != NULL)
         {
@@ -301,17 +301,16 @@ void KPscore::ReadFromFile()
                 continue;
             }
 
-            xmlNodePtr subtree1 = subtree->xmlChildrenNode;
+            auto subtree1 = subtree->xmlChildrenNode;
 
             while (subtree1 != NULL)
             {
-                const xmlChar *tag = subtree1->name;
-                xmlNodePtr node    = subtree1->xmlChildrenNode;
-                xmlChar *key;
+                auto tag = subtree1->name;
+                auto node = subtree1->xmlChildrenNode;
 
                 if (!xmlStrcmp(tag, _TO("Name")))
                 {
-                    key  = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
 
                     if (key)
                     {
@@ -321,21 +320,21 @@ void KPscore::ReadFromFile()
                 }
                 else if (!xmlStrcmp(tag, _TO("PlayTime")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> PlayTime;
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("Moves")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> Moves;
                     xmlFree(key);
                 }
                 else if (!xmlStrcmp(tag, _TO("Timestamp")))
                 {
-                    key = xmlNodeListGetString(doc, node, 1);
+                    auto key = xmlNodeListGetString(doc, node, 1);
                     std::istringstream iss(_FROM(key));
                     iss >> Timestamp;
                     xmlFree(key);
@@ -363,9 +362,8 @@ void KPscore::print(std::ostream &os) const
     else
     {
         os << "Current KhunPhan Score list:" << std::endl;
-        std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
 
-        for (; it != scoreList.end(); ++it)
+        for (auto it = scoreList.cbegin(); it != scoreList.cend(); ++it)
         {
             os << "   Name: '" << it->Name
                << "' PlayTime: " << it->PlayTime

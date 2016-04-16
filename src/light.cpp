@@ -39,7 +39,7 @@ void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,
     //glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
 
     //GLfloat Brightness = (GLfloat)(1.0 / LightSources);
-    GLfloat Brightness = 1.0;
+    auto Brightness = 1.0f;
 
     LOG1("Light initialization");
     LOG2(" Ambient Light: ", ON_OFF(AmbientLight));
@@ -51,8 +51,8 @@ void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,
     glDisable(GL_LIGHT2);
     glDisable(GL_LIGHT3);
 
-    float x = posX + 100.0f;
-    float y = posY - 150.0f;
+    auto x = posX + 100.0f;
+    auto y = posY - 150.0f;
 
     if (LightSources >= 2)
     {
@@ -105,12 +105,12 @@ void Light::SetPosition(float px, float py, float pz)
     posY = py;
     posZ = pz;
 
-    float X = px;
+    auto X = px;
 
     if (LightSources >= 2)
     {
         //Middle Light:
-        GLfloat light_position [] = {X, posY, posZ, 1.0};
+        GLfloat light_position[] = {X, posY, posZ, 1.0};
         glLightfv(GL_LIGHT1, GL_POSITION, light_position);
     }
 

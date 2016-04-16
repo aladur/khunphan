@@ -65,7 +65,7 @@ void KPSdlUserInterface::CloseAudio()
 {
     if (sound != NULL)
     {
-        for (int i = 0; i < KP_SND_MAX; i++)
+        for (auto i = 0; i < KP_SND_MAX; i++)
         {
             if (sound[i] != NULL)
             {
@@ -231,30 +231,27 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         return false;
     }
 
-    std::string file1, file2;
-    int i;
-
     if (sound == NULL)
     {
         // Initialize sound management variables
         sound            = new Mix_Chunk *[KP_SND_MAX];
         soundSource      = new std::string [KP_SND_MAX];
 
-        for (i = 0; i < KP_SND_MAX; i++)
+        for (auto i = 0; i < KP_SND_MAX; i++)
         {
             sound[i] = NULL;
         }
     }
 
-    i = 0;
+    auto i = 0;
     Mix_HaltChannel(-1);
     Mix_HaltMusic();
 
     while (i < KP_SND_MAX)
     {
-        file1 = config.GetDirectory(KP_SOUND_DIR) + textureName +
-                PATHSEPARATORSTRING + soundFile[i];
-        file2 = config.GetDirectory(KP_SOUND_DIR) + soundFile[i];
+        auto file1 = config.GetDirectory(KP_SOUND_DIR) + textureName +
+                     PATHSEPARATORSTRING + soundFile[i];
+        auto file2 = config.GetDirectory(KP_SOUND_DIR) + soundFile[i];
 
         if (soundSource[i] == file1 ||
             (access(file1.c_str(), R_OK) && soundSource[i] == file2))
@@ -293,7 +290,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         SetSoundVolume(config.SoundVolume);
 
         musicFiles = BDirectory::GetFiles(config.GetDirectory(KP_MUSIC_DIR));
-        std::vector<std::string>::iterator newEndIt =
+        auto newEndIt =
             std::remove_if(musicFiles.begin(), musicFiles.end(), NoMusicFile);
         musicFiles.erase(newEndIt, musicFiles.end());
         std::sort(musicFiles.begin(), musicFiles.end());
@@ -306,11 +303,10 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
 
 bool KPSdlUserInterface::NoMusicFile(const std::string &file)
 {
-    std::string fileExtension = file.substr(file.size() - 4, 4);
-    std::string::iterator it = fileExtension.begin();
+    auto fileExtension = file.substr(file.size() - 4, 4);
     std::locale locale;
 
-    for (; it != fileExtension.end(); ++it)
+    for (auto it = fileExtension.begin(); it != fileExtension.end(); ++it)
     {
         *it = std::tolower(*it, locale);
     }
@@ -330,7 +326,7 @@ void KPSdlUserInterface::LoadNextMusic()
     {
         while (true)
         {
-            std::vector<std::string>::iterator it = musicFiles.begin();
+            auto it = musicFiles.begin();
 
             if (musicIndex >= musicFiles.size())
             {
@@ -339,7 +335,7 @@ void KPSdlUserInterface::LoadNextMusic()
 
             it += musicIndex;
 
-            std::string file = config.GetDirectory(KP_MUSIC_DIR) + *it;
+            auto file = config.GetDirectory(KP_MUSIC_DIR) + *it;
 
             if ((music = Mix_LoadMUS(file.c_str())) == NULL)
             {

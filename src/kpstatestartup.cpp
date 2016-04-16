@@ -36,11 +36,9 @@ KPstateStartUp::KPstateStartUp()
 void KPstateStartUp::Initialize(KPstateContext *pContext,
                                 const KPstate *pPreviousState)
 {
-    tIdToLabel::const_iterator it;
-
     KPstate::Initialize(pContext, pPreviousState);
 
-    it = pContext->GetMenu().labels.find(T_COPYRIGHT2);
+    auto it = pContext->GetMenu().labels.find(T_COPYRIGHT2);
 
     if (it == pContext->GetMenu().labels.end())
     {
@@ -78,15 +76,15 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
 
 void KPstateStartUp::UpdateDisplay(KPstateContext *pContext) const
 {
-    KPstate::UpdateDisplay(pContext);
+    auto &menu = pContext->GetMenu();
 
-    KPmenu &menu = pContext->GetMenu();
+    KPstate::UpdateDisplay(pContext);
 
     // every thing which should be permanently be visible within this
     // state should be listed here:
     menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
 
-    float y = 3.0f;
+    auto y = 3.0f;
     menu.labels[T_COPYRIGHT1].SetPosition(8, y, 0.4f, A_CENTERED);
     y -= 0.4f;
     menu.labels[T_COPYRIGHT2].SetPosition(8, y, 0.4f, A_CENTERED);

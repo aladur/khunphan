@@ -46,11 +46,9 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
 {
     KPstate::UpdateDisplay(pContext);
 
-    KPmenu &menu = pContext->GetMenu();
+    auto &menu = pContext->GetMenu();
 
-    float y;
-    float dy = 0.6f;
-    int textfeldIdx;
+    const auto dy = 0.6f;
     static const int soundVolumeIndices[11] =
     {
         T_SND_VOL_OFF, T_SND_VOL_10, T_SND_VOL_20, T_SND_VOL_30,
@@ -74,11 +72,11 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_AUDIO].SetPosition(12, 8, 1, A_RIGHT);
     menu.labels[T_AUDIO].SetFullyVisible();
 
-    y = 6.0;
+    auto y = 6.0;
     menu.labels[T_SOUND_VOLUME].SetPosition(8, y, 0.71f, A_RIGHT);
     menu.labels[T_SOUND_VOLUME].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
-    textfeldIdx = soundVolumeIndices[E_SoundVolume / 10];
+    auto textfeldIdx = soundVolumeIndices[E_SoundVolume / 10];
 
     menu.labels[textfeldIdx].SetPosition(8.2f, y, 0.71f);
     menu.labels[textfeldIdx].SetSignal(S_TOGGLE_SOUND_VOLUME);
@@ -102,7 +100,7 @@ void  KPstateAudioSettings::MouseClick(KPstateContext *pContext,
                                        tMouseButton button, tMouseEvent event,
                                        int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {

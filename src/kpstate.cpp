@@ -43,7 +43,7 @@ KPstate::~KPstate()
 void KPstate::Initialize(KPstateContext *pContext,
                          const KPstate *pPreviousState)
 {
-    tKPMenuState previousStateId = KPState_Invalid;
+    auto previousStateId = KPState_Invalid;
 
     if (pPreviousState != NULL)
     {
@@ -57,7 +57,7 @@ void KPstate::Initialize(KPstateContext *pContext,
 
 void KPstate::UpdateDisplay(KPstateContext *pContext) const
 {
-    KPmenu   &menu          = pContext->GetMenu();
+    auto &menu = pContext->GetMenu();
     KPUIBase &userInterface = pContext->GetUserInterface();
 
     // by default deactivate all drawing primitives
@@ -92,7 +92,7 @@ void KPstate::UpdateDisplay(KPstateContext *pContext) const
 
 void KPstate::Animate(KPstateContext *pContext, unsigned int duration) const
 {
-    BManualTimer &animationTimer = pContext->GetAnimationTimer();
+    auto &animationTimer = pContext->GetAnimationTimer();
 
     if (animationTimer.IsStarted())
     {
@@ -149,13 +149,11 @@ void KPstate::Draw(KPstateContext *pContext) const
 int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
                                  tMouseEvent event, int x, int y)
 {
-    KPmenu &menu = pContext->GetMenu();
+    auto &menu = pContext->GetMenu();
 
-    int Signal = 0;
+    auto Signal = 0;
 
-    tIdToPlate::iterator sit;
-
-    for (sit = menu.plates.begin(); sit != menu.plates.end(); ++sit)
+    for (auto sit = menu.plates.begin(); sit != menu.plates.end(); ++sit)
     {
         Signal = sit->second.MouseEvent(button, event, x, y,
                                         pContext->GetUserInterface());
@@ -166,10 +164,7 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
         }
     }
 
-    tIdToLabel::iterator tit;
-
-    for (tit = menu.labels.begin(); tit != menu.labels.end();
-         ++tit)
+    for (auto tit = menu.labels.begin(); tit != menu.labels.end(); ++tit)
     {
         if (Signal)
         {
@@ -187,9 +182,9 @@ bool KPstate::EvaluateKeyPressed(KPstateContext *pContext, unsigned char key,
                                  int, int) const
 {
     // returns true if key has been evaluated
-    KPmenu &menu = pContext->GetMenu();
+    auto &menu = pContext->GetMenu();
 
-    bool done = false;
+    auto done = false;
 
     tIdToLabel::iterator it;
 
@@ -209,7 +204,7 @@ void KPstate::StartAnimation(KPstateContext *pContext) const
 tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
                                         unsigned char key, int, int) const
 {
-    KPConfig &config = pContext->GetConfig();
+    auto &config = pContext->GetConfig();
 
     // Default key handling which can be used in every state
     switch (key)
@@ -268,7 +263,7 @@ void KPstate::MouseClick(KPstateContext *, tMouseButton, tMouseEvent, int, int)
 void KPstate::KeyPressed(KPstateContext *pContext, unsigned char key,
                          int x, int y) const
 {
-    tKPMenuState newState = KPstate::DefaultKeyPressed(pContext, key, x, y);
+    auto newState = KPstate::DefaultKeyPressed(pContext, key, x, y);
 
     if (newState != KPState_Invalid)
     {

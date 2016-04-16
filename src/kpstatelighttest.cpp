@@ -46,9 +46,9 @@ void KPstateLightTest::Initialize(KPstateContext *pContext,
 
 void KPstateLightTest::UpdateDisplay(KPstateContext *pContext) const
 {
-    KPstate::UpdateDisplay(pContext);
+    auto &menu = pContext->GetMenu();
 
-    KPmenu &menu = pContext->GetMenu();
+    KPstate::UpdateDisplay(pContext);
 
     menu.labels[T_OK].SetPosition(8, 1, 1, A_CENTERED);
     menu.labels[T_OK].SetSignal(S_BACK);
@@ -88,7 +88,7 @@ void  KPstateLightTest::MouseClick(KPstateContext *pContext,
                                    tMouseButton button, tMouseEvent event,
                                    int x, int y)
 {
-    int Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     switch (Signal)
     {
@@ -116,8 +116,8 @@ void KPstateLightTest::HandleMouseClick(KPstateContext *pContext,
     else if (button == KP_LEFT_MB && event == KP_BUTTON_RELEASE)
     {
         // calculate mouse direction
-        int diff_x = x - mouse_x;
-        int diff_z = -(y - mouse_y);
+        auto diff_x = x - mouse_x;
+        auto diff_z = -(y - mouse_y);
         pContext->GetLight().GetPosition(lx, ly, lz);
         lx += diff_x;
         lz += diff_z;
@@ -132,12 +132,11 @@ void KPstateLightTest::HandleMouseClick(KPstateContext *pContext,
     else if (button == KP_RIGHT_MB && event == KP_BUTTON_RELEASE)
     {
         // calculate mouse direction
-        int diff_y = -(y - mouse_y);
+        auto diff_y = -(y - mouse_y);
         pContext->GetLight().GetPosition(lx, ly, lz);
         ly += diff_y;
         pContext->GetLight().SetPosition(lx, ly, lz);
         LOG7(std::fixed, "Light position x=", lx, " y=", ly, " z=", lz);
     }
-
 }
 

@@ -45,8 +45,8 @@ int sprinter::sprintf(std::string &s, const char *format, ...)
 {
     va_list arg_ptr;
     char buffer[MAX_BUFFER_SIZE];
-    char *p = static_cast<char *>(buffer);
-    int res = -1;
+    auto *p = static_cast<char *>(buffer);
+    auto res = -1;
 
     if (format == NULL || strlen(format) == 0)
     {
@@ -82,8 +82,8 @@ int sprinter::vsprintf(std::string &s,
                        va_list arg_ptr)
 {
     char buffer[MAX_BUFFER_SIZE];
-    char *p = static_cast<char *>(buffer);
-    int res = -1;
+    auto *p = static_cast<char *>(buffer);
+    auto res = -1;
 
     if (format == NULL || strlen(format) == 0)
     {
@@ -116,7 +116,7 @@ int sprinter::vsprintf(std::string &s,
 
 bool sprinter::isformatstring(const std::string &text)
 {
-    std::string::size_type pos = 0;
+    std::string::size_type  pos = 0;
 
     while (pos != std::string::npos)
     {
