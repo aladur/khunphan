@@ -144,7 +144,7 @@ double BTime::GetTimeUsf()
     if (QueryPerformanceCounter(&count))
     {
         QueryPerformanceFrequency(&freq);
-        return static_cast<QWord>(count.QuadPart) * 1000000 /
+        return static_cast<double>(count.QuadPart) * 1000000 /
                freq.QuadPart;
     }
     else

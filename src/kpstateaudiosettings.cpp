@@ -72,7 +72,7 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_AUDIO].SetPosition(12, 8, 1, A_RIGHT);
     menu.labels[T_AUDIO].SetFullyVisible();
 
-    auto y = 6.0;
+    auto y = 6.0f;
     menu.labels[T_SOUND_VOLUME].SetPosition(8, y, 0.71f, A_RIGHT);
     menu.labels[T_SOUND_VOLUME].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
