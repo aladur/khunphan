@@ -617,7 +617,7 @@ bool BTexture::WriteTextureToPngFile(std::ofstream &fs, int) const
 
     png_structp png_ptr = png_create_write_struct
                           (PNG_LIBPNG_VER_STRING, (png_voidp)nullptr,
-                          nullptr, nullptr);
+                           nullptr, nullptr);
 
     //user_error_fn, user_warning_fn);
     if (!png_ptr)

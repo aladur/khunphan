@@ -28,20 +28,14 @@
 #include "kpboard.h"
 
 
-const char KPboard::xExtend[TOKEN_MAX] = { 1, 1, 1, 1, 1, 1, 1, 1, 2, 2 };
-const char KPboard::yExtend[TOKEN_MAX] = { 1, 1, 1, 1, 2, 2, 2, 2, 1, 2 };
+const char KPboard::xExtend[] { 1, 1, 1, 1, 1, 1, 1, 1, 2, 2 };
+const char KPboard::yExtend[] { 1, 1, 1, 1, 2, 2, 2, 2, 1, 2 };
 
-KPboard::KPboard()
+KPboard::KPboard() : id(0),
+    position{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0},
+    {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},
+tokenID{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 {
-    id = 0;
-
-    for (auto index = 0; index < TOKEN_MAX; ++index)
-    {
-        position[index].x = 0;
-        position[index].y = 0;
-    }
-
-    memset(tokenID, TK_EMPTY, sizeof(tokenID));
 }
 
 KPboard::KPboard(const KPboard &src)
