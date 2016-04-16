@@ -23,6 +23,7 @@
 #define KPBOARDGL_H
 
 #include <string>
+#include <array>
 #include "kpboard.h"
 
 enum tDisplayList
@@ -50,6 +51,7 @@ class KPboard;
 
 #define MAX_BOARD_TEXTURES  4
 
+typedef std::array<std::string, MAX_BOARD_TEXTURES> tTextureFiles;
 
 class KPboardView
 {
@@ -93,7 +95,7 @@ private:
     float getRnd(void) const;
 
     KPboard current;
-    static const char *textureFile[MAX_BOARD_TEXTURES];
+    static tTextureFiles textureFiles;
 
     // variables for token animation:
     float mat_value, xValue;
