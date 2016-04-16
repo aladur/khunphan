@@ -83,13 +83,13 @@ bool BTexture::IsPowerOf2(unsigned int value)
 
 #define  HEADER_BYTES_READ     8
 
-bool BTexture::CheckFileFormat(const char *pFile)
+bool BTexture::CheckFileFormat(const std::string &file)
 {
     png_byte header[HEADER_BYTES_READ];
     std::ifstream fs;
     bool is_png = false;
 
-    fs.open(pFile, std::ios::binary | std::ios::in);
+    fs.open(file.c_str(), std::ios::binary | std::ios::in);
 
     if (fs.is_open())
     {
@@ -102,18 +102,19 @@ bool BTexture::CheckFileFormat(const char *pFile)
     return is_png;
 }
 
-const char *BTexture::ReadTextureFromFile(const char *pFile, int flags/*= 0 */)
+const char *BTexture::ReadTextureFromFile(const std::string &file,
+                                          int flags/*= 0 */)
 {
     std::ifstream fs;
 
-    fs.open(pFile, std::ios::binary | std::ios::in);
+    fs.open(file.c_str(), std::ios::binary | std::ios::in);
 
     if (!fs.is_open())
     {
         return NULL;
     }
 
-    LOG3("Reading '", pFile, "'");
+    LOG3("Reading '", file, "'");
 
     const char *returned_texels = ReadTextureFromFile(fs, flags);
     fs.close();
@@ -536,12 +537,13 @@ void BTexture::printInfo(std::ostream &os) const
        << std::endl;
 }
 
-bool BTexture::WriteTextureToFile(const char *pFile, int flags /* = 0 */) const
+bool BTexture::WriteTextureToFile(const std::string &file,
+                                  int flags /* = 0 */) const
 {
     std::ofstream fs;
     bool success = false;
 
-    fs.open(pFile, std::ios::binary | std::ios::out);
+    fs.open(file.c_str(), std::ios::binary | std::ios::out);
 
     if (fs.is_open())
     {

@@ -87,7 +87,7 @@ private:
     void CreateCuboid(float dx, float dy, float dz,
                       float x0, float y0, float z0,
                       bool WithTexture = true) const;
-    bool CreateTexture(unsigned int TextureSize, const char *pFile,
+    bool CreateTexture(unsigned int TextureSize, const std::string &file,
                        bool Nearest, unsigned int *pId);
     void GetTokenCoordinates(tKPTokenID i, float *x, float *y) const;
     float getRnd(void) const;

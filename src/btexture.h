@@ -23,6 +23,7 @@
 #define BTEXTURE_H
 
 #include <fstream>
+#include <string>
 #include <png.h>
 #include "misc1.h"
 
@@ -64,9 +65,10 @@ class BTexture
 public:
     BTexture();
     virtual ~BTexture();
-    const char *ReadTextureFromFile(const char *pFile, int flags = 0);
+    const char *ReadTextureFromFile(const std::string &file, int flags = 0);
     const char *ReadTextureFromFile(std::ifstream &fs, int flags = 0);
-    bool        WriteTextureToFile(const char *pFile, int flags = 0) const;
+    bool        WriteTextureToFile(const std::string &file,
+                                   int flags = 0) const;
     bool        WriteTextureToFile(std::ofstream &fs, int flags = 0) const;
     bool        SetTexels(const char *texels, unsigned int width,
                           unsigned int height, unsigned int channels,
@@ -120,7 +122,7 @@ public:
     };
 
     // Check if file is available and it's format is supported
-    static bool CheckFileFormat(const char *pFile);
+    static bool CheckFileFormat(const std::string &file);
 
 protected:
     static void read_data_fn(png_structp png_ptr,

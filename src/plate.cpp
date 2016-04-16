@@ -65,10 +65,9 @@ Plate::Plate(const Plate &src) :
 
     if (Type == 1)
     {
-        const char *texels;
-
-        if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
-                      WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+        int flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
+        const char *texels = texture.ReadTextureFromFile(TextureSource, flags);
+        if (texels == NULL)
         {
             std::stringstream message;
 
@@ -121,8 +120,9 @@ Plate &Plate::operator=(const Plate &src)
         {
             const char *texels;
 
-            if ((texels = texture.ReadTextureFromFile(TextureSource.c_str(),
-                          WithAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+            int flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
+            texels = texture.ReadTextureFromFile(TextureSource, flags);
+            if (texels == NULL)
             {
                 std::stringstream message;
 
@@ -163,7 +163,6 @@ bool Plate::Update(std::string    &TextureName,
                    const KPConfig &config)
 {
     std::string file1, file2;
-    const char *texels;
     BTexture texture;
 
     // The texture size must be a power of 2 (1, 2, 4, 8, ...)
@@ -182,11 +181,12 @@ bool Plate::Update(std::string    &TextureName,
             PATHSEPARATORSTRING + Name + ".png";
     file2 = config.GetDirectory(KP_TEXTURE_DIR) + Name + ".png";
 
-    if ((texels = texture.ReadTextureFromFile(file1.c_str(),
-                  withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+    int flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
+    const char *texels = texture.ReadTextureFromFile(file1, flags);
+    if (texels == NULL)
     {
-        if ((texels = texture.ReadTextureFromFile(file2.c_str(),
-                      withAlpha ? TEX_RGB_ALPHA : TEX_RGB)) == NULL)
+        texels = texture.ReadTextureFromFile(file2, flags);
+        if (texels == NULL)
         {
             std::stringstream message;
 

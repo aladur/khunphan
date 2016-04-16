@@ -97,13 +97,14 @@ void KPboardView::SetBoard(const KPboard &board)
     current = board;
 }
 
-bool KPboardView::CreateTexture(unsigned int TextureSize, const char *pFile,
+bool KPboardView::CreateTexture(unsigned int TextureSize,
+                                const std::string &file,
                                 bool Nearest, unsigned int *pId)
 {
     // define a Display List WOOD_TEXTURE containing light and texture stuff
     BTexture *pTexture = new BTexture;
 
-    const char *texels = pTexture->ReadTextureFromFile(pFile, 0);
+    const char *texels = pTexture->ReadTextureFromFile(file, 0);
 
     if (texels == NULL)
     {
@@ -120,7 +121,7 @@ bool KPboardView::CreateTexture(unsigned int TextureSize, const char *pFile,
     if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
     {
         message(mtWarning, "Width or Height of '%s' is not a power of 2\n",
-                pFile);
+                file.c_str());
     }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

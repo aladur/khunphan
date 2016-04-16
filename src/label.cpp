@@ -176,17 +176,16 @@ void Label::PreInitialize(const std::string &TextureName,
 {
     BTexture texture;
     std::string file1, file2;
-    const char *texels;
 
     file1 = config.GetDirectory(KP_TEXTURE_DIR) + TextureName +
             PATHSEPARATORSTRING + "characters.png";
-    file2 = config.GetDirectory(KP_TEXTURE_DIR) + "characters.png";
 
-    if ((texels = texture.ReadTextureFromFile(file1.c_str(),
-                  TEX_WITH_ALPHA)) == NULL)
+    const char *texels = texture.ReadTextureFromFile(file1, TEX_WITH_ALPHA);
+    if (texels == NULL)
     {
-        if ((texels = texture.ReadTextureFromFile(file2.c_str(),
-                      TEX_WITH_ALPHA)) == NULL)
+        file2 = config.GetDirectory(KP_TEXTURE_DIR) + "characters.png";
+        texels = texture.ReadTextureFromFile(file2, TEX_WITH_ALPHA);
+        if (texels == NULL)
         {
             std::stringstream message;
 
@@ -207,7 +206,7 @@ void Label::PreInitialize(const std::string &TextureName,
     {
         std::stringstream message;
 
-        message << "Error scaling texture from file '" << file2 << "'";
+        message << "Error scaling texture from file '" << TextureSource << "'";
         throw std::runtime_error(message.str());
     }
 
@@ -221,7 +220,7 @@ void Label::PreInitialize(const std::string &TextureName,
     {
         message(mtWarning,
                 "*** Warning: width or height of '%s' is not a power of 2\n",
-                file2.c_str());
+                TextureSource.c_str());
     }
 
     if (Texture == 0)
