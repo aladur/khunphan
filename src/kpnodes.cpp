@@ -55,8 +55,8 @@ KPnode &KPnodes::Add(KPnode &node)
 
     auto id = node.GetBoard().GetID();
 
-    ids.push_back(id);
-    nodesForId[id] = node;
+    ids.emplace_back(id);
+    nodesForId.emplace(id, node);
 
     return nodesForId[id];
 }
@@ -65,6 +65,11 @@ KPnode &KPnodes::Add(KPnode &node)
 // If id is not available an exception is thrown.
 // Before accessing GetNodeFor() it can be checked
 // with Includes() if a board id is available.
+const KPnode &KPnodes::GetNodeFor(QWord id) const
+{
+    return GetNodeFor(id);
+}
+
 KPnode &KPnodes::GetNodeFor(QWord id)
 {
     auto it = nodesForId.find(id);
@@ -128,9 +133,11 @@ void KPnodes::CalculateSolveCount(void)
 
 void KPnodes::PrintSolveCount(std::ostream &os) const
 {
-    for (auto it = nodesForId.begin(); it != nodesForId.end(); ++it)
+    for (auto it = ids.cbegin(); it != ids.cend(); ++it)
     {
-        os << ' ' << it->second.GetMovesToSolve() << std::endl;
+        const auto &node = GetNodeFor(*it);
+
+        os << ' ' << node.GetMovesToSolve() << std::endl;
     }
 }
 

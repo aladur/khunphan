@@ -332,7 +332,7 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                     if (std::find(moves.begin(), moves.end(), move) ==
                         moves.end())
                     {
-                        moves.push_back(move);
+                        moves.emplace_back(move);
                     }
                 }
 
@@ -346,7 +346,7 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                     if (std::find(moves.begin(), moves.end(), move) ==
                         moves.end())
                     {
-                        moves.push_back(move);
+                        moves.emplace_back(move);
                     }
                 }
 
@@ -360,7 +360,7 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                     if (std::find(moves.begin(), moves.end(), move) ==
                         moves.end())
                     {
-                        moves.push_back(move);
+                        moves.emplace_back(move);
                     }
                 }
 
@@ -374,7 +374,7 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                     if (std::find(moves.begin(), moves.end(), move) ==
                         moves.end())
                     {
-                        moves.push_back(move);
+                        moves.emplace_back(move);
                     }
                 }
             }

@@ -24,11 +24,11 @@
 
 
 #include "stdafx.h"
-#include <map>
+#include <unordered_map>
 #include "kpnode.h"
 
 
-typedef std::map<QWord, KPnode> tNodesForId;
+typedef std::unordered_map<QWord, KPnode> tNodesForId;
 typedef std::vector<QWord> tIds;
 
 class KPnodes
@@ -43,6 +43,7 @@ public:
         return nodesForId.find(id) != nodesForId.end();
     }
     KPnode &GetNodeFor(QWord id);
+    const KPnode &GetNodeFor(QWord id) const;
     size_t GetSize(void)
     {
         return nodesForId.size();
