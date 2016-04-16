@@ -34,7 +34,10 @@ const char KPboard::yExtend[] { 1, 1, 1, 1, 2, 2, 2, 2, 1, 2 };
 KPboard::KPboard() : id(0),
     position{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0},
     {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},
-tokenID{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+tokenID{ TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY,
+             TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY,
+             TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY,
+             TK_EMPTY, TK_EMPTY }
 {
 }
 
