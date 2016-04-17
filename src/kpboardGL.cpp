@@ -161,7 +161,7 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
         auto file = TextureDirectory + TextureName +
                     PATHSEPARATORSTRING + textureFiles[i];
 
-        if (!always && file == textureSource[i])
+        if (!always && file == textureSources[i])
         {
             continue;
         }
@@ -170,7 +170,7 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
         {
             file = TextureDirectory + textureFiles[i];
 
-            if (!always && file == textureSource[i])
+            if (!always && file == textureSources[i])
             {
                 continue;
             }
@@ -186,7 +186,7 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
             }
         }
 
-        textureSource[i] = file;
+        textureSources[i] = file;
         i++;
     }
 }

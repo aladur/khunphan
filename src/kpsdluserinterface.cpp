@@ -37,7 +37,7 @@
 
 const int KPSdlUserInterface::REQUEST_FOR_CLOSE = 99;
 
-const char *KPSdlUserInterface::soundFile[KP_SND_MAX] =
+const KPSdlUserInterface::tArrayOfString KPSdlUserInterface::soundFiles =
 {
     "openmenu.ogg",      // KP_SND_OPENMENU
     "quitgame.ogg",      // KP_SND_QUITGAME
@@ -250,8 +250,8 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
     while (i < KP_SND_MAX)
     {
         auto file1 = config.GetDirectory(KP_SOUND_DIR) + textureName +
-                     PATHSEPARATORSTRING + soundFile[i];
-        auto file2 = config.GetDirectory(KP_SOUND_DIR) + soundFile[i];
+                     PATHSEPARATORSTRING + soundFiles[i];
+        auto file2 = config.GetDirectory(KP_SOUND_DIR) + soundFiles[i];
 
         if (soundSource[i] == file1 ||
             (access(file1.c_str(), R_OK) && soundSource[i] == file2))
@@ -279,7 +279,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         else
         {
             LOG3("**** Warning: No sound file available for sound '",
-                 soundFile[i], "'");
+                 soundFiles[i], "'");
         }
 
         i++;

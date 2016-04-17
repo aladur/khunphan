@@ -73,6 +73,8 @@ protected:
     static const int REQUEST_FOR_CLOSE;
 
 private:
+    typedef std::array<std::string, KP_SND_MAX> tArrayOfString;
+
     KPSdlUserInterface();
     static bool NoMusicFile(const std::string &file);
 
@@ -81,7 +83,7 @@ private:
     std::vector<std::string> musicFiles;
     double musicPosition; // save position of music in seconds
     BTime time;
-    static const char *soundFile[KP_SND_MAX];
+    static const tArrayOfString soundFiles;
 };
 
 #endif //#if defined (HAVE_SDL) || defined (HAVE_SDL2)

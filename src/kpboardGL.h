@@ -104,7 +104,7 @@ private:
     tKPTokenID animatedToken;
     float old_x, old_y, new_x, new_y, ax, ay, Time;
     unsigned int textureId[MAX_BOARD_TEXTURES];
-    tArrayOfString textureSource;
+    tArrayOfString textureSources;
     int DisplayList;
 };
 
