@@ -28,12 +28,10 @@
 class BLogger
 {
 public:
-#ifdef __linux__
     static void SetOutputStream(std::ostream &os)
     {
         pOutput = &os;
     }
-#endif
 #ifdef _WIN32
     static void SetDebugOutput(bool on)
     {
@@ -55,15 +53,17 @@ public:
 
         sslog(str, args...);
 
+        str << std::endl;
+
         if (isDebugOutput)
         {
 #ifdef _WIN32
-            OutputDebugString(static_cast<LPCTSTR>(str.str().c_str()))
+            OutputDebugString(static_cast<LPCTSTR>(str.str().c_str()));
 #endif
         }
         else
         {
-            *pOutput << str.str() << std::endl;
+            *pOutput << str.str();
         }
     }
 

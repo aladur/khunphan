@@ -28,6 +28,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <vector>
+#include <array>
 #include <algorithm>
 #include "kpuibase.h"
 #include "btime.h"
