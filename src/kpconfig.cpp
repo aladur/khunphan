@@ -39,6 +39,7 @@
 #include <libxml/tree.h>
 #include "kpconfig.h"
 #include "bdir.h"
+#include "blogger.h"
 
 #define _TO(type)   reinterpret_cast<const xmlChar *>(type)
 #define _FROM(type) reinterpret_cast<const char *>(type)
@@ -784,33 +785,34 @@ const char *KPConfig::GetUserInterfaceName(int ui)
 
 void KPConfig::DebugPrint() const
 {
-    LOG1("Current KhunPhan Configuration:");
-    LOG2("  UserInterface :        ", GetUserInterfaceName(UserInterface));
-    LOG2("  TextureName :          ", TextureName);
-    LOG2("  TextureSize :          ", TextureSize);
-    LOG2("  MenuTextureSize :      ", MenuTextureSize);
-    LOG2("  TextureInterpolation : ", ON_OFF(Nearest));
-    LOG2("  ScreenXResolution :    ", ScreenXResolution);
-    LOG2("  ColorDepth :           ", ColorDepth);
-    LOG2("  DisplayFPS :           ", ON_OFF(DisplayFPS));
-    LOG2("  AmbientLight :         ", ON_OFF(AmbientLight));
-    LOG2("  LightSources :         ", LightSources);
-    LOG2("  FullScreen :           ", ON_OFF(FullScreen));
-    LOG2("  Language :             ", Language);
-    LOG2("  CameraPosition :       ", CameraPosition);
-    LOG2("  SolutionHint :         ", SolutionHint);
-    LOG4(std::fixed, std::setprecision(2),
-         "  MouseSpeed :           ", MouseSpeed);
-    LOG2("  SoundVolume :          ", SoundVolume);
-    LOG2("  MusicVolume :          ", MusicVolume);
-    LOG2("  SoundOn :              ", ON_OFF(SoundOn));
-    LOG2("  MusicOn :              ", ON_OFF(MusicOn));
-    LOG2("  SavedGame :            ", SavedGame);
-    LOG3("  PlayTime :             ", PlayTime, " ms");
-    LOG2("  Moves :                ", Moves);
-    LOG2("  MovesWithHint :        ", MovesWithHint);
-    LOG2("  CheatCount :           ", CheatCount);
-    LOG2("  PerformanceLog :       ", ON_OFF(PerformanceLog));
-    LOG2("  SkipProgressBar :      ", ON_OFF(SkipProgressBar));
+    BLogger::Log("Current KhunPhan Configuration:");
+    BLogger::Log("  UserInterface :        ",
+                 GetUserInterfaceName(UserInterface));
+    BLogger::Log("  TextureName :          ", TextureName);
+    BLogger::Log("  TextureSize :          ", TextureSize);
+    BLogger::Log("  MenuTextureSize :      ", MenuTextureSize);
+    BLogger::Log("  TextureInterpolation : ", ON_OFF(Nearest));
+    BLogger::Log("  ScreenXResolution :    ", ScreenXResolution);
+    BLogger::Log("  ColorDepth :           ", ColorDepth);
+    BLogger::Log("  DisplayFPS :           ", ON_OFF(DisplayFPS));
+    BLogger::Log("  AmbientLight :         ", ON_OFF(AmbientLight));
+    BLogger::Log("  LightSources :         ", LightSources);
+    BLogger::Log("  FullScreen :           ", ON_OFF(FullScreen));
+    BLogger::Log("  Language :             ", Language);
+    BLogger::Log("  CameraPosition :       ", CameraPosition);
+    BLogger::Log("  SolutionHint :         ", SolutionHint);
+    BLogger::Log(std::fixed, std::setprecision(2),
+                 "  MouseSpeed :           ", MouseSpeed);
+    BLogger::Log("  SoundVolume :          ", SoundVolume);
+    BLogger::Log("  MusicVolume :          ", MusicVolume);
+    BLogger::Log("  SoundOn :              ", ON_OFF(SoundOn));
+    BLogger::Log("  MusicOn :              ", ON_OFF(MusicOn));
+    BLogger::Log("  SavedGame :            ", SavedGame);
+    BLogger::Log("  PlayTime :             ", PlayTime, " ms");
+    BLogger::Log("  Moves :                ", Moves);
+    BLogger::Log("  MovesWithHint :        ", MovesWithHint);
+    BLogger::Log("  CheatCount :           ", CheatCount);
+    BLogger::Log("  PerformanceLog :       ", ON_OFF(PerformanceLog));
+    BLogger::Log("  SkipProgressBar :      ", ON_OFF(SkipProgressBar));
 }
 

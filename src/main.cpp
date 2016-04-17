@@ -29,6 +29,7 @@
 #include "kpscore.h"
 #include "cmdline.h"
 #include "KhunPhan.h"
+#include "blogger.h"
 
 // Uncomment the following define to activate GNU C library memory leak
 // checking.
@@ -45,6 +46,8 @@ int main(int argc, char **argv)
 #if defined(HAVE_MCHECK_H) && defined(CHECK_MEMORY_LEAKS)
     mtrace();
 #endif
+    BLogger::SetOutputStream(std::cout);
+    BLogger::SetPrefix(std::string("[" PACKAGE "] "));
 
     try
     {

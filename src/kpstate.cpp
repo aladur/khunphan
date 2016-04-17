@@ -30,6 +30,7 @@
 #include "kpuibase.h"
 #include "language.h"
 #include "btime.h"
+#include "blogger.h"
 
 
 KPstate::KPstate()
@@ -114,7 +115,8 @@ void KPstate::AnimateAll(KPstateContext *pContext, unsigned int duration) const
 
 void KPstate::Draw(KPstateContext *pContext) const
 {
-    double timeBoardView, timeMenu;
+    auto timeBoardView = 0.0;
+    auto timeMenu = 0.0;
     BTime time;
 
     pContext->GetLight().Draw();
@@ -139,10 +141,10 @@ void KPstate::Draw(KPstateContext *pContext) const
     {
         timeMenu = time.GetRelativeTimeUsf(true);
 
-        LOG9(std::fixed, std::setprecision(1), "BoardView: ",
-             timeBoardView, " us Menu: ",
-             timeMenu, " us Sum: ",
-             timeBoardView + timeMenu, " us");
+        BLogger::Log(std::fixed, std::setprecision(1), "BoardView: ",
+                     timeBoardView, " us Menu: ",
+                     timeMenu, " us Sum: ",
+                     timeBoardView + timeMenu, " us");
     }
 }
 

@@ -33,6 +33,7 @@
 #include "kpstatistics.h"
 #include "kpnodes.h"
 #include "kpconfig.h"
+#include "blogger.h"
 
 // Uncomment the following line to
 // compile for a specific light test version
@@ -166,24 +167,24 @@ std::string KPUIBase::GetOpenGLVersion() const
 
 void KPUIBase::DebugPrintOpenGLVersion() const
 {
-    LOG2("OpenGL Vendor:   ", GetOpenGLVendor());
-    LOG2("OpenGL Renderer: ", GetOpenGLRenderer());
-    LOG2("OpenGL Version:  ", GetOpenGLVersion());
+    BLogger::Log("OpenGL Vendor:   ", GetOpenGLVendor());
+    BLogger::Log("OpenGL Renderer: ", GetOpenGLRenderer());
+    BLogger::Log("OpenGL Version:  ", GetOpenGLVersion());
 #ifdef GLU_VERSION_1_3
-    LOG1("GLU Header Version 1.3");
+    BLogger::Log("GLU Header Version 1.3");
 #else
 #ifdef GLU_VERSION_1_2
-    LOG1("GLU Header Version 1.2");
+    BLogger::Log("GLU Header Version 1.2");
 #else
 #ifdef GLU_VERSION_1_1
-    LOG1("GLU Header Version 1.1");
+    BLogger::Log("GLU Header Version 1.1");
 #else
-    LOG1("GLU Header Version 1.0");
+    BLogger::Log("GLU Header Version 1.0");
 #endif
 #endif
 #endif
 #ifdef GLU_VERSION_1_1
-    LOG2("GLU Linked Version ", gluGetString(GLU_VERSION));
+    BLogger::Log("GLU Linked Version ", gluGetString(GLU_VERSION));
 #endif
 }
 

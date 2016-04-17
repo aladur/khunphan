@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include <GL/gl.h>
 #include "light.h"
+#include "blogger.h"
 
 Light::Light(bool AmbientLight /* = true*/, int aLightSources /*= 1*/,
              bool Reflections /*= false */) :
@@ -41,10 +42,11 @@ void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,
     //GLfloat Brightness = (GLfloat)(1.0 / LightSources);
     auto Brightness = 1.0f;
 
-    LOG1("Light initialization");
-    LOG2(" Ambient Light: ", ON_OFF(AmbientLight));
-    LOG2(" Light Sources: ", LightSources);
-    LOG4(" Brightness:    ", std::fixed, std::setprecision(2), Brightness);
+    BLogger::Log("Light initialization");
+    BLogger::Log(" Ambient Light: ", ON_OFF(AmbientLight));
+    BLogger::Log(" Light Sources: ", LightSources);
+    BLogger::Log(" Brightness:    ", std::fixed, std::setprecision(2),
+                 Brightness);
 
     glDisable(GL_LIGHT0);
     glDisable(GL_LIGHT1);

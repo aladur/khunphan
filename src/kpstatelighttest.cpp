@@ -27,6 +27,7 @@
 #include "camera.h"
 #include "kpuibase.h"
 #include "kpconfig.h"
+#include "blogger.h"
 
 
 KPstateLightTest::KPstateLightTest() : mouse_x(0), mouse_y(0)
@@ -122,7 +123,7 @@ void KPstateLightTest::HandleMouseClick(KPstateContext *pContext,
         lx += diff_x;
         lz += diff_z;
         pContext->GetLight().SetPosition(lx, ly, lz);
-        LOG7(std::fixed, "Light position x=", lx, " y=", ly, " z=", lz);
+        BLogger::Log(std::fixed, "Light position x=", lx, " y=", ly, " z=", lz);
     }
     else if (button == KP_RIGHT_MB && event == KP_BUTTON_PRESS)
     {
@@ -136,7 +137,7 @@ void KPstateLightTest::HandleMouseClick(KPstateContext *pContext,
         pContext->GetLight().GetPosition(lx, ly, lz);
         ly += diff_y;
         pContext->GetLight().SetPosition(lx, ly, lz);
-        LOG7(std::fixed, "Light position x=", lx, " y=", ly, " z=", lz);
+        BLogger::Log(std::fixed, "Light position x=", lx, " y=", ly, " z=", lz);
     }
 }
 

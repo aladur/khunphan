@@ -23,6 +23,7 @@
 #include <ostream>
 #include <stdexcept>
 #include "kpscore.h"
+#include "blogger.h"
 
 /* If either GLUT or freeglut is available use it */
 /* otherwise check for OpenGLUT                   */
@@ -142,26 +143,26 @@ void KPGlutUserInterface::SetWindowSize(int width, int height) const
 void KPGlutUserInterface::OpenWindow(int argc, char **argv)
 {
     glutInit(&argc, argv);
-    LOG1("GLUT UserInterface initialization");
+    BLogger::Log("GLUT UserInterface initialization");
 #ifdef GLUT_API_VERSION
-    LOG2("GLUT API Version ", GLUT_API_VERSION);
+    BLogger::Log("GLUT API Version ", GLUT_API_VERSION);
 #endif
 #ifdef GLUT_XLIB_IMPLEMENTATION
-    LOG2("GLUT XLIB Implementation #", GLUT_XLIB_IMPLEMENTATION);
+    BLogger::Log("GLUT XLIB Implementation #", GLUT_XLIB_IMPLEMENTATION);
 #endif
 #ifdef FREEGLUT
     int glutVersion = glutGet(GLUT_VERSION);
-    LOG6("FREEGLUT Version ",
-         (glutVersion / 10000) % 100, '.',
-         (glutVersion /   100) % 100, '.',
-         glutVersion          % 100);
+    BLogger::Log("FREEGLUT Version ",
+                 (glutVersion / 10000) % 100, '.',
+                 (glutVersion /   100) % 100, '.',
+                 glutVersion          % 100);
 #endif
 #ifdef OPENGLUT
     auto glutVersion = glutGet(GLUT_VERSION);
-    LOG6("OPENGLUT Version ",
-         (glutVersion / 10000) % 100, '.',
-         (glutVersion /   100) % 100, '.',
-         glutVersion          % 100);
+    BLogger::Log("OPENGLUT Version ",
+                 (glutVersion / 10000) % 100, '.',
+                 (glutVersion /   100) % 100, '.',
+                 glutVersion          % 100);
 #endif
 
     if (!IsWindowResolutionSupported(config.ScreenXResolution,

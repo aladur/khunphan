@@ -28,6 +28,7 @@
 #include "kpconfig.h"
 #include "light.h"
 #include "kpuibase.h"
+#include "blogger.h"
 
 const int KPstateGraphicSettings::windowWidths[] =
 {
@@ -554,18 +555,18 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
         ChangeNeedsToolRestart = true;
     }
 
-    LOG1("Changed Graphic Settings");
-    LOG2("  UserInterface :        ",
-         KPConfig::GetUserInterfaceName(E_UserInterface));
-    LOG2("  TextureName :          ", config.TextureName);
-    LOG2("  TextureSize :          ", config.TextureSize);
-    LOG2("  MenuTextureSize :      ", config.MenuTextureSize);
-    LOG2("  TextureInterpolation : ", ON_OFF(config.Nearest));
-    LOG2("  ScreenXResolution :    ", E_WindowWidth);
-    LOG2("  ColorDepth :           ", config.ColorDepth);
-    LOG2("  AmbientLight :         ", ON_OFF(config.AmbientLight));
-    LOG2("  LightSources :         ", config.LightSources);
-    LOG2("  FullScreen :           ", ON_OFF(E_FullScreen));
+    BLogger::Log("Changed Graphic Settings");
+    BLogger::Log("  UserInterface :        ",
+                 KPConfig::GetUserInterfaceName(E_UserInterface));
+    BLogger::Log("  TextureName :          ", config.TextureName);
+    BLogger::Log("  TextureSize :          ", config.TextureSize);
+    BLogger::Log("  MenuTextureSize :      ", config.MenuTextureSize);
+    BLogger::Log("  TextureInterpolation : ", ON_OFF(config.Nearest));
+    BLogger::Log("  ScreenXResolution :    ", E_WindowWidth);
+    BLogger::Log("  ColorDepth :           ", config.ColorDepth);
+    BLogger::Log("  AmbientLight :         ", ON_OFF(config.AmbientLight));
+    BLogger::Log("  LightSources :         ", config.LightSources);
+    BLogger::Log("  FullScreen :           ", ON_OFF(E_FullScreen));
 
     config.FullScreen        = E_FullScreen;
     config.ScreenXResolution = E_WindowWidth;

@@ -137,7 +137,8 @@ am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-kpboard.$(OBJEXT) khunphan-KhunPhan.$(OBJEXT) \
 	khunphan-kpstatelighttest.$(OBJEXT) \
 	khunphan-sprinter.$(OBJEXT) khunphan-kplocale.$(OBJEXT) \
-	khunphan-cmdline.$(OBJEXT) khunphan-stdafx.$(OBJEXT)
+	khunphan-cmdline.$(OBJEXT) khunphan-blogger.$(OBJEXT) \
+	khunphan-stdafx.$(OBJEXT)
 khunphan_OBJECTS = $(am_khunphan_OBJECTS)
 khunphan_DEPENDENCIES =
 khunphan_LINK = $(CXXLD) $(khunphan_CXXFLAGS) $(CXXFLAGS) \
@@ -420,6 +421,7 @@ khunphan_SOURCES = \
         sprinter.cpp \
         kplocale.cpp \
         cmdline.cpp \
+        blogger.cpp \
         stdafx.cpp
 
 EXTRA_DIST = \
@@ -477,6 +479,7 @@ EXTRA_DIST = \
         cmdline.h \
         kpstates.h \
         bmanualtimer.h \
+        blogger.h \
         stdafx.h \
         KhunPhan.rc \
         icon.ico
@@ -640,6 +643,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-KhunPhan.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-bdir.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-blogger.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-btexture.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-btime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-camera.Po@am__quote@
@@ -1373,6 +1377,20 @@ khunphan-cmdline.obj: cmdline.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='cmdline.cpp' object='khunphan-cmdline.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-cmdline.obj `if test -f 'cmdline.cpp'; then $(CYGPATH_W) 'cmdline.cpp'; else $(CYGPATH_W) '$(srcdir)/cmdline.cpp'; fi`
+
+khunphan-blogger.o: blogger.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-blogger.o -MD -MP -MF $(DEPDIR)/khunphan-blogger.Tpo -c -o khunphan-blogger.o `test -f 'blogger.cpp' || echo '$(srcdir)/'`blogger.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-blogger.Tpo $(DEPDIR)/khunphan-blogger.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='blogger.cpp' object='khunphan-blogger.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-blogger.o `test -f 'blogger.cpp' || echo '$(srcdir)/'`blogger.cpp
+
+khunphan-blogger.obj: blogger.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-blogger.obj -MD -MP -MF $(DEPDIR)/khunphan-blogger.Tpo -c -o khunphan-blogger.obj `if test -f 'blogger.cpp'; then $(CYGPATH_W) 'blogger.cpp'; else $(CYGPATH_W) '$(srcdir)/blogger.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-blogger.Tpo $(DEPDIR)/khunphan-blogger.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='blogger.cpp' object='khunphan-blogger.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-blogger.obj `if test -f 'blogger.cpp'; then $(CYGPATH_W) 'blogger.cpp'; else $(CYGPATH_W) '$(srcdir)/blogger.cpp'; fi`
 
 khunphan-stdafx.o: stdafx.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-stdafx.o -MD -MP -MF $(DEPDIR)/khunphan-stdafx.Tpo -c -o khunphan-stdafx.o `test -f 'stdafx.cpp' || echo '$(srcdir)/'`stdafx.cpp

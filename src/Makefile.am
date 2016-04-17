@@ -54,6 +54,7 @@ khunphan_SOURCES = \
         sprinter.cpp \
         kplocale.cpp \
         cmdline.cpp \
+        blogger.cpp \
         stdafx.cpp
 
 EXTRA_DIST = \
@@ -111,6 +112,7 @@ EXTRA_DIST = \
         cmdline.h \
         kpstates.h \
         bmanualtimer.h \
+        blogger.h \
         stdafx.h \
         KhunPhan.rc \
         icon.ico

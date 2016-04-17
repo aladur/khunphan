@@ -33,6 +33,7 @@
 #include "bdir.h"
 #include "kpconfig.h"
 #include "kpstate.h"
+#include "blogger.h"
 
 
 const int KPSdlUserInterface::REQUEST_FOR_CLOSE = 99;
@@ -222,12 +223,12 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
 {
     if (!reInitialize)
     {
-        LOG1("Audio and Music initialization");
+        BLogger::Log("Audio and Music initialization");
     }
 
     if (!reInitialize && Mix_OpenAudio(rate, AUDIO_S16, 1, 4096))
     {
-        LOG2("*** Error in Mix_OpenAudio: ", Mix_GetError());
+        BLogger::Log("*** Error in Mix_OpenAudio: ", Mix_GetError());
         return false;
     }
 
@@ -278,8 +279,8 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName,
         }
         else
         {
-            LOG3("**** Warning: No sound file available for sound '",
-                 soundFiles[i], "'");
+            BLogger::Log("**** Warning: No sound file available for sound '",
+                         soundFiles[i], "'");
         }
 
         i++;
@@ -339,14 +340,14 @@ void KPSdlUserInterface::LoadNextMusic()
 
             if ((music = Mix_LoadMUS(file.c_str())) == nullptr)
             {
-                LOG4("*** Error in Mix_LoadMUS(\"", file, "\"): ",
-                     Mix_GetError());
+                BLogger::Log("*** Error in Mix_LoadMUS(\"", file, "\"): ",
+                             Mix_GetError());
                 musicFiles.erase(it);
                 continue;
             }
             else
             {
-                LOG3("Loading '", file, "'");
+                BLogger::Log("Loading '", file, "'");
                 musicIndex++;
                 SetMusicVolume(config.MusicVolume);
                 break;
@@ -370,13 +371,13 @@ void KPSdlUserInterface::PlayAudio(int soundId) const
                                   SDL_RWFromFile(soundSource[soundId].c_str(),
                                           "rb"), 1)) == nullptr)
         {
-            LOG5("*** Error opening Audio file '", soundSource[soundId],
-                 "' [", Mix_GetError(), "]");
+            BLogger::Log("*** Error opening Audio file '", soundSource[soundId],
+                         "' [", Mix_GetError(), "]");
         }
 
         if (sound[soundId] != nullptr)
         {
-            LOG3("Reading '", soundSource[soundId], "'");
+            BLogger::Log("Reading '", soundSource[soundId], "'");
         }
     }
 

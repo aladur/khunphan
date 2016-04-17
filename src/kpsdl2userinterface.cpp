@@ -27,6 +27,7 @@
 #include <GL/glew.h>
 #include "kpsdl2userinterface.h"
 #include "kpconfig.h"
+#include "blogger.h"
 
 
 KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode, KPConfig &Config) :
@@ -77,7 +78,8 @@ void KPSdl2UserInterface::SetWindowSize(int width, int height) const
 
         if (index < 0)
         {
-            LOG2("*** SDL_GetWindowDisplayIndex error: ", SDL_GetError());
+            BLogger::Log("*** SDL_GetWindowDisplayIndex error: ",
+                         SDL_GetError());
             return;
         }
 
@@ -85,7 +87,7 @@ void KPSdl2UserInterface::SetWindowSize(int width, int height) const
 
         if (result < 0)
         {
-            LOG2("*** SDL_GetDisplayBounds error: ", SDL_GetError());
+            BLogger::Log("*** SDL_GetDisplayBounds error: ", SDL_GetError());
             return;
         }
 
@@ -132,25 +134,27 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     SDL_VERSION(&compiled);
     SDL_GetVersion(&linked);
 
-    LOG1("SDL UserInterface initialization");
-    LOG6("SDL linked version: ",
-         static_cast<unsigned int>(linked.major), '.',
-         static_cast<unsigned int>(linked.minor), '.',
-         static_cast<unsigned int>(linked.patch));
-    LOG6("SDL compiled version: ",
-         static_cast<unsigned int>(compiled.major), '.',
-         static_cast<unsigned int>(compiled.minor), '.',
-         static_cast<unsigned int>(compiled.patch));
-    LOG6("SDL Header version: ",
-         SDL_MAJOR_VERSION, '.', SDL_MINOR_VERSION, '.', SDL_PATCHLEVEL);
-    LOG2("SDL Revision: ", SDL_GetRevision());
+    BLogger::Log("SDL UserInterface initialization");
+    BLogger::Log("SDL linked version: ",
+                 static_cast<unsigned int>(linked.major), '.',
+                 static_cast<unsigned int>(linked.minor), '.',
+                 static_cast<unsigned int>(linked.patch));
+    BLogger::Log("SDL compiled version: ",
+                 static_cast<unsigned int>(compiled.major), '.',
+                 static_cast<unsigned int>(compiled.minor), '.',
+                 static_cast<unsigned int>(compiled.patch));
+    BLogger::Log("SDL Header version: ",
+                 SDL_MAJOR_VERSION, '.', SDL_MINOR_VERSION, '.',
+                 SDL_PATCHLEVEL);
+    BLogger::Log("SDL Revision: ", SDL_GetRevision());
     auto pVersion = Mix_Linked_Version();
-    LOG6("SDL_mixer Linked version: ",
-         static_cast<unsigned int>(pVersion->major), '.',
-         static_cast<unsigned int>(pVersion->minor), '.',
-         static_cast<unsigned int>(pVersion->patch));
-    LOG6("SDL_mixer Header version: ",
-         MIX_MAJOR_VERSION, '.', MIX_MINOR_VERSION, '.', MIX_PATCHLEVEL);
+    BLogger::Log("SDL_mixer Linked version: ",
+                 static_cast<unsigned int>(pVersion->major), '.',
+                 static_cast<unsigned int>(pVersion->minor), '.',
+                 static_cast<unsigned int>(pVersion->patch));
+    BLogger::Log("SDL_mixer Header version: ",
+                 MIX_MAJOR_VERSION, '.', MIX_MINOR_VERSION, '.',
+                 MIX_PATCHLEVEL);
 
     // Set OpenGL's context to 2.1 subset functionality profile.
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -215,13 +219,13 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
         throw std::runtime_error(message.str());
     }
 
-    LOG2("GLEW version: ", glewGetString(GLEW_VERSION));
+    BLogger::Log("GLEW version: ", glewGetString(GLEW_VERSION));
 
     SDL_DisplayMode mode;
 
     SDL_GetWindowDisplayMode(window, &mode);
-    LOG2("SDL pixel format: ", SDL_GetPixelFormatName(mode.format));
-    LOG3("SDL refresh rate: ", mode.refresh_rate, " Hz");
+    BLogger::Log("SDL pixel format: ", SDL_GetPixelFormatName(mode.format));
+    BLogger::Log("SDL refresh rate: ", mode.refresh_rate, " Hz");
 
     DebugPrintOpenGLVersion();
     DebugPrintOpenGLContextVersion();
@@ -258,8 +262,8 @@ void KPSdl2UserInterface::DebugPrintOpenGLContextVersion() const
         }
     }
 
-    LOG4("OpenGL context version: ", major, ".", minor);
-    LOG2("OpenGL context profile: ", index2String[index]);
+    BLogger::Log("OpenGL context version: ", major, ".", minor);
+    BLogger::Log("OpenGL context profile: ", index2String[index]);
 }
 
 void KPSdl2UserInterface::MainLoop()
@@ -378,7 +382,7 @@ bool KPSdl2UserInterface::IsWindowResolutionSupported(
 
     if (index < 0)
     {
-        LOG2("*** SDL_GetWindowDisplayIndex error: ", SDL_GetError());
+        BLogger::Log("*** SDL_GetWindowDisplayIndex error: ", SDL_GetError());
         return false;
     }
 
@@ -386,7 +390,7 @@ bool KPSdl2UserInterface::IsWindowResolutionSupported(
 
     if (result < 0)
     {
-        LOG2("*** SDL_GetDisplayBounds error: ", SDL_GetError());
+        BLogger::Log("*** SDL_GetDisplayBounds error: ", SDL_GetError());
         return false;
     }
 

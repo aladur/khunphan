@@ -28,6 +28,7 @@
 #include "kpglutuserinterface.h"
 #include "kpnodes.h"
 #include "kpsolutionscountfunction.h"
+#include "blogger.h"
 
 
 /////////////////////////////////////////////////////////////////////
@@ -66,23 +67,26 @@ void KhunPhanApp::InitializeSolutionTree()
     pContext->GetNodes().Iterate(fct);
     auto solutionsCount = fct.GetCount();
 
-    LOG2("Total positions found: ", positions);
-    LOG2("Total solutions found: ", solutionsCount);
-    LOG5(std::fixed, std::setprecision(2),
-         "Time to calculate all game positions: ",
-         pContext->GetNodes().GetCreateSolveTreeTime() / 1000.0, " ms");
-    LOG5(std::fixed, std::setprecision(2),
-         "Time to calculate solve count for all positions: ",
-         pContext->GetNodes().GetCalculateSolveCountTime() / 1000.0, " ms");
+    BLogger::Log("Total positions found: ", positions);
+    BLogger::Log("Total solutions found: ", solutionsCount);
+    BLogger::Log(std::fixed, std::setprecision(2),
+                 "Time to calculate all game positions: ",
+                 pContext->GetNodes().GetCreateSolveTreeTime() / 1000.0, " ms");
+    BLogger::Log(std::fixed, std::setprecision(2),
+                 "Time to calculate solve count for all positions: ",
+                 pContext->GetNodes().GetCalculateSolveCountTime() / 1000.0,
+                 " ms");
 }
 
 bool KhunPhanApp::Initialize()
 {
-    LOG1(PACKAGE " V" VERSION);
-    LOG1("Copyright (C) 2002-2016 Wolfgang Schwotzer");
-    LOG1("This is free software; see the source for copying conditions");
-    LOG1("There is NO warranty; not even for MERCHANTABILITY or FITNESS");
-    LOG1("FOR A PARTICULAR PURPOSE.");
+    BLogger::Log(PACKAGE " V" VERSION);
+    BLogger::Log("Copyright (C) 2002-2016 Wolfgang Schwotzer");
+    BLogger::Log("This is free software; see the source for copying "
+                 "conditions");
+    BLogger::Log("There is NO warranty; not even for MERCHANTABILITY or "
+                 "FITNESS");
+    BLogger::Log("FOR A PARTICULAR PURPOSE.");
 
     config.SetDefaultValues();
     config.ReadCommandLineParams(argc, argv);

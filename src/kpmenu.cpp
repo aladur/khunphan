@@ -30,6 +30,7 @@
 #include "sprinter.h"
 #include "kpstate.h"
 #include "kpstatistics.h"
+#include "blogger.h"
 
 
 KPmenu::KPmenu(KPConfig &Config) :
@@ -42,7 +43,7 @@ KPmenu::KPmenu(KPConfig &Config) :
 void KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
                         int Language /* = 0*/)
 {
-    LOG1("Menu initialization");
+    BLogger::Log("Menu initialization");
 
     plates[PLATE_MENUBACKGROUND] = Plate(0.7f, 0.7f, 0.7f);
     plates[PLATE_SHADER] = Plate(0.0, 0.0, 0.0);
@@ -54,7 +55,7 @@ void KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
 
     Update(TextureName, TextureSize, Nearest);
 
-    LOG1("Loading languages");
+    BLogger::Log("Loading languages");
     // In the first step load strings for all supported languages
     LoadLanguage(T_LANGUAGE_MAX);
     // In a second step load english as default
@@ -94,7 +95,7 @@ bool KPmenu::LoadLanguage(int Language)
 
     if (labels.find(Language) != labels.end())
     {
-        LOG2(" ", labels[Language].GetText().c_str());
+        BLogger::Log(" ", labels[Language].GetText().c_str());
     }
 
     sprinter::sprintf(file,

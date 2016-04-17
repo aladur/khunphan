@@ -25,6 +25,7 @@
 #include <stdexcept>
 #include "kpsdl12userinterface.h"
 #include "kpconfig.h"
+#include "blogger.h"
 
 
 KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode, KPConfig &Config) :
@@ -52,21 +53,23 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 {
     auto flags = SDL_OPENGL | SDL_RESIZABLE;
 
-    LOG1("SDL UserInterface initialization");
+    BLogger::Log("SDL UserInterface initialization");
     auto pVersion = SDL_Linked_Version();
-    LOG6("SDL Linked version: ",
-         static_cast<unsigned int>(pVersion->major), '.',
-         static_cast<unsigned int>(pVersion->minor), '.',
-         static_cast<unsigned int>(pVersion->patch));
-    LOG6("SDL Header version: ",
-         SDL_MAJOR_VERSION, '.', SDL_MINOR_VERSION, '.', SDL_PATCHLEVEL);
+    BLogger::Log("SDL Linked version: ",
+                 static_cast<unsigned int>(pVersion->major), '.',
+                 static_cast<unsigned int>(pVersion->minor), '.',
+                 static_cast<unsigned int>(pVersion->patch));
+    BLogger::Log("SDL Header version: ",
+                 SDL_MAJOR_VERSION, '.', SDL_MINOR_VERSION, '.',
+                 SDL_PATCHLEVEL);
     pVersion = Mix_Linked_Version();
-    LOG6("SDL_mixer Linked version: ",
-         static_cast<unsigned int>(pVersion->major), '.',
-         static_cast<unsigned int>(pVersion->minor), '.',
-         static_cast<unsigned int>(pVersion->patch));
-    LOG6("SDL_mixer Header version: ",
-         MIX_MAJOR_VERSION, '.', MIX_MINOR_VERSION, '.', MIX_PATCHLEVEL);
+    BLogger::Log("SDL_mixer Linked version: ",
+                 static_cast<unsigned int>(pVersion->major), '.',
+                 static_cast<unsigned int>(pVersion->minor), '.',
+                 static_cast<unsigned int>(pVersion->patch));
+    BLogger::Log("SDL_mixer Header version: ",
+                 MIX_MAJOR_VERSION, '.', MIX_MINOR_VERSION, '.',
+                 MIX_PATCHLEVEL);
 
     // Open OpenGL Window with SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE) < 0)

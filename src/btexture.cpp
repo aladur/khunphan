@@ -23,6 +23,7 @@
 #include <ios>
 #include <string>
 #include "btexture.h"
+#include "blogger.h"
 
 // zlib best compression value
 #ifndef Z_BEST_COMPRESSION
@@ -115,7 +116,7 @@ const char *BTexture::ReadTextureFromFile(
         return nullptr;
     }
 
-    LOG3("Reading '", file.c_str(), "'");
+    BLogger::Log("Reading '", file.c_str(), "'");
 
     const char *returned_texels = ReadTextureFromFile(fs, flags);
     fs.close();

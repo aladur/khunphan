@@ -24,6 +24,7 @@
 #include "kpstateselectlanguage.h"
 #include "kpmenu.h"
 #include "kpconfig.h"
+#include "blogger.h"
 
 
 void KPstateSelectLanguage::Initialize(KPstateContext *pContext,
@@ -107,7 +108,7 @@ tKPMenuState KPstateSelectLanguage::ESCKeyAction(KPstateContext *pContext) const
 void KPstateSelectLanguage::SetLanguage(KPstateContext *pContext,
                                         int Language) const
 {
-    LOG1("Loading language");
+    BLogger::Log("Loading language");
 
     pContext->GetMenu().LoadLanguage(Language);
 

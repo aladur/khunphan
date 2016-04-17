@@ -82,9 +82,10 @@ public:
     } tPosition;
 
 private:
-enum {
-    TOKEN_MAX = 10
-};
+    enum
+    {
+        TOKEN_MAX = 10
+    };
     typedef std::array<tPosition, TOKEN_MAX> tArrayOftPosition;
     typedef std::array<char, TOKEN_MAX> tArrayOfChar;
 
