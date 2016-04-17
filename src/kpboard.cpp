@@ -28,13 +28,18 @@
 #include "kpboard.h"
 
 
-const char KPboard::xExtend[] { 1, 1, 1, 1, 1, 1, 1, 1, 2, 2 };
-const char KPboard::yExtend[] { 1, 1, 1, 1, 2, 2, 2, 2, 1, 2 };
+const KPboard::tArrayOfChar KPboard::xExtends
+{
+    1, 1, 1, 1, 1, 1, 1, 1, 2, 2
+};
+const KPboard::tArrayOfChar KPboard::yExtends
+{
+    1, 1, 1, 1, 2, 2, 2, 2, 1, 2
+};
 
 KPboard::KPboard() : id(0),
-    position{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0},
-    {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},
-tokenID{ TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY,
+    positions{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+    tokenID{ TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY,
              TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY,
              TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY,
              TK_EMPTY, TK_EMPTY }
@@ -45,11 +50,7 @@ KPboard::KPboard(const KPboard &src)
 {
     id = 0;
 
-    for (auto index = 0; index < TOKEN_MAX; ++index)
-    {
-        position[index].x = src.position[index].x;
-        position[index].y = src.position[index].y;
-    }
+    std::copy(src.positions.cbegin(), src.positions.cend(), positions.begin());
 
     memcpy(tokenID, src.tokenID, sizeof(tokenID));
 }
@@ -81,8 +82,8 @@ inline void KPboard::SetPosition(tKPTokenID aTokenId, int x, int y)
         }
     }
 
-    position[aTokenId].x = x;
-    position[aTokenId].y = y;
+    positions[aTokenId].x = x;
+    positions[aTokenId].y = y;
     id = 0;
 }
 
@@ -98,8 +99,8 @@ bool KPboard::Move(tKPTokenID aTokenId, tKPDirection direction)
         return false;
     }
 
-    auto x = position[aTokenId].x;
-    auto y = position[aTokenId].y;
+    auto x = positions[aTokenId].x;
+    auto y = positions[aTokenId].y;
     auto xExtend = GetXExtend(aTokenId);
     auto yExtend = GetYExtend(aTokenId);
     decltype(xExtend) i;
@@ -227,8 +228,8 @@ bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection direction) const
         return false;
     }
 
-    auto x = position[aTokenId].x;
-    auto y = position[aTokenId].y;
+    auto x = positions[aTokenId].x;
+    auto y = positions[aTokenId].y;
     auto xExtend = GetXExtend(aTokenId);
     auto yExtend = GetYExtend(aTokenId);
     decltype(xExtend) i;

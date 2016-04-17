@@ -26,14 +26,13 @@
 #include "stdafx.h"
 #include <ostream>
 #include <vector>
+#include <array>
 
 
 enum
 {
     HORIZONTAL_MAX = 4,
-    VERTICAL_MAX   = 5,
-    MOVES_MAX      = 7,
-    TOKEN_MAX      = 10
+    VERTICAL_MAX   = 5
 };
 
 class KPboard
@@ -83,11 +82,17 @@ public:
     } tPosition;
 
 private:
+enum {
+    TOKEN_MAX = 10
+};
+    typedef std::array<tPosition, TOKEN_MAX> tArrayOftPosition;
+    typedef std::array<char, TOKEN_MAX> tArrayOfChar;
+
     mutable QWord id;
-    tPosition position[TOKEN_MAX];
+    tArrayOftPosition positions;
     unsigned char tokenID[HORIZONTAL_MAX][VERTICAL_MAX];
-    static const char xExtend[TOKEN_MAX];
-    static const char yExtend[TOKEN_MAX];
+    static const tArrayOfChar xExtends;
+    static const tArrayOfChar yExtends;
 
 public:
 
@@ -107,23 +112,23 @@ public:
     QWord GetID() const;
     inline bool IsSolved(void) const
     {
-        return (position[TK_RED1].x == 1 && position[TK_RED1].y == 3);
+        return (positions[TK_RED1].x == 1 && positions[TK_RED1].y == 3);
     }
     inline int GetX(tKPTokenID aTokenId) const
     {
-        return (aTokenId == TK_EMPTY) ? 0 : position[aTokenId].x;
+        return (aTokenId == TK_EMPTY) ? 0 : positions[aTokenId].x;
     }
     inline int GetY(tKPTokenID aTokenId) const
     {
-        return (aTokenId == TK_EMPTY) ? 0 : position[aTokenId].y;
+        return (aTokenId == TK_EMPTY) ? 0 : positions[aTokenId].y;
     }
     static inline int GetXExtend(tKPTokenID aTokenId)
     {
-        return (aTokenId == TK_EMPTY) ? 1 : xExtend[aTokenId];
+        return (aTokenId == TK_EMPTY) ? 1 : xExtends[aTokenId];
     }
     static inline int GetYExtend(tKPTokenID aTokenId)
     {
-        return (aTokenId == TK_EMPTY) ? 1 : yExtend[aTokenId];
+        return (aTokenId == TK_EMPTY) ? 1 : yExtends[aTokenId];
     }
 
 private:
