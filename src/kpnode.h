@@ -25,6 +25,7 @@
 #include "stdafx.h"
 #include <ostream>
 #include <vector>
+#include <functional>
 #include "kpboard.h"
 
 
@@ -32,8 +33,10 @@ class KPnodes;
 
 class KPnode
 {
-    std::vector<KPnode *> childs;   // non-owning pointer
-    std::vector<KPnode *> parents;  // non-owning pointer
+    // Use reference_wrapper to store references to existing nodes
+    // in the childs or parents vector.
+    std::vector<std::reference_wrapper<KPnode> > childs;
+    std::vector<std::reference_wrapper<KPnode> > parents;
     int movesToSolve;
 
 public:

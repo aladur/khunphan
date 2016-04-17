@@ -57,9 +57,6 @@ KPnode &KPnode::operator= (const KPnode &src)
 
 void KPnode::AddNextMoves(KPnodes &nodes)
 {
-    KPboard boardMoved;
-    KPnode *pnode;
-
     if (!GetBoard().IsSolved() && childs.empty())
     {
         auto moves = board.GetPossibleMoves();
@@ -74,21 +71,28 @@ void KPnode::AddNextMoves(KPnodes &nodes)
             {
                 KPnode node(boardMoved);
 
-                pnode = &nodes.Add(node);
+                // Position not found in tree: Add a new node
+                // Important: Get the added reference in the nodes container
+                // and push it into the childs vector
+                auto &newNode = nodes.Add(node);
 #ifdef DEBUG_OUTPUT
                 std::cout << nodes.GetSize() << ". New: " << std::endl;
-                pnode->print(std::cout);
+                newNode.print(std::cout);
 #endif
+                // Create parent and child links to existing node
+                childs.push_back(newNode);
+                newNode.parents.push_back(*this);
             }
             else
             {
-                // position already in tree
+                // Position already in tree
+                // Important: Get the existing reference in the nodes container
+                // and push it into the childs vector
+                auto &existingNode = nodes.GetNodeFor(boardMoved.GetID());
                 // Create parent and child links to existing node
-                pnode = &nodes.GetNodeFor(boardMoved.GetID());
+                childs.push_back(existingNode);
+                existingNode.parents.push_back(*this);
             }
-
-            childs.push_back(pnode);
-            pnode->parents.push_back(this);
         }
     }
 }
@@ -105,7 +109,7 @@ void KPnode::print(std::ostream &os, bool with_childs /* = false */) const
         for (auto it = childs.cbegin(); it != childs.cend(); ++it)
         {
             os << i << ". Child:" << std::endl;
-            (*it)->print(os);
+            (*it).get().print(os);
             ++i;
         }
     }
@@ -127,7 +131,7 @@ void KPnode::RecursiveUpdateSolveCount(int count, bool start)
 
         for (auto it = parents.cbegin(); it != parents.cend(); ++it)
         {
-            (*it)->RecursiveUpdateSolveCount(count + 1, false);
+            (*it).get().RecursiveUpdateSolveCount(count + 1, false);
         }
     }
 }
