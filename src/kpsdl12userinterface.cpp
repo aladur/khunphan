@@ -237,9 +237,9 @@ void KPSdl12UserInterface::SetStopMusicCallback()
 
 void KPSdl12UserInterface::stopMusicCallback()
 {
-    if (KPSdl12UserInterface::instance != nullptr)
+    if (KPSdl12UserInterface::pInstance != nullptr)
     {
-        KPSdl12UserInterface::instance->StopMusicCallback();
+        KPSdl12UserInterface::pInstance->StopMusicCallback();
     }
 }
 

@@ -41,16 +41,8 @@ KPstate::~KPstate()
 {
 }
 
-void KPstate::Initialize(KPstateContext *pContext,
-                         const KPstate *pPreviousState)
+void KPstate::Initialize(KPstateContext *pContext, tKPMenuState previousStateId)
 {
-    auto previousStateId = KPState_Invalid;
-
-    if (pPreviousState != nullptr)
-    {
-        previousStateId = pPreviousState->GetId();
-    }
-
     pContext->SetPreviousState(previousStateId);
 
     PlayAudioForInitialize(pContext);

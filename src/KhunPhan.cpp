@@ -36,29 +36,29 @@
 /////////////////////////////////////////////////////////////////////
 
 KhunPhanApp::KhunPhanApp() :
-    userInterface(nullptr), argc(0), argv(nullptr), canRun(false)
+    argc(0), argv(nullptr), canRun(false)
 {
 }
 
 KhunPhanApp::KhunPhanApp(int p_argc, char **p_argv) :
-    userInterface(nullptr), argc(p_argc), argv(p_argv), canRun(true)
+    argc(p_argc), argv(p_argv), canRun(true)
 {
     Initialize();
 }
 
 KhunPhanApp::~KhunPhanApp()
 {
-    if (userInterface != nullptr)
+    if (pUserInterface)
     {
-        userInterface->Close();
-        delete userInterface;
-        userInterface = nullptr;
+        pUserInterface->Close();
     }
 }
 
 void KhunPhanApp::InitializeSolutionTree()
 {
-    KPstateContext *pContext = userInterface;
+    // Get non-owning pointer to state context.
+    KPstateContext *pContext =
+        dynamic_cast<KPstateContext *>(pUserInterface.get());
     KPsolutionsCountFunction fct;
 
     pContext->GetNodes().CalculateSolveCount();
@@ -113,19 +113,20 @@ bool KhunPhanApp::Initialize()
     rootBoard.InitializeToken(TK_RED1,   1, 0);
 
     KPnode rootNode(rootBoard);
+    KPUIBase *pUIBase = nullptr;
 
     switch (config.UserInterface)
     {
 #ifdef HAVE_SDL2
 
         case 0:
-            userInterface = new KPSdl2UserInterface(rootNode, config);
+            pUIBase = new KPSdl2UserInterface(rootNode, config);
             break;
 #else
 #ifdef HAVE_SDL
 
         case 0:
-            userInterface = new KPSdl12UserInterface(rootNode, config);
+            pUIBase = new KPSdl12UserInterface(rootNode, config);
             break;
 #endif
 #endif
@@ -133,7 +134,7 @@ bool KhunPhanApp::Initialize()
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
 
         case 1:
-            userInterface = new KPGlutUserInterface(rootNode, config);
+            pUIBase = new KPGlutUserInterface(rootNode, config);
             break;
 #endif
 
@@ -141,6 +142,7 @@ bool KhunPhanApp::Initialize()
             throw std::runtime_error("No user interface initialized");
     }
 
+    pUserInterface.reset(pUIBase);
     InitializeSolutionTree();
 
     return true;
@@ -150,8 +152,8 @@ void KhunPhanApp::Run()
 {
     if (argv != nullptr && canRun)
     {
-        userInterface->OpenWindow(argc, argv);
-        userInterface->MainLoop();
+        pUserInterface->OpenWindow(argc, argv);
+        pUserInterface->MainLoop();
     }
 }
 

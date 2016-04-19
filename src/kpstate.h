@@ -38,7 +38,8 @@ public:
     {
         return KPState_Invalid;
     };
-    virtual void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    virtual void Initialize(KPstateContext *pContext,
+                            tKPMenuState previousStateId);
     virtual void AnimateAll(KPstateContext *pContext,
                             unsigned int duration) const;
     virtual void Animate(KPstateContext *pContext, unsigned int duration) const;

@@ -247,28 +247,28 @@ bool KPGlutUserInterface::IsWindowResolutionSupported(
 
 void KPGlutUserInterface::MouseClickEvent(int button, int state, int x, int y)
 {
-    KPGlutUserInterface::instance->MouseClick(button, state, x, y);
+    KPGlutUserInterface::pInstance->MouseClick(button, state, x, y);
 }
 
 void KPGlutUserInterface::KeyPressedEvent(unsigned char keyPressed, int x,
         int y)
 {
-    KPGlutUserInterface::instance->KeyPressed(keyPressed, x, y);
+    KPGlutUserInterface::pInstance->KeyPressed(keyPressed, x, y);
 }
 
 void KPGlutUserInterface::DisplayEvent()
 {
-    KPGlutUserInterface::instance->Display();
+    KPGlutUserInterface::pInstance->Display();
 }
 
 void KPGlutUserInterface::ReshapeEvent(int width, int height)
 {
-    KPGlutUserInterface::instance->Reshape(width, height);
+    KPGlutUserInterface::pInstance->Reshape(width, height);
 }
 
 void KPGlutUserInterface::IdleEvent()
 {
-    KPGlutUserInterface::instance->Idle();
+    KPGlutUserInterface::pInstance->Idle();
 }
 
 /////////////////////////////////////////////////////////////////////

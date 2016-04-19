@@ -46,7 +46,7 @@ public:
     {
         return KPState_Tutorial3;
     };
-    void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    void Initialize(KPstateContext *pContext, tKPMenuState previousStateId);
     void MouseClick(KPstateContext *pContext, tMouseButton button,
                     tMouseEvent event, int x, int y);
     void UpdateDisplay(KPstateContext *pContext) const;

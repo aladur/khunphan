@@ -27,9 +27,9 @@
 
 
 void KPstateControlSettings::Initialize(KPstateContext *pContext,
-                                        const KPstate *pPreviousState)
+                                        tKPMenuState previousStateId)
 {
-    KPstate::Initialize(pContext, pPreviousState);
+    KPstate::Initialize(pContext, previousStateId);
 
     // Do some initialization stuff here:
 

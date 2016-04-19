@@ -31,9 +31,9 @@ KPstateAudioSettings::KPstateAudioSettings() :
 }
 
 void KPstateAudioSettings::Initialize(KPstateContext *pContext,
-                                      const KPstate *pPreviousState)
+                                      tKPMenuState previousStateId)
 {
-    KPstate::Initialize(pContext, pPreviousState);
+    KPstate::Initialize(pContext, previousStateId);
 
     pContext->GetUserInterface().PlayMusic(true, true);
     E_MusicVolume = pContext->GetConfig().MusicVolume;

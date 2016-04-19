@@ -25,6 +25,7 @@
 #include <math.h>
 #include <limits.h>
 #include <stdexcept>
+#include <memory>
 #include "kpconfig.h"
 #include "kpboardGL.h"
 #include "camera.h"
@@ -101,13 +102,12 @@ bool KPboardView::CreateTexture(unsigned int TextureSize,
                                 bool Nearest, unsigned int *pId)
 {
     // define a Display List WOOD_TEXTURE containing light and texture stuff
-    BTexture *pTexture = new BTexture;
+    auto pTexture = std::make_unique<BTexture>();
 
     auto *texels = pTexture->ReadTextureFromFile(file, 0);
 
     if (texels == nullptr)
     {
-        delete pTexture;
         return false;
     }
 
@@ -138,7 +138,7 @@ bool KPboardView::CreateTexture(unsigned int TextureSize,
                  GL_UNSIGNED_BYTE, texels);
     // Avoid to bind the texture by another glTexImage2D:
     glBindTexture(GL_TEXTURE_2D, 0);
-    delete pTexture;
+
     return true;
 }
 

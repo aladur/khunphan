@@ -35,9 +35,9 @@ KPstateLightTest::KPstateLightTest() : mouse_x(0), mouse_y(0)
 }
 
 void KPstateLightTest::Initialize(KPstateContext *pContext,
-                                  const KPstate *pPreviousState)
+                                  tKPMenuState previousStateId)
 {
-    KPstate::Initialize(pContext, pPreviousState);
+    KPstate::Initialize(pContext, previousStateId);
 
     pContext->GetConfig().CameraPosition = 1;
     pContext->GetCamera().SetPosition(pContext->GetConfig().CameraPosition);

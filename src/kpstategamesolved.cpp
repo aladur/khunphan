@@ -36,9 +36,9 @@ KPstateGameSolved::KPstateGameSolved() : addToScoreList(false),
 }
 
 void KPstateGameSolved::Initialize(KPstateContext *pContext,
-                                   const KPstate *pPreviousState)
+                                   tKPMenuState previousStateId)
 {
-    KPstate::Initialize(pContext, pPreviousState);
+    KPstate::Initialize(pContext, previousStateId);
 
     auto &menu = pContext->GetMenu();
     auto &statistics = pContext->GetStatistics();

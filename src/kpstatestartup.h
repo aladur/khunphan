@@ -33,7 +33,7 @@ public:
     {
         return KPState_StartUp;
     };
-    void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    void Initialize(KPstateContext *pContext, tKPMenuState previousStateId);
     void Draw(KPstateContext *pContext) const;
     void MouseClick(KPstateContext *pContext, tMouseButton button,
                     tMouseEvent event, int x, int y);

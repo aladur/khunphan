@@ -30,13 +30,13 @@
 
 
 void KPstateTutorial1::Initialize(KPstateContext *pContext,
-                                  const KPstate *pPreviousState)
+                                  tKPMenuState previousStateId)
 {
     auto &menu = pContext->GetMenu();
 
-    KPstate::Initialize(pContext, pPreviousState);
+    KPstate::Initialize(pContext, previousStateId);
 
-    menu.SaveLastStateId(pPreviousState->GetId());
+    menu.SaveLastStateId(previousStateId);
 
     pContext->GetBoardView().EmphasizeToken(TK_RED1);
     InitializeBoardWithTokens(pContext);

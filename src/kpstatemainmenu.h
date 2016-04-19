@@ -32,7 +32,7 @@ public:
     {
         return KPState_MainMenu;
     };
-    void Initialize(KPstateContext *pContext, const KPstate *pOldState);
+    void Initialize(KPstateContext *pContext, tKPMenuState previousStateId);
     void MouseClick(KPstateContext *pContext, tMouseButton button,
                     tMouseEvent event, int x, int y);
     tKPMenuState ESCKeyAction(KPstateContext *pContext) const;

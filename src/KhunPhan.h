@@ -23,6 +23,7 @@
 #ifndef KHUNPHAN_H
 #define KHUNPHAN_H
 
+#include <memory>
 #include "kpboard.h"
 #include "kpconfig.h"
 
@@ -44,7 +45,7 @@ private:
 
     KPboard rootBoard;
     KPConfig config;
-    KPUIBase *userInterface;
+    std::unique_ptr<KPUIBase> pUserInterface;
     int argc;
     char **argv;
     bool canRun;

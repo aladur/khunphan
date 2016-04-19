@@ -34,9 +34,9 @@ KPstateTutorial3::KPstateTutorial3() : tutorialState(KP_TUT_STARTED)
 }
 
 void KPstateTutorial3::Initialize(KPstateContext *pContext,
-                                  const KPstate *pPreviousState)
+                                  tKPMenuState previousStateId)
 {
-    KPstate::Initialize(pContext, pPreviousState);
+    KPstate::Initialize(pContext, previousStateId);
 
     pContext->GetBoardView().EmphasizeToken(GetEmphasizedTokenId());
     pContext->GetCamera().SetRoundtrip(false);

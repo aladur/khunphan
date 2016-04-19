@@ -23,6 +23,7 @@
 #define KPUIBASE_H
 
 #include "stdafx.h"
+#include <memory>
 #include <string>
 #include "KPstateContext.h"
 #include "kpmenu.h"
@@ -105,20 +106,20 @@ protected:
     BTime   fpsTime;
 
 private:
-    KPboardView  *pBoardView;
-    Camera       *pCamera;
-    Light        *pLight;
-    KPmenu       *pMenu;
-    KPnodes      *pNodes;
-    KPStatistics *pStatistics;
-    BManualTimer  animationTimer;
-    tKPMenuState  previousStateId;
-    bool          isPause;
+    std::unique_ptr<KPboardView> pBoardView;
+    std::unique_ptr<Camera> pCamera;
+    std::unique_ptr<Light> pLight;
+    std::unique_ptr<KPmenu> pMenu;
+    std::unique_ptr<KPnodes> pNodes;
+    std::unique_ptr<KPStatistics> pStatistics;
+    BManualTimer animationTimer;
+    tKPMenuState previousStateId;
+    bool isPause;
 
 protected:
-    KPstate *pState;
+    std::unique_ptr<KPstate> pState;
     KPConfig &config;
-    static  KPUIBase *instance;
+    static KPUIBase *pInstance;
 
 private:
     unsigned long lastFrameTimestamp;

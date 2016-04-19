@@ -23,6 +23,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h> // needed for GLU version
 #include <stdexcept>
+#include <memory>
 #include "kpuibase.h"
 #include "kpstatefactory.h"
 #include "kpboardGL.h"
@@ -39,15 +40,13 @@
 // compile for a specific light test version
 // #define DEBUG_LIGHT_TEST
 
-KPUIBase *KPUIBase::instance = nullptr;
+// pInstance contains the non-owning pointer to an instance of a
+// subclass of KPUIBase.
+KPUIBase *KPUIBase::pInstance = nullptr;
 
 KPUIBase::KPUIBase(KPConfig &Config) :
-    pBoardView(nullptr), pCamera(nullptr),
-    pLight(nullptr), pMenu(nullptr),
-    pNodes(nullptr), pStatistics(nullptr),
     animationTimer(TOTAL_ANIMATIONTIME, false),
     previousStateId(KPState_Invalid), isPause(false),
-    pState(nullptr),
     config(Config),
     lastFrameTimestamp(0), oldTime(0), frameCount(0)
 
@@ -55,34 +54,20 @@ KPUIBase::KPUIBase(KPConfig &Config) :
     // the instance is needed for callback handling.
     // Concequence: Only one UserInterface instance is
     // supported at a time
-    if (instance != nullptr)
+    if (pInstance != NULL)
     {
         throw std::runtime_error(
             "Error: Only one UserInterface instance allowed at a time");
     }
     else
     {
-        instance = this;
+        pInstance = this;
     }
 }
 
 KPUIBase::~KPUIBase()
 {
-    delete pBoardView;
-    pBoardView  = nullptr;
-    delete pCamera;
-    pCamera     = nullptr;
-    delete pLight;
-    pLight      = nullptr;
-    delete pMenu;
-    pMenu       = nullptr;
-    delete pNodes;
-    pNodes      = nullptr;
-    delete pState;
-    pState      = nullptr;
-    delete pStatistics;
-    pStatistics = nullptr;
-    instance = nullptr;
+    pInstance = nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -91,9 +76,9 @@ KPUIBase::~KPUIBase()
 
 void KPUIBase::Initialize(KPnode &rootNode)
 {
-    pNodes = new KPnodes(rootNode);
+    pNodes = std::make_unique<KPnodes>(rootNode);
 
-    pStatistics = new KPStatistics();
+    pStatistics = std::make_unique<KPStatistics>();
 }
 
 void KPUIBase::InitializeAfterOpen()
@@ -109,18 +94,18 @@ void KPUIBase::InitializeAfterOpen()
     glClearDepth(1.0);
     glDepthFunc(GL_LESS);
 
-    pBoardView = new KPboardView(GetNodes().GetRootNode().GetBoard(),
+    pBoardView = std::make_unique<KPboardView>(
+                                 GetNodes().GetRootNode().GetBoard(),
                                  config.GetDirectory(KP_TEXTURE_DIR),
                                  config.TextureName,
                                  config.TextureSize,
                                  config.Nearest);
 
-    pLight = new Light(config.AmbientLight,
-                       config.LightSources);
+    pLight = std::make_unique<Light>(config.AmbientLight, config.LightSources);
 
-    pCamera = new Camera();
+    pCamera = std::make_unique<Camera>();
 
-    pMenu = new KPmenu(config);
+    pMenu = std::make_unique<KPmenu>(config);
 
     pMenu->Initialize(config.TextureName,
                       config.MenuTextureSize,
@@ -268,11 +253,10 @@ void KPUIBase::ChangeState(tKPMenuState stateID)
 {
     if (stateID != KPState_Invalid)
     {
-        KPstate *pPreviousState = pState;
+        auto previousStateId = pState ? pState->GetId() : KPState_Invalid;
 
-        pState = KPstateFactory::CreateState(stateID);
-        pState->Initialize(this, pPreviousState);
-        delete pPreviousState;
+        pState.reset(KPstateFactory::CreateState(stateID));
+        pState->Initialize(this, previousStateId);
     }
 }
 
