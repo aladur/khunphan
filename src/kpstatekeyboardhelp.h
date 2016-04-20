@@ -29,14 +29,15 @@
 class KPstateKeyboardHelp : public KPstate
 {
 public:
-    tKPMenuState GetId() const
+    tKPMenuState GetId() const override
     {
         return KPState_KeyboardHelp;
     };
-    void Initialize(KPstateContext *pContext, tKPMenuState previousStateId);
+    void Initialize(KPstateContext *pContext,
+                    tKPMenuState previousStateId) override;
     void MouseClick(KPstateContext *pContext, tMouseButton button,
-                    tMouseEvent event, int x, int y);
-    void UpdateDisplay(KPstateContext *pContext) const;
+                    tMouseEvent event, int x, int y) override;
+    void UpdateDisplay(KPstateContext *pContext) const override;
 };
 
 #endif

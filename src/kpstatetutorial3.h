@@ -42,15 +42,16 @@ class KPstateTutorial3 : public KPstateMoveToken
 {
 public:
     KPstateTutorial3();
-    tKPMenuState GetId() const
+    tKPMenuState GetId() const override
     {
         return KPState_Tutorial3;
     };
-    void Initialize(KPstateContext *pContext, tKPMenuState previousStateId);
+    void Initialize(KPstateContext *pContext,
+                    tKPMenuState previousStateId) override;
     void MouseClick(KPstateContext *pContext, tMouseButton button,
-                    tMouseEvent event, int x, int y);
-    void UpdateDisplay(KPstateContext *pContext) const;
-    tKPMenuState ESCKeyAction(KPstateContext *) const;
+                    tMouseEvent event, int x, int y) override;
+    void UpdateDisplay(KPstateContext *pContext) const override;
+    tKPMenuState ESCKeyAction(KPstateContext *) const override;
 
 protected:
     virtual int GetTextOffset() const;
@@ -59,8 +60,9 @@ protected:
     virtual void ContinueWithNextState(KPstateContext *pContext,
                                        bool valid = true) const;
     void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
-                             tKPDirection direction, bool successfullyMoved);
-    void PlayAudioForInitialize(KPstateContext *pContext) const;
+                             tKPDirection direction,
+                             bool successfullyMoved) override;
+    void PlayAudioForInitialize(KPstateContext *) const override;
 
     tTutState tutorialState;
 };

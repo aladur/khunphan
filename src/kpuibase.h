@@ -79,7 +79,7 @@ public:
     {
         return false;
     };
-    virtual std::string GetWindowTitle() const;
+    std::string GetWindowTitle() const;
 
     void DebugPrintOpenGLVersion()  const;
     std::string GetOpenGLVendor()   const;

@@ -32,15 +32,16 @@ class KPstateGraphicSettings : public KPstate
 {
 public:
     KPstateGraphicSettings();
-    tKPMenuState GetId() const
+    tKPMenuState GetId() const override
     {
         return KPState_GraphicSettings;
     };
-    void Initialize(KPstateContext *pContext, tKPMenuState previousStateId);
+    void Initialize(KPstateContext *pContext,
+                    tKPMenuState previousStateId) override;
     void MouseClick(KPstateContext *pContext, tMouseButton button,
-                    tMouseEvent event, int x, int y);
-    void UpdateDisplay(KPstateContext *pContext) const;
-    tKPMenuState ESCKeyAction(KPstateContext *pContext) const;
+                    tMouseEvent event, int x, int y) override;
+    void UpdateDisplay(KPstateContext *pContext) const override;
+    tKPMenuState ESCKeyAction(KPstateContext *pContext) const override;
 
 protected:
     int GetCurrentQuality(KPstateContext *pContext);

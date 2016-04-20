@@ -29,16 +29,17 @@ class KPstateStartUp : public KPstate
 {
 public:
     KPstateStartUp();
-    tKPMenuState GetId() const
+    tKPMenuState GetId() const override
     {
         return KPState_StartUp;
     };
-    void Initialize(KPstateContext *pContext, tKPMenuState previousStateId);
-    void Draw(KPstateContext *pContext) const;
+    void Initialize(KPstateContext *pContext,
+                    tKPMenuState previousStateId) override;
+    void Draw(KPstateContext *pContext) const override;
     void MouseClick(KPstateContext *pContext, tMouseButton button,
-                    tMouseEvent event, int x, int y);
-    tKPMenuState ESCKeyAction(KPstateContext *) const;
-    void UpdateDisplay(KPstateContext *pContext) const;
+                    tMouseEvent event, int x, int y) override;
+    tKPMenuState ESCKeyAction(KPstateContext *) const override;
+    void UpdateDisplay(KPstateContext *pContext) const override;
 };
 
 #endif

@@ -30,20 +30,21 @@ class KPstateGameSolved : public KPstate
 {
 public:
     KPstateGameSolved();
-    tKPMenuState GetId() const
+    tKPMenuState GetId() const override
     {
         return KPState_GameSolved;
     };
-    void Initialize(KPstateContext *pContext, tKPMenuState previousStateId);
+    void Initialize(KPstateContext *pContext,
+                    tKPMenuState previousStateId) override;
     void MouseClick(KPstateContext *pContext, tMouseButton button,
-                    tMouseEvent event, int x, int y);
+                    tMouseEvent event, int x, int y) override;
     void KeyPressed(KPstateContext *pContext, unsigned char key,
-                    int x, int y) const;
-    void UpdateDisplay(KPstateContext *pContext) const;
-    tKPMenuState ESCKeyAction(KPstateContext *) const;
+                    int x, int y) const override;
+    void UpdateDisplay(KPstateContext *pContext) const override;
+    tKPMenuState ESCKeyAction(KPstateContext *) const override;
 protected:
     void SaveScoreAndChangeState(KPstateContext *pContext) const;
-    void PlayAudioForInitialize(KPstateContext *pContext) const;
+    void PlayAudioForInitialize(KPstateContext *) const override;
 
     bool addToScoreList;
     int  tf_index;

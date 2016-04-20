@@ -41,7 +41,7 @@ public:
     KPSdlUserInterface(KPConfig &);
     virtual ~KPSdlUserInterface();
 
-    void Close();
+    void Close() override;
 
 protected:
     // member functions for event handling
@@ -54,7 +54,7 @@ protected:
     Mix_Chunk *LoadSoundFile(const char *pFile);
     void StopMusicCallback();
     virtual void SetStopMusicCallback() = 0;
-    virtual void RequestForClose();
+    virtual void RequestForClose() override;
     void CloseAudio();
 
     std::array<Mix_Chunk *, KP_SND_MAX> sounds;

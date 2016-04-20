@@ -28,7 +28,7 @@
 class KPstateTutorial4 : public KPstateTutorial3
 {
 public:
-    tKPMenuState GetId() const
+    tKPMenuState GetId() const override
     {
         return KPState_Tutorial4;
     };
@@ -38,7 +38,7 @@ protected:
     tKPTokenID GetEmphasizedTokenId() const;
     void ContinueWithNextState(KPstateContext *pContext,
                                bool valid = true) const;
-    void PlayAudioForInitialize(KPstateContext *pContext) const;
+    void PlayAudioForInitialize(KPstateContext *) const override;
 };
 
 #endif

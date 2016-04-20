@@ -31,30 +31,33 @@ class KPstateGame : public KPstateMoveToken
     typedef void (KPstateGame::*tCallbackFct)(KPstateContext *);
 
 public:
-    tKPMenuState GetId() const
+    tKPMenuState GetId() const override
     {
         return KPState_Game;
     };
-    void Initialize(KPstateContext *pContext, tKPMenuState previousStateId);
+    void Initialize(KPstateContext *pContext,
+                    tKPMenuState previousStateId) override;
     void MouseClick(KPstateContext *pContext, tMouseButton button,
-                    tMouseEvent event, int x, int y);
+                    tMouseEvent event, int x, int y) override;
     void KeyPressed(KPstateContext *pContext, unsigned char key,
-                    int x, int y) const;
-    void AnimateAll(KPstateContext *pContext, unsigned int duration) const;
-    void UpdateDisplay(KPstateContext *pContext) const;
-    tKPMenuState ESCKeyAction(KPstateContext *) const;
+                    int x, int y) const override;
+    void AnimateAll(KPstateContext *pContext,
+                    unsigned int duration) const override;
+    void UpdateDisplay(KPstateContext *pContext) const override;
+    tKPMenuState ESCKeyAction(KPstateContext *) const override;
 
 protected:
-    virtual void HookAfterAnimationFinished(KPstateContext *) const;
+    void HookAfterAnimationFinished(KPstateContext *) const override;
     void UpdateMoveCount(KPstateContext *pContext) const;
     void Pause(KPstateContext *pContext, bool On = true) const;
     void GameIsSolved(KPstateContext *pContext) const;
     void Cheat1(KPstateContext *pContext) const;
     void SaveGameStatus(KPstateContext *pContext) const;
-    void PlayAudioForInitialize(KPstateContext *pContext) const;
+    void PlayAudioForInitialize(KPstateContext *) const override;
     // KPstateMoveToken interface
     void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
-                             tKPDirection direction, bool SuccessfullyMoved);
+                             tKPDirection direction,
+                             bool SuccessfullyMoved) override;
 };
 
 #endif

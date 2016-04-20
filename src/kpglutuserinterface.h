@@ -39,16 +39,16 @@ public:
     KPGlutUserInterface(KPnode &, KPConfig &);
     virtual ~KPGlutUserInterface();
 
-    void OpenWindow(int argc, char **argv);
-    void SetWindowMode(bool FullScreen) const;
-    void SetWindowSize(int width, int height) const;
-    void MainLoop();
-    void RequestForClose();
-    void Close();
-    int  GetValue(int what) const;
-    bool IsWindowResolutionSupported(int width, int height) const;
-    bool CanToggleFullScreen() const;
-    bool CanChangeWindowSize() const;
+    void OpenWindow(int argc, char **argv) override;
+    void SetWindowMode(bool FullScreen) const override;
+    void SetWindowSize(int width, int height) const override;
+    void MainLoop() override;
+    void RequestForClose() override;
+    void Close() override;
+    int GetValue(int what) const override;
+    bool IsWindowResolutionSupported(int width, int height) const override;
+    bool CanToggleFullScreen() const override;
+    bool CanChangeWindowSize() const override;
 
 public:
     // static member functions for event handling

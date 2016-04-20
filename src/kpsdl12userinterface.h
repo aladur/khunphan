@@ -36,13 +36,13 @@ public:
     // public interface
     KPSdl12UserInterface(KPnode &, KPConfig &);
 
-    void OpenWindow(int argc, char **argv);
-    void SetWindowMode(bool FullScreen) const;
-    void SetWindowSize(int width, int height) const;
-    void MainLoop();
-    void Close();
-    int  GetValue(int what) const;
-    bool IsWindowResolutionSupported(int width, int height) const;
+    void OpenWindow(int argc, char **argv) override;
+    void SetWindowMode(bool FullScreen) const override;
+    void SetWindowSize(int width, int height) const override;
+    void MainLoop() override;
+    void Close() override;
+    int GetValue(int what) const override;
+    bool IsWindowResolutionSupported(int width, int height) const override;
 
 protected:
     // member functions for event handling
