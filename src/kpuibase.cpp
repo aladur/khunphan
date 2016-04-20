@@ -320,7 +320,7 @@ bool KPUIBase::InitializeAudio(const char *, bool)
     return true;
 }
 
-void KPUIBase::PlayAudio(int /* soundId */) const
+void KPUIBase::PlayAudio(size_t /* soundId */) const
 {
 }
 

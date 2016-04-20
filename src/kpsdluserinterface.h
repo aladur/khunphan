@@ -57,16 +57,16 @@ protected:
     virtual void RequestForClose();
     void CloseAudio();
 
-    Mix_Chunk    **sound;
-    std::string  *soundSource;
+    std::array<Mix_Chunk *, KP_SND_MAX> sounds;
+    std::array<std::string, KP_SND_MAX> soundSources;
     Mix_Music    *music;
 
     // Audio/Music Interface
 public:
-    bool InitializeAudio(const char *textureName, bool reInitialize = false);
+    bool InitializeAudio(const char *textureName);
     void SetSoundVolume(int volume) const;
     void SetMusicVolume(int volume) const;
-    void PlayAudio(int soundId) const;
+    void PlayAudio(size_t soundId) const;
     void PlayMusic(bool On, bool resetPos = false);
     void LoadNextMusic();
 

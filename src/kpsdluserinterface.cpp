@@ -22,13 +22,11 @@
 #include "stdafx.h"
 #if defined (HAVE_SDL) || defined (HAVE_SDL2)
 
-#ifdef HAVE_UNISTD_H
-    #include <sys/types.h>
-    #include <unistd.h>  // needed for access
-#endif
 #include <limits.h>
 #include <string>
 #include <locale>
+#include <algorithm>
+#include <cassert>
 #include "kpsdluserinterface.h"
 #include "bdir.h"
 #include "kpconfig.h"
@@ -51,9 +49,9 @@ const KPSdlUserInterface::tArrayOfString KPSdlUserInterface::soundFiles =
 
 KPSdlUserInterface::KPSdlUserInterface(KPConfig &Config) :
     KPUIBase(Config),
-    sound(nullptr), soundSource(nullptr),
     music(nullptr), rate(22050), musicIndex(0), musicPosition(0.0)
 {
+    std::fill(sounds.begin(), sounds.end(), nullptr);
 }
 
 KPSdlUserInterface::~KPSdlUserInterface()
@@ -64,24 +62,13 @@ KPSdlUserInterface::~KPSdlUserInterface()
 
 void KPSdlUserInterface::CloseAudio()
 {
-    if (sound != nullptr)
+    for (auto sound : sounds)
     {
-        for (auto i = 0; i < KP_SND_MAX; i++)
+        if (sound != nullptr)
         {
-            if (sound[i] != nullptr)
-            {
-                Mix_FreeChunk(sound[i]);
-            }
+            Mix_FreeChunk(sound);
+            sound = nullptr;
         }
-
-        delete [] sound;
-        sound = nullptr;
-    }
-
-    if (soundSource != nullptr)
-    {
-        delete [] soundSource;
-        soundSource = nullptr;
     }
 
     if (music != nullptr)
@@ -218,86 +205,66 @@ void KPSdlUserInterface::RequestForClose()
 // Audio/Music Interface
 /////////////////////////////////////////////////////////////////////
 
-bool KPSdlUserInterface::InitializeAudio(const char *textureName,
-        bool reInitialize /* = false */)
+bool KPSdlUserInterface::InitializeAudio(const char *textureName)
 {
-    if (!reInitialize)
-    {
-        BLogger::Log("Audio and Music initialization");
-    }
+    BLogger::Log("Audio and Music initialization");
 
-    if (!reInitialize && Mix_OpenAudio(rate, AUDIO_S16, 1, 4096))
+    if (Mix_OpenAudio(rate, AUDIO_S16, 1, 4096))
     {
         BLogger::Log("*** Error in Mix_OpenAudio: ", Mix_GetError());
         return false;
     }
 
-    if (sound == nullptr)
-    {
-        // Initialize sound management variables
-        sound            = new Mix_Chunk *[KP_SND_MAX];
-        soundSource      = new std::string [KP_SND_MAX];
-
-        for (auto i = 0; i < KP_SND_MAX; i++)
-        {
-            sound[i] = nullptr;
-        }
-    }
-
-    auto i = 0;
     Mix_HaltChannel(-1);
     Mix_HaltMusic();
 
-    while (i < KP_SND_MAX)
+    assert(sounds.size() == soundSources.size());
+
+    for (decltype(sounds.size()) idx = 0; idx < sounds.size(); ++idx)
     {
-        auto file1 = config.GetDirectory(KP_SOUND_DIR) + textureName +
-                     PATHSEPARATORSTRING + soundFiles[i];
-        auto file2 = config.GetDirectory(KP_SOUND_DIR) + soundFiles[i];
-
-        if (soundSource[i] == file1 ||
-            (access(file1.c_str(), R_OK) && soundSource[i] == file2))
+        if (sounds[idx] != nullptr)
         {
-            i++;
-            continue;
-        }; // right file already prepared to be used
-
-        if (sound[i] != nullptr)
-        {
-            Mix_FreeChunk(sound[i]);
-            sound[i] = nullptr;
+            Mix_FreeChunk(sounds[idx]);
+            sounds[idx] = nullptr;
         }
 
-        soundSource[i] = "";
+        soundSources[idx] = "";
 
-        if (!access(file1.c_str(), R_OK))
+        auto file = config.GetDirectory(KP_SOUND_DIR) + textureName +
+                    PATHSEPARATORSTRING + soundFiles[idx];
+
+        sounds[idx] = Mix_LoadWAV_RW(
+                          SDL_RWFromFile(file.c_str(), "rb"), 1);
+        if (sounds[idx] == nullptr)
         {
-            soundSource[i] = file1;
+            file = config.GetDirectory(KP_SOUND_DIR) + soundFiles[idx];
+            sounds[idx] = Mix_LoadWAV_RW(
+                              SDL_RWFromFile(file.c_str(), "rb"), 1);
         }
-        else if (!access(file2.c_str(), R_OK))
+
+        if (sounds[idx] != nullptr)
         {
-            soundSource[i] = file2;
+            soundSources[idx] = file;
+            BLogger::Log("Reading '", soundSources[idx], "'");
         }
         else
         {
-            BLogger::Log("**** Warning: No sound file available for sound '",
-                         soundFiles[i], "'");
+            BLogger::Log("*** Error opening sound file '",
+                         soundSources[idx], "' [", Mix_GetError(), "]");
         }
 
-        i++;
+        idx++;
     }
 
-    if (!reInitialize)
-    {
-        SetSoundVolume(config.SoundVolume);
+    SetSoundVolume(config.SoundVolume);
 
-        musicFiles = BDirectory::GetFiles(config.GetDirectory(KP_MUSIC_DIR));
-        auto newEndIt =
-            std::remove_if(musicFiles.begin(), musicFiles.end(), NoMusicFile);
-        musicFiles.erase(newEndIt, musicFiles.end());
-        std::sort(musicFiles.begin(), musicFiles.end());
+    musicFiles = BDirectory::GetFiles(config.GetDirectory(KP_MUSIC_DIR));
+    auto newEndIt =
+        std::remove_if(musicFiles.begin(), musicFiles.end(), NoMusicFile);
+    musicFiles.erase(newEndIt, musicFiles.end());
+    std::sort(musicFiles.begin(), musicFiles.end());
 
-        musicIndex = 0;
-    }
+    musicIndex = 0;
 
     return true;
 }
@@ -356,43 +323,17 @@ void KPSdlUserInterface::LoadNextMusic()
     }
 }
 
-void KPSdlUserInterface::PlayAudio(int soundId) const
+void KPSdlUserInterface::PlayAudio(size_t soundId) const
 {
-    if (sound == nullptr || soundId < 0 || soundId >= KP_SND_MAX)
+    if (soundId < sounds.size() && (sounds[soundId] != nullptr))
     {
-        return;
-    }
-
-    // Lazy initialization: Load the sound when playing first time
-    if (sound[soundId] == nullptr && soundSource != nullptr &&
-        !soundSource[soundId].empty())
-    {
-        if ((sound[soundId] = Mix_LoadWAV_RW(
-                                  SDL_RWFromFile(soundSource[soundId].c_str(),
-                                          "rb"), 1)) == nullptr)
-        {
-            BLogger::Log("*** Error opening Audio file '", soundSource[soundId],
-                         "' [", Mix_GetError(), "]");
-        }
-
-        if (sound[soundId] != nullptr)
-        {
-            BLogger::Log("Reading '", soundSource[soundId], "'");
-        }
-    }
-
-    if (sound[soundId] != nullptr)
-    {
-        Mix_PlayChannel(-1, sound[soundId], 0);
+        Mix_PlayChannel(-1, sounds[soundId], 0);
     }
 }
 
 void KPSdlUserInterface::SetSoundVolume(int volume) const
 {
-    if (sound != nullptr)
-    {
-        Mix_Volume(-1, MIX_MAX_VOLUME * volume / 100);
-    }
+    Mix_Volume(-1, MIX_MAX_VOLUME * volume / 100);
 }
 
 void KPSdlUserInterface::SetMusicVolume(int volume) const
