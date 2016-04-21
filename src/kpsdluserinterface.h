@@ -64,7 +64,7 @@ protected:
 
     // Audio/Music Interface
 public:
-    bool InitializeAudio(const char *textureName);
+    bool InitializeAudio(const std::string &textureName) override;
     void SetSoundVolume(int volume) const;
     void SetMusicVolume(int volume) const;
     void PlayAudio(size_t soundId) const;

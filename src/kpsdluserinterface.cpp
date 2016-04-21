@@ -205,7 +205,7 @@ void KPSdlUserInterface::RequestForClose()
 // Audio/Music Interface
 /////////////////////////////////////////////////////////////////////
 
-bool KPSdlUserInterface::InitializeAudio(const char *textureName)
+bool KPSdlUserInterface::InitializeAudio(const std::string &textureName)
 {
     BLogger::Log("Audio and Music initialization");
 
@@ -235,6 +235,7 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName)
 
         sounds[idx] = Mix_LoadWAV_RW(
                           SDL_RWFromFile(file.c_str(), "rb"), 1);
+
         if (sounds[idx] == nullptr)
         {
             file = config->GetDirectory(KP_SOUND_DIR) + soundFiles[idx];
@@ -252,8 +253,6 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName)
             BLogger::Log("*** Error opening sound file '",
                          soundSources[idx], "' [", Mix_GetError(), "]");
         }
-
-        idx++;
     }
 
     SetSoundVolume(config->SoundVolume);

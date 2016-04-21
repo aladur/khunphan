@@ -29,7 +29,7 @@
 
 
 KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode,
-                                           KPConfigPtr PConfig) :
+        KPConfigPtr PConfig) :
     KPSdlUserInterface(PConfig), screen(nullptr)
 {
     Initialize(rootNode);
@@ -108,7 +108,7 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     SDL_WM_SetCaption(GetWindowTitle().c_str(), GetWindowTitle().c_str());
 
     DebugPrintOpenGLVersion();
-    InitializeAudio(config->TextureName.c_str());
+    InitializeAudio(config->TextureName);
     InitializeAfterOpen();
 }
 

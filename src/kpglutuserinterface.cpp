@@ -45,7 +45,7 @@
 
 
 KPGlutUserInterface::KPGlutUserInterface(KPnode &rootNode,
-                                         KPConfigPtr PConfig) :
+        KPConfigPtr PConfig) :
     KPUIBase(PConfig),
     windowID(0)
 {

@@ -93,11 +93,11 @@ void KPUIBase::InitializeAfterOpen()
     glDepthFunc(GL_LESS);
 
     pBoardView = std::make_unique<KPboardView>(
-                                 GetNodes().GetRootNode().GetBoard(),
-                                 config->GetDirectory(KP_TEXTURE_DIR),
-                                 config->TextureName,
-                                 config->TextureSize,
-                                 config->Nearest);
+                     GetNodes().GetRootNode().GetBoard(),
+                     config->GetDirectory(KP_TEXTURE_DIR),
+                     config->TextureName,
+                     config->TextureSize,
+                     config->Nearest);
 
     pLight = std::make_unique<Light>(config->AmbientLight,
                                      config->LightSources);
@@ -313,7 +313,7 @@ KPConfig &KPUIBase::GetConfig()
 // Implementation of Audio interface
 /////////////////////////////////////////////////////////////////////
 
-bool KPUIBase::InitializeAudio(const char *, bool)
+bool KPUIBase::InitializeAudio(const std::string & /* textureName */)
 {
     // default implementation: No Audio support, no error
     return true;

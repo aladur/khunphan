@@ -31,7 +31,7 @@
 
 
 KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode,
-                                         KPConfigPtr PConfig) :
+        KPConfigPtr PConfig) :
     KPSdlUserInterface(PConfig),
     window(nullptr), glContext(nullptr)
 {
@@ -230,7 +230,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
     DebugPrintOpenGLVersion();
     DebugPrintOpenGLContextVersion();
-    InitializeAudio(config->TextureName.c_str());
+    InitializeAudio(config->TextureName);
     InitializeAfterOpen();
 }
 
