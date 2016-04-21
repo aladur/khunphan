@@ -29,13 +29,12 @@
 #include "kpsdluserinterface.h"
 
 class KPnode;
-class KPConfig;
 
 class KPSdl2UserInterface : public KPSdlUserInterface
 {
 public:
     // public interface
-    KPSdl2UserInterface(KPnode &, KPConfig &);
+    KPSdl2UserInterface(KPnode &, KPConfigPtr);
 
     void OpenWindow(int argc, char **argv) override;
     void SetWindowMode(bool FullScreen) const override;

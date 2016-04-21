@@ -47,8 +47,8 @@ const KPSdlUserInterface::tArrayOfString KPSdlUserInterface::soundFiles =
     "gamesolved.ogg"     // KP_SND_GAMESOLVED
 };
 
-KPSdlUserInterface::KPSdlUserInterface(KPConfig &Config) :
-    KPUIBase(Config),
+KPSdlUserInterface::KPSdlUserInterface(KPConfigPtr PConfig) :
+    KPUIBase(PConfig),
     music(nullptr), rate(22050), musicIndex(0), musicPosition(0.0)
 {
     std::fill(sounds.begin(), sounds.end(), nullptr);
@@ -230,14 +230,14 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName)
 
         soundSources[idx] = "";
 
-        auto file = config.GetDirectory(KP_SOUND_DIR) + textureName +
+        auto file = config->GetDirectory(KP_SOUND_DIR) + textureName +
                     PATHSEPARATORSTRING + soundFiles[idx];
 
         sounds[idx] = Mix_LoadWAV_RW(
                           SDL_RWFromFile(file.c_str(), "rb"), 1);
         if (sounds[idx] == nullptr)
         {
-            file = config.GetDirectory(KP_SOUND_DIR) + soundFiles[idx];
+            file = config->GetDirectory(KP_SOUND_DIR) + soundFiles[idx];
             sounds[idx] = Mix_LoadWAV_RW(
                               SDL_RWFromFile(file.c_str(), "rb"), 1);
         }
@@ -256,9 +256,9 @@ bool KPSdlUserInterface::InitializeAudio(const char *textureName)
         idx++;
     }
 
-    SetSoundVolume(config.SoundVolume);
+    SetSoundVolume(config->SoundVolume);
 
-    musicFiles = BDirectory::GetFiles(config.GetDirectory(KP_MUSIC_DIR));
+    musicFiles = BDirectory::GetFiles(config->GetDirectory(KP_MUSIC_DIR));
     auto newEndIt =
         std::remove_if(musicFiles.begin(), musicFiles.end(), NoMusicFile);
     musicFiles.erase(newEndIt, musicFiles.end());
@@ -303,7 +303,7 @@ void KPSdlUserInterface::LoadNextMusic()
 
             it += musicIndex;
 
-            auto file = config.GetDirectory(KP_MUSIC_DIR) + *it;
+            auto file = config->GetDirectory(KP_MUSIC_DIR) + *it;
 
             if ((music = Mix_LoadMUS(file.c_str())) == nullptr)
             {
@@ -316,7 +316,7 @@ void KPSdlUserInterface::LoadNextMusic()
             {
                 BLogger::Log("Loading '", file, "'");
                 musicIndex++;
-                SetMusicVolume(config.MusicVolume);
+                SetMusicVolume(config->MusicVolume);
                 break;
             }
         }

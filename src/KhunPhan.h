@@ -44,7 +44,7 @@ private:
     void InitializeSolutionTree();
 
     KPboard rootBoard;
-    KPConfig config;
+    KPConfigPtr config;
     std::unique_ptr<KPUIBase> pUserInterface;
     int argc;
     char **argv;

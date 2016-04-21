@@ -32,13 +32,14 @@
 #include <algorithm>
 #include "kpuibase.h"
 #include "btime.h"
+#include "kpconfig.h"
 
 
 class KPSdlUserInterface : public KPUIBase
 {
 public:
     // public interface
-    KPSdlUserInterface(KPConfig &);
+    KPSdlUserInterface(KPConfigPtr);
     virtual ~KPSdlUserInterface();
 
     void Close() override;

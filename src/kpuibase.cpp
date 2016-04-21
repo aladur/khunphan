@@ -29,11 +29,9 @@
 #include "kpboardGL.h"
 #include "camera.h"
 #include "light.h"
-#include "kpconfig.h"
 #include "kpstate.h"
 #include "kpstatistics.h"
 #include "kpnodes.h"
-#include "kpconfig.h"
 #include "blogger.h"
 
 // Uncomment the following line to
@@ -44,10 +42,10 @@
 // subclass of KPUIBase.
 KPUIBase *KPUIBase::pInstance = nullptr;
 
-KPUIBase::KPUIBase(KPConfig &Config) :
+KPUIBase::KPUIBase(KPConfigPtr PConfig) :
     animationTimer(TOTAL_ANIMATIONTIME, false),
     previousStateId(KPState_Invalid), isPause(false),
-    config(Config),
+    config(PConfig),
     lastFrameTimestamp(0), oldTime(0), frameCount(0)
 
 {
@@ -96,21 +94,22 @@ void KPUIBase::InitializeAfterOpen()
 
     pBoardView = std::make_unique<KPboardView>(
                                  GetNodes().GetRootNode().GetBoard(),
-                                 config.GetDirectory(KP_TEXTURE_DIR),
-                                 config.TextureName,
-                                 config.TextureSize,
-                                 config.Nearest);
+                                 config->GetDirectory(KP_TEXTURE_DIR),
+                                 config->TextureName,
+                                 config->TextureSize,
+                                 config->Nearest);
 
-    pLight = std::make_unique<Light>(config.AmbientLight, config.LightSources);
+    pLight = std::make_unique<Light>(config->AmbientLight,
+                                     config->LightSources);
 
     pCamera = std::make_unique<Camera>();
 
     pMenu = std::make_unique<KPmenu>(config);
 
-    pMenu->Initialize(config.TextureName,
-                      config.MenuTextureSize,
-                      config.Nearest,
-                      config.Language);
+    pMenu->Initialize(config->TextureName,
+                      config->MenuTextureSize,
+                      config->Nearest,
+                      config->Language);
 #ifdef DEBUG_LIGHT_TEST
     ChangeState(KPState_LightTest);
 #else
@@ -181,7 +180,7 @@ void KPUIBase::Display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    if (config.DisplayFPS)
+    if (config->DisplayFPS)
     {
         DisplayFPS();
     }
@@ -307,7 +306,7 @@ BManualTimer &KPUIBase::GetAnimationTimer()
 
 KPConfig &KPUIBase::GetConfig()
 {
-    return config;
+    return *config;
 }
 
 /////////////////////////////////////////////////////////////////////

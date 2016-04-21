@@ -28,6 +28,7 @@
 #include "language.h"
 #include "kpstate.h"
 #include "bmanualtimer.h"
+#include "kpconfig.h"
 
 
 typedef enum
@@ -109,7 +110,7 @@ public:
     friend class KPstateScoreList;
     friend class KPstateLightTest;
 
-    KPmenu(KPConfig &Config);
+    KPmenu(KPConfigPtr PConfig);
 
     void Initialize(std::string &TextureName, int TextureSize, bool Nearest,
                     int Language = 0);
@@ -149,7 +150,7 @@ protected:
     tIdToLabel labels;
     tKPMenuState lastState;
     BManualTimer playTimeUpdateTimer;
-    KPConfig &config;
+    KPConfigPtr config;
     bool isDisplayOpenGLInfo;
 
 private:

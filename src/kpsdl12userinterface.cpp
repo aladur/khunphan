@@ -28,8 +28,9 @@
 #include "blogger.h"
 
 
-KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode, KPConfig &Config) :
-    KPSdlUserInterface(Config), screen(nullptr)
+KPSdl12UserInterface::KPSdl12UserInterface(KPnode &rootNode,
+                                           KPConfigPtr PConfig) :
+    KPSdlUserInterface(PConfig), screen(nullptr)
 {
     Initialize(rootNode);
 }
@@ -81,18 +82,18 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     }
 
     // Full-screen mode is not supported. Disable full-screen flag.
-    config.FullScreen = false;
+    config->FullScreen = false;
 
-    if (!IsWindowResolutionSupported(config.ScreenXResolution,
-                                     (config.ScreenXResolution * 3) / 4))
+    if (!IsWindowResolutionSupported(config->ScreenXResolution,
+                                     (config->ScreenXResolution * 3) / 4))
     {
-        config.ScreenXResolution = 640;
+        config->ScreenXResolution = 640;
     }
 
     screen = SDL_SetVideoMode(
-                 config.ScreenXResolution,
-                 (config.ScreenXResolution * 3) / 4,
-                 config.ColorDepth,
+                 config->ScreenXResolution,
+                 (config->ScreenXResolution * 3) / 4,
+                 config->ColorDepth,
                  flags);
 
     if (screen == nullptr)
@@ -107,7 +108,7 @@ void KPSdl12UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
     SDL_WM_SetCaption(GetWindowTitle().c_str(), GetWindowTitle().c_str());
 
     DebugPrintOpenGLVersion();
-    InitializeAudio(config.TextureName.c_str());
+    InitializeAudio(config->TextureName.c_str());
     InitializeAfterOpen();
 }
 
@@ -131,7 +132,7 @@ void KPSdl12UserInterface::MainLoop()
             {
                 case SDL_VIDEORESIZE:
                     screen = SDL_SetVideoMode(event.resize.w, event.resize.h,
-                                              config.ColorDepth,
+                                              config->ColorDepth,
                                               SDL_OPENGL | SDL_RESIZABLE);
 
                     if (screen)

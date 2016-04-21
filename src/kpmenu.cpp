@@ -33,9 +33,9 @@
 #include "blogger.h"
 
 
-KPmenu::KPmenu(KPConfig &Config) :
+KPmenu::KPmenu(KPConfigPtr PConfig) :
     lastState(KPState_Invalid),
-    playTimeUpdateTimer(100, true, true), config(Config),
+    playTimeUpdateTimer(100, true, true), config(PConfig),
     isDisplayOpenGLInfo(false)
 {
 }
@@ -75,18 +75,18 @@ void KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
 void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest)
 {
     //Create texture for labels
-    Label::PreInitialize(TextureName, TextureSize, Nearest, config);
+    Label::PreInitialize(TextureName, TextureSize, Nearest, *config);
 
     plates[PLATE_LOGO].Update(TextureName, TextureSize, Nearest,
-                              true, "logo", config);
+                              true, "logo", *config);
     plates[PLATE_SOUND_ON].Update(TextureName, TextureSize, Nearest,
-                                  true, "sound_on", config);
+                                  true, "sound_on", *config);
     plates[PLATE_SOUND_OFF].Update(TextureName, TextureSize, Nearest,
-                                   true, "soundmusic_off", config);
+                                   true, "soundmusic_off", *config);
     plates[PLATE_MUSIC_ON].Update(TextureName, TextureSize, Nearest,
-                                  true, "music_on", config);
+                                  true, "music_on", *config);
     plates[PLATE_MUSIC_OFF].Update(TextureName, TextureSize, Nearest,
-                                   true, "soundmusic_off", config);
+                                   true, "soundmusic_off", *config);
 }
 
 bool KPmenu::LoadLanguage(int Language)
@@ -100,7 +100,7 @@ bool KPmenu::LoadLanguage(int Language)
 
     sprinter::sprintf(file,
                       "%s%d.lang",
-                      config.GetDirectory(KP_LOCALE_DIR).c_str(), Language);
+                      config->GetDirectory(KP_LOCALE_DIR).c_str(), Language);
 
     tIdToString strings = KPlocale::ReadFromFile(file);
 

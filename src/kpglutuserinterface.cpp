@@ -44,8 +44,9 @@
 #include "kpconfig.h"
 
 
-KPGlutUserInterface::KPGlutUserInterface(KPnode &rootNode, KPConfig &Config) :
-    KPUIBase(Config),
+KPGlutUserInterface::KPGlutUserInterface(KPnode &rootNode,
+                                         KPConfigPtr PConfig) :
+    KPUIBase(PConfig),
     windowID(0)
 {
     Initialize(rootNode);
@@ -98,9 +99,9 @@ void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
         std::stringstream modeString;
 
         modeString
-                << config.ScreenXResolution << 'x'
-                << ((config.ScreenXResolution * 3) / 4) << ':'
-                << config.ColorDepth;
+                << config->ScreenXResolution << 'x'
+                << ((config->ScreenXResolution * 3) / 4) << ':'
+                << config->ColorDepth;
 
         glutGameModeString(modeString.str().c_str());
 
@@ -113,8 +114,8 @@ void KPGlutUserInterface::SetWindowMode(bool FullScreen) const
     }
     else
     {
-        glutReshapeWindow(config.ScreenXResolution,
-                          (config.ScreenXResolution * 3) / 4);
+        glutReshapeWindow(config->ScreenXResolution,
+                          (config->ScreenXResolution * 3) / 4);
         glutPositionWindow(1, 0);
         glutPositionWindow(0, 0);
     }
@@ -165,20 +166,20 @@ void KPGlutUserInterface::OpenWindow(int argc, char **argv)
                  glutVersion          % 100);
 #endif
 
-    if (!IsWindowResolutionSupported(config.ScreenXResolution,
-                                     (config.ScreenXResolution * 3) / 4))
+    if (!IsWindowResolutionSupported(config->ScreenXResolution,
+                                     (config->ScreenXResolution * 3) / 4))
     {
-        config.ScreenXResolution = 640;
+        config->ScreenXResolution = 640;
     }
 
     // Open OpenGL Window with GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(config.ScreenXResolution,
-                       (config.ScreenXResolution * 3) / 4);
+    glutInitWindowSize(config->ScreenXResolution,
+                       (config->ScreenXResolution * 3) / 4);
     //glutInitWindowPosition (10, 10);
     windowID = glutCreateWindow(GetWindowTitle().c_str());
 
-    if (config.FullScreen)
+    if (config->FullScreen)
     {
         glutFullScreen();
     }
@@ -206,7 +207,7 @@ void KPGlutUserInterface::RequestForClose()
 void KPGlutUserInterface::Close()
 {
 
-    config.WriteToFile();
+    config->WriteToFile();
 
 #if defined(FREEGLUT) || defined(OPENGLUT)
     glutLeaveMainLoop();

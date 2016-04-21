@@ -29,6 +29,7 @@
 #include "kpmenu.h"
 #include "btime.h"
 #include "bmanualtimer.h"
+#include "kpconfig.h"
 
 
 class KPnode;
@@ -37,7 +38,6 @@ class KPboardView;
 class Camera;
 class Light;
 class KPStatistics;
-class KPConfig;
 
 enum tGetValues
 {
@@ -60,7 +60,7 @@ enum tKPSoundIDs
 class KPUIBase : public KPstateContext
 {
 public:
-    KPUIBase(KPConfig &Config);
+    KPUIBase(KPConfigPtr PConfig);
     virtual ~KPUIBase();
 
     virtual void OpenWindow(int argc, char **argv) = 0;
@@ -118,7 +118,7 @@ private:
 
 protected:
     std::unique_ptr<KPstate> pState;
-    KPConfig &config;
+    KPConfigPtr config;
     static KPUIBase *pInstance;
 
 private:

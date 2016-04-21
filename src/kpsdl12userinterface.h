@@ -28,7 +28,6 @@
 #include "kpsdluserinterface.h"
 
 class KPnode;
-class KPConfig;
 
 class KPSdl12UserInterface : public KPSdlUserInterface
 {

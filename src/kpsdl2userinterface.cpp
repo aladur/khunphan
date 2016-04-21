@@ -30,8 +30,9 @@
 #include "blogger.h"
 
 
-KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode, KPConfig &Config) :
-    KPSdlUserInterface(Config),
+KPSdl2UserInterface::KPSdl2UserInterface(KPnode &rootNode,
+                                         KPConfigPtr PConfig) :
+    KPSdlUserInterface(PConfig),
     window(nullptr), glContext(nullptr)
 {
     Initialize(rootNode);
@@ -169,23 +170,23 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
         throw std::runtime_error(message.str());
     }
 
-    if (config.FullScreen)
+    if (config->FullScreen)
     {
         flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
 
-    if (!IsWindowResolutionSupported(config.ScreenXResolution,
-                                     (config.ScreenXResolution * 3) / 4))
+    if (!IsWindowResolutionSupported(config->ScreenXResolution,
+                                     (config->ScreenXResolution * 3) / 4))
     {
-        config.ScreenXResolution = 640;
+        config->ScreenXResolution = 640;
     }
 
     window = SDL_CreateWindow(
                  GetWindowTitle().c_str(),
                  SDL_WINDOWPOS_UNDEFINED,
                  SDL_WINDOWPOS_UNDEFINED,
-                 config.ScreenXResolution,
-                 (config.ScreenXResolution * 3) / 4,
+                 config->ScreenXResolution,
+                 (config->ScreenXResolution * 3) / 4,
                  flags);
 
     if (window == nullptr)
@@ -229,7 +230,7 @@ void KPSdl2UserInterface::OpenWindow(int /* argc */ , char ** /* argv */)
 
     DebugPrintOpenGLVersion();
     DebugPrintOpenGLContextVersion();
-    InitializeAudio(config.TextureName.c_str());
+    InitializeAudio(config->TextureName.c_str());
     InitializeAfterOpen();
 }
 

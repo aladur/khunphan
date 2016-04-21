@@ -26,6 +26,7 @@
 #include "stdafx.h"
 #include <vector>
 #include <string>
+#include <memory>
 
 
 enum tKPDir
@@ -98,5 +99,7 @@ protected:
     std::string fileName;
     std::string fileVersion;
 };
+
+typedef std::shared_ptr<KPConfig> KPConfigPtr;
 
 #endif

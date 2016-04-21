@@ -88,17 +88,19 @@ bool KhunPhanApp::Initialize()
                  "FITNESS");
     BLogger::Log("FOR A PARTICULAR PURPOSE.");
 
-    config.SetDefaultValues();
-    config.ReadCommandLineParams(argc, argv);
-    config.ReadFromFile();
+    config.reset(new KPConfig);
 
-    if (config.DisplayVersionOnly)
+    config->SetDefaultValues();
+    config->ReadCommandLineParams(argc, argv);
+    config->ReadFromFile();
+
+    if (config->DisplayVersionOnly)
     {
         canRun = false;
         return false;
     }
 
-    config.DebugPrint();
+    config->DebugPrint();
 
     // initialize all the tokens
     rootBoard.InitializeToken(TK_GREEN1, 1, 3);
@@ -115,7 +117,7 @@ bool KhunPhanApp::Initialize()
     KPnode rootNode(rootBoard);
     KPUIBase *pUIBase = nullptr;
 
-    switch (config.UserInterface)
+    switch (config->UserInterface)
     {
 #ifdef HAVE_SDL2
 
