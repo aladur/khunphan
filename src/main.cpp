@@ -58,7 +58,7 @@ int main(int argc, char **argv)
     }
     catch (std::exception &e)
     {
-        message(mtError, "%s.\nProgram terminates now.", e.what());
+        message(mtError, e.what(), "\nProgram terminates now.");
     }
 
     return EXIT_SUCCESS;

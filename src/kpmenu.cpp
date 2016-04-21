@@ -27,7 +27,6 @@
 #include "kpmenu.h"
 #include "kplocale.h"
 #include "kpconfig.h"
-#include "sprinter.h"
 #include "kpstate.h"
 #include "kpstatistics.h"
 #include "blogger.h"
@@ -91,6 +90,7 @@ void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest)
 
 bool KPmenu::LoadLanguage(int Language)
 {
+    std::stringstream stream;
     std::string file;
 
     if (labels.find(Language) != labels.end())
@@ -98,10 +98,11 @@ bool KPmenu::LoadLanguage(int Language)
         BLogger::Log(" ", labels[Language].GetText().c_str());
     }
 
-    sprinter::sprintf(file,
-                      "%s%d.lang",
-                      config->GetDirectory(KP_LOCALE_DIR).c_str(), Language);
+    stream << config->GetDirectory(KP_LOCALE_DIR).c_str()
+           << Language
+           << ".lang";
 
+    file = stream.str();
     tIdToString strings = KPlocale::ReadFromFile(file);
 
     if (strings.size() == 0)

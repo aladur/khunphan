@@ -218,9 +218,8 @@ void Label::PreInitialize(const std::string &TextureName,
 
     if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
     {
-        message(mtWarning,
-                "*** Warning: width or height of '%s' is not a power of 2\n",
-                TextureSource.c_str());
+        message(mtWarning, "*** Warning: width or height of '", TextureSource,
+                "' is not a power of 2\n");
     }
 
     if (Texture == 0)

@@ -21,8 +21,8 @@
 
 
 #include "stdafx.h"
+#include <iomanip>
 #include "kpstatistics.h"
-#include "sprinter.h"
 
 
 KPStatistics::KPStatistics() : playingTime(0), stopWatchActive(false)
@@ -99,55 +99,53 @@ std::string KPStatistics::GetTotalTime(tTimeFormat formatID)
 
 std::string KPStatistics::FormatTime(tTimeFormat formatID, unsigned int t)
 {
-    std::string timeStr;
+    std::stringstream timeStr;
+    using std::setw;
+    using std::setfill;
 
     switch (formatID)
     {
         case RTIME_HH_mm:
-            sprinter::sprintf(timeStr, "%02u.%02u",
-                              t / 3600000,
-                              (t % 3600000) * 100 / 3600000);
+            timeStr << setw(2) << setfill('0') << t / 3600000 << "."
+                    << setw(2) << setfill('0') << (t % 3600000) * 100 / 3600000;
             break;
 
         case RTIME_HH_mmmm:
-            sprinter::sprintf(timeStr, "%02u.%03u",
-                              t / 3600000,
-                              (t % 3600000) * 10000 / 3600000);
+            timeStr << setw(2) << setfill('0') << t / 3600000 << "."
+                    << setw(3) << setfill('0')
+                    << (t % 3600000) * 10000 / 3600000 << ".";
             break;
 
         case RTIME_HHMM_ss:
-            sprinter::sprintf(timeStr, "%02u:%02u.%02u",
-                              t / 3600000,
-                              (t % 3600000) / 60000,
-                              (t % 60000) * 100 / 60000);
+            timeStr << setw(2) << setfill('0') << t / 3600000 << ":"
+                    << setw(2) << setfill('0') << (t % 3600000) / 60000 << "."
+                    << setw(2) << setfill('0') << (t % 60000) * 100 / 60000;
             break;
 
         case RTIME_HHMMSS_mmm:
-            sprinter::sprintf(timeStr, "%02u:%02u:%02u.%03u",
-                              t / 3600000,
-                              (t % 3600000) / 60000,
-                              (t % 60000)   / 1000,
-                              t % 1000);
+            timeStr << setw(2) << setfill('0') << t / 3600000 << ":"
+                    << setw(2) << setfill('0') << (t % 3600000) / 60000 << ":"
+                    << setw(2) << setfill('0') << (t % 60000) / 1000 << "."
+                    << setw(3) << setfill('0') << t % 1000;
             break;
 
         case RTIME_HHMMSS:
-            sprinter::sprintf(timeStr, "%02u:%02u:%02u",
-                              t / 3600000,
-                              (t % 3600000) / 60000,
-                              (t % 60000)   / 1000);
+            timeStr << setw(2) << setfill('0') << t / 3600000 << ":"
+                    << setw(2) << setfill('0') << (t % 3600000) / 60000 << ":"
+                    << setw(2) << setfill('0') << (t % 60000) / 1000;
             break;
 
         case RTIME_MM_ss:
-            sprinter::sprintf(timeStr, "%02u.%02u",
-                              t / 60000,
-                              (t % 60000) * 100 / 60000);
+            timeStr << setw(2) << setfill('0') << t / 60000 << "."
+                    << setw(2) << setfill('0') << (t % 60000) * 100 / 60000;
+
             break;
 
         case RTIME_msec:
         default:
-            sprinter::sprintf(timeStr, "%u", t);
+            timeStr << t;
             break;
     }
 
-    return timeStr;
+    return timeStr.str();
 }

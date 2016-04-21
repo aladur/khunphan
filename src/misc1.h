@@ -84,6 +84,7 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include "blogger.h"
 
 /* PATHSEPARATORSTRING shoud be a define to do */
 /* implicit concatenation by the compiler!     */
@@ -209,7 +210,58 @@ typedef enum
     mtMessage = 3
 } tMsgType;
 
-void message(tMsgType, const char *format, ...);
+template<typename... Args>
+void message(tMsgType type, Args&&... args)
+{
+    std::stringstream msg;
+
+    BLogger::sslog(msg, args...);
+
+#ifdef __linux__
+
+    switch (type)
+    {
+        case mtError:
+            std::cerr << "*** Error: " << msg.str() << std::endl;
+            break;
+
+        case mtMessage:
+            std::cout << msg.str() << std::endl;
+            break;
+
+        case mtWarning:
+            std::cerr << "*** Warning: " << msg.str() << std::endl;
+            break;
+    }
+
+#else
+#ifdef _WIN32
+    std::stringstream winmsg;
+
+    winmsg << "[" PACKAGE "] " << msg.str() << std::endl;
+    OutputDebugString(winmsg.c_str());
+
+    switch (type)
+    {
+        case mtError:
+            MessageBox(nullptr, msg.c_str(), PACKAGE, MB_OK | MB_ICONERROR);
+            break;
+
+        case mtMessage:
+            MessageBox(nullptr, msg.c_str(), PACKAGE, MB_OK);
+            break;
+
+        case mtWarning:
+            auto type = MB_OK | MB_ICONEXCLAMATION;
+            MessageBox(nullptr, msg.c_str(), PACKAGE, type);
+            break;
+    }
+
+#else
+#error "Unsupported platform"
+#endif
+#endif
+}
 
 #endif
 

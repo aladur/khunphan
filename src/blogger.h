@@ -45,7 +45,7 @@ public:
     }
 
     template<typename... Args>
-    static void Log(Args... args)
+    static void Log(Args&&... args)
     {
         std::stringstream str;
 
@@ -67,7 +67,6 @@ public:
         }
     }
 
-private:
     // Logging any parameter into a stringstream using variadic templates.
     // End of recursion.
     template<typename T>
@@ -78,12 +77,13 @@ private:
 
     // Logging any parameter into a stringstream using variadic templates.
     template<typename T, typename... Args>
-    static void sslog(std::stringstream &str, T p1, Args... args)
+    static void sslog(std::stringstream &str, T p1, Args&&... args)
     {
         str << p1;
         sslog(str, args...);
     }
 
+private:
     static std::ostream *pOutput;
     static std::string  prefix;
     static bool isDebugOutput;

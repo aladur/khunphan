@@ -20,63 +20,7 @@
 */
 
 #include "stdafx.h"
-#include <ctype.h>
-#include <string>
-#include "sprinter.h"
 
-
-void message(tMsgType type, const char *format, ...)
-{
-    va_list arg_ptr;
-    std::string msg;
-
-    va_start(arg_ptr, format);
-    sprinter::vsprintf(msg, format, arg_ptr);
-    va_end(arg_ptr);
-#ifdef __linux__
-
-    switch (type)
-    {
-        case mtError:
-            std::cerr << msg << std::endl;
-            break;
-
-        case mtMessage:
-            std::cout << msg << std::endl;
-            break;
-
-        case mtWarning:
-            std::cerr << msg << std::endl;
-            break;
-    }
-
-#else
-#ifdef _WIN32
-    std::string msg1;
-    sprinter::sprintf(msg1, "[%s] %s\n", PACKAGE, msg.c_str());
-    OutputDebugString(msg1.c_str());
-
-    switch (type)
-    {
-        case mtError:
-            MessageBox(nullptr, msg.c_str(), PACKAGE, MB_OK | MB_ICONERROR);
-            break;
-
-        case mtMessage:
-            MessageBox(nullptr, msg.c_str(), PACKAGE, MB_OK);
-            break;
-
-        case mtWarning:
-            auto type = MB_OK | MB_ICONEXCLAMATION;
-            MessageBox(nullptr, msg.c_str(), PACKAGE, type);
-            break;
-    }
-
-#else
-#error "Unsupported platform"
-#endif
-#endif
-}
 
 tKPTokenID &operator++ (tKPTokenID &id)
 {
