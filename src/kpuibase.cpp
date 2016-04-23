@@ -254,7 +254,7 @@ void KPUIBase::ChangeState(tKPMenuState stateID)
     {
         auto previousStateId = pState ? pState->GetId() : KPState_Invalid;
 
-        pState.reset(KPstateFactory::CreateState(stateID));
+        pState = KPstateFactory::CreateState(stateID);
         pState->Initialize(this, previousStateId);
     }
 }

@@ -22,12 +22,15 @@
 #ifndef KPSTATEFACTORY_H
 #define KPSTATEFACTORY_H
 
+#include <memory>
+
+
 class KPstate;
 
 class KPstateFactory
 {
 public:
-    static KPstate *CreateState(int stateID);
+    static std::unique_ptr<KPstate> CreateState(int stateID);
 };
 
 #endif

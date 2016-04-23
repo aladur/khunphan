@@ -22,6 +22,7 @@
 
 #include "stdafx.h"
 #include <stdexcept>
+#include <memory>
 #include "kpstatefactory.h"
 #include "kpstate.h"
 #include "kpstatestartup.h"
@@ -48,63 +49,83 @@
 // Public Interface
 /////////////////////////////////////////////////////////////////////
 
-KPstate *KPstateFactory::CreateState(int stateID)
+std::unique_ptr<KPstate> KPstateFactory::CreateState(int stateID)
 {
+    std::unique_ptr<KPstate> statePtr;
+
     switch (stateID)
     {
         case KPState_StartUp:
-            return new KPstateStartUp;
+            statePtr.reset(new KPstateStartUp);
+            break;
 
         case KPState_MainMenu:
-            return new KPstateMainMenu;
+            statePtr.reset(new KPstateMainMenu);
+            break;
 
         case KPState_Finish:
-            return new KPstateFinish;
+            statePtr.reset(new KPstateFinish);
+            break;
 
         case KPState_Settings:
-            return new KPstateSettings;
+            statePtr.reset(new KPstateSettings);
+            break;
 
         case KPState_ControlSettings:
-            return new KPstateControlSettings;
+            statePtr.reset(new KPstateControlSettings);
+            break;
 
         case KPState_GraphicSettings:
-            return new KPstateGraphicSettings;
+            statePtr.reset(new KPstateGraphicSettings);
+            break;
 
         case KPState_GraphicHint:
-            return new KPstateGraphicHint;
+            statePtr.reset(new KPstateGraphicHint);
+            break;
 
         case KPState_AudioSettings:
-            return new KPstateAudioSettings;
+            statePtr.reset(new KPstateAudioSettings);
+            break;
 
         case KPState_KeyboardHelp:
-            return new KPstateKeyboardHelp;
+            statePtr.reset(new KPstateKeyboardHelp);
+            break;
 
         case KPState_Game:
-            return new KPstateGame;
+            statePtr.reset(new KPstateGame);
+            break;
 
         case KPState_GameSolved:
-            return new KPstateGameSolved;
+            statePtr.reset(new KPstateGameSolved);
+            break;
 
         case KPState_SelectLanguage:
-            return new KPstateSelectLanguage;
+            statePtr.reset(new KPstateSelectLanguage);
+            break;
 
         case KPState_Tutorial1:
-            return new KPstateTutorial1;
+            statePtr.reset(new KPstateTutorial1);
+            break;
 
         case KPState_Tutorial2:
-            return new KPstateTutorial2;
+            statePtr.reset(new KPstateTutorial2);
+            break;
 
         case KPState_Tutorial3:
-            return new KPstateTutorial3;
+            statePtr.reset(new KPstateTutorial3);
+            break;
 
         case KPState_Tutorial4:
-            return new KPstateTutorial4;
+            statePtr.reset(new KPstateTutorial4);
+            break;
 
         case KPState_ScoreList:
-            return new KPstateScoreList;
+            statePtr.reset(new KPstateScoreList);
+            break;
 
         case KPState_LightTest:
-            return new KPstateLightTest;
+            statePtr.reset(new KPstateLightTest);
+            break;
 
         default:
             std::stringstream message;
@@ -114,6 +135,6 @@ KPstate *KPstateFactory::CreateState(int stateID)
             throw std::runtime_error(message.str());
     }
 
-    return nullptr;
+    return statePtr;
 }
 
