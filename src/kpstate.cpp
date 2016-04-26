@@ -68,12 +68,10 @@ void KPstate::UpdateDisplay(KPstateContext *pContext) const
 
     if (menu.GetIsDisplayOpenGLInfo())
     {
-        menu.labels[T_GL_VENDOR].FormatText(
-            1, userInterface.GetOpenGLVendor().c_str());
+        menu.labels[T_GL_VENDOR].FormatText(userInterface.GetOpenGLVendor());
         menu.labels[T_GL_RENDERER].FormatText(
-            1, userInterface.GetOpenGLRenderer().c_str());
-        menu.labels[T_GL_VERSION].FormatText(
-            1, userInterface.GetOpenGLVersion().c_str());
+            userInterface.GetOpenGLRenderer());
+        menu.labels[T_GL_VERSION].FormatText(userInterface.GetOpenGLVersion());
 
         menu.labels[T_GL_VENDOR].SetPosition(0.1f, y, 0.3f);
         y -= 0.3f;

@@ -51,7 +51,6 @@ khunphan_SOURCES = \
         kpboard.cpp \
         KhunPhan.cpp \
         kpstatelighttest.cpp \
-        sprinter.cpp \
         kplocale.cpp \
         cmdline.cpp \
         blogger.cpp \

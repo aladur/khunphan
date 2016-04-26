@@ -136,9 +136,8 @@ am_khunphan_OBJECTS = khunphan-bdir.$(OBJEXT) \
 	khunphan-kpnodes.$(OBJEXT) khunphan-misc1.$(OBJEXT) \
 	khunphan-kpboard.$(OBJEXT) khunphan-KhunPhan.$(OBJEXT) \
 	khunphan-kpstatelighttest.$(OBJEXT) \
-	khunphan-sprinter.$(OBJEXT) khunphan-kplocale.$(OBJEXT) \
-	khunphan-cmdline.$(OBJEXT) khunphan-blogger.$(OBJEXT) \
-	khunphan-stdafx.$(OBJEXT)
+	khunphan-kplocale.$(OBJEXT) khunphan-cmdline.$(OBJEXT) \
+	khunphan-blogger.$(OBJEXT) khunphan-stdafx.$(OBJEXT)
 khunphan_OBJECTS = $(am_khunphan_OBJECTS)
 khunphan_DEPENDENCIES =
 khunphan_LINK = $(CXXLD) $(khunphan_CXXFLAGS) $(CXXFLAGS) \
@@ -418,7 +417,6 @@ khunphan_SOURCES = \
         kpboard.cpp \
         KhunPhan.cpp \
         kpstatelighttest.cpp \
-        sprinter.cpp \
         kplocale.cpp \
         cmdline.cpp \
         blogger.cpp \
@@ -689,7 +687,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-misc1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-plate.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-sprinter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/khunphan-stdafx.Po@am__quote@
 
 .cpp.o:
@@ -1335,20 +1332,6 @@ khunphan-kpstatelighttest.obj: kpstatelighttest.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kpstatelighttest.cpp' object='khunphan-kpstatelighttest.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-kpstatelighttest.obj `if test -f 'kpstatelighttest.cpp'; then $(CYGPATH_W) 'kpstatelighttest.cpp'; else $(CYGPATH_W) '$(srcdir)/kpstatelighttest.cpp'; fi`
-
-khunphan-sprinter.o: sprinter.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-sprinter.o -MD -MP -MF $(DEPDIR)/khunphan-sprinter.Tpo -c -o khunphan-sprinter.o `test -f 'sprinter.cpp' || echo '$(srcdir)/'`sprinter.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-sprinter.Tpo $(DEPDIR)/khunphan-sprinter.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='sprinter.cpp' object='khunphan-sprinter.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-sprinter.o `test -f 'sprinter.cpp' || echo '$(srcdir)/'`sprinter.cpp
-
-khunphan-sprinter.obj: sprinter.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-sprinter.obj -MD -MP -MF $(DEPDIR)/khunphan-sprinter.Tpo -c -o khunphan-sprinter.obj `if test -f 'sprinter.cpp'; then $(CYGPATH_W) 'sprinter.cpp'; else $(CYGPATH_W) '$(srcdir)/sprinter.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/khunphan-sprinter.Tpo $(DEPDIR)/khunphan-sprinter.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='sprinter.cpp' object='khunphan-sprinter.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -c -o khunphan-sprinter.obj `if test -f 'sprinter.cpp'; then $(CYGPATH_W) 'sprinter.cpp'; else $(CYGPATH_W) '$(srcdir)/sprinter.cpp'; fi`
 
 khunphan-kplocale.o: kplocale.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(khunphan_CPPFLAGS) $(CPPFLAGS) $(khunphan_CXXFLAGS) $(CXXFLAGS) -MT khunphan-kplocale.o -MD -MP -MF $(DEPDIR)/khunphan-kplocale.Tpo -c -o khunphan-kplocale.o `test -f 'kplocale.cpp' || echo '$(srcdir)/'`kplocale.cpp

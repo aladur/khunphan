@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "kpstatescorelist.h"
 #include "kpscore.h"
+#include "kpstatistics.h"
 #include "kpmenu.h"
 
 
@@ -72,32 +73,28 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
 
         if (it == menu.labels.end())
         {
-            menu.labels[T_S_NAME1 + i] = Label("%s");
+            menu.labels[T_S_NAME1 + i] = Label("{0}");
         }
 
         it = menu.labels.find(T_S_PLAYTIME1 + i);
 
         if (it == menu.labels.end())
         {
-            menu.labels[T_S_PLAYTIME1 + i] = Label("%d:%02d:%02d");
+            menu.labels[T_S_PLAYTIME1 + i] = Label("{0}");
         }
 
         it = menu.labels.find(T_S_MOVES1 + i);
 
         if (it == menu.labels.end())
         {
-            menu.labels[T_S_MOVES1 + i] = Label("%u");
+            menu.labels[T_S_MOVES1 + i] = Label("{0}");
         }
 
         scoreList.Get(i, Name, &PlayTime, &Moves);
-
-        menu.labels[T_S_NAME1 + i].FormatText(1, Name.c_str());
-        menu.labels[T_S_PLAYTIME1 + i].FormatText(3,
-                PlayTime / 3600000,
-                (PlayTime % 3600000) / 60000,
-                (PlayTime % 60000) / 1000);
-        menu.labels[T_S_MOVES1 + i].FormatText(1, Moves);
-
+        auto timeString = KPStatistics::FormatTime(RTIME_HHMMSS, PlayTime);
+        menu.labels[T_S_NAME1 + i].FormatText(Name);
+        menu.labels[T_S_PLAYTIME1 + i].FormatText(timeString);
+        menu.labels[T_S_MOVES1 + i].FormatText(Moves);
 
         menu.labels[T_S_NAME1 + i].SetPosition(2, y, 0.6f);
         menu.labels[T_S_PLAYTIME1 + i].SetPosition(9, y, 0.6f, A_CENTERED);

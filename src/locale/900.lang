@@ -18,12 +18,12 @@
 23 Sprache
 
 //OpenGL Interface Info
-30 OpenGL Hersteller : %s
-31 OpenGL Renderer : %s
-32 OpenGL Version : %s
+30 OpenGL Hersteller : {0}
+31 OpenGL Renderer : {0}
+32 OpenGL Version : {0}
 
 // Anzeige FPS
-35 %d fps (%1.1f ms)
+35 {0} fps ({1} ms)
 
 // Tastenbelegung
 40 Allgemein
@@ -51,13 +51,13 @@
 // Im Spiel
 170 Weiterspielen
 
-171 Du hast das Spiel mit %u Zügen in der Zeit %s erfolgreich gelöst.
+171 Du hast das Spiel mit {0} Zügen in der Zeit {1} erfolgreich gelöst.
 
 172 Gratulation!
 173
 174
 
-175 Bei %u Zügen hast Du die Lösungshilfe benutzt.
+175 Bei {0} Zügen hast Du die Lösungshilfe benutzt.
 176 Für ein Übungsspiel nicht schlecht.
 177
 
@@ -68,9 +68,9 @@
 181 Bitte gib Deinen Namen ein:
 
 192 Neues Spiel
-193 Zeit : %s
-194 Noch min. %d Züge
-195 Zug : %u
+193 Zeit : {0}
+194 Noch min. {0} Züge
+195 Zug : {0}
 
 // Einstellungen - Bedienung
 200 Mausgeschwindigkeit :

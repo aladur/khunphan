@@ -222,7 +222,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\misc1.cpp" />
     <ClCompile Include="src\plate.cpp" />
-    <ClCompile Include="src\sprinter.cpp" />
     <ClCompile Include="src\kplocale.cpp" />
     <ClCompile Include="src\cmdline.cpp" />
     <ClCompile Include="src\blogger.cpp" />

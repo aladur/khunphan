@@ -199,7 +199,10 @@ void KPmenu::Draw()
 
 void KPmenu::UpdateFPS(int fps, float renderTime)
 {
-    labels[T_FPS].FormatText(2, fps, renderTime);
+    std::stringstream stream;
+
+    stream << std::fixed << std::setprecision(1) << renderTime;
+    labels[T_FPS].FormatText(fps, stream.str());
 }
 
 void KPmenu::UpdatePlayTime(KPstateContext *pContext, unsigned int duration)
@@ -209,7 +212,7 @@ void KPmenu::UpdatePlayTime(KPstateContext *pContext, unsigned int duration)
         // Cyclically update play time each 100 ms
         std::string timeString =
             pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS);
-        labels[T_TIME].FormatText(1, timeString.c_str());
+        labels[T_TIME].FormatText(timeString);
     }
 }
 

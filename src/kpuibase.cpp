@@ -117,6 +117,9 @@ void KPUIBase::InitializeAfterOpen()
 #endif
 
     InitializeEvents();
+
+    // Starting point for calculating frames per second
+    oldTime = fpsTime.GetTimeMsl();
 }
 
 std::string KPUIBase::GetWindowTitle() const

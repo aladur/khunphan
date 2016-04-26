@@ -129,9 +129,6 @@
     <ClCompile Include="src\misc1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\sprinter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\kpsdl12userinterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -18,12 +18,12 @@
 23 Language
 
 OpenGL Interface Info
-30 OpenGL Vendor : %s
-31 OpenGL Renderer : %s
-32 OpenGL Version : %s
+30 OpenGL Vendor : {0}
+31 OpenGL Renderer : {0}
+32 OpenGL Version : {0}
 
 // Display FPS
-35 %d fps (%1.1f ms)
+35 {0} fps ({1} ms)
 
 // Keyboard Help
 40 General
@@ -52,12 +52,12 @@ OpenGL Interface Info
 //Witin Game
 170 Resume Game
 
-171 You have successfully solved the Game with %u Moves in time %s
+171 You have successfully solved the Game with {0} Moves in time {0}
 172 Congratulation!
 173
 174
 
-175 During %u Moves You have used the solution hint.
+175 During {0} Moves You have used the solution hint.
 176 That's not bad for a training Game.
 177
 
@@ -68,9 +68,9 @@ OpenGL Interface Info
 181 Please enter your Name:
 
 192 New Game
-193 Time : %s
-194 Min. %d Moves to take
-195 Move : %u
+193 Time : {0}
+194 Min. {0} Moves to take
+195 Move : {0}
 
 // Setup - Controls
 200 Mouse Speed :

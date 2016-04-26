@@ -13,6 +13,7 @@
 #include <set>
 #include <string>
 #include "bmanualtimer.h"
+#include "sprinter.h"
 
 
 class Label;
@@ -37,7 +38,17 @@ public:
     void Draw();
     void SetPosition(float, float, float, tKPAlignment pos = A_LEFT);
     void SetTextOrFormat(const std::string &textOrFormat);
-    int  FormatText(int count, ...);
+    template <typename... Args>
+    void FormatText(Args&& ...args)
+    {
+        if (!format.empty())
+        {
+            oldLabelText = labelText;
+            labelText = sprinter::print(format, args...);
+
+            RecreateDisplayList();
+        }
+    }
     inline bool HasInputFocus()
     {
         return hasInputFocus;

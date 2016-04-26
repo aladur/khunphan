@@ -81,9 +81,9 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext) const
 
     auto id = pContext->GetBoardView().GetBoardId();
     auto movesToSolve = pContext->GetNodes().GetNodeFor(id).GetMovesToSolve();
-    menu.labels[T_MINMOVECOUNT].FormatText(1, movesToSolve);
+    menu.labels[T_MINMOVECOUNT].FormatText(movesToSolve);
     menu.labels[T_MOVECOUNT].FormatText(
-        1, pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
+        pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
 
     if (config.SolutionHint)
     {

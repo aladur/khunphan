@@ -94,9 +94,9 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
 
     auto y = 7.5f;
     std::string playTime = statistics.GetTotalTime(RTIME_HHMMSS);
-    menu.labels[T_SOLVED1].FormatText(2,
+    menu.labels[T_SOLVED1].FormatText(
                                       statistics.GetEventCounter(MOVE_COUNTER),
-                                      playTime.c_str());
+                                      playTime);
     menu.labels[T_SOLVED1].SetPosition(8, y, 0.6f, A_CENTERED);
     y -= 0.6f;
 
@@ -105,7 +105,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
     if (it != menu.labels.end())
     {
         menu.labels[tf_index].FormatText(
-            1, statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
+            statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
         menu.labels[tf_index].SetPosition(8, y, 0.6f, A_CENTERED);
         y -= 0.6f;
     }

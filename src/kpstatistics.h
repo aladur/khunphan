@@ -73,8 +73,8 @@ public:
     void IncEventCounter(tEventCounter type);  // increment event counter by 1
     void DecEventCounter(tEventCounter type);  // decrement event counter by 1
     void ResetEventCounter(tEventCounter type);// Reset event counter
-protected:
-    std::string FormatTime(tTimeFormat formatID, unsigned int t);
+
+    static std::string FormatTime(tTimeFormat formatID, unsigned int t);
 
 private:
     BTime time;

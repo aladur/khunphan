@@ -14,7 +14,6 @@
 #include "label.h"
 #include "kpuibase.h"
 #include "kpconfig.h"
-#include "sprinter.h"
 
 
 const int Label::left[] =
@@ -327,25 +326,6 @@ void Label::SetTextOrFormat(const std::string &textOrFormat)
     }
 
     RecreateDisplayList();
-}
-
-int Label::FormatText(int count, ...)
-{
-    auto result = 0;
-
-    if (!format.empty())
-    {
-        va_list arg_ptr;
-
-        oldLabelText = labelText;
-        va_start(arg_ptr, count);
-        result = sprinter::vsprintf(labelText, format.c_str(), arg_ptr);
-        va_end(arg_ptr);
-
-        RecreateDisplayList();
-    }
-
-    return result;
 }
 
 bool Label::AddCharacter(char key)
