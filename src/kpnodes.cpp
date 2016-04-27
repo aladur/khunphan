@@ -34,7 +34,6 @@ KPnodes::KPnodes(KPnode rootNode) :
     time.ResetRelativeTime();
 
     CreateSolveTree(rootNode);
-
     createSolveTreeTime = time.GetRelativeTimeUsf(true);
 }
 
@@ -67,7 +66,16 @@ KPnode &KPnodes::Add(KPnode &node)
 // with Includes() if a board id is available.
 const KPnode &KPnodes::GetNodeFor(QWord id) const
 {
-    return GetNodeFor(id);
+    auto it = nodesForId.find(id);
+
+    if (it != nodesForId.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        throw std::runtime_error("Invalid board id.");
+    }
 }
 
 KPnode &KPnodes::GetNodeFor(QWord id)
@@ -98,6 +106,10 @@ void KPnodes::CreateSolveTree(KPnode &rootNode)
 
     Add(rootNode);
 
+    // This for loop must be executed by an index (and not an
+    // iterator or range based for).
+    // Reason: Within the loop AddNextMoves adds new elements to the end
+    // of ids vector.
     for (index = 0; index < ids.size(); ++index)
     {
         auto &node = GetNodeFor(ids[index]);
@@ -119,9 +131,9 @@ void KPnodes::CalculateSolveCount(void)
 
     time.ResetRelativeTime();
 
-    for (auto it = ids.cbegin(); it != ids.cend(); ++it)
+    for (const auto id : ids)
     {
-        auto &node = GetNodeFor(*it);
+        auto &node = GetNodeFor(id);
 
         // recursively modify the solve count
         node.RecursiveUpdateSolveCount(0, true);
@@ -133,9 +145,9 @@ void KPnodes::CalculateSolveCount(void)
 
 void KPnodes::PrintSolveCount(std::ostream &os) const
 {
-    for (auto it = ids.cbegin(); it != ids.cend(); ++it)
+    for (const auto id : ids)
     {
-        const auto &node = GetNodeFor(*it);
+        const auto &node = GetNodeFor(id);
 
         os << ' ' << node.GetMovesToSolve() << std::endl;
     }

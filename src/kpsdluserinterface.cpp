@@ -273,9 +273,9 @@ bool KPSdlUserInterface::NoMusicFile(const std::string &file)
     auto fileExtension = file.substr(file.size() - 4, 4);
     std::locale locale;
 
-    for (auto it = fileExtension.begin(); it != fileExtension.end(); ++it)
+    for (auto &character : fileExtension)
     {
-        *it = std::tolower(*it, locale);
+        character = std::tolower(character, locale);
     }
 
     return fileExtension.compare(".ogg") && fileExtension.compare(".mp3");

@@ -151,9 +151,9 @@ Label &Label::operator=(const Label &src)
 
 void Label::FadeOutAll()
 {
-    for (auto it = activated.begin(); it != activated.end(); ++it)
+    for (auto &item : activated)
     {
-        (*it)->SetFadeOut();
+        item->SetFadeOut();
     }
 
     Label::activated.clear();
@@ -517,9 +517,9 @@ void Label::RecreateDisplayList()
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glPushMatrix();
 
-        for (it = labelText.begin(); it != labelText.end(); ++it)
+        for (auto character : labelText)
         {
-            c = static_cast<unsigned char>(*it);
+            c = static_cast<unsigned char>(character);
             AspectRatio += (right[c] - left[c] + 4) / 64.0f; // Sw: added
             glTranslatef(-left[c] / 64.0f, 0, 0);
             glBindTexture(GL_TEXTURE_2D, Texture);

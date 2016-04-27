@@ -112,10 +112,9 @@ void KPstateSelectLanguage::SetLanguage(KPstateContext *pContext,
 
     pContext->GetMenu().LoadLanguage(Language);
 
-    for (auto it = pContext->GetMenu().labels.begin();
-         it != pContext->GetMenu().labels.end(); ++it)
+    for (auto &item : pContext->GetMenu().labels)
     {
-        it->second.RecreateDisplayList();
+        item.second.RecreateDisplayList();
     }
 
     pContext->GetConfig().Language = Language;

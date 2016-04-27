@@ -61,11 +61,11 @@ void KPnode::AddNextMoves(KPnodes &nodes)
     {
         auto moves = board.GetPossibleMoves();
 
-        for (auto it = moves.cbegin(); it != moves.cend(); ++it)
+        for (auto &move : moves)
         {
             auto boardMoved = board;
 
-            boardMoved.Move(*it);
+            boardMoved.Move(move);
 
             if (!nodes.Includes(boardMoved.GetID()))
             {
@@ -106,10 +106,10 @@ void KPnode::print(std::ostream &os, bool with_childs /* = false */) const
     {
         auto i = 1;
 
-        for (auto it = childs.cbegin(); it != childs.cend(); ++it)
+        for (auto &child : childs)
         {
             os << i << ". Child:" << std::endl;
-            (*it).get().print(os);
+            child.get().print(os);
             ++i;
         }
     }
@@ -129,9 +129,9 @@ void KPnode::RecursiveUpdateSolveCount(int count, bool start)
     {
         movesToSolve = count;
 
-        for (auto it = parents.cbegin(); it != parents.cend(); ++it)
+        for (auto &parent : parents)
         {
-            (*it).get().RecursiveUpdateSolveCount(count + 1, false);
+            parent.get().RecursiveUpdateSolveCount(count + 1, false);
         }
     }
 }

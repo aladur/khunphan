@@ -110,9 +110,9 @@ bool KPmenu::LoadLanguage(int Language)
         return false;
     }
 
-    for (auto it = strings.cbegin(); it != strings.cend(); ++it)
+    for (auto &item : strings)
     {
-        AddOrSetLabel(it->first, it->second);
+        AddOrSetLabel(item.first, item.second);
     }
 
     // Single source for Package Name and Version
@@ -137,9 +137,9 @@ void KPmenu::AddOrSetLabel(int number, const std::string &text)
 
 void KPmenu::FadeOutAllPlates()
 {
-    for (auto it = plates.begin(); it != plates.end(); ++it)
+    for (auto &plate : plates)
     {
-        it->second.SetFadeOut();
+        plate.second.SetFadeOut();
     }
 }
 
@@ -150,14 +150,14 @@ void KPmenu::FadeOutAllLabels()
 
 void KPmenu::Animate(unsigned int duration)
 {
-    for (auto sit = plates.begin(); sit != plates.end(); ++sit)
+    for (auto &item : plates)
     {
-        sit->second.Animate(duration);
+        item.second.Animate(duration);
     }
 
-    for (auto tit = labels.begin(); tit != labels.end(); ++tit)
+    for (auto &item : labels)
     {
-        tit->second.Animate(duration);
+        item.second.Animate(duration);
     }
 }
 
@@ -173,17 +173,17 @@ void KPmenu::Draw()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    for (auto sit = plates.cbegin(); sit != plates.cend(); ++sit)
+    for (const auto &item : plates)
     {
-        if (sit->first != PLATE_SHADER)
+        if (item.first != PLATE_SHADER)
         {
-            sit->second.Draw();
+            item.second.Draw();
         }
     }
 
-    for (auto tit = labels.begin(); tit != labels.end(); ++tit)
+    for (auto &item : labels)
     {
-        tit->second.Draw();
+        item.second.Draw();
     }
 
     glDisable(GL_TEXTURE_2D);

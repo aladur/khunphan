@@ -217,23 +217,23 @@ void KPscore::WriteToFile() const
 
     std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
 
-    for (; it != scoreList.end(); ++it)
+    for (const auto &score : scoreList)
     {
         auto subtree = xmlNewChild(tree, ns, _TO("Score"), nullptr);
 
         xmlNewTextChild(subtree, ns, _TO("Name"),
-                        _TO(it->Name.c_str()));
+                        _TO(score.Name.c_str()));
 
         std::ostringstream iss1;
-        iss1 << it->PlayTime;
+        iss1 << score.PlayTime;
         xmlNewChild(subtree, ns, _TO("PlayTime"), _TO(iss1.str().c_str()));
 
         std::ostringstream iss2;
-        iss2 << it->Moves;
+        iss2 << score.Moves;
         xmlNewChild(subtree, ns, _TO("Moves"), _TO(iss2.str().c_str()));
 
         std::ostringstream iss3;
-        iss3 << it->Timestamp;
+        iss3 << score.Timestamp;
         xmlNewChild(subtree, ns, _TO("Timestamp"), _TO(iss3.str().c_str()));
     }
 
@@ -363,12 +363,12 @@ void KPscore::print(std::ostream &os) const
     {
         os << "Current KhunPhan Score list:" << std::endl;
 
-        for (auto it = scoreList.cbegin(); it != scoreList.cend(); ++it)
+        for (const auto &score : scoreList)
         {
-            os << "   Name: '" << it->Name
-               << "' PlayTime: " << it->PlayTime
-               << " ms Moves: " << it->Moves
-               << " Time: " << ctime(&it->Timestamp) ;
+            os << "   Name: '" << score.Name
+               << "' PlayTime: " << score.PlayTime
+               << " ms Moves: " << score.Moves
+               << " Time: " << ctime(&score.Timestamp) ;
         }
 
         os << std::endl;

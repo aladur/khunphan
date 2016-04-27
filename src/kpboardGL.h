@@ -103,7 +103,9 @@ private:
     tKPTokenID emphasizedToken;
     tKPTokenID animatedToken;
     float old_x, old_y, new_x, new_y, ax, ay, Time;
-    unsigned int textureId[MAX_BOARD_TEXTURES];
+    // This has to be a c-style compatible array
+    // because it is used in glGenTextures
+    std::array<unsigned int, MAX_BOARD_TEXTURES> textureIds;
     tArrayOfString textureSources;
     int DisplayList;
 };

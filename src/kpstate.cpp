@@ -145,10 +145,10 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
 
     auto Signal = 0;
 
-    for (auto sit = menu.plates.begin(); sit != menu.plates.end(); ++sit)
+    for (auto &pitem : menu.plates)
     {
-        Signal = sit->second.MouseEvent(button, event, x, y,
-                                        pContext->GetUserInterface());
+        Signal = pitem.second.MouseEvent(button, event, x, y,
+                                         pContext->GetUserInterface());
 
         if (Signal)
         {
@@ -156,15 +156,15 @@ int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
         }
     }
 
-    for (auto tit = menu.labels.begin(); tit != menu.labels.end(); ++tit)
+    for (auto &litem : menu.labels)
     {
         if (Signal)
         {
             break;
         }
 
-        Signal = tit->second.MouseEvent(button, event, x, y,
-                                        pContext->GetUserInterface());
+        Signal = litem.second.MouseEvent(button, event, x, y,
+                                         pContext->GetUserInterface());
     }
 
     return Signal;
@@ -178,11 +178,9 @@ bool KPstate::EvaluateKeyPressed(KPstateContext *pContext, unsigned char key,
 
     auto done = false;
 
-    tIdToLabel::iterator it;
-
-    for (it = menu.labels.begin(); !done && it != menu.labels.end(); ++it)
+    for (auto &item : menu.labels)
     {
-        done = it->second.AddCharacter(key);
+        done = item.second.AddCharacter(key);
     }
 
     return done;

@@ -73,10 +73,7 @@ KPboardView::KPboardView(const KPboard &currentBoard,
         throw std::runtime_error("Error creating a display list");
     }
 
-    for (auto i = 0; i < MAX_BOARD_TEXTURES; i++)
-    {
-        textureId[i] = 0;
-    }
+    std::fill(textureIds.begin(), textureIds.end(), 0);
 
     Initialize(TextureDirectory, TextureName, TextureSize, Nearest);
 }
@@ -84,7 +81,7 @@ KPboardView::KPboardView(const KPboard &currentBoard,
 KPboardView::~KPboardView()
 {
     glDeleteLists(DisplayList, KBP_ENTRY_COUNT);
-    glDeleteTextures(MAX_BOARD_TEXTURES, textureId);
+    glDeleteTextures(MAX_BOARD_TEXTURES, textureIds.data());
 }
 
 QWord KPboardView::GetBoardId() const
@@ -148,35 +145,37 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
                                      bool         Nearest /*=true*/,
                                      bool         always /*=true*/)
 {
-    // If Textures are enabled read them from PNG files
-    auto i = 0;
-
-    if (textureId[0] == 0)
+    // Read Textures from PNG files
+    if (TextureSize == 0)
     {
-        glGenTextures(MAX_BOARD_TEXTURES, &textureId[0]);
+        throw std::invalid_argument("TextureSize must not be zero.");
     }
 
-    while (TextureSize && (i < MAX_BOARD_TEXTURES))
+    if (textureIds[0] == 0)
+    {
+        glGenTextures(textureIds.size(), textureIds.data());
+    }
+
+    for (decltype(textureIds.size()) idx = 0; idx < textureIds.size(); ++idx)
     {
         auto file = TextureDirectory + TextureName +
-                    PATHSEPARATORSTRING + textureFiles[i];
+                    PATHSEPARATORSTRING + textureFiles[idx];
 
-        if (!always && file == textureSources[i])
+        if (!always && file == textureSources[idx])
         {
             continue;
         }
 
-        if (!CreateTexture(TextureSize, file, Nearest, &textureId[i]))
+        if (!CreateTexture(TextureSize, file, Nearest, &textureIds[idx]))
         {
-            file = TextureDirectory + textureFiles[i];
+            file = TextureDirectory + textureFiles[idx];
 
-            if (!always && file == textureSources[i])
+            if (!always && file == textureSources[idx])
             {
                 continue;
             }
 
-            if (!CreateTexture(TextureSize, file, Nearest,
-                               &textureId[i]))
+            if (!CreateTexture(TextureSize, file, Nearest, &textureIds[idx]))
             {
                 std::stringstream message;
 
@@ -186,8 +185,7 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
             }
         }
 
-        textureSources[i] = file;
-        i++;
+        textureSources[idx] = file;
     }
 }
 
@@ -617,7 +615,7 @@ void KPboardView::Draw(bool render /* = true */) const
             case TK_GREEN2:
             case TK_GREEN3:
             case TK_GREEN4:
-                glBindTexture(GL_TEXTURE_2D, textureId[0]);
+                glBindTexture(GL_TEXTURE_2D, textureIds[0]);
                 break;
 
             case TK_WHITE1:
@@ -625,11 +623,11 @@ void KPboardView::Draw(bool render /* = true */) const
             case TK_WHITE3:
             case TK_WHITE4:
             case TK_WHITE5:
-                glBindTexture(GL_TEXTURE_2D, textureId[1]);
+                glBindTexture(GL_TEXTURE_2D, textureIds[1]);
                 break;
 
             case TK_RED1:
-                glBindTexture(GL_TEXTURE_2D, textureId[2]);
+                glBindTexture(GL_TEXTURE_2D, textureIds[2]);
                 break;
 
             default:
@@ -656,7 +654,7 @@ void KPboardView::Draw(bool render /* = true */) const
     //////////////////////////////////////
     // Draw the board (after the tokens!)
     //////////////////////////////////////
-    glBindTexture(GL_TEXTURE_2D, textureId[3]);
+    glBindTexture(GL_TEXTURE_2D, textureIds[3]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
