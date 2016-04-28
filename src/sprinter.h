@@ -26,7 +26,8 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
-//#include <regex>
+#include <cctype>
+#include <iterator>
 
 
 class sprinter
@@ -102,10 +103,6 @@ public:
     // too much code bloat.
     static inline bool isformatstring(const std::string &text)
     {
-/*        std::regex regexText(".*\\{[0-9]+\\}.*");
-
-        return std::regex_match(text, regexText);*/
-
         auto it = text.cbegin();
 
         // Parse opening curly brackets

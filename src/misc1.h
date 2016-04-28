@@ -239,21 +239,22 @@ void message(tMsgType type, Args&&... args)
     std::stringstream winmsg;
 
     winmsg << "[" PACKAGE "] " << msg.str() << std::endl;
-    OutputDebugString(winmsg.c_str());
+    OutputDebugString(winmsg.str().c_str());
 
     switch (type)
     {
         case mtError:
-            MessageBox(nullptr, msg.c_str(), PACKAGE, MB_OK | MB_ICONERROR);
+            MessageBox(nullptr, msg.str().c_str(), PACKAGE,
+                       MB_OK | MB_ICONERROR);
             break;
 
         case mtMessage:
-            MessageBox(nullptr, msg.c_str(), PACKAGE, MB_OK);
+            MessageBox(nullptr, msg.str().c_str(), PACKAGE, MB_OK);
             break;
 
         case mtWarning:
             auto type = MB_OK | MB_ICONEXCLAMATION;
-            MessageBox(nullptr, msg.c_str(), PACKAGE, type);
+            MessageBox(nullptr, msg.str().c_str(), PACKAGE, type);
             break;
     }
 

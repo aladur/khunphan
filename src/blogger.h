@@ -22,6 +22,7 @@
 #ifndef BLOGGER_H
 #define BLOGGER_H
 
+#include "stdafx.h"
 #include <sstream>
 
 
