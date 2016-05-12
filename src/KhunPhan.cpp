@@ -59,13 +59,11 @@ void KhunPhanApp::InitializeSolutionTree()
     // Get non-owning pointer to state context.
     KPstateContext *pContext =
         dynamic_cast<KPstateContext *>(pUserInterface.get());
-    KPsolutionsCountFunction fct;
 
     pContext->GetNodes().CalculateSolveCount();
 
     auto positions = pContext->GetNodes().GetSize();
-    pContext->GetNodes().Iterate(fct);
-    auto solutionsCount = fct.GetCount();
+    auto solutionsCount = pContext->GetNodes().GetSolutionsCount();
 
     BLogger::Log("Total positions found: ", positions);
     BLogger::Log("Total solutions found: ", solutionsCount);
@@ -103,6 +101,7 @@ bool KhunPhanApp::Initialize()
     config->DebugPrint();
 
     // initialize all the tokens
+    KPboard rootBoard;
     rootBoard.InitializeToken(TK_GREEN1, 1, 3);
     rootBoard.InitializeToken(TK_GREEN2, 2, 3);
     rootBoard.InitializeToken(TK_GREEN3, 1, 4);

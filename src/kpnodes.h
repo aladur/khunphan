@@ -25,6 +25,7 @@
 
 #include "stdafx.h"
 #include <unordered_map>
+#include <algorithm>
 #include "kpnode.h"
 
 
@@ -54,14 +55,7 @@ public:
     }
     void CalculateSolveCount(void);
     void PrintSolveCount(std::ostream &os) const;
-    template<typename F>
-    void Iterate(F &f)
-    {
-        for (decltype(ids.size()) index = 0; index < ids.size(); ++index)
-        {
-            f.Iterate(GetNodeFor(ids[index]));
-        }
-    }
+    unsigned int GetSolutionsCount();
 
     double GetCalculateSolveCountTime(void) const
     {
