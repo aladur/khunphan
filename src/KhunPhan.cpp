@@ -35,11 +35,6 @@
 // Class KhunPhanApp
 /////////////////////////////////////////////////////////////////////
 
-KhunPhanApp::KhunPhanApp() :
-    argc(0), argv(nullptr), canRun(false)
-{
-}
-
 KhunPhanApp::KhunPhanApp(int p_argc, char **p_argv) :
     argc(p_argc), argv(p_argv), canRun(true)
 {

@@ -34,12 +34,12 @@ class KhunPhanApp
 {
 public:
     KhunPhanApp(int argc, char **argv);
+    KhunPhanApp() = delete;
     ~KhunPhanApp();
 
     void Run();
 
 private:
-    KhunPhanApp();
     bool Initialize();
     void InitializeSolutionTree();
 
