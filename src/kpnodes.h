@@ -25,7 +25,6 @@
 
 #include "stdafx.h"
 #include <unordered_map>
-#include <algorithm>
 #include "kpnode.h"
 
 

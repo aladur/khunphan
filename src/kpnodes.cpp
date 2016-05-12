@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include <stdexcept>
+#include <algorithm>
 #include <limits.h>
 #include "kpnodes.h"
 #include "btime.h"
