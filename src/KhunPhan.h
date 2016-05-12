@@ -23,7 +23,6 @@
 #ifndef KHUNPHAN_H
 #define KHUNPHAN_H
 
-#include <memory>
 #include "kpboard.h"
 #include "kpconfig.h"
 
