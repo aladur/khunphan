@@ -68,10 +68,11 @@ public:
 
 protected:
     Mix_Chunk *LoadSoundFile(const char *pFile);
-    virtual void SetStopMusicCallback() = 0;
+    void SetStopMusicCallback();
     void LoadNextMusic();
     void CloseAudio();
 
+    static void StaticStopMusicCallback();
     static bool NoMusicFile(const std::string &file);
     static const int REQUEST_FOR_CLOSE;
 

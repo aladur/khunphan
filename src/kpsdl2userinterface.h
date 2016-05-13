@@ -52,10 +52,7 @@ public:
 protected:
     // member functions for event handling
     void SwapBuffers() override;
-    void SetStopMusicCallback() override;
     void DebugPrintOpenGLContextVersion() const;
-
-    static void StaticStopMusicCallback();
 
     SDL_Window   *window;  // SDL Window ID
     SDL_GLContext glContext;

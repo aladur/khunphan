@@ -407,22 +407,5 @@ void KPSdl2UserInterface::SwapBuffers()
     SDL_GL_SwapWindow(window);
 }
 
-/////////////////////////////////////////////////////////////////////
-// Audio/Music Interface
-/////////////////////////////////////////////////////////////////////
-
-void KPSdl2UserInterface::SetStopMusicCallback()
-{
-    Mix_HookMusicFinished(StaticStopMusicCallback);
-}
-
-void KPSdl2UserInterface::StaticStopMusicCallback()
-{
-    if (KPSdl2UserInterface::pInstance != nullptr)
-    {
-        KPSdl2UserInterface::pInstance->StopMusicCallback();
-    }
-}
-
 #endif //#ifdef HAVE_SDL2
 

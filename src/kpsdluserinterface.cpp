@@ -201,6 +201,19 @@ void KPSdlUserInterface::RequestForClose()
     SDL_PushEvent(&user_event);
 }
 
+void KPSdlUserInterface::SetStopMusicCallback()
+{
+    Mix_HookMusicFinished(StaticStopMusicCallback);
+}
+
+void KPSdlUserInterface::StaticStopMusicCallback()
+{
+    if (KPSdlUserInterface::pInstance != nullptr)
+    {
+        KPSdlUserInterface::pInstance->StopMusicCallback();
+    }
+}
+
 /////////////////////////////////////////////////////////////////////
 // Audio/Music Interface
 /////////////////////////////////////////////////////////////////////
