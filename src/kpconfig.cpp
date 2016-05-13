@@ -768,7 +768,7 @@ void KPConfig::ReadCommandLineParams(int argc, char **argv)
     }
 }
 
-const char *KPConfig::GetUserInterfaceName(int ui)
+std::string KPConfig::GetUserInterfaceName(int ui)
 {
     switch (ui)
     {
@@ -779,7 +779,7 @@ const char *KPConfig::GetUserInterfaceName(int ui)
             return "GLUT";
 
         default:
-            return "";
+            return "<unknown>";
     }
 }
 

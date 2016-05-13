@@ -41,8 +41,11 @@ class KPConfig
 {
 public:
     KPConfig();
-    virtual ~KPConfig();
-    static const char *GetUserInterfaceName(int ui);
+    ~KPConfig();
+    KPConfig(const KPConfig &) = delete;
+    KPConfig & operator=(const KPConfig &) = delete;
+
+    static std::string GetUserInterfaceName(int ui);
 
     void SetDefaultValues();
     void ReadCommandLineParams(int argc, char **argv);
