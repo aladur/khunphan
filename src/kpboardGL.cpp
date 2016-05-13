@@ -901,7 +901,7 @@ const // Only for test purposes
 // Check if a token has been selected
 // If no token was selected return TK_EMPTY
 
-tKPTokenID KPboardView::Selection(const Camera *pCamera, int x, int y) const
+tKPTokenID KPboardView::Selection(const Camera &camera, int x, int y) const
 {
     GLuint  buffer[BUF_SIZE]; // Set Up A Selection Buffer
     auto choose = TK_EMPTY;
@@ -911,7 +911,7 @@ tKPTokenID KPboardView::Selection(const Camera *pCamera, int x, int y) const
     glInitNames();
     glPushName(0); // Push 0 (At Least One Entry) Onto The Stack
 
-    pCamera->Draw(x, y);
+    camera.Draw(x, y);
     Draw(true); // Draw the tokens (not the board)
 
     auto hits = glRenderMode(GL_RENDER);  // Change back to render mode

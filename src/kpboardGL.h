@@ -47,7 +47,6 @@ enum tDisplayList
 };
 
 class Camera;
-class KPboard;
 
 #define MAX_BOARD_TEXTURES  4
 
@@ -59,7 +58,10 @@ public:
                 const std::string &TextureDirectory,
                 const std::string &TextureName,
                 unsigned int TextureSize = 1, bool Nearest = true);
-    virtual ~KPboardView();
+    KPboardView() = delete;
+    KPboardView(const KPboardView &) = delete;
+    KPboardView & operator=(const KPboardView &) = delete;
+    ~KPboardView();
 
     void InitializeTextures(const std::string &TextureDirectory,
                             const std::string &TextureName,
@@ -68,7 +70,7 @@ public:
     void Draw(bool render = true) const;
     QWord GetBoardId() const;
     void SetBoard(const KPboard &);
-    tKPTokenID Selection(const Camera *pCamera, int x, int y) const;
+    tKPTokenID Selection(const Camera &camera, int x, int y) const;
     bool Move(tKPTokenID id, tKPDirection d);
     bool CanMove(tKPTokenID id, tKPDirection d);
     void Animate(unsigned int duration);

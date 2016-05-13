@@ -39,7 +39,7 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
     if (button == KP_LEFT_MB && event == KP_BUTTON_PRESS)
     {
         // Pressing left menu button: remind token
-        token = pContext->GetBoardView().Selection(&pContext->GetCamera(),
+        token = pContext->GetBoardView().Selection(pContext->GetCamera(),
                 x, y);
         mouse_x = x; // save current mouse position
         mouse_y = y;
