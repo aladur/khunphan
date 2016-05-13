@@ -41,44 +41,45 @@ public:
     // public interface
     KPSdlUserInterface(KPConfigPtr);
     virtual ~KPSdlUserInterface();
+    KPSdlUserInterface() = delete;
+    KPSdlUserInterface(const KPSdlUserInterface &) = delete;
+    KPSdlUserInterface & operator=(const KPSdlUserInterface &) = delete;
 
     void Close() override;
+    virtual void RequestForClose() override;
+
+    // member functions for event handling
+    void MouseClick(int button, int state, int x, int y) override;
 
 protected:
-    // member functions for event handling
-    void Timer(int value);
-    void MouseClick(int button, int event, int x, int y);
+    void InitializeEvents() override;
+    void PostWindowRedisplay() override;
 
-    void InitializeEvents();
-    void PostWindowRedisplay();
     bool mapKey(int mod, int sym, unsigned char *pKey);
-    Mix_Chunk *LoadSoundFile(const char *pFile);
-    void StopMusicCallback();
-    virtual void SetStopMusicCallback() = 0;
-    virtual void RequestForClose() override;
-    void CloseAudio();
-
-    std::array<Mix_Chunk *, KP_SND_MAX> sounds;
-    std::array<std::string, KP_SND_MAX> soundSources;
-    Mix_Music    *music;
 
     // Audio/Music Interface
 public:
     bool InitializeAudio(const std::string &textureName) override;
-    void SetSoundVolume(int volume) const;
-    void SetMusicVolume(int volume) const;
-    void PlayAudio(size_t soundId) const;
-    void PlayMusic(bool On, bool resetPos = false);
-    void LoadNextMusic();
+    void SetSoundVolume(int volume) const override;
+    void SetMusicVolume(int volume) const override;
+    void PlayAudio(size_t soundId) const override;
+    void PlayMusic(bool On, bool resetPos = false) override;
+    void StopMusicCallback() override;
 
 protected:
+    Mix_Chunk *LoadSoundFile(const char *pFile);
+    virtual void SetStopMusicCallback() = 0;
+    void LoadNextMusic();
+    void CloseAudio();
+
+    static bool NoMusicFile(const std::string &file);
     static const int REQUEST_FOR_CLOSE;
 
-private:
-    typedef std::array<std::string, KP_SND_MAX> tArrayOfString;
+    std::array<Mix_Chunk *, KP_SND_MAX> sounds;
+    std::array<std::string, KP_SND_MAX> soundSources;
+    Mix_Music *music;
 
-    KPSdlUserInterface();
-    static bool NoMusicFile(const std::string &file);
+    typedef std::array<std::string, KP_SND_MAX> tArrayOfString;
 
     unsigned int rate;
     unsigned int musicIndex;

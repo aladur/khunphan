@@ -33,7 +33,10 @@ class KPSdl12UserInterface : public KPSdlUserInterface
 {
 public:
     // public interface
-    KPSdl12UserInterface(KPnode &, KPConfig &);
+    KPSdl12UserInterface(KPnode &, KPConfigPtr);
+    KPSdl12UserInterface() = delete;
+    KPSdl12UserInterface(const KPSdl12UserInterface &) = delete;
+    KPSdl12UserInterface & operator=(const KPSdl12UserInterface &) = delete;
 
     void OpenWindow(int argc, char **argv) override;
     void SetWindowMode(bool FullScreen) const override;
@@ -45,9 +48,9 @@ public:
 
 protected:
     // member functions for event handling
-    void SwapBuffers();
-    void SetStopMusicCallback();
-    static void stopMusicCallback();
+    void SwapBuffers() override;
+    void SetStopMusicCallback() override;
+    static void StaticStopMusicCallback();
 
     SDL_Surface  *screen;  // SDL Screen ID
 };

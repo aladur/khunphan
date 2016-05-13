@@ -37,19 +37,22 @@ public:
     // public interface
     KPGlutUserInterface(KPnode &, KPConfigPtr);
     virtual ~KPGlutUserInterface();
+    KPGlutUserInterface() = delete;
+    KPGlutUserInterface(const KPGlutUserInterface &) = delete;
+    KPGlutUserInterface & operator=(const KPGlutUserInterface &) = delete;
 
     void OpenWindow(int argc, char **argv) override;
     void SetWindowMode(bool FullScreen) const override;
     void SetWindowSize(int width, int height) const override;
     void MainLoop() override;
-    void RequestForClose() override;
     void Close() override;
+    void RequestForClose() override;
     int GetValue(int what) const override;
     bool IsWindowResolutionSupported(int width, int height) const override;
     bool CanToggleFullScreen() const override;
     bool CanChangeWindowSize() const override;
 
-public:
+private:
     // static member functions for event handling
     // necessary for event handling
     static void MouseClickEvent(int button, int state, int x, int y);
@@ -59,19 +62,14 @@ public:
     static void ReshapeEvent(int width, int height);
     static void TimerEvent(int value);
 
-    // member functions for event handling
-    void Timer(int value);
-    void MouseClick(int button, int state, int x, int y);
-
 protected:
-    void InitializeEvents();
-    void SwapBuffers();
-    void PostWindowRedisplay();
+    // Overloaded member functions for event handling
+    void MouseClick(int button, int state, int x, int y) override;
+    void InitializeEvents() override;
+    void SwapBuffers() override;
+    void PostWindowRedisplay() override;
 
     int  windowID;  // ID of GLUT window
-
-private:
-    KPGlutUserInterface();
 };
 
 #endif

@@ -413,10 +413,10 @@ void KPSdl2UserInterface::SwapBuffers()
 
 void KPSdl2UserInterface::SetStopMusicCallback()
 {
-    Mix_HookMusicFinished(stopMusicCallback);
+    Mix_HookMusicFinished(StaticStopMusicCallback);
 }
 
-void KPSdl2UserInterface::stopMusicCallback()
+void KPSdl2UserInterface::StaticStopMusicCallback()
 {
     if (KPSdl2UserInterface::pInstance != nullptr)
     {

@@ -35,6 +35,9 @@ class KPSdl2UserInterface : public KPSdlUserInterface
 public:
     // public interface
     KPSdl2UserInterface(KPnode &, KPConfigPtr);
+    KPSdl2UserInterface() = delete;
+    KPSdl2UserInterface(const KPSdl2UserInterface &) = delete;
+    KPSdl2UserInterface & operator=(const KPSdl2UserInterface &) = delete;
 
     void OpenWindow(int argc, char **argv) override;
     void SetWindowMode(bool FullScreen) const override;
@@ -48,11 +51,11 @@ public:
 
 protected:
     // member functions for event handling
-    void SwapBuffers();
-    void SetStopMusicCallback();
+    void SwapBuffers() override;
+    void SetStopMusicCallback() override;
     void DebugPrintOpenGLContextVersion() const;
 
-    static void stopMusicCallback();
+    static void StaticStopMusicCallback();
 
     SDL_Window   *window;  // SDL Window ID
     SDL_GLContext glContext;
