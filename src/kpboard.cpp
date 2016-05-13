@@ -55,6 +55,17 @@ KPboard::KPboard(const KPboard &src)
     memcpy(tokenID, src.tokenID, sizeof(tokenID));
 }
 
+KPboard &KPboard::operator=(const KPboard &src)
+{
+    id = 0;
+
+    std::copy(src.positions.cbegin(), src.positions.cend(), positions.begin());
+
+    memcpy(tokenID, src.tokenID, sizeof(tokenID));
+
+    return *this;
+}
+
 bool KPboard::operator == (const KPboard &src) const
 {
     return GetID() == src.GetID();

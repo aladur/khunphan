@@ -22,10 +22,10 @@
 #ifndef BTEXTURE_H
 #define BTEXTURE_H
 
+#include "stdafx.h"
 #include <fstream>
 #include <string>
 #include <png.h>
-#include "misc1.h"
 
 
 enum tTextureFormat
@@ -45,10 +45,11 @@ enum tTextureFormat
     TEX_COPY_BLUE_TO_RED   = 0x50,
     TEX_COPY_BLUE_TO_GREEN = 0x60,
 
-    TEX_SET_COLORS         = 0x700,
     TEX_SET_COLOR_RED      = 0x100,
     TEX_SET_COLOR_GREEN    = 0x200,
     TEX_SET_COLOR_BLUE     = 0x400,
+    TEX_SET_COLORS         = (TEX_SET_COLOR_RED | TEX_SET_COLOR_GREEN |
+                              TEX_SET_COLOR_BLUE),
 
     TEX_ILLUMINANCE        = 0x800,
     TEX_RGB                = 0x1000,

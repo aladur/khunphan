@@ -24,7 +24,6 @@
 
 
 #include "stdafx.h"
-#include "misc1.h"
 
 class BManualTimer
 {

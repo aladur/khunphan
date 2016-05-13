@@ -99,6 +99,7 @@ public:
 
     KPboard();
     KPboard(const KPboard &b);
+    KPboard & operator=(const KPboard &b);
 
     bool operator == (const KPboard &b) const;
     void print(std::ostream &os) const;
