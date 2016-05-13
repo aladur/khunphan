@@ -468,3 +468,22 @@ QWord KPboard::GetID() const
     return id;
 }
 
+KPboard KPboard::CreateRootBoard()
+{
+    KPboard rootBoard;
+
+    // Create a board with all tokens in start position
+    rootBoard.InitializeToken(TK_GREEN1, 1, 3);
+    rootBoard.InitializeToken(TK_GREEN2, 2, 3);
+    rootBoard.InitializeToken(TK_GREEN3, 1, 4);
+    rootBoard.InitializeToken(TK_GREEN4, 2, 4);
+    rootBoard.InitializeToken(TK_WHITE1, 0, 0);
+    rootBoard.InitializeToken(TK_WHITE2, 3, 0);
+    rootBoard.InitializeToken(TK_WHITE3, 0, 3);
+    rootBoard.InitializeToken(TK_WHITE4, 3, 3);
+    rootBoard.InitializeToken(TK_WHITE5, 1, 2);
+    rootBoard.InitializeToken(TK_RED1,   1, 0);
+
+    return rootBoard;
+}
+

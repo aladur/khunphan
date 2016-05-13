@@ -20,14 +20,9 @@
 */
 
 #include "stdafx.h"
-#include <ostream>
-#include <stdexcept>
 #include "KhunPhan.h"
-#include "kpsdl12userinterface.h"
-#include "kpsdl2userinterface.h"
-#include "kpglutuserinterface.h"
 #include "kpnodes.h"
-#include "kpsolutionscountfunction.h"
+#include "kpuserinterfacefactory.h"
 #include "blogger.h"
 
 
@@ -43,9 +38,9 @@ KhunPhanApp::KhunPhanApp(int p_argc, char **p_argv) :
 
 KhunPhanApp::~KhunPhanApp()
 {
-    if (pUserInterface)
+    if (userInterfacePtr)
     {
-        pUserInterface->Close();
+        userInterfacePtr->Close();
     }
 }
 
@@ -53,7 +48,7 @@ void KhunPhanApp::InitializeSolutionTree()
 {
     // Get non-owning pointer to state context.
     KPstateContext *pContext =
-        dynamic_cast<KPstateContext *>(pUserInterface.get());
+        dynamic_cast<KPstateContext *>(userInterfacePtr.get());
 
     pContext->GetNodes().CalculateSolveCount();
 
@@ -81,7 +76,7 @@ bool KhunPhanApp::Initialize()
                  "FITNESS");
     BLogger::Log("FOR A PARTICULAR PURPOSE.");
 
-    config.reset(new KPConfig);
+    config = std::make_shared<KPConfig>();
 
     config->SetDefaultValues();
     config->ReadCommandLineParams(argc, argv);
@@ -95,50 +90,14 @@ bool KhunPhanApp::Initialize()
 
     config->DebugPrint();
 
-    // initialize all the tokens
-    KPboard rootBoard;
-    rootBoard.InitializeToken(TK_GREEN1, 1, 3);
-    rootBoard.InitializeToken(TK_GREEN2, 2, 3);
-    rootBoard.InitializeToken(TK_GREEN3, 1, 4);
-    rootBoard.InitializeToken(TK_GREEN4, 2, 4);
-    rootBoard.InitializeToken(TK_WHITE1, 0, 0);
-    rootBoard.InitializeToken(TK_WHITE2, 3, 0);
-    rootBoard.InitializeToken(TK_WHITE3, 0, 3);
-    rootBoard.InitializeToken(TK_WHITE4, 3, 3);
-    rootBoard.InitializeToken(TK_WHITE5, 1, 2);
-    rootBoard.InitializeToken(TK_RED1,   1, 0);
+    // Get board with all tokens in start position
+    KPnode rootNode(KPboard::CreateRootBoard());
 
-    KPnode rootNode(rootBoard);
-    KPUIBase *pUIBase = nullptr;
+    userInterfacePtr = KPuserInterfaceFactory::Create(
+                           config->UserInterface,
+                           rootNode,
+                           config);
 
-    switch (config->UserInterface)
-    {
-#ifdef HAVE_SDL2
-
-        case 0:
-            pUIBase = new KPSdl2UserInterface(rootNode, config);
-            break;
-#else
-#ifdef HAVE_SDL
-
-        case 0:
-            pUIBase = new KPSdl12UserInterface(rootNode, config);
-            break;
-#endif
-#endif
-
-#if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
-
-        case 1:
-            pUIBase = new KPGlutUserInterface(rootNode, config);
-            break;
-#endif
-
-        default:
-            throw std::runtime_error("No user interface initialized");
-    }
-
-    pUserInterface.reset(pUIBase);
     InitializeSolutionTree();
 
     return true;
@@ -148,8 +107,10 @@ void KhunPhanApp::Run()
 {
     if (argv != nullptr && canRun)
     {
-        pUserInterface->OpenWindow(argc, argv);
-        pUserInterface->MainLoop();
+        // Application can run only once
+        canRun = false;
+        userInterfacePtr->OpenWindow(argc, argv);
+        userInterfacePtr->MainLoop();
     }
 }
 

@@ -112,6 +112,7 @@ EXTRA_DIST = \
         kpstates.h \
         bmanualtimer.h \
         blogger.h \
+        kpuserinterfacefactory.h \
         stdafx.h \
         KhunPhan.rc \
         icon.ico

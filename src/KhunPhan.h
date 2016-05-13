@@ -23,8 +23,11 @@
 #ifndef KHUNPHAN_H
 #define KHUNPHAN_H
 
+#include "stdafx.h"
+#include <memory>
 #include "kpboard.h"
 #include "kpconfig.h"
+
 
 class KPUIBase;
 
@@ -34,6 +37,8 @@ class KhunPhanApp
 public:
     KhunPhanApp(int argc, char **argv);
     KhunPhanApp() = delete;
+    KhunPhanApp(const KhunPhanApp &) = delete;
+    KhunPhanApp &operator=(const KhunPhanApp &) = delete;
     ~KhunPhanApp();
 
     void Run();
@@ -43,7 +48,7 @@ private:
     void InitializeSolutionTree();
 
     KPConfigPtr config;
-    std::unique_ptr<KPUIBase> pUserInterface;
+    std::unique_ptr<KPUIBase> userInterfacePtr;
     int argc;
     char **argv;
     bool canRun;

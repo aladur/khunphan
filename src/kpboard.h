@@ -131,6 +131,7 @@ public:
     {
         return (aTokenId == TK_EMPTY) ? 1 : yExtends[aTokenId];
     }
+    static KPboard CreateRootBoard();
 
 private:
     inline void SetPosition(tKPTokenID id, int x, int y);
