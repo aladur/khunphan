@@ -32,11 +32,6 @@ typedef std::vector<std::string> tPathList;
 
 class BDirectory
 {
-private:
-    BDirectory();
-
-    std::string m_path;
-
 public:
     static bool Exists(const std::string &aPath);
     static bool Remove(const std::string &aPath);
@@ -44,23 +39,6 @@ public:
     static bool RemoveRecursive(const std::string &aPath);
     static tPathList GetSubDirectories(const std::string &aPath);
     static tPathList GetFiles(const std::string &aPath);
-
-    BDirectory(const std::string &path) : m_path(path) { };
-
-    inline void SetPath(const std::string &path)
-    {
-        m_path = path;
-    };
-    inline std::string GetPath(void) const
-    {
-        return m_path;
-    };
-    bool Exists(void) const;
-    bool Remove(void) const;
-    bool Create(int mode = 0x0755) const;
-    bool RemoveRecursive(void) const;
-    tPathList GetSubDirectories() const;
-    tPathList GetFiles() const;
 };
 
 #endif

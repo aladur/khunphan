@@ -41,10 +41,6 @@
 #include "bdir.h"
 
 
-/********************************************
- static functions
-********************************************/
-
 bool BDirectory::Exists(const std::string &aPath)
 {
     struct stat sbuf;
@@ -220,7 +216,7 @@ tPathList BDirectory::GetSubDirectories(const std::string &aPath)
             auto dirEntry = basePath + PATHSEPARATORSTRING + pentry->d_name;
 
             if (stat(dirEntry.c_str(), &sbuf) == 0 &&
-                S_ISDIR(sbuf.st_mode)      &&
+                S_ISDIR(sbuf.st_mode) &&
                 pentry->d_name[0] != '.')
             {
                 subDirList.push_back(pentry->d_name);
@@ -303,37 +299,4 @@ tPathList BDirectory::GetFiles(const std::string &aPath)
 #endif
 #endif
     return fileList;
-}
-/********************************************
- member functions
-********************************************/
-
-bool BDirectory::Exists(void) const
-{
-    return Exists(m_path);
-}
-
-bool BDirectory::Remove(void) const
-{
-    return Remove(m_path);
-}
-
-bool BDirectory::RemoveRecursive(void) const
-{
-    return RemoveRecursive(m_path);
-}
-
-bool BDirectory::Create(int mode /* = 0x0755 */) const
-{
-    return Create(m_path, mode);
-}
-
-tPathList BDirectory::GetSubDirectories() const
-{
-    return GetSubDirectories(m_path);
-}
-
-tPathList BDirectory::GetFiles() const
-{
-    return GetFiles(m_path);
 }
