@@ -235,7 +235,7 @@ void KPstateGame::HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID id,
     if (successfullyMoved && id != TK_EMPTY)
     {
         // The token actually is moved
-        pContext->GetUserInterface().PlayAudio(KP_SND_MOVETOKEN);
+        pContext->GetUserInterface().PlayAudio(KPSound::MoveToken);
         UpdateMoveCount(pContext);
 
         if (pContext->GetBoardView().IsSolved())
@@ -343,5 +343,5 @@ void KPstateGame::SaveGameStatus(KPstateContext *pContext) const
 
 void KPstateGame::PlayAudioForInitialize(KPstateContext *pContext) const
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_OPENGAME);
+    pContext->GetUserInterface().PlayAudio(KPSound::OpenGame);
 }

@@ -73,5 +73,5 @@ void  KPstateFinish::MouseClick(KPstateContext *pContext, MouseButton button,
 
 void KPstateFinish::PlayAudioForInitialize(KPstateContext *pContext) const
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_QUITGAME);
+    pContext->GetUserInterface().PlayAudio(KPSound::QuitGame);
 }

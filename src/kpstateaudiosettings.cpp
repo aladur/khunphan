@@ -139,7 +139,7 @@ void KPstateAudioSettings::SaveChanges(KPstateContext *pContext) const
 
 void KPstateAudioSettings::ToggleMusicVolume(KPstateContext *pContext)
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
     if (E_MusicVolume >= 100)
     {
@@ -166,5 +166,5 @@ void KPstateAudioSettings::ToggleSoundVolume(KPstateContext *pContext)
 
     pContext->GetUserInterface().SetSoundVolume(E_SoundVolume);
     // First change sound volume than play sound
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 }

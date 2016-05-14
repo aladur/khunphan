@@ -62,7 +62,7 @@ public:
     bool InitializeAudio(const std::string &textureName) override;
     void SetSoundVolume(int volume) const override;
     void SetMusicVolume(int volume) const override;
-    void PlayAudio(size_t soundId) const override;
+    void PlayAudio(KPSound soundId) const override;
     void PlayMusic(bool On, bool resetPos = false) override;
     void StopMusicCallback() override;
 
@@ -76,11 +76,16 @@ protected:
     static bool NoMusicFile(const std::string &file);
     static const int REQUEST_FOR_CLOSE;
 
-    std::array<Mix_Chunk *, KP_SND_MAX> sounds;
-    std::array<std::string, KP_SND_MAX> soundSources;
+    typedef std::array<Mix_Chunk *, static_cast<std::size_t>(KPSound::COUNT)>
+        tArrayOfMixerChunks;
+    typedef std::array<std::string, static_cast<std::size_t>(KPSound::COUNT)>
+        tArrayOfString;
+
+    tArrayOfMixerChunks sounds;
+    tArrayOfString soundSources;
+
     Mix_Music *music;
 
-    typedef std::array<std::string, KP_SND_MAX> tArrayOfString;
 
     unsigned int rate;
     unsigned int musicIndex;

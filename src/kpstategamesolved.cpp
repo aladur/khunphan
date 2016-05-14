@@ -204,5 +204,5 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext) const
 
 void KPstateGameSolved::PlayAudioForInitialize(KPstateContext *pContext) const
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_GAMESOLVED);
+    pContext->GetUserInterface().PlayAudio(KPSound::GameSolved);
 }

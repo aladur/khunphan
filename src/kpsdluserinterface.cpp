@@ -38,13 +38,13 @@ const int KPSdlUserInterface::REQUEST_FOR_CLOSE = 99;
 
 const KPSdlUserInterface::tArrayOfString KPSdlUserInterface::soundFiles =
 {
-    "openmenu.ogg",      // KP_SND_OPENMENU
-    "quitgame.ogg",      // KP_SND_QUITGAME
-    "movetoken.ogg",     // KP_SND_MOVETOKEN
-    "changesetting.ogg", // KP_SND_CHANGESETTING
-    "tutorialnext.ogg",  // KP_SND_TUTORIALNEXT
-    "opengame.ogg",      // KP_SND_OPENGAME
-    "gamesolved.ogg"     // KP_SND_GAMESOLVED
+    "openmenu.ogg",      // KPSound::OpenMenu
+    "quitgame.ogg",      // KPSound::QuitGame
+    "movetoken.ogg",     // KPSound::MoveToken
+    "changesetting.ogg", // KPSound::ChangeSetting
+    "tutorialnext.ogg",  // KPSound::TutorialNext
+    "opengame.ogg",      // KPSound::OpenGame
+    "gamesolved.ogg"     // KPSound::GameSolved
 };
 
 KPSdlUserInterface::KPSdlUserInterface(KPConfigPtr PConfig) :
@@ -335,11 +335,13 @@ void KPSdlUserInterface::LoadNextMusic()
     }
 }
 
-void KPSdlUserInterface::PlayAudio(size_t soundId) const
+void KPSdlUserInterface::PlayAudio(KPSound soundId) const
 {
-    if (soundId < sounds.size() && (sounds[soundId] != nullptr))
+    std::size_t index = static_cast<std::size_t>(soundId);
+
+    if (index < sounds.size() && (sounds[index] != nullptr))
     {
-        Mix_PlayChannel(-1, sounds[soundId], 0);
+        Mix_PlayChannel(-1, sounds[index], 0);
     }
 }
 

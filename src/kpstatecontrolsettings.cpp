@@ -134,7 +134,7 @@ void KPstateControlSettings::MouseClick(KPstateContext *pContext,
 
 void  KPstateControlSettings::ToggleMouseSpeed(KPstateContext *pContext)
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
     if (E_MouseSpeed <= 0.21f)
     {
@@ -160,7 +160,7 @@ void  KPstateControlSettings::ToggleMouseSpeed(KPstateContext *pContext)
 
 void  KPstateControlSettings::ToggleSolutionHint(KPstateContext *pContext)
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
     E_SolutionHint = E_SolutionHint ? 0 : 1;
 }
 

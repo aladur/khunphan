@@ -322,7 +322,7 @@ bool KPUIBase::InitializeAudio(const std::string & /* textureName */)
     return true;
 }
 
-void KPUIBase::PlayAudio(size_t /* soundId */) const
+void KPUIBase::PlayAudio(KPSound /* soundId */) const
 {
 }
 

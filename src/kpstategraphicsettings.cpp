@@ -591,7 +591,7 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
 
 void KPstateGraphicSettings::ToggleFPS(KPstateContext *pContext) const
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
     pContext->GetConfig().DisplayFPS = !pContext->GetConfig().DisplayFPS;
 }
 
@@ -599,7 +599,7 @@ void KPstateGraphicSettings::ToggleAmbientLight(KPstateContext *pContext) const
 {
     auto &config = pContext->GetConfig();
 
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
     pContext->GetConfig().AmbientLight = !config.AmbientLight;
     pContext->GetLight().Update(config.AmbientLight,
                                 config.LightSources);
@@ -609,7 +609,7 @@ void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
 {
     auto &config = pContext->GetConfig();
 
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
     switch (config.LightSources)
     {
@@ -639,7 +639,7 @@ void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
 {
     auto &config = pContext->GetConfig();
 
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
     switch (config.TextureSize)
     {
@@ -711,14 +711,14 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext) const
                                    config.Nearest);
         pContext->GetUserInterface().InitializeAudio(config.TextureName);
 
-        pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+        pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
     }
 }
 
 void KPstateGraphicSettings::ToggleScreenMode(KPstateContext *pContext)
 {
     E_FullScreen = !E_FullScreen;
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
     if (pContext->GetUserInterface().CanToggleFullScreen())
     {
@@ -739,7 +739,7 @@ void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
 {
     const auto &userIfc = pContext->GetUserInterface();
 
-    userIfc.PlayAudio(KP_SND_CHANGESETTING);
+    userIfc.PlayAudio(KPSound::ChangeSetting);
 
     auto index = GetWindowWidthsIndex(E_WindowWidth);
 
@@ -770,7 +770,7 @@ void KPstateGraphicSettings::ToggleResolution(KPstateContext *pContext)
 
 void KPstateGraphicSettings::ToggleUserInterface(KPstateContext *pContext)
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
     switch (E_UserInterface)
     {
@@ -792,7 +792,7 @@ void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
 {
     auto &config = pContext->GetConfig();
 
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
     switch (config.MenuTextureSize)
     {
@@ -820,7 +820,7 @@ void KPstateGraphicSettings::ToggleTextureInterpolation(
 {
     auto &config = pContext->GetConfig();
 
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
     config.Nearest = !config.Nearest;
     pContext->GetMenu().Update(config.TextureName,
                                config.MenuTextureSize,
@@ -838,7 +838,7 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
     auto E_FullScreen_before = E_FullScreen;
     auto E_WindowWidth_before = E_WindowWidth;
 
-    pContext->GetUserInterface().PlayAudio(KP_SND_CHANGESETTING);
+    pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
     UpdateQuality(pContext);
     Quality--;
 

@@ -72,5 +72,5 @@ void KPstateTutorial4::InitializeBoardWithTokens(KPstateContext *pContext) const
 
 void KPstateTutorial4::PlayAudioForInitialize(KPstateContext *pContext) const
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_TUTORIALNEXT);
+    pContext->GetUserInterface().PlayAudio(KPSound::TutorialNext);
 }

@@ -229,11 +229,11 @@ void KPstateTutorial3::HookAfterTokenMoved(KPstateContext *pContext,
     else if (id == GetEmphasizedTokenId())
     {
         actionState = ActionState::RightTokenMoved;
-        pContext->GetUserInterface().PlayAudio(KP_SND_MOVETOKEN);
+        pContext->GetUserInterface().PlayAudio(KPSound::MoveToken);
     }
     else if (id != TK_EMPTY)
     {
-        pContext->GetUserInterface().PlayAudio(KP_SND_MOVETOKEN);
+        pContext->GetUserInterface().PlayAudio(KPSound::MoveToken);
         actionState = ActionState::WrongTokenMoved;
     }
 
@@ -274,6 +274,6 @@ void KPstateTutorial3::InitializeBoardWithTokens(KPstateContext *pContext) const
 
 void KPstateTutorial3::PlayAudioForInitialize(KPstateContext *pContext) const
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_TUTORIALNEXT);
+    pContext->GetUserInterface().PlayAudio(KPSound::TutorialNext);
 }
 

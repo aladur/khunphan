@@ -237,7 +237,7 @@ tKPMenuState KPstate::ESCKeyAction(KPstateContext *pContext) const
 
 void KPstate::PlayAudioForInitialize(KPstateContext *pContext) const
 {
-    pContext->GetUserInterface().PlayAudio(KP_SND_OPENMENU);
+    pContext->GetUserInterface().PlayAudio(KPSound::OpenMenu);
 }
 
 /////////////////////////////////////////////////////////////////////

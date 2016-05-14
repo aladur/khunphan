@@ -45,16 +45,16 @@ enum class WindowProperty
     Height
 };
 
-enum tKPSoundIDs
+enum class KPSound
 {
-    KP_SND_OPENMENU       = 0,
-    KP_SND_QUITGAME       = 1,
-    KP_SND_MOVETOKEN      = 2,
-    KP_SND_CHANGESETTING  = 3,
-    KP_SND_TUTORIALNEXT   = 4,
-    KP_SND_OPENGAME       = 5,
-    KP_SND_GAMESOLVED     = 6,
-    KP_SND_MAX            = 7
+    OpenMenu,
+    QuitGame,
+    MoveToken,
+    ChangeSetting,
+    TutorialNext,
+    OpenGame,
+    GameSolved,
+    COUNT    // This should be always the last entry
 };
 
 class KPUIBase : public KPstateContext
@@ -131,7 +131,7 @@ public:
     virtual bool InitializeAudio(const std::string &textureName);
     virtual void SetSoundVolume(int volume) const;
     virtual void SetMusicVolume(int volume) const;
-    virtual void PlayAudio(size_t soundId) const;
+    virtual void PlayAudio(KPSound soundId) const;
     virtual void PlayMusic(bool On, bool resetPos = false);
     virtual void StopMusicCallback();
 
