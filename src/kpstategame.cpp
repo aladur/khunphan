@@ -76,8 +76,8 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext) const
             config.SoundVolume : 0);
     pContext->GetUserInterface().PlayMusic(config.MusicOn, false);
 
-    menu.plates[PLATE_LOGO].SetPosition(0, 11, 4, 12);
-    menu.plates[PLATE_LOGO].SetSignal(S_LOGO);
+    menu.plates[KPPlate::Logo].SetPosition(0, 11, 4, 12);
+    menu.plates[KPPlate::Logo].SetSignal(S_LOGO);
 
     auto id = pContext->GetBoardView().GetBoardId();
     auto movesToSolve = pContext->GetNodes().GetNodeFor(id).GetMovesToSolve();
@@ -97,28 +97,28 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext) const
     {
         if (config.SoundOn)
         {
-            menu.plates[PLATE_SOUND_ON].SetPosition(0.3f, 0.1f, 1, 0.5);
-            menu.plates[PLATE_SOUND_ON].SetSignal(S_TOGGLE_SOUND_ON);
-            menu.plates[PLATE_SOUND_ON].SetFullyVisible();
+            menu.plates[KPPlate::SoundOn].SetPosition(0.3f, 0.1f, 1, 0.5);
+            menu.plates[KPPlate::SoundOn].SetSignal(S_TOGGLE_SOUND_ON);
+            menu.plates[KPPlate::SoundOn].SetFullyVisible();
         }
         else
         {
-            menu.plates[PLATE_SOUND_OFF].SetPosition(0.3f, 0.1f, 1, 0.5);
-            menu.plates[PLATE_SOUND_OFF].SetSignal(S_TOGGLE_SOUND_ON);
-            menu.plates[PLATE_SOUND_OFF].SetFullyVisible();
+            menu.plates[KPPlate::SoundOff].SetPosition(0.3f, 0.1f, 1, 0.5);
+            menu.plates[KPPlate::SoundOff].SetSignal(S_TOGGLE_SOUND_ON);
+            menu.plates[KPPlate::SoundOff].SetFullyVisible();
         }
 
         if (config.MusicOn)
         {
-            menu.plates[PLATE_MUSIC_ON].SetPosition(1.0f, 0.1f, 1.6f, 0.5);
-            menu.plates[PLATE_MUSIC_ON].SetSignal(S_TOGGLE_MUSIC_ON);
-            menu.plates[PLATE_MUSIC_ON].SetFullyVisible();
+            menu.plates[KPPlate::MusicOn].SetPosition(1.0f, 0.1f, 1.6f, 0.5);
+            menu.plates[KPPlate::MusicOn].SetSignal(S_TOGGLE_MUSIC_ON);
+            menu.plates[KPPlate::MusicOn].SetFullyVisible();
         }
         else
         {
-            menu.plates[PLATE_MUSIC_OFF].SetPosition(1.0f, 0.1f, 1.6f, 0.5);
-            menu.plates[PLATE_MUSIC_OFF].SetSignal(S_TOGGLE_MUSIC_ON);
-            menu.plates[PLATE_MUSIC_OFF].SetFullyVisible();
+            menu.plates[KPPlate::MusicOff].SetPosition(1.0f, 0.1f, 1.6f, 0.5);
+            menu.plates[KPPlate::MusicOff].SetSignal(S_TOGGLE_MUSIC_ON);
+            menu.plates[KPPlate::MusicOff].SetFullyVisible();
         }
     }
 
@@ -278,17 +278,17 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */) const
 
     if (pContext->IsPause())
     {
-        menu.plates[PLATE_LOGO].SetPosition(4, 9, 12, 11);
-        menu.plates[PLATE_SHADER].SetPosition(0, 0, 16, 12);
-        menu.plates[PLATE_SHADER].SetFadeIn();
+        menu.plates[KPPlate::Logo].SetPosition(4, 9, 12, 11);
+        menu.plates[KPPlate::Shader].SetPosition(0, 0, 16, 12);
+        menu.plates[KPPlate::Shader].SetFadeIn();
         menu.labels[T_PAUSE].SetPosition(8, 6, 3, AlignItem::Centered);
         menu.labels[T_PAUSE].SetFullyVisible();
     }
     else
     {
-        menu.plates[PLATE_LOGO].SetPosition(0, 11, 4, 12);
-        menu.plates[PLATE_LOGO].SetSignal(S_LOGO);
-        menu.plates[PLATE_SHADER].SetFadeOut();
+        menu.plates[KPPlate::Logo].SetPosition(0, 11, 4, 12);
+        menu.plates[KPPlate::Logo].SetSignal(S_LOGO);
+        menu.plates[KPPlate::Shader].SetFadeOut();
         menu.labels[T_PAUSE].SetFadeOut();
     }
 

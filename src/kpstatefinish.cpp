@@ -39,10 +39,10 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext) const
 
     auto &menu = pContext->GetMenu();
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(4.5, 4.5, 11.5, 8.5);
+    menu.plates[KPPlate::MenuBackground].SetPosition(4.5, 4.5, 11.5, 8.5);
 
-    menu.plates[PLATE_LOGO].SetPosition(4, 9, 12, 11);
-    menu.plates[PLATE_LOGO].SetFullyVisible();
+    menu.plates[KPPlate::Logo].SetPosition(4, 9, 12, 11);
+    menu.plates[KPPlate::Logo].SetFullyVisible();
 
     menu.labels[T_QUIT].SetPosition(8, 8, 1, AlignItem::Centered);
     menu.labels[T_QUIT].SetFullyVisible();

@@ -53,10 +53,10 @@ void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext) const
     // every thing which should be permanently be visible within this
     // state should be listed here:
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 2.5, 14, 8.5);
+    menu.plates[KPPlate::MenuBackground].SetPosition(2, 2.5, 14, 8.5);
 
-    menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
-    menu.plates[PLATE_LOGO].SetFullyVisible();
+    menu.plates[KPPlate::Logo].SetPosition(5, 9, 11, 11);
+    menu.plates[KPPlate::Logo].SetFullyVisible();
 
     menu.labels[T_MAINMENU].SetPosition(8, 8, 1, AlignItem::Centered);
     menu.labels[T_MAINMENU].SetFullyVisible();

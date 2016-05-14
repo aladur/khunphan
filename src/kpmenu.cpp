@@ -44,13 +44,13 @@ void KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
 {
     BLogger::Log("Menu initialization");
 
-    plates[PLATE_MENUBACKGROUND] = Plate(0.7f, 0.7f, 0.7f);
-    plates[PLATE_SHADER] = Plate(0.0, 0.0, 0.0);
-    plates[PLATE_LOGO] = Plate();
-    plates[PLATE_SOUND_ON] = Plate();
-    plates[PLATE_SOUND_OFF] = Plate();
-    plates[PLATE_MUSIC_ON] = Plate();
-    plates[PLATE_MUSIC_OFF] = Plate();
+    plates[KPPlate::MenuBackground] = Plate(0.7f, 0.7f, 0.7f);
+    plates[KPPlate::Shader] = Plate(0.0, 0.0, 0.0);
+    plates[KPPlate::Logo] = Plate();
+    plates[KPPlate::SoundOn] = Plate();
+    plates[KPPlate::SoundOff] = Plate();
+    plates[KPPlate::MusicOn] = Plate();
+    plates[KPPlate::MusicOff] = Plate();
 
     Update(TextureName, TextureSize, Nearest);
 
@@ -76,15 +76,15 @@ void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest)
     //Create texture for labels
     Label::PreInitialize(TextureName, TextureSize, Nearest, *config);
 
-    plates[PLATE_LOGO].Update(TextureName, TextureSize, Nearest,
+    plates[KPPlate::Logo].Update(TextureName, TextureSize, Nearest,
                               true, "logo", *config);
-    plates[PLATE_SOUND_ON].Update(TextureName, TextureSize, Nearest,
+    plates[KPPlate::SoundOn].Update(TextureName, TextureSize, Nearest,
                                   true, "sound_on", *config);
-    plates[PLATE_SOUND_OFF].Update(TextureName, TextureSize, Nearest,
+    plates[KPPlate::SoundOff].Update(TextureName, TextureSize, Nearest,
                                    true, "soundmusic_off", *config);
-    plates[PLATE_MUSIC_ON].Update(TextureName, TextureSize, Nearest,
+    plates[KPPlate::MusicOn].Update(TextureName, TextureSize, Nearest,
                                   true, "music_on", *config);
-    plates[PLATE_MUSIC_OFF].Update(TextureName, TextureSize, Nearest,
+    plates[KPPlate::MusicOff].Update(TextureName, TextureSize, Nearest,
                                    true, "soundmusic_off", *config);
 }
 
@@ -175,7 +175,7 @@ void KPmenu::Draw()
 
     for (const auto &item : plates)
     {
-        if (item.first != PLATE_SHADER)
+        if (item.first != KPPlate::Shader)
         {
             item.second.Draw();
         }
@@ -190,7 +190,7 @@ void KPmenu::Draw()
 
     // This should always be the last one because it
     // should shade all other drawing primitives
-    plates[PLATE_SHADER].Draw();
+    plates[KPPlate::Shader].Draw();
 
     glDisable(GL_BLEND);
     glEnable(GL_LIGHTING);

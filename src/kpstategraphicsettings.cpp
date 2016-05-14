@@ -161,10 +161,10 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
         menu.labels[T_FPS].SetPosition(0, 11.7f, 0.3f);
     }
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(2, 1.7f, 14, 9.5f);
+    menu.plates[KPPlate::MenuBackground].SetPosition(2, 1.7f, 14, 9.5f);
 
-    menu.plates[PLATE_LOGO].SetPosition(4, 10, 12, 12);
-    menu.plates[PLATE_LOGO].SetFullyVisible();
+    menu.plates[KPPlate::Logo].SetPosition(4, 10, 12, 12);
+    menu.plates[KPPlate::Logo].SetFullyVisible();
 
     menu.labels[T_SETTINGS].SetPosition(4, 9, 1);
     menu.labels[T_SETTINGS].SetFullyVisible();

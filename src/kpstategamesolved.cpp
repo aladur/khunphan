@@ -87,10 +87,10 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
     auto &menu = pContext->GetMenu();
     auto &statistics = pContext->GetStatistics();
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(1, 3.0, 15, 8.5);
+    menu.plates[KPPlate::MenuBackground].SetPosition(1, 3.0, 15, 8.5);
 
-    menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
-    menu.plates[PLATE_LOGO].SetFullyVisible();
+    menu.plates[KPPlate::Logo].SetPosition(5, 9, 11, 11);
+    menu.plates[KPPlate::Logo].SetFullyVisible();
 
     auto y = 7.5f;
     std::string playTime = statistics.GetTotalTime(TimeFormat::HHMMSS);

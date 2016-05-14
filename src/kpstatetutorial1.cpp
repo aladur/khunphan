@@ -62,11 +62,11 @@ void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext) const
 
     KPstate::UpdateDisplay(pContext);
 
-    menu.plates[PLATE_MENUBACKGROUND].SetPosition(.5, 4.0, 15.5, 11);
+    menu.plates[KPPlate::MenuBackground].SetPosition(.5, 4.0, 15.5, 11);
 
-    menu.plates[PLATE_LOGO].SetPosition(0, 11.0, 4, 12);
-    menu.plates[PLATE_LOGO].SetSignal(S_BACK);
-    menu.plates[PLATE_LOGO].SetFullyVisible();
+    menu.plates[KPPlate::Logo].SetPosition(0, 11.0, 4, 12);
+    menu.plates[KPPlate::Logo].SetSignal(S_BACK);
+    menu.plates[KPPlate::Logo].SetFullyVisible();
 
     menu.labels[T_TUTORIAL1].SetPosition(8, 10.5, 1.0, AlignItem::Centered);
     menu.labels[T_TUTORIAL1].SetFullyVisible();

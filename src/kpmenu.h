@@ -31,16 +31,16 @@
 #include "kpconfig.h"
 
 
-typedef enum
+enum class KPPlate
 {
-    PLATE_MENUBACKGROUND,
-    PLATE_LOGO,
-    PLATE_SOUND_ON,
-    PLATE_SOUND_OFF,
-    PLATE_MUSIC_ON,
-    PLATE_MUSIC_OFF,
-    PLATE_SHADER // should be always the last one
-} tPlate;
+    MenuBackground,
+    Logo,
+    SoundOn,
+    SoundOff,
+    MusicOn,
+    MusicOff,
+    Shader // should be always the last one
+};
 
 typedef enum
 {
@@ -81,8 +81,8 @@ typedef enum
     S_TOGGLE_MUSIC_ON             = 161
 } tSignal;
 
-typedef std::map<int, Label>      tIdToLabel;
-typedef std::map<tPlate, Plate>   tIdToPlate;
+typedef std::map<int, Label> tIdToLabel;
+typedef std::map<KPPlate, Plate> tIdToPlate;
 
 class KPstate;
 
