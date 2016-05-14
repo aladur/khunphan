@@ -49,9 +49,9 @@ void KPstateGame::Initialize(KPstateContext *pContext,
         const auto &node = pContext->GetNodes().GetNodeFor(config.SavedGame);
         pContext->GetBoardView().SetBoard(node.GetBoard());
         statistics.SetPlayingTime(config.PlayTime);
-        statistics.SetEventCounter(MOVE_COUNTER, config.Moves);
-        statistics.SetEventCounter(MOVE_WITH_HELP_CNT, config.MovesWithHint);
-        statistics.SetEventCounter(USED_CHEATS_CNT, config.CheatCount);
+        statistics.Set(EventCounter::Moves, config.Moves);
+        statistics.Set(EventCounter::MovesWithHint, config.MovesWithHint);
+        statistics.Set(EventCounter::MovesWithCheat, config.MovesWithCheat);
     }
     else
     {
@@ -83,7 +83,7 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext) const
     auto movesToSolve = pContext->GetNodes().GetNodeFor(id).GetMovesToSolve();
     menu.labels[T_MINMOVECOUNT].FormatText(movesToSolve);
     menu.labels[T_MOVECOUNT].FormatText(
-        pContext->GetStatistics().GetEventCounter(MOVE_COUNTER));
+        pContext->GetStatistics().Get(EventCounter::Moves));
 
     if (config.SolutionHint)
     {
@@ -297,11 +297,11 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */) const
 
 void KPstateGame::UpdateMoveCount(KPstateContext *pContext) const
 {
-    pContext->GetStatistics().IncEventCounter(MOVE_COUNTER);
+    pContext->GetStatistics().Increment(EventCounter::Moves);
 
     if (pContext->GetConfig().SolutionHint)
     {
-        pContext->GetStatistics().IncEventCounter(MOVE_WITH_HELP_CNT);
+        pContext->GetStatistics().Increment(EventCounter::MovesWithHint);
     }
 
     UpdateDisplay(pContext);
@@ -323,7 +323,7 @@ void KPstateGame::Cheat1(KPstateContext *pContext) const
     board.InitializeToken(TK_RED1,   0, 3);
 
     pContext->GetBoardView().SetBoard(board);
-    pContext->GetStatistics().IncEventCounter(USED_CHEATS_CNT);
+    pContext->GetStatistics().Increment(EventCounter::MovesWithCheat);
 
     UpdateDisplay(pContext);
 }
@@ -335,9 +335,9 @@ void KPstateGame::SaveGameStatus(KPstateContext *pContext) const
 
     config.SavedGame     = pContext->GetBoardView().GetBoardId();
     config.PlayTime      = statistics.GetTotalTime();
-    config.Moves         = statistics.GetEventCounter(MOVE_COUNTER);
-    config.MovesWithHint = statistics.GetEventCounter(MOVE_WITH_HELP_CNT);
-    config.CheatCount    = statistics.GetEventCounter(USED_CHEATS_CNT);
+    config.Moves         = statistics.Get(EventCounter::Moves);
+    config.MovesWithHint = statistics.Get(EventCounter::MovesWithHint);
+    config.MovesWithCheat= statistics.Get(EventCounter::MovesWithCheat);
     config.WriteToFile();
 }
 

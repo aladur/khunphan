@@ -23,7 +23,7 @@
 #define KPSTATISTICS_H
 
 #include <string>
-#include <vector>
+#include <map>
 #include "btime.h"
 
 // Time display formats:
@@ -54,31 +54,38 @@ class KPStatistics
 public:
     KPStatistics();
 
-    void Reset(); // Stop capturing time, reset all statistic values
-
-    void Start();                 // Start capturing play time
-    void Stop();                  // Stop capturing play time
+    // Stop capturing time, reset all statistic values
+    void Reset();
+    // Start capturing play time
+    void Start();
+    // Stop capturing play time
+    void Stop();
     void SetPlayingTime(unsigned long t)
     {
         playingTime = t;
     };
-    unsigned long GetTotalTime();              // Returns the total elapsed time
-    // in milliseconds
-    std::string GetTotalTime(tTimeFormat       // Return a formatted time string
-                             formatID);
-    void SetEventCounter(tEventCounter type,   // sets the current value of
-                         unsigned int n);      // event counter to n
-    int  GetEventCounter(tEventCounter type);  // returns the current value of
-    // event counter
-    void IncEventCounter(tEventCounter type);  // increment event counter by 1
-    void DecEventCounter(tEventCounter type);  // decrement event counter by 1
-    void ResetEventCounter(tEventCounter type);// Reset event counter
+
+    // Returns the total elapsed time in milliseconds
+    unsigned long GetTotalTime();
+    // Return a formatted time string
+    std::string GetTotalTime(tTimeFormat formatID);
+
+    // Set the value of event counter type to n
+    void Set(EventCounter type, unsigned int n);
+    // Returns the current value of event counter type
+    int  Get(EventCounter type);
+    // Increment event counter type by 1
+    void Increment(EventCounter type);
+    // Decrement event counter type by 1
+    void Decrement(EventCounter type);
+    // Reset event counter type
+    void Reset(EventCounter type);
 
     static std::string FormatTime(tTimeFormat formatID, unsigned int t);
 
 private:
     BTime time;
-    std::vector<unsigned int> counter;
+    std::map<EventCounter, unsigned int> counter;
     unsigned long  playingTime;
     bool stopWatchActive;
 };

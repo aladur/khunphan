@@ -22,6 +22,7 @@
 
 #include "stdafx.h"
 #include <iomanip>
+#include <array>
 #include "kpstatistics.h"
 
 
@@ -32,12 +33,20 @@ KPStatistics::KPStatistics() : playingTime(0), stopWatchActive(false)
 
 void KPStatistics::Reset()
 {
+    std::array<EventCounter,3> all_events {
+        EventCounter::Moves,
+        EventCounter::MovesWithHint,
+        EventCounter::MovesWithCheat
+    };
+
     playingTime     = 0;
     stopWatchActive = false;
     counter.clear();
-    counter.push_back(0);
-    counter.push_back(0);
-    counter.push_back(0);
+
+    for (auto event : all_events)
+    {
+       counter.insert({event, 0});
+    }
 }
 
 void KPStatistics::Start()
@@ -67,27 +76,27 @@ unsigned long KPStatistics::GetTotalTime()
     }
 }
 
-int KPStatistics::GetEventCounter(tEventCounter type)
+int KPStatistics::Get(EventCounter type)
 {
     return counter.at(type);
 }
 
-void KPStatistics::SetEventCounter(tEventCounter type, unsigned int n)
+void KPStatistics::Set(EventCounter type, unsigned int n)
 {
     counter.at(type) = n;
 }
 
-void KPStatistics::IncEventCounter(tEventCounter type)
+void KPStatistics::Increment(EventCounter type)
 {
     counter.at(type)++;
 }
 
-void KPStatistics::DecEventCounter(tEventCounter type)
+void KPStatistics::Decrement(EventCounter type)
 {
     counter.at(type)--;
 }
 
-void KPStatistics::ResetEventCounter(tEventCounter type)
+void KPStatistics::Reset(EventCounter type)
 {
     counter.at(type) = 0;
 }

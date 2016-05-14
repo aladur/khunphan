@@ -55,7 +55,7 @@ KPConfig::KPConfig() :
     SolutionHint(0), MouseSpeed(0.4f),
     SoundVolume(100), MusicVolume(100),
     SavedGame(0), PlayTime(0), Moves(0), MovesWithHint(0),
-    CheatCount(0),
+    MovesWithCheat(0),
     TextureName("wood"), DisplayVersionOnly(false),
     PerformanceLog(false), SkipProgressBar(false)
 {
@@ -303,7 +303,7 @@ void KPConfig::WriteToFile() const
         xmlNewChild(subtree, ns, _TO("MovesWithHint"), _TO(iss4.str().c_str()));
 
         std::ostringstream iss5;
-        iss5 << CheatCount;
+        iss5 << MovesWithCheat;
         xmlNewChild(subtree, ns, _TO("CheatCount"), _TO(iss5.str().c_str()));
     }
 
@@ -613,7 +613,7 @@ void KPConfig::ReadFromFile()
                         {
                             auto key = xmlNodeListGetString(doc, node, 1);
                             std::istringstream iss(_FROM(key));
-                            iss >> CheatCount;
+                            iss >> MovesWithCheat;
                             xmlFree(key);
                         }
 
@@ -662,7 +662,7 @@ void KPConfig::SetDefaultValues()
     PlayTime             = 0;
     Moves                = 0;
     MovesWithHint        = 0;
-    CheatCount           = 0;
+    MovesWithCheat       = 0;
 
     TextureName          = "wood";
 
@@ -811,7 +811,7 @@ void KPConfig::DebugPrint() const
     BLogger::Log("  PlayTime :             ", PlayTime, " ms");
     BLogger::Log("  Moves :                ", Moves);
     BLogger::Log("  MovesWithHint :        ", MovesWithHint);
-    BLogger::Log("  CheatCount :           ", CheatCount);
+    BLogger::Log("  MovesWithCheat :       ", MovesWithCheat);
     BLogger::Log("  PerformanceLog :       ", ON_OFF(PerformanceLog));
     BLogger::Log("  SkipProgressBar :      ", ON_OFF(SkipProgressBar));
 }

@@ -55,12 +55,12 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
 
     menu.labels[T_NAME_LABEL].SetTextOrFormat("");
 
-    if (statistics.GetEventCounter(USED_CHEATS_CNT) != 0)
+    if (statistics.Get(EventCounter::MovesWithCheat) != 0)
     {
         // Game solved but cheats used
         tf_index = T_SOLVED2_3;
     }
-    else if (statistics.GetEventCounter(MOVE_WITH_HELP_CNT) != 0)
+    else if (statistics.Get(EventCounter::MovesWithHint) != 0)
     {
         // Game solved with solution hint
         tf_index = T_SOLVED2_2;
@@ -71,7 +71,7 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
         tf_index = T_SOLVED2_1;
 
         if (scoreList.CanAdd("", statistics.GetTotalTime(),
-                             statistics.GetEventCounter(MOVE_COUNTER)))
+                             statistics.Get(EventCounter::Moves)))
         {
             addToScoreList = true;
         }
@@ -95,7 +95,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
     auto y = 7.5f;
     std::string playTime = statistics.GetTotalTime(RTIME_HHMMSS);
     menu.labels[T_SOLVED1].FormatText(
-                                      statistics.GetEventCounter(MOVE_COUNTER),
+                                      statistics.Get(EventCounter::Moves),
                                       playTime);
     menu.labels[T_SOLVED1].SetPosition(8, y, 0.6f, A_CENTERED);
     y -= 0.6f;
@@ -105,7 +105,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
     if (it != menu.labels.end())
     {
         menu.labels[tf_index].FormatText(
-            statistics.GetEventCounter(MOVE_WITH_HELP_CNT));
+            statistics.Get(EventCounter::MovesWithHint));
         menu.labels[tf_index].SetPosition(8, y, 0.6f, A_CENTERED);
         y -= 0.6f;
     }
@@ -193,8 +193,7 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext) const
 
         scoreList.Add(name.c_str(),
                       pContext->GetStatistics().GetTotalTime(),
-                      pContext->GetStatistics()
-                      .GetEventCounter(MOVE_COUNTER), 0);
+                      pContext->GetStatistics().Get(EventCounter::Moves), 0);
         scoreList.WriteToFile();
         pContext->GetCamera().SetRoundtrip(true);
         newState = KPState_ScoreList;

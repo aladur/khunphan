@@ -162,11 +162,11 @@ enum tKPAlignment
     A_RIGHT
 };
 
-enum tEventCounter
+enum class EventCounter
 {
-    MOVE_COUNTER,
-    MOVE_WITH_HELP_CNT,
-    USED_CHEATS_CNT
+    Moves,
+    MovesWithHint,
+    MovesWithCheat
 };
 
 enum tMouseEvent

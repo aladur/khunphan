@@ -86,7 +86,7 @@ public:
     unsigned int PlayTime;
     unsigned int Moves;
     unsigned int MovesWithHint;
-    unsigned int CheatCount;
+    unsigned int MovesWithCheat;
 
     std::string TextureName;
 
