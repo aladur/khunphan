@@ -41,10 +41,10 @@ public:
     class KPmove
     {
     public:
-        KPmove() : token(TK_EMPTY), direction(MOVE_NO)
+        KPmove() : token(TK_EMPTY), direction(MoveToken::Not)
         {
         }
-        KPmove(tKPTokenID t, tKPDirection d) : token(t), direction(d)
+        KPmove(tKPTokenID t, MoveToken d) : token(t), direction(d)
         {
         }
         KPmove(const KPmove &src)
@@ -66,13 +66,13 @@ public:
         {
             return token;
         }
-        inline tKPDirection GetDirection() const
+        inline MoveToken GetDirection() const
         {
             return direction;
         }
     private:
         tKPTokenID token;
-        tKPDirection direction;
+        MoveToken direction;
     };
 
     typedef struct
@@ -108,8 +108,8 @@ public:
     {
         return Move(move.GetToken(), move.GetDirection());
     }
-    bool Move(tKPTokenID id, tKPDirection d);
-    bool CanMove(tKPTokenID aTokenId, tKPDirection d) const;
+    bool Move(tKPTokenID id, MoveToken d);
+    bool CanMove(tKPTokenID aTokenId, MoveToken d) const;
     std::vector<KPboard::KPmove> GetPossibleMoves(void) const;
     QWord GetID() const;
     inline bool IsSolved(void) const

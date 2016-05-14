@@ -71,8 +71,8 @@ public:
     QWord GetBoardId() const;
     void SetBoard(const KPboard &);
     tKPTokenID Selection(const Camera &camera, int x, int y) const;
-    bool Move(tKPTokenID id, tKPDirection d);
-    bool CanMove(tKPTokenID id, tKPDirection d);
+    bool Move(tKPTokenID id, MoveToken d);
+    bool CanMove(tKPTokenID id, MoveToken d);
     void Animate(unsigned int duration);
     void EmphasizeToken(tKPTokenID id = TK_EMPTY)
     {

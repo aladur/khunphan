@@ -56,7 +56,7 @@ protected:
     void PlayAudioForInitialize(KPstateContext *) const override;
     // KPstateMoveToken interface
     void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
-                             tKPDirection direction,
+                             MoveToken direction,
                              bool SuccessfullyMoved) override;
 };
 

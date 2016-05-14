@@ -145,13 +145,13 @@ enum tKPTokenID
     TK_RED1     = 9
 };
 
-enum tKPDirection
+enum class MoveToken
 {
-    MOVE_UP    = 1,
-    MOVE_DOWN  = 2,
-    MOVE_LEFT  = 4,
-    MOVE_RIGHT = 8,
-    MOVE_NO    = 15
+    Up,
+    Down,
+    Left,
+    Right,
+    Not
 };
 
 enum tKPAlignment
@@ -201,7 +201,7 @@ enum
 #endif
 
 extern tKPTokenID &operator++ (tKPTokenID &d);
-extern tKPDirection &operator++ (tKPDirection &d);
+extern MoveToken &operator++ (MoveToken &d);
 
 typedef enum
 {

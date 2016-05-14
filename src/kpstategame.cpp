@@ -230,7 +230,7 @@ void  KPstateGame::MouseClick(KPstateContext *pContext,
 }
 
 void KPstateGame::HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID id,
-                                      tKPDirection, bool successfullyMoved)
+                                      MoveToken, bool successfullyMoved)
 {
     if (successfullyMoved && id != TK_EMPTY)
     {

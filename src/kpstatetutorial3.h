@@ -60,7 +60,7 @@ protected:
     virtual void ContinueWithNextState(KPstateContext *pContext,
                                        bool valid = true) const;
     void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
-                             tKPDirection direction,
+                             MoveToken direction,
                              bool successfullyMoved) override;
     void PlayAudioForInitialize(KPstateContext *) const override;
 

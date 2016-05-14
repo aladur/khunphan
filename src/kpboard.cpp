@@ -103,9 +103,9 @@ void KPboard::InitializeToken(tKPTokenID aTokenId, int x, int y)
     SetPosition(aTokenId, x, y);
 }
 
-bool KPboard::Move(tKPTokenID aTokenId, tKPDirection direction)
+bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
 {
-    if (aTokenId == TK_EMPTY || direction == MOVE_NO)
+    if (aTokenId == TK_EMPTY || direction == MoveToken::Not)
     {
         return false;
     }
@@ -120,7 +120,7 @@ bool KPboard::Move(tKPTokenID aTokenId, tKPDirection direction)
     switch (direction)
     {
 
-        case MOVE_UP:
+        case MoveToken::Up:
 
             // 1. check if move is possible and allowed
             if (y == 0)
@@ -150,7 +150,7 @@ bool KPboard::Move(tKPTokenID aTokenId, tKPDirection direction)
 
             return true;
 
-        case MOVE_DOWN:
+        case MoveToken::Down:
             if (y + yExtend >= VERTICAL_MAX)
             {
                 return false;
@@ -174,7 +174,7 @@ bool KPboard::Move(tKPTokenID aTokenId, tKPDirection direction)
 
             return true;
 
-        case MOVE_LEFT:
+        case MoveToken::Left:
             if (x == 0)
             {
                 return false;
@@ -198,7 +198,7 @@ bool KPboard::Move(tKPTokenID aTokenId, tKPDirection direction)
 
             return true;
 
-        case MOVE_RIGHT:
+        case MoveToken::Right:
             if (x + xExtend >= HORIZONTAL_MAX)
             {
                 return false;
@@ -222,7 +222,7 @@ bool KPboard::Move(tKPTokenID aTokenId, tKPDirection direction)
 
             return true;
 
-        case MOVE_NO:
+        case MoveToken::Not:
             return false;  // satisfy compiler
     } // switch
 
@@ -232,7 +232,7 @@ bool KPboard::Move(tKPTokenID aTokenId, tKPDirection direction)
 // Check if token aTokenId can move in direction d
 // return true if it can move
 
-bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection direction) const
+bool KPboard::CanMove(tKPTokenID aTokenId, MoveToken direction) const
 {
     if (aTokenId == TK_EMPTY)
     {
@@ -248,7 +248,7 @@ bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection direction) const
     switch (direction)
     {
 
-        case MOVE_UP:
+        case MoveToken::Up:
             if (y == 0)
             {
                 return false;
@@ -264,7 +264,7 @@ bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection direction) const
 
             break;
 
-        case MOVE_DOWN:
+        case MoveToken::Down:
             if (y + yExtend >= VERTICAL_MAX)
             {
                 return false;
@@ -280,7 +280,7 @@ bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection direction) const
 
             break;
 
-        case MOVE_LEFT:
+        case MoveToken::Left:
             if (x == 0)
             {
                 return false;
@@ -296,7 +296,7 @@ bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection direction) const
 
             break;
 
-        case MOVE_RIGHT:
+        case MoveToken::Right:
             if (x + xExtend >= HORIZONTAL_MAX)
             {
                 return false;
@@ -312,7 +312,7 @@ bool KPboard::CanMove(tKPTokenID aTokenId, tKPDirection direction) const
 
             break;
 
-        case MOVE_NO:
+        case MoveToken::Not:
             break;
     } // switch
 
@@ -334,9 +334,9 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                 // Try to move token above of TK_EMPTY
                 if ((j > 0) &&
                     (token = static_cast<tKPTokenID>(tokenID[i][j - 1]),
-                     CanMove(token, MOVE_DOWN)))
+                     CanMove(token, MoveToken::Down)))
                 {
-                    KPboard::KPmove move(token, MOVE_DOWN);
+                    KPboard::KPmove move(token, MoveToken::Down);
 
                     if (std::find(moves.begin(), moves.end(), move) ==
                         moves.end())
@@ -348,9 +348,9 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                 // Try to move token below of TK_EMPTY
                 if ((j < VERTICAL_MAX - 1) &&
                     (token = static_cast<tKPTokenID>(tokenID[i][j + 1]),
-                     CanMove(token, MOVE_UP)))
+                     CanMove(token, MoveToken::Up)))
                 {
-                    KPmove move(token, MOVE_UP);
+                    KPmove move(token, MoveToken::Up);
 
                     if (std::find(moves.begin(), moves.end(), move) ==
                         moves.end())
@@ -362,9 +362,9 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                 // Try to move token left of TK_EMPTY
                 if ((i > 0) &&
                     (token = static_cast<tKPTokenID>(tokenID[i - 1][j]),
-                     CanMove(token, MOVE_RIGHT)))
+                     CanMove(token, MoveToken::Right)))
                 {
-                    KPmove move(token, MOVE_RIGHT);
+                    KPmove move(token, MoveToken::Right);
 
                     if (std::find(moves.begin(), moves.end(), move) ==
                         moves.end())
@@ -376,9 +376,9 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                 // Try to move token right of TK_EMPTY
                 if ((i < HORIZONTAL_MAX - 1) &&
                     (token = static_cast<tKPTokenID>(tokenID[i + 1][j]),
-                     CanMove(token, MOVE_LEFT)))
+                     CanMove(token, MoveToken::Left)))
                 {
-                    KPmove move(token, MOVE_LEFT);
+                    KPmove move(token, MoveToken::Left);
 
                     if (std::find(moves.begin(), moves.end(), move) ==
                         moves.end())

@@ -774,12 +774,12 @@ void KPboardView::Animate(unsigned int duration)
     }
 }
 
-bool KPboardView::CanMove(tKPTokenID id, tKPDirection d)
+bool KPboardView::CanMove(tKPTokenID id, MoveToken direction)
 {
-    return current.CanMove(id, d);
+    return current.CanMove(id, direction);
 }
 
-bool KPboardView::Move(tKPTokenID id, tKPDirection d)
+bool KPboardView::Move(tKPTokenID id, MoveToken preferredDirection)
 {
     if (animatedToken != TK_EMPTY)
     {
@@ -787,31 +787,31 @@ bool KPboardView::Move(tKPTokenID id, tKPDirection d)
     }
 
     auto possibleMoves = 0;
-    auto direction = MOVE_NO;
+    auto direction = MoveToken::Not;
 
-    // count the possibilities token id can move to in i
-    if (current.CanMove(id, MOVE_UP))
+    // count the possibilities token id can move to in possibleMoves
+    if (current.CanMove(id, MoveToken::Up))
     {
         possibleMoves++;
-        direction = MOVE_UP;
+        direction = MoveToken::Up;
     }
 
-    if (current.CanMove(id, MOVE_DOWN))
+    if (current.CanMove(id, MoveToken::Down))
     {
         possibleMoves++;
-        direction = MOVE_DOWN;
+        direction = MoveToken::Down;
     }
 
-    if (current.CanMove(id, MOVE_LEFT))
+    if (current.CanMove(id, MoveToken::Left))
     {
         possibleMoves++;
-        direction = MOVE_LEFT;
+        direction = MoveToken::Left;
     }
 
-    if (current.CanMove(id, MOVE_RIGHT))
+    if (current.CanMove(id, MoveToken::Right))
     {
         possibleMoves++;
-        direction = MOVE_RIGHT;
+        direction = MoveToken::Right;
     }
 
     if (possibleMoves == 0)
@@ -823,10 +823,10 @@ bool KPboardView::Move(tKPTokenID id, tKPDirection d)
     {
         // more than one possibility: use mouse motion to get
         // direction
-        direction = d;
+        direction = preferredDirection;
     }
 
-    if (direction == MOVE_NO)
+    if (direction == MoveToken::Not)
     {
         return false;    // no direction given. No move possible
     }

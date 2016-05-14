@@ -52,32 +52,31 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
         if (token != TK_EMPTY)
         {
             // calculate mouse direction
-            tKPDirection mouseDirection = MOVE_NO;
+            MoveToken direction = MoveToken::Not;
             auto diff_x = x - mouse_x;
             auto diff_y = y - mouse_y;
 
             if (abs(diff_x) - abs(diff_y) > 1)
             {
                 // Move left or right
-                mouseDirection = (diff_x > 0) ? MOVE_LEFT : MOVE_RIGHT;
+                direction = (diff_x > 0) ? MoveToken::Left : MoveToken::Right;
             }
             else if (abs(diff_y) - abs(diff_x) > 1)
             {
                 // Move up or down
-                mouseDirection = (diff_y > 0) ? MOVE_DOWN : MOVE_UP;
+                direction = (diff_y > 0) ? MoveToken::Down : MoveToken::Up;
             }
 
-            if (HookDoTheMove(pContext, token, mouseDirection))
+            if (HookDoTheMove(pContext, token, direction))
             {
-                bool result = pContext->GetBoardView().Move(token,
-                              mouseDirection);
+                bool result = pContext->GetBoardView().Move(token, direction);
 
-                HookAfterTokenMoved(pContext, token, mouseDirection, result);
+                HookAfterTokenMoved(pContext, token, direction, result);
             }
         }
         else
         {
-            HookAfterTokenMoved(pContext, TK_EMPTY, MOVE_NO, false);
+            HookAfterTokenMoved(pContext, TK_EMPTY, MoveToken::Not, false);
         }
 
         return true;
@@ -89,14 +88,14 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
     }
 }
 
-bool KPstateMoveToken::HookDoTheMove(KPstateContext *, tKPTokenID, tKPDirection)
+bool KPstateMoveToken::HookDoTheMove(KPstateContext *, tKPTokenID, MoveToken)
 {
     // default: always do the move
     return true;
 }
 
 void KPstateMoveToken::HookAfterTokenMoved(KPstateContext *, tKPTokenID,
-        tKPDirection, bool)
+        MoveToken, bool)
 {
     // default: do nothing
 }

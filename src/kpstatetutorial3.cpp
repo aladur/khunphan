@@ -209,7 +209,7 @@ void KPstateTutorial3::ContinueWithNextState(KPstateContext *pContext,
 
 void KPstateTutorial3::HookAfterTokenMoved(KPstateContext *pContext,
         tKPTokenID id,
-        tKPDirection direction, bool successfullyMoved)
+        MoveToken direction, bool successfullyMoved)
 {
     tutorialState = KP_TUT_STARTED;
 
@@ -218,7 +218,7 @@ void KPstateTutorial3::HookAfterTokenMoved(KPstateContext *pContext,
         tutorialState = KP_TUT_NO_TOKEN;
     }
     else if (!successfullyMoved && id == GetEmphasizedTokenId() &&
-             direction == MOVE_NO)
+             direction == MoveToken::Not)
     {
         tutorialState = KP_TUT_KLICKED_ONLY;
     }

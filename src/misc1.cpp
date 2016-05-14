@@ -32,8 +32,19 @@ tKPTokenID &operator++ (tKPTokenID &id)
     return id = ((id == TK_RED1) ? TK_GREEN1 : tKPTokenID(id + 1));
 }
 
-tKPDirection &operator++ (tKPDirection &id)
+MoveToken &operator++ (MoveToken &id)
 {
-    return id = ((id == MOVE_RIGHT) ? MOVE_UP : tKPDirection(id + 1));
+    if (id == MoveToken::Right)
+    {
+        id = MoveToken::Up;
+    }
+    else
+    {
+        int value = static_cast<int>(id);
+
+        id = static_cast<MoveToken>(value + 1);
+    }
+
+    return id;
 }
 
