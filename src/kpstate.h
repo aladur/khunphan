@@ -34,12 +34,12 @@ public:
     KPstate();
     virtual ~KPstate();
 
-    virtual tKPMenuState GetId() const
+    virtual StateId GetId() const
     {
-        return KPState_Invalid;
+        return StateId::Invalid;
     };
     virtual void Initialize(KPstateContext *pContext,
-                            tKPMenuState previousStateId);
+                            StateId previousStateId);
     virtual void AnimateAll(KPstateContext *pContext,
                             unsigned int duration) const;
     virtual void Animate(KPstateContext *pContext, unsigned int duration) const;
@@ -49,7 +49,7 @@ public:
                             int x, int y);
     virtual void KeyPressed(KPstateContext *pContext,
                             unsigned char key, int x, int y) const;
-    virtual tKPMenuState ESCKeyAction(KPstateContext *pContext) const;
+    virtual StateId ESCKeyAction(KPstateContext *pContext) const;
 
 protected:
     virtual void HookAfterAnimationFinished(KPstateContext *pContext) const;
@@ -60,14 +60,14 @@ protected:
                             MouseButtonEvent event, int x, int y);
     bool EvaluateKeyPressed(KPstateContext *pContext, unsigned char key,
                             int x, int y) const;
-    tKPMenuState DefaultKeyPressed(KPstateContext *pContext, unsigned char key,
+    StateId DefaultKeyPressed(KPstateContext *pContext, unsigned char key,
                                    int x, int y) const;
-    void ChangeState(KPstateContext *pContext, tKPMenuState stateID) const;
+    void ChangeState(KPstateContext *pContext, StateId stateID) const;
     void StartAnimation(KPstateContext *pContext) const;
 };
 
 inline void KPstate::ChangeState(KPstateContext *pContext,
-                                 tKPMenuState stateID) const
+                                 StateId stateID) const
 {
     if (pContext)
     {

@@ -34,7 +34,7 @@ KPstateStartUp::KPstateStartUp()
 }
 
 void KPstateStartUp::Initialize(KPstateContext *pContext,
-                                tKPMenuState previousStateId)
+                                StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -103,11 +103,11 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext) const
     StartAnimation(pContext);
 }
 
-tKPMenuState KPstateStartUp::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateStartUp::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().RequestForClose();
 
-    return KPState_Invalid;
+    return StateId::Invalid;
 }
 
 void KPstateStartUp::MouseClick(KPstateContext *pContext,
@@ -118,11 +118,11 @@ void KPstateStartUp::MouseClick(KPstateContext *pContext,
     {
         if (pContext->GetConfig().Language)
         {
-            pContext->ChangeState(KPState_MainMenu);
+            pContext->ChangeState(StateId::MainMenu);
         }
         else
         {
-            pContext->ChangeState(KPState_SelectLanguage);
+            pContext->ChangeState(StateId::SelectLanguage);
         }
     }
 }

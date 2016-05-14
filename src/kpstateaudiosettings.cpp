@@ -31,7 +31,7 @@ KPstateAudioSettings::KPstateAudioSettings() :
 }
 
 void KPstateAudioSettings::Initialize(KPstateContext *pContext,
-                                      tKPMenuState previousStateId)
+                                      StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -121,7 +121,7 @@ void  KPstateAudioSettings::MouseClick(KPstateContext *pContext,
     }
 }
 
-tKPMenuState KPstateAudioSettings::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateAudioSettings::ESCKeyAction(KPstateContext *pContext) const
 {
     SaveChanges(pContext);
     return pContext->GetPreviousState();

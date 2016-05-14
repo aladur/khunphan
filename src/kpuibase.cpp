@@ -44,7 +44,7 @@ KPUIBase *KPUIBase::pInstance = nullptr;
 
 KPUIBase::KPUIBase(KPConfigPtr PConfig) :
     animationTimer(TOTAL_ANIMATIONTIME, false),
-    previousStateId(KPState_Invalid), isPause(false),
+    previousStateId(StateId::Invalid), isPause(false),
     config(PConfig),
     lastFrameTimestamp(0), oldTime(0), frameCount(0)
 
@@ -111,9 +111,9 @@ void KPUIBase::InitializeAfterOpen()
                       config->Nearest,
                       config->Language);
 #ifdef DEBUG_LIGHT_TEST
-    ChangeState(KPState_LightTest);
+    ChangeState(StateId::LightTest);
 #else
-    ChangeState(KPState_StartUp);
+    ChangeState(StateId::StartUp);
 #endif
 
     InitializeEvents();
@@ -251,23 +251,23 @@ void KPUIBase::KeyPressed(unsigned char keyPressed, int x, int y)
 // Implementation of State interface
 /////////////////////////////////////////////////////////////////////
 
-void KPUIBase::ChangeState(tKPMenuState stateID)
+void KPUIBase::ChangeState(StateId stateID)
 {
-    if (stateID != KPState_Invalid)
+    if (stateID != StateId::Invalid)
     {
-        auto previousStateId = pState ? pState->GetId() : KPState_Invalid;
+        auto previousStateId = pState ? pState->GetId() : StateId::Invalid;
 
         pState = KPstateFactory::CreateState(stateID);
         pState->Initialize(this, previousStateId);
     }
 }
 
-tKPMenuState KPUIBase::GetPreviousState() const
+StateId KPUIBase::GetPreviousState() const
 {
     return previousStateId;
 }
 
-void KPUIBase::SetPreviousState(tKPMenuState stateID)
+void KPUIBase::SetPreviousState(StateId stateID)
 {
     previousStateId = stateID;
 }

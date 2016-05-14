@@ -35,7 +35,7 @@ KPstateLightTest::KPstateLightTest() : mouse_x(0), mouse_y(0)
 }
 
 void KPstateLightTest::Initialize(KPstateContext *pContext,
-                                  tKPMenuState previousStateId)
+                                  StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -78,11 +78,11 @@ void  KPstateLightTest::KeyPressed(KPstateContext *pContext, unsigned char key,
     KPstate::KeyPressed(pContext, key, x, y);
 }
 
-tKPMenuState KPstateLightTest::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateLightTest::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetUserInterface().RequestForClose();
 
-    return KPState_Invalid;
+    return StateId::Invalid;
 }
 
 void  KPstateLightTest::MouseClick(KPstateContext *pContext,

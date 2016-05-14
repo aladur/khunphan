@@ -23,6 +23,7 @@
 #define KPSTATEFACTORY_H
 
 #include <memory>
+#include "kpstates.h"
 
 
 class KPstate;
@@ -30,7 +31,7 @@ class KPstate;
 class KPstateFactory
 {
 public:
-    static std::unique_ptr<KPstate> CreateState(int stateID);
+    static std::unique_ptr<KPstate> CreateState(StateId stateID);
 };
 
 #endif

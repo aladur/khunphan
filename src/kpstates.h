@@ -23,27 +23,27 @@
 #define KPSTATES_H
 
 
-enum tKPMenuState
+enum class StateId
 {
-    KPState_Invalid,
-    KPState_StartUp,
-    KPState_Game,
-    KPState_SelectLanguage,
-    KPState_MainMenu,
-    KPState_Finish,
-    KPState_Settings,
-    KPState_ControlSettings,
-    KPState_GraphicSettings,
-    KPState_GraphicHint,
-    KPState_AudioSettings,
-    KPState_KeyboardHelp,
-    KPState_GameSolved,
-    KPState_Tutorial1,
-    KPState_Tutorial2,
-    KPState_Tutorial3,
-    KPState_Tutorial4,
-    KPState_ScoreList,
-    KPState_LightTest
+    Invalid,
+    StartUp,
+    Game,
+    SelectLanguage,
+    MainMenu,
+    Finish,
+    Settings,
+    ControlSettings,
+    GraphicSettings,
+    GraphicHint,
+    AudioSettings,
+    KeyboardHelp,
+    GameSolved,
+    Tutorial1,
+    Tutorial2,
+    Tutorial3,
+    Tutorial4,
+    ScoreList,
+    LightTest
 };
 
 #endif

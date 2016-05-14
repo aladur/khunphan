@@ -28,11 +28,11 @@
 
 
 void KPstateMainMenu::Initialize(KPstateContext *pContext,
-                                 tKPMenuState previousStateId)
+                                 StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
-    if (previousStateId == KPState_Game)
+    if (previousStateId == StateId::Game)
     {
         pContext->GetMenu().SaveLastStateId(previousStateId);
     }
@@ -101,32 +101,32 @@ void  KPstateMainMenu::MouseClick(KPstateContext *pContext,
             pContext->GetConfig().SavedGame = 0;
 
         case S_CONTINUE:
-            pContext->ChangeState(KPState_Game);
+            pContext->ChangeState(StateId::Game);
             break;
 
         case S_TUTORIAL:
-            pContext->ChangeState(KPState_Tutorial1);
+            pContext->ChangeState(StateId::Tutorial1);
             break;
 
         case S_KEYBOARD_HELP:
-            pContext->ChangeState(KPState_KeyboardHelp);
+            pContext->ChangeState(StateId::KeyboardHelp);
             break;
 
         case S_SETTINGS:
-            pContext->ChangeState(KPState_Settings);
+            pContext->ChangeState(StateId::Settings);
             break;
 
         case S_SCORELIST:
-            pContext->ChangeState(KPState_ScoreList);
+            pContext->ChangeState(StateId::ScoreList);
             break;
 
         case S_FINISH:
-            pContext->ChangeState(KPState_Finish);
+            pContext->ChangeState(StateId::Finish);
             break;
     }
 }
 
-tKPMenuState KPstateMainMenu::ESCKeyAction(KPstateContext *) const
+StateId KPstateMainMenu::ESCKeyAction(KPstateContext *) const
 {
-    return KPState_Finish;
+    return StateId::Finish;
 }

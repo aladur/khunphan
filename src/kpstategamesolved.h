@@ -30,18 +30,18 @@ class KPstateGameSolved : public KPstate
 {
 public:
     KPstateGameSolved();
-    tKPMenuState GetId() const override
+    StateId GetId() const override
     {
-        return KPState_GameSolved;
+        return StateId::GameSolved;
     };
     void Initialize(KPstateContext *pContext,
-                    tKPMenuState previousStateId) override;
+                    StateId previousStateId) override;
     void MouseClick(KPstateContext *pContext, MouseButton button,
                     MouseButtonEvent event, int x, int y) override;
     void KeyPressed(KPstateContext *pContext, unsigned char key,
                     int x, int y) const override;
     void UpdateDisplay(KPstateContext *pContext) const override;
-    tKPMenuState ESCKeyAction(KPstateContext *) const override;
+    StateId ESCKeyAction(KPstateContext *) const override;
 protected:
     void SaveScoreAndChangeState(KPstateContext *pContext) const;
     void PlayAudioForInitialize(KPstateContext *) const override;

@@ -34,7 +34,7 @@ KPstateTutorial3::KPstateTutorial3() : actionState(ActionState::Started)
 }
 
 void KPstateTutorial3::Initialize(KPstateContext *pContext,
-                                  tKPMenuState previousStateId)
+                                  StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -177,7 +177,7 @@ void  KPstateTutorial3::MouseClick(KPstateContext *pContext,
     }
 }
 
-tKPMenuState KPstateTutorial3::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateTutorial3::ESCKeyAction(KPstateContext *pContext) const
 {
     const auto &node = pContext->GetNodes().GetRootNode();
     pContext->GetBoardView().SetBoard(node.GetBoard());
@@ -199,7 +199,7 @@ void KPstateTutorial3::ContinueWithNextState(KPstateContext *pContext,
     pContext->GetBoardView().SetBoard(node.GetBoard());
     pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
     pContext->GetCamera().SetRoundtrip(true);
-    pContext->ChangeState(KPState_Tutorial4);
+    pContext->ChangeState(StateId::Tutorial4);
 }
 
 /////////////////////////////////////////////////////////////////////

@@ -32,23 +32,23 @@ class KPstateGraphicSettings : public KPstate
 {
 public:
     KPstateGraphicSettings();
-    tKPMenuState GetId() const override
+    StateId GetId() const override
     {
-        return KPState_GraphicSettings;
+        return StateId::GraphicSettings;
     };
     void Initialize(KPstateContext *pContext,
-                    tKPMenuState previousStateId) override;
+                    StateId previousStateId) override;
     void MouseClick(KPstateContext *pContext, MouseButton button,
                     MouseButtonEvent event, int x, int y) override;
     void UpdateDisplay(KPstateContext *pContext) const override;
-    tKPMenuState ESCKeyAction(KPstateContext *pContext) const override;
+    StateId ESCKeyAction(KPstateContext *pContext) const override;
 
 protected:
     int GetCurrentQuality(KPstateContext *pContext);
     void UpdateQuality(KPstateContext *pContext);
     int  GetTextureIndex(KPstateContext *pContext,
                          std::string &TextureName) const;
-    tKPMenuState SaveChanges(KPstateContext *pContext) const;
+    StateId SaveChanges(KPstateContext *pContext) const;
     void ToggleFPS(KPstateContext *pContext) const;
     void ToggleTextures(KPstateContext *pContext);
     void ToggleMenuTextures(KPstateContext *pContext);

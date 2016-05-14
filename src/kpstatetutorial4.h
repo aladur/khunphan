@@ -28,9 +28,9 @@
 class KPstateTutorial4 : public KPstateTutorial3
 {
 public:
-    tKPMenuState GetId() const override
+    StateId GetId() const override
     {
-        return KPState_Tutorial4;
+        return StateId::Tutorial4;
     };
 protected:
     void InitializeBoardWithTokens(KPstateContext *pContext) const;

@@ -26,7 +26,7 @@
 
 
 void KPstateFinish::Initialize(KPstateContext *pContext,
-                               tKPMenuState previousStateId)
+                               StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 

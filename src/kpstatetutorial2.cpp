@@ -30,7 +30,7 @@
 
 
 void KPstateTutorial2::Initialize(KPstateContext *pContext,
-                                  tKPMenuState previousStateId)
+                                  StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -92,7 +92,7 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext) const
     StartAnimation(pContext);
 }
 
-tKPMenuState KPstateTutorial2::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateTutorial2::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetCamera().SetRoundtrip(true);
     pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
@@ -108,7 +108,7 @@ void  KPstateTutorial2::MouseClick(KPstateContext *pContext,
     switch (Signal)
     {
         case S_CONTINUE:
-            pContext->ChangeState(KPState_Tutorial3);
+            pContext->ChangeState(StateId::Tutorial3);
             break;
 
         case S_BACK:

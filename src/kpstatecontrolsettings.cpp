@@ -27,7 +27,7 @@
 
 
 void KPstateControlSettings::Initialize(KPstateContext *pContext,
-                                        tKPMenuState previousStateId)
+                                        StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -164,7 +164,7 @@ void  KPstateControlSettings::ToggleSolutionHint(KPstateContext *pContext)
     E_SolutionHint = E_SolutionHint ? 0 : 1;
 }
 
-tKPMenuState KPstateControlSettings::ESCKeyAction(
+StateId KPstateControlSettings::ESCKeyAction(
     KPstateContext *pContext) const
 {
     SaveChanges(pContext);

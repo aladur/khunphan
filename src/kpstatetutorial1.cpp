@@ -30,7 +30,7 @@
 
 
 void KPstateTutorial1::Initialize(KPstateContext *pContext,
-                                  tKPMenuState previousStateId)
+                                  StateId previousStateId)
 {
     auto &menu = pContext->GetMenu();
 
@@ -139,7 +139,7 @@ void  KPstateTutorial1::MouseClick(KPstateContext *pContext,
     switch (Signal)
     {
         case S_CONTINUE:
-            pContext->ChangeState(KPState_Tutorial2);
+            pContext->ChangeState(StateId::Tutorial2);
             break;
 
         case S_BACK:
@@ -148,7 +148,7 @@ void  KPstateTutorial1::MouseClick(KPstateContext *pContext,
     }
 }
 
-tKPMenuState KPstateTutorial1::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateTutorial1::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetCamera().SetRoundtrip(true);
     pContext->GetBoardView().EmphasizeToken(TK_EMPTY);

@@ -26,7 +26,7 @@
 #include "kpuibase.h"
 
 void KPstateKeyboardHelp::Initialize(KPstateContext *pContext,
-                                     tKPMenuState previousStateId)
+                                     StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 

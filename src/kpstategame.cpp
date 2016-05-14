@@ -32,7 +32,7 @@
 
 
 void KPstateGame::Initialize(KPstateContext *pContext,
-                             tKPMenuState previousStateId)
+                             StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -178,7 +178,7 @@ void  KPstateGame::KeyPressed(KPstateContext *pContext, unsigned char key,
     KPstate::KeyPressed(pContext, key, x, y);
 }
 
-tKPMenuState KPstateGame::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateGame::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetCamera().SetRoundtrip(true);
     pContext->GetStatistics().Stop();
@@ -186,7 +186,7 @@ tKPMenuState KPstateGame::ESCKeyAction(KPstateContext *pContext) const
     pContext->GetUserInterface().SetSoundVolume(
         pContext->GetConfig().SoundVolume);
     pContext->GetUserInterface().PlayMusic(false);
-    return KPState_MainMenu;
+    return StateId::MainMenu;
 }
 
 void  KPstateGame::MouseClick(KPstateContext *pContext,
@@ -207,7 +207,7 @@ void  KPstateGame::MouseClick(KPstateContext *pContext,
                 SaveGameStatus(pContext);
                 pContext->GetUserInterface().SetSoundVolume(config.SoundVolume);
                 pContext->GetUserInterface().PlayMusic(false);
-                pContext->ChangeState(KPState_MainMenu);
+                pContext->ChangeState(StateId::MainMenu);
                 break;
 
             case S_TOGGLE_SOUND_ON:
@@ -267,7 +267,7 @@ void KPstateGame::GameIsSolved(KPstateContext *pContext) const
     pContext->GetUserInterface().SetSoundVolume(
         pContext->GetConfig().SoundVolume);
     pContext->GetUserInterface().PlayMusic(false);
-    pContext->ChangeState(KPState_GameSolved);
+    pContext->ChangeState(StateId::GameSolved);
 }
 
 void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */) const

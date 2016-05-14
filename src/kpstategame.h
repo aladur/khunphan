@@ -31,12 +31,12 @@ class KPstateGame : public KPstateMoveToken
     typedef void (KPstateGame::*tCallbackFct)(KPstateContext *);
 
 public:
-    tKPMenuState GetId() const override
+    StateId GetId() const override
     {
-        return KPState_Game;
+        return StateId::Game;
     };
     void Initialize(KPstateContext *pContext,
-                    tKPMenuState previousStateId) override;
+                    StateId previousStateId) override;
     void MouseClick(KPstateContext *pContext, MouseButton button,
                     MouseButtonEvent event, int x, int y) override;
     void KeyPressed(KPstateContext *pContext, unsigned char key,
@@ -44,7 +44,7 @@ public:
     void AnimateAll(KPstateContext *pContext,
                     unsigned int duration) const override;
     void UpdateDisplay(KPstateContext *pContext) const override;
-    tKPMenuState ESCKeyAction(KPstateContext *) const override;
+    StateId ESCKeyAction(KPstateContext *) const override;
 
 protected:
     void HookAfterAnimationFinished(KPstateContext *) const override;

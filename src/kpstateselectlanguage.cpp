@@ -28,7 +28,7 @@
 
 
 void KPstateSelectLanguage::Initialize(KPstateContext *pContext,
-                                       tKPMenuState previousStateId)
+                                       StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -88,11 +88,11 @@ void KPstateSelectLanguage::MouseClick(KPstateContext *pContext,
     if (Signal >= T_LANGUAGE1 && Signal <= T_LANGUAGE_MAX)
     {
         SetLanguage(pContext, Signal);
-        pContext->ChangeState(KPState_MainMenu);
+        pContext->ChangeState(StateId::MainMenu);
     }
 }
 
-tKPMenuState KPstateSelectLanguage::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateSelectLanguage::ESCKeyAction(KPstateContext *pContext) const
 {
     if (pContext->GetConfig().Language)
     {
@@ -102,7 +102,7 @@ tKPMenuState KPstateSelectLanguage::ESCKeyAction(KPstateContext *pContext) const
     {
         // Default: Set Language to "English"
         SetLanguage(pContext, T_LANGUAGE1 + 1);
-        return KPState_MainMenu;
+        return StateId::MainMenu;
     }
 }
 

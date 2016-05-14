@@ -27,7 +27,7 @@
 
 
 void KPstateScoreList::Initialize(KPstateContext *pContext,
-                                  tKPMenuState previousStateId)
+                                  StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -121,12 +121,12 @@ void  KPstateScoreList::MouseClick(KPstateContext *pContext,
     switch (Signal)
     {
         case S_CONTINUE:
-            pContext->ChangeState(KPState_MainMenu);
+            pContext->ChangeState(StateId::MainMenu);
             return;
     }
 }
 
-tKPMenuState KPstateScoreList::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateScoreList::ESCKeyAction(KPstateContext *pContext) const
 {
     return pContext->GetMenu().RestoreLastStateId();
 }

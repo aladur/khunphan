@@ -49,81 +49,81 @@
 // Public Interface
 /////////////////////////////////////////////////////////////////////
 
-std::unique_ptr<KPstate> KPstateFactory::CreateState(int stateID)
+std::unique_ptr<KPstate> KPstateFactory::CreateState(StateId stateID)
 {
     std::unique_ptr<KPstate> statePtr;
 
     switch (stateID)
     {
-        case KPState_StartUp:
+        case StateId::StartUp:
             statePtr.reset(new KPstateStartUp);
             break;
 
-        case KPState_MainMenu:
+        case StateId::MainMenu:
             statePtr.reset(new KPstateMainMenu);
             break;
 
-        case KPState_Finish:
+        case StateId::Finish:
             statePtr.reset(new KPstateFinish);
             break;
 
-        case KPState_Settings:
+        case StateId::Settings:
             statePtr.reset(new KPstateSettings);
             break;
 
-        case KPState_ControlSettings:
+        case StateId::ControlSettings:
             statePtr.reset(new KPstateControlSettings);
             break;
 
-        case KPState_GraphicSettings:
+        case StateId::GraphicSettings:
             statePtr.reset(new KPstateGraphicSettings);
             break;
 
-        case KPState_GraphicHint:
+        case StateId::GraphicHint:
             statePtr.reset(new KPstateGraphicHint);
             break;
 
-        case KPState_AudioSettings:
+        case StateId::AudioSettings:
             statePtr.reset(new KPstateAudioSettings);
             break;
 
-        case KPState_KeyboardHelp:
+        case StateId::KeyboardHelp:
             statePtr.reset(new KPstateKeyboardHelp);
             break;
 
-        case KPState_Game:
+        case StateId::Game:
             statePtr.reset(new KPstateGame);
             break;
 
-        case KPState_GameSolved:
+        case StateId::GameSolved:
             statePtr.reset(new KPstateGameSolved);
             break;
 
-        case KPState_SelectLanguage:
+        case StateId::SelectLanguage:
             statePtr.reset(new KPstateSelectLanguage);
             break;
 
-        case KPState_Tutorial1:
+        case StateId::Tutorial1:
             statePtr.reset(new KPstateTutorial1);
             break;
 
-        case KPState_Tutorial2:
+        case StateId::Tutorial2:
             statePtr.reset(new KPstateTutorial2);
             break;
 
-        case KPState_Tutorial3:
+        case StateId::Tutorial3:
             statePtr.reset(new KPstateTutorial3);
             break;
 
-        case KPState_Tutorial4:
+        case StateId::Tutorial4:
             statePtr.reset(new KPstateTutorial4);
             break;
 
-        case KPState_ScoreList:
+        case StateId::ScoreList:
             statePtr.reset(new KPstateScoreList);
             break;
 
-        case KPState_LightTest:
+        case StateId::LightTest:
             statePtr.reset(new KPstateLightTest);
             break;
 
@@ -131,7 +131,7 @@ std::unique_ptr<KPstate> KPstateFactory::CreateState(int stateID)
             std::stringstream message;
 
             message << "Error in KPstateFactory::CreateState: Unknown state "
-                    << stateID;
+                    << static_cast<std::size_t>(stateID);
             throw std::runtime_error(message.str());
     }
 

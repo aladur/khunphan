@@ -33,7 +33,7 @@
 
 
 KPmenu::KPmenu(KPConfigPtr PConfig) :
-    lastState(KPState_Invalid),
+    lastState(StateId::Invalid),
     playTimeUpdateTimer(100, true, true), config(PConfig),
     isDisplayOpenGLInfo(false)
 {

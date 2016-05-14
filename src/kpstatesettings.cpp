@@ -26,7 +26,7 @@
 
 
 void KPstateSettings::Initialize(KPstateContext *pContext,
-                                 tKPMenuState previousStateId)
+                                 StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -77,19 +77,19 @@ void  KPstateSettings::MouseClick(KPstateContext *pContext,
     switch (Signal)
     {
         case S_CONTROL_SETTINGS:
-            pContext->ChangeState(KPState_ControlSettings);
+            pContext->ChangeState(StateId::ControlSettings);
             break;
 
         case S_GRAPHIC_SETTINGS:
-            pContext->ChangeState(KPState_GraphicSettings);
+            pContext->ChangeState(StateId::GraphicSettings);
             break;
 
         case S_AUDIO_SETTINGS:
-            pContext->ChangeState(KPState_AudioSettings);
+            pContext->ChangeState(StateId::AudioSettings);
             break;
 
         case S_SELECT_LANGUAGE:
-            pContext->ChangeState(KPState_SelectLanguage);
+            pContext->ChangeState(StateId::SelectLanguage);
             break;
 
         case S_BACK:
@@ -98,7 +98,7 @@ void  KPstateSettings::MouseClick(KPstateContext *pContext,
     }
 }
 
-tKPMenuState KPstateSettings::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateSettings::ESCKeyAction(KPstateContext *pContext) const
 {
     return pContext->GetMenu().RestoreLastStateId();
 }

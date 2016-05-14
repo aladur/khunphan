@@ -42,7 +42,7 @@ KPstateGraphicSettings::KPstateGraphicSettings() :
 }
 
 void KPstateGraphicSettings::Initialize(KPstateContext *pContext,
-                                        tKPMenuState previousStateId)
+                                        StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -527,7 +527,7 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
     }
 }
 
-tKPMenuState KPstateGraphicSettings::ESCKeyAction(
+StateId KPstateGraphicSettings::ESCKeyAction(
     KPstateContext *pContext) const
 {
     auto newState = SaveChanges(pContext);
@@ -538,7 +538,7 @@ tKPMenuState KPstateGraphicSettings::ESCKeyAction(
 // Take over changes and change state
 /////////////////////////////////////////////////////////////////////
 
-tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
+StateId KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
 {
     auto ChangeNeedsToolRestart = false;
     auto &config = pContext->GetConfig();
@@ -577,7 +577,7 @@ tKPMenuState KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
 
     if (ChangeNeedsToolRestart)
     {
-        return KPState_GraphicHint;
+        return StateId::GraphicHint;
     }
     else
     {

@@ -113,7 +113,7 @@ private:
     std::unique_ptr<KPnodes> pNodes;
     std::unique_ptr<KPStatistics> pStatistics;
     BManualTimer animationTimer;
-    tKPMenuState previousStateId;
+    StateId previousStateId;
     bool isPause;
 
 protected:
@@ -137,9 +137,9 @@ public:
 
     // KPstateContext interface
 public:
-    virtual void ChangeState(tKPMenuState stateID);
-    virtual tKPMenuState GetPreviousState() const;
-    virtual void SetPreviousState(tKPMenuState stateID);
+    virtual void ChangeState(StateId stateID);
+    virtual StateId GetPreviousState() const;
+    virtual void SetPreviousState(StateId stateID);
     virtual void SetPause(bool on)
     {
         isPause = on;

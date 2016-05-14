@@ -25,7 +25,7 @@
 
 
 void KPstateGraphicHint::Initialize(KPstateContext *pContext,
-                                    tKPMenuState previousStateId)
+                                    StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -70,11 +70,11 @@ void  KPstateGraphicHint::MouseClick(KPstateContext *pContext,
     switch (Signal)
     {
         case S_BACK:
-            pContext->ChangeState(KPState_Settings);
+            pContext->ChangeState(StateId::Settings);
     }
 }
 
-tKPMenuState KPstateGraphicHint::ESCKeyAction(KPstateContext *) const
+StateId KPstateGraphicHint::ESCKeyAction(KPstateContext *) const
 {
-    return KPState_Settings;
+    return StateId::Settings;
 }

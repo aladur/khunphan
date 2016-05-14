@@ -41,7 +41,7 @@ KPstate::~KPstate()
 {
 }
 
-void KPstate::Initialize(KPstateContext *pContext, tKPMenuState previousStateId)
+void KPstate::Initialize(KPstateContext *pContext, StateId previousStateId)
 {
     pContext->SetPreviousState(previousStateId);
 
@@ -189,7 +189,7 @@ void KPstate::StartAnimation(KPstateContext *pContext) const
     pContext->GetAnimationTimer().Restart();
 }
 
-tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
+StateId KPstate::DefaultKeyPressed(KPstateContext *pContext,
                                         unsigned char key, int, int) const
 {
     auto &config = pContext->GetConfig();
@@ -217,7 +217,7 @@ tKPMenuState KPstate::DefaultKeyPressed(KPstateContext *pContext,
             break;
     }
 
-    return KPState_Invalid;
+    return StateId::Invalid;
 }
 
 
@@ -226,12 +226,12 @@ void KPstate::HookAfterAnimationFinished(KPstateContext *) const
     // to be reimplemented in subclass
 }
 
-tKPMenuState KPstate::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstate::ESCKeyAction(KPstateContext *pContext) const
 {
     // This is the default behaviour. To be
     // reimplemented in subclass if state has
     // to be changed return the next
-    // state otherwise return KPState_Invalid
+    // state otherwise return StateId::Invalid
     return pContext->GetPreviousState();
 }
 
@@ -254,7 +254,7 @@ void KPstate::KeyPressed(KPstateContext *pContext, unsigned char key,
 {
     auto newState = KPstate::DefaultKeyPressed(pContext, key, x, y);
 
-    if (newState != KPState_Invalid)
+    if (newState != StateId::Invalid)
     {
         pContext->ChangeState(newState);
         return;

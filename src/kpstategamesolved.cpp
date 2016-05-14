@@ -36,7 +36,7 @@ KPstateGameSolved::KPstateGameSolved() : addToScoreList(false),
 }
 
 void KPstateGameSolved::Initialize(KPstateContext *pContext,
-                                   tKPMenuState previousStateId)
+                                   StateId previousStateId)
 {
     KPstate::Initialize(pContext, previousStateId);
 
@@ -162,10 +162,10 @@ void KPstateGameSolved::KeyPressed(KPstateContext *pContext, unsigned char key,
     }
 }
 
-tKPMenuState KPstateGameSolved::ESCKeyAction(KPstateContext *pContext) const
+StateId KPstateGameSolved::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetCamera().SetRoundtrip(true);
-    return KPState_Finish;
+    return StateId::Finish;
 }
 
 void KPstateGameSolved::MouseClick(KPstateContext *pContext,
@@ -184,7 +184,7 @@ void KPstateGameSolved::MouseClick(KPstateContext *pContext,
 
 void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext) const
 {
-    auto newState = KPState_MainMenu;
+    auto newState = StateId::MainMenu;
     auto name(pContext->GetMenu().labels[T_NAME_LABEL].GetText());
 
     if (addToScoreList && !name.empty())
@@ -196,7 +196,7 @@ void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext) const
                       pContext->GetStatistics().Get(EventCounter::Moves), 0);
         scoreList.WriteToFile();
         pContext->GetCamera().SetRoundtrip(true);
-        newState = KPState_ScoreList;
+        newState = StateId::ScoreList;
     }
 
     pContext->ChangeState(newState);

@@ -120,11 +120,11 @@ public:
     void Update(std::string &TextureName, int TextureSize, bool Nearest);
     void Draw();
     void UpdateFPS(int fps, float renderTime = 0.0);
-    void SaveLastStateId(tKPMenuState stateId)
+    void SaveLastStateId(StateId stateId)
     {
         lastState = stateId;
     };
-    tKPMenuState RestoreLastStateId(void) const
+    StateId RestoreLastStateId(void) const
     {
         return lastState;
     };
@@ -151,7 +151,7 @@ protected:
 
     tIdToPlate plates;
     tIdToLabel labels;
-    tKPMenuState lastState;
+    StateId lastState;
     BManualTimer playTimeUpdateTimer;
     KPConfigPtr config;
     bool isDisplayOpenGLInfo;

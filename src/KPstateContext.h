@@ -38,9 +38,9 @@ class BManualTimer;
 class KPstateContext
 {
 public:
-    virtual void ChangeState(tKPMenuState stateID) = 0;
-    virtual tKPMenuState GetPreviousState() const = 0;
-    virtual void SetPreviousState(tKPMenuState stateID) = 0;
+    virtual void ChangeState(StateId stateID) = 0;
+    virtual StateId GetPreviousState() const = 0;
+    virtual void SetPreviousState(StateId stateID) = 0;
     virtual void SetPause(bool on) = 0;
     virtual bool IsPause() = 0;
     virtual KPboardView &GetBoardView() = 0;

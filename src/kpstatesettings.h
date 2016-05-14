@@ -28,17 +28,17 @@
 class KPstateSettings : public KPstate
 {
 public:
-    tKPMenuState GetId() const override
+    StateId GetId() const override
     {
-        return KPState_Settings;
+        return StateId::Settings;
     };
     void Initialize(KPstateContext *pContext,
-                    tKPMenuState previousStateId) override;
+                    StateId previousStateId) override;
     void MouseClick(KPstateContext *pContext, MouseButton button,
                     MouseButtonEvent event, int x, int y) override;
     void UpdateDisplay(KPstateContext *pContext) const override;
 protected:
-    tKPMenuState ESCKeyAction(KPstateContext *) const override;
+    StateId ESCKeyAction(KPstateContext *) const override;
 };
 
 #endif
