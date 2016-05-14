@@ -51,7 +51,7 @@ void KPstateLightTest::UpdateDisplay(KPstateContext *pContext) const
 
     KPstate::UpdateDisplay(pContext);
 
-    menu.labels[T_OK].SetPosition(8, 1, 1, A_CENTERED);
+    menu.labels[T_OK].SetPosition(8, 1, 1, AlignItem::Centered);
     menu.labels[T_OK].SetSignal(S_BACK);
 
     StartAnimation(pContext);

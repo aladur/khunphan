@@ -36,7 +36,7 @@ public:
     static void FadeOutAll();
     static void SetActive(Label *pLabel);
     void Draw();
-    void SetPosition(float, float, float, tKPAlignment pos = A_LEFT);
+    void SetPosition(float, float, float, AlignItem pos = AlignItem::Left);
     void SetTextOrFormat(const std::string &textOrFormat);
     template <typename... Args>
     void FormatText(Args&& ...args)
@@ -100,7 +100,7 @@ private:
     float x, y, Height, Alpha;
     float old_x, old_y, old_Height, old_Alpha;
     float target_x, target_y, target_Height, target_Alpha;
-    int Alignment;
+    AlignItem Alignment;
     int Signal;
     int DisplayList;
     bool  hasInputFocus;

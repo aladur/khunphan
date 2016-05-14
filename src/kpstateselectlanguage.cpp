@@ -46,7 +46,7 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[T_SELECTLANGUAGE].SetPosition(8, 8, 1, A_CENTERED);
+    menu.labels[T_SELECTLANGUAGE].SetPosition(8, 8, 1, AlignItem::Centered);
     menu.labels[T_SELECTLANGUAGE].SetFullyVisible();
 
     auto Pos_y = 7.0f;
@@ -55,7 +55,7 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
     {
         if (menu.labels.find(i) != menu.labels.end())
         {
-            menu.labels[i].SetPosition(8, Pos_y, 0.71f, A_CENTERED);
+            menu.labels[i].SetPosition(8, Pos_y, 0.71f, AlignItem::Centered);
             menu.labels[i].SetSignal(i);
             Pos_y -= .5;
         }
@@ -63,7 +63,7 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
 
     if (pContext->GetConfig().Language)
     {
-        menu.labels[T_BACK].SetPosition(8, 1, 1, A_CENTERED);
+        menu.labels[T_BACK].SetPosition(8, 1, 1, AlignItem::Centered);
         menu.labels[T_BACK].SetSignal(S_BACK);
     }
 

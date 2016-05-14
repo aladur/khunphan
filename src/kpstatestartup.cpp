@@ -85,19 +85,19 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
 
     auto y = 3.0f;
-    menu.labels[T_COPYRIGHT1].SetPosition(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT1].SetPosition(8, y, 0.4f, AlignItem::Centered);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT2].SetPosition(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT2].SetPosition(8, y, 0.4f, AlignItem::Centered);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT3].SetPosition(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT3].SetPosition(8, y, 0.4f, AlignItem::Centered);
     y -= 0.8f;
-    menu.labels[T_COPYRIGHT4].SetPosition(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT4].SetPosition(8, y, 0.4f, AlignItem::Centered);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT5].SetPosition(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT5].SetPosition(8, y, 0.4f, AlignItem::Centered);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT6].SetPosition(8, y, 0.4f, A_CENTERED);
+    menu.labels[T_COPYRIGHT6].SetPosition(8, y, 0.4f, AlignItem::Centered);
 
-    menu.labels[T_NOWARRANTY].SetPosition(8, 0, 0.5, A_CENTERED);
+    menu.labels[T_NOWARRANTY].SetPosition(8, 0, 0.5, AlignItem::Centered);
     menu.labels[T_VERSION].SetPosition(0.1f, 0, 0.5);
 
     StartAnimation(pContext);

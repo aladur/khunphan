@@ -47,11 +47,11 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext) const
     auto fullScreen = pContext->GetUserInterface().CanToggleFullScreen();
 
     auto y = 8.5f;
-    menu.labels[T_H_KEYBOARDHELP].SetPosition(8, y, 1, A_CENTERED);
+    menu.labels[T_H_KEYBOARDHELP].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0f;
     menu.labels[T_H_KEYBOARDHELP].SetFullyVisible();
 
-    menu.labels[T_H_GENERAL].SetPosition(8, y, 1, A_CENTERED);
+    menu.labels[T_H_GENERAL].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0f;
     menu.labels[T_H_ESC_KEY].SetPosition(3, y, 0.6f);
     y -= 0.6f;
@@ -64,7 +64,7 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext) const
         y -= 1.0f;
     }
 
-    menu.labels[T_H_IN_GAME].SetPosition(8, y, 1, A_CENTERED);
+    menu.labels[T_H_IN_GAME].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0f;
     menu.labels[T_H_PAUSE_KEY].SetPosition(3, y, 0.6f);
     y -= 0.6f;
@@ -87,7 +87,7 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext) const
     y -= 0.6f;
     menu.labels[T_H_CAMERA].SetPosition(6, y, 0.6f);
 
-    menu.labels[T_BACK].SetPosition(8, 1, 1, A_CENTERED);
+    menu.labels[T_BACK].SetPosition(8, 1, 1, AlignItem::Centered);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
     StartAnimation(pContext);

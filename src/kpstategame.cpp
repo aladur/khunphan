@@ -281,7 +281,7 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */) const
         menu.plates[PLATE_LOGO].SetPosition(4, 9, 12, 11);
         menu.plates[PLATE_SHADER].SetPosition(0, 0, 16, 12);
         menu.plates[PLATE_SHADER].SetFadeIn();
-        menu.labels[T_PAUSE].SetPosition(8, 6, 3, A_CENTERED);
+        menu.labels[T_PAUSE].SetPosition(8, 6, 3, AlignItem::Centered);
         menu.labels[T_PAUSE].SetFullyVisible();
     }
     else

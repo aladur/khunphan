@@ -97,7 +97,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[T_SOLVED1].FormatText(
                                       statistics.Get(EventCounter::Moves),
                                       playTime);
-    menu.labels[T_SOLVED1].SetPosition(8, y, 0.6f, A_CENTERED);
+    menu.labels[T_SOLVED1].SetPosition(8, y, 0.6f, AlignItem::Centered);
     y -= 0.6f;
 
     auto it = menu.labels.find(tf_index);
@@ -106,7 +106,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
     {
         menu.labels[tf_index].FormatText(
             statistics.Get(EventCounter::MovesWithHint));
-        menu.labels[tf_index].SetPosition(8, y, 0.6f, A_CENTERED);
+        menu.labels[tf_index].SetPosition(8, y, 0.6f, AlignItem::Centered);
         y -= 0.6f;
     }
 
@@ -114,7 +114,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
 
     if (it != menu.labels.end())
     {
-        menu.labels[tf_index + 1].SetPosition(8, y, 0.6f, A_CENTERED);
+        menu.labels[tf_index + 1].SetPosition(8, y, 0.6f, AlignItem::Centered);
     }
 
     y -= 0.6f;
@@ -122,21 +122,21 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
 
     if (it != menu.labels.end())
     {
-        menu.labels[tf_index + 2].SetPosition(8, y, 0.6f, A_CENTERED);
+        menu.labels[tf_index + 2].SetPosition(8, y, 0.6f, AlignItem::Centered);
     }
 
     y -= 1.0f;
 
     if (addToScoreList)
     {
-        menu.labels[T_INPUT_NAME].SetPosition(8, y, 1, A_CENTERED);
+        menu.labels[T_INPUT_NAME].SetPosition(8, y, 1, AlignItem::Centered);
         y -= 1.0f;
-        menu.labels[T_NAME_LABEL].SetPosition(8, y, 1, A_CENTERED);
+        menu.labels[T_NAME_LABEL].SetPosition(8, y, 1, AlignItem::Centered);
         menu.labels[T_NAME_LABEL].SetMaxCharacters(24);
         menu.labels[T_NAME_LABEL].SetInputFocus(addToScoreList);
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, A_CENTERED);
+    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, AlignItem::Centered);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);

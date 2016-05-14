@@ -57,7 +57,7 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[PLATE_LOGO].SetPosition(5, 9, 11, 11);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[T_SCORELIST].SetPosition(8, 8.5, 1, A_CENTERED);
+    menu.labels[T_SCORELIST].SetPosition(8, 8.5, 1, AlignItem::Centered);
     menu.labels[T_SCORELIST].SetFullyVisible();
 
     auto y = 7.5f;
@@ -97,13 +97,15 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
         menu.labels[T_S_MOVES1 + i].FormatText(Moves);
 
         menu.labels[T_S_NAME1 + i].SetPosition(2, y, 0.6f);
-        menu.labels[T_S_PLAYTIME1 + i].SetPosition(9, y, 0.6f, A_CENTERED);
-        menu.labels[T_S_MOVES1 + i].SetPosition(12, y, 0.6f, A_CENTERED);
+        menu.labels[T_S_PLAYTIME1 + i].SetPosition(9, y, 0.6f,
+                                                   AlignItem::Centered);
+        menu.labels[T_S_MOVES1 + i].SetPosition(12, y, 0.6f,
+                                                AlignItem::Centered);
 
         y -= 0.5f;
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, A_CENTERED);
+    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, AlignItem::Centered);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);

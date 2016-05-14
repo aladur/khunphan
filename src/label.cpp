@@ -68,7 +68,7 @@ Label::Label(const std::string &textOrFormat) :
     Height(0), Alpha(0.0f),
     old_x(0),  old_y(0),  old_Height(0),  old_Alpha(0.0f),
     target_x(0), target_y(0), target_Height(0), target_Alpha(0.0f),
-    Alignment(A_LEFT), Signal(0),
+    Alignment(AlignItem::Left), Signal(0),
     DisplayList(0), hasInputFocus(false), lineCount(0),
     MaxCharacters(32), maxWidth(0),
     animationTimer(TOTAL_ANIMATIONTIME, false)
@@ -259,29 +259,30 @@ void Label::Draw()
     }
 }
 
-void Label::SetPosition(float X, float Y, float H, tKPAlignment A)
+void Label::SetPosition(float X, float Y, float H, AlignItem alignment)
 {
 
-    if (A != A_DONTCARE)
+    if (alignment != AlignItem::DontCare)
     {
-        Alignment = A;
+        Alignment = alignment;
     }
 
     switch (Alignment)
     {
-        case A_LEFT:
+        case AlignItem::DontCare:
+        case AlignItem::Left:
         {
             target_x = X;
         }
         break;
 
-        case A_CENTERED:
+        case AlignItem::Centered:
         {
             target_x = X - 0.5f * AspectRatio * H;
         }
         break;
 
-        case A_RIGHT:
+        case AlignItem::Right:
         {
             target_x = X - AspectRatio * H;
         }

@@ -53,7 +53,7 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[PLATE_LOGO].SetSignal(S_BACK);
     menu.plates[PLATE_LOGO].SetFullyVisible();
 
-    menu.labels[T_TUTORIAL2].SetPosition(8, 10.5, 1.0, A_CENTERED);
+    menu.labels[T_TUTORIAL2].SetPosition(8, 10.5, 1.0, AlignItem::Centered);
     menu.labels[T_TUTORIAL2].SetFullyVisible();
 
     auto y = 9.5f;
@@ -86,7 +86,7 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext) const
         menu.labels[T_TUTORIAL2_05].SetPosition(1.25, y, 0.5);
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, A_CENTERED);
+    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, AlignItem::Centered);
     menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);

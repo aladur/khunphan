@@ -154,12 +154,12 @@ enum class MoveToken
     Not
 };
 
-enum tKPAlignment
+enum class AlignItem
 {
-    A_DONTCARE,
-    A_LEFT,
-    A_CENTERED,
-    A_RIGHT
+    DontCare,
+    Left,
+    Centered,
+    Right
 };
 
 enum class EventCounter

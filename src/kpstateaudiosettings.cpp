@@ -69,11 +69,11 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
 
     menu.labels[T_SETTINGS].SetPosition(4, 8, 1);
     menu.labels[T_SETTINGS].SetFullyVisible();
-    menu.labels[T_AUDIO].SetPosition(12, 8, 1, A_RIGHT);
+    menu.labels[T_AUDIO].SetPosition(12, 8, 1, AlignItem::Right);
     menu.labels[T_AUDIO].SetFullyVisible();
 
     auto y = 6.0f;
-    menu.labels[T_SOUND_VOLUME].SetPosition(8, y, 0.71f, A_RIGHT);
+    menu.labels[T_SOUND_VOLUME].SetPosition(8, y, 0.71f, AlignItem::Right);
     menu.labels[T_SOUND_VOLUME].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
     auto textfeldIdx = soundVolumeIndices[E_SoundVolume / 10];
@@ -82,7 +82,7 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[textfeldIdx].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
     y -= dy;
-    menu.labels[T_MUSIC_VOLUME].SetPosition(8, y, 0.71f, A_RIGHT);
+    menu.labels[T_MUSIC_VOLUME].SetPosition(8, y, 0.71f, AlignItem::Right);
     menu.labels[T_MUSIC_VOLUME].SetSignal(S_TOGGLE_MUSIC_VOLUME);
 
     textfeldIdx = musicVolumeIndices[E_MusicVolume / 10];
@@ -90,14 +90,15 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[textfeldIdx].SetPosition(8.2f, y, 0.71f);
     menu.labels[textfeldIdx].SetSignal(S_TOGGLE_MUSIC_VOLUME);
 
-    menu.labels[T_BACK].SetPosition(8, 0.7f, 1, A_CENTERED);
+    menu.labels[T_BACK].SetPosition(8, 0.7f, 1, AlignItem::Centered);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
     StartAnimation(pContext);
 }
 
 void  KPstateAudioSettings::MouseClick(KPstateContext *pContext,
-                                       MouseButton button, MouseButtonEvent event,
+                                       MouseButton button,
+                                       MouseButtonEvent event,
                                        int x, int y)
 {
     auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);

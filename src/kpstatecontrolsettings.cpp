@@ -53,11 +53,11 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext) const
 
     menu.labels[T_SETTINGS].SetPosition(4, 8, 1);
     menu.labels[T_SETTINGS].SetFullyVisible();
-    menu.labels[T_CONTROL].SetPosition(12, 8, 1, A_RIGHT);
+    menu.labels[T_CONTROL].SetPosition(12, 8, 1, AlignItem::Right);
     menu.labels[T_CONTROL].SetFullyVisible();
 
     auto y = 6.0f;
-    menu.labels[T_MOUSESPEED].SetPosition(8, y, 0.71f, A_RIGHT);
+    menu.labels[T_MOUSESPEED].SetPosition(8, y, 0.71f, AlignItem::Right);
     menu.labels[T_MOUSESPEED].SetSignal(S_TOGGLE_MOUSE_SPEED);
 
     if (E_MouseSpeed <= .293)
@@ -82,7 +82,7 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext) const
     }
 
     y -= dy;
-    menu.labels[T_SOLUTIONHINT].SetPosition(8, y, 0.71f, A_RIGHT);
+    menu.labels[T_SOLUTIONHINT].SetPosition(8, y, 0.71f, AlignItem::Right);
     menu.labels[T_SOLUTIONHINT].SetSignal(S_TOGGLE_SOLUTION_HINT);
 
     if (E_SolutionHint)
@@ -96,7 +96,7 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext) const
         menu.labels[T_SH_OFF].SetSignal(S_TOGGLE_SOLUTION_HINT);
     }
 
-    menu.labels[T_BACK].SetPosition(8, 1, 1, A_CENTERED);
+    menu.labels[T_BACK].SetPosition(8, 1, 1, AlignItem::Centered);
     menu.labels[T_BACK].SetSignal(S_BACK);
 
     StartAnimation(pContext);
