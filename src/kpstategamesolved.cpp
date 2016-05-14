@@ -169,7 +169,7 @@ tKPMenuState KPstateGameSolved::ESCKeyAction(KPstateContext *pContext) const
 }
 
 void KPstateGameSolved::MouseClick(KPstateContext *pContext,
-                                   tMouseButton button, tMouseEvent event,
+                                   MouseButton button, MouseButtonEvent event,
                                    int x, int y)
 {
     auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);

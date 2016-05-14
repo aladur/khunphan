@@ -668,7 +668,7 @@ void Label::RecreateDisplayList()
     }
 }
 
-int Label::MouseEvent(tMouseButton button, tMouseEvent event,
+int Label::MouseEvent(MouseButton button, MouseButtonEvent event,
                       int x_, int y_, KPUIBase &ui)
 {
     auto xf = 16.0f * x_ / ui.GetValue(KP_WINDOW_WIDTH);
@@ -679,9 +679,9 @@ int Label::MouseEvent(tMouseButton button, tMouseEvent event,
         x <= xf && xf <= x + Height * AspectRatio &&
         y <= yf && yf <= y + Height)
     {
-        if (button == KP_LEFT_MB)
+        if (button == MouseButton::Left)
         {
-            if (event == KP_BUTTON_PRESS)
+            if (event == MouseButtonEvent::Press)
             {
                 SetSelected();
                 return -1;

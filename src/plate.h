@@ -36,7 +36,7 @@ public:
     void SetFullyVisible();
     void StartAnimation();
     void Animate(unsigned int);
-    int MouseEvent(tMouseButton, tMouseEvent, int, int, KPUIBase &);
+    int MouseEvent(MouseButton, MouseButtonEvent, int, int, KPUIBase &);
     void SetSignal(int);
     void RecreateDisplayList(BTexture *pTexture = nullptr);
 

@@ -152,21 +152,21 @@ void KPSdlUserInterface::PostWindowRedisplay()
 
 void KPSdlUserInterface::MouseClick(int button, int event, int x, int y)
 {
-    tMouseEvent  kpEvent;
-    tMouseButton kpButton;
+    MouseButtonEvent kpEvent;
+    MouseButton kpButton;
 
     switch (button)
     {
         case SDL_BUTTON_LEFT:
-            kpButton = KP_LEFT_MB;
+            kpButton = MouseButton::Left;
             break;
 
         case SDL_BUTTON_MIDDLE:
-            kpButton = KP_MIDDLE_MB;
+            kpButton = MouseButton::Middle;
             break;
 
         case SDL_BUTTON_RIGHT:
-            kpButton = KP_RIGHT_MB;
+            kpButton = MouseButton::Right;
             break;
 
         default:
@@ -176,11 +176,11 @@ void KPSdlUserInterface::MouseClick(int button, int event, int x, int y)
     switch (event)
     {
         case SDL_PRESSED:
-            kpEvent = KP_BUTTON_PRESS;
+            kpEvent = MouseButtonEvent::Press;
             break;
 
         case SDL_RELEASED:
-            kpEvent = KP_BUTTON_RELEASE;
+            kpEvent = MouseButtonEvent::Release;
             break;
 
         default:

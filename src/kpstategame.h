@@ -37,8 +37,8 @@ public:
     };
     void Initialize(KPstateContext *pContext,
                     tKPMenuState previousStateId) override;
-    void MouseClick(KPstateContext *pContext, tMouseButton button,
-                    tMouseEvent event, int x, int y) override;
+    void MouseClick(KPstateContext *pContext, MouseButton button,
+                    MouseButtonEvent event, int x, int y) override;
     void KeyPressed(KPstateContext *pContext, unsigned char key,
                     int x, int y) const override;
     void AnimateAll(KPstateContext *pContext,

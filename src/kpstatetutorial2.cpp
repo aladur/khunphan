@@ -100,7 +100,7 @@ tKPMenuState KPstateTutorial2::ESCKeyAction(KPstateContext *pContext) const
 }
 
 void  KPstateTutorial2::MouseClick(KPstateContext *pContext,
-                                   tMouseButton button, tMouseEvent event,
+                                   MouseButton button, MouseButtonEvent event,
                                    int x, int y)
 {
     auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);

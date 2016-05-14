@@ -447,7 +447,7 @@ void Plate::Animate(unsigned int duration)
     }
 }
 
-int Plate::MouseEvent(tMouseButton button, tMouseEvent event,
+int Plate::MouseEvent(MouseButton button, MouseButtonEvent event,
                       int x, int y, KPUIBase &ui)
 {
     auto xf = 16.0f * x / ui.GetValue(KP_WINDOW_WIDTH);
@@ -457,9 +457,9 @@ int Plate::MouseEvent(tMouseButton button, tMouseEvent event,
         Signal != 0 &&
         ax <= xf && xf <= bx && ay <= yf && yf <= by)
     {
-        if (button == KP_LEFT_MB)
+        if (button == MouseButton::Left)
         {
-            if (event == KP_BUTTON_PRESS)
+            if (event == MouseButtonEvent::Press)
             {
                 SetSelected();
                 return -1;

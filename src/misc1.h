@@ -169,17 +169,17 @@ enum class EventCounter
     MovesWithCheat
 };
 
-enum tMouseEvent
+enum MouseButtonEvent
 {
-    KP_BUTTON_RELEASE  = 44,
-    KP_BUTTON_PRESS    = 45
+    Press,
+    Release
 };
 
-enum tMouseButton
+enum MouseButton
 {
-    KP_LEFT_MB         = 46,
-    KP_MIDDLE_MB       = 47,
-    KP_RIGHT_MB        = 48
+    Left,
+    Middle,
+    Right
 };
 
 #define MOD_FADEOUT      0.0f

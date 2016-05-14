@@ -34,8 +34,8 @@ public:
     KPstateMoveToken();
 
 protected:
-    bool MouseMoveToken(KPstateContext *pContext, tMouseButton button,
-                        tMouseEvent event, int x, int y);
+    bool MouseMoveToken(KPstateContext *pContext, MouseButton button,
+                        MouseButtonEvent event, int x, int y);
     virtual bool HookDoTheMove(KPstateContext *pContext, tKPTokenID token,
                                tKPDirection direction);
     virtual void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,

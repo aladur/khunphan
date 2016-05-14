@@ -71,7 +71,8 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
 }
 
 void KPstateSelectLanguage::MouseClick(KPstateContext *pContext,
-                                       tMouseButton button, tMouseEvent event,
+                                       MouseButton button,
+                                       MouseButtonEvent event,
                                        int x, int y)
 {
     auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);

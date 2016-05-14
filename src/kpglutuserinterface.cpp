@@ -288,22 +288,22 @@ void KPGlutUserInterface::PostWindowRedisplay()
 
 void KPGlutUserInterface::MouseClick(int button, int state, int x, int y)
 {
-    tMouseEvent  kpEvent;
-    tMouseButton kpButton;
+    MouseButtonEvent kpEvent;
+    MouseButton kpButton;
     auto isValid = true;
 
     switch (button)
     {
         case GLUT_LEFT_BUTTON:
-            kpButton = KP_LEFT_MB;
+            kpButton = MouseButton::Left;
             break;
 
         case GLUT_MIDDLE_BUTTON:
-            kpButton = KP_MIDDLE_MB;
+            kpButton = MouseButton::Middle;
             break;
 
         case GLUT_RIGHT_BUTTON:
-            kpButton = KP_RIGHT_MB;
+            kpButton = MouseButton::Right;
             break;
 
         default:
@@ -313,11 +313,11 @@ void KPGlutUserInterface::MouseClick(int button, int state, int x, int y)
     switch (state)
     {
         case GLUT_DOWN:
-            kpEvent = KP_BUTTON_PRESS;
+            kpEvent = MouseButtonEvent::Press;
             break;
 
         case GLUT_UP:
-            kpEvent = KP_BUTTON_RELEASE;
+            kpEvent = MouseButtonEvent::Release;
             break;
 
         default:

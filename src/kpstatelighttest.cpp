@@ -86,7 +86,7 @@ tKPMenuState KPstateLightTest::ESCKeyAction(KPstateContext *pContext) const
 }
 
 void  KPstateLightTest::MouseClick(KPstateContext *pContext,
-                                   tMouseButton button, tMouseEvent event,
+                                   MouseButton button, MouseButtonEvent event,
                                    int x, int y)
 {
     auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
@@ -104,17 +104,18 @@ void  KPstateLightTest::MouseClick(KPstateContext *pContext,
 }
 
 void KPstateLightTest::HandleMouseClick(KPstateContext *pContext,
-                                        tMouseButton button, tMouseEvent event,
+                                        MouseButton button,
+                                        MouseButtonEvent event,
                                         int x, int y)
 {
     float lx, ly, lz;
 
-    if (button == KP_LEFT_MB && event == KP_BUTTON_PRESS)
+    if (button == MouseButton::Left && event == MouseButtonEvent::Press)
     {
         mouse_x = x; // save current mouse position
         mouse_y = y;
     }
-    else if (button == KP_LEFT_MB && event == KP_BUTTON_RELEASE)
+    else if (button == MouseButton::Left && event == MouseButtonEvent::Release)
     {
         // calculate mouse direction
         auto diff_x = x - mouse_x;
@@ -125,12 +126,12 @@ void KPstateLightTest::HandleMouseClick(KPstateContext *pContext,
         pContext->GetLight().SetPosition(lx, ly, lz);
         BLogger::Log(std::fixed, "Light position x=", lx, " y=", ly, " z=", lz);
     }
-    else if (button == KP_RIGHT_MB && event == KP_BUTTON_PRESS)
+    else if (button == MouseButton::Right && event == MouseButtonEvent::Press)
     {
         mouse_x = x; // save current mouse position
         mouse_y = y;
     }
-    else if (button == KP_RIGHT_MB && event == KP_BUTTON_RELEASE)
+    else if (button == MouseButton::Right && event == MouseButtonEvent::Release)
     {
         // calculate mouse direction
         auto diff_y = -(y - mouse_y);

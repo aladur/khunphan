@@ -190,7 +190,7 @@ tKPMenuState KPstateGame::ESCKeyAction(KPstateContext *pContext) const
 }
 
 void  KPstateGame::MouseClick(KPstateContext *pContext,
-                              tMouseButton button, tMouseEvent event,
+                              MouseButton button, MouseButtonEvent event,
                               int x, int y)
 {
     auto &config = pContext->GetConfig();

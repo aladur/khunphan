@@ -136,8 +136,8 @@ void KPstate::Draw(KPstateContext *pContext) const
     }
 }
 
-int  KPstate::EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
-                                 tMouseEvent event, int x, int y)
+int  KPstate::EvaluateMouseClick(KPstateContext *pContext, MouseButton button,
+                                 MouseButtonEvent event, int x, int y)
 {
     auto &menu = pContext->GetMenu();
 
@@ -244,7 +244,8 @@ void KPstate::PlayAudioForInitialize(KPstateContext *pContext) const
 // Event Handling
 /////////////////////////////////////////////////////////////////////
 
-void KPstate::MouseClick(KPstateContext *, tMouseButton, tMouseEvent, int, int)
+void KPstate::MouseClick(KPstateContext *, MouseButton, MouseButtonEvent,
+                         int, int)
 {
 }
 

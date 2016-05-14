@@ -111,10 +111,10 @@ tKPMenuState KPstateStartUp::ESCKeyAction(KPstateContext *pContext) const
 }
 
 void KPstateStartUp::MouseClick(KPstateContext *pContext,
-                                tMouseButton, tMouseEvent event,
+                                MouseButton, MouseButtonEvent event,
                                 int, int)
 {
-    if (event == KP_BUTTON_RELEASE)
+    if (event == MouseButtonEvent::Release)
     {
         if (pContext->GetConfig().Language)
         {

@@ -54,8 +54,8 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext) const
     StartAnimation(pContext);
 }
 
-void  KPstateFinish::MouseClick(KPstateContext *pContext, tMouseButton button,
-                                tMouseEvent event, int x, int y)
+void  KPstateFinish::MouseClick(KPstateContext *pContext, MouseButton button,
+                                MouseButtonEvent event, int x, int y)
 {
     auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 

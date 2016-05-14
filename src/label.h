@@ -77,7 +77,7 @@ public:
     {
         return Signal;
     };
-    int MouseEvent(tMouseButton, tMouseEvent, int, int, KPUIBase &);
+    int MouseEvent(MouseButton, MouseButtonEvent, int, int, KPUIBase &);
     void SetMaxWidth(float);
     void SetInputFocus(bool state);
     float GetHeight();

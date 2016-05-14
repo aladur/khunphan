@@ -45,7 +45,7 @@ public:
     virtual void Animate(KPstateContext *pContext, unsigned int duration) const;
     virtual void Draw(KPstateContext *pContext) const;
     virtual void MouseClick(KPstateContext *pContext,
-                            tMouseButton button, tMouseEvent event,
+                            MouseButton button, MouseButtonEvent event,
                             int x, int y);
     virtual void KeyPressed(KPstateContext *pContext,
                             unsigned char key, int x, int y) const;
@@ -56,8 +56,8 @@ protected:
     virtual void UpdateDisplay(KPstateContext *pContext) const;
     virtual void PlayAudioForInitialize(KPstateContext *pContext) const;
 
-    int  EvaluateMouseClick(KPstateContext *pContext, tMouseButton button,
-                            tMouseEvent event, int x, int y);
+    int  EvaluateMouseClick(KPstateContext *pContext, MouseButton button,
+                            MouseButtonEvent event, int x, int y);
     bool EvaluateKeyPressed(KPstateContext *pContext, unsigned char key,
                             int x, int y) const;
     tKPMenuState DefaultKeyPressed(KPstateContext *pContext, unsigned char key,
