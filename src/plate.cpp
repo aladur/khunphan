@@ -224,9 +224,8 @@ void Plate::RecreateDisplayList(BTexture *pTexture /* = nullptr */)
 
             if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
             {
-                message(mtWarning,
-                        "*** Warning: width or height of '", TextureSource, 
-                        "' is not a power of 2\n");
+                message(MsgType::Warning, "*** Warning: width or height of '",
+                        TextureSource, "' is not a power of 2\n");
             }
 
             if (Texture == 0)

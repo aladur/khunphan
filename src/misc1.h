@@ -203,15 +203,15 @@ enum
 extern tKPTokenID &operator++ (tKPTokenID &d);
 extern MoveToken &operator++ (MoveToken &d);
 
-typedef enum
+enum class MsgType
 {
-    mtError   = 1,
-    mtWarning = 2,
-    mtMessage = 3
-} tMsgType;
+    Error,
+    Warning,
+    Info
+};
 
 template<typename... Args>
-void message(tMsgType type, Args&&... args)
+void message(MsgType type, Args&&... args)
 {
     std::stringstream msg;
 
@@ -221,15 +221,15 @@ void message(tMsgType type, Args&&... args)
 
     switch (type)
     {
-        case mtError:
+        case MsgType::Error:
             std::cerr << "*** Error: " << msg.str() << std::endl;
             break;
 
-        case mtMessage:
+        case MsgType::Info:
             std::cout << msg.str() << std::endl;
             break;
 
-        case mtWarning:
+        case MsgType::Warning:
             std::cerr << "*** Warning: " << msg.str() << std::endl;
             break;
     }
@@ -243,16 +243,16 @@ void message(tMsgType type, Args&&... args)
 
     switch (type)
     {
-        case mtError:
+        case MsgType::Error:
             MessageBox(nullptr, msg.str().c_str(), PACKAGE,
                        MB_OK | MB_ICONERROR);
             break;
 
-        case mtMessage:
+        case MsgType::Info:
             MessageBox(nullptr, msg.str().c_str(), PACKAGE, MB_OK);
             break;
 
-        case mtWarning:
+        case MsgType::Warning:
             auto type = MB_OK | MB_ICONEXCLAMATION;
             MessageBox(nullptr, msg.str().c_str(), PACKAGE, type);
             break;
