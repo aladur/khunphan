@@ -34,7 +34,7 @@ void KPstateTutorial2::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, previousStateId);
 
-    pContext->GetBoardView().EmphasizeToken(TK_RED1);
+    pContext->GetBoardView().EmphasizeToken(TokenId::RED1);
     pContext->GetCamera().SetRoundtrip(false);
     InitializeBoardWithTokens(pContext);
 
@@ -95,7 +95,7 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext) const
 StateId KPstateTutorial2::ESCKeyAction(KPstateContext *pContext) const
 {
     pContext->GetCamera().SetRoundtrip(true);
-    pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
+    pContext->GetBoardView().EmphasizeToken(TokenId::EMPTY);
     return pContext->GetMenu().RestoreLastStateId();
 }
 
@@ -121,16 +121,16 @@ void KPstateTutorial2::InitializeBoardWithTokens(KPstateContext *pContext) const
 {
     KPboard board;
 
-    board.InitializeToken(TK_GREEN1, 0, 0);
-    board.InitializeToken(TK_GREEN2, 3, 3);
-    board.InitializeToken(TK_GREEN3, 3, 4);
-    board.InitializeToken(TK_GREEN4, 1, 2);
-    board.InitializeToken(TK_WHITE1, 0, 1);
-    board.InitializeToken(TK_WHITE2, 1, 0);
-    board.InitializeToken(TK_WHITE3, 2, 0);
-    board.InitializeToken(TK_WHITE4, 3, 0);
-    board.InitializeToken(TK_WHITE5, 2, 2);
-    board.InitializeToken(TK_RED1,   1, 3);
+    board.InitializeToken(TokenId::GREEN1, 0, 0);
+    board.InitializeToken(TokenId::GREEN2, 3, 3);
+    board.InitializeToken(TokenId::GREEN3, 3, 4);
+    board.InitializeToken(TokenId::GREEN4, 1, 2);
+    board.InitializeToken(TokenId::WHITE1, 0, 1);
+    board.InitializeToken(TokenId::WHITE2, 1, 0);
+    board.InitializeToken(TokenId::WHITE3, 2, 0);
+    board.InitializeToken(TokenId::WHITE4, 3, 0);
+    board.InitializeToken(TokenId::WHITE5, 2, 2);
+    board.InitializeToken(TokenId::RED1,   1, 3);
 
     pContext->GetBoardView().SetBoard(board);
 }

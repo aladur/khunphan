@@ -58,7 +58,7 @@ KPboardView::KPboardView(const KPboard &currentBoard,
                          bool Nearest /*=true*/) :
     current(currentBoard),
     mat_value(0.0), xValue(0.0),
-    emphasizedToken(TK_EMPTY), animatedToken(TK_EMPTY),
+    emphasizedToken(TokenId::EMPTY), animatedToken(TokenId::EMPTY),
     old_x(0.0), old_y(0.0), new_x(0.0), new_y(0.0),
     ax(0.0), ay(0.0), Time(0.0),
     DisplayList(0)
@@ -554,7 +554,7 @@ void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
     glEnd();
 }
 
-void KPboardView::GetTokenCoordinates(tKPTokenID i, float *x, float *y) const
+void KPboardView::GetTokenCoordinates(TokenId i, float *x, float *y) const
 {
     if (i == animatedToken)
     {
@@ -602,31 +602,31 @@ void KPboardView::Draw(bool render /* = true */) const
     // Loop for drawing all tokens according to their position on the board
     // One token may be in animation mode or not
     ///////////////////////////////////////////////////////////////////////
-    auto i = TK_GREEN1;
+    auto tokenId = TokenId::GREEN1;
 
     do
     {
         glColor4f(1.0, 1.0, 1.0, 1.0);
         glEnable(GL_TEXTURE_2D);
 
-        switch (i)
+        switch (tokenId)
         {
-            case TK_GREEN1:
-            case TK_GREEN2:
-            case TK_GREEN3:
-            case TK_GREEN4:
+            case TokenId::GREEN1:
+            case TokenId::GREEN2:
+            case TokenId::GREEN3:
+            case TokenId::GREEN4:
                 glBindTexture(GL_TEXTURE_2D, textureIds[0]);
                 break;
 
-            case TK_WHITE1:
-            case TK_WHITE2:
-            case TK_WHITE3:
-            case TK_WHITE4:
-            case TK_WHITE5:
+            case TokenId::WHITE1:
+            case TokenId::WHITE2:
+            case TokenId::WHITE3:
+            case TokenId::WHITE4:
+            case TokenId::WHITE5:
                 glBindTexture(GL_TEXTURE_2D, textureIds[1]);
                 break;
 
-            case TK_RED1:
+            case TokenId::RED1:
                 glBindTexture(GL_TEXTURE_2D, textureIds[2]);
                 break;
 
@@ -634,22 +634,25 @@ void KPboardView::Draw(bool render /* = true */) const
                 break;
         }
 
+        auto tokenIndex = static_cast<std::size_t>(tokenId);
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        GetTokenCoordinates(i, &x0, &y0);
+        GetTokenCoordinates(tokenId, &x0, &y0);
 
-        if (emphasizedToken == i)
+        if (emphasizedToken == tokenId)
         {
             continue;
         }
 
         glTranslatef(x0, y0, 0.0);
-        glLoadName(i); // needed for Token Selection
-        DrawToken(i);
+        // needed for Token Selection:
+        glLoadName(tokenIndex);
+        DrawToken(tokenId);
         glTranslatef(-x0, -y0, 0.0);
     }
-    while (++i != TK_GREEN1);
+    while (++tokenId != TokenId::GREEN1);
 
     //////////////////////////////////////
     // Draw the board (after the tokens!)
@@ -668,13 +671,14 @@ void KPboardView::Draw(bool render /* = true */) const
     // Draw emphasized token separatey with depth buffer set to
     // readonly and blending over texture and emission color
     ////////////////////////////////////////////////////////////
-    i = emphasizedToken;
+    tokenId = emphasizedToken;
 
-    if (i != TK_EMPTY)
+    if (tokenId != TokenId::EMPTY)
     {
-        GetTokenCoordinates(i, &x0, &y0);
+        GetTokenCoordinates(tokenId, &x0, &y0);
         glTranslatef(x0, y0, 0.0);
-        glLoadName(i); // needed for Token Selection
+        // needed for Token Selection:
+        glLoadName(static_cast<std::size_t>(tokenId));
 
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
         GLfloat color[] =
@@ -682,7 +686,7 @@ void KPboardView::Draw(bool render /* = true */) const
             0.6f + 0.4f * mat_value, 0.0f, 0.0f, 1.0f
         };
         glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, color);
-        DrawToken(i);
+        DrawToken(tokenId);
 
         glTranslatef(-x0, -y0, 0.0);
     }
@@ -693,47 +697,47 @@ void KPboardView::Draw(bool render /* = true */) const
     glDisable(GL_TEXTURE_2D);
 }
 
-void KPboardView::DrawToken(const tKPTokenID i) const
+void KPboardView::DrawToken(const TokenId tokenId) const
 {
-    switch (i)
+    switch (tokenId)
     {
-        case TK_GREEN1:
+        case TokenId::GREEN1:
             glCallList(DisplayList + CUBOID_1X1_1);
             break;
 
-        case TK_GREEN2:
+        case TokenId::GREEN2:
             glCallList(DisplayList + CUBOID_1X1_2);
             break;
 
-        case TK_GREEN3:
+        case TokenId::GREEN3:
             glCallList(DisplayList + CUBOID_1X1_3);
             break;
 
-        case TK_GREEN4:
+        case TokenId::GREEN4:
             glCallList(DisplayList + CUBOID_1X1_4);
             break;
 
-        case TK_WHITE1:
+        case TokenId::WHITE1:
             glCallList(DisplayList + CUBOID_1X2_1);
             break;
 
-        case TK_WHITE2:
+        case TokenId::WHITE2:
             glCallList(DisplayList + CUBOID_1X2_2);
             break;
 
-        case TK_WHITE3:
+        case TokenId::WHITE3:
             glCallList(DisplayList + CUBOID_1X2_3);
             break;
 
-        case TK_WHITE4:
+        case TokenId::WHITE4:
             glCallList(DisplayList + CUBOID_1X2_4);
             break;
 
-        case TK_WHITE5:
+        case TokenId::WHITE5:
             glCallList(DisplayList + CUBOID_2X1);
             break;
 
-        case TK_RED1:
+        case TokenId::RED1:
             glCallList(DisplayList + CUBOID_2X2);
             break;
 
@@ -754,7 +758,7 @@ void KPboardView::Animate(unsigned int duration)
 
     mat_value = 0.5f * sin(xValue) + 0.5f;
 
-    if (animatedToken == TK_EMPTY)
+    if (animatedToken == TokenId::EMPTY)
     {
         return;
     }
@@ -763,7 +767,7 @@ void KPboardView::Animate(unsigned int duration)
 
     if (Time >= TOTAL_ANIMATIONTIME)
     {
-        animatedToken = TK_EMPTY;
+        animatedToken = TokenId::EMPTY;
     }
     else
     {
@@ -774,14 +778,14 @@ void KPboardView::Animate(unsigned int duration)
     }
 }
 
-bool KPboardView::CanMove(tKPTokenID id, MoveToken direction)
+bool KPboardView::CanMove(TokenId id, MoveToken direction)
 {
     return current.CanMove(id, direction);
 }
 
-bool KPboardView::Move(tKPTokenID id, MoveToken preferredDirection)
+bool KPboardView::Move(TokenId id, MoveToken preferredDirection)
 {
-    if (animatedToken != TK_EMPTY)
+    if (animatedToken != TokenId::EMPTY)
     {
         return false;    // Ignore if Animation in progress
     }
@@ -899,12 +903,12 @@ const // Only for test purposes
 #define BUF_SIZE 256
 
 // Check if a token has been selected
-// If no token was selected return TK_EMPTY
+// If no token was selected return TokenId::EMPTY
 
-tKPTokenID KPboardView::Selection(const Camera &camera, int x, int y) const
+TokenId KPboardView::Selection(const Camera &camera, int x, int y) const
 {
     GLuint  buffer[BUF_SIZE]; // Set Up A Selection Buffer
-    auto choose = TK_EMPTY;
+    auto choose = TokenId::EMPTY;
 
     glSelectBuffer(BUF_SIZE, buffer);
     glRenderMode(GL_SELECT); // Change to Selection mode
@@ -918,7 +922,7 @@ tKPTokenID KPboardView::Selection(const Camera &camera, int x, int y) const
 
     if (hits > 0)
     {
-        choose = static_cast<tKPTokenID>(buffer[3]);
+        choose = static_cast<TokenId>(buffer[3]);
         auto depth = buffer[1];
 
         for (auto loop = 1; loop < hits; loop++)
@@ -926,7 +930,7 @@ tKPTokenID KPboardView::Selection(const Camera &camera, int x, int y) const
             if (buffer[loop * 4 + 1] < GLuint(depth))
             {
                 // store the closest object
-                choose = static_cast<tKPTokenID>(buffer[loop * 4 + 3]);
+                choose = static_cast<TokenId>(buffer[loop * 4 + 3]);
                 depth  = buffer[loop * 4 + 1];
             }
         }

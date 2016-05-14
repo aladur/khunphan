@@ -55,7 +55,7 @@ protected:
     void SaveGameStatus(KPstateContext *pContext) const;
     void PlayAudioForInitialize(KPstateContext *) const override;
     // KPstateMoveToken interface
-    void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
+    void HookAfterTokenMoved(KPstateContext *pContext, TokenId token,
                              MoveToken direction,
                              bool SuccessfullyMoved) override;
 };

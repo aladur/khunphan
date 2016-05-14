@@ -28,6 +28,8 @@
 //  <string(s)>.h
 //  <stdlib.h>
 
+#include <cstdint>
+
 #ifndef _WIN32
     #include "config.h"
 #endif
@@ -130,19 +132,20 @@
 
 #define ON_OFF(b) ((b) ? "On" : "Off")
 
-enum tKPTokenID
+enum class TokenId : uint8_t
 {
-    TK_EMPTY    = 99,
-    TK_GREEN1   = 0,
-    TK_GREEN2   = 1,
-    TK_GREEN3   = 2,
-    TK_GREEN4   = 3,
-    TK_WHITE1   = 4, // vertical
-    TK_WHITE2   = 5, // vertical
-    TK_WHITE3   = 6, // vertical
-    TK_WHITE4   = 7, // vertical
-    TK_WHITE5   = 8, // horizontal
-    TK_RED1     = 9
+    GREEN1,
+    GREEN2,
+    GREEN3,
+    GREEN4,
+    WHITE1, // vertical
+    WHITE2, // vertical
+    WHITE3, // vertical
+    WHITE4, // vertical
+    WHITE5, // horizontal
+    RED1,
+    COUNT, // Should be the last one but before EMPTY
+    EMPTY = 99,
 };
 
 enum class MoveToken
@@ -197,7 +200,7 @@ constexpr int TOTAL_ANIMATIONTIME = 1000;
     #define M_PIf 3.14159265f
 #endif
 
-extern tKPTokenID &operator++ (tKPTokenID &d);
+extern TokenId &operator++ (TokenId &d);
 extern MoveToken &operator++ (MoveToken &d);
 
 enum class MsgType

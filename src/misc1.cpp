@@ -22,14 +22,25 @@
 #include "stdafx.h"
 
 
-tKPTokenID &operator++ (tKPTokenID &id)
+TokenId &operator++ (TokenId &id)
 {
-    if (id == TK_EMPTY)
+    if (id == TokenId::EMPTY)
     {
         return id;
     }
 
-    return id = ((id == TK_RED1) ? TK_GREEN1 : tKPTokenID(id + 1));
+    if (id == TokenId::RED1)
+    {
+        id = TokenId::GREEN1;
+    }
+    else
+    {
+        auto value = static_cast<std::size_t>(id);
+
+        id = static_cast<TokenId>(value + 1);
+    }
+
+    return id;
 }
 
 MoveToken &operator++ (MoveToken &id)

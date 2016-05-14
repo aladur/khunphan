@@ -28,21 +28,23 @@
 #include "kpboard.h"
 
 
-const KPboard::tArrayOfChar KPboard::xExtends
+const KPboard::tArrayOfUInt8 KPboard::xExtends
 {
     1, 1, 1, 1, 1, 1, 1, 1, 2, 2
 };
-const KPboard::tArrayOfChar KPboard::yExtends
+const KPboard::tArrayOfUInt8 KPboard::yExtends
 {
     1, 1, 1, 1, 2, 2, 2, 2, 1, 2
 };
 
 KPboard::KPboard() : id(0),
     positions{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    tokenID{ TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY,
-             TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY,
-             TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY, TK_EMPTY,
-             TK_EMPTY, TK_EMPTY }
+    tokenID{ TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
+             TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
+             TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
+             TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
+             TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY
+           }
 {
 }
 
@@ -71,11 +73,11 @@ bool KPboard::operator == (const KPboard &src) const
     return GetID() == src.GetID();
 }
 
-inline void KPboard::SetPosition(tKPTokenID aTokenId, int x, int y)
+inline void KPboard::SetPosition(TokenId aTokenId, int x, int y)
 {
-    if (aTokenId == TK_EMPTY)
+    if (aTokenId == TokenId::EMPTY)
     {
-        throw std::invalid_argument("TK_EMPTY can not be initialized");
+        throw std::invalid_argument("TokenId::EMPTY can not be initialized");
     }
 
     if (x < 0 || y < 0 ||
@@ -93,25 +95,25 @@ inline void KPboard::SetPosition(tKPTokenID aTokenId, int x, int y)
         }
     }
 
-    positions[aTokenId].x = x;
-    positions[aTokenId].y = y;
+    positions[static_cast<std::size_t>(aTokenId)].x = x;
+    positions[static_cast<std::size_t>(aTokenId)].y = y;
     id = 0;
 }
 
-void KPboard::InitializeToken(tKPTokenID aTokenId, int x, int y)
+void KPboard::InitializeToken(TokenId aTokenId, int x, int y)
 {
     SetPosition(aTokenId, x, y);
 }
 
-bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
+bool KPboard::Move(TokenId aTokenId, MoveToken direction)
 {
-    if (aTokenId == TK_EMPTY || direction == MoveToken::Not)
+    if (aTokenId == TokenId::EMPTY || direction == MoveToken::Not)
     {
         return false;
     }
 
-    auto x = positions[aTokenId].x;
-    auto y = positions[aTokenId].y;
+    auto x = positions[static_cast<std::size_t>(aTokenId)].x;
+    auto y = positions[static_cast<std::size_t>(aTokenId)].y;
     auto xExtend = GetXExtend(aTokenId);
     auto yExtend = GetYExtend(aTokenId);
     decltype(xExtend) i;
@@ -130,7 +132,7 @@ bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
 
             for (i = 0; i < xExtend; i++)
             {
-                if (tokenID[x + i][y - 1] != TK_EMPTY)
+                if (tokenID[x + i][y - 1] != TokenId::EMPTY)
                 {
                     return false;
                 }
@@ -145,7 +147,7 @@ bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
             // 4. set the new empty position
             for (i = 0; i < xExtend; i++)
             {
-                tokenID[x + i][y + yExtend] = TK_EMPTY;
+                tokenID[x + i][y + yExtend] = TokenId::EMPTY;
             }
 
             return true;
@@ -158,7 +160,7 @@ bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
 
             for (i = 0; i < xExtend; i++)
             {
-                if (tokenID[x + i][y + yExtend] != TK_EMPTY)
+                if (tokenID[x + i][y + yExtend] != TokenId::EMPTY)
                 {
                     return false;
                 }
@@ -169,7 +171,7 @@ bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
 
             for (i = 0; i < xExtend; i++)
             {
-                tokenID[x + i][y - 1] = TK_EMPTY;
+                tokenID[x + i][y - 1] = TokenId::EMPTY;
             }
 
             return true;
@@ -182,7 +184,7 @@ bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
 
             for (j = 0; j < yExtend; j++)
             {
-                if (tokenID[x - 1][y + j] != TK_EMPTY)
+                if (tokenID[x - 1][y + j] != TokenId::EMPTY)
                 {
                     return false;
                 }
@@ -193,7 +195,7 @@ bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
 
             for (j = 0; j < yExtend; j++)
             {
-                tokenID[x + xExtend][y + j] = TK_EMPTY;
+                tokenID[x + xExtend][y + j] = TokenId::EMPTY;
             }
 
             return true;
@@ -206,7 +208,7 @@ bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
 
             for (j = 0; j < yExtend; j++)
             {
-                if (tokenID[x + xExtend][y + j] != TK_EMPTY)
+                if (tokenID[x + xExtend][y + j] != TokenId::EMPTY)
                 {
                     return false;
                 }
@@ -217,7 +219,7 @@ bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
 
             for (j = 0; j < yExtend; j++)
             {
-                tokenID[x - 1][y + j] = TK_EMPTY;
+                tokenID[x - 1][y + j] = TokenId::EMPTY;
             }
 
             return true;
@@ -232,15 +234,15 @@ bool KPboard::Move(tKPTokenID aTokenId, MoveToken direction)
 // Check if token aTokenId can move in direction d
 // return true if it can move
 
-bool KPboard::CanMove(tKPTokenID aTokenId, MoveToken direction) const
+bool KPboard::CanMove(TokenId aTokenId, MoveToken direction) const
 {
-    if (aTokenId == TK_EMPTY)
+    if (aTokenId == TokenId::EMPTY)
     {
         return false;
     }
 
-    auto x = positions[aTokenId].x;
-    auto y = positions[aTokenId].y;
+    auto x = positions[static_cast<std::size_t>(aTokenId)].x;
+    auto y = positions[static_cast<std::size_t>(aTokenId)].y;
     auto xExtend = GetXExtend(aTokenId);
     auto yExtend = GetYExtend(aTokenId);
     decltype(xExtend) i;
@@ -256,7 +258,7 @@ bool KPboard::CanMove(tKPTokenID aTokenId, MoveToken direction) const
 
             for (i = 0; i < xExtend; i++)
             {
-                if (tokenID[x + i][y - 1] != TK_EMPTY)
+                if (tokenID[x + i][y - 1] != TokenId::EMPTY)
                 {
                     return false;
                 }
@@ -272,7 +274,7 @@ bool KPboard::CanMove(tKPTokenID aTokenId, MoveToken direction) const
 
             for (i = 0; i < xExtend; i++)
             {
-                if (tokenID[x + i][y + yExtend] != TK_EMPTY)
+                if (tokenID[x + i][y + yExtend] != TokenId::EMPTY)
                 {
                     return false;
                 }
@@ -288,7 +290,7 @@ bool KPboard::CanMove(tKPTokenID aTokenId, MoveToken direction) const
 
             for (i = 0; i < yExtend; i++)
             {
-                if (tokenID[x - 1][y + i] != TK_EMPTY)
+                if (tokenID[x - 1][y + i] != TokenId::EMPTY)
                 {
                     return false;
                 }
@@ -304,7 +306,7 @@ bool KPboard::CanMove(tKPTokenID aTokenId, MoveToken direction) const
 
             for (i = 0; i < yExtend; i++)
             {
-                if (tokenID[x + xExtend][y + i] != TK_EMPTY)
+                if (tokenID[x + xExtend][y + i] != TokenId::EMPTY)
                 {
                     return false;
                 }
@@ -327,13 +329,13 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
     {
         for (auto j = 0; j < VERTICAL_MAX; j++)
         {
-            tKPTokenID token;
+            TokenId token;
 
-            if (tokenID[i][j] == TK_EMPTY)
+            if (tokenID[i][j] == TokenId::EMPTY)
             {
-                // Try to move token above of TK_EMPTY
+                // Try to move token above of TokenId::EMPTY
                 if ((j > 0) &&
-                    (token = static_cast<tKPTokenID>(tokenID[i][j - 1]),
+                    (token = static_cast<TokenId>(tokenID[i][j - 1]),
                      CanMove(token, MoveToken::Down)))
                 {
                     KPboard::KPmove move(token, MoveToken::Down);
@@ -345,9 +347,9 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                     }
                 }
 
-                // Try to move token below of TK_EMPTY
+                // Try to move token below of TokenId::EMPTY
                 if ((j < VERTICAL_MAX - 1) &&
-                    (token = static_cast<tKPTokenID>(tokenID[i][j + 1]),
+                    (token = static_cast<TokenId>(tokenID[i][j + 1]),
                      CanMove(token, MoveToken::Up)))
                 {
                     KPmove move(token, MoveToken::Up);
@@ -359,9 +361,9 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                     }
                 }
 
-                // Try to move token left of TK_EMPTY
+                // Try to move token left of TokenId::EMPTY
                 if ((i > 0) &&
-                    (token = static_cast<tKPTokenID>(tokenID[i - 1][j]),
+                    (token = static_cast<TokenId>(tokenID[i - 1][j]),
                      CanMove(token, MoveToken::Right)))
                 {
                     KPmove move(token, MoveToken::Right);
@@ -373,9 +375,9 @@ std::vector<KPboard::KPmove> KPboard::GetPossibleMoves(void) const
                     }
                 }
 
-                // Try to move token right of TK_EMPTY
+                // Try to move token right of TokenId::EMPTY
                 if ((i < HORIZONTAL_MAX - 1) &&
-                    (token = static_cast<tKPTokenID>(tokenID[i + 1][j]),
+                    (token = static_cast<TokenId>(tokenID[i + 1][j]),
                      CanMove(token, MoveToken::Left)))
                 {
                     KPmove move(token, MoveToken::Left);
@@ -417,64 +419,72 @@ QWord KPboard::GetID() const
         return id;
     }
 
-    int index[TOKEN_MAX];
-    bool assigned[TOKEN_MAX];
+    const int tokenCount = static_cast<std::size_t>(TokenId::COUNT);
+    int index[tokenCount];
+    bool assigned[tokenCount];
+    std::size_t tokenIndex;
 
-    for (auto x = 0; x < TOKEN_MAX; x++)
+    for (auto x = 0; x < tokenCount; x++)
     {
-        index[x]    = 0;
+        index[x] = 0;
         assigned[x] = false;
     }
 
-    auto greens = TK_GREEN1;
-    auto whites_v = TK_WHITE1;
+    auto greensIndex = static_cast<std::size_t>(TokenId::GREEN1);
+    auto whitesVerticalIndex = static_cast<std::size_t>(TokenId::WHITE1);
 
     for (auto y = 0; y < VERTICAL_MAX; y++)
     {
         for (auto x = 0; x < HORIZONTAL_MAX; x++)
         {
-            if (tokenID[x][y] != TK_EMPTY && !assigned[tokenID[x][y]])
+            tokenIndex = static_cast<std::size_t>(tokenID[x][y]);
+
+            if (tokenID[x][y] != TokenId::EMPTY && !assigned[tokenIndex])
             {
                 switch (tokenID[x][y])
                 {
-                    case TK_GREEN1:
-                    case TK_GREEN2:
-                    case TK_GREEN3:
-                    case TK_GREEN4:
-                        index[greens] = (x << 3) | y;
-                        ++greens;
+                    case TokenId::GREEN1:
+                    case TokenId::GREEN2:
+                    case TokenId::GREEN3:
+                    case TokenId::GREEN4:
+                        index[greensIndex] = (x << 3) | y;
+                        ++greensIndex;
                         break;
 
-                    case TK_WHITE1:
-                    case TK_WHITE2:
-                    case TK_WHITE3:
-                    case TK_WHITE4:
-                        index[whites_v] = (x << 3) | y;
-                        ++whites_v;
+                    case TokenId::WHITE1:
+                    case TokenId::WHITE2:
+                    case TokenId::WHITE3:
+                    case TokenId::WHITE4:
+                        index[whitesVerticalIndex] = (x << 3) | y;
+                        ++whitesVerticalIndex;
                         break;
 
-                    case TK_WHITE5:
-                        index[TK_WHITE5] = (x << 3) | y;
+                    case TokenId::WHITE5:
+                        index[tokenIndex] = (x << 3) | y;
                         break;
 
-                    case TK_RED1:
-                        index[TK_RED1] = (x << 3) | y;
+                    case TokenId::RED1:
+                        index[tokenIndex] = (x << 3) | y;
+                        break;
+
+                    // Just to satisfy compiler
+                    default:
                         break;
                 }
 
-                assigned[tokenID[x][y]] = true;
+                assigned[tokenIndex] = true;
             }
         }
     }
 
-    tKPTokenID anID = TK_GREEN1;
+    tokenIndex = 0;
 
     do
     {
         id <<= 5;
-        id |= index[anID] & 0x1F;
+        id |= index[tokenIndex] & 0x1F;
     }
-    while (++anID != TK_GREEN1);
+    while (++tokenIndex < tokenCount);
 
     return id;
 }
@@ -484,16 +494,16 @@ KPboard KPboard::CreateRootBoard()
     KPboard rootBoard;
 
     // Create a board with all tokens in start position
-    rootBoard.InitializeToken(TK_GREEN1, 1, 3);
-    rootBoard.InitializeToken(TK_GREEN2, 2, 3);
-    rootBoard.InitializeToken(TK_GREEN3, 1, 4);
-    rootBoard.InitializeToken(TK_GREEN4, 2, 4);
-    rootBoard.InitializeToken(TK_WHITE1, 0, 0);
-    rootBoard.InitializeToken(TK_WHITE2, 3, 0);
-    rootBoard.InitializeToken(TK_WHITE3, 0, 3);
-    rootBoard.InitializeToken(TK_WHITE4, 3, 3);
-    rootBoard.InitializeToken(TK_WHITE5, 1, 2);
-    rootBoard.InitializeToken(TK_RED1,   1, 0);
+    rootBoard.InitializeToken(TokenId::GREEN1, 1, 3);
+    rootBoard.InitializeToken(TokenId::GREEN2, 2, 3);
+    rootBoard.InitializeToken(TokenId::GREEN3, 1, 4);
+    rootBoard.InitializeToken(TokenId::GREEN4, 2, 4);
+    rootBoard.InitializeToken(TokenId::WHITE1, 0, 0);
+    rootBoard.InitializeToken(TokenId::WHITE2, 3, 0);
+    rootBoard.InitializeToken(TokenId::WHITE3, 0, 3);
+    rootBoard.InitializeToken(TokenId::WHITE4, 3, 3);
+    rootBoard.InitializeToken(TokenId::WHITE5, 1, 2);
+    rootBoard.InitializeToken(TokenId::RED1,   1, 0);
 
     return rootBoard;
 }

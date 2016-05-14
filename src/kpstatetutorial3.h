@@ -55,11 +55,11 @@ protected:
         RightTokenMoved
     };
     virtual int GetTextOffset() const;
-    virtual tKPTokenID GetEmphasizedTokenId() const;
+    virtual TokenId GetEmphasizedTokenId() const;
     virtual void InitializeBoardWithTokens(KPstateContext *pContext) const;
     virtual void ContinueWithNextState(KPstateContext *pContext,
                                        bool valid = true) const;
-    void HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID token,
+    void HookAfterTokenMoved(KPstateContext *pContext, TokenId token,
                              MoveToken direction,
                              bool successfullyMoved) override;
     void PlayAudioForInitialize(KPstateContext *) const override;

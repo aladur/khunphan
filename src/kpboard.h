@@ -38,10 +38,10 @@ public:
     class KPmove
     {
     public:
-        KPmove() : token(TK_EMPTY), direction(MoveToken::Not)
+        KPmove() : token(TokenId::EMPTY), direction(MoveToken::Not)
         {
         }
-        KPmove(tKPTokenID t, MoveToken d) : token(t), direction(d)
+        KPmove(TokenId t, MoveToken d) : token(t), direction(d)
         {
         }
         KPmove(const KPmove &src)
@@ -59,7 +59,7 @@ public:
         {
             return token == rhs.token && (direction == rhs.direction);
         }
-        inline tKPTokenID GetToken() const
+        inline TokenId GetToken() const
         {
             return token;
         }
@@ -68,7 +68,7 @@ public:
             return direction;
         }
     private:
-        tKPTokenID token;
+        TokenId token;
         MoveToken direction;
     };
 
@@ -79,15 +79,16 @@ public:
     } tPosition;
 
 private:
-    static const int TOKEN_MAX = 10;
-    typedef std::array<tPosition, TOKEN_MAX> tArrayOftPosition;
-    typedef std::array<char, TOKEN_MAX> tArrayOfChar;
+    typedef std::array<tPosition, static_cast<std::size_t>(TokenId::COUNT)>
+        tArrayOftPosition;
+    typedef std::array<std::uint8_t, static_cast<std::size_t>(TokenId::COUNT)>
+        tArrayOfUInt8;
 
     mutable QWord id;
     tArrayOftPosition positions;
-    unsigned char tokenID[HORIZONTAL_MAX][VERTICAL_MAX];
-    static const tArrayOfChar xExtends;
-    static const tArrayOfChar yExtends;
+    TokenId tokenID[HORIZONTAL_MAX][VERTICAL_MAX];
+    static const tArrayOfUInt8 xExtends;
+    static const tArrayOfUInt8 yExtends;
 
 public:
 
@@ -97,39 +98,64 @@ public:
 
     bool operator == (const KPboard &b) const;
     void print(std::ostream &os) const;
-    void InitializeToken(tKPTokenID id, int x, int y);
+    void InitializeToken(TokenId id, int x, int y);
     inline bool Move(const KPmove &move)
     {
         return Move(move.GetToken(), move.GetDirection());
     }
-    bool Move(tKPTokenID id, MoveToken d);
-    bool CanMove(tKPTokenID aTokenId, MoveToken d) const;
+    bool Move(TokenId id, MoveToken d);
+    bool CanMove(TokenId aTokenId, MoveToken d) const;
     std::vector<KPboard::KPmove> GetPossibleMoves(void) const;
     QWord GetID() const;
     inline bool IsSolved(void) const
     {
-        return (positions[TK_RED1].x == 1 && positions[TK_RED1].y == 3);
+        return (positions[static_cast<std::size_t>(TokenId::RED1)].x == 1 &&
+                positions[static_cast<std::size_t>(TokenId::RED1)].y == 3);
     }
-    inline int GetX(tKPTokenID aTokenId) const
+    inline int GetX(TokenId aTokenId) const
     {
-        return (aTokenId == TK_EMPTY) ? 0 : positions[aTokenId].x;
+        if (aTokenId == TokenId::EMPTY)
+        {
+            return 0;
+        } else
+        {
+            return positions[static_cast<std::size_t>(aTokenId)].x;
+        }
     }
-    inline int GetY(tKPTokenID aTokenId) const
+    inline int GetY(TokenId aTokenId) const
     {
-        return (aTokenId == TK_EMPTY) ? 0 : positions[aTokenId].y;
+        if (aTokenId == TokenId::EMPTY)
+        {
+            return 0;
+        } else
+        {
+            return positions[static_cast<std::size_t>(aTokenId)].y;
+        }
     }
-    static inline int GetXExtend(tKPTokenID aTokenId)
+    static inline int GetXExtend(TokenId aTokenId)
     {
-        return (aTokenId == TK_EMPTY) ? 1 : xExtends[aTokenId];
+        if (aTokenId == TokenId::EMPTY)
+        {
+            return 1;
+        } else
+        {
+            return xExtends[static_cast<std::size_t>(aTokenId)];
+        }
     }
-    static inline int GetYExtend(tKPTokenID aTokenId)
+    static inline int GetYExtend(TokenId aTokenId)
     {
-        return (aTokenId == TK_EMPTY) ? 1 : yExtends[aTokenId];
+        if (aTokenId == TokenId::EMPTY)
+        {
+            return 1;
+        } else
+        {
+            return yExtends[static_cast<std::size_t>(aTokenId)];
+        }
     }
     static KPboard CreateRootBoard();
 
 private:
-    inline void SetPosition(tKPTokenID id, int x, int y);
+    inline void SetPosition(TokenId id, int x, int y);
 };
 
 #endif

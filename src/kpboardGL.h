@@ -70,11 +70,11 @@ public:
     void Draw(bool render = true) const;
     QWord GetBoardId() const;
     void SetBoard(const KPboard &);
-    tKPTokenID Selection(const Camera &camera, int x, int y) const;
-    bool Move(tKPTokenID id, MoveToken d);
-    bool CanMove(tKPTokenID id, MoveToken d);
+    TokenId Selection(const Camera &camera, int x, int y) const;
+    bool Move(TokenId id, MoveToken d);
+    bool CanMove(TokenId id, MoveToken d);
     void Animate(unsigned int duration);
-    void EmphasizeToken(tKPTokenID id = TK_EMPTY)
+    void EmphasizeToken(TokenId id = TokenId::EMPTY)
     {
         emphasizedToken = id;
     };
@@ -87,14 +87,14 @@ private:
                     const std::string &TextureName,
                     unsigned int TextureSize = 1,
                     bool Nearest = true);
-    void DrawToken(const tKPTokenID i) const;
+    void DrawToken(const TokenId i) const;
     void DrawCuboid(float deltaAngle) const; // Only for test purposes
     void CreateCuboid(float dx, float dy, float dz,
                       float x0, float y0, float z0,
                       bool WithTexture = true) const;
     bool CreateTexture(unsigned int TextureSize, const std::string &file,
                        bool Nearest, unsigned int *pId);
-    void GetTokenCoordinates(tKPTokenID i, float *x, float *y) const;
+    void GetTokenCoordinates(TokenId i, float *x, float *y) const;
     float getRnd(void) const;
 
     KPboard current;
@@ -102,8 +102,8 @@ private:
 
     // variables for token animation:
     float mat_value, xValue;
-    tKPTokenID emphasizedToken;
-    tKPTokenID animatedToken;
+    TokenId emphasizedToken;
+    TokenId animatedToken;
     float old_x, old_y, new_x, new_y, ax, ay, Time;
     // This has to be a c-style compatible array
     // because it is used in glGenTextures

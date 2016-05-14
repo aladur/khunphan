@@ -35,7 +35,7 @@ public:
 protected:
     void InitializeBoardWithTokens(KPstateContext *pContext) const;
     int  GetTextOffset() const;
-    tKPTokenID GetEmphasizedTokenId() const;
+    TokenId GetEmphasizedTokenId() const;
     void ContinueWithNextState(KPstateContext *pContext,
                                bool valid = true) const;
     void PlayAudioForInitialize(KPstateContext *) const override;

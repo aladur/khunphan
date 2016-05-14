@@ -181,7 +181,7 @@ StateId KPstateTutorial3::ESCKeyAction(KPstateContext *pContext) const
 {
     const auto &node = pContext->GetNodes().GetRootNode();
     pContext->GetBoardView().SetBoard(node.GetBoard());
-    pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
+    pContext->GetBoardView().EmphasizeToken(TokenId::EMPTY);
     pContext->GetCamera().SetRoundtrip(true);
 
     return pContext->GetMenu().RestoreLastStateId();
@@ -197,7 +197,7 @@ void KPstateTutorial3::ContinueWithNextState(KPstateContext *pContext,
 
     const auto &node = pContext->GetNodes().GetRootNode();
     pContext->GetBoardView().SetBoard(node.GetBoard());
-    pContext->GetBoardView().EmphasizeToken(TK_EMPTY);
+    pContext->GetBoardView().EmphasizeToken(TokenId::EMPTY);
     pContext->GetCamera().SetRoundtrip(true);
     pContext->ChangeState(StateId::Tutorial4);
 }
@@ -208,12 +208,12 @@ void KPstateTutorial3::ContinueWithNextState(KPstateContext *pContext,
 /////////////////////////////////////////////////////////////////////
 
 void KPstateTutorial3::HookAfterTokenMoved(KPstateContext *pContext,
-        tKPTokenID id,
+        TokenId id,
         MoveToken direction, bool successfullyMoved)
 {
     actionState = ActionState::Started;
 
-    if (!successfullyMoved && id == TK_EMPTY)
+    if (!successfullyMoved && id == TokenId::EMPTY)
     {
         actionState = ActionState::MissedAnyToken;
     }
@@ -231,7 +231,7 @@ void KPstateTutorial3::HookAfterTokenMoved(KPstateContext *pContext,
         actionState = ActionState::RightTokenMoved;
         pContext->GetUserInterface().PlayAudio(KPSound::MoveToken);
     }
-    else if (id != TK_EMPTY)
+    else if (id != TokenId::EMPTY)
     {
         pContext->GetUserInterface().PlayAudio(KPSound::MoveToken);
         actionState = ActionState::WrongTokenMoved;
@@ -249,25 +249,25 @@ int KPstateTutorial3::GetTextOffset() const
     return T_TUTORIAL3;
 }
 
-tKPTokenID KPstateTutorial3::GetEmphasizedTokenId() const
+TokenId KPstateTutorial3::GetEmphasizedTokenId() const
 {
-    return TK_GREEN1;
+    return TokenId::GREEN1;
 }
 
 void KPstateTutorial3::InitializeBoardWithTokens(KPstateContext *pContext) const
 {
     KPboard board;
 
-    board.InitializeToken(TK_GREEN1, 1, 4);
-    board.InitializeToken(TK_GREEN2, 0, 4);
-    board.InitializeToken(TK_GREEN3, 3, 4);
-    board.InitializeToken(TK_GREEN4, 1, 3);
-    board.InitializeToken(TK_WHITE1, 0, 0);
-    board.InitializeToken(TK_WHITE2, 3, 0);
-    board.InitializeToken(TK_WHITE3, 0, 2);
-    board.InitializeToken(TK_WHITE4, 3, 2);
-    board.InitializeToken(TK_WHITE5, 1, 2);
-    board.InitializeToken(TK_RED1,   1, 0);
+    board.InitializeToken(TokenId::GREEN1, 1, 4);
+    board.InitializeToken(TokenId::GREEN2, 0, 4);
+    board.InitializeToken(TokenId::GREEN3, 3, 4);
+    board.InitializeToken(TokenId::GREEN4, 1, 3);
+    board.InitializeToken(TokenId::WHITE1, 0, 0);
+    board.InitializeToken(TokenId::WHITE2, 3, 0);
+    board.InitializeToken(TokenId::WHITE3, 0, 2);
+    board.InitializeToken(TokenId::WHITE4, 3, 2);
+    board.InitializeToken(TokenId::WHITE5, 1, 2);
+    board.InitializeToken(TokenId::RED1,   1, 0);
 
     pContext->GetBoardView().SetBoard(board);
 }

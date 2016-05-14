@@ -229,10 +229,10 @@ void  KPstateGame::MouseClick(KPstateContext *pContext,
     }
 }
 
-void KPstateGame::HookAfterTokenMoved(KPstateContext *pContext, tKPTokenID id,
+void KPstateGame::HookAfterTokenMoved(KPstateContext *pContext, TokenId id,
                                       MoveToken, bool successfullyMoved)
 {
-    if (successfullyMoved && id != TK_EMPTY)
+    if (successfullyMoved && id != TokenId::EMPTY)
     {
         // The token actually is moved
         pContext->GetUserInterface().PlayAudio(KPSound::MoveToken);
@@ -311,16 +311,16 @@ void KPstateGame::Cheat1(KPstateContext *pContext) const
 {
     KPboard board;
 
-    board.InitializeToken(TK_GREEN1, 0, 0);
-    board.InitializeToken(TK_GREEN2, 3, 3);
-    board.InitializeToken(TK_GREEN3, 3, 4);
-    board.InitializeToken(TK_GREEN4, 1, 2);
-    board.InitializeToken(TK_WHITE1, 0, 1);
-    board.InitializeToken(TK_WHITE2, 1, 0);
-    board.InitializeToken(TK_WHITE3, 2, 0);
-    board.InitializeToken(TK_WHITE4, 3, 0);
-    board.InitializeToken(TK_WHITE5, 2, 2);
-    board.InitializeToken(TK_RED1,   0, 3);
+    board.InitializeToken(TokenId::GREEN1, 0, 0);
+    board.InitializeToken(TokenId::GREEN2, 3, 3);
+    board.InitializeToken(TokenId::GREEN3, 3, 4);
+    board.InitializeToken(TokenId::GREEN4, 1, 2);
+    board.InitializeToken(TokenId::WHITE1, 0, 1);
+    board.InitializeToken(TokenId::WHITE2, 1, 0);
+    board.InitializeToken(TokenId::WHITE3, 2, 0);
+    board.InitializeToken(TokenId::WHITE4, 3, 0);
+    board.InitializeToken(TokenId::WHITE5, 2, 2);
+    board.InitializeToken(TokenId::RED1,   0, 3);
 
     pContext->GetBoardView().SetBoard(board);
     pContext->GetStatistics().Increment(EventCounter::MovesWithCheat);

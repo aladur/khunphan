@@ -35,7 +35,7 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
                                       MouseButtonEvent event,
                                       int x, int y)
 {
-    static auto token = TK_EMPTY;
+    static auto token = TokenId::EMPTY;
 
     if (button == MouseButton::Left && event == MouseButtonEvent::Press)
     {
@@ -49,7 +49,7 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
     else if (button == MouseButton::Left && event == MouseButtonEvent::Release)
     {
         // Releasing left mouse button: move token
-        if (token != TK_EMPTY)
+        if (token != TokenId::EMPTY)
         {
             // calculate mouse direction
             MoveToken direction = MoveToken::Not;
@@ -76,25 +76,26 @@ bool KPstateMoveToken::MouseMoveToken(KPstateContext *pContext,
         }
         else
         {
-            HookAfterTokenMoved(pContext, TK_EMPTY, MoveToken::Not, false);
+            HookAfterTokenMoved(pContext, TokenId::EMPTY,
+                                MoveToken::Not, false);
         }
 
         return true;
     }
     else
     {
-        token = TK_EMPTY;
+        token = TokenId::EMPTY;
         return false;
     }
 }
 
-bool KPstateMoveToken::HookDoTheMove(KPstateContext *, tKPTokenID, MoveToken)
+bool KPstateMoveToken::HookDoTheMove(KPstateContext *, TokenId, MoveToken)
 {
     // default: always do the move
     return true;
 }
 
-void KPstateMoveToken::HookAfterTokenMoved(KPstateContext *, tKPTokenID,
+void KPstateMoveToken::HookAfterTokenMoved(KPstateContext *, TokenId,
         MoveToken, bool)
 {
     // default: do nothing
