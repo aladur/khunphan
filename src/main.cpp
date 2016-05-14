@@ -20,13 +20,10 @@
 */
 
 #include "stdafx.h"
-#include <signal.h>
 #include <ostream>
 #ifdef HAVE_MCHECK_H
     #include <mcheck.h>
 #endif
-#include "kpconfig.h"
-#include "kpscore.h"
 #include "cmdline.h"
 #include "KhunPhan.h"
 #include "blogger.h"

@@ -37,6 +37,9 @@ public:
     friend class KPnode;
 
     KPnodes(KPnode rootNode);
+    KPnodes() = delete;
+    KPnodes(const KPnodes &) = delete;
+    KPnodes & operator=(const KPnodes &) = delete;
 
     bool Includes(QWord id) const
     {

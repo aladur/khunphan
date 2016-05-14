@@ -12,7 +12,6 @@
 
 Light::Light(bool AmbientLight /* = true*/, int aLightSources /*= 1*/,
              bool Reflections /*= false */) :
-    LightSources(aLightSources),
     posX(100.0), posY(180.0), posZ(50.0)
 {
     Update(AmbientLight, aLightSources, Reflections);
@@ -22,6 +21,16 @@ void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,
                    bool Reflections /*= false */)
 {
     LightSources = aLightSources;
+
+    if (LightSources < 1)
+    {
+        LightSources = 1;
+    }
+
+    if (LightSources > 3)
+    {
+        LightSources = 3;
+    }
 
     glEnable(GL_LIGHTING);
 
@@ -143,6 +152,3 @@ void Light::GetPosition(float &x, float &y, float &z) const
     z = posZ;
 }
 
-void Light::Draw() const
-{
-}

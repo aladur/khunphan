@@ -42,6 +42,8 @@ public:
     } tKpScoreStruct;
 
     KPscore(const char *fileName = nullptr);
+    KPscore(const KPscore &) = delete;
+    KPscore & operator= (const KPscore &) = delete;
 
     unsigned int GetMaxEntries() const
     {

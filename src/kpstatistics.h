@@ -56,8 +56,8 @@ public:
 
     void Reset(); // Stop capturing time, reset all statistic values
 
-    void Start();                 // Start capturing time
-    void Stop();                  // Stop capturing time
+    void Start();                 // Start capturing play time
+    void Stop();                  // Stop capturing play time
     void SetPlayingTime(unsigned long t)
     {
         playingTime = t;

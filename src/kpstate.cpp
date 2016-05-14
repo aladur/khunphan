@@ -109,8 +109,6 @@ void KPstate::Draw(KPstateContext *pContext) const
     auto timeMenu = 0.0;
     BTime time;
 
-    pContext->GetLight().Draw();
-
     pContext->GetCamera().Draw();
 
     if (pContext->GetConfig().PerformanceLog)

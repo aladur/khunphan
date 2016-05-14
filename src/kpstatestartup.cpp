@@ -129,8 +129,6 @@ void KPstateStartUp::MouseClick(KPstateContext *pContext,
 
 void KPstateStartUp::Draw(KPstateContext *pContext) const
 {
-    pContext->GetLight().Draw();
-
     pContext->GetCamera().Draw();
 
     pContext->GetBoardView().Draw();

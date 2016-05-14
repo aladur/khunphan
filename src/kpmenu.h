@@ -111,6 +111,9 @@ public:
     friend class KPstateLightTest;
 
     KPmenu(KPConfigPtr PConfig);
+    KPmenu() = delete;
+    KPmenu(const KPmenu &) = delete;
+    KPmenu &operator=(const KPmenu &) = delete;
 
     void Initialize(std::string &TextureName, int TextureSize, bool Nearest,
                     int Language = 0);
@@ -152,9 +155,6 @@ protected:
     BManualTimer playTimeUpdateTimer;
     KPConfigPtr config;
     bool isDisplayOpenGLInfo;
-
-private:
-    KPmenu();
 };
 
 #endif

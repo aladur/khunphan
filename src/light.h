@@ -16,9 +16,9 @@ public:
 
     void Update(bool AmbientLight, int LightSources = 1,
                 bool Reflections = false);
-    void Draw() const;
     void GetPosition(float &px, float &py, float &pz) const;
     void SetPosition(float px, float py, float pz);
+
 private:
     int LightSources;
     float posX, posY, posZ;
