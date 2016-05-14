@@ -169,13 +169,13 @@ enum class EventCounter
     MovesWithCheat
 };
 
-enum MouseButtonEvent
+enum class MouseButtonEvent
 {
     Press,
     Release
 };
 
-enum MouseButton
+enum class MouseButton
 {
     Left,
     Middle,
