@@ -343,7 +343,7 @@ void KPSdl2UserInterface::Close()
     }
 }
 
-int KPSdl2UserInterface::GetValue(int what) const
+int KPSdl2UserInterface::Get(WindowProperty what) const
 {
     if (window != nullptr)
     {
@@ -354,10 +354,10 @@ int KPSdl2UserInterface::GetValue(int what) const
 
         switch (what)
         {
-            case KP_WINDOW_WIDTH:
+            case WindowProperty::Width:
                 return width;
 
-            case KP_WINDOW_HEIGHT:
+            case WindowProperty::Height:
                 return height;
         }
     }

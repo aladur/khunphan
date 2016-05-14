@@ -119,20 +119,20 @@ void KPConfig::SetFileName(const char *aFileName)
     }
 }
 
-std::string KPConfig::GetDirectoryBase(tKPDir directoryID) const
+std::string KPConfig::GetBase(KPDirectory directoryID) const
 {
     switch (directoryID)
     {
-        case KP_TEXTURE_DIR:
+        case KPDirectory::Texture:
             return "Textures" PATHSEPARATORSTRING;
 
-        case KP_SOUND_DIR:
+        case KPDirectory::Sound:
             return "Sounds" PATHSEPARATORSTRING;
 
-        case KP_MUSIC_DIR:
+        case KPDirectory::Music:
             return "Music" PATHSEPARATORSTRING;
 
-        case KP_LOCALE_DIR:
+        case KPDirectory::Locale:
             return "locale" PATHSEPARATORSTRING;
 
         default:
@@ -140,15 +140,15 @@ std::string KPConfig::GetDirectoryBase(tKPDir directoryID) const
     }
 }
 
-std::string KPConfig::GetDirectory(tKPDir directoryID) const
+std::string KPConfig::Get(KPDirectory directoryID) const
 {
 #ifdef _WIN32
-    return GetDirectoryBase(directoryID);
+    return GetBase(directoryID);
 #else
 #ifdef __linux__
     struct stat sStat;
 
-    auto dir = GetDirectoryBase(directoryID);
+    auto dir = GetBase(directoryID);
 
     if (!dir.empty() && access(dir.c_str(), F_OK) == 0 &&
         stat(dir.c_str(), &sStat) == 0 && S_ISDIR(sStat.st_mode))
@@ -157,7 +157,7 @@ std::string KPConfig::GetDirectory(tKPDir directoryID) const
     }
 
     dir = DATADIR "/" PACKAGE "/";
-    dir += GetDirectoryBase(directoryID);
+    dir += GetBase(directoryID);
 
     if (access(dir.c_str(), F_OK) < 0 || stat(dir.c_str(), &sStat) < 0 ||
         !S_ISDIR(sStat.st_mode))
@@ -174,7 +174,7 @@ std::string KPConfig::GetDirectory(tKPDir directoryID) const
 
 std::vector<std::string> KPConfig::GetTextureNames() const
 {
-    return BDirectory::GetSubDirectories(GetDirectory(KP_TEXTURE_DIR));
+    return BDirectory::GetSubDirectories(Get(KPDirectory::Texture));
 }
 
 

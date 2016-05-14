@@ -188,10 +188,7 @@ enum class MouseButton
 #define MOD_SELECTED     0.8f
 #define MOD_FULLYVISIBLE 1.0f
 
-enum
-{
-    TOTAL_ANIMATIONTIME = 1000
-};
+constexpr int TOTAL_ANIMATIONTIME = 1000;
 
 #ifndef M_PI
     #define M_PI 3.14159265358979323846

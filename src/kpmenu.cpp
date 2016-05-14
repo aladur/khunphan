@@ -98,7 +98,7 @@ bool KPmenu::LoadLanguage(int Language)
         BLogger::Log(" ", labels[Language].GetText().c_str());
     }
 
-    stream << config->GetDirectory(KP_LOCALE_DIR).c_str()
+    stream << config->Get(KPDirectory::Locale).c_str()
            << Language
            << ".lang";
 
@@ -211,7 +211,7 @@ void KPmenu::UpdatePlayTime(KPstateContext *pContext, unsigned int duration)
     {
         // Cyclically update play time each 100 ms
         std::string timeString =
-            pContext->GetStatistics().GetTotalTime(RTIME_HHMMSS);
+            pContext->GetStatistics().GetTotalTime(TimeFormat::HHMMSS);
         labels[T_TIME].FormatText(timeString);
     }
 }

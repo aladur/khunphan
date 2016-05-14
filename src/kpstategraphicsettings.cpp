@@ -665,7 +665,7 @@ void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
     }
 
     pContext->GetBoardView().InitializeTextures(
-        config.GetDirectory(KP_TEXTURE_DIR),
+        config.Get(KPDirectory::Texture),
         config.TextureName,
         config.TextureSize,
         config.Nearest);
@@ -700,7 +700,7 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext) const
 
         config.TextureName = *it;
         pContext->GetBoardView().InitializeTextures(
-            config.GetDirectory(KP_TEXTURE_DIR),
+            config.Get(KPDirectory::Texture),
             config.TextureName,
             config.TextureSize,
             config.Nearest,
@@ -826,7 +826,7 @@ void KPstateGraphicSettings::ToggleTextureInterpolation(
                                config.MenuTextureSize,
                                config.Nearest);
     pContext->GetBoardView().InitializeTextures(
-        config.GetDirectory(KP_TEXTURE_DIR),
+        config.Get(KPDirectory::Texture),
         config.TextureName,
         config.TextureSize,
         config.Nearest);
@@ -911,7 +911,7 @@ void KPstateGraphicSettings::ToggleQuality(KPstateContext *pContext)
                                config.MenuTextureSize,
                                config.Nearest);
     pContext->GetBoardView().InitializeTextures(
-        config.GetDirectory(KP_TEXTURE_DIR),
+        config.Get(KPDirectory::Texture),
         config.TextureName,
         config.TextureSize,
         config.Nearest);

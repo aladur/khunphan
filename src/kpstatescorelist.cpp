@@ -91,7 +91,8 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
         }
 
         scoreList.Get(i, Name, &PlayTime, &Moves);
-        auto timeString = KPStatistics::FormatTime(RTIME_HHMMSS, PlayTime);
+        auto timeString =
+            KPStatistics::FormatTime(TimeFormat::HHMMSS, PlayTime);
         menu.labels[T_S_NAME1 + i].FormatText(Name);
         menu.labels[T_S_PLAYTIME1 + i].FormatText(timeString);
         menu.labels[T_S_MOVES1 + i].FormatText(Moves);

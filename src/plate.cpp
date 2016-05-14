@@ -176,7 +176,7 @@ bool Plate::Update(std::string    &TextureName,
     WithAlpha   = withAlpha;
     TextureSize = textureSize;
 
-    auto file1 = config.GetDirectory(KP_TEXTURE_DIR) + TextureName +
+    auto file1 = config.Get(KPDirectory::Texture) + TextureName +
                  PATHSEPARATORSTRING + Name + ".png";
 
     auto flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
@@ -184,7 +184,7 @@ bool Plate::Update(std::string    &TextureName,
 
     if (texels == nullptr)
     {
-        auto file2 = config.GetDirectory(KP_TEXTURE_DIR) + Name + ".png";
+        auto file2 = config.Get(KPDirectory::Texture) + Name + ".png";
 
         texels = texture.ReadTextureFromFile(file2, flags);
 
@@ -449,8 +449,8 @@ void Plate::Animate(unsigned int duration)
 int Plate::MouseEvent(MouseButton button, MouseButtonEvent event,
                       int x, int y, KPUIBase &ui)
 {
-    auto xf = 16.0f * x / ui.GetValue(KP_WINDOW_WIDTH);
-    auto yf = 12.0f - 12.0f * y / ui.GetValue(KP_WINDOW_HEIGHT);
+    auto xf = 16.0f * x / ui.Get(WindowProperty::Width);
+    auto yf = 12.0f - 12.0f * y / ui.Get(WindowProperty::Height);
 
     if (target_Alpha > 0.0 &&
         Signal != 0 &&

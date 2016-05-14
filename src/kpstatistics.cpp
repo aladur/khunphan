@@ -101,12 +101,12 @@ void KPStatistics::Reset(EventCounter type)
     counter.at(type) = 0;
 }
 
-std::string KPStatistics::GetTotalTime(tTimeFormat formatID)
+std::string KPStatistics::GetTotalTime(TimeFormat formatID)
 {
     return FormatTime(formatID, GetTotalTime());
 }
 
-std::string KPStatistics::FormatTime(tTimeFormat formatID, unsigned int t)
+std::string KPStatistics::FormatTime(TimeFormat formatID, unsigned int t)
 {
     std::stringstream timeStr;
     using std::setw;
@@ -114,43 +114,43 @@ std::string KPStatistics::FormatTime(tTimeFormat formatID, unsigned int t)
 
     switch (formatID)
     {
-        case RTIME_HH_mm:
+        case TimeFormat::HH_mm:
             timeStr << setw(2) << setfill('0') << t / 3600000 << "."
                     << setw(2) << setfill('0') << (t % 3600000) * 100 / 3600000;
             break;
 
-        case RTIME_HH_mmmm:
+        case TimeFormat::HH_mmmm:
             timeStr << setw(2) << setfill('0') << t / 3600000 << "."
                     << setw(3) << setfill('0')
                     << (t % 3600000) * 10000 / 3600000 << ".";
             break;
 
-        case RTIME_HHMM_ss:
+        case TimeFormat::HHMM_ss:
             timeStr << setw(2) << setfill('0') << t / 3600000 << ":"
                     << setw(2) << setfill('0') << (t % 3600000) / 60000 << "."
                     << setw(2) << setfill('0') << (t % 60000) * 100 / 60000;
             break;
 
-        case RTIME_HHMMSS_mmm:
+        case TimeFormat::HHMMSS_mmm:
             timeStr << setw(2) << setfill('0') << t / 3600000 << ":"
                     << setw(2) << setfill('0') << (t % 3600000) / 60000 << ":"
                     << setw(2) << setfill('0') << (t % 60000) / 1000 << "."
                     << setw(3) << setfill('0') << t % 1000;
             break;
 
-        case RTIME_HHMMSS:
+        case TimeFormat::HHMMSS:
             timeStr << setw(2) << setfill('0') << t / 3600000 << ":"
                     << setw(2) << setfill('0') << (t % 3600000) / 60000 << ":"
                     << setw(2) << setfill('0') << (t % 60000) / 1000;
             break;
 
-        case RTIME_MM_ss:
+        case TimeFormat::MM_ss:
             timeStr << setw(2) << setfill('0') << t / 60000 << "."
                     << setw(2) << setfill('0') << (t % 60000) * 100 / 60000;
 
             break;
 
-        case RTIME_msec:
+        case TimeFormat::msec:
         default:
             timeStr << t;
             break;

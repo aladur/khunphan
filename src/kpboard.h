@@ -29,11 +29,8 @@
 #include <array>
 
 
-enum
-{
-    HORIZONTAL_MAX = 4,
-    VERTICAL_MAX   = 5
-};
+constexpr int HORIZONTAL_MAX = 4;
+constexpr int VERTICAL_MAX = 5;
 
 class KPboard
 {
@@ -82,10 +79,7 @@ public:
     } tPosition;
 
 private:
-    enum
-    {
-        TOKEN_MAX = 10
-    };
+    static const int TOKEN_MAX = 10;
     typedef std::array<tPosition, TOKEN_MAX> tArrayOftPosition;
     typedef std::array<char, TOKEN_MAX> tArrayOfChar;
 

@@ -37,17 +37,16 @@
 // ss:   decimal seconds (0..99)
 // mmm:  decimal milliseconds (0..999)
 
-enum tTimeFormat
+enum class TimeFormat
 {
-    RTIME_msec       = 0,    // Format:   +mmm
-    RTIME_HH_mm      = 321,  // Format:   +HH.mm
-    RTIME_HH_mmmm    = 322,  // Format:   +HH.mmmm
-    RTIME_HHMM_ss    = 323,  // Format:   +HH:MM.ss
-    RTIME_HHMMSS_mmm = 324,  // Format:   +HH:MM:SS.mmm
-    RTIME_HHMMSS     = 325,  // Format:   +HH:MM:SS
-    RTIME_MM_ss      = 326   // Format:   +MM.ss
+    msec,       // Format: +mmm
+    HH_mm,      // Format: +HH.mm
+    HH_mmmm,    // Format: +HH.mmmm
+    HHMM_ss,    // Format: +HH:MM.ss
+    HHMMSS_mmm, // Format: +HH:MM:SS.mmm
+    HHMMSS,     // Format: +HH:MM:SS
+    MM_ss       // Format: +MM.ss
 };
-
 
 class KPStatistics
 {
@@ -68,7 +67,7 @@ public:
     // Returns the total elapsed time in milliseconds
     unsigned long GetTotalTime();
     // Return a formatted time string
-    std::string GetTotalTime(tTimeFormat formatID);
+    std::string GetTotalTime(TimeFormat formatID);
 
     // Set the value of event counter type to n
     void Set(EventCounter type, unsigned int n);
@@ -81,7 +80,7 @@ public:
     // Reset event counter type
     void Reset(EventCounter type);
 
-    static std::string FormatTime(tTimeFormat formatID, unsigned int t);
+    static std::string FormatTime(TimeFormat formatID, unsigned int t);
 
 private:
     BTime time;

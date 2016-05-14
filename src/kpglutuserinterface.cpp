@@ -221,14 +221,14 @@ void KPGlutUserInterface::Close()
 #endif
 }
 
-int KPGlutUserInterface::GetValue(int what) const
+int KPGlutUserInterface::Get(WindowProperty what) const
 {
     switch (what)
     {
-        case KP_WINDOW_WIDTH:
+        case WindowProperty::Width:
             return (windowID > 0 ? glutGet(GLUT_WINDOW_WIDTH)  : 0);
 
-        case KP_WINDOW_HEIGHT:
+        case WindowProperty::Height:
             return (windowID > 0 ? glutGet(GLUT_WINDOW_HEIGHT) : 0);
     }
 

@@ -26,15 +26,6 @@
 #include "stdafx.h"
 #include "kpstatemovetoken.h"
 
-enum tTutState
-{
-    KP_TUT_STARTED      = 33,
-    KP_TUT_NO_TOKEN     = 34,
-    KP_TUT_RIGHT_TOKEN  = 35,
-    KP_TUT_NOMOV_TOKEN  = 36,
-    KP_TUT_WRONG_TOKEN  = 37,
-    KP_TUT_KLICKED_ONLY = 38
-};
 
 class KPstateContext;
 
@@ -54,6 +45,15 @@ public:
     tKPMenuState ESCKeyAction(KPstateContext *) const override;
 
 protected:
+    enum class ActionState
+    {
+        Started,
+        MissedAnyToken,
+        TokenKlickedOnly,
+        TokenNotMoveable,
+        WrongTokenMoved,
+        RightTokenMoved
+    };
     virtual int GetTextOffset() const;
     virtual tKPTokenID GetEmphasizedTokenId() const;
     virtual void InitializeBoardWithTokens(KPstateContext *pContext) const;
@@ -64,7 +64,7 @@ protected:
                              bool successfullyMoved) override;
     void PlayAudioForInitialize(KPstateContext *) const override;
 
-    tTutState tutorialState;
+    ActionState actionState;
 };
 
 #endif

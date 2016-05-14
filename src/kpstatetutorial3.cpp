@@ -29,7 +29,7 @@
 #include "kpnodes.h"
 
 
-KPstateTutorial3::KPstateTutorial3() : tutorialState(KP_TUT_STARTED)
+KPstateTutorial3::KPstateTutorial3() : actionState(ActionState::Started)
 {
 }
 
@@ -103,9 +103,9 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
 
     y -= 0.5;
 
-    switch (tutorialState)
+    switch (actionState)
     {
-        case KP_TUT_RIGHT_TOKEN:
+        case ActionState::RightTokenMoved:
             // Klicked (and evtl. moved) the right token
             // Tutorial can be finished
             menu.labels[T_CONTINUE].SetPosition(8, 1, 1, AlignItem::Centered);
@@ -114,7 +114,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
             y -= 0.5;
             break;
 
-        case KP_TUT_NO_TOKEN:
+        case ActionState::MissedAnyToken:
             // Missed any token
             menu.labels[T_TUTORIAL34_EMPTY].SetPosition(1.25, y, 0.5);
             y -= 0.5;
@@ -122,7 +122,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
             y -= 0.5;
             break;
 
-        case KP_TUT_NOMOV_TOKEN:
+        case ActionState::TokenNotMoveable:
             // Klicked on an unmovable token
             menu.labels[T_TUTORIAL34_NOMV].SetPosition(1.25, y, 0.5);
             y -= 0.5;
@@ -130,7 +130,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
             y -= 0.5;
             break;
 
-        case KP_TUT_WRONG_TOKEN:
+        case ActionState::WrongTokenMoved:
             // Klicked on the wrong token
             menu.labels[T_TUTORIAL34_GOOD].SetPosition(1.25, y, 0.5);
             y -= 0.5;
@@ -138,7 +138,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
             y -= 0.5;
             break;
 
-        case KP_TUT_KLICKED_ONLY:
+        case ActionState::TokenKlickedOnly:
             // Klicked right token, but did not move with the mouse
             // This can only happen in Tutorial 4
             menu.labels[T_TUTORIAL4_MOVE].SetPosition(1.25, y, 0.5);
@@ -146,7 +146,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
             menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25, y, 0.5);
             break;
 
-        case KP_TUT_STARTED:
+        case ActionState::Started:
         default:
             break;
     }
@@ -171,7 +171,7 @@ void  KPstateTutorial3::MouseClick(KPstateContext *pContext,
             return;
     }
 
-    if (tutorialState != KP_TUT_RIGHT_TOKEN)
+    if (actionState != ActionState::RightTokenMoved)
     {
         MouseMoveToken(pContext, button, event, x, y);
     }
@@ -211,30 +211,30 @@ void KPstateTutorial3::HookAfterTokenMoved(KPstateContext *pContext,
         tKPTokenID id,
         MoveToken direction, bool successfullyMoved)
 {
-    tutorialState = KP_TUT_STARTED;
+    actionState = ActionState::Started;
 
     if (!successfullyMoved && id == TK_EMPTY)
     {
-        tutorialState = KP_TUT_NO_TOKEN;
+        actionState = ActionState::MissedAnyToken;
     }
     else if (!successfullyMoved && id == GetEmphasizedTokenId() &&
              direction == MoveToken::Not)
     {
-        tutorialState = KP_TUT_KLICKED_ONLY;
+        actionState = ActionState::TokenKlickedOnly;
     }
     else if (!successfullyMoved)
     {
-        tutorialState = KP_TUT_NOMOV_TOKEN;
+        actionState = ActionState::TokenNotMoveable;
     }
     else if (id == GetEmphasizedTokenId())
     {
-        tutorialState = KP_TUT_RIGHT_TOKEN;
+        actionState = ActionState::RightTokenMoved;
         pContext->GetUserInterface().PlayAudio(KP_SND_MOVETOKEN);
     }
     else if (id != TK_EMPTY)
     {
         pContext->GetUserInterface().PlayAudio(KP_SND_MOVETOKEN);
-        tutorialState = KP_TUT_WRONG_TOKEN;
+        actionState = ActionState::WrongTokenMoved;
     }
 
     UpdateDisplay(pContext);

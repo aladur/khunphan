@@ -94,7 +94,7 @@ void KPUIBase::InitializeAfterOpen()
 
     pBoardView = std::make_unique<KPboardView>(
                      GetNodes().GetRootNode().GetBoard(),
-                     config->GetDirectory(KP_TEXTURE_DIR),
+                     config->Get(KPDirectory::Texture),
                      config->TextureName,
                      config->TextureSize,
                      config->Nearest);

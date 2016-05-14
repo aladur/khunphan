@@ -29,12 +29,12 @@
 #include <memory>
 
 
-enum tKPDir
+enum class KPDirectory
 {
-    KP_TEXTURE_DIR = 26,
-    KP_SOUND_DIR   = 27,
-    KP_MUSIC_DIR   = 28,
-    KP_LOCALE_DIR  = 29
+    Texture,
+    Sound,
+    Music,
+    Locale
 };
 
 class KPConfig
@@ -54,7 +54,7 @@ public:
     void DebugPrint() const;
     std::string GetFileName() const;
     std::string GetFileVersion() const;
-    std::string GetDirectory(tKPDir directoryID) const;
+    std::string Get(KPDirectory directoryID) const;
     std::vector<std::string> GetTextureNames() const;
     void SetFileName(const char *fileName);
 
@@ -97,7 +97,7 @@ public:
     bool SkipProgressBar;
 
 protected:
-    std::string GetDirectoryBase(tKPDir directoryID) const;
+    std::string GetBase(KPDirectory directoryID) const;
 
     std::string fileName;
     std::string fileVersion;

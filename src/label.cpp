@@ -173,14 +173,14 @@ void Label::PreInitialize(const std::string &TextureName,
 {
     BTexture texture;
 
-    auto file1 = config.GetDirectory(KP_TEXTURE_DIR) + TextureName +
+    auto file1 = config.Get(KPDirectory::Texture) + TextureName +
                  PATHSEPARATORSTRING + "characters.png";
 
     auto *texels = texture.ReadTextureFromFile(file1, TEX_WITH_ALPHA);
 
     if (texels == nullptr)
     {
-        auto file2 = config.GetDirectory(KP_TEXTURE_DIR) + "characters.png";
+        auto file2 = config.Get(KPDirectory::Texture) + "characters.png";
 
         texels = texture.ReadTextureFromFile(file2, TEX_WITH_ALPHA);
 
@@ -672,8 +672,8 @@ void Label::RecreateDisplayList()
 int Label::MouseEvent(MouseButton button, MouseButtonEvent event,
                       int x_, int y_, KPUIBase &ui)
 {
-    auto xf = 16.0f * x_ / ui.GetValue(KP_WINDOW_WIDTH);
-    auto yf = 12.0f - 12.0f * y_ / ui.GetValue(KP_WINDOW_HEIGHT);
+    auto xf = 16.0f * x_ / ui.Get(WindowProperty::Width);
+    auto yf = 12.0f - 12.0f * y_ / ui.Get(WindowProperty::Height);
 
     if (target_Alpha > 0.0 &&
         Signal != 0 &&

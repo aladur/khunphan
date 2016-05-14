@@ -243,7 +243,7 @@ bool KPSdlUserInterface::InitializeAudio(const std::string &textureName)
 
         soundSources[idx] = "";
 
-        auto file = config->GetDirectory(KP_SOUND_DIR) + textureName +
+        auto file = config->Get(KPDirectory::Sound) + textureName +
                     PATHSEPARATORSTRING + soundFiles[idx];
 
         sounds[idx] = Mix_LoadWAV_RW(
@@ -251,7 +251,7 @@ bool KPSdlUserInterface::InitializeAudio(const std::string &textureName)
 
         if (sounds[idx] == nullptr)
         {
-            file = config->GetDirectory(KP_SOUND_DIR) + soundFiles[idx];
+            file = config->Get(KPDirectory::Sound) + soundFiles[idx];
             sounds[idx] = Mix_LoadWAV_RW(
                               SDL_RWFromFile(file.c_str(), "rb"), 1);
         }
@@ -270,7 +270,7 @@ bool KPSdlUserInterface::InitializeAudio(const std::string &textureName)
 
     SetSoundVolume(config->SoundVolume);
 
-    musicFiles = BDirectory::GetFiles(config->GetDirectory(KP_MUSIC_DIR));
+    musicFiles = BDirectory::GetFiles(config->Get(KPDirectory::Music));
     auto newEndIt =
         std::remove_if(musicFiles.begin(), musicFiles.end(), NoMusicFile);
     musicFiles.erase(newEndIt, musicFiles.end());
@@ -315,7 +315,7 @@ void KPSdlUserInterface::LoadNextMusic()
 
             it += musicIndex;
 
-            auto file = config->GetDirectory(KP_MUSIC_DIR) + *it;
+            auto file = config->Get(KPDirectory::Music) + *it;
 
             if ((music = Mix_LoadMUS(file.c_str())) == nullptr)
             {

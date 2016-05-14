@@ -47,7 +47,7 @@ public:
     void MainLoop() override;
     void Close() override;
     void RequestForClose() override;
-    int GetValue(int what) const override;
+    int Get(WindowProperty what) const override;
     bool IsWindowResolutionSupported(int width, int height) const override;
     bool CanToggleFullScreen() const override;
     bool CanChangeWindowSize() const override;

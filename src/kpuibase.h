@@ -39,10 +39,10 @@ class Camera;
 class Light;
 class KPStatistics;
 
-enum tGetValues
+enum class WindowProperty
 {
-    KP_WINDOW_WIDTH  = 88,
-    KP_WINDOW_HEIGHT = 89
+    Width,
+    Height
 };
 
 enum tKPSoundIDs
@@ -69,7 +69,7 @@ public:
     virtual void MainLoop() = 0;
     virtual void Close() = 0;
     virtual void RequestForClose() = 0;
-    virtual int  GetValue(int what) const = 0;
+    virtual int  Get(WindowProperty what) const = 0;
     virtual bool IsWindowResolutionSupported(int width, int height) const = 0;
     virtual bool CanToggleFullScreen() const
     {
