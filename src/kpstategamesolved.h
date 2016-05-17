@@ -47,7 +47,7 @@ protected:
     void PlayAudioForInitialize(KPstateContext *) const override;
 
     bool addToScoreList;
-    int  tf_index;
+    Lbl tf_index;
 };
 
 #endif

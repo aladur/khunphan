@@ -81,7 +81,7 @@ typedef enum
     S_TOGGLE_MUSIC_ON             = 161
 } tSignal;
 
-typedef std::map<int, Label> tIdToLabel;
+typedef std::map<Lbl, Label> tIdToLabel;
 typedef std::map<KPPlate, Plate> tIdToPlate;
 
 class KPstate;
@@ -116,7 +116,7 @@ public:
     KPmenu &operator=(const KPmenu &) = delete;
 
     void Initialize(std::string &TextureName, int TextureSize, bool Nearest,
-                    int Language = 0);
+                    Lbl Language);
     void Update(std::string &TextureName, int TextureSize, bool Nearest);
     void Draw();
     void UpdateFPS(int fps, float renderTime = 0.0);
@@ -142,8 +142,8 @@ public:
     }
 
 protected:
-    bool LoadLanguage(int Language);
-    void AddOrSetLabel(int number, const std::string &text);
+    bool LoadLanguage(Lbl Language);
+    void AddOrSetLabel(Lbl labelId, const std::string &text);
     void FadeOutAllPlates();
     void FadeOutAllLabels();
     void Animate(unsigned int duration);

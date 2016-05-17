@@ -51,53 +51,53 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetPosition(4, 9, 12, 11);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
-    menu.labels[T_SETTINGS].SetPosition(4, 8, 1);
-    menu.labels[T_SETTINGS].SetFullyVisible();
-    menu.labels[T_CONTROL].SetPosition(12, 8, 1, AlignItem::Right);
-    menu.labels[T_CONTROL].SetFullyVisible();
+    menu.labels[Lbl::Settings].SetPosition(4, 8, 1);
+    menu.labels[Lbl::Settings].SetFullyVisible();
+    menu.labels[Lbl::Control].SetPosition(12, 8, 1, AlignItem::Right);
+    menu.labels[Lbl::Control].SetFullyVisible();
 
     auto y = 6.0f;
-    menu.labels[T_MOUSESPEED].SetPosition(8, y, 0.71f, AlignItem::Right);
-    menu.labels[T_MOUSESPEED].SetSignal(S_TOGGLE_MOUSE_SPEED);
+    menu.labels[Lbl::MouseSpeed].SetPosition(8, y, 0.71f, AlignItem::Right);
+    menu.labels[Lbl::MouseSpeed].SetSignal(S_TOGGLE_MOUSE_SPEED);
 
     if (E_MouseSpeed <= .293)
     {
-        menu.labels[T_MS_SLOW].SetPosition(8.2f, y, 0.71f);
-        menu.labels[T_MS_SLOW].SetSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[Lbl::MouseSpeedSlow].SetPosition(8.2f, y, 0.71f);
+        menu.labels[Lbl::MouseSpeedSlow].SetSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else if (E_MouseSpeed <= .41)
     {
-        menu.labels[T_MS_MEDIUM].SetPosition(8.2f, y, 0.71f);
-        menu.labels[T_MS_MEDIUM].SetSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[Lbl::MouseSpeedMedium].SetPosition(8.2f, y, 0.71f);
+        menu.labels[Lbl::MouseSpeedMedium].SetSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else if (E_MouseSpeed <= .575)
     {
-        menu.labels[T_MS_FAST].SetPosition(8.2f, y, 0.71f);
-        menu.labels[T_MS_FAST].SetSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[Lbl::MouseSpeedFast].SetPosition(8.2f, y, 0.71f);
+        menu.labels[Lbl::MouseSpeedFast].SetSignal(S_TOGGLE_MOUSE_SPEED);
     }
     else
     {
-        menu.labels[T_MS_VERYFAST].SetPosition(8.2f, y, 0.71f);
-        menu.labels[T_MS_VERYFAST].SetSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[Lbl::MouseSpeedVeryFast].SetPosition(8.2f, y, 0.71f);
+        menu.labels[Lbl::MouseSpeedVeryFast].SetSignal(S_TOGGLE_MOUSE_SPEED);
     }
 
     y -= dy;
-    menu.labels[T_SOLUTIONHINT].SetPosition(8, y, 0.71f, AlignItem::Right);
-    menu.labels[T_SOLUTIONHINT].SetSignal(S_TOGGLE_SOLUTION_HINT);
+    menu.labels[Lbl::SolutionHint].SetPosition(8, y, 0.71f, AlignItem::Right);
+    menu.labels[Lbl::SolutionHint].SetSignal(S_TOGGLE_SOLUTION_HINT);
 
     if (E_SolutionHint)
     {
-        menu.labels[T_SH_ON].SetPosition(8.2f, y, 0.71f);
-        menu.labels[T_SH_ON].SetSignal(S_TOGGLE_SOLUTION_HINT);
+        menu.labels[Lbl::SolutionHintOn].SetPosition(8.2f, y, 0.71f);
+        menu.labels[Lbl::SolutionHintOn].SetSignal(S_TOGGLE_SOLUTION_HINT);
     }
     else
     {
-        menu.labels[T_SH_OFF].SetPosition(8.2f, y, 0.71f);
-        menu.labels[T_SH_OFF].SetSignal(S_TOGGLE_SOLUTION_HINT);
+        menu.labels[Lbl::SolutionHintOff].SetPosition(8.2f, y, 0.71f);
+        menu.labels[Lbl::SolutionHintOff].SetSignal(S_TOGGLE_SOLUTION_HINT);
     }
 
-    menu.labels[T_BACK].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[T_BACK].SetSignal(S_BACK);
+    menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
+    menu.labels[Lbl::Back].SetSignal(S_BACK);
 
     StartAnimation(pContext);
 }

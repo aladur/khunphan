@@ -49,17 +49,19 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
     auto &menu = pContext->GetMenu();
 
     const auto dy = 0.6f;
-    static const int soundVolumeIndices[11] =
+    static const Lbl soundVolumeIds[11] =
     {
-        T_SND_VOL_OFF, T_SND_VOL_10, T_SND_VOL_20, T_SND_VOL_30,
-        T_SND_VOL_40, T_SND_VOL_50, T_SND_VOL_60, T_SND_VOL_70,
-        T_SND_VOL_80, T_SND_VOL_90, T_SND_VOL_100
+        Lbl::SoundVolumeOff, Lbl::SoundVolume10, Lbl::SoundVolume20,
+        Lbl::SoundVolume30, Lbl::SoundVolume40, Lbl::SoundVolume50,
+        Lbl::SoundVolume60, Lbl::SoundVolume70, Lbl::SoundVolume80,
+        Lbl::SoundVolume90, Lbl::SoundVolume100
     };
-    static const int musicVolumeIndices[11] =
+    static const Lbl musicVolumeIds[11] =
     {
-        T_MSC_VOL_OFF, T_MSC_VOL_10, T_MSC_VOL_20, T_MSC_VOL_30,
-        T_MSC_VOL_40, T_MSC_VOL_50, T_MSC_VOL_60, T_MSC_VOL_70,
-        T_MSC_VOL_80, T_MSC_VOL_90, T_MSC_VOL_100
+        Lbl::MusicVolumeOff, Lbl::MusicVolume10, Lbl::MusicVolume20,
+        Lbl::MusicVolume30, Lbl::MusicVolume40, Lbl::MusicVolume50,
+        Lbl::MusicVolume60, Lbl::MusicVolume70, Lbl::MusicVolume80,
+        Lbl::MusicVolume90, Lbl::MusicVolume100
     };
 
     menu.plates[KPPlate::MenuBackground].SetPosition(2, 3.5, 14, 8.5);
@@ -67,31 +69,31 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetPosition(4, 9, 12, 11);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
-    menu.labels[T_SETTINGS].SetPosition(4, 8, 1);
-    menu.labels[T_SETTINGS].SetFullyVisible();
-    menu.labels[T_AUDIO].SetPosition(12, 8, 1, AlignItem::Right);
-    menu.labels[T_AUDIO].SetFullyVisible();
+    menu.labels[Lbl::Settings].SetPosition(4, 8, 1);
+    menu.labels[Lbl::Settings].SetFullyVisible();
+    menu.labels[Lbl::Audio].SetPosition(12, 8, 1, AlignItem::Right);
+    menu.labels[Lbl::Audio].SetFullyVisible();
 
     auto y = 6.0f;
-    menu.labels[T_SOUND_VOLUME].SetPosition(8, y, 0.71f, AlignItem::Right);
-    menu.labels[T_SOUND_VOLUME].SetSignal(S_TOGGLE_SOUND_VOLUME);
+    menu.labels[Lbl::SoundVolume].SetPosition(8, y, 0.71f, AlignItem::Right);
+    menu.labels[Lbl::SoundVolume].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
-    auto textfeldIdx = soundVolumeIndices[E_SoundVolume / 10];
+    auto labelId = soundVolumeIds[E_SoundVolume / 10];
 
-    menu.labels[textfeldIdx].SetPosition(8.2f, y, 0.71f);
-    menu.labels[textfeldIdx].SetSignal(S_TOGGLE_SOUND_VOLUME);
+    menu.labels[labelId].SetPosition(8.2f, y, 0.71f);
+    menu.labels[labelId].SetSignal(S_TOGGLE_SOUND_VOLUME);
 
     y -= dy;
-    menu.labels[T_MUSIC_VOLUME].SetPosition(8, y, 0.71f, AlignItem::Right);
-    menu.labels[T_MUSIC_VOLUME].SetSignal(S_TOGGLE_MUSIC_VOLUME);
+    menu.labels[Lbl::MusicVolume].SetPosition(8, y, 0.71f, AlignItem::Right);
+    menu.labels[Lbl::MusicVolume].SetSignal(S_TOGGLE_MUSIC_VOLUME);
 
-    textfeldIdx = musicVolumeIndices[E_MusicVolume / 10];
+    labelId = musicVolumeIds[E_MusicVolume / 10];
 
-    menu.labels[textfeldIdx].SetPosition(8.2f, y, 0.71f);
-    menu.labels[textfeldIdx].SetSignal(S_TOGGLE_MUSIC_VOLUME);
+    menu.labels[labelId].SetPosition(8.2f, y, 0.71f);
+    menu.labels[labelId].SetSignal(S_TOGGLE_MUSIC_VOLUME);
 
-    menu.labels[T_BACK].SetPosition(8, 0.7f, 1, AlignItem::Centered);
-    menu.labels[T_BACK].SetSignal(S_BACK);
+    menu.labels[Lbl::Back].SetPosition(8, 0.7f, 1, AlignItem::Centered);
+    menu.labels[Lbl::Back].SetSignal(S_BACK);
 
     StartAnimation(pContext);
 }

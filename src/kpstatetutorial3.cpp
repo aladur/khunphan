@@ -48,6 +48,7 @@ void KPstateTutorial3::Initialize(KPstateContext *pContext,
 void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
 {
     auto &menu = pContext->GetMenu();
+    Lbl labelId;
 
     KPstate::UpdateDisplay(pContext);
 
@@ -57,93 +58,67 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetSignal(S_BACK);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
-    menu.labels[GetTextOffset()].SetPosition(8, 10.5, 1.0, AlignItem::Centered);
-    menu.labels[GetTextOffset()].SetFullyVisible();
+    labelId = GetTutorialLabelId();
+    menu.labels[labelId].SetPosition(8, 10.5, 1.0, AlignItem::Centered);
+    menu.labels[labelId].SetFullyVisible();
 
     auto y = 9.5f;
-    menu.labels[GetTextOffset() + 2].SetPosition(1.25, y, 0.5);
-    y -= 0.5;
+    std::size_t offset;
 
-    if (menu.labels.find(GetTextOffset() + 3) !=
-        menu.labels.end())
+    for (offset = 2; offset <= 7; ++offset)
     {
-        menu.labels[GetTextOffset() + 3].SetPosition(1.25, y, 0.5);
+        labelId = GetTutorialLabelId(offset);
+
+        if (menu.labels.find(labelId) != menu.labels.end())
+        {
+            menu.labels[labelId].SetPosition(1.25, y, 0.5);
+        }
+
+        y -= 0.5;
     }
-
-    y -= 0.5;
-
-    if (menu.labels.find(GetTextOffset() + 4) !=
-        menu.labels.end())
-    {
-        menu.labels[GetTextOffset() + 4].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(GetTextOffset() + 5) !=
-        menu.labels.end())
-    {
-        menu.labels[GetTextOffset() + 5].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(GetTextOffset() + 6) !=
-        menu.labels.end())
-    {
-        menu.labels[GetTextOffset() + 6].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(GetTextOffset() + 7) != menu.labels.end())
-    {
-        menu.labels[GetTextOffset() + 7].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
 
     switch (actionState)
     {
         case ActionState::RightTokenMoved:
             // Klicked (and evtl. moved) the right token
             // Tutorial can be finished
-            menu.labels[T_CONTINUE].SetPosition(8, 1, 1, AlignItem::Centered);
-            menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
-            menu.labels[GetTextOffset() + 1].SetPosition(1.25, y, 0.5);
+            menu.labels[Lbl::Continue].SetPosition(8, 1, 1,
+                                                   AlignItem::Centered);
+            menu.labels[Lbl::Continue].SetSignal(S_CONTINUE);
+            menu.labels[GetTutorialLabelId(1)].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             break;
 
         case ActionState::MissedAnyToken:
             // Missed any token
-            menu.labels[T_TUTORIAL34_EMPTY].SetPosition(1.25, y, 0.5);
+            menu.labels[Lbl::TutorialMissedToken].SetPosition(1.25, y, 0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25, y, 0.5);
+            menu.labels[Lbl::TutorialTryAgain].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             break;
 
         case ActionState::TokenNotMoveable:
             // Klicked on an unmovable token
-            menu.labels[T_TUTORIAL34_NOMV].SetPosition(1.25, y, 0.5);
+            menu.labels[Lbl::TutorialNotMoveable].SetPosition(1.25, y, 0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25, y, 0.5);
+            menu.labels[Lbl::TutorialTryAgain].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             break;
 
         case ActionState::WrongTokenMoved:
             // Klicked on the wrong token
-            menu.labels[T_TUTORIAL34_GOOD].SetPosition(1.25, y, 0.5);
+            menu.labels[Lbl::TutorialQuiteGood].SetPosition(1.25, y, 0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25, y, 0.5);
+            menu.labels[Lbl::TutorialTryAgain].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             break;
 
         case ActionState::TokenKlickedOnly:
             // Klicked right token, but did not move with the mouse
             // This can only happen in Tutorial 4
-            menu.labels[T_TUTORIAL4_MOVE].SetPosition(1.25, y, 0.5);
+            menu.labels[Lbl::TutorialMouseMove].SetPosition(1.25, y, 0.5);
             y -= 0.5;
-            menu.labels[T_TUTORIAL34_AGAIN].SetPosition(1.25, y, 0.5);
+            menu.labels[Lbl::TutorialTryAgain].SetPosition(1.25, y, 0.5);
             break;
 
         case ActionState::Started:
@@ -244,9 +219,9 @@ void KPstateTutorial3::HookAfterTokenMoved(KPstateContext *pContext,
 // Methods which can be overloaded dep. on the tutorial number
 /////////////////////////////////////////////////////////////////////
 
-int KPstateTutorial3::GetTextOffset() const
+Lbl KPstateTutorial3::GetTutorialLabelId(std::size_t offset) const
 {
-    return T_TUTORIAL3;
+    return GetLabelId(Lbl::Tutorial3, offset);
 }
 
 TokenId KPstateTutorial3::GetEmphasizedTokenId() const

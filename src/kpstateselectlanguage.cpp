@@ -46,25 +46,28 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetPosition(5, 9, 11, 11);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
-    menu.labels[T_SELECTLANGUAGE].SetPosition(8, 8, 1, AlignItem::Centered);
-    menu.labels[T_SELECTLANGUAGE].SetFullyVisible();
+    menu.labels[Lbl::SelectLanguage].SetPosition(8, 8, 1, AlignItem::Centered);
+    menu.labels[Lbl::SelectLanguage].SetFullyVisible();
 
     auto Pos_y = 7.0f;
 
-    for (int i = T_LANGUAGE1; i <= T_LANGUAGE_MAX; ++i)
+    for (auto labelId = Lbl::Language1; labelId != Lbl::LanguageMax;)
     {
-        if (menu.labels.find(i) != menu.labels.end())
+        if (menu.labels.find(labelId) != menu.labels.end())
         {
-            menu.labels[i].SetPosition(8, Pos_y, 0.71f, AlignItem::Centered);
-            menu.labels[i].SetSignal(i);
+            menu.labels[labelId].SetPosition(8, Pos_y, 0.71f,
+                                             AlignItem::Centered);
+            menu.labels[labelId].SetSignal(static_cast<std::size_t>(labelId));
             Pos_y -= .5;
         }
+
+        labelId = GetLabelId(labelId, 1);
     }
 
     if (pContext->GetConfig().Language)
     {
-        menu.labels[T_BACK].SetPosition(8, 1, 1, AlignItem::Centered);
-        menu.labels[T_BACK].SetSignal(S_BACK);
+        menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
+        menu.labels[Lbl::Back].SetSignal(S_BACK);
     }
 
     StartAnimation(pContext);
@@ -85,9 +88,10 @@ void KPstateSelectLanguage::MouseClick(KPstateContext *pContext,
     }
 
     // Language has been changed
-    if (Signal >= T_LANGUAGE1 && Signal <= T_LANGUAGE_MAX)
+    if (Signal >= static_cast<int>(Lbl::Language1) &&
+        Signal <= static_cast<int>(Lbl::LanguageMax))
     {
-        SetLanguage(pContext, Signal);
+        SetLanguage(pContext, static_cast<Lbl>(Signal));
         pContext->ChangeState(StateId::MainMenu);
     }
 }
@@ -101,13 +105,13 @@ StateId KPstateSelectLanguage::ESCKeyAction(KPstateContext *pContext) const
     else
     {
         // Default: Set Language to "English"
-        SetLanguage(pContext, T_LANGUAGE1 + 1);
+        SetLanguage(pContext, GetLabelId(Lbl::Language1, 1));
         return StateId::MainMenu;
     }
 }
 
 void KPstateSelectLanguage::SetLanguage(KPstateContext *pContext,
-                                        int Language) const
+                                        Lbl Language) const
 {
     BLogger::Log("Loading language");
 
@@ -118,7 +122,7 @@ void KPstateSelectLanguage::SetLanguage(KPstateContext *pContext,
         item.second.RecreateDisplayList();
     }
 
-    pContext->GetConfig().Language = Language;
+    pContext->GetConfig().Language = static_cast<int>(Language);
     pContext->GetConfig().WriteToFile();
 }
 

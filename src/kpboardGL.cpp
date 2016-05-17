@@ -117,7 +117,7 @@ bool KPboardView::CreateTexture(unsigned int TextureSize,
     if (!BTexture::IsPowerOf2(width) || !BTexture::IsPowerOf2(height))
     {
         message(MsgType::Warning, "Width or Height of '", file,
-                                  "' is not a power of 2\n");
+                "' is not a power of 2\n");
     }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

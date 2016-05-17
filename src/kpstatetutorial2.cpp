@@ -53,41 +53,41 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetSignal(S_BACK);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
-    menu.labels[T_TUTORIAL2].SetPosition(8, 10.5, 1.0, AlignItem::Centered);
-    menu.labels[T_TUTORIAL2].SetFullyVisible();
+    menu.labels[Lbl::Tutorial2].SetPosition(8, 10.5, 1.0, AlignItem::Centered);
+    menu.labels[Lbl::Tutorial2].SetFullyVisible();
 
     auto y = 9.5f;
-    menu.labels[T_TUTORIAL2_01].SetPosition(1.25, y, 0.5);
+    menu.labels[Lbl::Tutorial21].SetPosition(1.25, y, 0.5);
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL2_02) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial22) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL2_02].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial22].SetPosition(1.25, y, 0.5);
     }
 
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL2_03) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial23) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL2_03].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial23].SetPosition(1.25, y, 0.5);
     }
 
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL2_04) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial24) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL2_04].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial24].SetPosition(1.25, y, 0.5);
     }
 
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL2_05) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial25) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL2_05].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial25].SetPosition(1.25, y, 0.5);
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
+    menu.labels[Lbl::Continue].SetPosition(8, 1, 1, AlignItem::Centered);
+    menu.labels[Lbl::Continue].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);
 }

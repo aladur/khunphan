@@ -22,11 +22,12 @@
 #ifndef KPLOCALE_H
 #define KPLOCALE_H
 
+#include "language.h"
 #include <map>
 #include <string>
 
 
-typedef std::map<int, std::string> tIdToString;
+typedef std::map<Lbl, std::string> tIdToString;
 
 class KPlocale
 {

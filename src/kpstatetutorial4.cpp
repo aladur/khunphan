@@ -42,9 +42,9 @@ void KPstateTutorial4::ContinueWithNextState(KPstateContext *pContext,
     pContext->ChangeState(pContext->GetMenu().RestoreLastStateId());
 }
 
-int KPstateTutorial4::GetTextOffset() const
+Lbl KPstateTutorial4::GetTutorialLabelId(std::size_t offset) const
 {
-    return T_TUTORIAL4;
+    return GetLabelId(Lbl::Tutorial4, offset);
 }
 
 TokenId KPstateTutorial4::GetEmphasizedTokenId() const

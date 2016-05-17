@@ -43,27 +43,27 @@ void KPstateSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetPosition(4, 9, 12, 11);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
-    menu.labels[T_SETTINGS].SetPosition(8, 8, 1, AlignItem::Centered);
-    menu.labels[T_SETTINGS].SetFullyVisible();
+    menu.labels[Lbl::Settings].SetPosition(8, 8, 1, AlignItem::Centered);
+    menu.labels[Lbl::Settings].SetFullyVisible();
 
     auto y = 6.5f;
-    menu.labels[T_CONTROL].SetPosition(8, y, 1, AlignItem::Centered);
+    menu.labels[Lbl::Control].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0;
-    menu.labels[T_CONTROL].SetSignal(S_CONTROL_SETTINGS);
+    menu.labels[Lbl::Control].SetSignal(S_CONTROL_SETTINGS);
 
-    menu.labels[T_GRAPHICS].SetPosition(8, y, 1, AlignItem::Centered);
+    menu.labels[Lbl::Graphics].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0;
-    menu.labels[T_GRAPHICS].SetSignal(S_GRAPHIC_SETTINGS);
+    menu.labels[Lbl::Graphics].SetSignal(S_GRAPHIC_SETTINGS);
 
-    menu.labels[T_AUDIO].SetPosition(8, y, 1, AlignItem::Centered);
+    menu.labels[Lbl::Audio].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0;
-    menu.labels[T_AUDIO].SetSignal(S_AUDIO_SETTINGS);
+    menu.labels[Lbl::Audio].SetSignal(S_AUDIO_SETTINGS);
 
-    menu.labels[T_LANGUAGE].SetPosition(8, y, 1, AlignItem::Centered);
-    menu.labels[T_LANGUAGE].SetSignal(S_SELECT_LANGUAGE);
+    menu.labels[Lbl::Language].SetPosition(8, y, 1, AlignItem::Centered);
+    menu.labels[Lbl::Language].SetSignal(S_SELECT_LANGUAGE);
 
-    menu.labels[T_BACK].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[T_BACK].SetSignal(S_BACK);
+    menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
+    menu.labels[Lbl::Back].SetSignal(S_BACK);
 
     StartAnimation(pContext);
 }

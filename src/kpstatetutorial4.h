@@ -34,7 +34,7 @@ public:
     };
 protected:
     void InitializeBoardWithTokens(KPstateContext *pContext) const;
-    int  GetTextOffset() const;
+    Lbl GetTutorialLabelId(std::size_t offset = 0) const override;
     TokenId GetEmphasizedTokenId() const;
     void ContinueWithNextState(KPstateContext *pContext,
                                bool valid = true) const;

@@ -28,7 +28,7 @@
 
 enum tDisplayList
 {
-    BOARD = 0,
+    BOARD,
     WOOD_TEXTURE,
     RED_MATERIAL,
     BLINKING_RED_MATERIAL,

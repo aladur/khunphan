@@ -24,6 +24,7 @@
 #define KPSTATETUTORIAL3_H
 
 #include "stdafx.h"
+#include <cstddef>
 #include "kpstatemovetoken.h"
 
 
@@ -54,7 +55,7 @@ protected:
         WrongTokenMoved,
         RightTokenMoved
     };
-    virtual int GetTextOffset() const;
+    virtual Lbl GetTutorialLabelId(std::size_t offset = 0) const;
     virtual TokenId GetEmphasizedTokenId() const;
     virtual void InitializeBoardWithTokens(KPstateContext *pContext) const;
     virtual void ContinueWithNextState(KPstateContext *pContext,

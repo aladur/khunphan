@@ -41,7 +41,7 @@ public:
     void UpdateDisplay(KPstateContext *pContext) const override;
     StateId ESCKeyAction(KPstateContext *) const override;
 private:
-    void SetLanguage(KPstateContext *pContext, int Language) const;
+    void SetLanguage(KPstateContext *pContext, Lbl Language) const;
 };
 
 #endif

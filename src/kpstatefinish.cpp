@@ -44,12 +44,12 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetPosition(4, 9, 12, 11);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
-    menu.labels[T_QUIT].SetPosition(8, 8, 1, AlignItem::Centered);
-    menu.labels[T_QUIT].SetFullyVisible();
-    menu.labels[T_DOQUIT].SetPosition(8, 6, 1, AlignItem::Centered);
-    menu.labels[T_DOQUIT].SetSignal(S_FINISH);
-    menu.labels[T_BACK].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[T_BACK].SetSignal(S_BACK);
+    menu.labels[Lbl::Quit].SetPosition(8, 8, 1, AlignItem::Centered);
+    menu.labels[Lbl::Quit].SetFullyVisible();
+    menu.labels[Lbl::DoQuit].SetPosition(8, 6, 1, AlignItem::Centered);
+    menu.labels[Lbl::DoQuit].SetSignal(S_FINISH);
+    menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
+    menu.labels[Lbl::Back].SetSignal(S_BACK);
 
     StartAnimation(pContext);
 }

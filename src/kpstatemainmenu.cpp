@@ -58,33 +58,33 @@ void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetPosition(5, 9, 11, 11);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
-    menu.labels[T_MAINMENU].SetPosition(8, 8, 1, AlignItem::Centered);
-    menu.labels[T_MAINMENU].SetFullyVisible();
+    menu.labels[Lbl::MainMenu].SetPosition(8, 8, 1, AlignItem::Centered);
+    menu.labels[Lbl::MainMenu].SetFullyVisible();
 
-    menu.labels[T_TUTORIAL].SetPosition(5.5, 6.5, 1, AlignItem::Centered);
-    menu.labels[T_TUTORIAL].SetSignal(S_TUTORIAL);
+    menu.labels[Lbl::Tutorial].SetPosition(5.5, 6.5, 1, AlignItem::Centered);
+    menu.labels[Lbl::Tutorial].SetSignal(S_TUTORIAL);
 
-    menu.labels[T_H_KEYBOARDHELP].SetPosition(5.5, 5, 1, AlignItem::Centered);
-    menu.labels[T_H_KEYBOARDHELP].SetSignal(S_KEYBOARD_HELP);
+    menu.labels[Lbl::KeyboardHelp].SetPosition(5.5, 5, 1, AlignItem::Centered);
+    menu.labels[Lbl::KeyboardHelp].SetSignal(S_KEYBOARD_HELP);
 
-    menu.labels[T_SCORELIST].SetPosition(5.5, 3.5, 1, AlignItem::Centered);
-    menu.labels[T_SCORELIST].SetSignal(S_SCORELIST);
+    menu.labels[Lbl::ScoreList].SetPosition(5.5, 3.5, 1, AlignItem::Centered);
+    menu.labels[Lbl::ScoreList].SetSignal(S_SCORELIST);
 
-    menu.labels[T_NEWGAME].SetPosition(10.5, 6.5, 1, AlignItem::Centered);
-    menu.labels[T_NEWGAME].SetSignal(S_NEW_GAME);
+    menu.labels[Lbl::NewGame].SetPosition(10.5, 6.5, 1, AlignItem::Centered);
+    menu.labels[Lbl::NewGame].SetSignal(S_NEW_GAME);
 
-    menu.labels[T_SETTINGS].SetPosition(10.5, 5, 1, AlignItem::Centered);
-    menu.labels[T_SETTINGS].SetSignal(S_SETTINGS);
+    menu.labels[Lbl::Settings].SetPosition(10.5, 5, 1, AlignItem::Centered);
+    menu.labels[Lbl::Settings].SetSignal(S_SETTINGS);
 
     if (pContext->GetConfig().SavedGame != 0)
     {
-        menu.labels[T_CONTINUEGAME].SetPosition(10.5, 3.5, 1,
-                                                AlignItem::Centered);
-        menu.labels[T_CONTINUEGAME].SetSignal(S_CONTINUE);
+        menu.labels[Lbl::ContinueGame].SetPosition(10.5, 3.5, 1,
+                AlignItem::Centered);
+        menu.labels[Lbl::ContinueGame].SetSignal(S_CONTINUE);
     }
 
-    menu.labels[T_QUIT].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[T_QUIT].SetSignal(S_FINISH);
+    menu.labels[Lbl::Quit].SetPosition(8, 1, 1, AlignItem::Centered);
+    menu.labels[Lbl::Quit].SetSignal(S_FINISH);
 
     StartAnimation(pContext);
 }

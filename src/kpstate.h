@@ -64,6 +64,12 @@ protected:
                                    int x, int y) const;
     void ChangeState(KPstateContext *pContext, StateId stateID) const;
     void StartAnimation(KPstateContext *pContext) const;
+    inline static Lbl GetLabelId(Lbl base, std::size_t offset)
+    {
+        const auto index = static_cast<std::size_t>(base);
+
+        return static_cast<Lbl>(index + offset);
+    }
 };
 
 inline void KPstate::ChangeState(KPstateContext *pContext,

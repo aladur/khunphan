@@ -47,48 +47,48 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext) const
     auto fullScreen = pContext->GetUserInterface().CanToggleFullScreen();
 
     auto y = 8.5f;
-    menu.labels[T_H_KEYBOARDHELP].SetPosition(8, y, 1, AlignItem::Centered);
+    menu.labels[Lbl::KeyboardHelp].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0f;
-    menu.labels[T_H_KEYBOARDHELP].SetFullyVisible();
+    menu.labels[Lbl::KeyboardHelp].SetFullyVisible();
 
-    menu.labels[T_H_GENERAL].SetPosition(8, y, 1, AlignItem::Centered);
+    menu.labels[Lbl::HelpGeneral].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0f;
-    menu.labels[T_H_ESC_KEY].SetPosition(3, y, 0.6f);
+    menu.labels[Lbl::HelpKeyESC].SetPosition(3, y, 0.6f);
     y -= 0.6f;
-    menu.labels[T_H_OPENGL_KEY].SetPosition(3, y, 0.6f);
+    menu.labels[Lbl::HelpKeyOpenGL].SetPosition(3, y, 0.6f);
     y -= (fullScreen ? 0.6f : 1.0f);
 
     if (fullScreen)
     {
-        menu.labels[T_H_FULLSCREEN_KEY].SetPosition(3, y, 0.6f);
+        menu.labels[Lbl::HelpKeyFullscreen].SetPosition(3, y, 0.6f);
         y -= 1.0f;
     }
 
-    menu.labels[T_H_IN_GAME].SetPosition(8, y, 1, AlignItem::Centered);
+    menu.labels[Lbl::HelpInGame].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0f;
-    menu.labels[T_H_PAUSE_KEY].SetPosition(3, y, 0.6f);
+    menu.labels[Lbl::HelpKeyPause].SetPosition(3, y, 0.6f);
     y -= 0.6f;
-    menu.labels[T_H_CAMERA_KEY].SetPosition(3, y, 0.6f);
+    menu.labels[Lbl::HelpKeyCamera].SetPosition(3, y, 0.6f);
     y -= 0.6f;
 
     y = 6.5f;
-    menu.labels[T_H_ESC].SetPosition(6, y, 0.6f);
+    menu.labels[Lbl::HelpESC].SetPosition(6, y, 0.6f);
     y -= 0.6f;
-    menu.labels[T_H_OPENGL].SetPosition(6, y, 0.6f);
+    menu.labels[Lbl::HelpOpenGL].SetPosition(6, y, 0.6f);
     y -= (fullScreen ? 0.6f : 2.0f);
 
     if (fullScreen)
     {
-        menu.labels[T_H_FULLSCREEN].SetPosition(6, y, 0.6f);
+        menu.labels[Lbl::HelpFullscreen].SetPosition(6, y, 0.6f);
         y -= 2.0f;
     }
 
-    menu.labels[T_H_PAUSE].SetPosition(6, y, 0.6f);
+    menu.labels[Lbl::HelpPause].SetPosition(6, y, 0.6f);
     y -= 0.6f;
-    menu.labels[T_H_CAMERA].SetPosition(6, y, 0.6f);
+    menu.labels[Lbl::HelpCamera].SetPosition(6, y, 0.6f);
 
-    menu.labels[T_BACK].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[T_BACK].SetSignal(S_BACK);
+    menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
+    menu.labels[Lbl::Back].SetSignal(S_BACK);
 
     StartAnimation(pContext);
 }

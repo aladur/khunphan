@@ -61,23 +61,25 @@ void KPstate::UpdateDisplay(KPstateContext *pContext) const
 
     if (pContext->GetConfig().DisplayFPS)
     {
-        menu.labels[T_FPS].SetPosition(0.1f, y, 0.3f);
+        menu.labels[Lbl::Fps].SetPosition(0.1f, y, 0.3f);
     }
 
     y -= 0.6f;
 
     if (menu.GetIsDisplayOpenGLInfo())
     {
-        menu.labels[T_GL_VENDOR].FormatText(userInterface.GetOpenGLVendor());
-        menu.labels[T_GL_RENDERER].FormatText(
+        menu.labels[Lbl::OpenGLVendor].FormatText(
+            userInterface.GetOpenGLVendor());
+        menu.labels[Lbl::OpenGLRenderer].FormatText(
             userInterface.GetOpenGLRenderer());
-        menu.labels[T_GL_VERSION].FormatText(userInterface.GetOpenGLVersion());
+        menu.labels[Lbl::OpenGLVersion].FormatText(
+            userInterface.GetOpenGLVersion());
 
-        menu.labels[T_GL_VENDOR].SetPosition(0.1f, y, 0.3f);
+        menu.labels[Lbl::OpenGLVendor].SetPosition(0.1f, y, 0.3f);
         y -= 0.3f;
-        menu.labels[T_GL_RENDERER].SetPosition(0.1f, y, 0.3f);
+        menu.labels[Lbl::OpenGLRenderer].SetPosition(0.1f, y, 0.3f);
         y -= 0.3f;
-        menu.labels[T_GL_VERSION].SetPosition(0.1f, y, 0.3f);
+        menu.labels[Lbl::OpenGLVersion].SetPosition(0.1f, y, 0.3f);
     }
 }
 
@@ -190,7 +192,7 @@ void KPstate::StartAnimation(KPstateContext *pContext) const
 }
 
 StateId KPstate::DefaultKeyPressed(KPstateContext *pContext,
-                                        unsigned char key, int, int) const
+                                   unsigned char key, int, int) const
 {
     auto &config = pContext->GetConfig();
 

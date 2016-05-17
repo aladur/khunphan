@@ -81,17 +81,17 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext) const
 
     auto id = pContext->GetBoardView().GetBoardId();
     auto movesToSolve = pContext->GetNodes().GetNodeFor(id).GetMovesToSolve();
-    menu.labels[T_MINMOVECOUNT].FormatText(movesToSolve);
-    menu.labels[T_MOVECOUNT].FormatText(
+    menu.labels[Lbl::MoveCountHint].FormatText(movesToSolve);
+    menu.labels[Lbl::MoveCount].FormatText(
         pContext->GetStatistics().Get(EventCounter::Moves));
 
     if (config.SolutionHint)
     {
-        menu.labels[T_MINMOVECOUNT].SetPosition(7, 0.1f, 0.6f);
+        menu.labels[Lbl::MoveCountHint].SetPosition(7, 0.1f, 0.6f);
     }
 
-    menu.labels[T_MOVECOUNT].SetPosition(4, 0.1f, 0.6f);
-    menu.labels[T_TIME].SetPosition(12.5, 0.1f, 0.6f);
+    menu.labels[Lbl::MoveCount].SetPosition(4, 0.1f, 0.6f);
+    menu.labels[Lbl::Time].SetPosition(12.5, 0.1f, 0.6f);
 
     if (config.UserInterface == 0)
     {
@@ -281,15 +281,15 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */) const
         menu.plates[KPPlate::Logo].SetPosition(4, 9, 12, 11);
         menu.plates[KPPlate::Shader].SetPosition(0, 0, 16, 12);
         menu.plates[KPPlate::Shader].SetFadeIn();
-        menu.labels[T_PAUSE].SetPosition(8, 6, 3, AlignItem::Centered);
-        menu.labels[T_PAUSE].SetFullyVisible();
+        menu.labels[Lbl::Pause].SetPosition(8, 6, 3, AlignItem::Centered);
+        menu.labels[Lbl::Pause].SetFullyVisible();
     }
     else
     {
         menu.plates[KPPlate::Logo].SetPosition(0, 11, 4, 12);
         menu.plates[KPPlate::Logo].SetSignal(S_LOGO);
         menu.plates[KPPlate::Shader].SetFadeOut();
-        menu.labels[T_PAUSE].SetFadeOut();
+        menu.labels[Lbl::Pause].SetFadeOut();
     }
 
     StartAnimation(pContext);
@@ -337,7 +337,7 @@ void KPstateGame::SaveGameStatus(KPstateContext *pContext) const
     config.PlayTime      = statistics.GetTotalTime();
     config.Moves         = statistics.Get(EventCounter::Moves);
     config.MovesWithHint = statistics.Get(EventCounter::MovesWithHint);
-    config.MovesWithCheat= statistics.Get(EventCounter::MovesWithCheat);
+    config.MovesWithCheat = statistics.Get(EventCounter::MovesWithCheat);
     config.WriteToFile();
 }
 

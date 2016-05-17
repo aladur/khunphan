@@ -57,57 +57,63 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetPosition(5, 9, 11, 11);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
-    menu.labels[T_SCORELIST].SetPosition(8, 8.5, 1, AlignItem::Centered);
-    menu.labels[T_SCORELIST].SetFullyVisible();
+    menu.labels[Lbl::ScoreList].SetPosition(8, 8.5, 1, AlignItem::Centered);
+    menu.labels[Lbl::ScoreList].SetFullyVisible();
 
     auto y = 7.5f;
-    menu.labels[T_S_NAME].SetPosition(2, y, 0.7f);
-    menu.labels[T_S_PLAYTIME].SetPosition(8, y, 0.7f);
-    menu.labels[T_S_MOVES].SetPosition(11, y, 0.7f);
+    menu.labels[Lbl::ScoreListName].SetPosition(2, y, 0.7f);
+    menu.labels[Lbl::ScoreListPlayTime].SetPosition(8, y, 0.7f);
+    menu.labels[Lbl::ScoreListMoves].SetPosition(11, y, 0.7f);
 
     y -= 0.7f;
 
     for (decltype(max) i = 0; i < max; i++)
     {
-        auto it = menu.labels.find(T_S_NAME1 + i);
+        auto labelId = GetLabelId(Lbl::ScoreListName1, i);
+        auto it = menu.labels.find(labelId);
 
         if (it == menu.labels.end())
         {
-            menu.labels[T_S_NAME1 + i] = Label("{0}");
+            menu.labels[labelId] = Label("{0}");
         }
 
-        it = menu.labels.find(T_S_PLAYTIME1 + i);
+        labelId = GetLabelId(Lbl::ScoreListPlayTime1, i);
+        it = menu.labels.find(labelId);
 
         if (it == menu.labels.end())
         {
-            menu.labels[T_S_PLAYTIME1 + i] = Label("{0}");
+            menu.labels[labelId] = Label("{0}");
         }
 
-        it = menu.labels.find(T_S_MOVES1 + i);
+        labelId = GetLabelId(Lbl::ScoreListMoves1, i);
+        it = menu.labels.find(labelId);
 
         if (it == menu.labels.end())
         {
-            menu.labels[T_S_MOVES1 + i] = Label("{0}");
+            menu.labels[labelId] = Label("{0}");
         }
 
         scoreList.Get(i, Name, &PlayTime, &Moves);
         auto timeString =
             KPStatistics::FormatTime(TimeFormat::HHMMSS, PlayTime);
-        menu.labels[T_S_NAME1 + i].FormatText(Name);
-        menu.labels[T_S_PLAYTIME1 + i].FormatText(timeString);
-        menu.labels[T_S_MOVES1 + i].FormatText(Moves);
+        menu.labels[GetLabelId(Lbl::ScoreListName1, i)].FormatText(Name);
+        menu.labels[GetLabelId(Lbl::ScoreListPlayTime1, i)].FormatText(
+            timeString);
+        menu.labels[GetLabelId(Lbl::ScoreListMoves1, i)].FormatText(Moves);
 
-        menu.labels[T_S_NAME1 + i].SetPosition(2, y, 0.6f);
-        menu.labels[T_S_PLAYTIME1 + i].SetPosition(9, y, 0.6f,
-                                                   AlignItem::Centered);
-        menu.labels[T_S_MOVES1 + i].SetPosition(12, y, 0.6f,
-                                                AlignItem::Centered);
+        menu.labels[GetLabelId(Lbl::ScoreListName1, i)].SetPosition(2, y, 0.6f);
+        menu.labels[GetLabelId(Lbl::ScoreListPlayTime1, i)].SetPosition(
+            9, y, 0.6f,
+            AlignItem::Centered);
+        menu.labels[GetLabelId(Lbl::ScoreListMoves1, i)].SetPosition(
+            12, y, 0.6f,
+            AlignItem::Centered);
 
         y -= 0.5f;
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
+    menu.labels[Lbl::Continue].SetPosition(8, 1, 1, AlignItem::Centered);
+    menu.labels[Lbl::Continue].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);
 }

@@ -42,12 +42,14 @@ void KPstateTutorial1::Initialize(KPstateContext *pContext,
     InitializeBoardWithTokens(pContext);
 
     // Set Tutorial-Text to width  31.2
-    for (int i = T_TUTORIAL1 ; i <= T_TUTORIAL_END ; i++)
+    for (auto labelId = Lbl::Tutorial1; labelId != Lbl::TutorialEnd;)
     {
-        if (menu.labels.find(i) != menu.labels.end())
+        if (menu.labels.find(labelId) != menu.labels.end())
         {
-            menu.labels[i].SetMaxWidth(31);
+            menu.labels[labelId].SetMaxWidth(31);
         }
+
+        labelId = GetLabelId(labelId, 1);
     }
 
     pContext->GetCamera().SetRoundtrip(false);
@@ -68,64 +70,64 @@ void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetSignal(S_BACK);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
-    menu.labels[T_TUTORIAL1].SetPosition(8, 10.5, 1.0, AlignItem::Centered);
-    menu.labels[T_TUTORIAL1].SetFullyVisible();
+    menu.labels[Lbl::Tutorial1].SetPosition(8, 10.5, 1.0, AlignItem::Centered);
+    menu.labels[Lbl::Tutorial1].SetFullyVisible();
 
     auto y = 9.5f;
-    menu.labels[T_TUTORIAL1_01].SetPosition(1.25, y, 0.7f);
+    menu.labels[Lbl::Tutorial11].SetPosition(1.25, y, 0.7f);
     y -= 1.0;
-    menu.labels[T_TUTORIAL1_02].SetPosition(1.25, y, 0.5);
+    menu.labels[Lbl::Tutorial12].SetPosition(1.25, y, 0.5);
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL1_03) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial13) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL1_03].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial13].SetPosition(1.25, y, 0.5);
     }
 
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL1_04) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial14) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL1_04].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial14].SetPosition(1.25, y, 0.5);
     }
 
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL1_05) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial15) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL1_05].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial15].SetPosition(1.25, y, 0.5);
     }
 
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL1_06) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial16) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL1_06].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial16].SetPosition(1.25, y, 0.5);
     }
 
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL1_07) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial17) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL1_07].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial17].SetPosition(1.25, y, 0.5);
     }
 
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL1_08) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial18) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL1_08].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial18].SetPosition(1.25, y, 0.5);
     }
 
     y -= 0.5;
 
-    if (menu.labels.find(T_TUTORIAL1_09) != menu.labels.end())
+    if (menu.labels.find(Lbl::Tutorial19) != menu.labels.end())
     {
-        menu.labels[T_TUTORIAL1_09].SetPosition(1.25, y, 0.5);
+        menu.labels[Lbl::Tutorial19].SetPosition(1.25, y, 0.5);
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
+    menu.labels[Lbl::Continue].SetPosition(8, 1, 1, AlignItem::Centered);
+    menu.labels[Lbl::Continue].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);
 }

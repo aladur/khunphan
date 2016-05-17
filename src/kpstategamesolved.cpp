@@ -31,7 +31,7 @@
 
 
 KPstateGameSolved::KPstateGameSolved() : addToScoreList(false),
-    tf_index(T_SOLVED2_1)
+    tf_index(Lbl::Solved11)
 {
 }
 
@@ -46,29 +46,29 @@ void KPstateGameSolved::Initialize(KPstateContext *pContext,
 
     pContext->GetConfig().SavedGame = 0;
 
-    auto it = menu.labels.find(T_NAME_LABEL);
+    auto it = menu.labels.find(Lbl::NameLabel);
 
     if (it == menu.labels.end())
     {
-        menu.labels[T_NAME_LABEL] = Label();
+        menu.labels[Lbl::NameLabel] = Label();
     }
 
-    menu.labels[T_NAME_LABEL].SetTextOrFormat("");
+    menu.labels[Lbl::NameLabel].SetTextOrFormat("");
 
     if (statistics.Get(EventCounter::MovesWithCheat) != 0)
     {
         // Game solved but cheats used
-        tf_index = T_SOLVED2_3;
+        tf_index = Lbl::SolvedWithCheat31;
     }
     else if (statistics.Get(EventCounter::MovesWithHint) != 0)
     {
         // Game solved with solution hint
-        tf_index = T_SOLVED2_2;
+        tf_index = Lbl::SolvedWithHint21;
     }
     else
     {
         // Game solved without any help
-        tf_index = T_SOLVED2_1;
+        tf_index = Lbl::Solved11;
 
         if (scoreList.CanAdd("", statistics.GetTotalTime(),
                              statistics.Get(EventCounter::Moves)))
@@ -94,10 +94,10 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
 
     auto y = 7.5f;
     std::string playTime = statistics.GetTotalTime(TimeFormat::HHMMSS);
-    menu.labels[T_SOLVED1].FormatText(
-                                      statistics.Get(EventCounter::Moves),
-                                      playTime);
-    menu.labels[T_SOLVED1].SetPosition(8, y, 0.6f, AlignItem::Centered);
+    menu.labels[Lbl::Solved].FormatText(
+        statistics.Get(EventCounter::Moves),
+        playTime);
+    menu.labels[Lbl::Solved].SetPosition(8, y, 0.6f, AlignItem::Centered);
     y -= 0.6f;
 
     auto it = menu.labels.find(tf_index);
@@ -110,34 +110,37 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
         y -= 0.6f;
     }
 
-    it = menu.labels.find(tf_index + 1);
+    auto labelId = GetLabelId(tf_index, 1);
+
+    it = menu.labels.find(labelId);
 
     if (it != menu.labels.end())
     {
-        menu.labels[tf_index + 1].SetPosition(8, y, 0.6f, AlignItem::Centered);
+        menu.labels[labelId].SetPosition(8, y, 0.6f, AlignItem::Centered);
     }
 
     y -= 0.6f;
-    it = menu.labels.find(tf_index + 2);
+    labelId = GetLabelId(tf_index, 2);
+    it = menu.labels.find(labelId);
 
     if (it != menu.labels.end())
     {
-        menu.labels[tf_index + 2].SetPosition(8, y, 0.6f, AlignItem::Centered);
+        menu.labels[labelId].SetPosition(8, y, 0.6f, AlignItem::Centered);
     }
 
     y -= 1.0f;
 
     if (addToScoreList)
     {
-        menu.labels[T_INPUT_NAME].SetPosition(8, y, 1, AlignItem::Centered);
+        menu.labels[Lbl::InputName].SetPosition(8, y, 1, AlignItem::Centered);
         y -= 1.0f;
-        menu.labels[T_NAME_LABEL].SetPosition(8, y, 1, AlignItem::Centered);
-        menu.labels[T_NAME_LABEL].SetMaxCharacters(24);
-        menu.labels[T_NAME_LABEL].SetInputFocus(addToScoreList);
+        menu.labels[Lbl::NameLabel].SetPosition(8, y, 1, AlignItem::Centered);
+        menu.labels[Lbl::NameLabel].SetMaxCharacters(24);
+        menu.labels[Lbl::NameLabel].SetInputFocus(addToScoreList);
     }
 
-    menu.labels[T_CONTINUE].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[T_CONTINUE].SetSignal(S_CONTINUE);
+    menu.labels[Lbl::Continue].SetPosition(8, 1, 1, AlignItem::Centered);
+    menu.labels[Lbl::Continue].SetSignal(S_CONTINUE);
 
     StartAnimation(pContext);
 }
@@ -147,7 +150,7 @@ void KPstateGameSolved::KeyPressed(KPstateContext *pContext, unsigned char key,
 {
     if (EvaluateKeyPressed(pContext, key, x, y))
     {
-        if (pContext->GetMenu().labels[T_NAME_LABEL].HasInputFocus())
+        if (pContext->GetMenu().labels[Lbl::NameLabel].HasInputFocus())
         {
             UpdateDisplay(pContext);
         }
@@ -185,7 +188,7 @@ void KPstateGameSolved::MouseClick(KPstateContext *pContext,
 void KPstateGameSolved::SaveScoreAndChangeState(KPstateContext *pContext) const
 {
     auto newState = StateId::MainMenu;
-    auto name(pContext->GetMenu().labels[T_NAME_LABEL].GetText());
+    auto name(pContext->GetMenu().labels[Lbl::NameLabel].GetText());
 
     if (addToScoreList && !name.empty())
     {

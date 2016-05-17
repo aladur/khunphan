@@ -33,7 +33,8 @@ KPStatistics::KPStatistics() : playingTime(0), stopWatchActive(false)
 
 void KPStatistics::Reset()
 {
-    std::array<EventCounter,3> all_events {
+    std::array<EventCounter, 3> all_events
+    {
         EventCounter::Moves,
         EventCounter::MovesWithHint,
         EventCounter::MovesWithCheat
@@ -45,7 +46,7 @@ void KPStatistics::Reset()
 
     for (auto event : all_events)
     {
-       counter.insert({event, 0});
+        counter.insert({event, 0});
     }
 }
 

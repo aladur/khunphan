@@ -52,7 +52,7 @@ tIdToString KPlocale::ReadFromFile(const std::string &filename)
                 text.erase(0, 1);
             }
 
-            strings[id] = text;
+            strings[static_cast<Lbl>(id)] = text;
         }
 
         ifs.close();

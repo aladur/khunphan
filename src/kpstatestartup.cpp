@@ -38,34 +38,34 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, previousStateId);
 
-    auto it = pContext->GetMenu().labels.find(T_COPYRIGHT2);
+    auto it = pContext->GetMenu().labels.find(Lbl::Copyright2);
 
     if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().labels[T_COPYRIGHT2] =
+        pContext->GetMenu().labels[Lbl::Copyright2] =
             Label("(C) 2002-2016 Wolfgang Schwotzer");
     }
 
-    it = pContext->GetMenu().labels.find(T_COPYRIGHT3);
+    it = pContext->GetMenu().labels.find(Lbl::Copyright3);
 
     if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().labels[T_COPYRIGHT3] = Label();
+        pContext->GetMenu().labels[Lbl::Copyright3] = Label();
     }
 
-    it = pContext->GetMenu().labels.find(T_COPYRIGHT5);
+    it = pContext->GetMenu().labels.find(Lbl::Copyright5);
 
     if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().labels[T_COPYRIGHT5] =
+        pContext->GetMenu().labels[Lbl::Copyright5] =
             Label("(C) 2001-2006 Nicklas Nygren");
     }
 
-    it = pContext->GetMenu().labels.find(T_COPYRIGHT6);
+    it = pContext->GetMenu().labels.find(Lbl::Copyright6);
 
     if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().labels[T_COPYRIGHT6] =
+        pContext->GetMenu().labels[Lbl::Copyright6] =
             Label("http://nifflas.ni2.se/");
     }
 
@@ -85,20 +85,20 @@ void KPstateStartUp::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::Logo].SetPosition(5, 9, 11, 11);
 
     auto y = 3.0f;
-    menu.labels[T_COPYRIGHT1].SetPosition(8, y, 0.4f, AlignItem::Centered);
+    menu.labels[Lbl::Copyright1].SetPosition(8, y, 0.4f, AlignItem::Centered);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT2].SetPosition(8, y, 0.4f, AlignItem::Centered);
+    menu.labels[Lbl::Copyright2].SetPosition(8, y, 0.4f, AlignItem::Centered);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT3].SetPosition(8, y, 0.4f, AlignItem::Centered);
+    menu.labels[Lbl::Copyright3].SetPosition(8, y, 0.4f, AlignItem::Centered);
     y -= 0.8f;
-    menu.labels[T_COPYRIGHT4].SetPosition(8, y, 0.4f, AlignItem::Centered);
+    menu.labels[Lbl::Copyright4].SetPosition(8, y, 0.4f, AlignItem::Centered);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT5].SetPosition(8, y, 0.4f, AlignItem::Centered);
+    menu.labels[Lbl::Copyright5].SetPosition(8, y, 0.4f, AlignItem::Centered);
     y -= 0.4f;
-    menu.labels[T_COPYRIGHT6].SetPosition(8, y, 0.4f, AlignItem::Centered);
+    menu.labels[Lbl::Copyright6].SetPosition(8, y, 0.4f, AlignItem::Centered);
 
-    menu.labels[T_NOWARRANTY].SetPosition(8, 0, 0.5, AlignItem::Centered);
-    menu.labels[T_VERSION].SetPosition(0.1f, 0, 0.5);
+    menu.labels[Lbl::NoWarranty].SetPosition(8, 0, 0.5, AlignItem::Centered);
+    menu.labels[Lbl::ApplicationVersion].SetPosition(0.1f, 0, 0.5);
 
     StartAnimation(pContext);
 }

@@ -40,7 +40,7 @@ KPmenu::KPmenu(KPConfigPtr PConfig) :
 }
 
 void KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
-                        int Language /* = 0*/)
+                        Lbl Language)
 {
     BLogger::Log("Menu initialization");
 
@@ -56,14 +56,11 @@ void KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
 
     BLogger::Log("Loading languages");
     // In the first step load strings for all supported languages
-    LoadLanguage(T_LANGUAGE_MAX);
+    LoadLanguage(Lbl::LanguageMax);
     // In a second step load english as default
-    LoadLanguage(T_LANGUAGE2);
-
-    if (Language)
-    {
-        LoadLanguage(Language);
-    }
+    LoadLanguage(Lbl::Language2);
+    // In a third step load the requested language
+    LoadLanguage(Language);
 
     if (labels.empty())
     {
@@ -77,29 +74,29 @@ void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest)
     Label::PreInitialize(TextureName, TextureSize, Nearest, *config);
 
     plates[KPPlate::Logo].Update(TextureName, TextureSize, Nearest,
-                              true, "logo", *config);
+                                 true, "logo", *config);
     plates[KPPlate::SoundOn].Update(TextureName, TextureSize, Nearest,
-                                  true, "sound_on", *config);
+                                    true, "sound_on", *config);
     plates[KPPlate::SoundOff].Update(TextureName, TextureSize, Nearest,
-                                   true, "soundmusic_off", *config);
+                                     true, "soundmusic_off", *config);
     plates[KPPlate::MusicOn].Update(TextureName, TextureSize, Nearest,
-                                  true, "music_on", *config);
+                                    true, "music_on", *config);
     plates[KPPlate::MusicOff].Update(TextureName, TextureSize, Nearest,
-                                   true, "soundmusic_off", *config);
+                                     true, "soundmusic_off", *config);
 }
 
-bool KPmenu::LoadLanguage(int Language)
+bool KPmenu::LoadLanguage(Lbl Language)
 {
     std::stringstream stream;
     std::string file;
 
     if (labels.find(Language) != labels.end())
     {
-        BLogger::Log(" ", labels[Language].GetText().c_str());
+        BLogger::Log(" ", labels[Language].GetText());
     }
 
-    stream << config->Get(KPDirectory::Locale).c_str()
-           << Language
+    stream << config->Get(KPDirectory::Locale)
+           << static_cast<std::size_t>(Language)
            << ".lang";
 
     file = stream.str();
@@ -118,20 +115,20 @@ bool KPmenu::LoadLanguage(int Language)
     // Single source for Package Name and Version
     std::stringstream text;
     text << PACKAGE << " V" << VERSION;
-    AddOrSetLabel(0, text.str());
+    AddOrSetLabel(Lbl::ApplicationVersion, text.str());
 
     return true;
 }
 
-void KPmenu::AddOrSetLabel(int number, const std::string &text)
+void KPmenu::AddOrSetLabel(Lbl labelId, const std::string &text)
 {
-    if (labels.find(number) != labels.end())
+    if (labels.find(labelId) != labels.end())
     {
-        labels[number].SetTextOrFormat(text);
+        labels[labelId].SetTextOrFormat(text);
     }
     else
     {
-        labels[number] = Label(text);
+        labels[labelId] = Label(text);
     }
 }
 
@@ -202,7 +199,7 @@ void KPmenu::UpdateFPS(int fps, float renderTime)
     std::stringstream stream;
 
     stream << std::fixed << std::setprecision(1) << renderTime;
-    labels[T_FPS].FormatText(fps, stream.str());
+    labels[Lbl::Fps].FormatText(fps, stream.str());
 }
 
 void KPmenu::UpdatePlayTime(KPstateContext *pContext, unsigned int duration)
@@ -212,7 +209,7 @@ void KPmenu::UpdatePlayTime(KPstateContext *pContext, unsigned int duration)
         // Cyclically update play time each 100 ms
         std::string timeString =
             pContext->GetStatistics().GetTotalTime(TimeFormat::HHMMSS);
-        labels[T_TIME].FormatText(timeString);
+        labels[Lbl::Time].FormatText(timeString);
     }
 }
 
