@@ -88,7 +88,7 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[Lbl::HelpCamera].SetPosition(6, y, 0.6f);
 
     menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[Lbl::Back].SetSignal(S_BACK);
+    menu.labels[Lbl::Back].SetSignal(Signal::Back);
 
     StartAnimation(pContext);
 }
@@ -98,12 +98,15 @@ void  KPstateKeyboardHelp::MouseClick(KPstateContext *pContext,
                                       MouseButtonEvent event,
                                       int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_BACK:
+        case Signal::Back:
             pContext->ChangeState(pContext->GetPreviousState());
+            return;
+
+        default:
             break;
     }
 }

@@ -55,7 +55,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::MenuBackground].SetPosition(.5, 4.5, 15.5, 11);
 
     menu.plates[KPPlate::Logo].SetPosition(0, 11.0, 4, 12);
-    menu.plates[KPPlate::Logo].SetSignal(S_BACK);
+    menu.plates[KPPlate::Logo].SetSignal(Signal::Back);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
     labelId = GetTutorialLabelId();
@@ -84,7 +84,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
             // Tutorial can be finished
             menu.labels[Lbl::Continue].SetPosition(8, 1, 1,
                                                    AlignItem::Centered);
-            menu.labels[Lbl::Continue].SetSignal(S_CONTINUE);
+            menu.labels[Lbl::Continue].SetSignal(Signal::Continue);
             menu.labels[GetTutorialLabelId(1)].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             break;
@@ -133,17 +133,20 @@ void  KPstateTutorial3::MouseClick(KPstateContext *pContext,
                                    MouseButton button, MouseButtonEvent event,
                                    int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_CONTINUE:
+        case Signal::Continue:
             ContinueWithNextState(pContext);
             return;
 
-        case S_BACK:
+        case Signal::Back:
             pContext->ChangeState(ESCKeyAction(pContext));
             return;
+
+        default:
+            break;
     }
 
     if (actionState != ActionState::RightTokenMoved)

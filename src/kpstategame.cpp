@@ -77,7 +77,7 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext) const
     pContext->GetUserInterface().PlayMusic(config.MusicOn, false);
 
     menu.plates[KPPlate::Logo].SetPosition(0, 11, 4, 12);
-    menu.plates[KPPlate::Logo].SetSignal(S_LOGO);
+    menu.plates[KPPlate::Logo].SetSignal(Signal::MainMenu);
 
     auto id = pContext->GetBoardView().GetBoardId();
     auto movesToSolve = pContext->GetNodes().GetNodeFor(id).GetMovesToSolve();
@@ -98,26 +98,26 @@ void KPstateGame::UpdateDisplay(KPstateContext *pContext) const
         if (config.SoundOn)
         {
             menu.plates[KPPlate::SoundOn].SetPosition(0.3f, 0.1f, 1, 0.5);
-            menu.plates[KPPlate::SoundOn].SetSignal(S_TOGGLE_SOUND_ON);
+            menu.plates[KPPlate::SoundOn].SetSignal(Signal::ToggleSoundOn);
             menu.plates[KPPlate::SoundOn].SetFullyVisible();
         }
         else
         {
             menu.plates[KPPlate::SoundOff].SetPosition(0.3f, 0.1f, 1, 0.5);
-            menu.plates[KPPlate::SoundOff].SetSignal(S_TOGGLE_SOUND_ON);
+            menu.plates[KPPlate::SoundOff].SetSignal(Signal::ToggleSoundOn);
             menu.plates[KPPlate::SoundOff].SetFullyVisible();
         }
 
         if (config.MusicOn)
         {
             menu.plates[KPPlate::MusicOn].SetPosition(1.0f, 0.1f, 1.6f, 0.5);
-            menu.plates[KPPlate::MusicOn].SetSignal(S_TOGGLE_MUSIC_ON);
+            menu.plates[KPPlate::MusicOn].SetSignal(Signal::ToggleMusicOn);
             menu.plates[KPPlate::MusicOn].SetFullyVisible();
         }
         else
         {
             menu.plates[KPPlate::MusicOff].SetPosition(1.0f, 0.1f, 1.6f, 0.5);
-            menu.plates[KPPlate::MusicOff].SetSignal(S_TOGGLE_MUSIC_ON);
+            menu.plates[KPPlate::MusicOff].SetSignal(Signal::ToggleMusicOn);
             menu.plates[KPPlate::MusicOff].SetFullyVisible();
         }
     }
@@ -195,13 +195,13 @@ void  KPstateGame::MouseClick(KPstateContext *pContext,
 {
     auto &config = pContext->GetConfig();
 
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
     if (!pContext->IsPause() && !pContext->GetBoardView().IsSolved())
     {
-        switch (Signal)
+        switch (signal)
         {
-            case S_LOGO:
+            case Signal::MainMenu:
                 pContext->GetCamera().SetRoundtrip(true);
                 pContext->GetStatistics().Stop();
                 SaveGameStatus(pContext);
@@ -210,13 +210,13 @@ void  KPstateGame::MouseClick(KPstateContext *pContext,
                 pContext->ChangeState(StateId::MainMenu);
                 break;
 
-            case S_TOGGLE_SOUND_ON:
+            case Signal::ToggleSoundOn:
                 config.SoundOn = !config.SoundOn;
                 config.WriteToFile();
                 UpdateDisplay(pContext);
                 break;
 
-            case S_TOGGLE_MUSIC_ON:
+            case Signal::ToggleMusicOn:
                 config.MusicOn = !config.MusicOn;
                 config.WriteToFile();
                 UpdateDisplay(pContext);
@@ -287,7 +287,7 @@ void KPstateGame::Pause(KPstateContext *pContext, bool On /* = true */) const
     else
     {
         menu.plates[KPPlate::Logo].SetPosition(0, 11, 4, 12);
-        menu.plates[KPPlate::Logo].SetSignal(S_LOGO);
+        menu.plates[KPPlate::Logo].SetSignal(Signal::MainMenu);
         menu.plates[KPPlate::Shader].SetFadeOut();
         menu.labels[Lbl::Pause].SetFadeOut();
     }

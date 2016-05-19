@@ -140,7 +140,7 @@ void KPstateGameSolved::UpdateDisplay(KPstateContext *pContext) const
     }
 
     menu.labels[Lbl::Continue].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[Lbl::Continue].SetSignal(S_CONTINUE);
+    menu.labels[Lbl::Continue].SetSignal(Signal::Continue);
 
     StartAnimation(pContext);
 }
@@ -175,12 +175,15 @@ void KPstateGameSolved::MouseClick(KPstateContext *pContext,
                                    MouseButton button, MouseButtonEvent event,
                                    int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_CONTINUE:
+        case Signal::Continue:
             SaveScoreAndChangeState(pContext);
+            return;
+
+        default:
             break;
     }
 }

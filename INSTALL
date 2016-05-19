@@ -265,3 +265,15 @@ operates.
 
 `configure' also accepts some other, not widely useful, options.
 
+3. Add a new language
+=====================
+In KhunPhan any language supporting ISO 8859-1 character set can easily be 
+added with two steps. No recompilation is needed.
+https://en.wikipedia.org/wiki/ISO/IEC_8859-1 shows all supported characters.
+
+1. Make a new entry in file locale/999.lang with the next unused language id.
+   e.g.:   902 Fran√ais
+
+2. Copy file 900.lang to a file 9xy.lang. Use the same id as in step 1.
+   Open the file and translate all strings to the target language.
+

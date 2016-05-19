@@ -31,6 +31,8 @@
 #include "kpconfig.h"
 
 
+enum class Signal;
+
 enum class KPPlate
 {
     MenuBackground,
@@ -41,45 +43,6 @@ enum class KPPlate
     MusicOff,
     Shader // should be always the last one
 };
-
-typedef enum
-{
-    S_INVALID                     = -1,
-    S_LOGO                        = 100,
-    S_BACK                        = 101,
-    S_SAVECHANGES                 = 102,
-    S_CONTINUE                    = 103,
-
-    S_NEW_GAME                    = 110,
-    S_TUTORIAL                    = 111,
-    S_SETTINGS                    = 112,
-    S_FINISH                      = 113,
-    S_SELECT_LANGUAGE             = 114,
-    S_GRAPHIC_SETTINGS            = 115,
-    S_CONTROL_SETTINGS            = 116,
-    S_AUDIO_SETTINGS              = 117,
-    S_KEYBOARD_HELP               = 118,
-    S_SCORELIST                   = 119,
-
-    S_TOGGLE_LAMPS                = 130,
-    S_TOGGLE_TEXTURENAME          = 131,
-    S_TOGGLE_RESOLUTION           = 133,
-    S_TOGGLE_TEXTUREINTERPOL      = 136,
-    S_TOGGLE_MENUTEXTURES         = 137,
-    S_TOGGLE_TEXTURES             = 138,
-    S_TOGGLE_QUALITY              = 139,
-    S_TOGGLE_FPS                  = 140,
-    S_TOGGLE_SOLUTION_HINT        = 141,
-    S_TOGGLE_MOUSE_SPEED          = 142,
-    S_TOGGLE_AMBIENT_LIGHT        = 143,
-    S_TOGGLE_SCREENMODE           = 144,
-    S_TOGGLE_SOUND_VOLUME         = 145,
-    S_TOGGLE_MUSIC_VOLUME         = 146,
-    S_TOGGLE_USER_INTERFACE       = 147,
-
-    S_TOGGLE_SOUND_ON             = 160,
-    S_TOGGLE_MUSIC_ON             = 161
-} tSignal;
 
 typedef std::map<Lbl, Label> tIdToLabel;
 typedef std::map<KPPlate, Plate> tIdToPlate;
@@ -116,7 +79,7 @@ public:
     KPmenu &operator=(const KPmenu &) = delete;
 
     void Initialize(std::string &TextureName, int TextureSize, bool Nearest,
-                    Lbl Language);
+                    Signal Language);
     void Update(std::string &TextureName, int TextureSize, bool Nearest);
     void Draw();
     void UpdateFPS(int fps, float renderTime = 0.0);
@@ -142,7 +105,7 @@ public:
     }
 
 protected:
-    bool LoadLanguage(Lbl Language);
+    bool LoadLanguage(Signal Language);
     void AddOrSetLabel(Lbl labelId, const std::string &text);
     void FadeOutAllPlates();
     void FadeOutAllLabels();

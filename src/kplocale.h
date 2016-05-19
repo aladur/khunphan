@@ -33,6 +33,7 @@ class KPlocale
 {
 public:
     static tIdToString ReadFromFile(const std::string &filename);
+    static const std::string FileExtension;
 };
 
 #endif

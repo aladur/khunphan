@@ -109,7 +109,7 @@ void KPUIBase::InitializeAfterOpen()
     pMenu->Initialize(config->TextureName,
                       config->MenuTextureSize,
                       config->Nearest,
-                      static_cast<Lbl>(config->Language));
+                      static_cast<Signal>(config->Language));
 #ifdef DEBUG_LIGHT_TEST
     ChangeState(StateId::LightTest);
 #else

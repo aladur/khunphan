@@ -25,6 +25,8 @@
 #include "kpmenu.h"
 #include "kpconfig.h"
 #include "blogger.h"
+#include "kpsignals.h"
+#include "kplocale.h"
 
 
 void KPstateSelectLanguage::Initialize(KPstateContext *pContext,
@@ -51,23 +53,26 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
 
     auto Pos_y = 7.0f;
 
-    for (auto labelId = Lbl::Language1; labelId != Lbl::LanguageMax;)
-    {
-        if (menu.labels.find(labelId) != menu.labels.end())
-        {
-            menu.labels[labelId].SetPosition(8, Pos_y, 0.71f,
-                                             AlignItem::Centered);
-            menu.labels[labelId].SetSignal(static_cast<std::size_t>(labelId));
-            Pos_y -= .5;
-        }
+    const auto idsToStrings = GetLanguageList(pContext);
 
-        labelId = GetLabelId(labelId, 1);
+    for (auto &item : idsToStrings)
+    {
+        auto id = static_cast<std::size_t>(item.first);
+        auto signal = static_cast<Signal>(id);
+
+        menu.labels[item.first].SetPosition(8, Pos_y, 0.71f,
+                                            AlignItem::Centered);
+        menu.labels[item.first].SetSignal(signal);
+        Pos_y -= 0.5;
     }
 
+    // If the config not yet contains a language (first start)
+    // the user is forced to set the language.
+    // Otherwise the language selection can be quit:
     if (pContext->GetConfig().Language)
     {
         menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
-        menu.labels[Lbl::Back].SetSignal(S_BACK);
+        menu.labels[Lbl::Back].SetSignal(Signal::Back);
     }
 
     StartAnimation(pContext);
@@ -78,21 +83,31 @@ void KPstateSelectLanguage::MouseClick(KPstateContext *pContext,
                                        MouseButtonEvent event,
                                        int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_BACK:
+        case Signal::Back:
             pContext->ChangeState(pContext->GetPreviousState());
+            return;
+
+        default:
             break;
     }
 
-    // Language has been changed
-    if (Signal >= static_cast<int>(Lbl::Language1) &&
-        Signal <= static_cast<int>(Lbl::LanguageMax))
+    const auto idsToStrings = GetLanguageList(pContext);
+
+    for (auto &item : idsToStrings)
     {
-        SetLanguage(pContext, static_cast<Lbl>(Signal));
-        pContext->ChangeState(StateId::MainMenu);
+        auto id = static_cast<std::size_t>(item.first);
+        auto signalSelectLanguage = static_cast<Signal>(id);
+
+        if (signal == signalSelectLanguage)
+        {
+            SetLanguage(pContext, signal);
+            pContext->ChangeState(StateId::MainMenu);
+            return;
+        }
     }
 }
 
@@ -105,13 +120,13 @@ StateId KPstateSelectLanguage::ESCKeyAction(KPstateContext *pContext) const
     else
     {
         // Default: Set Language to "English"
-        SetLanguage(pContext, GetLabelId(Lbl::Language1, 1));
+        SetLanguage(pContext, Signal::SelectEnglish);
         return StateId::MainMenu;
     }
 }
 
 void KPstateSelectLanguage::SetLanguage(KPstateContext *pContext,
-                                        Lbl Language) const
+                                        Signal Language) const
 {
     BLogger::Log("Loading language");
 
@@ -124,5 +139,24 @@ void KPstateSelectLanguage::SetLanguage(KPstateContext *pContext,
 
     pContext->GetConfig().Language = static_cast<int>(Language);
     pContext->GetConfig().WriteToFile();
+}
+
+const tIdToString KPstateSelectLanguage::GetLanguageList(
+    KPstateContext *pContext) const
+{
+    std::stringstream stream;
+    stream << pContext->GetConfig().Get(KPDirectory::Locale)
+           << 999
+           << KPlocale::FileExtension;
+    auto file = stream.str();
+
+    auto idsToStrings = KPlocale::ReadFromFile(file);
+
+    if (idsToStrings.empty())
+    {
+        throw std::runtime_error("Error loading language list.");
+    }
+
+    return idsToStrings;
 }
 

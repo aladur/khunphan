@@ -138,36 +138,36 @@ void KPstate::Draw(KPstateContext *pContext) const
     }
 }
 
-int  KPstate::EvaluateMouseClick(KPstateContext *pContext, MouseButton button,
-                                 MouseButtonEvent event, int x, int y)
+Signal KPstate::EvaluateMouseClick(KPstateContext *pContext, MouseButton button,
+                                   MouseButtonEvent event, int x, int y)
 {
     auto &menu = pContext->GetMenu();
 
-    auto Signal = 0;
+    auto signal = Signal::Void;
 
     for (auto &pitem : menu.plates)
     {
-        Signal = pitem.second.MouseEvent(button, event, x, y,
+        signal = pitem.second.MouseEvent(button, event, x, y,
                                          pContext->GetUserInterface());
 
-        if (Signal)
+        if (signal != Signal::Void)
         {
-            return Signal;
+            return signal;
         }
     }
 
     for (auto &litem : menu.labels)
     {
-        if (Signal)
+        if (signal != Signal::Void)
         {
             break;
         }
 
-        Signal = litem.second.MouseEvent(button, event, x, y,
+        signal = litem.second.MouseEvent(button, event, x, y,
                                          pContext->GetUserInterface());
     }
 
-    return Signal;
+    return signal;
 }
 
 bool KPstate::EvaluateKeyPressed(KPstateContext *pContext, unsigned char key,

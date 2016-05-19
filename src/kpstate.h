@@ -26,6 +26,7 @@
 #include "KPstateContext.h"
 #include "language.h"
 #include "kpstates.h"
+#include "kpsignals.h"
 
 
 class KPstate
@@ -56,7 +57,7 @@ protected:
     virtual void UpdateDisplay(KPstateContext *pContext) const;
     virtual void PlayAudioForInitialize(KPstateContext *pContext) const;
 
-    int  EvaluateMouseClick(KPstateContext *pContext, MouseButton button,
+    Signal EvaluateMouseClick(KPstateContext *pContext, MouseButton button,
                             MouseButtonEvent event, int x, int y);
     bool EvaluateKeyPressed(KPstateContext *pContext, unsigned char key,
                             int x, int y) const;

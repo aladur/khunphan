@@ -21,7 +21,7 @@
 
 // The values defined in this enum are IDs to translated strings,
 // and also used as index into the labels list.
-// The language specific strings are defined in locale/xyz.lang
+// The language specific strings are defined in locale/9xy.lang
 
 #ifndef Language_H
 #define Language_H
@@ -269,9 +269,9 @@ enum class Lbl
 
     TutorialEnd = 799,
 
-    Language1 = 900,
-    Language2 = 901,
-    LanguageMax = 999
+    English = 900,
+    German = 901,
+    LanguageList = 999
 };
 
 #endif

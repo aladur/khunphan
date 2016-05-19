@@ -47,9 +47,9 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[Lbl::Quit].SetPosition(8, 8, 1, AlignItem::Centered);
     menu.labels[Lbl::Quit].SetFullyVisible();
     menu.labels[Lbl::DoQuit].SetPosition(8, 6, 1, AlignItem::Centered);
-    menu.labels[Lbl::DoQuit].SetSignal(S_FINISH);
+    menu.labels[Lbl::DoQuit].SetSignal(Signal::Quit);
     menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[Lbl::Back].SetSignal(S_BACK);
+    menu.labels[Lbl::Back].SetSignal(Signal::Back);
 
     StartAnimation(pContext);
 }
@@ -57,16 +57,19 @@ void KPstateFinish::UpdateDisplay(KPstateContext *pContext) const
 void  KPstateFinish::MouseClick(KPstateContext *pContext, MouseButton button,
                                 MouseButtonEvent event, int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_FINISH:
+        case Signal::Quit:
             pContext->GetUserInterface().RequestForClose();
             break;
 
-        case S_BACK:
+        case Signal::Back:
             pContext->ChangeState(pContext->GetPreviousState());
+            return;
+
+        default:
             break;
     }
 }

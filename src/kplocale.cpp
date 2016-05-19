@@ -24,6 +24,8 @@
 #include "kplocale.h"
 
 
+const std::string KPlocale::FileExtension = ".lang";
+
 tIdToString KPlocale::ReadFromFile(const std::string &filename)
 {
     std::ifstream ifs(filename.c_str());

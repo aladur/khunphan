@@ -16,6 +16,7 @@
 class KPUIBase;
 class KPConfig;
 class BTexture;
+enum class Signal;
 
 
 class Plate
@@ -36,8 +37,8 @@ public:
     void SetFullyVisible();
     void StartAnimation();
     void Animate(unsigned int);
-    int MouseEvent(MouseButton, MouseButtonEvent, int, int, KPUIBase &);
-    void SetSignal(int);
+    Signal MouseEvent(MouseButton, MouseButtonEvent, int, int, KPUIBase &);
+    void SetSignal(Signal);
     void RecreateDisplayList(BTexture *pTexture = nullptr);
 
 private:
@@ -53,7 +54,7 @@ private:
     float old_ax, old_ay;
     float old_bx, old_by;
     float old_Alpha;
-    int Signal;
+    Signal signal;
     float r, g, b; // Color
     std::string TextureSource;
     unsigned int Texture;

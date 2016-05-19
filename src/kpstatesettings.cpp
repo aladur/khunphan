@@ -49,21 +49,21 @@ void KPstateSettings::UpdateDisplay(KPstateContext *pContext) const
     auto y = 6.5f;
     menu.labels[Lbl::Control].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0;
-    menu.labels[Lbl::Control].SetSignal(S_CONTROL_SETTINGS);
+    menu.labels[Lbl::Control].SetSignal(Signal::Control);
 
     menu.labels[Lbl::Graphics].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0;
-    menu.labels[Lbl::Graphics].SetSignal(S_GRAPHIC_SETTINGS);
+    menu.labels[Lbl::Graphics].SetSignal(Signal::Graphics);
 
     menu.labels[Lbl::Audio].SetPosition(8, y, 1, AlignItem::Centered);
     y -= 1.0;
-    menu.labels[Lbl::Audio].SetSignal(S_AUDIO_SETTINGS);
+    menu.labels[Lbl::Audio].SetSignal(Signal::Audio);
 
     menu.labels[Lbl::Language].SetPosition(8, y, 1, AlignItem::Centered);
-    menu.labels[Lbl::Language].SetSignal(S_SELECT_LANGUAGE);
+    menu.labels[Lbl::Language].SetSignal(Signal::Language);
 
     menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[Lbl::Back].SetSignal(S_BACK);
+    menu.labels[Lbl::Back].SetSignal(Signal::Back);
 
     StartAnimation(pContext);
 }
@@ -72,28 +72,31 @@ void  KPstateSettings::MouseClick(KPstateContext *pContext,
                                   MouseButton button, MouseButtonEvent event,
                                   int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_CONTROL_SETTINGS:
+        case Signal::Control:
             pContext->ChangeState(StateId::ControlSettings);
-            break;
+            return;
 
-        case S_GRAPHIC_SETTINGS:
+        case Signal::Graphics:
             pContext->ChangeState(StateId::GraphicSettings);
-            break;
+            return;
 
-        case S_AUDIO_SETTINGS:
+        case Signal::Audio:
             pContext->ChangeState(StateId::AudioSettings);
-            break;
+            return;
 
-        case S_SELECT_LANGUAGE:
+        case Signal::Language:
             pContext->ChangeState(StateId::SelectLanguage);
-            break;
+            return;
 
-        case S_BACK:
+        case Signal::Back:
             pContext->ChangeState(ESCKeyAction(pContext));
+            return;
+
+        default:
             break;
     }
 }

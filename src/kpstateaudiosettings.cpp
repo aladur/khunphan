@@ -76,24 +76,24 @@ void KPstateAudioSettings::UpdateDisplay(KPstateContext *pContext) const
 
     auto y = 6.0f;
     menu.labels[Lbl::SoundVolume].SetPosition(8, y, 0.71f, AlignItem::Right);
-    menu.labels[Lbl::SoundVolume].SetSignal(S_TOGGLE_SOUND_VOLUME);
+    menu.labels[Lbl::SoundVolume].SetSignal(Signal::ToggleSoundVolume);
 
     auto labelId = soundVolumeIds[E_SoundVolume / 10];
 
     menu.labels[labelId].SetPosition(8.2f, y, 0.71f);
-    menu.labels[labelId].SetSignal(S_TOGGLE_SOUND_VOLUME);
+    menu.labels[labelId].SetSignal(Signal::ToggleSoundVolume);
 
     y -= dy;
     menu.labels[Lbl::MusicVolume].SetPosition(8, y, 0.71f, AlignItem::Right);
-    menu.labels[Lbl::MusicVolume].SetSignal(S_TOGGLE_MUSIC_VOLUME);
+    menu.labels[Lbl::MusicVolume].SetSignal(Signal::ToggleMusicVolume);
 
     labelId = musicVolumeIds[E_MusicVolume / 10];
 
     menu.labels[labelId].SetPosition(8.2f, y, 0.71f);
-    menu.labels[labelId].SetSignal(S_TOGGLE_MUSIC_VOLUME);
+    menu.labels[labelId].SetSignal(Signal::ToggleMusicVolume);
 
     menu.labels[Lbl::Back].SetPosition(8, 0.7f, 1, AlignItem::Centered);
-    menu.labels[Lbl::Back].SetSignal(S_BACK);
+    menu.labels[Lbl::Back].SetSignal(Signal::Back);
 
     StartAnimation(pContext);
 }
@@ -103,23 +103,27 @@ void  KPstateAudioSettings::MouseClick(KPstateContext *pContext,
                                        MouseButtonEvent event,
                                        int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_TOGGLE_SOUND_VOLUME:
+        case Signal::ToggleSoundVolume:
             ToggleSoundVolume(pContext);
             UpdateDisplay(pContext);
             break;
 
-        case S_TOGGLE_MUSIC_VOLUME:
+        case Signal::ToggleMusicVolume:
             ToggleMusicVolume(pContext);
             UpdateDisplay(pContext);
             break;
 
-        case S_BACK:
+        case Signal::Back:
             SaveChanges(pContext);
             pContext->ChangeState(pContext->GetPreviousState());
+            return;
+
+        default:
+            break;
     }
 }
 

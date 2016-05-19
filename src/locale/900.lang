@@ -1,99 +1,101 @@
+// KhunPhan label text in English
+
 // Titel
-1 Design und Entwicklung
-4 Musik 
-9 KhunPhan beinhaltet keinerlei Gewährleistung
+1 Design and Development
+4 Music
+9 KhunPhan comes with absolutely no warranty
 
-//Hauptmenu
-10 Hauptmenu                        
-11 Einstellungen
-12 Tastenbelegungen
-13 Beenden
-14 Anleitung
-15 Weiter
+//Main Menu
+10 Main Menu
+11 Setup
+12 Keyboard Help
+13 Quit
+14 Tutorial
+15 Continue
 
-// Einstellungen
-20 Steuerung
-21 Grafik
+// Setup
+20 Controls
+21 Video
 22 Audio
-23 Sprache
+23 Language
 
-//OpenGL Interface Info
-30 OpenGL Hersteller : {0}
+// OpenGL Interface Info
+30 OpenGL Vendor : {0}
 31 OpenGL Renderer : {0}
 32 OpenGL Version : {0}
 
-// Anzeige FPS
+// Display FPS
 35 {0} fps ({1} ms)
 
-// Tastenbelegung
-40 Allgemein
-41 Im Spiel
+// Keyboard Help
+40 General
+41 Within Game
 
-42 ESC, Strg+Q
-43 Strg+O
+42 ESC, Ctrl+Q
+43 Ctrl+O
 44 p, P
 45 1...7
-46 Strg+F
+46 Ctrl+F
 
-50 Aktuellen Vorgang abbrechen
-51 Info zur OpenGL Schnittstelle
-52 Spiel unterbrechen oder fortsetzen
-53 Kameraposition ändern
-54 Umschaltung Fenster-, Vollbildmodus
-// Allgemein
-100 Zurück
-101 Übernehmen
+50 Abort current activity
+51 Info on OpenGL Interface
+52 Pause or continue Game
+53 Change Camera Position
+54 Toogle Window and Fullscreen mode
+
+//General
+100 Back
+101 Apply
 102 OK
-103 Abbrechen
-104 Pause
-105 Spiel Beenden
+103 Cancel
+104 Paused
+105 Quit the Game
 
-// Im Spiel
-170 Weiterspielen
+//Witin Game
+170 Resume Game
 
-171 Du hast das Spiel mit {0} Zügen in der Zeit {1} erfolgreich gelöst.
-
-172 Gratulation!
+171 You have successfully solved the Game with {0} Moves in time {0}
+172 Congratulation!
 173
 174
 
-175 Bei {0} Zügen hast Du die Lösungshilfe benutzt.
-176 Für ein Übungsspiel nicht schlecht.
+175 During {0} Moves You have used the solution hint.
+176 That's not bad for a training Game.
 177
 
-178 Leider ist dieses Spiel ungültig, Du hast geschummelt!
+178 Sorry but this game is invalid, You have cheated!
 179
 180
 
-181 Bitte gib Deinen Namen ein:
+181 Please enter your Name:
 
-192 Neues Spiel
-193 Zeit : {0}
-194 Noch min. {0} Züge
-195 Zug : {0}
+192 New Game
+193 Time : {0}
+194 Min. {0} Moves to take
+195 Move : {0}
 
-// Einstellungen - Bedienung
-200 Mausgeschwindigkeit :
-201 Langsam
+// Setup - Controls
+200 Mouse Speed :
+201 Slow
 202 Standard
-203 Schnell
-204 Sehr Schnell
+203 Fast
+204 Very Fast
 
-205 Lösungshilfe :
-206 An
-207 Aus
+205 Solution Hint :
+206 Yes
+207 No
 
-230 Menu Texturen :
+230 Menu Textures :
 231 Standard
-232 Hoch
+232 High
 
-250 Texturen :
-251 Sehr niedrig
-252 Niedrig
+250 Textures :
+251 Very Low
+252 Low
 253 Standard
-254 Hoch
+254 High
 
-270 Bildschirmauflösung :
+270 Screen Resolutions :
 271 640x480
 272 800x600
 273 1024x768
@@ -101,47 +103,47 @@
 275 1600x1200
 276 1920x1440
 
-295 Texturinterpolation :
-296 Aus
+295 Texture Interpolation :
+296 Off
 297 Linear
 
-300 Qualität :
-301 Sehr schnell
-302 Schnell
+300 Quality :
+301 Very Fast
+302 Fast
 303 Standard
-304 Hoch
-305 Sehr hoch
-306 Benutzerdefiniert
+304 High
+305 Very High
+306 User Defined
 
-310 Hinweis
-311 Die neue Bildschirmauflösung oder
-312 Graphik-Schnittstelle wird erst beim nächsten
-313 Start von KhunPhan übernommen
+310 Hint
+311 The new screen resolution or graphics
+312 interface will be applied next time
+313 KhunPhan is started
 
-320 Umgebungslicht :
-321 Ein
-322 Aus
+320 Ambient Light :
+321 On
+322 Off
 
-325 Spielfeld Beleuchtung :
-326 1 Lampe
-327 2 Lampen
-328 3 Lampen
+325 Field Illumination :
+326 1 Lamp
+327 2 Lamps
+328 3 Lamps
 
-335 Anzeige FPS :
-336 Ein
-337 Aus
+335 FPS Display :
+336 On
+337 Off
 
-341 Bildschirm Modus :
-342 Vollbild
-343 Fenster
+341 Screen Mode :
+342 Fullscreen
+343 Window
 
-345 Graphik- und Audio-Schnittstelle
+345 Graphics- and Audio-Interface
 346 SDL (Simple Direct Media Layer)
-347 GLUT (Nur Graphik) 
+347 GLUT (Graphics Only)
 
-// Einstellungen - Audio
-350 Effekt-Lautstärke
-351 Aus
+// Setup - Audio
+350 Effects Volume
+351 Off
 352 10%
 353 20%
 354 30%
@@ -153,8 +155,8 @@
 360 90%
 361 100%
 
-370 Musik-Lautstärke
-371 Aus
+370 Music Volume
+371 Off
 372 10%
 373 20%
 374 30%
@@ -166,66 +168,63 @@
 380 90%
 381 100%
 
-382 Thema :
-383 Blasen
-384 Marmor
-385 Metall
-386 Gemälde
-387 Stein
+382 Theme :
+383 Bubbles
+384 Marble
+385 Metal
+386 Painting
+387 Rock
 388 Smily
-389 Holz
+389 Wood
 
-// Einstellungen - Sprache
-400 Sprache / Language
+// Setup - Language
+400 Language / Sprache
 401
 402
 
-// Score List
-500 Bestenliste
+// Highscore List
+500 Highscore List
 501 Name
-502 Spielzeit
-503 Summe der Züge
+502 Playtime
+503 Sum of Moves
 
 // Tutorial
-710 Anleitung 1 von 4
-711 Herzlich Willkommen bei KhunPhan. 
-712 Khun Phan war eine führende Person in der Thailändischen Legende. Aufgrund
-713 einer Gefangenschaft versuchte er zu fliehen. Er war jedoch von 9 Wachposten umgeben.
-714 Khun Phan wird durch den großen Spielstein dargestellt, hier rot blinkend. Die 9
-715 Wachposten sind die andern Spielsteine. Du siehst hier die Ausgangsposition des Spiels.
-716 Du kannst diese Anleitung jederzeit mit der Escape-Taste oder einen Klick auf das
-717 KhunPhan Logo abbrechen.
+710 Tutorial 1 of 4
+711 Welcome at KhunPhan.
+712 Khun Phan was a leading character in the Thai Legend. Because he was
+713 imprisoned he tried to escape. However he was surrounded by 9 sentries.
+714 Khun Phan is represented by the large game token, blinking in red.
+715 The 9 sentries are the other game tokens. Here You can see the starting
+716 position of the game. You can always abort this tutorial by pressing
+717 the ESC key or by klicking the KhunPhan Logo.
 718
 719
 
-720 Anleitung 2 von 4
-721 Hier siehst Du Khun Phan auf der Flucht. Ziel des Spiels ist es, in möglichst kurzer
-722 Zeit diese Position zu erreichen. Der große Spielstein befindet sich dabei in der
-723 unteren Mittelposition. Khun Phan kann durch die Öffnung am unteren Spielfeldrand
-724 entfliehen. Die Anordnung der anderen Spielsteine spielt dabei keine Rolle.
+720 Tutorial 2 of 4
+721 Here You can see Khun Phan on the run. The goal of the game is to reach
+722 this position in shortest possible time. The large game token is located at
+723 the lower middle position. Khun Phan can escape through the gap at the lower edge
+724 of the playing field. The position of the other game tokens are irrelevant.
 725
 
-730 Anleitung 3 von 4
-731 Sehr gut, fahre nun fort mit Klick auf 'Weiter'
-732 Wie werden nun die Spielsteine bewegt? Meist läßt sich ein Stein nur in eine Richtung
-733 bewegen. In diesem Fall kannst Du den Spielstein bewegen, indem Du ihn einfach mit der
-734 linken Maustaste anklickst.
-735 Versuche es nun mit dem rot blinkenden Stein!
-736
-737
+730 Tutorial 3 of 4
+731 Very good, please continue with klicking 'Continue'
+732 How to move the game tokens? Usually a token can only be moved in one
+733 direction. In these cases, You can move the token just by klicking on it
+734 with the left mouse button.
+735 Try it now with the red blinking token!
 
-750 Anleitung 4 von 4
-751 Du bist nun bestens vorbereitet für das Spiel. Viel Spaß beim Spielen mit KhunPhan!
-752 Manchmal läßt sich ein Stein in zwei Richtungen bewegen. In diesem Fall bewegst Du
-753 die Maus auf den Stein und drückst die linke Maustaste. Schiebe die Maus ein
-754 Stück in die gewünschte Richtung und lasse dabei die Maustaste gedrückt. Anschließend
-755 lasse die Maustaste wieder los.
-756 Versuche es nun mit dem rot blinkenden Stein!
-757
+750 Tutorial 4 of 4
+751 You are now best prepared for the Game. Have fun playing with KhunPhan!
+752 Sometimes a token can be moved in two directions. In these cases,
+753 position the mouse over the token and press the left mouse key. Move the
+754 mouse into the desired direction and keep the mouse button pressed.
+755 After that release the mouse button.
+756 Try it now with the red blinking token!
 
-770 Das war schon ganz gut.
-771 Dieser Stein läßt sich nicht bewegen.
-772 Außerhalb des Spielfeldes kannst Du Khun Phan nicht befreien.
-773 Versuche es nun noch einmal mit dem rot blinkenden Stein.
-774 Das war der richtige Stein. Gib auch durch die Mausbewegung die Richtung vor.
+770 That was quite good.
+771 This token cannot be moved.
+772 Outside the playing field, you cannot free Khun Phan.
+773 Try it now once again with the red blinking token.
+774 That was the right token. Give it a direction through the mouse movement.
 

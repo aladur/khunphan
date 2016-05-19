@@ -113,6 +113,7 @@ EXTRA_DIST = \
         bmanualtimer.h \
         blogger.h \
         kpuserinterfacefactory.h \
+        kpsignals.h \
         stdafx.h \
         KhunPhan.rc \
         icon.ico

@@ -62,29 +62,29 @@ void KPstateMainMenu::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[Lbl::MainMenu].SetFullyVisible();
 
     menu.labels[Lbl::Tutorial].SetPosition(5.5, 6.5, 1, AlignItem::Centered);
-    menu.labels[Lbl::Tutorial].SetSignal(S_TUTORIAL);
+    menu.labels[Lbl::Tutorial].SetSignal(Signal::Tutorial);
 
     menu.labels[Lbl::KeyboardHelp].SetPosition(5.5, 5, 1, AlignItem::Centered);
-    menu.labels[Lbl::KeyboardHelp].SetSignal(S_KEYBOARD_HELP);
+    menu.labels[Lbl::KeyboardHelp].SetSignal(Signal::KeyboardHelp);
 
     menu.labels[Lbl::ScoreList].SetPosition(5.5, 3.5, 1, AlignItem::Centered);
-    menu.labels[Lbl::ScoreList].SetSignal(S_SCORELIST);
+    menu.labels[Lbl::ScoreList].SetSignal(Signal::ScoreList);
 
     menu.labels[Lbl::NewGame].SetPosition(10.5, 6.5, 1, AlignItem::Centered);
-    menu.labels[Lbl::NewGame].SetSignal(S_NEW_GAME);
+    menu.labels[Lbl::NewGame].SetSignal(Signal::NewGame);
 
     menu.labels[Lbl::Settings].SetPosition(10.5, 5, 1, AlignItem::Centered);
-    menu.labels[Lbl::Settings].SetSignal(S_SETTINGS);
+    menu.labels[Lbl::Settings].SetSignal(Signal::Settings);
 
     if (pContext->GetConfig().SavedGame != 0)
     {
         menu.labels[Lbl::ContinueGame].SetPosition(10.5, 3.5, 1,
                 AlignItem::Centered);
-        menu.labels[Lbl::ContinueGame].SetSignal(S_CONTINUE);
+        menu.labels[Lbl::ContinueGame].SetSignal(Signal::Continue);
     }
 
     menu.labels[Lbl::Quit].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[Lbl::Quit].SetSignal(S_FINISH);
+    menu.labels[Lbl::Quit].SetSignal(Signal::Quit);
 
     StartAnimation(pContext);
 }
@@ -93,35 +93,39 @@ void  KPstateMainMenu::MouseClick(KPstateContext *pContext,
                                   MouseButton button, MouseButtonEvent event,
                                   int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_NEW_GAME:
+        case Signal::NewGame:
             pContext->GetConfig().SavedGame = 0;
 
-        case S_CONTINUE:
+        // Intentionally fall through next case
+        case Signal::Continue:
             pContext->ChangeState(StateId::Game);
-            break;
+            return;
 
-        case S_TUTORIAL:
+        case Signal::Tutorial:
             pContext->ChangeState(StateId::Tutorial1);
-            break;
+            return;
 
-        case S_KEYBOARD_HELP:
+        case Signal::KeyboardHelp:
             pContext->ChangeState(StateId::KeyboardHelp);
-            break;
+            return;
 
-        case S_SETTINGS:
+        case Signal::Settings:
             pContext->ChangeState(StateId::Settings);
-            break;
+            return;
 
-        case S_SCORELIST:
+        case Signal::ScoreList:
             pContext->ChangeState(StateId::ScoreList);
-            break;
+            return;
 
-        case S_FINISH:
+        case Signal::Quit:
             pContext->ChangeState(StateId::Finish);
+            return;
+
+        default:
             break;
     }
 }

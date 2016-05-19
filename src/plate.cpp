@@ -14,6 +14,7 @@
 #include "plate.h"
 #include "btexture.h"
 #include "kpuibase.h"
+#include "kpsignals.h"
 
 
 Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
@@ -22,7 +23,7 @@ Plate::Plate(float R /*= 1.0*/,  float G /*= 1.0*/, float B /*= 1.0*/) :
     target_ax(8), target_ay(6), target_bx(8.1f), target_by(6.1f),
     target_Alpha(MOD_FADEOUT),
     old_ax(8), old_ay(6), old_bx(8.1f), old_by(6.1f), old_Alpha(MOD_FADEOUT),
-    Signal(0),
+    signal(Signal::Void),
     r(R), g(G), b(B), Texture(0), TextureSize(0), Nearest(false),
     WithAlpha(false), animationTimer(TOTAL_ANIMATIONTIME, false)
 {
@@ -46,7 +47,7 @@ Plate::Plate(const Plate &src) :
     target_Alpha(src.target_Alpha),
     old_ax(src.old_ax),  old_ay(src.old_ay),
     old_bx(src.old_bx),  old_by(src.old_by), old_Alpha(src.old_Alpha),
-    Signal(src.Signal),
+    signal(src.signal),
     r(src.r), g(src.g), b(src.b), TextureSource(src.TextureSource),
     Texture(0), TextureSize(src.TextureSize), Nearest(src.Nearest),
     WithAlpha(src.WithAlpha), animationTimer(src.animationTimer)
@@ -107,7 +108,7 @@ Plate &Plate::operator=(const Plate &src)
         old_bx = src.old_bx;
         old_by = src.old_by;
         old_Alpha = src.old_Alpha;
-        Signal = src.Signal;
+        signal = src.signal;
         r = src.r;
         g = src.g;
         b = src.b;
@@ -350,7 +351,7 @@ void Plate::SetPosition(float ax_, float ay_, float bx_, float by_)
         */
     }
 
-    Signal = 0;
+    signal = Signal::Void;
 
     StartAnimation();
 }
@@ -446,14 +447,14 @@ void Plate::Animate(unsigned int duration)
     }
 }
 
-int Plate::MouseEvent(MouseButton button, MouseButtonEvent event,
-                      int x, int y, KPUIBase &ui)
+Signal Plate::MouseEvent(MouseButton button, MouseButtonEvent event,
+                         int x, int y, KPUIBase &ui)
 {
     auto xf = 16.0f * x / ui.Get(WindowProperty::Width);
     auto yf = 12.0f - 12.0f * y / ui.Get(WindowProperty::Height);
 
     if (target_Alpha > 0.0 &&
-        Signal != 0 &&
+        signal != Signal::Void &&
         ax <= xf && xf <= bx && ay <= yf && yf <= by)
     {
         if (button == MouseButton::Left)
@@ -461,25 +462,18 @@ int Plate::MouseEvent(MouseButton button, MouseButtonEvent event,
             if (event == MouseButtonEvent::Press)
             {
                 SetSelected();
-                return -1;
             }
             else
             {
-                return Signal;
+                return signal;
             }
         }
-        else
-        {
-            return -1;
-        }
     }
-    else
-    {
-        return 0;
-    }
+
+    return Signal::Void;
 }
 
-void Plate::SetSignal(int NewSignal)
+void Plate::SetSignal(Signal NewSignal)
 {
-    Signal = NewSignal;
+    signal = NewSignal;
 }

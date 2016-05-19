@@ -55,7 +55,7 @@ void KPstateGraphicHint::UpdateDisplay(KPstateContext *pContext) const
     }
 
     menu.labels[Lbl::Ok].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[Lbl::Ok].SetSignal(S_BACK);
+    menu.labels[Lbl::Ok].SetSignal(Signal::Back);
 
     StartAnimation(pContext);
 }
@@ -65,12 +65,16 @@ void  KPstateGraphicHint::MouseClick(KPstateContext *pContext,
                                      MouseButtonEvent event,
                                      int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_BACK:
+        case Signal::Back:
             pContext->ChangeState(StateId::Settings);
+            return;
+
+        default:
+            break;
     }
 }
 

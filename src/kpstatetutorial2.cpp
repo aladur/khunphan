@@ -50,7 +50,7 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext) const
     menu.plates[KPPlate::MenuBackground].SetPosition(.5, 4.5, 15.5, 11);
 
     menu.plates[KPPlate::Logo].SetPosition(0, 11.0, 4, 12);
-    menu.plates[KPPlate::Logo].SetSignal(S_BACK);
+    menu.plates[KPPlate::Logo].SetSignal(Signal::Back);
     menu.plates[KPPlate::Logo].SetFullyVisible();
 
     menu.labels[Lbl::Tutorial2].SetPosition(8, 10.5, 1.0, AlignItem::Centered);
@@ -87,7 +87,7 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext) const
     }
 
     menu.labels[Lbl::Continue].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[Lbl::Continue].SetSignal(S_CONTINUE);
+    menu.labels[Lbl::Continue].SetSignal(Signal::Continue);
 
     StartAnimation(pContext);
 }
@@ -103,16 +103,19 @@ void  KPstateTutorial2::MouseClick(KPstateContext *pContext,
                                    MouseButton button, MouseButtonEvent event,
                                    int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_CONTINUE:
+        case Signal::Continue:
             pContext->ChangeState(StateId::Tutorial3);
-            break;
+            return;
 
-        case S_BACK:
+        case Signal::Back:
             pContext->ChangeState(ESCKeyAction(pContext));
+            return;
+
+        default:
             break;
     }
 }

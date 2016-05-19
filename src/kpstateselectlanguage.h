@@ -25,7 +25,10 @@
 
 #include "kpstate.h"
 #include "language.h"
+#include "kplocale.h"
 
+
+enum class Signals;
 
 class KPstateSelectLanguage : public KPstate
 {
@@ -41,7 +44,8 @@ public:
     void UpdateDisplay(KPstateContext *pContext) const override;
     StateId ESCKeyAction(KPstateContext *) const override;
 private:
-    void SetLanguage(KPstateContext *pContext, Lbl Language) const;
+    void SetLanguage(KPstateContext *pContext, Signal Language) const;
+    const tIdToString GetLanguageList(KPstateContext *pContext) const;
 };
 
 #endif

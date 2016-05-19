@@ -14,6 +14,7 @@
 #include "label.h"
 #include "kpuibase.h"
 #include "kpconfig.h"
+#include "kpsignals.h"
 
 
 const int Label::left[] =
@@ -68,7 +69,7 @@ Label::Label(const std::string &textOrFormat) :
     Height(0), Alpha(0.0f),
     old_x(0),  old_y(0),  old_Height(0),  old_Alpha(0.0f),
     target_x(0), target_y(0), target_Height(0), target_Alpha(0.0f),
-    Alignment(AlignItem::Left), Signal(0),
+    Alignment(AlignItem::Left), signal(Signal::Void),
     DisplayList(0), hasInputFocus(false), lineCount(0),
     MaxCharacters(32), maxWidth(0),
     animationTimer(TOTAL_ANIMATIONTIME, false)
@@ -98,7 +99,7 @@ Label::Label(const Label &src) :
     target_x(src.target_x), target_y(src.target_y),
     target_Height(src.target_Height), target_Alpha(src.target_Alpha),
     Alignment(src.Alignment),
-    Signal(src.Signal),
+    signal(src.signal),
     DisplayList(0), hasInputFocus(src.hasInputFocus), lineCount(src.lineCount),
     MaxCharacters(src.MaxCharacters), maxWidth(src.maxWidth),
     animationTimer(src.animationTimer)
@@ -136,7 +137,7 @@ Label &Label::operator=(const Label &src)
         target_Height = src.target_Height;
         target_Alpha = src.target_Alpha;
         Alignment = src.Alignment;
-        Signal = src.Signal;
+        signal = src.signal;
         hasInputFocus = src.hasInputFocus;
         lineCount = src.lineCount;
         MaxCharacters = src.MaxCharacters;
@@ -308,7 +309,7 @@ void Label::SetPosition(float X, float Y, float H, AlignItem alignment)
         */
     }
 
-    Signal = 0;
+    signal = Signal::Void;
 
     StartAnimation();
 }
@@ -467,9 +468,9 @@ void Label::Animate(unsigned int duration)
     }
 }
 
-void Label::SetSignal(int NewSignal)
+void Label::SetSignal(Signal NewSignal)
 {
-    Signal = NewSignal;
+    signal = NewSignal;
 }
 
 void Label::StartAnimation()
@@ -669,14 +670,14 @@ void Label::RecreateDisplayList()
     }
 }
 
-int Label::MouseEvent(MouseButton button, MouseButtonEvent event,
-                      int x_, int y_, KPUIBase &ui)
+Signal Label::MouseEvent(MouseButton button, MouseButtonEvent event,
+                         int x_, int y_, KPUIBase &ui)
 {
     auto xf = 16.0f * x_ / ui.Get(WindowProperty::Width);
     auto yf = 12.0f - 12.0f * y_ / ui.Get(WindowProperty::Height);
 
     if (target_Alpha > 0.0 &&
-        Signal != 0 &&
+        signal != Signal::Void &&
         x <= xf && xf <= x + Height * AspectRatio &&
         y <= yf && yf <= y + Height)
     {
@@ -685,22 +686,15 @@ int Label::MouseEvent(MouseButton button, MouseButtonEvent event,
             if (event == MouseButtonEvent::Press)
             {
                 SetSelected();
-                return -1;
             }
             else
             {
-                return Signal;
+                return signal;
             }
         }
-        else
-        {
-            return -1;
-        }
     }
-    else
-    {
-        return 0;
-    }
+
+    return Signal::Void;
 }
 
 float Label::GetHeight()

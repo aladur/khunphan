@@ -58,46 +58,47 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext) const
 
     auto y = 6.0f;
     menu.labels[Lbl::MouseSpeed].SetPosition(8, y, 0.71f, AlignItem::Right);
-    menu.labels[Lbl::MouseSpeed].SetSignal(S_TOGGLE_MOUSE_SPEED);
+    menu.labels[Lbl::MouseSpeed].SetSignal(Signal::ToggleMouseSpeed);
 
     if (E_MouseSpeed <= .293)
     {
         menu.labels[Lbl::MouseSpeedSlow].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::MouseSpeedSlow].SetSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[Lbl::MouseSpeedSlow].SetSignal(Signal::ToggleMouseSpeed);
     }
     else if (E_MouseSpeed <= .41)
     {
         menu.labels[Lbl::MouseSpeedMedium].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::MouseSpeedMedium].SetSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[Lbl::MouseSpeedMedium].SetSignal(Signal::ToggleMouseSpeed);
     }
     else if (E_MouseSpeed <= .575)
     {
         menu.labels[Lbl::MouseSpeedFast].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::MouseSpeedFast].SetSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[Lbl::MouseSpeedFast].SetSignal(Signal::ToggleMouseSpeed);
     }
     else
     {
         menu.labels[Lbl::MouseSpeedVeryFast].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::MouseSpeedVeryFast].SetSignal(S_TOGGLE_MOUSE_SPEED);
+        menu.labels[Lbl::MouseSpeedVeryFast].SetSignal(
+            Signal::ToggleMouseSpeed);
     }
 
     y -= dy;
     menu.labels[Lbl::SolutionHint].SetPosition(8, y, 0.71f, AlignItem::Right);
-    menu.labels[Lbl::SolutionHint].SetSignal(S_TOGGLE_SOLUTION_HINT);
+    menu.labels[Lbl::SolutionHint].SetSignal(Signal::ToggleSolutionHint);
 
     if (E_SolutionHint)
     {
         menu.labels[Lbl::SolutionHintOn].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::SolutionHintOn].SetSignal(S_TOGGLE_SOLUTION_HINT);
+        menu.labels[Lbl::SolutionHintOn].SetSignal(Signal::ToggleSolutionHint);
     }
     else
     {
         menu.labels[Lbl::SolutionHintOff].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::SolutionHintOff].SetSignal(S_TOGGLE_SOLUTION_HINT);
+        menu.labels[Lbl::SolutionHintOff].SetSignal(Signal::ToggleSolutionHint);
     }
 
     menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
-    menu.labels[Lbl::Back].SetSignal(S_BACK);
+    menu.labels[Lbl::Back].SetSignal(Signal::Back);
 
     StartAnimation(pContext);
 }
@@ -107,23 +108,26 @@ void KPstateControlSettings::MouseClick(KPstateContext *pContext,
                                         MouseButtonEvent event,
                                         int x, int y)
 {
-    auto Signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
+    auto signal = KPstate::EvaluateMouseClick(pContext, button, event, x, y);
 
-    switch (Signal)
+    switch (signal)
     {
-        case S_TOGGLE_SOLUTION_HINT:
+        case Signal::ToggleSolutionHint:
             ToggleSolutionHint(pContext);
             UpdateDisplay(pContext);
             break;
 
-        case S_TOGGLE_MOUSE_SPEED:
+        case Signal::ToggleMouseSpeed:
             ToggleMouseSpeed(pContext);
             UpdateDisplay(pContext);
             break;
 
-        case S_BACK:
+        case Signal::Back:
             SaveChanges(pContext);
             pContext->ChangeState(pContext->GetPreviousState());
+            return;
+
+        default:
             break;
     }
 }

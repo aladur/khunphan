@@ -40,7 +40,7 @@ KPmenu::KPmenu(KPConfigPtr PConfig) :
 }
 
 void KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
-                        Lbl Language)
+                        Signal Language)
 {
     BLogger::Log("Menu initialization");
 
@@ -56,13 +56,14 @@ void KPmenu::Initialize(std::string &TextureName, int TextureSize, bool Nearest,
 
     BLogger::Log("Loading languages");
     // In the first step load strings for all supported languages
-    LoadLanguage(Lbl::LanguageMax);
+    LoadLanguage(Signal::LanguageList);
+    auto languageCount = labels.size();
     // In a second step load english as default
-    LoadLanguage(Lbl::Language2);
+    LoadLanguage(Signal::SelectEnglish);
     // In a third step load the requested language
     LoadLanguage(Language);
 
-    if (labels.empty())
+    if (labels.size() <= languageCount)
     {
         throw std::runtime_error("Error loading language.");
     }
@@ -85,29 +86,28 @@ void KPmenu::Update(std::string &TextureName, int TextureSize, bool Nearest)
                                      true, "soundmusic_off", *config);
 }
 
-bool KPmenu::LoadLanguage(Lbl Language)
+bool KPmenu::LoadLanguage(Signal Language)
 {
     std::stringstream stream;
-    std::string file;
+    auto id = static_cast<std::size_t>(Language);
+    auto labelId = static_cast<Lbl>(id);
 
-    if (labels.find(Language) != labels.end())
+    if (labels.find(labelId) != labels.end())
     {
-        BLogger::Log(" ", labels[Language].GetText());
+        BLogger::Log(" ", labels[labelId].GetText());
     }
 
-    stream << config->Get(KPDirectory::Locale)
-           << static_cast<std::size_t>(Language)
-           << ".lang";
+    stream << config->Get(KPDirectory::Locale) << id << KPlocale::FileExtension;
 
-    file = stream.str();
-    tIdToString strings = KPlocale::ReadFromFile(file);
+    auto file = stream.str();
+    auto idsToStrings = KPlocale::ReadFromFile(file);
 
-    if (strings.size() == 0)
+    if (idsToStrings.empty())
     {
         return false;
     }
 
-    for (auto &item : strings)
+    for (auto &item : idsToStrings)
     {
         AddOrSetLabel(item.first, item.second);
     }

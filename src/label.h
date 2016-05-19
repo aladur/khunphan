@@ -19,6 +19,7 @@
 class Label;
 class KPConfig;
 class KPUIBase;
+enum class Signal;
 
 typedef std::set<Label *> tActivated;
 
@@ -72,12 +73,8 @@ public:
     void SetFadeIn();
     void SetFullyVisible();
     void Animate(unsigned int);
-    void SetSignal(int);
-    inline int GetSignal(void)
-    {
-        return Signal;
-    };
-    int MouseEvent(MouseButton, MouseButtonEvent, int, int, KPUIBase &);
+    void SetSignal(Signal);
+    Signal MouseEvent(MouseButton, MouseButtonEvent, int, int, KPUIBase &);
     void SetMaxWidth(float);
     void SetInputFocus(bool state);
     float GetHeight();
@@ -101,7 +98,7 @@ private:
     float old_x, old_y, old_Height, old_Alpha;
     float target_x, target_y, target_Height, target_Alpha;
     AlignItem Alignment;
-    int Signal;
+    Signal signal;
     int DisplayList;
     bool  hasInputFocus;
     int lineCount;
