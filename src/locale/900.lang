@@ -191,40 +191,36 @@
 // Tutorial
 710 Tutorial 1 of 4
 711 Welcome at KhunPhan.
-712 Khun Phan was a leading character in the Thai Legend. Because he was
-713 imprisoned he tried to escape. However he was surrounded by 9 sentries.
-714 Khun Phan is represented by the large game token, blinking in red.
-715 The 9 sentries are the other game tokens. Here You can see the starting
-716 position of the game. You can always abort this tutorial by pressing
-717 the ESC key or by klicking the KhunPhan Logo.
-718
-719
+712 Khun Phan was a leading character in the Thai Legend. Because he was \
+imprisoned he tried to escape. However he was surrounded by 9 sentries. \
+Khun Phan is represented by the large game token, blinking in red.  The 9 \
+sentries are the other game tokens. Here You can see the starting position \
+of the game. You can always abort this tutorial by pressing the ESC key or by \
+klicking the KhunPhan Logo.
 
 720 Tutorial 2 of 4
-721 Here You can see Khun Phan on the run. The goal of the game is to reach
-722 this position in shortest possible time. The large game token is located at
-723 the lower middle position. Khun Phan can escape through the gap at the lower edge
-724 of the playing field. The position of the other game tokens are irrelevant.
-725
+721 Here You can see Khun Phan on the run. The goal of the game is to reach \
+this position in shortest possible time. The large game token is located at \
+the lower middle position. Khun Phan can escape through the gap at the lower \
+edge of the playing field. The position of the other game tokens are \
+irrelevant.
 
 730 Tutorial 3 of 4
-731 Very good, please continue with klicking 'Continue'
-732 How to move the game tokens? Usually a token can only be moved in one
-733 direction. In these cases, You can move the token just by klicking on it
-734 with the left mouse button.
-735 Try it now with the red blinking token!
+731 How to move the game tokens? Usually a token can only be moved in one \
+direction. In these cases, You can move the token just by klicking on it \
+with the left mouse button. Try it now with the red blinking token!
+732 Very good, please continue with klicking 'Continue'
 
-750 Tutorial 4 of 4
-751 You are now best prepared for the Game. Have fun playing with KhunPhan!
-752 Sometimes a token can be moved in two directions. In these cases,
-753 position the mouse over the token and press the left mouse key. Move the
-754 mouse into the desired direction and keep the mouse button pressed.
-755 After that release the mouse button.
-756 Try it now with the red blinking token!
+740 Tutorial 4 of 4
+741 Sometimes a token can be moved in two directions. In these cases, \
+position the mouse over the token and press the left mouse key. Move the \
+mouse into the desired direction and keep the mouse button pressed. \
+After that release the mouse button. Try it now with the red blinking token!
+742 You are now best prepared for the Game. Have fun playing with KhunPhan!
 
-770 That was quite good.
-771 This token cannot be moved.
-772 Outside the playing field, you cannot free Khun Phan.
-773 Try it now once again with the red blinking token.
-774 That was the right token. Give it a direction through the mouse movement.
+750 That was quite good.
+751 This token cannot be moved.
+752 Outside the playing field, you cannot free Khun Phan.
+753 Try it now once again with the red blinking token.
+754 That was the right token. Give it a direction through the mouse movement.
 

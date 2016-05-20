@@ -70,7 +70,7 @@ Label::Label(const std::string &textOrFormat) :
     old_x(0),  old_y(0),  old_Height(0),  old_Alpha(0.0f),
     target_x(0), target_y(0), target_Height(0), target_Alpha(0.0f),
     Alignment(AlignItem::Left), signal(Signal::Void),
-    DisplayList(0), hasInputFocus(false), lineCount(0),
+    DisplayList(0), hasInputFocus(false), lineCount(0), lineSpacing(0.7f),
     MaxCharacters(32), maxWidth(0),
     animationTimer(TOTAL_ANIMATIONTIME, false)
 {
@@ -101,6 +101,7 @@ Label::Label(const Label &src) :
     Alignment(src.Alignment),
     signal(src.signal),
     DisplayList(0), hasInputFocus(src.hasInputFocus), lineCount(src.lineCount),
+    lineSpacing(src.lineSpacing),
     MaxCharacters(src.MaxCharacters), maxWidth(src.maxWidth),
     animationTimer(src.animationTimer)
 {
@@ -140,6 +141,7 @@ Label &Label::operator=(const Label &src)
         signal = src.signal;
         hasInputFocus = src.hasInputFocus;
         lineCount = src.lineCount;
+        lineSpacing = src.lineSpacing;
         MaxCharacters = src.MaxCharacters;
         maxWidth = src.maxWidth;
         animationTimer = src.animationTimer;
@@ -228,7 +230,7 @@ void Label::PreInitialize(const std::string &TextureName,
     }
 
     glBindTexture(GL_TEXTURE_2D, Texture);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_PRIORITY,   1.0);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_PRIORITY, 1.0);
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -574,6 +576,12 @@ void Label::RecreateDisplayList()
 
                 if (c == ' ')
                 {
+                    if (Pos == start)
+                    {
+                        // Skip leading space
+                        Pos++;
+                        continue;
+                    }
                     lineWidthUntilLastSpace = lineWidth;
                     lastSpace = Pos;
                     spaceCount++;
@@ -583,84 +591,54 @@ void Label::RecreateDisplayList()
                 Pos++;
             }
 
-            if (Pos < labelText.size()) // Not at the end: justify left, right
+            bool lastLine = Pos >= labelText.size();
+            auto delta = 0.0f;
+
+            if (!lastLine)
             {
-                GLfloat delta = (maxWidth - lineWidthUntilLastSpace) /
-                                (spaceCount - 1.0f);
-                GLuint c;
-                glPushMatrix();
-                glTranslatef(0, -lineCount * 0.7f, 0);
-                Pos = start;
-
-                while (Pos < labelText.size() && Pos < lastSpace)
-                {
-                    c = static_cast<unsigned char>(labelText[Pos++]);
-                    glTranslatef(-left[c] / 64.0f, 0, 0);
-                    glBindTexture(GL_TEXTURE_2D, Texture);
-                    glBegin(GL_QUADS);
-                    x = c % 16;
-                    y = 15 - (c / 16);
-                    glTexCoord2f(w * x,     w * y);
-                    glVertex2f(0.0, 0.0);
-                    glTexCoord2f(w * (x + 1), w * y);
-                    glVertex2f(1.0, 0.0);
-                    glTexCoord2f(w * (x + 1), w * (y + 1));
-                    glVertex2f(1.0, 1.0);
-                    glTexCoord2f(w * x,     w * (y + 1));
-                    glVertex2f(0.0, 1.0);
-                    glEnd();
-                    glTranslatef((right[c] + 4) / 64.0f, 0, 0);
-
-                    if (c == 32)
-                    {
-                        glTranslatef(delta, 0, 0);
-                    }
-                }
-
-                glPopMatrix();
-                lineCount++;
+                // Not in the last line: justify left, right.
+                // delta is additional spacing between each word.
+                delta = (maxWidth - lineWidthUntilLastSpace) /
+                        (spaceCount - 1.0f);
             }
-            else     // At the end: justify left
+
+            glPushMatrix();
+            glTranslatef(0, -lineCount * lineSpacing, 0);
+            Pos = start;
+
+            while (Pos < labelText.size() && (Pos < lastSpace || lastLine))
             {
-                auto delta = 0.0f;
-
-                if (lineWidth > maxWidth)
+                c = static_cast<unsigned char>(labelText[Pos++]);
+                if (Pos == start+1 && (c == ' '))
                 {
-                    delta = (maxWidth - lineWidth) / (spaceCount + 0.0f);
+                    continue;
                 }
+                glTranslatef(-left[c] / 64.0f, 0, 0);
+                glBindTexture(GL_TEXTURE_2D, Texture);
+                glBegin(GL_QUADS);
+                x = c % 16;
+                y = 15 - (c / 16);
+                glTexCoord2f(w * x, w * y);
+                glVertex2f(0.0, 0.0);
+                glTexCoord2f(w * (x + 1), w * y);
+                glVertex2f(1.0, 0.0);
+                glTexCoord2f(w * (x + 1), w * (y + 1));
+                glVertex2f(1.0, 1.0);
+                glTexCoord2f(w * x, w * (y + 1));
+                glVertex2f(0.0, 1.0);
+                glEnd();
+                glTranslatef((right[c] + 4) / 64.0f, 0, 0);
 
-                GLuint c;
-                glPushMatrix();
-                glTranslatef(0, -lineCount * 0.7f, 0);
-                Pos = start;
-
-                while (Pos < labelText.size())
+                if (c == 32)
                 {
-                    c = static_cast<unsigned char>(labelText[Pos++]);
-                    glTranslatef(-left[c] / 64.0f, 0, 0);
-                    glBindTexture(GL_TEXTURE_2D, Texture);
-                    glBegin(GL_QUADS);
-                    x = c % 16;
-                    y = 15 - (c / 16);
-                    glTexCoord2f(w * x,     w * y);
-                    glVertex2f(0.0, 0.0);
-                    glTexCoord2f(w * (x + 1), w * y);
-                    glVertex2f(1.0, 0.0);
-                    glTexCoord2f(w * (x + 1), w * (y + 1));
-                    glVertex2f(1.0, 1.0);
-                    glTexCoord2f(w * x,     w * (y + 1));
-                    glVertex2f(0.0, 1.0);
-                    glEnd();
-                    glTranslatef((right[c] + 4) / 64.0f, 0, 0);
-
-                    if (c == 32)
-                    {
-                        glTranslatef(delta, 0, 0);
-                    }
+                    glTranslatef(delta, 0, 0);
                 }
+            }
 
-                glPopMatrix();
-                lineCount++;
+            glPopMatrix();
+            lineCount++;
+            if (lastLine)
+            {
                 break;
             }
         }
@@ -710,7 +688,7 @@ void Label::SetMaxWidth(float maxWidth_)
         maxWidth_ = 0;
     }
 
-    maxWidth = maxWidth_;
+    maxWidth = maxWidth_ * 2.0;
 }
 
 void Label::DebugPrint(void)

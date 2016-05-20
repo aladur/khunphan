@@ -54,6 +54,20 @@ tIdToString KPlocale::ReadFromFile(const std::string &filename)
                 text.erase(0, 1);
             }
 
+            // Check if text is continued on next line with a trailing '\\'
+            while (!text.empty() && (text[text.size() - 1] == '\\'))
+            {
+                text.erase(text.size() - 1);
+
+                if (!ifs.eof())
+                {
+                    std::string nextline;
+
+                    std::getline(ifs, nextline);
+                    text.append(nextline);
+                }
+            }
+
             strings[static_cast<Lbl>(id)] = text;
         }
 

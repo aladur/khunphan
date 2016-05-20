@@ -32,11 +32,16 @@
 void KPstateTutorial2::Initialize(KPstateContext *pContext,
                                   StateId previousStateId)
 {
+    auto &menu = pContext->GetMenu();
+
     KPstate::Initialize(pContext, previousStateId);
 
     pContext->GetBoardView().EmphasizeToken(TokenId::RED1);
     pContext->GetCamera().SetRoundtrip(false);
     InitializeBoardWithTokens(pContext);
+
+    menu.labels[Lbl::Tutorial2Hint].SetMaxWidth(13.5f);
+    menu.labels[Lbl::Tutorial2Hint].SetLineSpacing(1.0f);
 
     UpdateDisplay(pContext);
 }
@@ -56,35 +61,7 @@ void KPstateTutorial2::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[Lbl::Tutorial2].SetPosition(8, 10.5, 1.0, AlignItem::Centered);
     menu.labels[Lbl::Tutorial2].SetFullyVisible();
 
-    auto y = 9.5f;
-    menu.labels[Lbl::Tutorial21].SetPosition(1.25, y, 0.5);
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial22) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial22].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial23) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial23].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial24) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial24].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial25) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial25].SetPosition(1.25, y, 0.5);
-    }
+    menu.labels[Lbl::Tutorial2Hint].SetPosition(1.25, 9.5f, 0.5);
 
     menu.labels[Lbl::Continue].SetPosition(8, 1, 1, AlignItem::Centered);
     menu.labels[Lbl::Continue].SetSignal(Signal::Continue);

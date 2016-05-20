@@ -41,16 +41,8 @@ void KPstateTutorial1::Initialize(KPstateContext *pContext,
     pContext->GetBoardView().EmphasizeToken(TokenId::RED1);
     InitializeBoardWithTokens(pContext);
 
-    // Set Tutorial-Text to width  31.2
-    for (auto labelId = Lbl::Tutorial1; labelId != Lbl::TutorialEnd;)
-    {
-        if (menu.labels.find(labelId) != menu.labels.end())
-        {
-            menu.labels[labelId].SetMaxWidth(31);
-        }
-
-        labelId = GetLabelId(labelId, 1);
-    }
+    menu.labels[Lbl::Tutorial1Hint].SetMaxWidth(13.5f);
+    menu.labels[Lbl::Tutorial1Hint].SetLineSpacing(1.0f);
 
     pContext->GetCamera().SetRoundtrip(false);
     pContext->GetCamera().SetPosition(2);
@@ -74,57 +66,9 @@ void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[Lbl::Tutorial1].SetFullyVisible();
 
     auto y = 9.5f;
-    menu.labels[Lbl::Tutorial11].SetPosition(1.25, y, 0.7f);
+    menu.labels[Lbl::Tutorial1Welcome].SetPosition(1.25, y, 0.7f);
     y -= 1.0;
-    menu.labels[Lbl::Tutorial12].SetPosition(1.25, y, 0.5);
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial13) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial13].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial14) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial14].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial15) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial15].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial16) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial16].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial17) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial17].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial18) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial18].SetPosition(1.25, y, 0.5);
-    }
-
-    y -= 0.5;
-
-    if (menu.labels.find(Lbl::Tutorial19) != menu.labels.end())
-    {
-        menu.labels[Lbl::Tutorial19].SetPosition(1.25, y, 0.5);
-    }
+    menu.labels[Lbl::Tutorial1Hint].SetPosition(1.25, y, 0.5);
 
     menu.labels[Lbl::Continue].SetPosition(8, 1, 1, AlignItem::Centered);
     menu.labels[Lbl::Continue].SetSignal(Signal::Continue);

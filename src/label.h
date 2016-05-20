@@ -67,6 +67,10 @@ public:
     {
         return labelText;
     }
+    float SetLineSpacing(float value)
+    {
+        lineSpacing = value;
+    }
 
     void SetFadeOut();
     void SetSelected();
@@ -102,6 +106,7 @@ private:
     int DisplayList;
     bool  hasInputFocus;
     int lineCount;
+    float lineSpacing;
     unsigned int MaxCharacters;
     float maxWidth;
     BManualTimer animationTimer;

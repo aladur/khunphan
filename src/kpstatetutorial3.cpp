@@ -36,11 +36,17 @@ KPstateTutorial3::KPstateTutorial3() : actionState(ActionState::Started)
 void KPstateTutorial3::Initialize(KPstateContext *pContext,
                                   StateId previousStateId)
 {
+    auto &menu = pContext->GetMenu();
+
     KPstate::Initialize(pContext, previousStateId);
 
     pContext->GetBoardView().EmphasizeToken(GetEmphasizedTokenId());
     pContext->GetCamera().SetRoundtrip(false);
     InitializeBoardWithTokens(pContext);
+
+    auto labelId = GetTutorialLabelId(1);
+    menu.labels[labelId].SetMaxWidth(13.5f);
+    menu.labels[labelId].SetLineSpacing(1.0f);
 
     UpdateDisplay(pContext);
 }
@@ -63,19 +69,10 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[labelId].SetFullyVisible();
 
     auto y = 9.5f;
-    std::size_t offset;
 
-    for (offset = 2; offset <= 7; ++offset)
-    {
-        labelId = GetTutorialLabelId(offset);
-
-        if (menu.labels.find(labelId) != menu.labels.end())
-        {
-            menu.labels[labelId].SetPosition(1.25, y, 0.5);
-        }
-
-        y -= 0.5;
-    }
+    labelId = GetTutorialLabelId(1);
+    menu.labels[labelId].SetPosition(1.25, y, 0.5);
+    y -= 2.5;
 
     switch (actionState)
     {
@@ -85,16 +82,12 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
             menu.labels[Lbl::Continue].SetPosition(8, 1, 1,
                                                    AlignItem::Centered);
             menu.labels[Lbl::Continue].SetSignal(Signal::Continue);
-            menu.labels[GetTutorialLabelId(1)].SetPosition(1.25, y, 0.5);
-            y -= 0.5;
+            menu.labels[GetTutorialLabelId(2)].SetPosition(1.25, y, 0.5);
             break;
 
         case ActionState::MissedAnyToken:
             // Missed any token
             menu.labels[Lbl::TutorialMissedToken].SetPosition(1.25, y, 0.5);
-            y -= 0.5;
-            menu.labels[Lbl::TutorialTryAgain].SetPosition(1.25, y, 0.5);
-            y -= 0.5;
             break;
 
         case ActionState::TokenNotMoveable:
@@ -102,7 +95,6 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
             menu.labels[Lbl::TutorialNotMoveable].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             menu.labels[Lbl::TutorialTryAgain].SetPosition(1.25, y, 0.5);
-            y -= 0.5;
             break;
 
         case ActionState::WrongTokenMoved:
@@ -110,7 +102,6 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
             menu.labels[Lbl::TutorialQuiteGood].SetPosition(1.25, y, 0.5);
             y -= 0.5;
             menu.labels[Lbl::TutorialTryAgain].SetPosition(1.25, y, 0.5);
-            y -= 0.5;
             break;
 
         case ActionState::TokenKlickedOnly:
