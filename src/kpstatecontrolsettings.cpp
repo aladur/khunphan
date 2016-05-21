@@ -31,9 +31,7 @@ void KPstateControlSettings::Initialize(KPstateContext *pContext,
 {
     KPstate::Initialize(pContext, previousStateId);
 
-    // Do some initialization stuff here:
-
-    E_MouseSpeed   = pContext->GetConfig().MouseSpeed;
+    E_MouseSpeed = pContext->GetConfig().MouseSpeed;
     E_SolutionHint = pContext->GetConfig().SolutionHint;
 
     UpdateDisplay(pContext);
@@ -60,42 +58,36 @@ void KPstateControlSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[Lbl::MouseSpeed].SetPosition(8, y, 0.71f, AlignItem::Right);
     menu.labels[Lbl::MouseSpeed].SetSignal(Signal::ToggleMouseSpeed);
 
+    Lbl labelId;
+
     if (E_MouseSpeed <= .293)
     {
-        menu.labels[Lbl::MouseSpeedSlow].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::MouseSpeedSlow].SetSignal(Signal::ToggleMouseSpeed);
+        labelId = Lbl::MouseSpeedSlow;
     }
     else if (E_MouseSpeed <= .41)
     {
-        menu.labels[Lbl::MouseSpeedMedium].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::MouseSpeedMedium].SetSignal(Signal::ToggleMouseSpeed);
+        labelId = Lbl::MouseSpeedMedium;
     }
     else if (E_MouseSpeed <= .575)
     {
-        menu.labels[Lbl::MouseSpeedFast].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::MouseSpeedFast].SetSignal(Signal::ToggleMouseSpeed);
+        labelId = Lbl::MouseSpeedFast;
     }
     else
     {
-        menu.labels[Lbl::MouseSpeedVeryFast].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::MouseSpeedVeryFast].SetSignal(
-            Signal::ToggleMouseSpeed);
+        labelId = Lbl::MouseSpeedVeryFast;
     }
+
+    menu.labels[labelId].SetPosition(8.2f, y, 0.71f);
+    menu.labels[labelId].SetSignal( Signal::ToggleMouseSpeed);
 
     y -= dy;
     menu.labels[Lbl::SolutionHint].SetPosition(8, y, 0.71f, AlignItem::Right);
     menu.labels[Lbl::SolutionHint].SetSignal(Signal::ToggleSolutionHint);
 
-    if (E_SolutionHint)
-    {
-        menu.labels[Lbl::SolutionHintOn].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::SolutionHintOn].SetSignal(Signal::ToggleSolutionHint);
-    }
-    else
-    {
-        menu.labels[Lbl::SolutionHintOff].SetPosition(8.2f, y, 0.71f);
-        menu.labels[Lbl::SolutionHintOff].SetSignal(Signal::ToggleSolutionHint);
-    }
+    labelId = E_SolutionHint ? Lbl::SolutionHintOn : Lbl::SolutionHintOff;
+
+    menu.labels[labelId].SetPosition(8.2f, y, 0.71f);
+    menu.labels[labelId].SetSignal(Signal::ToggleSolutionHint);
 
     menu.labels[Lbl::Back].SetPosition(8, 1, 1, AlignItem::Centered);
     menu.labels[Lbl::Back].SetSignal(Signal::Back);
@@ -114,12 +106,10 @@ void KPstateControlSettings::MouseClick(KPstateContext *pContext,
     {
         case Signal::ToggleSolutionHint:
             ToggleSolutionHint(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::ToggleMouseSpeed:
             ToggleMouseSpeed(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::Back:
@@ -128,8 +118,10 @@ void KPstateControlSettings::MouseClick(KPstateContext *pContext,
             return;
 
         default:
-            break;
+            return;
     }
+
+    UpdateDisplay(pContext);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -177,7 +169,7 @@ StateId KPstateControlSettings::ESCKeyAction(
 
 void KPstateControlSettings::SaveChanges(KPstateContext *pContext) const
 {
-    pContext->GetConfig().MouseSpeed   = E_MouseSpeed;
+    pContext->GetConfig().MouseSpeed = E_MouseSpeed;
     pContext->GetConfig().SolutionHint = E_SolutionHint;
 
     pContext->GetConfig().WriteToFile();

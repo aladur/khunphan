@@ -74,8 +74,8 @@ public:
 
     typedef struct
     {
-        unsigned char x;
-        unsigned char y;
+        std::uint8_t x;
+        std::uint8_t y;
     } tPosition;
 
 private:

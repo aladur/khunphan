@@ -151,6 +151,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 {
     auto &config = pContext->GetConfig();
     auto &menu = pContext->GetMenu();
+    int index;
 
     KPstate::UpdateDisplay(pContext);
 
@@ -224,148 +225,91 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 
     y = 8.0;
 
-    switch (Quality)
+    static const std::array<Lbl,6> qualityToLabel
     {
-        case 1:
-        {
-            menu.labels[Lbl::QualityVeryFast].SetPosition(8.2f, y, 1);
-            menu.labels[Lbl::QualityVeryFast].SetSignal(Signal::ToggleQuality);
-        }
-        break;
+        Lbl::QualityUserDefined, Lbl::QualityVeryFast,
+        Lbl::QualityFast, Lbl::QualityNormal,
+        Lbl::QualityHigh, Lbl::QualityVeryHigh
+    };
 
-        case 2:
-        {
-            menu.labels[Lbl::QualityFast].SetPosition(8.2f, y, 1);
-            menu.labels[Lbl::QualityFast].SetSignal(Signal::ToggleQuality);
-        }
-        break;
+    auto labelId = qualityToLabel[0];
 
-        case 3:
-        {
-            menu.labels[Lbl::QualityNormal].SetPosition(8.2f, y, 1);
-            menu.labels[Lbl::QualityNormal].SetSignal(Signal::ToggleQuality);
-        }
-        break;
-
-        case 4:
-        {
-            menu.labels[Lbl::QualityHigh].SetPosition(8.2f, y, 1);
-            menu.labels[Lbl::QualityHigh].SetSignal(Signal::ToggleQuality);
-        }
-        break;
-
-        case 5:
-        {
-            menu.labels[Lbl::QualityVeryHigh].SetPosition(8.2f, y, 1);
-            menu.labels[Lbl::QualityVeryHigh].SetSignal(Signal::ToggleQuality);
-        }
-        break;
-
-        default:
-        {
-            menu.labels[Lbl::QualityUserDefined].SetPosition(8.2f, y, 1);
-            menu.labels[Lbl::QualityUserDefined].SetSignal(
-                Signal::ToggleQuality);
-        }
-        break;
+    if (Quality <= 5)
+    {
+        labelId = qualityToLabel[Quality];
     }
+
+    menu.labels[labelId].SetPosition(8.2f, y, 1);
+    menu.labels[labelId].SetSignal(Signal::ToggleQuality);
 
     y = 7.4f;
 
     if (!E_FullScreen)
     {
-        static const Lbl windowResolutionLabels[] =
+        static const std::array<Lbl,6> windowResolutionToLabel
         {
             Lbl::Resolution640x480, Lbl::Resolution800x600,
             Lbl::Resolution1024x768, Lbl::Resolution1280x960,
             Lbl::Resolution1600x1200, Lbl::Resolution1920x1440
         };
 
-        auto index = GetWindowWidthsIndex(E_WindowWidth);
+        index = GetWindowWidthsIndex(E_WindowWidth);
 
-        if (index >= 0)
+        labelId = windowResolutionToLabel[0];
+
+        if (index >= 0 && index < windowResolutionToLabel.size())
         {
-            auto windowResolutionLabel = windowResolutionLabels[index];
-
-            menu.labels[windowResolutionLabel].SetPosition(8.2f, y, 0.6f);
-            menu.labels[windowResolutionLabel].SetSignal(
-                Signal::ToggleResolution);
+            labelId = windowResolutionToLabel[index];
         }
+
+        menu.labels[labelId].SetPosition(8.2f, y, 0.6f);
+        menu.labels[labelId].SetSignal(Signal::ToggleResolution);
     }
 
     if (pContext->GetUserInterface().CanToggleFullScreen())
     {
         y -= dy;
 
-        if (E_FullScreen)
-        {
-            menu.labels[Lbl::ScreenModeFullscreen].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::ScreenModeFullscreen].SetSignal(
-                Signal::ToggleScreenmode);
-        }
-        else
-        {
-            menu.labels[Lbl::ScreenModeWindow].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::ScreenModeWindow].SetSignal(
-                Signal::ToggleScreenmode);
-        }
+        auto labelId = E_FullScreen ?
+                           Lbl::ScreenModeFullscreen : Lbl::ScreenModeWindow;
+
+        menu.labels[labelId].SetPosition(8.2f, y, 0.6f);
+        menu.labels[labelId].SetSignal( Signal::ToggleScreenmode);
     }
 
     y -= dy;
 
-    switch (config.MenuTextureSize)
+    labelId = (config.MenuTextureSize == 1) ?
+                       Lbl::MenuTexturesHigh : Lbl::MenuTexturesNormal;
+
+    menu.labels[labelId].SetPosition(8.2f, y, 0.6f);
+    menu.labels[labelId].SetSignal(Signal::ToggleMenuTextures);
+
+    y -= dy;
+
+    static const std::array<int,9> textureSizeToIndex
     {
-        case 1:
-        {
-            menu.labels[Lbl::MenuTexturesHigh].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::MenuTexturesHigh].SetSignal(
-                Signal::ToggleMenuTextures);
-        }
-        break;
-
-        case 2:
-        {
-            menu.labels[Lbl::MenuTexturesNormal].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::MenuTexturesNormal].SetSignal(
-                Signal::ToggleMenuTextures);
-        }
-        break;
-    }
-
-    y -= dy;
-
-    switch (config.TextureSize)
+        0, 3, 2, 0, 1, 0, 0, 0, 0
+    };
+    static const std::array<Lbl,4> indexToTextureSizeLabel
     {
-        case 1:
-        {
-            menu.labels[Lbl::TexturesHigh].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::TexturesHigh].SetSignal(Signal::ToggleTextures);
-        }
-        break;
+        Lbl::TexturesVeryLow, Lbl::TexturesLow,
+        Lbl::TexturesNormal, Lbl::TexturesHigh
+    };
 
-        case 2:
-        {
-            menu.labels[Lbl::TexturesNormal].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::TexturesNormal].SetSignal(Signal::ToggleTextures);
-        }
-        break;
+    labelId = indexToTextureSizeLabel[0];
 
-        case 4:
-        {
-            menu.labels[Lbl::TexturesLow].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::TexturesLow].SetSignal(Signal::ToggleTextures);
-        }
-        break;
-
-        case 8:
-        {
-            menu.labels[Lbl::TexturesVeryLow].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::TexturesVeryLow].SetSignal(Signal::ToggleTextures);
-        }
-        break;
+    if (config.TextureSize >= 0 && config.TextureSize <= 8)
+    {
+        index = textureSizeToIndex[config.TextureSize];
+        labelId = indexToTextureSizeLabel[index];
     }
 
+    menu.labels[labelId].SetPosition(8.2f, y, 0.6f);
+    menu.labels[labelId].SetSignal(Signal::ToggleTextures);
+
     y -= dy;
+
     menu.labels[GetLabelId(Lbl::TextureName1, textureIndex)].SetPosition(
         8.2f, y, 0.6f);
     menu.labels[GetLabelId(Lbl::TextureName1, textureIndex)].SetSignal(
@@ -373,98 +317,50 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 
     y -= dy;
 
-    if (config.Nearest)
-    {
-        menu.labels[Lbl::TextureInterpolationOff].SetPosition(8.2f, y, 0.6f);
-        menu.labels[Lbl::TextureInterpolationOff].SetSignal(
-            Signal::ToggleTextureInterpolation);
-    }
-    else
-    {
-        menu.labels[Lbl::TextureInterpolationOn].SetPosition(8.2f, y, 0.6f);
-        menu.labels[Lbl::TextureInterpolationOn].SetSignal(
-            Signal::ToggleTextureInterpolation);
-    }
+    labelId = config.Nearest ? 
+                       Lbl::TextureInterpolationOff :
+                       Lbl::TextureInterpolationOn;
+    menu.labels[labelId].SetPosition(8.2f, y, 0.6f);
+    menu.labels[labelId].SetSignal(Signal::ToggleTextureInterpolation);
 
     y -= dy;
 
-    if (config.AmbientLight)
-    {
-        menu.labels[Lbl::AmbientLightOn].SetPosition(8.2f, y, 0.6f);
-        menu.labels[Lbl::AmbientLightOn].SetSignal(Signal::ToggleAmbientLight);
-    }
-    else
-    {
-        menu.labels[Lbl::AmbientLightOff].SetPosition(8.2f, y, 0.6f);
-        menu.labels[Lbl::AmbientLightOff].SetSignal(Signal::ToggleAmbientLight);
-
-    }
+    labelId = config.AmbientLight ? Lbl::AmbientLightOn : Lbl::AmbientLightOff;
+    menu.labels[labelId].SetPosition(8.2f, y, 0.6f);
+    menu.labels[labelId].SetSignal(Signal::ToggleAmbientLight);
 
     y -= dy;
 
-    switch (config.LightSources)
+    static const std::array<Lbl,3> lightSourceToLabel
     {
-        case 1:
-        {
-            menu.labels[Lbl::Illumination1].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::Illumination1].SetSignal(
-                Signal::ToggleIllumination);
-        }
-        break;
+        Lbl::Illumination1, Lbl::Illumination2,
+        Lbl::Illumination3
+    };
 
-        case 2:
-        {
-            menu.labels[Lbl::Illumination2].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::Illumination2].SetSignal(
-                Signal::ToggleIllumination);
-        }
-        break;
+    labelId = lightSourceToLabel[0];
 
-        case 3:
-        {
-            menu.labels[Lbl::Illumination3].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::Illumination3].SetSignal(
-                Signal::ToggleIllumination);
-        }
-        break;
+    if (config.LightSources >= 1 && config.LightSources <= 3)
+    {
+        labelId = lightSourceToLabel[config.LightSources-1];
     }
+
+    menu.labels[labelId].SetPosition(8.2f, y, 0.6f);
+    menu.labels[labelId].SetSignal(Signal::ToggleIllumination);
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
     y -= dy;
 
-    switch (E_UserInterface)
-    {
-        case 0:
-        {
-            menu.labels[Lbl::UserInterface0].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::UserInterface0].SetSignal(
-                Signal::ToggleUserInterface);
-        }
-        break;
-
-        case 1:
-        {
-            menu.labels[Lbl::UserInterface1].SetPosition(8.2f, y, 0.6f);
-            menu.labels[Lbl::UserInterface1].SetSignal(
-                Signal::ToggleUserInterface);
-        }
-        break;
-    }
+    labelId = E_UserInterface ?  Lbl::UserInterface1 : Lbl::UserInterface0;
+    menu.labels[labelId].SetPosition(8.2f, y, 0.6f);
+    menu.labels[labelId].SetSignal(Signal::ToggleUserInterface);
 
 #endif
 
     y -= dy;
 
-    if (config.DisplayFPS)
-    {
-        menu.labels[Lbl::FramerateOn].SetPosition(8.2f, y, 0.6f);
-        menu.labels[Lbl::FramerateOn].SetSignal(Signal::ToggleFramerate);
-    }
-    else
-    {
-        menu.labels[Lbl::FramerateOff].SetPosition(8.2f, y, 0.6f);
-        menu.labels[Lbl::FramerateOff].SetSignal(Signal::ToggleFramerate);
-    }
+    labelId = config.DisplayFPS ? Lbl::FramerateOn : Lbl::FramerateOff;
+    menu.labels[labelId].SetPosition(8.2f, y, 0.6f);
+    menu.labels[labelId].SetSignal(Signal::ToggleFramerate);
 
     menu.labels[Lbl::Back].SetPosition(8, 0.7f, 1 , AlignItem::Centered);
     menu.labels[Lbl::Back].SetSignal(Signal::Back);
@@ -483,60 +379,49 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
     {
         case Signal::ToggleFramerate:
             ToggleFPS(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::ToggleIllumination:
             ToggleLamps(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::ToggleScreenmode:
             ToggleScreenMode(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::ToggleResolution:
             ToggleResolution(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::ToggleTextureInterpolation:
             ToggleTextureInterpolation(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::ToggleTextures:
             ToggleTextures(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::ToggleMenuTextures:
             ToggleMenuTextures(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::ToggleTextureName:
             ToggleTextureName(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::ToggleAmbientLight:
             ToggleAmbientLight(pContext);
-            UpdateDisplay(pContext);
             break;
 
 #if defined(HAVE_LIBGLUT) || defined(HAVE_LIBOPENGLUT)
 
         case Signal::ToggleUserInterface:
             ToggleUserInterface(pContext);
-            UpdateDisplay(pContext);
             break;
 #endif
 
         case Signal::ToggleQuality:
             ToggleQuality(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::Back:
@@ -547,8 +432,10 @@ void KPstateGraphicSettings::MouseClick(KPstateContext *pContext,
         }
 
         default:
-            break;
+            return;
     }
+
+    UpdateDisplay(pContext);
 }
 
 StateId KPstateGraphicSettings::ESCKeyAction(
@@ -593,9 +480,9 @@ StateId KPstateGraphicSettings::SaveChanges(KPstateContext *pContext) const
     BLogger::Log("  LightSources :         ", config.LightSources);
     BLogger::Log("  FullScreen :           ", ON_OFF(E_FullScreen));
 
-    config.FullScreen        = E_FullScreen;
+    config.FullScreen = E_FullScreen;
     config.ScreenXResolution = E_WindowWidth;
-    config.UserInterface     = E_UserInterface;
+    config.UserInterface = E_UserInterface;
 
     config.WriteToFile();
 
@@ -635,23 +522,11 @@ void KPstateGraphicSettings::ToggleLamps(KPstateContext *pContext)
 
     pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
-    switch (config.LightSources)
+    if (config.LightSources == 1 || config.LightSources == 2)
     {
-        case 1:
-            config.LightSources = 2;
-            break;
-
-        case 2:
-            config.LightSources = 3;
-            break;
-
-        case 3:
-            config.LightSources = 1;
-            break;
-
-        default:
-            config.LightSources = 1;
-            break;
+        config.LightSources++;
+    } else {
+        config.LightSources = 1;
     }
 
     pContext->GetLight().Update(config.AmbientLight,
@@ -665,27 +540,12 @@ void KPstateGraphicSettings::ToggleTextures(KPstateContext *pContext)
 
     pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
-    switch (config.TextureSize)
+    if (config.TextureSize == 1 || config.TextureSize == 2 ||
+        config.TextureSize == 4)
     {
-        case 1:
-            config.TextureSize  = 2;
-            break;
-
-        case 2:
-            config.TextureSize  = 4;
-            break;
-
-        case 4:
-            config.TextureSize  = 8;
-            break;
-
-        case 8:
-            config.TextureSize  = 1;
-            break;
-
-        default:
-            config.TextureSize = 1;
-            break;
+        config.TextureSize <<= 1;
+    } else {
+        config.TextureSize = 1;
     }
 
     pContext->GetBoardView().InitializeTextures(
@@ -708,18 +568,13 @@ void KPstateGraphicSettings::ToggleTextureName(KPstateContext *pContext) const
         auto it = std::find(textureNameList.begin(), textureNameList.end(),
                             config.TextureName);
 
+        if (it != textureNameList.end())
+        {
+            ++it;
+        }
         if (it == textureNameList.end())
         {
             it = textureNameList.begin();
-        }
-        else
-        {
-            ++it;
-
-            if (it == textureNameList.end())
-            {
-                it = textureNameList.begin();
-            }
         }
 
         config.TextureName = *it;
@@ -796,20 +651,7 @@ void KPstateGraphicSettings::ToggleUserInterface(KPstateContext *pContext)
 {
     pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
-    switch (E_UserInterface)
-    {
-        case 0:
-            E_UserInterface = 1;
-            break;
-
-        case 1:
-            E_UserInterface = 0;
-            break;
-
-        default:
-            E_UserInterface = 0;
-            break;
-    }
+    E_UserInterface = E_UserInterface == 0 ? 1 : 0;
 }
 
 void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
@@ -818,20 +660,7 @@ void KPstateGraphicSettings::ToggleMenuTextures(KPstateContext *pContext)
 
     pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
-    switch (config.MenuTextureSize)
-    {
-        case 1:
-            config.MenuTextureSize = 2;
-            break;
-
-        case 2:
-            config.MenuTextureSize = 1;
-            break;
-
-        default:
-            config.MenuTextureSize = 1;
-            break;
-    }
+    config.MenuTextureSize = config.MenuTextureSize == 1 ? 2 : 1;
 
     pContext->GetMenu().Update(config.TextureName,
                                config.MenuTextureSize,

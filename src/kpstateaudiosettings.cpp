@@ -109,12 +109,10 @@ void  KPstateAudioSettings::MouseClick(KPstateContext *pContext,
     {
         case Signal::ToggleSoundVolume:
             ToggleSoundVolume(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::ToggleMusicVolume:
             ToggleMusicVolume(pContext);
-            UpdateDisplay(pContext);
             break;
 
         case Signal::Back:
@@ -123,8 +121,10 @@ void  KPstateAudioSettings::MouseClick(KPstateContext *pContext,
             return;
 
         default:
-            break;
+            return;
     }
+
+    UpdateDisplay(pContext);
 }
 
 StateId KPstateAudioSettings::ESCKeyAction(KPstateContext *pContext) const
@@ -147,28 +147,14 @@ void KPstateAudioSettings::ToggleMusicVolume(KPstateContext *pContext)
 {
     pContext->GetUserInterface().PlayAudio(KPSound::ChangeSetting);
 
-    if (E_MusicVolume >= 100)
-    {
-        E_MusicVolume = 0;
-    }
-    else
-    {
-        E_MusicVolume += 10;
-    }
+    E_MusicVolume = (E_MusicVolume >= 100) ? 0 : E_MusicVolume + 10;
 
     pContext->GetUserInterface().SetMusicVolume(E_MusicVolume);
 }
 
 void KPstateAudioSettings::ToggleSoundVolume(KPstateContext *pContext)
 {
-    if (E_SoundVolume >= 100)
-    {
-        E_SoundVolume = 0;
-    }
-    else
-    {
-        E_SoundVolume += 10;
-    }
+    E_SoundVolume = (E_SoundVolume >= 100) ? 0 : E_SoundVolume + 10;
 
     pContext->GetUserInterface().SetSoundVolume(E_SoundVolume);
     // First change sound volume than play sound
