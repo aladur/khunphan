@@ -688,7 +688,7 @@ void Label::SetMaxWidth(float maxWidth_)
         maxWidth_ = 0;
     }
 
-    maxWidth = maxWidth_ * 2.0;
+    maxWidth = maxWidth_ * 2.0f;
 }
 
 void Label::DebugPrint(void)

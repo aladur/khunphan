@@ -151,7 +151,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 {
     auto &config = pContext->GetConfig();
     auto &menu = pContext->GetMenu();
-    int index;
+    std::size_t index;
 
     KPstate::UpdateDisplay(pContext);
 

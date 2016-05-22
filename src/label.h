@@ -67,7 +67,7 @@ public:
     {
         return labelText;
     }
-    float SetLineSpacing(float value)
+    void SetLineSpacing(float value)
     {
         lineSpacing = value;
     }
