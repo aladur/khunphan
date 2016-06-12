@@ -69,7 +69,6 @@ void KPstateKeyboardHelp::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[Lbl::HelpKeyPause].SetPosition(3, y, 0.6f);
     y -= 0.6f;
     menu.labels[Lbl::HelpKeyCamera].SetPosition(3, y, 0.6f);
-    y -= 0.6f;
 
     y = 6.5f;
     menu.labels[Lbl::HelpESC].SetPosition(6, y, 0.6f);

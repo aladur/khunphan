@@ -300,6 +300,7 @@ void KPSdl2UserInterface::MainLoop()
                     {
                         done = true;
                     }
+                    break;
 
                 case SDL_QUIT:
                     done = true;

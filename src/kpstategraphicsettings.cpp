@@ -220,7 +220,6 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     menu.labels[Lbl::UserInterface].SetSignal(Signal::ToggleUserInterface);
 #endif
     menu.labels[Lbl::Framerate].SetPosition(8, y, 0.6f, AlignItem::Right);
-    y -= dy;
     menu.labels[Lbl::Framerate].SetSignal(Signal::ToggleFramerate);
 
     y = 8.0;

@@ -52,7 +52,6 @@ Plate::Plate(const Plate &src) :
     Texture(0), TextureSize(src.TextureSize), Nearest(src.Nearest),
     WithAlpha(src.WithAlpha), animationTimer(src.animationTimer)
 {
-    BTexture texture;
     BTexture *pTexture = nullptr;
 
     DisplayList = glGenLists(1);
@@ -66,6 +65,7 @@ Plate::Plate(const Plate &src) :
 
     if (Type == 1)
     {
+        BTexture texture;
         auto flags = WithAlpha ? TEX_RGB_ALPHA : TEX_RGB;
         auto *texels = texture.ReadTextureFromFile(TextureSource, flags);
 
@@ -218,6 +218,15 @@ void Plate::RecreateDisplayList(BTexture *pTexture /* = nullptr */)
     {
         case 1:
         {
+            if (pTexture == nullptr)
+            {
+                std::stringstream message;
+
+                message << "Plate has type " << Type
+                        << " but pTexture is a nullptr.";
+                throw std::runtime_error(message.str());
+            }
+
             auto exp = BTexture::GetExpToBase2(TextureSize);
             auto texels = pTexture->Rescale(exp, TEX_SMALLER | TEX_RESCALE_AVG);
             auto width  = pTexture->GetWidth();
