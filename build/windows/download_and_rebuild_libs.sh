@@ -39,11 +39,11 @@ if [ "x$wgetpath" = "x" ]; then
     echo "  mingw32/bin or mingw64/bin."
 fi
 
-urls="http://downloads.sourceforge.net/project/freeglut/freeglut/3.0.0/freeglut-3.0.0.tar.gz
-http://downloads.sourceforge.net/project/glew/glew/1.13.0/glew-1.13.0.tgz
+urls="http://downloads.sourceforge.net/freeglut/freeglut-3.0.0.tar.gz
+http://downloads.sourceforge.net/glew/glew-1.13.0.tgz
 http://zlib.net/zlib-1.2.8.tar.gz
-http://downloads.sourceforge.net/project/libpng/libpng16/1.6.21/libpng-1.6.21.tar.gz
-ftp://xmlsoft.org/libxml2/libxml2-2.9.3.tar.gz
+http://downloads.sourceforge.net/libpng/libpng-1.6.23.tar.gz
+ftp://xmlsoft.org/libxml2/libxml2-2.9.4.tar.gz
 http://www.libsdl.org/release/SDL2-2.0.4.tar.gz
 http://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.1.tar.gz"
 
@@ -74,7 +74,12 @@ for url in $urls
 do
     file=$(basename "$url")
     if [ ! -r $file ]; then
-        wget $url
+	    protocol=${url:0:3}
+		if [ $protocol = "ftp" ]; then
+		    wget --passive-ftp $url
+		else
+            wget $url
+		fi
     fi
 done
 

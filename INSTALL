@@ -23,15 +23,15 @@ libraries (incl. headers) are necessary:
    The whole build process is supported by two shell scripts. They can be
    executed on git bash.
 
-   1. download_and_rebuild_libs.sh Downloads all packages and rebuilds them
+   1. download_and_rebuild_libs.sh Downloads all dependent libraries and rebuilds them
       for all supported platforms and configurations. The result can be found
-      in subdirectory build/windows/lib.
-   2. rebuild_all_and_copy_libs.sh Rebuilds khunphan for all supported
+      in subdirectory <ProjectRoot>/build/windows/lib.
+   2. rebuild_khunphan_all_and_copy_libs.sh Rebuilds khunphan for all supported
       configurations and platforms and copies the previously created DLLs into
       the build directory.
 
    As a result khunphan can be executed directly from within Visual Studio
-   debugger.
+   debugger. The working directory should be set to <ProjectRoot>/khunphan/src.
 
    Step by step build and installation:
 
@@ -39,19 +39,20 @@ libraries (incl. headers) are necessary:
       https://sourceforge.net/projects/mingw/Other/mingwPORT/Current%20Release/
       Copy wget.exe into the git installation mingw64/bin or mingw32/bin.
 
-   2. Open a git bash shell in folder build/windows
+   2. Open a git bash shell in folder <ProjectRoot>/build/windows
 
-   3. Execute download_and_rebuild_libs.sh, all packages for dependent DLLs
+   3. Execute ./download_and_rebuild_libs.sh, all packages for dependent DLLs
       are downloaded, extracted and build for all combinations of Win32, x64,
       Debug and Release.
 
-   4. Execute rebuild_all_and_copy_libs.sh, rebuilds khunphan for all 
+   4. Execute ./rebuild_khunphan_all_and_copy_libs.sh, it rebuilds khunphan for all 
       combinations of Win32, x64, Debug and Release. The dependent DLLs 
-      are copied to the corresponding target directory.
+      are copied to the corresponding target directories in <ProjectRoot>:
+	  Win32/Debug, Win32/Release, x64/Debug and x64/Release.
 
    5. Creating a desktop icon
-      Use the absolute path to khunphan.exe as executable path
-      Use the khunphan src directory as working directory
+      Use the absolute path to khunphan.exe as executable path.
+      Use the <ProjectRoot>/khunphan/src directory as working directory.
 
 2. Linux
 ========
