@@ -50,7 +50,8 @@ void KPstateStartUp::Initialize(KPstateContext *pContext,
 
     if (it == pContext->GetMenu().labels.end())
     {
-        pContext->GetMenu().labels[Lbl::Copyright3] = Label();
+        pContext->GetMenu().labels[Lbl::Copyright3] =
+            Label("https://aladur.neocities.org/khunphan/");
     }
 
     it = pContext->GetMenu().labels.find(Lbl::Copyright5);
