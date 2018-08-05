@@ -75,7 +75,7 @@ BEGIN
             VALUE "FileDescription", "KhunPhan\0"
             VALUE "FileVersion", "0, 60, 0, 0\0"
             VALUE "InternalName", "KhunPhan\0"
-            VALUE "LegalCopyright", "Copyright © 2002-2016 W. Schwotzer\0"
+            VALUE "LegalCopyright", "Copyright © 2002-2018 W. Schwotzer\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "KhunPhan.exe\0"
             VALUE "PrivateBuild", "\0"
