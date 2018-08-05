@@ -1,4 +1,21 @@
+
 KhunPhan V0.60
+- Replaced link to new KhunPhan homepage 
+- Label: Support multi-line text
+- Use scoped enums
+- Remove ctor, copy ctor or copy assignment when not needed
+- Use std::count_if to calculate solutions count
+- Use override where possible
+- Using unique_ptr where possible
+- Add a basic logger using variadic templates
+- KPnode: Use std::reference_wrapper for parents and childs vector 
+- Bugfix: Moving tokens not possible
+- use std::array for all fixed size item lists
+- KPboard: Use initializer list in member initialization
+- Reduce time for calculating all game positions by using unordered_map
+- Using auto type deduction
+- Support modern C++
+- Bugfix: Filter for *.mp3 and *.ogg music files
 - Using ANSI coding style with astyle formatter
 - Remove all warnings for gcc-4.9.2 -Wextra and -Wpedantic
 - Replaced most c-style arrays by std::vector
