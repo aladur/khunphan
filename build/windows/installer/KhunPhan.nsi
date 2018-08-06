@@ -12,7 +12,7 @@
 !include "MUI2.nsh"
   
 !define APPNAME    "KhunPhan"
-!define APPVERSION "0.60"
+!define APPVERSION "0.61"
 ; Refreshing Windows Defines
 !define SHCNE_ASSOCCHANGED 0x8000000
 !define SHCNF_IDLIST 0
