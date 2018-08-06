@@ -69,7 +69,7 @@ public:
     bool CanAdd(const char *aName, unsigned int aPlayTime, unsigned int aMoves,
                 time_t aTime = 0) const;
     void ClearAll();
-    bool Get(unsigned int index, std::string &aName,
+    bool Get(size_t index, std::string &aName,
              unsigned int *aPlayTime = nullptr,
              unsigned int *aMoves = nullptr, time_t *aTime = nullptr) const;
 

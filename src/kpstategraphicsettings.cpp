@@ -818,7 +818,7 @@ int KPstateGraphicSettings::GetWindowWidthsIndex(int width) const
     {
         if (windowWidths[index] == width)
         {
-            return index;
+            return static_cast<int>(index);
         }
     }
 

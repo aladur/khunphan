@@ -57,7 +57,7 @@ public:
     }
     void CalculateSolveCount(void);
     void PrintSolveCount(std::ostream &os) const;
-    unsigned int GetSolutionsCount();
+    size_t GetSolutionsCount();
 
     double GetCalculateSolveCountTime(void) const
     {

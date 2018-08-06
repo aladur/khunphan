@@ -153,7 +153,8 @@ void KPboardView::InitializeTextures(const std::string &TextureDirectory,
 
     if (textureIds[0] == 0)
     {
-        glGenTextures(textureIds.size(), textureIds.data());
+        glGenTextures(static_cast<GLsizei>(textureIds.size()),
+                      textureIds.data());
     }
 
     for (decltype(textureIds.size()) idx = 0; idx < textureIds.size(); ++idx)
@@ -634,7 +635,7 @@ void KPboardView::Draw(bool render /* = true */) const
                 break;
         }
 
-        auto tokenIndex = static_cast<std::size_t>(tokenId);
+        auto tokenIndex = static_cast<GLuint>(tokenId);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

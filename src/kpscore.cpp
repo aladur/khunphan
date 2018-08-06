@@ -92,7 +92,7 @@ void KPscore::ClearAll()
     fileVersion = "";
 }
 
-bool KPscore::Get(unsigned int index, std::string &pName,
+bool KPscore::Get(size_t index, std::string &pName,
                   unsigned int *pPlayTime,
                   unsigned int *pMoves, time_t *pTimestamp) const
 {

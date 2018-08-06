@@ -154,14 +154,14 @@ void KPnodes::PrintSolveCount(std::ostream &os) const
     }
 }
 
-unsigned int KPnodes::GetSolutionsCount()
+size_t KPnodes::GetSolutionsCount()
 {
-    return std::count_if(
+    return static_cast<size_t>(std::count_if(
                nodesForId.cbegin(),
                nodesForId.cend(),
                [](const auto & item)
     {
         return item.second.GetBoard().IsSolved();
-    });
+    }));
 }
 
