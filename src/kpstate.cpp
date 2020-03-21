@@ -215,7 +215,7 @@ StateId KPstate::DefaultKeyPressed(KPstateContext *pContext,
 
         case 'F' - 'A' + 1:
             config.FullScreen = !config.FullScreen;
-            pContext->GetUserInterface().SetWindowMode(config.FullScreen != 0);
+            pContext->GetUserInterface().SetWindowMode(config.FullScreen);
             break;
     }
 
