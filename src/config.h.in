@@ -1,14 +1,32 @@
 /* src/config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Use the Apple OpenGL framework. */
-#undef HAVE_APPLE_OPENGL_FRAMEWORK
-
 /* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
    */
 #undef HAVE_DIRENT_H
 
+/* Defined if a valid OpenGL implementation is found. */
+#undef HAVE_GL
+
+/* Defined if a valid GLU implementation is found. */
+#undef HAVE_GLU
+
+/* Defined if a valid GLUT implementation is found */
+#undef HAVE_GLUT
+
+/* Define to 1 if you have the <GLUT/glut.h> header file. */
+#undef HAVE_GLUT_GLUT_H
+
 /* Define to 1 if you have the <GL/glew.h> header file. */
 #undef HAVE_GL_GLEW_H
+
+/* Define to 1 if you have the <GL/glut.h> header file. */
+#undef HAVE_GL_GLUT_H
+
+/* Define to 1 if you have the <GL/glu.h> header file. */
+#undef HAVE_GL_GLU_H
+
+/* Define to 1 if you have the <GL/gl.h> header file. */
+#undef HAVE_GL_GL_H
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
@@ -19,17 +37,14 @@
 /* Define to 1 if you have the <mcheck.h> header file. */
 #undef HAVE_MCHECK_H
 
-/* Define to 1 if you have the <memory.h> header file. */
-#undef HAVE_MEMORY_H
-
 /* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
 #undef HAVE_NDIR_H
 
-/* Define if you have POSIX threads libraries and header files. */
-#undef HAVE_PTHREAD
+/* Define to 1 if you have the <OpenGL/glu.h> header file. */
+#undef HAVE_OPENGL_GLU_H
 
-/* Define to 1 if library and header file for libsdl is available. */
-#undef HAVE_SDL
+/* Define to 1 if you have the <OpenGL/gl.h> header file. */
+#undef HAVE_OPENGL_GL_H
 
 /* Define to 1 if library and header file for libsdl2 is available. */
 #undef HAVE_SDL2
@@ -39,6 +54,9 @@
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#undef HAVE_STDIO_H
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
@@ -69,6 +87,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Use nonstandard varargs form for the GLU tesselator callback */
+#undef HAVE_VARARGS_GLU_TESSCB
+
 /* Define to 1 if you have the <windows.h> header file. */
 #undef HAVE_WINDOWS_H
 
@@ -93,15 +114,10 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Define to necessary symbol if this constant uses a non-standard name on
-   your system. */
-#undef PTHREAD_CREATE_JOINABLE
-
-/* Define to 1 if you have the ANSI C header files. */
+/* Define to 1 if all of the C90 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
-
-/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
-#undef TIME_WITH_SYS_TIME
 
 /* Version number of package */
 #undef VERSION

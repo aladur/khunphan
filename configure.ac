@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([khunphan],0.62)
+AC_INIT([khunphan],[0.62])
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_MACRO_DIR(m4)
@@ -9,13 +9,16 @@ AC_ARG_PROGRAM dnl Perform program name transformation
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 AM_MAINTAINER_MODE([disable])
 dnl AC_PREFIX_DEFAULT(/usr/local)
-AM_CONFIG_HEADER([src/config.h])
+AC_CONFIG_HEADERS([src/config.h])
 AC_PROG_LN_S
 AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
-dnl check for OpenGL and GLU
+dnl check for OpenGL
+AX_CHECK_GL
+
+dnl check for GLU
 AX_CHECK_GLU
 if test "x$no_glu" = "xyes"; then
    AC_MSG_ERROR([*** No OpenGL or GLU library found!])
@@ -52,22 +55,6 @@ if test "x$have_sdl2" = "xyes"; then
  )
 fi
 
-if test "x$have_sdl2" != "xyes"; then
- dnl If SDL V2.0 is not present check for SDL V1.2
- SDL_VERSION=1.2.0
- AM_PATH_SDL($SDL_VERSION,
-             AC_DEFINE([HAVE_SDL], 1, [Define to 1 if library and header file for libsdl is available.]),
-             AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!])
- )
- dnl Check for SDL_mixer
- AC_CHECK_LIB(SDL_mixer,
-        main,
-        LIBS="$LIBS -lSDL_mixer",
-        AC_MSG_ERROR([*** SDL_mixer library not found!])
- )
-fi
-
- 
 CXXFLAGS="$CXXFLAGS $SDL_CFLAGS $GLEW_CFLAGS"
 LIBS="$LIBS $SDL_LIBS $GLEW_LIBS"
 
@@ -84,8 +71,8 @@ if test "x$no_png" = "xyes"; then
 fi
 
 AC_HEADER_DIRENT
-AC_HEADER_STDC
-AC_HEADER_TIME
+dnl AC_CHECK_INCLUDES_DEFAULT
+dnl AC_PROG_EGREP
 
 AC_CHECK_HEADERS(sys/time.h sys/types.h sys/stat.h)
 AC_CHECK_HEADERS(string.h strings.h stdlib.h stdarg.h)
