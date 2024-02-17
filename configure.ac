@@ -15,6 +15,18 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
+AC_LANG_PUSH([C++])
+CC_CHECK_FLAGS_APPEND([CXXFLAGS],[CXXFLAGS],[\
+        -pedantic \
+        -Wall \
+        -Wextra \
+        -Wshadow \
+        -Wuseless-cast \
+        -Wfloat-conversion \
+        -Wundef \
+])
+AC_LANG_POP([C++])
+
 dnl check for OpenGL
 AX_CHECK_GL
 
