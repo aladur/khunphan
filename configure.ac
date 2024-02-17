@@ -81,6 +81,8 @@ AC_CHECK_HEADERS(mcheck.h)
 
 AC_CONFIG_FILES([ Makefile ])
 AC_CONFIG_FILES([ src/Makefile ])
+AC_CONFIG_FILES([ .github/Makefile ])
+AC_CONFIG_FILES([ .github/workflows/Makefile ])
 
 AC_OUTPUT
 
