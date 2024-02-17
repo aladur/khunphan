@@ -1,0 +1,39 @@
+name: khunphan-distcheck
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  distcheck:
+    runs-on: ubuntu-latest
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+
+      - name: Context
+        run: |
+          CCVER='/[^0-9]([0-9]+\.[0-9]+\.[0-9]+)/p;q'
+          uname -a
+          VER=`$CC --version | sed -nE $CCVER`
+          echo "C compiler version:" $VER
+          VER=`$CXX --version | sed -nE $CCVER`
+          echo "C++ compiler version:" $VER
+          echo "Number of cores: " `grep -c processor /proc/cpuinfo`
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install libxmu-dev libglu1-mesa-dev libglew-dev libxml2-dev libpng-dev libsdl2-dev libsdl2-mixer-dev freeglut3-dev
+
+      - name: Configure
+        run: ./configure --prefix=$HOME/usr --sysconfdir=$HOME/etc || cat config.log
+
+      - name: Test distribution
+        run: make distcheck
+

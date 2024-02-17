@@ -2,6 +2,10 @@
 |-------------|
 | [![github actions](https://github.com/aladur/khunphan/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/aladur/khunphan/actions) |
 
+| Distribution check |
+|--------------------|
+| [![github actions](https://github.com/aladur/khunphan/actions/workflows/distcheck.yml/badge.svg?branch=master)](https://github.com/aladur/khunphan/actions) |
+
 # KhunPhan
 
 KhunPhan is a stategic 3D puzzle board game using an OpenGL interface.
