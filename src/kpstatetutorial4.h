@@ -33,11 +33,11 @@ public:
         return StateId::Tutorial4;
     };
 protected:
-    void InitializeBoardWithTokens(KPstateContext *pContext) const;
+    void InitializeBoardWithTokens(KPstateContext *pContext) const override;
     Lbl GetTutorialLabelId(std::size_t offset = 0) const override;
-    TokenId GetEmphasizedTokenId() const;
+    TokenId GetEmphasizedTokenId() const override;
     void ContinueWithNextState(KPstateContext *pContext,
-                               bool valid = true) const;
+                               bool valid = true) const override;
     void PlayAudioForInitialize(KPstateContext *) const override;
 };
 

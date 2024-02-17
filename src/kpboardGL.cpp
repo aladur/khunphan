@@ -301,7 +301,7 @@ void KPboardView::Initialize(const std::string &TextureDirectory,
 
 float KPboardView::getRnd(void) const
 {
-    return static_cast<float>(rand()) / RAND_MAX;
+    return static_cast<float>(static_cast<double>(rand()) / RAND_MAX);
 }
 
 void KPboardView::CreateCuboid(float dx, float dy, float dz, float x0, float y0,
