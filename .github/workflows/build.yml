@@ -1,0 +1,50 @@
+name: khunphan-linux-build
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+        os: [ ubuntu-20.04, ubuntu-latest ]
+        compiler: [[ gcc, g++ ], [ gcc-13, g++-13 ], [ clang, clang++ ]]
+        exclude:
+          - os: ubuntu-20.04
+            compiler: [ gcc-13, g++-13 ]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    env:
+      CC: ${{ matrix.compiler[0] }}
+      CXX: ${{ matrix.compiler[1] }}
+    steps:
+
+      - name: Context
+        run: |
+          CCVER='/[^0-9]([0-9]+\.[0-9]+\.[0-9]+)/p;q'
+          uname -a
+          VER=`$CC --version | sed -nE $CCVER`
+          echo "C compiler version:" $VER
+          VER=`$CXX --version | sed -nE $CCVER`
+          echo "C++ compiler version:" $VER
+          echo "Number of cores: " `grep -c processor /proc/cpuinfo`
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install libxmu-dev libglu1-mesa-dev libglew-dev libxml2-dev libpng-dev libsdl2-dev libsdl2-mixer-dev freeglut3-dev
+
+      - name: Configure
+        run: ./configure --prefix=$HOME
+
+      - name: Make
+        run: make -j8
+
+      - name: Install
+        run: make install
+
