@@ -29,7 +29,7 @@ LicenseBkColor /windows
 
 ; file info
 VIAddVersionKey ProductName     "${APPNAME}"
-VIAddVersionKey LegalCopyright  "(C) 2002-2018 W. Schwotzer"
+VIAddVersionKey LegalCopyright  "(C) 2002-2024 W. Schwotzer"
 VIAddVersionKey Comment         "A strategic 3D puzzle game"
 VIAddVersionKey ProductVersion  "${APPVERSION}"
 VIAddVersionKey FileDescription "A strategic 3D puzzle game"

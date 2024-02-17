@@ -2,7 +2,7 @@
     kpstateselectlanguage.h
 
     Automatic solution finder for KhunPhan game
-    Copyright (C) 2001-2018  W. Schwotzer
+    Copyright (C) 2001-2024  W. Schwotzer
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

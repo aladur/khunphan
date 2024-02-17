@@ -2,7 +2,7 @@
 **
 ** extendedcamera.cpp   Copyright (C) 2001 by Stefan Disch, Tobias Nopper,
 **                      Martina Welte
-**                      Modified 2002-2018 for KhunPhan by W. Schwotzer
+**                      Modified 2002-2024 for KhunPhan by W. Schwotzer
 **
 *******************************************************************************/
 
