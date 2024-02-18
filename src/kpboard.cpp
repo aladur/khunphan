@@ -38,13 +38,17 @@ const KPboard::tArrayOfUInt8 KPboard::yExtends
 };
 
 KPboard::KPboard() : id(0),
-    positions{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    tokenID{ TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
-             TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
-             TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
-             TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
-             TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY
-           }
+    positions{},
+    tokenID{
+        { TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
+          TokenId::EMPTY },
+        { TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
+          TokenId::EMPTY },
+        { TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
+          TokenId::EMPTY },
+        { TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY, TokenId::EMPTY,
+          TokenId::EMPTY },
+    }
 {
 }
 
