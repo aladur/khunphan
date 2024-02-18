@@ -121,7 +121,7 @@ const char *BTexture::ReadTextureFromFile(
     const char *returned_texels = ReadTextureFromFile(fs, flags);
     fs.close();
 
-    return static_cast<const char *>(returned_texels);
+    return returned_texels;
 }
 
 const char *BTexture::ReadTextureFromFile(std::ifstream &fs, int flags/* = 0 */)
@@ -208,8 +208,8 @@ const char *BTexture::ReadTextureFromPngFile(std::ifstream &fs,
                  &bit_depth, &color_type, &interlace_type,
                  &compression_type, &filter_type);
 
-    width = static_cast<unsigned int>(png_width),
-    height = static_cast<unsigned int>(png_height),
+    width = png_width;
+    height = png_height;
 
     channels = png_get_channels(png_ptr, info_ptr);
     rowbytes = png_get_rowbytes(png_ptr, info_ptr);
@@ -661,12 +661,11 @@ bool BTexture::WriteTextureToPngFile(std::ofstream &fs, int) const
 
     png_bytepp row_pointers;
 
-    row_pointers = static_cast<png_bytepp>(new unsigned char *[height]);
+    row_pointers = new unsigned char *[height];
 
     for (unsigned int i = 0; i < height; i++)
     {
-        row_pointers[height - i - 1] =
-            reinterpret_cast<png_bytep>(&texels[rowbytes * i]);
+        row_pointers[height - i - 1] = &texels[rowbytes * i];
     }
 
     // and finally write the image

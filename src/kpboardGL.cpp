@@ -928,7 +928,7 @@ TokenId KPboardView::Selection(const Camera &camera, int x, int y) const
 
         for (auto loop = 1; loop < hits; loop++)
         {
-            if (buffer[loop * 4 + 1] < GLuint(depth))
+            if (buffer[loop * 4 + 1] < depth)
             {
                 // store the closest object
                 choose = static_cast<TokenId>(buffer[loop * 4 + 3]);
