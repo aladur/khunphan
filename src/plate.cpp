@@ -300,7 +300,7 @@ void Plate::RecreateDisplayList(BTexture *pTexture /* = nullptr */)
 
 void Plate::Draw() const
 {
-    if (Alpha)
+    if (Alpha != 0.0f)
     {
         GLfloat color[] = {r, g, b, Alpha};
         glPushMatrix();

@@ -250,7 +250,7 @@ void Label::Draw()
 {
     RecreateDisplayList();
 
-    if (Alpha)
+    if (Alpha != 0.0f)
     {
         glPushMatrix();
         glEnable(GL_TEXTURE_2D);
@@ -405,7 +405,7 @@ void Label::SetInputFocus(bool state)
     }
     else
     {
-        if (Alpha && target_Alpha)
+        if (Alpha != 0.0f && target_Alpha != 0.0f)
         {
             SetFadeIn();
         }
@@ -510,7 +510,7 @@ void Label::RecreateDisplayList()
         return;
     }
 
-    if (!maxWidth)
+    if (maxWidth == 0.0f)
     {
         AspectRatio = 0.0;
         GLuint c = 0;
