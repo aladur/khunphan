@@ -67,7 +67,7 @@ void KPstateTutorial1::UpdateDisplay(KPstateContext *pContext) const
 
     auto y = 9.5f;
     menu.labels[Lbl::Tutorial1Welcome].SetPosition(1.25, y, 0.7f);
-    y -= 1.0;
+    y -= 1.0f;
     menu.labels[Lbl::Tutorial1Hint].SetPosition(1.25, y, 0.5);
 
     menu.labels[Lbl::Continue].SetPosition(8, 1, 1, AlignItem::Centered);

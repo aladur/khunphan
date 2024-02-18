@@ -76,8 +76,8 @@ void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,
         glEnable(GL_LIGHT1);
     }
 
-    x -= 100.0;
-    y += 300.0;
+    x -= 100.0f;
+    y += 300.0f;
 
     if (LightSources == 1 || LightSources == 3)
     {
@@ -90,8 +90,8 @@ void Light::Update(bool AmbientLight, int aLightSources /*= 1*/,
         glEnable(GL_LIGHT0);
     }
 
-    x -= 100.0;
-    y -= 300.0;
+    x -= 100.0f;
+    y -= 300.0f;
 
     if (LightSources >= 2)
     {
@@ -125,7 +125,7 @@ void Light::SetPosition(float px, float py, float pz)
         glLightfv(GL_LIGHT1, GL_POSITION, light_position);
     }
 
-    X -= 100.0;
+    X -= 100.0f;
 
     if (LightSources == 1 || LightSources == 3)
     {
@@ -134,7 +134,7 @@ void Light::SetPosition(float px, float py, float pz)
         glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     }
 
-    X -= 100.0;
+    X -= 100.0f;
 
     if (LightSources >= 2)
     {

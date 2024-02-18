@@ -48,15 +48,15 @@ void KPstateSettings::UpdateDisplay(KPstateContext *pContext) const
 
     auto y = 6.5f;
     menu.labels[Lbl::Control].SetPosition(8, y, 1, AlignItem::Centered);
-    y -= 1.0;
+    y -= 1.0f;
     menu.labels[Lbl::Control].SetSignal(Signal::Control);
 
     menu.labels[Lbl::Graphics].SetPosition(8, y, 1, AlignItem::Centered);
-    y -= 1.0;
+    y -= 1.0f;
     menu.labels[Lbl::Graphics].SetSignal(Signal::Graphics);
 
     menu.labels[Lbl::Audio].SetPosition(8, y, 1, AlignItem::Centered);
-    y -= 1.0;
+    y -= 1.0f;
     menu.labels[Lbl::Audio].SetSignal(Signal::Audio);
 
     menu.labels[Lbl::Language].SetPosition(8, y, 1, AlignItem::Centered);

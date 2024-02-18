@@ -72,7 +72,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
 
     labelId = GetTutorialLabelId(1);
     menu.labels[labelId].SetPosition(1.25, y, 0.5);
-    y -= 2.5;
+    y -= 2.5f;
 
     switch (actionState)
     {
@@ -93,14 +93,14 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
         case ActionState::TokenNotMoveable:
             // Klicked on an unmovable token
             menu.labels[Lbl::TutorialNotMoveable].SetPosition(1.25, y, 0.5);
-            y -= 0.5;
+            y -= 0.5f;
             menu.labels[Lbl::TutorialTryAgain].SetPosition(1.25, y, 0.5);
             break;
 
         case ActionState::WrongTokenMoved:
             // Klicked on the wrong token
             menu.labels[Lbl::TutorialQuiteGood].SetPosition(1.25, y, 0.5);
-            y -= 0.5;
+            y -= 0.5f;
             menu.labels[Lbl::TutorialTryAgain].SetPosition(1.25, y, 0.5);
             break;
 
@@ -108,7 +108,7 @@ void KPstateTutorial3::UpdateDisplay(KPstateContext *pContext) const
             // Klicked right token, but did not move with the mouse
             // This can only happen in Tutorial 4
             menu.labels[Lbl::TutorialMouseMove].SetPosition(1.25, y, 0.5);
-            y -= 0.5;
+            y -= 0.5f;
             menu.labels[Lbl::TutorialTryAgain].SetPosition(1.25, y, 0.5);
             break;
 

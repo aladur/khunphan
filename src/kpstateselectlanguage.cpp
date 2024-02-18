@@ -63,7 +63,7 @@ void KPstateSelectLanguage::UpdateDisplay(KPstateContext *pContext) const
         menu.labels[item.first].SetPosition(8, Pos_y, 0.71f,
                                             AlignItem::Centered);
         menu.labels[item.first].SetSignal(signal);
-        Pos_y -= 0.5;
+        Pos_y -= 0.5f;
     }
 
     // If the config not yet contains a language (first start)
