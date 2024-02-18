@@ -215,8 +215,6 @@ void KPscore::WriteToFile() const
 
     auto tree = xmlNewChild(doc->children, ns, _TO("Scores"), nullptr);
 
-    std::vector<tKpScoreStruct>::const_iterator it = scoreList.begin();
-
     for (const auto &score : scoreList)
     {
         auto subtree = xmlNewChild(tree, ns, _TO("Score"), nullptr);

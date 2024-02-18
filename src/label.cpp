@@ -514,7 +514,6 @@ void Label::RecreateDisplayList()
     {
         AspectRatio = 0.0;
         GLuint c = 0;
-        std::string::const_iterator it;
 
         lineCount = 1;
         glNewList(DisplayList, GL_COMPILE);
