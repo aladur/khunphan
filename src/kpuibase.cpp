@@ -255,10 +255,10 @@ void KPUIBase::ChangeState(StateId stateID)
 {
     if (stateID != StateId::Invalid)
     {
-        auto previousStateId = pState ? pState->GetId() : StateId::Invalid;
+        auto previousStateID = pState ? pState->GetId() : StateId::Invalid;
 
         pState = KPstateFactory::CreateState(stateID);
-        pState->Initialize(this, previousStateId);
+        pState->Initialize(this, previousStateID);
     }
 }
 

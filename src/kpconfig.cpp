@@ -287,24 +287,24 @@ void KPConfig::WriteToFile() const
     {
         auto subtree = xmlNewChild(tree, ns, _TO("SavedGame"), nullptr);
 
-        std::ostringstream iss1;
-        iss1 << SavedGame;
+        std::stringstream ss20;
+        ss20 << SavedGame;
         xmlNewChild(subtree, ns, _TO("Position"), _TO(iss1.str().c_str()));
 
-        std::ostringstream iss2;
-        iss2 << PlayTime;
+        std::stringstream ss21;
+        ss21 << PlayTime;
         xmlNewChild(subtree, ns, _TO("PlayTime"), _TO(iss2.str().c_str()));
 
-        std::ostringstream iss3;
-        iss3 << Moves;
+        std::stringstream ss22;
+        ss22 << Moves;
         xmlNewChild(subtree, ns, _TO("Moves"), _TO(iss3.str().c_str()));
 
-        std::ostringstream iss4;
-        iss4 << MovesWithHint;
+        std::stringstream ss23;
+        ss23 << MovesWithHint;
         xmlNewChild(subtree, ns, _TO("MovesWithHint"), _TO(iss4.str().c_str()));
 
-        std::ostringstream iss5;
-        iss5 << MovesWithCheat;
+        std::stringstream ss24;
+        ss24 << MovesWithCheat;
         xmlNewChild(subtree, ns, _TO("CheatCount"), _TO(iss5.str().c_str()));
     }
 

@@ -98,7 +98,7 @@ private:
     std::string oldLabelText;
     int   size;
     float AspectRatio;
-    float x, y, Height, Alpha;
+    float pos_x, pos_y, Height, Alpha;
     float old_x, old_y, old_Height, old_Alpha;
     float target_x, target_y, target_Height, target_Alpha;
     AlignItem Alignment;

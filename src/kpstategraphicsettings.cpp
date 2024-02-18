@@ -269,11 +269,11 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
     {
         y -= dy;
 
-        auto labelId = E_FullScreen ?
+        auto labelID = E_FullScreen ?
                            Lbl::ScreenModeFullscreen : Lbl::ScreenModeWindow;
 
-        menu.labels[labelId].SetPosition(8.2f, y, 0.6f);
-        menu.labels[labelId].SetSignal( Signal::ToggleScreenmode);
+        menu.labels[labelID].SetPosition(8.2f, y, 0.6f);
+        menu.labels[labelID].SetSignal( Signal::ToggleScreenmode);
     }
 
     y -= dy;

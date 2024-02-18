@@ -36,9 +36,9 @@
 
 const unsigned int KPscore::MAX_SCORE_ENTRIES = 10;
 
-KPscore::KPscore(const char *fileName /* = nullptr */)
+KPscore::KPscore(const char *p_fileName /* = nullptr */)
 {
-    SetFileName(fileName);
+    SetFileName(p_fileName);
     ReadFromFile();
 }
 

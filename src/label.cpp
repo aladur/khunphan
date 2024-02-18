@@ -65,7 +65,7 @@ std::string Label::TextureSource;
 tActivated Label::activated;
 
 Label::Label(const std::string &textOrFormat) :
-    size(0), AspectRatio(0), x(0), y(0),
+    size(0), AspectRatio(0), pos_x(0), pos_y(0),
     Height(0), Alpha(0.0f),
     old_x(0),  old_y(0),  old_Height(0),  old_Alpha(0.0f),
     target_x(0), target_y(0), target_Height(0), target_Alpha(0.0f),
@@ -92,8 +92,8 @@ Label::Label(const std::string &textOrFormat) :
 Label::Label(const Label &src) :
     format(src.format),
     labelText(src.labelText), oldLabelText(src.oldLabelText),
-    size(src.size), AspectRatio(src.AspectRatio), x(src.x), y(src.y),
-    Height(src.Height), Alpha(src.Alpha),
+    size(src.size), AspectRatio(src.AspectRatio), pos_x(src.pos_x),
+    pos_y(src.pos_y), Height(src.Height), Alpha(src.Alpha),
     old_x(src.old_x),  old_y(src.old_y),
     old_Height(src.old_Height), old_Alpha(src.old_Alpha),
     target_x(src.target_x), target_y(src.target_y),
@@ -125,8 +125,8 @@ Label &Label::operator=(const Label &src)
         oldLabelText = src.oldLabelText;
         size = src.size;
         AspectRatio = src.AspectRatio;
-        x = src.x;
-        y = src.y;
+        pos_x = src.pos_x;
+        pos_y = src.pos_y;
         Height = src.Height;
         Alpha = src.Alpha;
         old_x = src.old_x;
@@ -254,7 +254,7 @@ void Label::Draw()
     {
         glPushMatrix();
         glEnable(GL_TEXTURE_2D);
-        glTranslatef(x, y, 0);
+        glTranslatef(pos_x, pos_y, 0);
         glScalef(Height, Height, 1);
         glColor4f(1.0, 1.0, 1.0, Alpha);
         glCallList(DisplayList);
@@ -299,8 +299,8 @@ void Label::SetPosition(float X, float Y, float H, AlignItem alignment)
     if (Alpha == MOD_FADEOUT)
     {
 
-        x = ((target_x - 8) / 1.5f) + 8;
-        y = ((target_y - 6) / 1.5f) + 6;
+        pos_x = ((target_x - 8) / 1.5f) + 8;
+        pos_y = ((target_y - 6) / 1.5f) + 6;
         Height = target_Height / 1.5f;
 
         /*
@@ -383,8 +383,8 @@ void Label::SetFadeOut()
 {
     target_Alpha = MOD_FADEOUT;
 
-    target_x = ((x - 8) * 1.5f) + 8;
-    target_y = ((y - 6) * 1.5f) + 6;
+    target_x = ((pos_x - 8) * 1.5f) + 8;
+    target_y = ((pos_y - 6) * 1.5f) + 6;
     target_Height = Height * 1.5f;
 
     hasInputFocus = false;
@@ -450,8 +450,8 @@ void Label::Animate(unsigned int duration)
     {
         if (animationTimer.Add(duration))
         {
-            x = target_x;
-            y = target_y;
+            pos_x = target_x;
+            pos_y = target_y;
             Height = target_Height;
             Alpha = target_Alpha;
         }
@@ -462,8 +462,8 @@ void Label::Animate(unsigned int duration)
 
             localFactor = 0.5f - 0.5f *
                           cos(M_PIf * static_cast<GLfloat>(relativeTime));
-            x      = (target_x - old_x) * localFactor + old_x;
-            y      = (target_y - old_y) * localFactor + old_y;
+            pos_x = (target_x - old_x) * localFactor + old_x;
+            pos_y = (target_y - old_y) * localFactor + old_y;
             Height = (target_Height - old_Height) * localFactor + old_Height;
             Alpha  = (target_Alpha - old_Alpha) * localFactor + old_Alpha;
         }
@@ -479,8 +479,8 @@ void Label::StartAnimation()
 {
     SetActive(this);
     animationTimer.Restart();
-    old_x = x;
-    old_y = y;
+    old_x = pos_x;
+    old_y = pos_y;
     old_Height = Height;
     old_Alpha = Alpha;
 }
@@ -656,8 +656,8 @@ Signal Label::MouseEvent(MouseButton button, MouseButtonEvent event,
 
     if (target_Alpha > 0.0 &&
         signal != Signal::Void &&
-        x <= xf && xf <= x + Height * AspectRatio &&
-        y <= yf && yf <= y + Height)
+        pos_x <= xf && xf <= pos_x + Height * AspectRatio &&
+        pos_y <= yf && yf <= pos_y + Height)
     {
         if (button == MouseButton::Left)
         {
