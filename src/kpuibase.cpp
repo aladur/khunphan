@@ -46,7 +46,7 @@ KPUIBase::KPUIBase(KPConfigPtr PConfig) :
     animationTimer(TOTAL_ANIMATIONTIME, false),
     previousStateId(StateId::Invalid), isPause(false),
     config(PConfig),
-    lastFrameTimestamp(0), oldTime(0), frameCount(0)
+    lastFrameTimestamp(0U), oldTime(0U), frameCount(0)
 
 {
     // the instance is needed for callback handling.
@@ -119,7 +119,7 @@ void KPUIBase::InitializeAfterOpen()
     InitializeEvents();
 
     // Starting point for calculating frames per second
-    oldTime = fpsTime.GetTimeMsl();
+    oldTime = fpsTime.GetTimeMsll();
 }
 
 std::string KPUIBase::GetWindowTitle() const
@@ -204,22 +204,22 @@ void KPUIBase::Reshape(int width, int height)
 
 void KPUIBase::Idle()
 {
-    if (lastFrameTimestamp == 0)
+    if (lastFrameTimestamp == 0U)
     {
         // first time initialization
-        lastFrameTimestamp = fpsTime.GetTimeMsl();
+        lastFrameTimestamp = fpsTime.GetTimeMsll();
         return;
     }
 
-    unsigned long frameTimestamp = fpsTime.GetTimeMsl();
+    auto frameTimestamp = fpsTime.GetTimeMsll();
     // duration is the time difference to the previous cyclic update in ms
-    unsigned long duration = frameTimestamp - lastFrameTimestamp;
+    auto duration = frameTimestamp - lastFrameTimestamp;
 
-    if (duration >= 10)
+    if (duration >= 10U)
     {
         // Animate approx. each 10 ms
         // Animation is delegated to KPstate
-        pState->AnimateAll(this, duration);
+        pState->AnimateAll(this, static_cast<unsigned int>(duration));
 
         lastFrameTimestamp = frameTimestamp;
 
@@ -229,11 +229,11 @@ void KPUIBase::Idle()
 
 void KPUIBase::DisplayFPS()
 {
-    auto t = fpsTime.GetTimeMsl();
+    auto t = fpsTime.GetTimeMsll();
 
     frameCount++;
 
-    if (t - oldTime > 1000)  // update every second
+    if (t - oldTime > 1000U)  // update every second
     {
         pMenu->UpdateFPS(frameCount,
                          static_cast<float>(t - oldTime) / frameCount);

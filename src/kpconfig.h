@@ -83,7 +83,7 @@ public:
     int MusicVolume;
 
     QWord     SavedGame;
-    unsigned int PlayTime;
+    QWord PlayTime;
     unsigned int Moves;
     unsigned int MovesWithHint;
     unsigned int MovesWithCheat;

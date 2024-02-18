@@ -46,7 +46,7 @@ KPscore::KPscore(const char *p_fileName /* = nullptr */)
 // Score interface
 ////////////////////////////////////////////////////////////////////////////////
 
-bool KPscore::Add(const char *aName, unsigned int aPlayTime,
+bool KPscore::Add(const char *aName, QWord aPlayTime,
                   unsigned int aMoves, time_t aTimestamp)
 {
     if (CanAdd(aName, aPlayTime, aMoves, aTimestamp))
@@ -77,7 +77,7 @@ bool KPscore::Add(const char *aName, unsigned int aPlayTime,
     return false;
 }
 
-bool KPscore::CanAdd(const char *aName, unsigned int aPlayTime,
+bool KPscore::CanAdd(const char *aName, QWord aPlayTime,
                      unsigned int aMoves, time_t aTimestamp) const
 {
     std::vector<tKpScoreStruct>::const_iterator it =
@@ -93,7 +93,7 @@ void KPscore::ClearAll()
 }
 
 bool KPscore::Get(size_t index, std::string &pName,
-                  unsigned int *pPlayTime,
+                  QWord *pPlayTime,
                   unsigned int *pMoves, time_t *pTimestamp) const
 {
     if (index >= scoreList.size())
@@ -122,7 +122,7 @@ bool KPscore::Get(size_t index, std::string &pName,
 }
 
 std::vector<KPscore::tKpScoreStruct>::iterator KPscore::PositionToInsert(
-    const char *, unsigned int aPlayTime,
+    const char *, QWord aPlayTime,
     unsigned int, time_t)
 {
     auto it = scoreList.begin();
@@ -139,7 +139,7 @@ std::vector<KPscore::tKpScoreStruct>::iterator KPscore::PositionToInsert(
 }
 
 std::vector<KPscore::tKpScoreStruct>::const_iterator KPscore::PositionToInsert(
-    const char *, unsigned int aPlayTime,
+    const char *, QWord aPlayTime,
     unsigned int, time_t) const
 {
     auto it = scoreList.cbegin();

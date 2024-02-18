@@ -28,9 +28,9 @@
 class BManualTimer
 {
 public:
-    BManualTimer(unsigned int MaxTime, bool IsAutoReset,
+    BManualTimer(QWord MaxTime, bool IsAutoReset,
                  bool IsStarted = false) :
-        time(0), maxTime(MaxTime), isAutoReset(IsAutoReset),
+        time(0U), maxTime(MaxTime), isAutoReset(IsAutoReset),
         isStarted(IsStarted)
     {
     }
@@ -38,13 +38,13 @@ public:
     inline void Restart()
     {
         isStarted = true;
-        time = 0;
+        time = 0U;
     }
 
     inline void Reset()
     {
         isStarted = false;
-        time = 0;
+        time = 0U;
     }
 
     inline bool IsStarted() const
@@ -52,7 +52,7 @@ public:
         return isStarted;
     }
 
-    inline bool Add(unsigned int duration)
+    inline bool Add(QWord duration)
     {
         auto isExpired = false;
 
@@ -82,7 +82,7 @@ public:
         return static_cast<double>(time) / maxTime;
     }
 
-    inline unsigned int GetTime() const
+    inline QWord GetTime() const
     {
         return time;
     }
@@ -90,8 +90,8 @@ public:
 private:
     BManualTimer();
 
-    unsigned int time;
-    unsigned int maxTime;
+    QWord time;
+    QWord maxTime;
     bool isAutoReset;
     bool isStarted;
 };

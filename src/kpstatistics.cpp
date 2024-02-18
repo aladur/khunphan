@@ -26,7 +26,7 @@
 #include "kpstatistics.h"
 
 
-KPStatistics::KPStatistics() : playingTime(0), stopWatchActive(false)
+KPStatistics::KPStatistics() : playingTime(0U), stopWatchActive(false)
 {
     Reset();
 }
@@ -40,7 +40,7 @@ void KPStatistics::Reset()
         EventCounter::MovesWithCheat
     };
 
-    playingTime     = 0;
+    playingTime = 0U;
     stopWatchActive = false;
     counter.clear();
 
@@ -60,16 +60,16 @@ void KPStatistics::Stop()
 {
     if (stopWatchActive)
     {
-        playingTime     += time.GetRelativeTimeMsl();
+        playingTime += time.GetRelativeTimeMsll();
         stopWatchActive  = false;
     }
 }
 
-unsigned long KPStatistics::GetTotalTime()
+QWord KPStatistics::GetTotalTime()
 {
     if (stopWatchActive)
     {
-        return playingTime + time.GetRelativeTimeMsl();
+        return playingTime + time.GetRelativeTimeMsll();
     }
     else
     {
@@ -107,7 +107,7 @@ std::string KPStatistics::GetTotalTime(TimeFormat formatID)
     return FormatTime(formatID, GetTotalTime());
 }
 
-std::string KPStatistics::FormatTime(TimeFormat formatID, unsigned int t)
+std::string KPStatistics::FormatTime(TimeFormat formatID, QWord t)
 {
     std::stringstream timeStr;
     using std::setw;

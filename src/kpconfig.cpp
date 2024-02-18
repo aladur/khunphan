@@ -55,7 +55,7 @@ KPConfig::KPConfig() :
     UserInterface(0), CameraPosition(2),
     SolutionHint(0), MouseSpeed(0.4f),
     SoundVolume(100), MusicVolume(100),
-    SavedGame(0), PlayTime(0), Moves(0), MovesWithHint(0),
+    SavedGame(0), PlayTime(0U), Moves(0), MovesWithHint(0),
     MovesWithCheat(0),
     TextureName("wood"), DisplayVersionOnly(false),
     PerformanceLog(false), SkipProgressBar(false)
@@ -660,7 +660,7 @@ void KPConfig::SetDefaultValues()
     MusicVolume          = 100;
 
     SavedGame            = 0;
-    PlayTime             = 0;
+    PlayTime             = 0U;
     Moves                = 0;
     MovesWithHint        = 0;
     MovesWithCheat       = 0;

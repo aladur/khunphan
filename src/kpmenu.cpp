@@ -34,7 +34,7 @@
 
 KPmenu::KPmenu(KPConfigPtr PConfig) :
     lastState(StateId::Invalid),
-    playTimeUpdateTimer(100, true, true), config(PConfig),
+    playTimeUpdateTimer(100U, true, true), config(PConfig),
     isDisplayOpenGLInfo(false)
 {
 }
@@ -202,7 +202,7 @@ void KPmenu::UpdateFPS(int fps, float renderTime)
     labels[Lbl::Fps].FormatText(fps, stream.str());
 }
 
-void KPmenu::UpdatePlayTime(KPstateContext *pContext, unsigned int duration)
+void KPmenu::UpdatePlayTime(KPstateContext *pContext, QWord duration)
 {
     if (playTimeUpdateTimer.Add(duration))
     {

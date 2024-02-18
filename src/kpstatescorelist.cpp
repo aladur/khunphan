@@ -41,7 +41,7 @@ void KPstateScoreList::UpdateDisplay(KPstateContext *pContext) const
     auto &menu = pContext->GetMenu();
 
     std::string  Name;
-    unsigned int PlayTime;
+    QWord PlayTime;
     unsigned int Moves;
     KPscore scoreList;
 

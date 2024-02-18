@@ -59,13 +59,13 @@ public:
     void Start();
     // Stop capturing play time
     void Stop();
-    void SetPlayingTime(unsigned long t)
+    void SetPlayingTime(QWord t)
     {
         playingTime = t;
     };
 
     // Returns the total elapsed time in milliseconds
-    unsigned long GetTotalTime();
+    QWord GetTotalTime();
     // Return a formatted time string
     std::string GetTotalTime(TimeFormat formatID);
 
@@ -80,12 +80,12 @@ public:
     // Reset event counter type
     void Reset(EventCounter type);
 
-    static std::string FormatTime(TimeFormat formatID, unsigned int t);
+    static std::string FormatTime(TimeFormat formatID, QWord t);
 
 private:
     BTime time;
     std::map<EventCounter, unsigned int> counter;
-    unsigned long  playingTime;
+    QWord playingTime;
     bool stopWatchActive;
 };
 #endif

@@ -36,7 +36,7 @@ public:
     typedef struct
     {
         std::string  Name;
-        unsigned int PlayTime;
+        QWord PlayTime;
         unsigned int Moves;
         time_t       Timestamp;
     } tKpScoreStruct;
@@ -64,22 +64,22 @@ public:
     void WriteToFile() const;
     void print(std::ostream &os) const;
     void SetFileName(const char *fileName = nullptr);
-    bool Add(const char *aName, unsigned int aPlayTime, unsigned int aMoves,
+    bool Add(const char *aName, QWord aPlayTime, unsigned int aMoves,
              time_t aTime = 0);
-    bool CanAdd(const char *aName, unsigned int aPlayTime, unsigned int aMoves,
+    bool CanAdd(const char *aName, QWord aPlayTime, unsigned int aMoves,
                 time_t aTime = 0) const;
     void ClearAll();
     bool Get(size_t index, std::string &aName,
-             unsigned int *aPlayTime = nullptr,
+             QWord *aPlayTime = nullptr,
              unsigned int *aMoves = nullptr, time_t *aTime = nullptr) const;
 
 private:
     void ReadFromFile();
     std::vector<KPscore::tKpScoreStruct>::iterator PositionToInsert(
-        const char *aName, unsigned int aPlayTime,
+        const char *aName, QWord aPlayTime,
         unsigned int aMoves, time_t aTime = 0);
     std::vector<KPscore::tKpScoreStruct>::const_iterator PositionToInsert(
-        const char *aName, unsigned int aPlayTime,
+        const char *aName, QWord aPlayTime,
         unsigned int aMoves, time_t aTime = 0) const;
 
     std::string fileName;

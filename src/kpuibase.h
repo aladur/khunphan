@@ -122,8 +122,8 @@ protected:
     static KPUIBase *pInstance;
 
 private:
-    unsigned long lastFrameTimestamp;
-    unsigned long oldTime;
+    QWord lastFrameTimestamp;
+    QWord oldTime;
     unsigned int frameCount;
 
     // Audio interface

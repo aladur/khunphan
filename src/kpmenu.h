@@ -110,7 +110,7 @@ protected:
     void FadeOutAllPlates();
     void FadeOutAllLabels();
     void Animate(unsigned int duration);
-    void UpdatePlayTime(KPstateContext *pContext, unsigned int duration);
+    void UpdatePlayTime(KPstateContext *pContext, QWord duration);
 
     tIdToPlate plates;
     tIdToLabel labels;

@@ -33,10 +33,10 @@ public:
     void     ResetRelativeTime();
     QWord    GetRelativeTimeUsll(bool reset = false);
     double   GetRelativeTimeUsf(bool  reset = false);
-    unsigned long GetRelativeTimeMsl(bool reset = false);
+    QWord GetRelativeTimeMsll(bool reset = false);
     static QWord    GetTimeUsll();
     static double   GetTimeUsf();
-    static unsigned long GetTimeMsl();
+    static QWord GetTimeMsll();
 
 private:
     QWord    lapTime;
