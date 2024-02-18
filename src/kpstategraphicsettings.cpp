@@ -151,7 +151,6 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 {
     auto &config = pContext->GetConfig();
     auto &menu = pContext->GetMenu();
-    std::size_t index;
 
     KPstate::UpdateDisplay(pContext);
 
@@ -252,11 +251,12 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
             Lbl::Resolution1600x1200, Lbl::Resolution1920x1440
         };
 
-        index = GetWindowWidthsIndex(E_WindowWidth);
+        auto index = GetWindowWidthsIndex(E_WindowWidth);
 
         labelId = windowResolutionToLabel[0];
 
-        if (index >= 0 && index < windowResolutionToLabel.size())
+        if (index >= 0 &&
+            index < static_cast<int>(windowResolutionToLabel.size()))
         {
             labelId = windowResolutionToLabel[index];
         }
@@ -286,7 +286,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 
     y -= dy;
 
-    static const std::array<int,9> textureSizeToIndex
+    static const std::array<unsigned int,9> textureSizeToIndex
     {
         0, 3, 2, 0, 1, 0, 0, 0, 0
     };
@@ -300,7 +300,7 @@ void KPstateGraphicSettings::UpdateDisplay(KPstateContext *pContext) const
 
     if (config.TextureSize >= 0 && config.TextureSize <= 8)
     {
-        index = textureSizeToIndex[config.TextureSize];
+        auto index = textureSizeToIndex[config.TextureSize];
         labelId = indexToTextureSizeLabel[index];
     }
 
