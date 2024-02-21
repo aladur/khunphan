@@ -6,8 +6,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libxml2", "libxml2.vcxproj"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "runsuite", "runsuite.vcxproj", "{D841B4F7-C277-49CB-B379-8B1801C8EE35}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libiconv_static", "..\..\..\libiconv\MSVC14\libiconv_static\libiconv_static.vcxproj", "{F9C13A95-C7EB-40F3-A599-3695C1E0CF38}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -32,14 +30,6 @@ Global
 		{D841B4F7-C277-49CB-B379-8B1801C8EE35}.Release|Win32.Build.0 = Release|Win32
 		{D841B4F7-C277-49CB-B379-8B1801C8EE35}.Release|x64.ActiveCfg = Release|x64
 		{D841B4F7-C277-49CB-B379-8B1801C8EE35}.Release|x64.Build.0 = Release|x64
-		{F9C13A95-C7EB-40F3-A599-3695C1E0CF38}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F9C13A95-C7EB-40F3-A599-3695C1E0CF38}.Debug|Win32.Build.0 = Debug|Win32
-		{F9C13A95-C7EB-40F3-A599-3695C1E0CF38}.Debug|x64.ActiveCfg = Debug|x64
-		{F9C13A95-C7EB-40F3-A599-3695C1E0CF38}.Debug|x64.Build.0 = Debug|x64
-		{F9C13A95-C7EB-40F3-A599-3695C1E0CF38}.Release|Win32.ActiveCfg = Release|Win32
-		{F9C13A95-C7EB-40F3-A599-3695C1E0CF38}.Release|Win32.Build.0 = Release|Win32
-		{F9C13A95-C7EB-40F3-A599-3695C1E0CF38}.Release|x64.ActiveCfg = Release|x64
-		{F9C13A95-C7EB-40F3-A599-3695C1E0CF38}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
