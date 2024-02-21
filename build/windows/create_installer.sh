@@ -10,7 +10,6 @@
 #
 
 delete=
-modified=false
 
 while :
 do
@@ -50,7 +49,7 @@ urls="https://download.microsoft.com/download/6/A/A/6AA4EDFF-645B-48C5-81CC-ED59
 # Option -d: delete previously downloaded packages and intermediate directories
 if [ "$delete" = "yes" ]; then
     echo deleting all...
-    for url in $urls
+    for url in $urls;
     do
         file=$(basename "$url")
         if [ -r $file ]; then
@@ -66,7 +65,7 @@ if [ "$delete" = "yes" ]; then
 fi
 
 # Download files (Only if package not already downloaded or deleted before)
-for url in $urls
+for url in $urls;
 do
     file=$(basename "$url")
     if [ ! -r $file ]; then
