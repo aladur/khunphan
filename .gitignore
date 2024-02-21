@@ -7,6 +7,7 @@
 # Precompiled Headers
 *.gch
 *.pch
+ipch
 
 # Compiled Dynamic libraries
 *.so
@@ -46,6 +47,7 @@ x64/
 rebuild.bat
 *.sdf
 *.opensdf
+*.VC.db
 build/windows/lib*/
 build/windows/freeglut/
 build/windows/glew/
@@ -53,6 +55,7 @@ build/windows/zlib/
 build/windows/lib*/
 build/windows/SDL2*/
 build/windows/*.tar.gz
+build/windows/*.tar.xz
 build/windows/*.tgz
 
 # vi swap file
